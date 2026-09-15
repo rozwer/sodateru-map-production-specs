@@ -1,0 +1,48 @@
+{
+  "taskId": "RECORDS",
+  "version": "1.0.0",
+  "schemas": {
+    "RecordDeletionPreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordId", "version", "deletes", "preserves", "dependentResults", "exportUrl"],
+      "properties": {
+        "recordId": {"$ref": "#/components/schemas/Id"},
+        "version": {"$ref": "#/components/schemas/Version"},
+        "deletes": {"type": "object", "additionalProperties": false, "required": ["record", "mediaIds", "themeMembershipIds"], "properties": {
+          "record": {"const": true},
+          "mediaIds": {"type": "array", "items": {"$ref": "#/components/schemas/Id"}},
+          "themeMembershipIds": {"type": "array", "items": {"$ref": "#/components/schemas/Id"}}
+        }},
+        "preserves": {"type": "object", "additionalProperties": false, "required": ["visitId", "independentRecords"], "properties": {
+          "visitId": {"anyOf": [{"$ref": "#/components/schemas/Id"}, {"type": "null"}]},
+          "independentRecords": {"const": true}
+        }},
+        "dependentResults": {"const": "unavailable", "description": "削除後の根拠再検査で依存する生成結果は表示対象外となる。"},
+        "exportUrl": {"type": "string"}
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "get", "path": "/records/{recordId}/deletion-preview", "operationId": "getRecordsRecordIdDeletionPreview",
+      "summary": "記録削除の影響を確認",
+      "description": "本人のみ。返されたversionを既存DELETEのIf-Matchへ渡す。確認後の編集・媒体変更は412となり再確認する。本文/媒体/テーマ所属を削除、訪問/独立メモを保持。",
+      "parameters": [
+        {"name": "recordId", "in": "path", "required": true, "schema": {"$ref": "#/components/schemas/Id"}},
+        {"name": "X-Request-Id", "in": "header", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 80}}
+      ],
+      "responses": {"200": {"description": "削除対象と保持対象", "content": {"application/json": {"schema": {"type": "object", "required": ["data"], "additionalProperties": false, "properties": {"data": {"$ref": "#/components/schemas/RecordDeletionPreview"}}}}}}}
+    },
+    {
+      "method": "get", "path": "/records/{recordId}/export", "operationId": "getRecordsRecordIdExport",
+      "summary": "記録を人が読めるHTML文書で書出し",
+      "description": "本人のみ。原文・場所日時・用途活動感想・確認項目・公開範囲と全媒体を保存順に含む単体HTML。ready媒体はdata URIで内包し削除後もファイル内で閲覧できる。pending/failedは未収録状態を明示。ready実体が失われていれば503で書出し失敗とし成功扱いしない。Cache-Control: private,no-store。Content-Disposition: attachment。ダウンロード完了は削除操作とは独立。",
+      "parameters": [
+        {"name": "recordId", "in": "path", "required": true, "schema": {"$ref": "#/components/schemas/Id"}},
+        {"name": "X-Request-Id", "in": "header", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 80}}
+      ],
+      "responses": {"200": {"description": "HTML文書ファイル", "headers": {"Content-Disposition": {"schema": {"type": "string"}}}, "content": {"text/html": {"schema": {"type": "string"}}}}}
+    }
+  ]
+}
