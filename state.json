@@ -72,6 +72,7 @@
         "VISUAL-PLUGINS": 186,
         "VISUAL-SELF": 176,
         "VISUAL-SELF-CONTINUE": 185,
+        "VISUAL-SETTINGS": 191,
         "VISUAL-SHELL": 172,
         "VISUAL-SOCIAL": 184
       },
@@ -7222,6 +7223,19 @@
           "src/features/themes/",
           "src/features/suggestions/",
           "docs/evidence/VISUAL-SELF/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-SETTINGS",
+        "kind": "repair",
+        "priority": "P1",
+        "title": "設定5画面の参照照合と通常状態補完",
+        "write_paths": [
+          "src/features/settings/",
+          "src/features/health/",
+          "docs/evidence/VISUAL-SETTINGS/"
         ]
       }
     ],
@@ -33464,9 +33478,10 @@
     "VISUAL-SELF",
     "VISUAL-SOCIAL",
     "VISUAL-PLUGINS",
-    "VISUAL-SELF-CONTINUE"
+    "VISUAL-SELF-CONTINUE",
+    "VISUAL-SETTINGS"
   ],
-  "revision": 184,
+  "revision": 185,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34347,6 +34362,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "cf30332752234fd792ad1ef3a8839b5f"
+    },
+    "VISUAL-SETTINGS": {
+      "actor": "rozwer",
+      "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+      "generation": 1,
+      "issue_number": 191,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/VISUAL-SETTINGS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "cd5e796b0e914806b7eff755263a2249"
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
