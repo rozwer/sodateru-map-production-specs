@@ -121,6 +121,7 @@
         "CONNECT-SETTINGS": 145,
         "CONNECT-SUGGESTIONS": 141,
         "CORE": 3,
+        "DAILY-TRACK-ROUTE": 277,
         "DEMO-MEDIA": 270,
         "DISASTER": 30,
         "DISASTER-DATA": 214,
@@ -7763,6 +7764,19 @@
           "docs/evidence/PLACES/yokohama-demo-import.ts",
           "docs/evidence/PLACES/yokohama-demo-import.md",
           "docs/evidence/PLACES/yokohama-demo-import.json"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "DAILY-TRACK-ROUTE",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "今日の軌跡をルート案内図として整える",
+        "write_paths": [
+          "src/features/activity/",
+          "src/features/records/",
+          "docs/evidence/DAILY-TRACK-ROUTE/"
         ]
       }
     ],
@@ -34019,9 +34033,10 @@
     "OMO7-EXPERIENCE",
     "ROUTES-TRANSIT-GTFS",
     "DEMO-MEDIA",
-    "PLACES-YOKOHAMA-DEMO"
+    "PLACES-YOKOHAMA-DEMO",
+    "DAILY-TRACK-ROUTE"
   ],
-  "revision": 282,
+  "revision": 283,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34263,6 +34278,23 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "DAILY-TRACK-ROUTE": {
+      "actor": "mattsun",
+      "base_commit": "71279ce6b36606f13d9bef3f9e8f5bd3775d407b",
+      "generation": 1,
+      "issue_number": 277,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "src/features/activity/",
+        "src/features/records/",
+        "docs/evidence/DAILY-TRACK-ROUTE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "e8bee71ec81a4c53bb4debfc7d25071d"
     },
     "DEMO-MEDIA": {
       "actor": "rozwer",
