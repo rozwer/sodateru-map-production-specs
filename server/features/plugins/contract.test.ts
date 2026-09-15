@@ -10,6 +10,8 @@ test('PLUGINS fragment validates confirmation, conflict choice and own fields',(
   assert.throws(()=>validatePluginBody('PluginSettingCreate',{...input,personId:'bob'}),{code:'VALIDATION_FAILED'});
   assert.throws(()=>validatePluginBody('PluginSettingCreate',{...input,confirmed:false}),{code:'VALIDATION_FAILED'});
   assert.throws(()=>validatePluginBody('PluginSettingPatch',{enabled:'false'}),{code:'VALIDATION_FAILED'});
+  assert.throws(()=>validatePluginBody('PluginSettingPatch',{icon:'https://example.com/icon.png'}),{code:'VALIDATION_FAILED'});
+  assert.deepEqual(validatePluginBody('PluginSettingPatch',{icon:'motorcycle'}),{icon:'motorcycle'});
   assert.throws(()=>validatePluginBody('PluginSettingPatch',{resolutions:[{key:'a',strategy:'coexist',pluginIds:['bike','bike']}]}),{code:'VALIDATION_FAILED'});
 });
 test('PLUGINS list cursor stays bound to person/mode and advances by id',()=>{

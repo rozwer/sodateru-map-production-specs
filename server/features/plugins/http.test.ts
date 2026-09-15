@@ -16,7 +16,7 @@ import type { PluginRelease } from './types.ts';
 
 const release=(version:string):PluginRelease=>({
   manifest:{id:'http-fixture',name:'HTTP検証用',description:'製品プラグインではありません',category:'test',author:'test',pluginVersion:version,updatedAt:1,changeLog:version,icon:'pin',usageInfo:[],sources:[],settingsSchema:{type:'object',properties:{region:{type:'string'}},required:['region'],additionalProperties:false},defaultSettings:{region:'Tokyo'},trialConditions:['地域']},
-  declarations:settings=>[{targetKey:'layer:fixture',property:'region',value:settings.region}],
+  declarations:settings=>[{targetKey:'layer:fixture',property:'region',value:settings.region!}],
   trial:()=>({dataKind:'mock',label:'検証用模擬データ',declarations:[],features:[],legends:[],sources:[],generatedAt:Date.now(),warnings:[]}),
 });
 
@@ -38,7 +38,7 @@ test('real CORE HTTP session, trial, install/replay, update/rollback, delete and
     if(options.version)headers['If-Match']=`"${options.version}"`;
     if(body!==undefined)headers['Content-Type']='application/json';
     const response=await fetch(origin+'/api/v1'+path,{method,headers,body:body===undefined?undefined:JSON.stringify(body)});
-    const cookie=response.headers.get('set-cookie');if(cookie)cookies[mode]=cookie.split(';')[0];
+    const cookie=response.headers.get('set-cookie');if(cookie)cookies[mode]=cookie.split(';')[0]!;
     const text=await response.text();return {status:response.status,body:text?JSON.parse(text):null};
   }
   try{

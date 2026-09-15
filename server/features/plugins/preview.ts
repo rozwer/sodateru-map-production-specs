@@ -8,7 +8,7 @@ export function validateTrialPreview(input: unknown): TrialPreview {
     if (!legends.has(feature.properties.legendId) || feature.properties.sourceIds.some(id=>!sources.has(id))) throw new PluginError(422,'VALIDATION_FAILED','試用データの凡例または出典がありません');
     const g:TrialGeometry=feature.geometry;
     const rings=g.type==='Polygon' ? g.coordinates : g.type==='MultiPolygon' ? g.coordinates.flat() : [];
-    if (rings.some(r=>r[0][0]!==r.at(-1)![0] || r[0][1]!==r.at(-1)![1])) throw new PluginError(422,'VALIDATION_FAILED','試用領域の外周が閉じていません');
+    if (rings.some(r=>r[0]![0]!==r.at(-1)![0] || r[0]![1]!==r.at(-1)![1])) throw new PluginError(422,'VALIDATION_FAILED','試用領域の外周が閉じていません');
   }
   return structuredClone(preview);
 }

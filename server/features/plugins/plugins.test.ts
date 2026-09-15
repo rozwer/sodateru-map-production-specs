@@ -34,7 +34,7 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
   try {
     await t.test('trial and cancelled/unconfirmed installation write nothing', async () => {
       const before=service.state(); const trial=service.trial('bike','1.0.0',{region:'Kyoto',highways:true});
-      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0].properties.label,'Kyoto');
+      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0]!.properties.label,'Kyoto');
       assert.deepEqual(service.state(),before);
       await assert.rejects(service.install({...input('bike'),confirmed:false} as any),{code:'CONFIRMATION_REQUIRED'});
       assert.equal(service.state().items.length,0);
@@ -42,13 +42,13 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
     await t.test('confirmed install survives connection close and reopen; identity/mode remain separate',async()=>{
       const installed=await service.install(input('bike')); assert.equal(installed.version,1);
       db.close(); db=open(livePath); service=new PluginService(new PluginStore(db,context()),registry);
-      assert.equal(service.state().items[0].installId,installed.installId);
-      assert.deepEqual(service.state().items[0].settings,values);
+      assert.equal(service.state().items[0]!.installId,installed.installId);
+      assert.deepEqual(service.state().items[0]!.settings,values);
       assert.equal(getPluginState(db,context('bob')).items.length,0);
       assert.equal(getPluginState(demo,context('alice','demo')).items.length,0);
       const bob=new PluginService(new PluginStore(db,context('bob')),registry);
       await bob.install({...input('bike'),stateRevision:bob.state().revision});
-      assert.notEqual(bob.state().plugins[0].ownerKey,service.state().plugins[0].ownerKey);
+      assert.notEqual(bob.state().plugins[0]!.ownerKey,service.state().plugins[0]!.ownerKey);
     });
     await t.test('same values coexist without conflict; different values require a persisted choice',async()=>{
       await service.install(input('same'));
@@ -56,7 +56,7 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
       const trial=service.trial('different','1.0.0',values);
       assert.equal(trial.conflicts.length,1);
       await assert.rejects(service.install(input('different')),{code:'PLUGIN_CONFLICT'});
-      const resolution={key:trial.conflicts[0].key,strategy:'prefer' as const,pluginIds:['different']};
+      const resolution={key:trial.conflicts[0]!.key,strategy:'prefer' as const,pluginIds:['different']};
       await service.install({...input('different'),resolutions:[resolution]});
       db.close(); db=open(livePath); service=new PluginService(new PluginStore(db,context()),registry);
       assert.deepEqual(service.state().resolutions,[resolution]);

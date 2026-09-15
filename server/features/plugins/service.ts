@@ -1,3 +1,4 @@
+import { pluginIcons } from './icons.ts';
 import { validateTrialPreview } from './preview.ts';
 import { randomUUID } from 'node:crypto';
 import { projectResolutions, resolveDeclarations } from './declarations.ts';
@@ -11,7 +12,7 @@ export type PatchInput = { enabled?: boolean; settings?: Settings; icon?: string
 export class PluginService {
   constructor(public store: PluginStore, public registry: PluginRegistry = pluginRegistry) {}
   state() { return getPluginState(this.store.db,this.store.context); }
-  catalog() { return { items: this.registry.list().map(r => ({ ...structuredClone(r.manifest), installed: this.store.list().find(s => s.id === r.manifest.id) ?? null, versions: this.registry.versions(r.manifest.id) })) }; }
+  catalog() { return { items: this.registry.list().map(r => ({ ...structuredClone(r.manifest), iconOptions: structuredClone(pluginIcons), installed: this.store.list().find(s => s.id === r.manifest.id) ?? null, versions: this.registry.versions(r.manifest.id) })) }; }
   trial(id: string, version: string | undefined, settings?: Settings, icon?: string) {
     const snapshot = this.registry.snapshot(id,version,settings,icon);
     const state = this.state(), retained = this.store.retained(id);

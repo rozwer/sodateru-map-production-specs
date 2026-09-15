@@ -24,3 +24,20 @@ manifestは `id,name,description,category,author,pluginVersion,updatedAt,changeL
 ## 確認
 
 v2でSQLite lifecycleと本文/cursor/preview契約の10テスト成功、固有strict型検査成功。CORE実HTTP接続前であることはREADME参照。
+
+## アイコン（PLUGINS fragment v3）
+
+iconは固定ID。GET /pluginsの各item.iconOptionsに `{id,label,symbol}` の6件を返す。選択UIと地図マーカーは同じsymbolを使い、設定へidを保存する。
+
+|id|label|symbol|
+|---|---|---|
+|pin|ピン|📍|
+|motorcycle|バイク|🏍️|
+|shield|防災|🛡️|
+|book|作品|📖|
+|star|星|⭐|
+|map|地図|🗺️|
+
+任意URLや絵文字本文はidとして受け付けない。BIKE既定motorcycle、DISASTER既定shield、PILGRIMAGE既定bookを推奨する。試用GeoJSONのv2形は変更しない。
+
+PLUGINS全TSファイルを本番のstrict + noUncheckedIndexedAccessで確認して成功。アイコン追加後の本文/cursor/preview契約3件成功。

@@ -26,5 +26,7 @@ CORE 0.3.0の正式develop提供物をmergeして接続。`register.ts` は11ル
 
 ## 未達・接続待ち
 
-- 共通Schema/生成物へのPLUGINS v2の正式反映、各BIKE/DISASTER/PILGRIMAGEの実登録、通常地図での表示/停止の実操作は未確認。HTTP検証は正式COREのcreateAppを使用し、共有fragment生成器で一時合成した契約と明示した検証用プラグインを接続した。製品カタログや通常起動入口まで完成とは扱わない。
+- 共通Schema/生成物へのPLUGINS v3の正式反映、各BIKE/DISASTER/PILGRIMAGEの実登録、通常地図での表示/停止の実操作は未確認。HTTP検証は正式COREのcreateAppを使用し、共有fragment生成器で一時合成した契約と明示した検証用プラグインを接続した。製品カタログや通常起動入口まで完成とは扱わない。
 - 本PRは固有の先行提供。上記が揃うまではIssueを閉じず、全受入完了とは扱わない。
+
+補足: 固有全TSファイル（テストを含む）は本番と同じstrict/noUncheckedIndexedAccessで型検査成功。iconはカタログの固定候補IDを保存する（trial-contract.md）。

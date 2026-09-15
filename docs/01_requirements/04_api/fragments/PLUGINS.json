@@ -1,6 +1,6 @@
 {
   "taskId": "PLUGINS",
-  "version": 2,
+  "version": 3,
   "replaceSchemas": [
     "PluginValues",
     "PluginDefinition",
@@ -136,9 +136,7 @@
           "maxLength": 10000
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         },
         "usageInfo": {
           "type": "array",
@@ -206,9 +204,7 @@
           "$ref": "#/components/schemas/PluginValues"
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         },
         "declarations": {
           "type": "array",
@@ -242,9 +238,7 @@
           "$ref": "#/components/schemas/PluginValues"
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         },
         "declarations": {
           "type": "array",
@@ -351,9 +345,7 @@
           "maxLength": 10000
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         },
         "usageInfo": {
           "type": "array",
@@ -406,6 +398,14 @@
             "$ref": "#/components/schemas/PluginManifest"
           },
           "maxItems": 1000
+        },
+        "iconOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginIconOption"
+          },
+          "minItems": 6,
+          "maxItems": 6
         }
       },
       "required": [
@@ -424,7 +424,8 @@
         "defaultSettings",
         "trialConditions",
         "installed",
-        "versions"
+        "versions",
+        "iconOptions"
       ],
       "additionalProperties": false
     },
@@ -531,9 +532,7 @@
           "type": "boolean"
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         }
       },
       "required": [
@@ -556,9 +555,7 @@
           "$ref": "#/components/schemas/PluginValues"
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         },
         "resolutions": {
           "type": "array",
@@ -640,9 +637,7 @@
           "$ref": "#/components/schemas/PluginValues"
         },
         "icon": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 200
+          "$ref": "#/components/schemas/PluginIconId"
         }
       },
       "required": [
@@ -1305,6 +1300,37 @@
         "observedAt",
         "issuedAt",
         "validAt"
+      ],
+      "additionalProperties": false
+    },
+    "PluginIconId": {
+      "type": "string",
+      "enum": [
+        "pin",
+        "motorcycle",
+        "shield",
+        "book",
+        "star",
+        "map"
+      ]
+    },
+    "PluginIconOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "label": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "symbol"
       ],
       "additionalProperties": false
     }
@@ -2149,6 +2175,7 @@
       "plugin-update": "postPluginTrial/postPluginUpdate/postPluginRollback",
       "plugin-conflict": "trialのconflictsを表示→create/patch/update/rollbackのresolutionsで確定"
     },
-    "trial-preview": "v2: preview.featuresはGeoJSON Feature[]のPoint/LineString/Polygon/MultiPolygon。propertiesのkind/legendId/sourceIds/status/value/unitを明示。凡例と出典はpreview.legends/sourcesで参照整合を検証。試用は全体と出典ともmock、生成時刻と取得/更新/観測/発表/対象時刻を分離し不明はnull。BIKE等の通常実データは固有APIから取得し、試用配列へ混入しない。"
+    "trial-preview": "v2: preview.featuresはGeoJSON Feature[]のPoint/LineString/Polygon/MultiPolygon。propertiesのkind/legendId/sourceIds/status/value/unitを明示。凡例と出典はpreview.legends/sourcesで参照整合を検証。試用は全体と出典ともmock、生成時刻と取得/更新/観測/発表/対象時刻を分離し不明はnull。BIKE等の通常実データは固有APIから取得し、試用配列へ混入しない。",
+    "icon": "v3: iconは固定glyph ID（pin/motorcycle/shield/book/star/map）。カタログiconOptionsのid/label/symbolを選択と地図表示で共用。任意URLや絵文字本文をiconへ保存しない。"
   }
 }
