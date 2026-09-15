@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 69,
+  "revision": 70,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4783,22 +4783,17 @@
       "token": "b4dd196edb8a4a0f918de1218e0399c1"
     },
     "ROUTES": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 25,
       "landed_main": null,
-      "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
+      "note": "Refresh own claim base after integrating approved CORE/PLACES develop commits; preserve worktree, branch and all changes",
       "owner": "kaiya",
-      "paths": [
-        "server/features/routes/",
-        "server/db/migrations/routes/",
-        "docs/01_requirements/04_api/fragments/ROUTES.json",
-        "docs/evidence/ROUTES/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "f97cb684c69b4e9d870bd68fe80acdda"
+      "token": null
     },
     "SETTINGS": {
       "actor": "koshiro",
