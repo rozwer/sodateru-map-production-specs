@@ -110,11 +110,16 @@ export async function refreshNominatim(externalId:string,caller:AbortSignal) {
   const fetchedAt=Date.now(),candidate=parseNominatim(rows,fetchedAt).find(item=>item.externalId===externalId);
   if(!candidate)throw new CommonError("OUTPUT_INVALID","外部の場所を再取得できませんでした。",true);
   const row=rows.find((item:any)=>item.osm_type?.[0]?.toUpperCase()+item.osm_id===externalId);
-  const openingHours=text(row.extratags?.opening_hours)?{rawText:row.extratags.opening_hours,timezone:null,sourceUrl:candidate.sourceUrl,fetchedAt,verificationStatus:"unverified" as const}:null;
+  const openingHours=text(row.extratags?.opening_hours)&&[...row.extratags.opening_hours].length<=2000?{rawText:row.extratags.opening_hours,timezone:null,sourceUrl:candidate.sourceUrl,fetchedAt,verificationStatus:"unverified" as const}:null;
   const entrances=(Array.isArray(row.entrances)?row.entrances:[]).flatMap((item:any)=> {
     const coordinates=[Number(item.lon),Number(item.lat)];
     if(!isPosition(coordinates)||!item.osm_id||item.lat==null||item.lon==null||String(item.lat).trim()===""||String(item.lon).trim()==="")return [];
     return [{id:`N${item.osm_id}`,coordinates,label:text(item.name)?item.name:null,accessibility:"unknown",sourceUrl:`https://www.openstreetmap.org/node/${item.osm_id}`,fetchedAt,verificationStatus:"unverified"}];
   });
-  return {candidate,openingHours,entrances:entrances.slice(0,100)};
+  const description=text(row.extratags?.description)&&[...row.extratags.description].length<=2000
+    ?{text:row.extratags.description,sourceUrl:candidate.sourceUrl,fetchedAt,verificationStatus:"unverified" as const}:null;
+  const imageUrl=row.extratags?.image;
+  const photos=text(imageUrl)&&imageUrl.length<=2048&&/^https?:\/\//.test(imageUrl)&&/\.(?:jpe?g|png|webp)(?:[?#]|$)/i.test(imageUrl)
+    ?[{url:imageUrl,sourceUrl:imageUrl,attribution:null,fetchedAt,verificationStatus:"unverified" as const}]:[];
+  return {candidate,openingHours,entrances:entrances.slice(0,100),description,photos};
 }
