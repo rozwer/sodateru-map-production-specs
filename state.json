@@ -26,6 +26,7 @@
         "CONNECT-SUGGESTIONS": 141,
         "CORE": 3,
         "DISASTER": 30,
+        "DISASTER-DATA": 214,
         "EXPLORATION": 26,
         "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
@@ -7399,6 +7400,18 @@
           "server/db/migrations/exploration/",
           "docs/01_requirements/04_api/fragments/EXPLORATION.json",
           "docs/evidence/EXPLORATION/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "DISASTER-DATA",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "防災API adapterと明示デモの地図表示材料",
+        "write_paths": [
+          "src/features/disaster/data/",
+          "docs/evidence/DISASTER-DATA/"
         ]
       }
     ],
@@ -33644,9 +33657,10 @@
     "VISUAL-SELF-CONTINUE",
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA",
-    "EXPLORATION-FOLLOWUP"
+    "EXPLORATION-FOLLOWUP",
+    "DISASTER-DATA"
   ],
-  "revision": 216,
+  "revision": 217,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33875,6 +33889,22 @@
       "status": "done",
       "submitted_commit": "08177e0f416f3ad9ff63b4a0873983a34c6c4d73",
       "token": null
+    },
+    "DISASTER-DATA": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 214,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/disaster/data/",
+        "docs/evidence/DISASTER-DATA/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "b7a845b224db43eabc65f4de7c69e9e2"
     },
     "EXPLORATION": {
       "actor": "mattsun",
