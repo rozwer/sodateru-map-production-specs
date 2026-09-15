@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 133,
+  "revision": 134,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4790,7 +4790,7 @@
       "generation": 1,
       "issue_number": 33,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/REFLECTION/completion-scope.md",
       "owner": "mattsun",
       "paths": [
         "server/features/reflection/",
@@ -4798,8 +4798,8 @@
         "docs/01_requirements/04_api/fragments/REFLECTION.json",
         "docs/evidence/REFLECTION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "d24f431d42c904a5a4e800effb189bfee2577587",
       "token": "b4dd196edb8a4a0f918de1218e0399c1"
     },
     "ROUTES": {
