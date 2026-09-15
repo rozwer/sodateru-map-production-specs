@@ -7,13 +7,17 @@ import { shellParts } from './codex-mise-hook.mjs';
 import { currentBranch, ownerAt, verify, verifyShared, isSharedBranch, git } from './task-policy.mjs';
 
 const checked = new Map();
-function bootstrapMode(cwd) {
-  if (currentBranch(cwd) !== 'main') return false;
+function bootstrapEnabled(cwd) {
   try { return git(['config', '--bool', '--get', 'sodateru.bootstrapMode'], cwd) === 'true'; }
   catch { return false; }
 }
+function bootstrapBranch(branch) { return /^bootstrap\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(branch); }
 function hasOrigin(cwd) {
   try { return Boolean(git(['remote', 'get-url', 'origin'], cwd)); }
+  catch { return false; }
+}
+function hasRemoteDevelop(cwd) {
+  try { return Boolean(git(['rev-parse', '--verify', 'refs/remotes/origin/develop'], cwd)); }
   catch { return false; }
 }
 function boardCheck(cwd, mode) {
@@ -22,12 +26,13 @@ function boardCheck(cwd, mode) {
   return checked.get(key);
 }
 function working(cwd, owner) {
-  if (currentBranch(cwd) === 'main') {
-    if (bootstrapMode(cwd) && !hasOrigin(cwd)) return { paths: null };
+  const branch = currentBranch(cwd);
+  if (bootstrapEnabled(cwd)) {
     try {
-      if (boardCheck(cwd, 'phase').main_edit_allowed) return { paths: null };
+      const phase = boardCheck(cwd, 'phase');
+      if (branch === 'main' && phase.main_edit_allowed) return { paths: null };
     } catch (error) {
-      if (bootstrapMode(cwd)) return { paths: null };
+      if ((branch === 'main' && (!hasOrigin(cwd) || !hasRemoteDevelop(cwd))) || (bootstrapBranch(branch) && hasRemoteDevelop(cwd))) return { paths: null };
       throw error;
     }
   }
@@ -85,12 +90,16 @@ export function inspectShell(command, cwd, owner) {
     }
     const shared = currentBranch(cwd);
     if (isSharedBranch(shared)) {
+      if (bootstrapEnabled(cwd) && ['branch', 'switch', 'checkout'].includes(words[0])) {
+        try { boardCheck(cwd, 'phase'); }
+        catch { return; } // Git's reference-transaction hook validates the exact pre-board target.
+      }
       if (shared === 'main') {
-        if (bootstrapMode(cwd) && !hasOrigin(cwd)) return;
+        if (bootstrapEnabled(cwd) && !hasOrigin(cwd)) return;
         try {
           if (boardCheck(cwd, 'phase').main_edit_allowed) return;
         } catch (error) {
-          if (bootstrapMode(cwd)) return;
+          if (bootstrapEnabled(cwd) && !hasRemoteDevelop(cwd)) return;
           throw error;
         }
       }

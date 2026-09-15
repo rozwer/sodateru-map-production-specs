@@ -58,14 +58,14 @@ def read_config(root, *args):
     return result.stdout.strip() if result.returncode == 0 else ''
 
 def bootstrap(root=ROOT):
-    """Enable worktree config and the pre-board main preparation exception."""
+    """Enable worktree config and the staged pre-board preparation policy."""
     enabled = read_config(root, '--local', '--bool', '--get', 'extensions.worktreeConfig')
     if enabled != 'true':
         git(root, 'config', '--local', 'extensions.worktreeConfig', 'true')
     bootstrap_mode = read_config(root, '--local', '--bool', '--get', 'sodateru.bootstrapMode')
     if not bootstrap_mode:
         git(root, 'config', '--local', 'sodateru.bootstrapMode', 'true')
-    print('Enabled Git config.worktree and pre-board bootstrap mode for this clone.')
+    print('Enabled Git config.worktree and staged pre-board preparation mode for this clone.')
 
 def install(root=ROOT, *, check=False, generate_only=False):
     content = compose(root)

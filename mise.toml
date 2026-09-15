@@ -10,7 +10,7 @@ codex_package_manager = "bun"
 codex_runtime = "node"
 
 [tasks."hooks:bootstrap"]
-description = "clone共有configでworktree設定とpre-board準備モードを有効にする"
+description = "clone共有configでworktree設定と段階的なpre-board準備モードを有効にする"
 run = "python3 -X utf8 tools/install_hooks.py --bootstrap"
 run_windows = "python -X utf8 tools/install_hooks.py --bootstrap"
 

@@ -1,11 +1,71 @@
 """Cooperative commit/push guard; not a security boundary."""
-import json, subprocess, sys
+import json, re, subprocess, sys
 from pathlib import Path
 import taskctl as tc
 import owner_policy as op
 
-def bootstrap_mode(branch):
-    return branch == 'main' and tc.git('config','--bool','--get','sodateru.bootstrapMode',check=False) == 'true'
+def bootstrap_enabled():
+    return tc.git('config','--bool','--get','sodateru.bootstrapMode',check=False) == 'true'
+
+def bootstrap_branch(branch):
+    return bool(re.fullmatch(r'bootstrap/[a-z0-9]+(?:-[a-z0-9]+)*',branch))
+
+def remote_branch(name):
+    return tc.git('rev-parse','--verify','refs/remotes/origin/'+name,check=False).strip()
+
+def zero(oid):
+    return set(oid)=={'0'}
+
+def ancestor(old,new):
+    return subprocess.run(['git','merge-base','--is-ancestor',old,new],capture_output=True).returncode==0
+
+def check_bootstrap(mode, branch, ref_updates, updates):
+    develop=remote_branch('develop')
+    if not develop:
+        if branch!='main':raise tc.BoardError('Fetch or create origin/develop before leaving initial main bootstrap')
+        if mode=='pre-commit':return
+        if mode=='refs':
+            rows=[row for row in ref_updates if row[2].startswith('refs/heads/')]
+            if rows and all(len(row)==3 and row[2]=='refs/heads/main' and not zero(row[1]) for row in rows):return
+            raise tc.BoardError('Initial bootstrap permits local updates to main only')
+        if mode=='pre-push':
+            if not updates or any(row[2]!='refs/heads/main' or zero(row[1]) for row in updates):
+                raise tc.BoardError('Initial bootstrap permits pushes to main only')
+            for _,local_oid,_,remote_oid in updates:
+                if not zero(remote_oid) and not ancestor(remote_oid,local_oid):
+                    raise tc.BoardError('Only fast-forward initial pushes to main are allowed')
+            return
+        raise tc.BoardError('Unsupported bootstrap hook mode')
+    if mode=='pre-commit':
+        if bootstrap_branch(branch):return
+        raise tc.BoardError('Pre-board changes require a bootstrap/<description> branch from origin/develop')
+    if mode=='refs':
+        for old,new,ref in (row for row in ref_updates if row[2].startswith('refs/heads/')):
+            name=ref[len('refs/heads/'):]
+            if name in ('main','develop'):
+                remote=remote_branch(name)
+                if zero(new) or not remote or new!=remote:
+                    raise tc.BoardError('Shared branches only mirror origin during pre-board preparation')
+            elif bootstrap_branch(name):
+                if zero(new):raise tc.BoardError('Pre-board branch deletion is not an editing operation')
+                if zero(old):
+                    if new!=develop:raise tc.BoardError('Start bootstrap branches at origin/develop')
+                elif not ancestor(old,new):raise tc.BoardError('Bootstrap branch updates must be fast-forward')
+            else:raise tc.BoardError('Use bootstrap/<description> for pre-board preparation')
+        return
+    if mode=='pre-push':
+        if not updates:raise tc.BoardError('No pre-board push updates supplied')
+        for local_ref,local_oid,remote_ref,remote_oid in updates:
+            prefix='refs/heads/'
+            name=remote_ref[len(prefix):] if remote_ref.startswith(prefix) else ''
+            if not bootstrap_branch(name) or local_ref!=remote_ref:
+                raise tc.BoardError('Push bootstrap/<description> and merge a PR into develop')
+            if zero(local_oid) or not ancestor(develop,local_oid):
+                raise tc.BoardError('Bootstrap pushes must descend from origin/develop')
+            if not zero(remote_oid) and not ancestor(remote_oid,local_oid):
+                raise tc.BoardError('Bootstrap pushes must be fast-forward')
+        return
+    raise tc.BoardError('Unsupported bootstrap hook mode')
 
 def allowed(files, paths):
     outside=[f for f in files if not any(f==p or (p.endswith('/') and f.startswith(p)) for p in paths)]
@@ -56,23 +116,11 @@ def main():
     if mode=='pre-commit':
         root_docs=[p for p in tc.git('ls-files','--cached').splitlines() if '/' not in p and p.lower().endswith('.md') and p not in ('README.md','AGENTS.md')]
         if root_docs:raise tc.BoardError('Move root Markdown into docs/: '+', '.join(root_docs))
-    if bootstrap_mode(branch):
+    if bootstrap_enabled():
         try: board_oid,board=tc.read_board('origin')
         except tc.BoardError: board_oid,board=None,None
         if not board:
-            if mode=='pre-commit':return
-            if mode=='refs':
-                rows=[row for row in ref_updates if row[2].startswith('refs/heads/')]
-                if rows and all(len(row)==3 and row[2]=='refs/heads/main' and set(row[1])!={'0'} for row in rows):return
-                raise tc.BoardError('Bootstrap mode permits local updates to main only')
-            if mode=='pre-push':
-                if not updates or any(row[2]!='refs/heads/main' or set(row[1])=={'0'} for row in updates):
-                    raise tc.BoardError('Bootstrap mode permits pushes to main only')
-                for _,local_oid,_,remote_oid in updates:
-                    if set(remote_oid)!={'0'} and subprocess.run(['git','merge-base','--is-ancestor',remote_oid,local_oid],capture_output=True).returncode:
-                        raise tc.BoardError('Only fast-forward bootstrap pushes to main are allowed')
-                return
-            raise tc.BoardError('Unsupported bootstrap hook mode')
+            return check_bootstrap(mode,branch,ref_updates,updates)
     if mode=='refs':
         try:board_oid,board=tc.cached_board('origin')
         except tc.BoardError:board_oid,board=tc.read_board('origin')

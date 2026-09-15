@@ -20,7 +20,7 @@ mise run verify
 
 主worktreeの `.env` に `.env.example` を参考に `CODEX_OWNER` を設定する。有効値は `rozwer` / `mattsun` / `koshiro` / `kaiya`。既存値を保持し、未設定で担当が分からなければ本人に確認する。
 
-`hooks:bootstrap` はcloneごとに一度、`extensions.worktreeConfig=true` とpre-board準備用の `sodateru.bootstrapMode=true` を設定する。既に構築済みなら不要。
+`hooks:bootstrap` はcloneごとに一度、`extensions.worktreeConfig=true` とpre-board準備用の `sodateru.bootstrapMode=true` を設定する。最初の `main` 準備後に `origin/develop` が作成されたら、共有branchは同期専用となり、残る準備は `bootstrap/<説明>` branchからPRで `develop` へ統合する。既に構築済みなら不要。
 
 ## linked worktree・hooks更新
 
