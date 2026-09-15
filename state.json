@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 56,
+  "revision": 57,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4535,7 +4535,7 @@
       "generation": 3,
       "issue_number": 3,
       "landed_main": null,
-      "note": "Worktree preparation failed during mise trust: [Errno 2] No such file or directory: '/Users/roz/Desktop/sodateru-worktrees/koshiro-3-core'",
+      "note": "docs/evidence/CORE/runtime-integration.md",
       "owner": "koshiro",
       "paths": [
         "server/app/",
@@ -4560,8 +4560,8 @@
         "docs/01_requirements/04_api/examples.md",
         "docs/evidence/CORE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "fb767fe0c7a1cdfc7f3a27f5e60e39fe07b92b0d",
       "token": "9b337aa3d51b4705a96e8e63542d63d5"
     },
     "DISASTER": {
