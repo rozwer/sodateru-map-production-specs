@@ -9,6 +9,7 @@
         "AI-INTEGRATION": 103,
         "BIKE": 29,
         "BUILDING-GROWTH": 222,
+        "BUILDING-RECORDS": 228,
         "COMMUNITY": 22,
         "COMPANION": 35,
         "CONNECT-BASE": 137,
@@ -7553,6 +7554,19 @@
           "src/app/navigation-cards.css",
           "src/app/navigation-card-data.ts",
           "docs/evidence/NAV-CARDS/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "BUILDING-RECORDS",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "本人訪問・記録訂正と実建物成長の保存接続",
+        "write_paths": [
+          "src/features/records/",
+          "src/features/activity/",
+          "docs/evidence/BUILDING-RECORDS/"
         ]
       }
     ],
@@ -33808,9 +33822,10 @@
     "ISSUE-CLOSE-REPAIRS",
     "DISASTER-UI-SCREEN",
     "BUILDING-GROWTH",
-    "NAV-CARDS"
+    "NAV-CARDS",
+    "BUILDING-RECORDS"
   ],
-  "revision": 230,
+  "revision": 231,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33898,6 +33913,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "617eceb6f2b44f4d90757cb68227667a"
+    },
+    "BUILDING-RECORDS": {
+      "actor": "rozwer",
+      "base_commit": "54683e72014242ad4f512d99b4ff700dc008cfc0",
+      "generation": 1,
+      "issue_number": 228,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/BUILDING-RECORDS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "92c939f23f8d432b88556c4130145e05"
     },
     "COMMUNITY": {
       "actor": "koshiro",
