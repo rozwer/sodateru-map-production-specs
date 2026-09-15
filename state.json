@@ -32837,7 +32837,7 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION"
   ],
-  "revision": 155,
+  "revision": 156,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33497,7 +33497,8 @@
         "docs/evidence/UI-FRIENDS/",
         "src/features/companion/",
         "docs/evidence/UI-COMPANION/",
-        "src/features/exploration/"
+        "src/features/exploration/",
+        "src/features/transfer/"
       ],
       "status": "claimed",
       "submitted_commit": null,
