@@ -48,7 +48,7 @@ export function dayBounds(date: string, timeZone: string) {
   catch { invalid('Invalid IANA timeZone'); }
   const localDate = (t: number) => {
     const parts = Object.fromEntries(formatter.formatToParts(t).map(p => [p.type, p.value]));
-    return `${parts.year.padStart(4, '0')}-${parts.month}-${parts.day}`;
+    return `${parts.year!.padStart(4, '0')}-${parts.month}-${parts.day}`;
   };
   const boundary = (target: string, around: number) => {
     let lo = around - 2 * 86400000, hi = around + 2 * 86400000;

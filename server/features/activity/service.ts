@@ -21,7 +21,7 @@ export function pointBreak(db: DatabaseSync, row: Row): boolean {
     .get(row.person_id, row.segment_id, row.observed_at, row.observed_at, row.id);
   if (!previous) return true;
   return !!db.prepare(`SELECT 1 FROM activity_deleted_points WHERE person_id = ? AND segment_id = ?
-    AND observed_at >= ? AND observed_at <= ? LIMIT 1`).get(row.person_id, row.segment_id, previous.observed_at, row.observed_at);
+    AND observed_at >= ? AND observed_at <= ? LIMIT 1`).get(row.person_id, row.segment_id, previous.observed_at!, row.observed_at);
 }
 function notFound(): never { throw new CommonError('NOT_FOUND', 'Resource not found', false, undefined, 404); }
 function conflict(): never { throw new CommonError('IDEMPOTENCY_CONFLICT', 'The observation or ID already has different content', false, undefined, 409); }

@@ -1,6 +1,6 @@
 # ACTIVITY v1 contract
 
-Status: implementation in progress; CORE runtime/integration and end-to-end evidence are not yet available.
+Status: visit/observation operations are connected to CORE v0.3.0; real API and process-restart evidence is in [runtime.md](runtime.md). Full daily record/checkin integration remains pending.
 
 ## Visits and growth
 
@@ -26,6 +26,7 @@ Status: implementation in progress; CORE runtime/integration and end-to-end evid
 - Millisecond UTC instants; from inclusive, to exclusive, both required together.
 - Daily reflection converts an actual YYYY-MM-DD and IANA timeZone into local-day bounds, including DST short/long days. A date skipped entirely by a time-zone transition is rejected.
 - Visits use startedAt; linked records use visit time, direct records use occurredAt. Unknown dates are excluded from a selected day, and remain visible in unbounded lists.
+- Daily record continuation uses GET /records with the returned from/to, the same timeZone, rangeMatch=startsWithin, and records.data.nextCursor. INFORMATION owns this query addition and the identical cursor implementation.
 - Visit pages sort startedAt descending/null last, id descending. Track pages sort observedAt ascending, id ascending. Growth pages sort place ID ascending.
 - Signed keyset cursors bind person, dataMode, operation and normalized filters. Cursor signing keys persist per mode DB. Changed conditions or edited cursors fail instead of displaying a different search.
 

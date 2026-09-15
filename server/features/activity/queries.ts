@@ -91,15 +91,15 @@ export function getGrowth(db: DatabaseSync, context: ActivityContext, query: Lis
   const values: SQLInputValue[] = [context.personId];
   if (q.bbox !== undefined) {
     const box = typeof q.bbox === 'string' ? q.bbox.split(',').map(Number) : [];
-    if (box.length !== 4 || !box.every(Number.isFinite) || box[0] < -180 || box[2] > 180 || box[1] < -90 || box[3] > 90 || box[0] >= box[2] || box[1] >= box[3]) badQuery('Invalid bbox');
+    if (box.length !== 4 || !box.every(Number.isFinite) || box[0]! < -180 || box[2]! > 180 || box[1]! < -90 || box[3]! > 90 || box[0]! >= box[2]! || box[1]! >= box[3]!) badQuery('Invalid bbox');
     conditions.push('p.longitude >= ? AND p.latitude >= ? AND p.longitude <= ? AND p.latitude <= ?'); values.push(...box);
   }
   if (page.after) { conditions.push('p.id > ?'); values.push(page.after.id); }
   const places = db.prepare(`SELECT p.* FROM places p WHERE ${conditions.join(' AND ')} ORDER BY p.id ASC LIMIT ?`).all(...values, q.limit + 1);
   const rows = places.map(p => {
-    const visits = db.prepare("SELECT id, version FROM visits WHERE person_id = ? AND place_id = ? AND status = 'confirmed' ORDER BY id").all(context.personId, p.id);
+    const visits = db.prepare("SELECT id, version FROM visits WHERE person_id = ? AND place_id = ? AND status = 'confirmed' ORDER BY id").all(context.personId, p.id!);
     const records = db.prepare(`SELECT r.id, r.version, r.purposes_json FROM records r JOIN visits v ON v.id = r.visit_id AND v.person_id = r.person_id
-      WHERE v.person_id = ? AND v.place_id = ? AND v.status = 'confirmed' ORDER BY r.id`).all(context.personId, p.id);
+      WHERE v.person_id = ? AND v.place_id = ? AND v.status = 'confirmed' ORDER BY r.id`).all(context.personId, p.id!);
     const purposes = [...new Set<string>(records.flatMap(r => JSON.parse(r.purposes_json as string)))].sort();
     const sourceRefs = [{ type: 'place', id: p.id, version: p.version }, ...visits.map(v => ({ type: 'visit', id: v.id, version: v.version })), ...records.map(r => ({ type: 'record', id: r.id, version: r.version }))];
     // Contract limits must never silently discard evidence or valid purpose text.
