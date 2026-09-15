@@ -1,0 +1,7 @@
+# 採用参照のHTTP取得
+
+MAP-CUSTOM担当から、同一transactionで保存したapplied_refsがGET /messages/:idに返らず、再起動後の採用状態確認がSQLだけになると報告された。
+
+MessageResult直下のappliedRefsに、保存済みtype/id/version/contentHash配列を返す。既存message/run/outputは維持し、所有者とsourceRefs照合後に返す。AI.json v1.1.0にMessageResultとCommonAIAppliedRefを補完。共通生成はCOREへ依頼する。
+
+controlled providerを明示したCORE HTTP/実SQLite試験に採用参照を追加し、修正前undefinedで失敗、修正後は保存直後とDB再open後のHTTP取得が同じ配列で成功。既存取消/再試行/失効参照拒否も同じ限定試験で確認した。実AIは再実行していない。
