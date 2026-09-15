@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 16,
+  "revision": 17,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4567,12 +4567,22 @@
       "token": null
     },
     "ROUTES": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 25,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/features/routes/",
+        "server/db/migrations/routes/",
+        "docs/01_requirements/04_api/fragments/ROUTES.json",
+        "docs/evidence/ROUTES/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "7001eb4177034250a8b2f5edc2874650"
     },
     "SETTINGS": {
       "actor": null,
