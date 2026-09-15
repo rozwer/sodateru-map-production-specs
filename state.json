@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 53,
+  "revision": 54,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4898,12 +4898,20 @@
       "token": "c62b64d01fa3456483e22d5224add4ca"
     },
     "UI-FRIENDS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+      "generation": 1,
+      "issue_number": 14,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/friends/",
+        "docs/evidence/UI-FRIENDS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "cebf208ed964440a9048e91bc82fef04"
     },
     "UI-INSIGHTS": {
       "actor": "rozwer",
