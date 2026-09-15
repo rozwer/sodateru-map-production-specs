@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 173,
+  "revision": 174,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33923,18 +33923,13 @@
       "base_commit": "df5e5073085eddda1e6598664e00881e12b25d81",
       "generation": 1,
       "issue_number": 108,
-      "landed_main": null,
-      "note": "PR178/develop a5fec115: 正式main/OpenAPI＋実PLACES/Mapbox/Luna＋候補保存/選択/ACTIVITY取消/OS再起動PASS。docs/evidence/SUGGESTIONS/live-smoke.json。実画面141・根拠利用先100・設定全条件83・交通25は未確認のまま引継ぎ。",
+      "landed_main": "537a15cc275b41ec98c1d25b9558ef9845fdcb07",
+      "note": "PR178/develop a5fec115: 今回範囲の正式main/OpenAPI＋実PLACES/Mapbox/Luna＋候補保存/選択/ACTIVITY取消/OS再起動PASS。docs/evidence/SUGGESTIONS/live-smoke.json。実画面141・根拠利用先100・設定全条件83・交通25は未確認のまま引継ぎ。元全受入完成ではない。",
       "owner": "mattsun",
-      "paths": [
-        "server/features/suggestions/",
-        "server/db/migrations/suggestions/",
-        "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
-        "docs/evidence/SUGGESTIONS/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "befa8d85b12d29b4f1926876e6ff5af61b5bace2",
-      "token": "1cdffaf7bc944bd9977c80450a8f3928"
+      "token": null
     },
     "THEMES": {
       "actor": "mattsun",
