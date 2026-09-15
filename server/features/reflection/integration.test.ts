@@ -15,6 +15,7 @@ import { loadContract } from '../../core/validation.ts';
 import { createInformationService } from '../../information/service.ts';
 import { createRecord, patchRecord } from '../records/service.ts';
 import insightsFeature from '../insights/register.ts';
+import recordsFeature from '../records/register.ts';
 import { createInsightsService } from '../insights/service.ts';
 import { configureAi, createConversation, startRun, getRun } from '../../ai/index.ts';
 import reflection from './register.ts';
@@ -25,7 +26,7 @@ import { memoInput } from './service.ts';
 test('real HTTP/SQLite reflection answers, adoption replay, corrections and revoked evidence', async () => {
  const root=mkdtempSync(join(tmpdir(),'reflection-http-'));
  const identity:LocalIdentity={version:1,secret:'test-only-reflection-identity-secret',profiles:[{key:'self',id:'p',name:'本人'},{key:'friend',id:'f',name:'友達'}]};
- const options={livePath:join(root,'live.sqlite'),demoPath:join(root,'demo.sqlite'),migrations:[...(insightsFeature.migrations??[]),...(reflection.migrations??[])]};
+ const options={livePath:join(root,'live.sqlite'),demoPath:join(root,'demo.sqlite'),migrations:[...(recordsFeature.migrations??[]),...(insightsFeature.migrations??[]),...(reflection.migrations??[])]};
  let dbs=openDatabases(options);
  seedProfiles(dbs,identity.profiles);
  const context={personId:'p',dataMode:'live' as const,requestId:randomUUID(),signal:new AbortController().signal};
@@ -59,14 +60,16 @@ test('real HTTP/SQLite reflection answers, adoption replay, corrections and revo
  configureAi({
   model:()=> 'explicit-test-provider',
   assertAllowed:()=>{},
+  assertConversationRecord:(db,ctx,id)=>{createInformationService(db).getOwnRecord(ctx,id);},
   assertSourceRefs:(db,ctx,refs)=>{createInformationService(db).assertSourcesCurrent(ctx,{refs});},
-  provider:async()=>{
+  provider:async({task})=>{
+   if(task==='diary')return {text:'水の音を聞いて休憩した日。',evidenceIds:['src_1']};
    if(providerFails)throw new Error('explicit test provider failure');
    return {purpose:'休憩',reason:'静かだった',context:{weather:null,companion:null,timeBudgetMinutes:null,timeBand:null,notes:null},evidenceIds:['src_1'],question:{topic:'reason',text:'どんな静けさがよかったですか？'}};
   }
  });
- async function run(id:string) {
-   await startRun(dbs.live,context,{conversationId:'conversation',userMessageId:id+'-user',assistantMessageId:id,text:'体験を整理したい',task:'extract',input:{recordId:'record',answers:[]},expectedRefs:[{type:'record',id:'record',version:1}]});
+ async function run(id:string,task='extract',input:any={recordId:'record',answers:[]},version=1) {
+   await startRun(dbs.live,context,{conversationId:'conversation',userMessageId:id+'-user',assistantMessageId:id,text:'体験を整理したい',task,input,expectedRefs:[{type:'record',id:'record',version}]});
    const deadline=Date.now()+3000;
    while(Date.now()<deadline){const state=await getRun(dbs.live,context,id);if(['complete','failed'].includes(state.status))return state;await new Promise(r=>setTimeout(r,10));}
    throw Error('AI test provider did not settle');
@@ -74,7 +77,7 @@ test('real HTTP/SQLite reflection answers, adoption replay, corrections and revo
  try {
   await boot();await login();await login('demo');await login('live','friend');
   transaction(dbs.live,()=>{
-   createRecord(dbs.live,'p',{...memoInput('record','本人の原文'),kind:'experience'} as any);
+   createRecord(dbs.live,'p',{...memoInput('record','本人の原文','memo',Date.parse('2026-09-15T01:00:00Z')),kind:'experience'} as any);
    createRecord(dbs.live,'f',{...memoInput('friend-record','友達の共有原文'),kind:'experience',visibility:'public'} as any);
   });
   createConversation(dbs.live,context,{id:'conversation',purpose:'consult',title:'整理',recordId:'record'});
@@ -109,6 +112,17 @@ test('real HTTP/SQLite reflection answers, adoption replay, corrections and revo
   assert.equal(changedQuestion.value.data.questionText,null);assert.equal(changedQuestion.value.data.evidenceState,'changed');
   assert.equal(changedQuestion.value.data.answerText,'木々と水の音だった');
 
+  providerFails=false;
+  const diary=await run('diary-one','diary',{date:'2026-09-15',timezone:'Asia/Tokyo',recordIds:['record']},2);
+  assert.equal(diary.status,'complete',JSON.stringify(diary.error));
+  const diarySaved=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',create:true,occurredAt:Date.parse('2026-09-15T01:00:00Z'),body:diary.result.text},{'Idempotency-Key':'diary'});
+  assert.equal(diarySaved.status,200,JSON.stringify(diarySaved.value));
+  assert.equal(diarySaved.value.data.body,diary.result.text);
+  transaction(dbs.live,()=>patchRecord(dbs.live,'p','diary',{body:'生成後に本人が直した日記'},1));
+  const oldDiary=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',body:'古い下書き'},{'Idempotency-Key':'old-diary','If-Match':'"1"'});
+  assert.equal(oldDiary.status,412,JSON.stringify(oldDiary.value));
+  assert.equal(createInformationService(dbs.live).getOwnRecord(context,'diary').body,'生成後に本人が直した日記');
+
   const comparisonInput={id:'manual',left:{type:'record',id:'record',version:2},right:{type:'record',id:'friend-record',version:1},common:'休憩した',differences:'場所が違う',timeZone:'Asia/Tokyo'};
   const comparison=await request('POST','/reflection/comparisons',comparisonInput,{'Idempotency-Key':'manual'});
   assert.equal(comparison.status,201,JSON.stringify(comparison.value));
@@ -120,6 +134,7 @@ test('real HTTP/SQLite reflection answers, adoption replay, corrections and revo
   assert.equal(judgment.value.data.insight.review,'disagree');
   await stop();dbs=openDatabases(options);seedProfiles(dbs,identity.profiles);await boot();
   assert.equal((await request('GET','/reflection/questions/'+qid)).value.data.answerText,'木々と水の音だった');
+  assert.equal(createInformationService(dbs.live).getOwnRecord(context,'diary').body,'生成後に本人が直した日記');
   assert.equal((await request('GET','/reflection/comparisons/manual')).value.data.insight.reviewNote,'好みが同じとは思わない');
   transaction(dbs.live,()=>patchRecord(dbs.live,'f','friend-record',{body:'訂正された原文'},1));
   const stale=await request('GET','/reflection/comparisons/manual');
