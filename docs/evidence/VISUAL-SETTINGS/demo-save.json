@@ -1,0 +1,21 @@
+{
+  "mode": "demo",
+  "api": "http://127.0.0.1:3002",
+  "db": "/Users/roz/.codex/worktrees/qa-visual-40/.local/demo.sqlite",
+  "people": [
+    {
+      "id": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+      "version": 2,
+      "name": "さやか",
+      "bio": "カフェや本、緑のある場所が好きです。"
+    }
+  ],
+  "browser": "http://127.0.0.1:5187/#/profile-settings",
+  "steps": [
+    "名前・紹介を入力",
+    "保存成功と再取得表示",
+    "ブラウザ再読込",
+    "設定へ戻る→プロフィール再表示"
+  ],
+  "limitation": "demo DB。live保存・サーバー再起動は未検査。"
+}
