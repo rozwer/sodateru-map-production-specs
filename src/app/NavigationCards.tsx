@@ -55,7 +55,7 @@ export function NavigationCards({ mode, navigate, dataMode }: { mode: Mode; navi
     window.addEventListener('resize', resize);
     return () => window.removeEventListener('resize', resize);
   }, []);
-  const sample = dataMode === 'demo' && !photos.length;
+  const sample = dataMode === 'demo' && !photos.some(photo => photo.photoUrl);
   const shownPhotos = sample ? navigationExamples : photos;
   return <section className="sm-nav-cards" aria-label={mode === 'self' ? '自分を知る' : 'みんなの地図'}>
     <header className="sm-nav-cards__intro"><h1>{mode === 'self' ? '自分を知る' : 'みんなの地図'}</h1><p>{mode === 'self' ? '日々の体験から、いまの自分を見つける。' : '誰かの体験から、街の新しい一面へ。'}</p></header>

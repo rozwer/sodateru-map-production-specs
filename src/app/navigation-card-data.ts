@@ -20,7 +20,7 @@ export async function readNavigationPhotos(mode: 'self' | 'community', signal: A
   }
   const timeZone = deviceTimeZone();
   const day = (await api.request('getReflectionDaysDate', { path: { date: today(timeZone) }, query: { timeZone }, signal })).data;
-  const records = await api.request('getRecords', { query: { from: day.from, to: day.to, kind: 'experience', limit: 2 }, signal });
+  const records = await api.request('getRecords', { query: { from: day.from, to: day.to, timeZone, kind: 'experience', limit: 2 }, signal });
   return Promise.all(records.items.map(async record => {
     const card = await recordCard(record, timeZone, signal);
     return { title: card.title, detail: `${card.when}　${card.place}`, photoUrl: card.photoUrl };
