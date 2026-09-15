@@ -54,4 +54,5 @@ THEMES正本のcolorKeyを返し、coverMediaは現在閲覧可能なready媒体
 - 2026-09-15: fragment v1.1.0の10Schema・12operationを既存参照込みAJV2020でコンパイル成功。
 - `mise exec -- node --experimental-transform-types --test server/features/community/bookmarks.test.ts`: 1 test passed。CORE本番DDL/SQLite/migration/永続再送を使い、対象一意、再起動後保持、live/demo分離、削除後再送404、期限切れ、解除を確認。保存表と再送表に対象本文を保存していないことも確認。
 - 上記保存層テストの対象resolverは明示した制御用fixture。INFORMATION/PLACESをつないだ実HTTP・画面E2Eの代替ではない。
+- `mise exec -- node --experimental-transform-types --test server/features/friends/http.test.ts`: 1 test passed。実CORE/SETTINGS/友達HTTPで本人選択→プロフィール公開→人物検索→申請→受信者承認→サーバー/SQLite再オープン→同じ関係再取得→解除を確認。削除後のPOST再送は404。
 - 実HTTP用 `http-e2e.mjs` は二本人でseed→サーバー再起動→verifyを行う。実API接続後の実行結果は別途記録する。

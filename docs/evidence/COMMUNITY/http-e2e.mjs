@@ -55,27 +55,36 @@ if (phase === 'seed') {
   await request(a.cookie, 'POST', '/records', { id: recordId, kind: 'experience', visitId: null, placeId, occurredAt: Date.now(), endedAt: null,
     timePrecision: 'exact', body: '木陰で休憩できました。保存した原文です。', purposes: ['休憩'], activities: [], impression: '', periodAnswers: {},
     bookmarked: false, useForSuggestions: false, topicKey: 'rest', visibility: 'selected', sharedWith: [b.person.id] }, 201);
+  const mediaId = randomUUID();
+  const photo = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=', 'base64');
+  const form = new FormData();
+  form.set('id', mediaId); form.set('position', '0'); form.set('file', new Blob([photo], { type: 'image/png' }), 'photo.png');
+  const uploaded = await fetch(`${base}/api/v1/records/${recordId}/media`, { method: 'POST', headers: { 'X-Data-Mode': mode, 'X-Request-Id': randomUUID(), Cookie: a.cookie, 'Idempotency-Key': randomUUID(), 'If-Match': '"1"' }, body: form });
+  assert.equal(uploaded.status, 201, await uploaded.text());
   const bookmarkId = randomUUID(), bookmarkKey = randomUUID();
   await request(b.cookie, 'POST', '/bookmarks', { id: bookmarkId, target: { type: 'record', id: recordId } }, 201, { 'Idempotency-Key': bookmarkKey });
   const duplicate = await request(b.cookie, 'POST', '/bookmarks', { id: randomUUID(), target: { type: 'record', id: recordId } }, 200);
   assert.equal(duplicate.data.id, bookmarkId);
   const themeId = randomUUID();
-  await request(a.cookie, 'POST', '/themes', { id: themeId, name: '休憩の場所', description: '共有テーマの検証', recordIds: [recordId], colorKey: 'teal', coverMediaId: null }, 201);
+  await request(a.cookie, 'POST', '/themes', { id: themeId, name: '休憩の場所', description: '共有テーマの検証', recordIds: [recordId], colorKey: 'teal', coverMediaId: mediaId }, 201);
   await request(b.cookie, 'GET', `/shared-themes/${themeId}`, undefined, 404);
   await request(a.cookie, 'PATCH', `/themes/${themeId}/sharing`, { visibility: 'selected', sharedWith: [b.person.id] }, 200, { 'If-Match': '"1"' });
   const sharedTheme = await request(b.cookie, 'GET', `/shared-themes/${themeId}`);
   assert.deepEqual(sharedTheme.data.recordIds, [recordId]);
   mkdirSync('.local', { recursive: true });
-  writeFileSync(statePath, JSON.stringify({ id, placeId, recordId, bookmarkId, bookmarkKey, themeId, input, key, personA: a.person.id, personB: b.person.id }));
+  writeFileSync(statePath, JSON.stringify({ id, placeId, recordId, mediaId, bookmarkId, bookmarkKey, themeId, input, key, personA: a.person.id, personB: b.person.id }));
   result.push('two profiles, request/replay, recipient approval, real place/record/bookmark saved');
 } else if (phase === 'verify') {
   const state = JSON.parse(readFileSync(statePath, 'utf8'));
   assert.equal(a.person.id, state.personA); assert.equal(b.person.id, state.personB);
-  const { id, recordId, placeId, bookmarkId, themeId } = state;
+  const { id, recordId, placeId, mediaId, bookmarkId, themeId } = state;
   const friendship = await request(b.cookie, 'GET', `/friendships/${id}`);
   assert.equal(friendship.data.status, 'accepted');
   const saved = await request(b.cookie, 'GET', `/bookmarks/${bookmarkId}`);
   assert.equal(saved.data.resource.body, '木陰で休憩できました。保存した原文です。');
+  const media = await fetch(`${base}/api/v1/media/${mediaId}/content`, { headers: { 'X-Data-Mode': mode, 'X-Request-Id': randomUUID(), Cookie: b.cookie } });
+  assert.equal(media.status, 200); assert.equal(media.headers.get('Content-Type'), 'image/png');
+  assert.ok((await media.arrayBuffer()).byteLength > 0);
   const query = 'category=rest&bbox=136.96,35.15,136.98,35.17';
   const list = await request(b.cookie, 'GET', `/knowledge?${query}`);
   assert.ok(list.data.items.some(record => record.id === recordId));
@@ -90,9 +99,10 @@ if (phase === 'seed') {
   // Friendship removal and selected-share revocation are independent.
   await request(b.cookie, 'GET', `/shared-records/${recordId}`);
   const own = await request(a.cookie, 'GET', `/records/${recordId}`);
-  await request(a.cookie, 'PATCH', `/records/${recordId}`, { visibility: 'private', sharedWith: [] }, 200, { 'If-Match': `"${own.data.version}"` });
+  await request(a.cookie, 'PATCH', `/records/${recordId}`, { visibility: 'private', sharedWith: [] }, 200, { 'If-Match': `"${own.data.record.version}"` });
   await request(b.cookie, 'GET', `/shared-records/${recordId}`, undefined, 404);
   await request(b.cookie, 'GET', `/bookmarks/${bookmarkId}`, undefined, 404);
+  await request(b.cookie, 'GET', `/media/${mediaId}/content`, undefined, 404);
   const bookmarks = await request(b.cookie, 'GET', '/bookmarks');
   const revoked = bookmarks.data.items.find(bookmark => bookmark.id === bookmarkId);
   assert.equal(revoked.status, 'unavailable'); assert.equal(revoked.resource, null);
@@ -101,6 +111,7 @@ if (phase === 'seed') {
   const sharedTheme = await request(b.cookie, 'GET', `/shared-themes/${themeId}`);
   assert.deepEqual(sharedTheme.data.recordIds, []);
   assert.deepEqual(sharedTheme.data.records, []);
+  assert.equal(sharedTheme.data.coverMedia, null);
   await request(a.cookie, 'PATCH', `/themes/${themeId}/sharing`, { visibility: 'private', sharedWith: [] }, 200, { 'If-Match': '"2"' });
   await request(b.cookie, 'GET', `/shared-themes/${themeId}`, undefined, 404);
   await request(b.cookie, 'DELETE', `/bookmarks/${bookmarkId}`, undefined, 204, { 'If-Match': `"${revoked.version}"` });
