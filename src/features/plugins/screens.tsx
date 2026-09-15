@@ -554,6 +554,8 @@ function PluginFixture({
           onUpdate={(id) => navigate("plugin-update", { pluginId: id })}
           onCompanion={() => navigate("companion-settings")}
           onFind={() => navigate("plugin-store")}
+          onRemove={(id) => navigate("plugin-update", { pluginId: id, action: "remove" })}
+          onRequests={() => navigate("feature-requests")}
           {...status}
         />
       );
