@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 171,
+  "revision": 172,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33924,7 +33924,7 @@
       "generation": 1,
       "issue_number": 108,
       "landed_main": null,
-      "note": null,
+      "note": "PR178/develop a5fec115: 正式main/OpenAPI＋実PLACES/Mapbox/Luna＋候補保存/選択/ACTIVITY取消/OS再起動PASS。docs/evidence/SUGGESTIONS/live-smoke.json。実画面141・根拠利用先100・設定全条件83・交通25は未確認のまま引継ぎ。",
       "owner": "mattsun",
       "paths": [
         "server/features/suggestions/",
@@ -33932,8 +33932,8 @@
         "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
         "docs/evidence/SUGGESTIONS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "befa8d85b12d29b4f1926876e6ff5af61b5bace2",
       "token": "1cdffaf7bc944bd9977c80450a8f3928"
     },
     "THEMES": {
