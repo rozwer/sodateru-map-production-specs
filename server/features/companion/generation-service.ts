@@ -33,6 +33,12 @@ export class GenerationService {
   async start(jobs:GenerationRepository,draftId:string,expected:number) {
     const provider=this.connected();
     const job=jobs.create(draftId,expected,provider.id);
+    return this.run(jobs,job.id);
+  }
+  async run(jobs:GenerationRepository,id:string) {
+    const provider=this.connected(),job=jobs.get(id);
+    if (!active(job.status) || job.upstreamJobId || this.pending.has(id)) return job;
+    if (job.provider!==provider.id) throw new CompanionFailure('PROVIDER_NOT_CONNECTED');
     this.pending.add(job.id);
     try {
       const reference=job.input.referenceImageId?jobs.pets.getReferenceImage(job.input.referenceImageId):null;
@@ -53,7 +59,11 @@ export class GenerationService {
     return this.accept(jobs,id,result);
   }
   async cancel(jobs:GenerationRepository,id:string,expected:number) {
-    const job=jobs.cancel(id,expected);
+    jobs.cancel(id,expected);
+    return this.cancelRemote(jobs,id);
+  }
+  async cancelRemote(jobs:GenerationRepository,id:string) {
+    const job=jobs.get(id);
     if (job.status==='cancelled' && job.upstreamJobId && this.provider?.id===job.provider) {
       try { await this.provider.cancel(job.upstreamJobId); }
       catch { jobs.noteCancellationFailure(id); }

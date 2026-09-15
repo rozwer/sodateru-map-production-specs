@@ -1,7 +1,7 @@
 {
   "taskId": "COMPANION",
-  "version": "0.1.0",
-  "description": "固有契約断片。実API統合前。正式v2互換形式/展開上限/生成providerは司令塔判断待ち。",
+  "version": "0.2.0",
+  "description": "v0.2: CORE v0.3共通HTTPへ適合。既存Codex v2 ZIP取込・管理・選択を今回の完成範囲とする。ユーザー指示で新規生成は今回対象外。",
   "schemas": {
     "CompanionDraftInput": {
       "type": "object",
@@ -20,7 +20,8 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         }
       },
       "required": [
@@ -35,7 +36,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "name": {
           "type": "string",
@@ -50,19 +52,20 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "version": {
           "type": "integer",
           "minimum": 1
         },
         "createdAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         },
         "updatedAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -84,7 +87,8 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "visible": {
           "type": "boolean"
@@ -116,7 +120,8 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "visible": {
           "type": "boolean"
@@ -150,25 +155,79 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "name": {
           "type": "string"
         },
         "manifest": {
-          "type": "object",
-          "additionalProperties": true
+          "$ref": "#/components/schemas/CompanionManifestV2"
         },
         "requiredActions": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "idle",
+              "running-right",
+              "running-left",
+              "waving",
+              "jumping",
+              "failed",
+              "waiting",
+              "running",
+              "review",
+              "gaze-0",
+              "gaze-22.5",
+              "gaze-45",
+              "gaze-67.5",
+              "gaze-90",
+              "gaze-112.5",
+              "gaze-135",
+              "gaze-157.5",
+              "gaze-180",
+              "gaze-202.5",
+              "gaze-225",
+              "gaze-247.5",
+              "gaze-270",
+              "gaze-292.5",
+              "gaze-315",
+              "gaze-337.5"
+            ]
           }
         },
         "confirmedActions": {
           "type": "array",
           "items": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "idle",
+              "running-right",
+              "running-left",
+              "waving",
+              "jumping",
+              "failed",
+              "waiting",
+              "running",
+              "review",
+              "gaze-0",
+              "gaze-22.5",
+              "gaze-45",
+              "gaze-67.5",
+              "gaze-90",
+              "gaze-112.5",
+              "gaze-135",
+              "gaze-157.5",
+              "gaze-180",
+              "gaze-202.5",
+              "gaze-225",
+              "gaze-247.5",
+              "gaze-270",
+              "gaze-292.5",
+              "gaze-315",
+              "gaze-337.5"
+            ]
           }
         },
         "version": {
@@ -176,8 +235,8 @@
           "minimum": 1
         },
         "createdAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -196,11 +255,13 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "importId": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "name": {
           "type": "string"
@@ -217,8 +278,8 @@
           "minimum": 1
         },
         "createdAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -237,8 +298,36 @@
         "actions": {
           "type": "array",
           "items": {
-            "type": "string"
-          }
+            "type": "string",
+            "enum": [
+              "idle",
+              "running-right",
+              "running-left",
+              "waving",
+              "jumping",
+              "failed",
+              "waiting",
+              "running",
+              "review",
+              "gaze-0",
+              "gaze-22.5",
+              "gaze-45",
+              "gaze-67.5",
+              "gaze-90",
+              "gaze-112.5",
+              "gaze-135",
+              "gaze-157.5",
+              "gaze-180",
+              "gaze-202.5",
+              "gaze-225",
+              "gaze-247.5",
+              "gaze-270",
+              "gaze-292.5",
+              "gaze-315",
+              "gaze-337.5"
+            ]
+          },
+          "uniqueItems": true
         }
       },
       "required": [
@@ -291,7 +380,8 @@
       "properties": {
         "draftId": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "draftVersion": {
           "type": "integer",
@@ -309,11 +399,13 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "draftId": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "input": {
           "$ref": "#/components/schemas/CompanionDraft"
@@ -347,7 +439,8 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "failureCode": {
           "type": [
@@ -364,15 +457,16 @@
             "string",
             "null"
           ],
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "createdAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         },
         "updatedAt": {
-          "type": "string",
-          "format": "date-time"
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -446,7 +540,8 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "uuid"
+          "minLength": 1,
+          "maxLength": 80
         },
         "mime": {
           "type": "string",
@@ -470,6 +565,97 @@
         "byteLength",
         "url"
       ]
+    },
+    "CompanionDraftPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "appearance": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "referenceImageId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [],
+      "minProperties": 1
+    },
+    "CompanionSettingsPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selectedCompanionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium"
+          ]
+        },
+        "reducedMotion": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "minProperties": 1
+    },
+    "CompanionManifestV2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "displayName",
+        "description",
+        "spriteVersionNumber",
+        "spritesheetPath"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,79}$"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "spriteVersionNumber": {
+          "type": "integer",
+          "const": 2
+        },
+        "spritesheetPath": {
+          "type": "string",
+          "enum": [
+            "spritesheet.png",
+            "spritesheet.webp"
+          ]
+        }
+      }
     }
   },
   "operations": [
@@ -497,7 +683,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionImport"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionImport"
+                  }
+                }
               }
             }
           }
@@ -516,15 +711,24 @@
       "requestBody": {
         "required": true,
         "content": {
-          "application/zip": {
+          "multipart/form-data": {
             "schema": {
-              "type": "string",
-              "format": "binary"
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "file"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
             }
           }
         }
       },
-      "description": "50MB ZIPを検査し媒体・manifest・必要動作を保存。登録物と現在選択は変更しない。v2の互換正本・展開上限は未確定。"
+      "description": "multipartのfileに50,000,000 bytes以下のv2 ZIPを指定。展開100,000,000 bytes/厳密2file/73使用セルと未使用透明を検査し、25動作・視線確認を返す。登録/現在選択は変更しない。"
     },
     {
       "method": "get",
@@ -540,7 +744,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -550,7 +755,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionImport"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionImport"
+                  }
+                }
               }
             }
           }
@@ -581,7 +795,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -623,7 +838,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -651,7 +867,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionImport"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionImport"
+                  }
+                }
               }
             }
           }
@@ -692,7 +917,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -720,7 +946,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionRegistration"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionRegistration"
+                  }
+                }
               }
             }
           }
@@ -755,7 +990,29 @@
       "tags": [
         "相棒"
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
       "responses": {
         "200": {
           "description": "成功",
@@ -770,10 +1027,17 @@
                     "items": {
                       "$ref": "#/components/schemas/Companion"
                     }
+                  },
+                  "nextCursor": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
-                  "items"
+                  "items",
+                  "nextCursor"
                 ]
               }
             }
@@ -805,7 +1069,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -815,7 +1080,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Companion"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Companion"
+                  }
+                }
               }
             }
           }
@@ -846,7 +1120,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionSettings"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionSettings"
+                  }
+                }
               }
             }
           }
@@ -896,7 +1179,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionSettings"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionSettings"
+                  }
+                }
               }
             }
           }
@@ -917,7 +1209,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CompanionSettingsInput"
+              "$ref": "#/components/schemas/CompanionSettingsPatch"
             }
           }
         }
@@ -947,7 +1239,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionDraft"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionDraft"
+                  }
+                }
               }
             }
           }
@@ -981,7 +1282,29 @@
       "tags": [
         "相棒"
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
       "responses": {
         "200": {
           "description": "成功",
@@ -996,10 +1319,17 @@
                     "items": {
                       "$ref": "#/components/schemas/CompanionDraft"
                     }
+                  },
+                  "nextCursor": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
-                  "items"
+                  "items",
+                  "nextCursor"
                 ]
               }
             }
@@ -1031,7 +1361,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -1041,7 +1372,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionDraft"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionDraft"
+                  }
+                }
               }
             }
           }
@@ -1072,7 +1412,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -1100,7 +1441,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionDraft"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionDraft"
+                  }
+                }
               }
             }
           }
@@ -1121,7 +1471,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/CompanionDraftInput"
+              "$ref": "#/components/schemas/CompanionDraftPatch"
             }
           }
         }
@@ -1141,7 +1491,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -1151,7 +1502,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionInstructions"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionInstructions"
+                  }
+                }
               }
             }
           }
@@ -1192,7 +1552,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionMedia"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionMedia"
+                  }
+                }
               }
             }
           }
@@ -1211,22 +1580,19 @@
       "requestBody": {
         "required": true,
         "content": {
-          "image/png": {
+          "multipart/form-data": {
             "schema": {
-              "type": "string",
-              "format": "binary"
-            }
-          },
-          "image/jpeg": {
-            "schema": {
-              "type": "string",
-              "format": "binary"
-            }
-          },
-          "image/webp": {
-            "schema": {
-              "type": "string",
-              "format": "binary"
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "file"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
             }
           }
         }
@@ -1246,7 +1612,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -1288,7 +1655,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionProviderStatus"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionProviderStatus"
+                  }
+                }
               }
             }
           }
@@ -1303,7 +1679,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "post",
@@ -1329,7 +1706,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionGeneration"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionGeneration"
+                  }
+                }
               }
             }
           }
@@ -1354,7 +1740,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "get",
@@ -1363,7 +1750,29 @@
       "tags": [
         "相棒"
       ],
-      "parameters": [],
+      "parameters": [
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
       "responses": {
         "200": {
           "description": "成功",
@@ -1378,10 +1787,17 @@
                     "items": {
                       "$ref": "#/components/schemas/CompanionGeneration"
                     }
+                  },
+                  "nextCursor": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 },
                 "required": [
-                  "items"
+                  "items",
+                  "nextCursor"
                 ]
               }
             }
@@ -1397,7 +1813,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "get",
@@ -1413,7 +1830,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         }
       ],
@@ -1423,7 +1841,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionGeneration"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionGeneration"
+                  }
+                }
               }
             }
           }
@@ -1438,7 +1865,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "post",
@@ -1454,7 +1882,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -1482,7 +1911,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionGeneration"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionGeneration"
+                  }
+                }
               }
             }
           }
@@ -1497,7 +1935,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "post",
@@ -1513,7 +1952,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -1541,7 +1981,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CompanionGeneration"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CompanionGeneration"
+                  }
+                }
               }
             }
           }
@@ -1556,7 +2005,8 @@
             }
           }
         }
-      }
+      },
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     },
     {
       "method": "post",
@@ -1572,7 +2022,8 @@
           "required": true,
           "schema": {
             "type": "string",
-            "format": "uuid"
+            "minLength": 1,
+            "maxLength": 80
           }
         },
         {
@@ -1600,7 +2051,16 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Companion"
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Companion"
+                  }
+                }
               }
             }
           }
@@ -1616,7 +2076,40 @@
           }
         }
       },
-      "description": "成功候補の全動作を確認して明示採用。現在選択は変更しない。"
+      "description": "成功候補の全動作を確認して明示採用。現在選択は変更しない。",
+      "x-current-delivery": "今回の新規生成はユーザー指示で対象外。保持済み制御/状態APIであり実生成完了を示さない。"
     }
-  ]
+  ],
+  "x-companion-package": {
+    "source": "https://github.com/rozwer/sodateru-map-rehearsal/tree/4699303dd8cedb067b687a3cb37ec7c24f5e7177/shared/logic/pet-package",
+    "maxZipBytes": 50000000,
+    "maxExpandedBytes": 100000000,
+    "files": [
+      "pet.json",
+      "manifest.spritesheetPath"
+    ],
+    "fileCount": 2,
+    "atlas": {
+      "width": 1536,
+      "height": 2288,
+      "columns": 8,
+      "rows": 11,
+      "cellWidth": 192,
+      "cellHeight": 208,
+      "usedFrames": [
+        6,
+        8,
+        8,
+        4,
+        5,
+        8,
+        6,
+        6,
+        6,
+        8,
+        8
+      ]
+    },
+    "rationale": "一次v2形式の厳密2ファイルを維持し、旧6MiB受付を要件50MBへ拡張。展開上限100MBは圧縮入力50MBと14,057,472-byte RGBA atlasに十分な実装上限。"
+  }
 }

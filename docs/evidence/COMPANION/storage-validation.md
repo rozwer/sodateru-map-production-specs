@@ -1,5 +1,7 @@
 # COMPANION 保存層の先行検証
 
+この文書はhead412bae2までの先行保存層の記録。最新の接続結果とユーザー範囲変更は [import-validation.md](import-validation.md) を参照。
+
 2026-09-15、Node 22.22.1 / SQLite、専用branch `mattsun/35-companion`。
 
 ## 成功した検証

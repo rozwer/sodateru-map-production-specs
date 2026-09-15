@@ -29,7 +29,7 @@ test('cancellation while provider is pending discards the late package and attem
     // Controlled provider boundary only; this test is not external connection evidence.
     const service=new GenerationService({id:'test-provider',start:async()=>pending,poll:async()=>{throw Error('unused');},cancel:async id=>{cancelledRemote=id;}},async()=>{throw Error('late package must not be inspected');},(_db,fn)=>fn());
     const started=service.start(jobs,draft.id,1);
-    const row=jobs.list()[0];
+    const row=jobs.list()[0]!;
     await service.cancel(jobs,row.id,row.version);
     release({jobId:'remote-1',status:'succeeded',progress:100,zip:Buffer.from('late')});
     const result=await started;

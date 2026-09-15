@@ -15,13 +15,30 @@ test('draft edits survive reopening and stale versions preserve inputs', () => {
     let repo = new CompanionRepository(db, 'alice');
     const draft = repo.createDraft({name: '旅猫', appearance: '青い帽子', referenceImageId: null});
     assert.equal(draft.version, 1);
-    assert.throws(() => repo.updateDraft(draft.id, 9, {name: '失う入力', appearance: '', referenceImageId: null}), /VERSION_CONFLICT/);
-    assert.equal(repo.updateDraft(draft.id, 1, {name: '旅猫', appearance: '赤い帽子', referenceImageId: null}).version, 2);
+    assert.equal(typeof draft.createdAt,'number');
+    assert.throws(() => repo.updateDraft(draft.id, 9, {name: '失う入力', appearance: '', referenceImageId: null}), {code:'VERSION_CONFLICT'});
+    assert.equal(repo.updateDraft(draft.id, 1, {appearance: '赤い帽子'}).version, 2);
     db.close(); db = new DatabaseSync(join(dir, 'live.sqlite'));
     repo = new CompanionRepository(db, 'alice');
     assert.equal(repo.getDraft(draft.id).appearance, '赤い帽子');
+    assert.equal(repo.getDraft(draft.id).name, '旅猫');
     assert.throws(() => new CompanionRepository(db, 'bob').getDraft(draft.id), /NOT_FOUND/);
   } finally { db.close(); rmSync(dir, {recursive:true,force:true}); }
+});
+
+test('list cursors continue without dropping rows and are bound to owner and list', () => {
+  const db=new DatabaseSync(':memory:'); db.exec(sql());
+  try {
+    const repo=new CompanionRepository(db,'alice');
+    for (const name of ['一','二','三']) repo.createDraft({name,appearance:'猫',referenceImageId:null});
+    const first=repo.page('drafts',null,1);
+    assert.equal(first.items.length,1); assert.ok(first.nextCursor);
+    assert.throws(()=>new CompanionRepository(db,'bob').page('drafts',first.nextCursor,1),/INVALID_CURSOR/);
+    assert.throws(()=>repo.page('companions',first.nextCursor,1),/INVALID_CURSOR/);
+    const second=repo.page('drafts',first.nextCursor,2);
+    assert.equal(second.items.length,2); assert.equal(second.nextCursor,null);
+    assert.equal(new Set([...first.items,...second.items].map(i=>i.id)).size,3);
+  } finally { db.close(); }
 });
 
 test('registration requires all preview confirmations and selection stays explicit', () => {

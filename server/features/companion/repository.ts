@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
+import { requireVersion } from '../../core/errors.ts';
 
 export type DraftInput = { name: string; appearance: string; referenceImageId: string | null };
 export type SettingsInput = { selectedCompanionId: string | null; visible: boolean; size: 'small' | 'medium'; reducedMotion: boolean };
@@ -13,10 +14,6 @@ export class CompanionFailure extends Error {
 }
 const fail = (code: string): never => { throw new CompanionFailure(code); };
 const present = (row: Row | undefined): Row => row ?? fail('NOT_FOUND');
-const version = (row: Row, expected: number) => {
-  if (!Number.isSafeInteger(expected) || expected < 1) fail('VERSION_REQUIRED');
-  if (row.version !== expected) fail('VERSION_CONFLICT');
-};
 const draftDTO = (r: Row) => ({id:r.id, name:r.name, appearance:r.appearance, referenceImageId:r.reference_image_id, version:r.version, createdAt:r.created_at, updatedAt:r.updated_at});
 const petDTO = (r: Row) => ({id:r.id, importId:r.import_id, name:r.name, source:r.source, version:r.version, createdAt:r.created_at});
 const importDTO = (r: Row) => ({id:r.id, name:r.name, manifest:JSON.parse(r.manifest_json), requiredActions:JSON.parse(r.required_actions_json) as string[], confirmedActions:JSON.parse(r.confirmed_actions_json) as string[], version:r.version, createdAt:r.created_at});
@@ -36,7 +33,7 @@ export class CompanionRepository {
   saveReferenceImage(bytes: Uint8Array, mime: 'image/png' | 'image/jpeg' | 'image/webp') {
     if (!bytes.length) fail('INVALID_IMAGE');
     const id=randomUUID();
-    this.db.prepare('INSERT INTO companion_reference_images(id,person_id,bytes,mime,created_at) VALUES(?,?,?,?,?)').run(id,this.personId,bytes,mime,new Date().toISOString());
+    this.db.prepare('INSERT INTO companion_reference_images(id,person_id,bytes,mime,created_at) VALUES(?,?,?,?,?)').run(id,this.personId,bytes,mime,Date.now());
     return {id,mime,byteLength:bytes.length,url:`/api/v1/companion/reference-images/${id}`};
   }
   getReferenceImage(id: string) {
@@ -49,15 +46,17 @@ export class CompanionRepository {
   }
   createDraft(input: DraftInput) {
     this.draftInput(input);
-    const id = randomUUID(), now = new Date().toISOString();
+    const id = randomUUID(), now = Date.now();
     this.db.prepare('INSERT INTO companion_drafts(id,person_id,name,appearance,reference_image_id,created_at,updated_at) VALUES(?,?,?,?,?,?,?)').run(id,this.personId,input.name,input.appearance,input.referenceImageId,now,now);
     return this.getDraft(id);
   }
   getDraft(id: string) { return draftDTO(present(this.db.prepare('SELECT * FROM companion_drafts WHERE id=? AND person_id=?').get(id,this.personId))); }
   listDrafts() { return this.db.prepare('SELECT * FROM companion_drafts WHERE person_id=? ORDER BY updated_at DESC,id').all(this.personId).map(draftDTO); }
-  updateDraft(id: string, expected: number, input: DraftInput) {
-    this.draftInput(input); version(this.getDraft(id),expected);
-    const result = this.db.prepare('UPDATE companion_drafts SET name=?,appearance=?,reference_image_id=?,version=version+1,updated_at=? WHERE id=? AND person_id=? AND version=?').run(input.name,input.appearance,input.referenceImageId,new Date().toISOString(),id,this.personId,expected);
+  updateDraft(id: string, expected: number, patch: Partial<DraftInput>) {
+    const previous=this.getDraft(id); requireVersion(previous.version,expected);
+    const input={name:previous.name,appearance:previous.appearance,referenceImageId:previous.referenceImageId,...patch};
+    this.draftInput(input);
+    const result = this.db.prepare('UPDATE companion_drafts SET name=?,appearance=?,reference_image_id=?,version=version+1,updated_at=? WHERE id=? AND person_id=? AND version=?').run(input.name,input.appearance,input.referenceImageId,Date.now(),id,this.personId,expected);
     if (result.changes !== 1) fail('VERSION_CONFLICT');
     return this.getDraft(id);
   }
@@ -65,7 +64,7 @@ export class CompanionRepository {
   saveInspectedImport(input: InspectedPackage) {
     if (!input.requiredActions.length || new Set(input.requiredActions).size !== input.requiredActions.length) fail('INVALID_PACKAGE');
     const id = randomUUID();
-    this.db.prepare('INSERT INTO companion_imports(id,person_id,name,manifest_json,required_actions_json,zip,atlas,mime,created_at) VALUES(?,?,?,?,?,?,?,?,?)').run(id,this.personId,input.name,JSON.stringify(input.manifest),JSON.stringify(input.requiredActions),input.zip,input.atlas,input.mime,new Date().toISOString());
+    this.db.prepare('INSERT INTO companion_imports(id,person_id,name,manifest_json,required_actions_json,zip,atlas,mime,created_at) VALUES(?,?,?,?,?,?,?,?,?)').run(id,this.personId,input.name,JSON.stringify(input.manifest),JSON.stringify(input.requiredActions),input.zip,input.atlas,input.mime,Date.now());
     return this.getImport(id);
   }
   getImport(id: string) { return importDTO(present(this.db.prepare('SELECT * FROM companion_imports WHERE id=? AND person_id=?').get(id,this.personId))); }
@@ -74,7 +73,7 @@ export class CompanionRepository {
     return {bytes:r[kind] as Uint8Array,mime:kind === 'zip' ? 'application/zip' : r.mime};
   }
   confirmImport(id: string, expected: number, actions: string[]) {
-    const item = this.getImport(id); version(item,expected);
+    const item = this.getImport(id); requireVersion(item.version,expected);
     if (!Array.isArray(actions) || actions.some(a => !item.requiredActions.includes(a))) fail('INVALID_INPUT');
     const confirmed = [...new Set([...item.confirmedActions,...actions])];
     const result = this.db.prepare('UPDATE companion_imports SET confirmed_actions_json=?,version=version+1 WHERE id=? AND person_id=? AND version=?').run(JSON.stringify(confirmed),id,this.personId,expected);
@@ -86,7 +85,7 @@ export class CompanionRepository {
     if (source === 'import' && this.db.prepare('SELECT id FROM companion_generations WHERE person_id=? AND result_import_id=?').get(this.personId,id)) fail('GENERATION_ADOPTION_REQUIRED');
     if (!item.requiredActions.every(a => item.confirmedActions.includes(a))) fail('PREVIEW_REQUIRED');
     // One atomic write; an import has a stable registration even on repeat calls.
-    this.db.prepare('INSERT INTO companions(id,person_id,import_id,name,source,created_at) VALUES(?,?,?,?,?,?) ON CONFLICT(import_id) DO NOTHING').run(randomUUID(),this.personId,id,item.name,source,new Date().toISOString());
+    this.db.prepare('INSERT INTO companions(id,person_id,import_id,name,source,created_at) VALUES(?,?,?,?,?,?) ON CONFLICT(import_id) DO NOTHING').run(randomUUID(),this.personId,id,item.name,source,Date.now());
     return petDTO(present(this.db.prepare('SELECT * FROM companions WHERE import_id=? AND person_id=?').get(id,this.personId)));
   }
   getCompanion(id: string) { return petDTO(present(this.db.prepare('SELECT * FROM companions WHERE id=? AND person_id=?').get(id,this.personId))); }
@@ -96,12 +95,36 @@ export class CompanionRepository {
     const r = present(this.db.prepare('SELECT * FROM companion_settings WHERE person_id=?').get(this.personId));
     return {selectedCompanionId:r.selected_companion_id,visible:Boolean(r.visible),size:r.size,reducedMotion:Boolean(r.reduced_motion),version:r.version};
   }
-  updateSettings(expected: number, input: SettingsInput) {
-    version(this.getSettings(),expected);
+  updateSettings(expected: number, patch: Partial<SettingsInput>) {
+    const previous=this.getSettings(); requireVersion(previous.version,expected);
+    const input={...previous,...patch};
     if (!input || typeof input.visible !== 'boolean' || typeof input.reducedMotion !== 'boolean' || !['small','medium'].includes(input.size)) fail('INVALID_INPUT');
     if (input.selectedCompanionId !== null) this.getCompanion(input.selectedCompanionId);
     const result = this.db.prepare('UPDATE companion_settings SET selected_companion_id=?,visible=?,size=?,reduced_motion=?,version=version+1 WHERE person_id=? AND version=?').run(input.selectedCompanionId,Number(input.visible),input.size,Number(input.reducedMotion),this.personId,expected);
     if (result.changes !== 1) fail('VERSION_CONFLICT');
     return this.getSettings();
+  }
+  page(kind:'companions'|'drafts'|'generations',cursor:string|null,limit=50) {
+    if (!Number.isInteger(limit) || limit<1 || limit>100) fail('INVALID_INPUT');
+    const tables={companions:'companions',drafts:'companion_drafts',generations:'companion_generations'};
+    const table=tables[kind],column=kind==='drafts'?'updated_at':'created_at',descending=kind!=='companions';
+    if (!table) fail('INVALID_INPUT');
+    let boundary:Row|undefined;
+    if (cursor) {
+      boundary=this.db.prepare('SELECT * FROM companion_cursors WHERE id=? AND person_id=? AND list_kind=?').get(cursor,this.personId,kind);
+      if (!boundary) fail('INVALID_CURSOR');
+    }
+    // Identifiers come only from the fixed kind map; values remain bound parameters.
+    const condition=boundary?` AND (${column}${descending?'<':'>'}? OR (${column}=? AND id>?))`:'';
+    const params=boundary?[this.personId,boundary.last_time,boundary.last_time,boundary.last_id,limit+1]:[this.personId,limit+1];
+    const rows=this.db.prepare(`SELECT * FROM ${table} WHERE person_id=?${condition} ORDER BY ${column} ${descending?'DESC':'ASC'},id LIMIT ?`).all(...params);
+    const selected=rows.slice(0,limit);
+    let nextCursor:string|null=null;
+    if (rows.length>limit) {
+      const last=selected.at(-1)!;
+      this.db.prepare('INSERT INTO companion_cursors(id,person_id,list_kind,last_time,last_id) VALUES(?,?,?,?,?) ON CONFLICT(person_id,list_kind,last_time,last_id) DO NOTHING').run(randomUUID(),this.personId,kind,last[column]!,last.id!);
+      nextCursor=present(this.db.prepare('SELECT id FROM companion_cursors WHERE person_id=? AND list_kind=? AND last_time=? AND last_id=?').get(this.personId,kind,last[column]!,last.id!)).id;
+    }
+    return {items:selected.map(r=>kind==='companions'?petDTO(r):kind==='drafts'?draftDTO(r):{id:r.id}),nextCursor};
   }
 }
