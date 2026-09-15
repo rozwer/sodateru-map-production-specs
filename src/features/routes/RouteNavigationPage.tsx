@@ -12,12 +12,13 @@ export interface RouteNavigationPageProps {
   onLocate: () => void;
   onList: () => void;
   onFinish: () => void;
+  onStart?: () => void;
   ending?: boolean;
   notice?: Notice;
   demo?: boolean;
 }
 
-export function RouteNavigationPage({ navigation: nav, map, onClose, onWholeRoute, onLocate, onList, onFinish, ending, notice, demo }: RouteNavigationPageProps) {
+export function RouteNavigationPage({ navigation: nav, map, onClose, onWholeRoute, onLocate, onList, onFinish, onStart, ending, notice, demo }: RouteNavigationPageProps) {
   const locationText = nav.locationStatus === 'available' && nav.accuracyM != null ? `${m.accuracy}：±${Math.round(nav.accuracyM)}m` : nav.locationStatus === 'locating' ? m.locating : nav.locationStatus === 'denied' ? m.locationDenied : nav.locationStatus === 'unavailable' ? m.locationUnavailable : m.noPosition;
   const instruction = nav.direction && nav.turnDistanceM != null ? nav.direction === 'arrive' ? m.arrive : `${distance(nav.turnDistanceM)}${m[nav.direction]}` : nav.instruction || m.turnUnavailable;
   return <article className="routes-page routes-navigation" data-testid="route-navigation">
@@ -29,7 +30,7 @@ export function RouteNavigationPage({ navigation: nav, map, onClose, onWholeRout
       <div className="routes-map-controls"><p className="routes-accuracy" role="status"><RouteIcon name="locate"/>{locationText}</p><button type="button" className="routes-current-location" aria-label={m.locate} onClick={onLocate} disabled={nav.locationStatus === 'locating'} data-testid="route-navigation--locate"><RouteIcon name="locate"/></button></div>
     </div>
     <RouteNotice notice={notice}/>
-    <div className="routes-navigation-actions"><button className="routes-list-link" type="button" onClick={onList} data-testid="route-navigation--list"><span className="routes-icon-bubble"><RouteIcon name="list"/></span><span><strong>{m.list}</strong><small>{m.listHelp}</small></span><RouteIcon name="next"/></button><button className="routes-finish" type="button" onClick={onFinish} disabled={ending || nav.status === 'finished'} data-testid="route-navigation--end"><RouteIcon name="stop"/>{nav.status === 'finished' ? m.finished : ending ? m.finishing : m.finish}</button></div>
+    <div className="routes-navigation-actions"><button className="routes-list-link" type="button" onClick={onList} data-testid="route-navigation--list"><span className="routes-icon-bubble"><RouteIcon name="list"/></span><span><strong>{m.list}</strong><small>{m.listHelp}</small></span><RouteIcon name="next"/></button>{nav.status === 'saved' && onStart ? <button type="button" className="routes-primary" onClick={onStart} disabled={ending}>{m.startNavigation}</button> : <button className="routes-finish" type="button" onClick={onFinish} disabled={ending || nav.status === 'finished'} data-testid="route-navigation--end"><RouteIcon name="stop"/>{nav.status === 'finished' ? m.finished : ending ? m.finishing : m.finish}</button>}</div>
     {nav.fetchedAt != null && <p className="routes-fetched-at">{m.fetchedAt}：<time dateTime={new Date(nav.fetchedAt).toISOString()}>{new Date(nav.fetchedAt).toLocaleString('ja-JP')}</time></p>}
   </article>;
 }
