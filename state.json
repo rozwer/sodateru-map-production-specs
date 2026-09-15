@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 59,
+  "revision": 60,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4485,12 +4485,22 @@
       "token": "8aeb9fac755e411c92950b74a97f306a"
     },
     "BIKE": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "6d1b08a6b5814cdf4a764f9e31d7458e38be8df3",
+      "generation": 1,
+      "issue_number": 29,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/plugins/bike/",
+        "server/db/migrations/bike/",
+        "docs/01_requirements/04_api/fragments/BIKE.json",
+        "docs/evidence/BIKE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "COMMUNITY": {
       "actor": "koshiro",
