@@ -42,6 +42,7 @@
         "ISSUE-CLOSE-REPAIRS": 221,
         "ISSUE-CLOSE-UI": 218,
         "MAP-CUSTOM": 27,
+        "NAV-CARDS": 225,
         "PILGRIMAGE": 38,
         "PLACES": 5,
         "PLAN-UI-CONNECTIONS": 72,
@@ -7536,6 +7537,22 @@
           "src/map/map.css",
           "src/features/map/",
           "docs/evidence/BUILDING-GROWTH/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "NAV-CARDS",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "自分・みんなの横スワイプカード",
+        "write_paths": [
+          "src/app/App.tsx",
+          "src/app/NavigationMenu.tsx",
+          "src/app/NavigationCards.tsx",
+          "src/app/navigation-cards.css",
+          "src/app/navigation-card-data.ts",
+          "docs/evidence/NAV-CARDS/"
         ]
       }
     ],
@@ -33790,9 +33807,10 @@
     "QA-DISASTER-GROW",
     "ISSUE-CLOSE-REPAIRS",
     "DISASTER-UI-SCREEN",
-    "BUILDING-GROWTH"
+    "BUILDING-GROWTH",
+    "NAV-CARDS"
   ],
-  "revision": 228,
+  "revision": 229,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34276,6 +34294,26 @@
       "status": "submitted",
       "submitted_commit": "1e5033c0f0d47467ebd6bdebda9003fa1d537ec2",
       "token": "20493242f5a642439f74d0886523512e"
+    },
+    "NAV-CARDS": {
+      "actor": "rozwer",
+      "base_commit": "98bece83497d80deb116dac9e88ee14490311f1a",
+      "generation": 1,
+      "issue_number": 225,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/app/App.tsx",
+        "src/app/NavigationMenu.tsx",
+        "src/app/NavigationCards.tsx",
+        "src/app/navigation-cards.css",
+        "src/app/navigation-card-data.ts",
+        "docs/evidence/NAV-CARDS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "a64041af24b147ca8742e9317a06add7"
     },
     "PILGRIMAGE": {
       "actor": "kaiya",
