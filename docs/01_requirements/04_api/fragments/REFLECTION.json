@@ -1,0 +1,923 @@
+{
+  "taskId": "REFLECTION",
+  "version": "1.0.0",
+  "schemas": {
+    "ReflectionQuestion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "targetRecordId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "topic": {
+          "enum": [
+            "purpose",
+            "reason",
+            "context",
+            "alternative"
+          ]
+        },
+        "questionText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "maxItems": 1000
+        },
+        "generatorVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "later",
+            "skipped",
+            "answered"
+          ]
+        },
+        "answerRecordId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "answerText": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 4000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "answerVersion": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Version"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "answerRef": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "answerUnavailable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "personId",
+        "targetRecordId",
+        "topic",
+        "questionText",
+        "sourceRefs",
+        "generatorVersion",
+        "status",
+        "answerRecordId",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "answerText",
+        "answerVersion",
+        "answerRef",
+        "answerUnavailable"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionQuestionPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/ReflectionQuestion"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionQuestionFromRun": {
+      "type": "object",
+      "properties": {
+        "assistantMessageId": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      "required": [
+        "assistantMessageId"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionQuestionPatch": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "later",
+            "skipped",
+            "answered"
+          ]
+        },
+        "answerText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "answerVersion": {
+          "$ref": "#/components/schemas/Version"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "additionalProperties": false,
+      "description": "answeredには回答原文を必須。訂正にはGETしたanswerVersionも必須。本文はRECORDS private memo正本。"
+    },
+    "ReflectionComparisonCreate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "left": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "right": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "common": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "differences": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "timeZone": {
+          "$ref": "#/components/schemas/TimeZone"
+        }
+      },
+      "required": [
+        "id",
+        "left",
+        "right",
+        "common",
+        "differences",
+        "timeZone"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionComparisonPatch": {
+      "type": "object",
+      "properties": {
+        "left": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "right": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "common": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "differences": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "timeZone": {
+          "$ref": "#/components/schemas/TimeZone"
+        }
+      },
+      "required": [
+        "left",
+        "right",
+        "common",
+        "differences",
+        "timeZone"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionComparison": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "left": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "right": {
+          "$ref": "#/components/schemas/SourceRef"
+        },
+        "common": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "differences": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "timeZone": {
+          "$ref": "#/components/schemas/TimeZone"
+        },
+        "insightId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "evidenceState": {
+          "enum": [
+            "current",
+            "changed"
+          ]
+        },
+        "insight": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Insight"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "personId",
+        "left",
+        "right",
+        "common",
+        "differences",
+        "timeZone",
+        "insightId",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "evidenceState",
+        "insight"
+      ],
+      "additionalProperties": false
+    },
+    "ReflectionAdopt": {
+      "type": "object",
+      "properties": {
+        "assistantMessageId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "recordId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "purpose",
+              "reason"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000
+        },
+        "create": {
+          "type": "boolean"
+        },
+        "occurredAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      "required": [
+        "assistantMessageId",
+        "recordId"
+      ],
+      "additionalProperties": false,
+      "description": "extractはfieldsのみ採用しbodyを書き換えない。diaryは本人確認body、既存はIf-Match、新規はcreate=trueと対象日内occurredAt。"
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/reflection/questions",
+      "operationId": "getReflectionQuestions",
+      "summary": "本人の質問履歴を状態で絞り再取得する",
+      "description": "本人の質問履歴を状態で絞り再取得する。回答は版付きmemo正本から読む。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "enum": [
+              "pending",
+              "later",
+              "skipped",
+              "answered"
+            ]
+          }
+        },
+        {
+          "name": "targetRecordId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReflectionQuestionPage"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/reflection/questions",
+      "operationId": "postReflectionQuestions",
+      "summary": "完了extractから保存済み質問を取得する",
+      "description": "完了extractから保存済み質問を取得する。新しい根拠なしに質問を追加しない。質問なしは404。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionQuestion"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReflectionQuestionFromRun"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/reflection/questions/{questionId}",
+      "operationId": "getReflectionQuestionsQuestionId",
+      "summary": "質問と回答原文を同じIDで再取得する",
+      "description": "質問と回答原文を同じIDで再取得する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "questionId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionQuestion"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/reflection/questions/{questionId}",
+      "operationId": "patchReflectionQuestionsQuestionId",
+      "summary": "回答と状態を保存する",
+      "description": "回答と状態を保存する。AI実行から独立したtransactionで原文を確定し、訂正は同じ回答recordIdを更新する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "questionId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionQuestion"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReflectionQuestionPatch"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/reflection/comparisons",
+      "operationId": "postReflectionComparisons",
+      "summary": "異なる二記録と本人の共通点・違い各100文字を保存する",
+      "description": "異なる二記録と本人の共通点・違い各100文字を保存する。AI成功を条件にしない。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionComparison"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReflectionComparisonCreate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/reflection/comparisons/{comparisonId}",
+      "operationId": "getReflectionComparisonsComparisonId",
+      "summary": "手動比較を再取得する",
+      "description": "手動比較を再取得する。根拠変更は本人入力のみ保持しinsight=null/changed、共有取消は404で引用を返さない。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "comparisonId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionComparison"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/reflection/comparisons/{comparisonId}",
+      "operationId": "patchReflectionComparisonsComparisonId",
+      "summary": "同じ比較IDの本人入力を訂正する",
+      "description": "同じ比較IDの本人入力を訂正する。左右IDは固定し新しい根拠版へ再照合。本人の違うは共通patchInsightsInsightIdへ保存する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "comparisonId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ReflectionComparison"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReflectionComparisonPatch"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/reflection/adoptions",
+      "operationId": "postReflectionAdoptions",
+      "summary": "extract用途・理由または本人確認済み日記を明示採用する",
+      "description": "extract用途・理由または本人確認済み日記を明示採用する。既存記録版が変われば412で本人編集を保持する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/RecordView"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ReflectionAdopt"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
