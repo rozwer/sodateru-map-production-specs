@@ -20,3 +20,6 @@ connected-http.json / server/features/insights/connected-http.test.ts。
 
 ## 実AI説明の保存
 実main/全feature、隔離SQLiteと合成記録、正規設定APIのenabled/allowRecords許可でLuna gpt-5.6-lunaを実行。26秒でcomplete、promptVersion insights-analysis-1。計算値保持、unsure判断保持、サーバ再起動後の結果一致と本人入力保存を確認。証拠はlive-analysis.json、再現手順はlive-analysis.ts。最初の許可未設定でFORBIDDENも確認し、許可後に成功。
+
+## 共有デモUI確認
+共有UI http://127.0.0.1:5173 / API3001、起動537a15cc、demo/selfへ担当識別付き合成記録を1件追加（shared-demo-seed.json）。自分を知る→タイプ診断→根拠記録→まだ分からない→理由入力→保存成功を実ブラウザーで確認。reload後の選択保持を確認。理由欄はchoice付きrouteで空に戻るUI問題を#13へ報告。title/axes固定のUI mappingも未解消で、API5軸1/1を画面グラフ表示成功とは扱わない。
