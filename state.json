@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 195,
+  "revision": 196,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33960,7 +33960,7 @@
       "generation": 7,
       "issue_number": 25,
       "landed_main": null,
-      "note": "docs/evidence/ROUTES/visual-fixture.md",
+      "note": "docs/evidence/ROUTES/valhalla-probe.md",
       "owner": "kaiya",
       "paths": [
         "server/features/routes/",
@@ -33969,7 +33969,7 @@
         "docs/evidence/ROUTES/"
       ],
       "status": "submitted",
-      "submitted_commit": "3f1678dc1d7b3e3b19e66dd2321f4deec0c87023",
+      "submitted_commit": "7842303dbb54ed5fa47c48d75a5fbf9d752d444c",
       "token": "6e0fd1b0833542f086e43376c7dce057"
     },
     "SETTINGS": {
