@@ -33969,7 +33969,7 @@
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE"
   ],
-  "revision": 265,
+  "revision": 266,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34485,14 +34485,14 @@
       "generation": 1,
       "issue_number": 262,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/OMO7-EXPERIENCE/receipt.json",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/assets/omo7-breakfast-generated.png",
         "docs/evidence/OMO7-EXPERIENCE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "7c2f44689465a79efe099820e5e94fe726511984",
       "token": "734c6416f6c64ef4a8477b23b31d23d9"
     },
     "PILGRIMAGE": {
