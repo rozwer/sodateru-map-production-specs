@@ -22,7 +22,7 @@ export function validateProposal(raw: unknown, recipe: Recipe, candidates: Candi
     if (plan.steps.length !== recipe.steps.length) bad('元stepごとの対応が必要です');
     const chosen = new Set<string>();
     plan.steps.forEach((step, index) => {
-      const original = recipe.steps[index];
+      const original = recipe.steps[index]!;
       if (step.stepId !== original.id) bad('元体験の順序を変更できません');
       if (new Set(step.evidenceIds).size !== step.evidenceIds.length) bad('引用IDが重複しています');
       for (const id of step.evidenceIds) if (!sources.has(id)) bad('入力にない引用IDです');
@@ -42,10 +42,10 @@ export async function materializePlans(result: ModelResult, recipe: Recipe, budg
   preview: (placeIds: string[]) => Promise<RoutePreview>): Promise<Plan[]> {
   const plans: Plan[] = [];
   for (const proposal of result.plans) {
-    const missing = proposal.steps.filter((s,i) => s.placeId === null && recipe.steps[i].required);
+    const missing = proposal.steps.filter((s,i) => s.placeId === null && recipe.steps[i]!.required);
     const placeIds = proposal.steps.flatMap(s => s.placeId === null ? [] : [s.placeId]);
     const unmetConditions = [...new Set([...proposal.unmetConditions, ...proposal.conditionChecks.filter(c => c.status !== 'satisfied').map(c => `${c.condition}: ${c.explanation}`), ...missing.map(s => `必須step「${recipe.steps.find(r => r.id === s.stepId)!.meaning}」の候補が不足しています`)])];
-    const stayMinutes = proposal.steps.reduce((sum,s,i) => sum + (s.placeId === null ? 0 : recipe.steps[i].stayMinutes), 0);
+    const stayMinutes = proposal.steps.reduce((sum,s,i) => sum + (s.placeId === null ? 0 : recipe.steps[i]!.stayMinutes), 0);
     const route = missing.length || !placeIds.length ? null : await preview(placeIds);
     if (route && (![route.durationSeconds, route.distanceMeters, route.expiresAt].every(Number.isFinite) || route.durationSeconds < 0 || route.distanceMeters < 0)) bad('経路の距離・時間が不正です');
     const travelMinutes = route ? route.durationSeconds / 60 : null;

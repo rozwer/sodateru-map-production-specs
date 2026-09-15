@@ -11,6 +11,7 @@ export type PlanMaterials = Pick<PlanSet,'id'|'recipe'|'region'|'start'|'mode'|'
 export type Materials = { context: { planSet: PlanMaterials }; evidence: Evidence[]; sourceRefs: SourceRef[] };
 export type Dependencies = {
   assertSources(refs: SourceRef[]): Promise<unknown>;
+  assertSourcesNow(refs: SourceRef[]): unknown;
   sourceMaterials(refs: SourceRef[]): Promise<{ evidence: Evidence[]; sourceRefs: SourceRef[] }>;
   candidates(recipe: Recipe, region: string): Promise<Candidate[]>;
   startRun(plan: PlanSet): Promise<{ id: string }>;
@@ -103,14 +104,16 @@ export class TransferService {
       return plan;
     });
   }
-  async adopt(id: string, variant: Variant, version: number): Promise<PlanSet> {
+  async adopt(id: string, variant: Variant, version: number, onSaved?: (plan: PlanSet) => void): Promise<PlanSet> {
     if (!['faithful','personalized'].includes(variant)) throw new TransferError('VALIDATION_FAILED','選択する案が不正です');
     return this.exclusive(id, async () => {
       let plan = this.store.getPlan(this.context.personId,id);
       await this.deps.assertSources(plan.sourceRefs);
       if (plan.selectedVariant !== null) {
         if (plan.selectedVariant !== variant) throw new TransferError('STATE_CONFLICT','採用済みの案は変更できません。新しい計画を作成してください');
-        await this.deps.getRoute(plan.savedRouteId!); return plan;
+        await this.deps.getRoute(plan.savedRouteId!);
+        if (onSaved) this.deps.transaction(()=>onSaved(plan));
+        return plan;
       }
       this.recipeCurrent(plan);
       if (plan.version !== version) throw new TransferError('VERSION_CONFLICT','計画が変更されています');
@@ -128,7 +131,7 @@ export class TransferService {
         const current = this.store.getPlan(this.context.personId,id);
         if (current.version !== version) throw new TransferError('VERSION_CONFLICT','計画が変更されています');
         const adopted = this.store.updatePlan(this.context.personId,{...current,status:'adopted',selectedVariant:variant,savedRouteId:saved.id});
-        this.deps.appendApplied(adopted); return adopted;
+        this.deps.appendApplied(adopted); onSaved?.(adopted); return adopted;
       });
       return plan;
     });

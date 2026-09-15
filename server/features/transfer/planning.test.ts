@@ -14,14 +14,14 @@ const candidates: Candidate[] = [
 const result: ModelResult = { plans: ['faithful','personalized'].map(variant => ({ variant: variant as 'faithful'|'personalized',
   steps: [{ stepId: 'walk', placeId: 'park', explanation: '緑を歩く', evidenceIds: ['src_1'] }, { stepId: 'rest', placeId: 'cafe', explanation: '静かに休む', evidenceIds: ['src_1'] }],
   explanation: '元体験の順序を維持', conditionChecks: [], unmetConditions: [], unknowns: [] })), commonalities: ['散策の後に休憩'], differences: ['今回の候補では同じ地点列'] };
-const evidence = [{ id: 'src_1', sourceRef: recipe.sourceRefs[0] }];
+const evidence = [{ id: 'src_1', sourceRef: recipe.sourceRefs[0]! }];
 
 test('model cannot introduce a place, reorder source steps, invent evidence or omit a variant', () => {
   assert.deepEqual(validateProposal(result, recipe, candidates, evidence), result);
   for (const change of [
-    (r: ModelResult) => { r.plans[0].steps[0].placeId = 'invented'; },
-    (r: ModelResult) => { r.plans[0].steps.reverse(); },
-    (r: ModelResult) => { r.plans[0].steps[0].evidenceIds = ['fabricated']; },
+    (r: ModelResult) => { r.plans[0]!.steps[0]!.placeId = 'invented'; },
+    (r: ModelResult) => { r.plans[0]!.steps.reverse(); },
+    (r: ModelResult) => { r.plans[0]!.steps[0]!.evidenceIds = ['fabricated']; },
     (r: ModelResult) => { r.plans.pop(); },
   ]) {
     const bad = structuredClone(result); change(bad);
@@ -32,14 +32,14 @@ test('model cannot introduce a place, reorder source steps, invent evidence or o
 test('route time plus stay determines budget, and an unavailable required step stays incomplete', async () => {
   const route = { id: 'preview', durationSeconds: 1200, distanceMeters: 1300, expiresAt: Date.now()+60000, sourceRefs: [] };
   const plans = await materializePlans(result, recipe, 60, async () => route);
-  assert.equal(plans[0].totalMinutes, 70);
-  assert.equal(plans[0].eligible, false);
-  assert.ok(plans[0].unmetConditions.some(s => s.includes('60')));
-  const missing = structuredClone(result); missing.plans[0].steps[0].placeId = null;
+  assert.equal(plans[0]!.totalMinutes, 70);
+  assert.equal(plans[0]!.eligible, false);
+  assert.ok(plans[0]!.unmetConditions.some(s => s.includes('60')));
+  const missing = structuredClone(result); missing.plans[0]!.steps[0]!.placeId = null;
   const partial = await materializePlans(missing, recipe, 100, async () => route);
-  assert.equal(partial[0].eligible, false);
-  assert.equal(partial[0].route, null);
-  assert.equal(partial[1].eligible, true);
+  assert.equal(partial[0]!.eligible, false);
+  assert.equal(partial[0]!.route, null);
+  assert.equal(partial[1]!.eligible, true);
 });
 
 test('an unchecked required condition cannot become an adoptable plan', () => {

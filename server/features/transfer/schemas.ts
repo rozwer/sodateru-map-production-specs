@@ -37,7 +37,7 @@ const header = (name: string) => ({ in: 'header', name, required: true, schema: 
 const path = (name: string) => ({ in: 'path', name, required: true, schema: id });
 function operation(method: string, pathValue: string, operationId: string, responseSchema: object, input?: string, version = false, status = '200') {
   const parameters: object[] = [header('X-Request-Id')];
-  for (const match of pathValue.matchAll(/\{([^}]+)\}/g)) parameters.push(path(match[1]));
+  for (const match of pathValue.matchAll(/\{([^}]+)\}/g)) parameters.push(path(match[1]!));
   if (method === 'post') parameters.push(header('Idempotency-Key'));
   if (version) parameters.push(header('If-Match'));
   return { method, path: pathValue, operationId, tags: ['TRANSFER'], parameters, ...(input ? { requestBody: body(input) } : {}),
