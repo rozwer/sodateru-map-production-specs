@@ -33772,7 +33772,7 @@
     "ISSUE-CLOSE-REPAIRS",
     "DISASTER-UI-SCREEN"
   ],
-  "revision": 225,
+  "revision": 226,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34193,13 +34193,13 @@
       "generation": 1,
       "issue_number": 221,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
       "owner": "rozwer",
       "paths": [
         "docs/evidence/ISSUE-CLOSE-REPAIRS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "e1d7546e45afc1c5b154258c8f8a780105b4d418",
       "token": "11ae7aa85958484c98cba9d3f321742e"
     },
     "ISSUE-CLOSE-UI": {
