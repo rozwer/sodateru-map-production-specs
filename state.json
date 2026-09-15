@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 54,
+  "revision": 55,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4850,7 +4850,7 @@
       "generation": 1,
       "issue_number": 4,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-BASE/shell.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -4860,8 +4860,8 @@
         "vite.config.ts",
         "docs/evidence/UI-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "8f1e05931ddb037eda76a7e509d43c321c34c80c",
       "token": "26030033ebde45e285cd1f58ccaf1300"
     },
     "UI-COMPANION": {
