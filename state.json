@@ -37,6 +37,7 @@
         "INFORMATION": 6,
         "INSIGHTS": 34,
         "INSIGHTS-DEMO": 101,
+        "ISSUE-CLOSE-REPAIRS": 221,
         "ISSUE-CLOSE-UI": 218,
         "MAP-CUSTOM": 27,
         "PILGRIMAGE": 38,
@@ -7488,6 +7489,19 @@
         "title": "防災とアプリ育成の独立実UI検証",
         "write_paths": [
           "docs/evidence/QA-DISASTER-GROW/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P1",
+        "hard_dependencies": [],
+        "id": "ISSUE-CLOSE-REPAIRS",
+        "kind": "coordination",
+        "lane": "A",
+        "priority": "P1",
+        "title": "修復Issueの完了・移管・未完を照合整理",
+        "write_paths": [
+          "docs/evidence/ISSUE-CLOSE-REPAIRS/"
         ]
       }
     ],
@@ -33739,9 +33753,10 @@
     "GROW-DATA",
     "ISSUE-CLOSE-UI",
     "GROW-UI",
-    "QA-DISASTER-GROW"
+    "QA-DISASTER-GROW",
+    "ISSUE-CLOSE-REPAIRS"
   ],
-  "revision": 222,
+  "revision": 223,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34143,6 +34158,21 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "f0f48162eba944b090d2f1464d453e48"
+    },
+    "ISSUE-CLOSE-REPAIRS": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 221,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "docs/evidence/ISSUE-CLOSE-REPAIRS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "11ae7aa85958484c98cba9d3f321742e"
     },
     "ISSUE-CLOSE-UI": {
       "actor": "rozwer",
