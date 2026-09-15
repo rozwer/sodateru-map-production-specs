@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 287,
+  "revision": 288,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34758,14 +34758,14 @@
       "generation": 1,
       "issue_number": 268,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/ROUTES-TRANSIT-GTFS/README.md",
       "owner": "kaiya",
       "paths": [
         "server/features/routes-transit/",
         "docs/evidence/ROUTES-TRANSIT-GTFS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6903a10e0f4cc457b885f9f4a77692c73c2a0a42",
       "token": "8b299c1152b9488ebbd2d6f21679503e"
     },
     "SETTINGS": {
