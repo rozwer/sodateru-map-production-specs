@@ -26,7 +26,7 @@ export class DisasterService {
       map:{action:canApply ? 'apply' as const : 'clear' as const,ownerKey:canApply ? plugin!.ownerKey : result ? `plugin:${result.installId}` : plugin?.ownerKey ?? null,
         pluginRevision:state.revision,settingsVersion:setting?.version ?? null,resultId:result?.resultId ?? null,
         bounds:canApply ? result!.settings.region.bounds : null,
-        reason:canApply ? (stale ? 'stale' : 'ready') : !active ? 'disabledOrUnresolved' : !matches ? 'settingsChanged' : 'noResult',
+        reason:canApply ? (stale ? 'stale' : 'ready') : !active ? 'disabledOrUnresolved' : !result ? 'noResult' : !matches ? 'settingsChanged' : 'noResult',
         // UI uses the saved layers and PNG data URLs from result only when action=apply.
         layerIds:canApply ? result!.layers.filter(l=>l.tiles.some(t=>t.status==='available')).map(l=>l.layerId) : []},
     };

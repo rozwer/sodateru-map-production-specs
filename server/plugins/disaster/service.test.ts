@@ -10,6 +10,7 @@ import { DisasterStore } from './store.ts';
 import { DisasterService } from './service.ts';
 import { DisasterProvider } from './provider.ts';
 import { defaultSettings, definitions } from './catalog.ts';
+import { disasterRelease } from './release.ts';
 import type { Layer } from './types.ts';
 import type { PluginState } from '../../features/plugins/index.ts';
 
@@ -21,7 +22,7 @@ function setup(){
  seedProfiles(dbs,[{key:'one',id:'one',name:'one'},{key:'two',id:'two',name:'two'}]);
  const context={personId:'one',dataMode:'live' as const,requestId:randomUUID(),signal:new AbortController().signal};
  const settings={...defaultSettings,layerIds:['terrain' as const]};
- const state={personId:'one',dataMode:'live',revision:'r1',items:[{id:'disaster',installId:'install-one',version:1,enabled:true,pluginVersion:'1.0.0',settings}],plugins:[{pluginId:'disaster',installId:'install-one',ownerKey:'plugin:install-one',enabled:true,resolvedDeclarations:[{targetKey:'layer:disaster',property:'visibility',value:true}]}]} as PluginState;
+ const state={personId:'one',dataMode:'live',revision:'r1',appliedDeclarations:[],conflicts:[],resolutions:[],items:[{id:'disaster',installId:'install-one',version:1,enabled:true,pluginVersion:'1.0.0',settings,icon:'shield',createdAt:1,updatedAt:1,previousVersion:null,declarations:[],manifest:disasterRelease.manifest}],plugins:[{pluginId:'disaster',installId:'install-one',ownerKey:'plugin:install-one',installedVersion:'1.0.0',version:1,enabled:true,resolvedDeclarations:[{pluginId:'disaster',pluginVersion:'1.0.0',targetKey:'layer:disaster',property:'visibility',value:true}]}]} as PluginState;
  const layer:Layer={...definitions.terrain,layerId:'terrain',status:'available',fetchedAt:100,sourceUpdatedAt:90,sourceUpdatedAtMeaning:'fixture',validAt:null,issuedAt:null,bounds:settings.region.bounds,coverage:{envelope:settings.region.bounds,description:'fixture'},noDataMask:null,unknowns:['TEST FIXTURE'],tiles:[{z:10,x:909,y:403,bounds:settings.region.bounds,role:'data',status:'available',sourceUrl:'https://example.test/tile.png',fetchedAt:100,sourceUpdatedAt:90,sha256:'fixture',imageDataUrl:'data:image/png;base64,FIXTURE',error:null}]};
  let layers=[layer];
  const provider=new DisasterProvider();provider.fetchLayers=async()=>structuredClone(layers);
@@ -34,15 +35,15 @@ test('persist/reopen, failed refresh retention, settings change and stop/delete 
   const id=first.view.result!.resultId;f.reopen();assert.equal(f.service().read().result!.resultId,id);assert.equal(f.other().result,null);
   f.setLayers([{...f.layer,status:'providerError',tiles:[]}]);
   const failed=await f.service().refresh(1);assert.equal(failed.failed,true);assert.equal(failed.view.result!.resultId,id);assert.equal(failed.view.stale,true);assert.equal(failed.view.lastAttempt!.status,'failed');
-  f.state.items[0].settings={...defaultSettings,region:{id:'changed',bounds:[140,35,140.1,35.1]}};f.state.items[0].version++;
+  f.state.items[0]!.settings={...defaultSettings,region:{id:'changed',bounds:[140,35,140.1,35.1]}};f.state.items[0]!.version++;
   assert.equal(f.service().read().map.action,'clear');
-  f.state.items[0].enabled=false;f.state.plugins[0].enabled=false;assert.equal(f.service().read().map.action,'clear');
+  f.state.items[0]!.enabled=false;f.state.plugins[0]!.enabled=false;assert.equal(f.service().read().map.action,'clear');
   f.state.items=[];f.state.plugins=[];const removed=f.service().read();assert.equal(removed.map.ownerKey,'plugin:install-one');assert.equal(removed.result!.resultId,id);
  }finally{f.cleanup();}
 });
 test('late provider completion after stop does not save or restore map output',async()=>{
  const f=setup();try{
-  f.provider.fetchLayers=async()=>{f.state.items[0].enabled=false;f.state.plugins[0].enabled=false;f.state.revision='r2';return [f.layer];};
+  f.provider.fetchLayers=async()=>{f.state.items[0]!.enabled=false;f.state.plugins[0]!.enabled=false;f.state.revision='r2';return [f.layer];};
   await assert.rejects(f.service().refresh(1),{code:'SOURCE_CHANGED'});
   assert.equal(f.service().read().result,null);assert.equal(f.service().read().map.action,'clear');
  }finally{f.cleanup();}

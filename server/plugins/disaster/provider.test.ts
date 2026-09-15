@@ -22,10 +22,10 @@ function transport(tileStatus=200): typeof fetch {
 test('all requested tiles retain bounds, source times; rainfall analysis and no-data mask are separate',async()=>{
   const layers=await new DisasterProvider(transport(),()=>now).fetchLayers(defaultSettings,new AbortController().signal);
   assert.equal(layers.length,3);assert.ok(layers.every(l=>l.status==='available'));
-  const rain=layers[2];assert.equal(rain.kind,'observation');assert.equal(rain.unit,'mm/h');assert.equal(rain.validAt,now);
+  const rain=layers[2]!;assert.equal(rain.kind,'observation');assert.equal(rain.unit,'mm/h');assert.equal(rain.validAt,now);
   assert.equal(rain.tiles.length,tilesFor(defaultSettings.region.bounds).length);
   assert.equal(rain.noDataMask?.hasNoData,false);assert.equal(rain.sourceUpdatedAt,now-60_000);
-  assert.equal(layers[0].validAt,null);assert.equal(layers[1].issuedAt,null);
+  assert.equal(layers[0]!.validAt,null);assert.equal(layers[1]!.issuedAt,null);
   assert.deepEqual(rain.bounds,defaultSettings.region.bounds);
 });
 test('404, provider outage, unsupported region and cancellation never become successful empty data',async()=>{
@@ -48,12 +48,12 @@ test('provider no-data polygons are clipped and holes preserved; empty mask is d
   const input={type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Polygon',coordinates:[[[0,0],[10,0],[10,10],[0,10]],[[2,2],[8,2],[8,8],[2,8]]]}}]};
   assert.equal(regionMask(input,[3,3,4,4]).hasNoData,false);
   const clipped=regionMask(input,[1,1,3,3]);assert.equal(clipped.hasNoData,true);
-  assert.ok(clipped.geojson.features[0].geometry.coordinates.flat().every(([x,y])=>x>=1&&x<=3&&y>=1&&y<=3));
+  assert.ok(clipped.geojson.features[0]!.geometry.coordinates.flat().every(([x,y])=>x>=1&&x<=3&&y>=1&&y<=3));
   assert.throws(()=>regionMask({},[1,1,3,3]));
 });
 
 test('corrupt/truncated images are rejected instead of cached as available',()=>{
   validatePng(png);
   assert.throws(()=>validatePng(png.subarray(0,-5)));
-  const corrupt=Buffer.from(png);corrupt[50]^=1;assert.throws(()=>validatePng(corrupt));
+  const corrupt=Buffer.from(png);corrupt[50]=corrupt[50]!^1;assert.throws(()=>validatePng(corrupt));
 });

@@ -2,7 +2,7 @@
 
 ## 現在の提供範囲
 
-防災固有のDTO、設定検証、実provider adapter、SQLite cache、PLUGINS v2 release、停止/版変更の照合処理、API断片 v1.0.0を提供する。共通GET/POST登録まで実装。現段階は実HTTPとUI受入前の先行提供でIssue未完了。
+防災固有のDTO、設定検証、実provider adapter、SQLite cache、PLUGINS v2 release、停止/版変更の照合処理、API断片 v1.0.0を提供する。共通GET/POST登録と実HTTP一連操作を確認済み。通常地図の実画面受入が残るためIssue未完了。
 
 - 起点: develop `6d1b08a`。対象commitは本書を含むPR commitで追跡。
 - 本人: `disaster-evidence-person`、dataMode=`live`。固定の試験用本人IDで、外部情報は実取得。
@@ -35,10 +35,20 @@ GET `/disaster` → `{data:DisasterView}`。POST `/disaster/refresh` → 同形�
 
 更新失敗時は前snapshotの画像・地域・時刻を保持し、lastAttemptに失敗/欠測を返す。GETにstaleを明示する。全失敗は成功空配列にしない。試用はmock Polygonで、模擬と明記し保存しない。
 
+## 共通HTTP接続の確認
+
+`mise exec -- node --experimental-transform-types docs/evidence/DISASTER/http-live.ts` が成功。証拠は `http-live.json`。
+
+- 統合済みPLUGINS `33a5021`（提供HEAD `625ff67`）とPLACES #61/#76、COREを実使用。本人sessionは共通HTTPから作成。
+- 実Nominatim検索で取得した江戸川区役所の点から周辺範囲を選び、試用（明示mock）→導入→実防災取得→map.applyを確認。
+- HTTP停止とSQLite接続終了後、再起動/GETで設定・画像・地域・時刻が完全一致。
+- 同一POST再送で外部再取得なし。demoからlive設定/結果は不可視。
+- 意図的な外部障害fixtureはHTTP502、旧画像/時刻保持、stale、lastAttempt.failed、pending receiptなし。同じ成功キーの再送は障害中も成功し現在状態を返す。
+- 設定変更で旧地域clear、実再取得で新範囲へ更新。停止/削除でcache保持、対象ownerKeyのみclear。停止中の更新は409、過去成功キー再送でもmapを復活しない。
+- 固有ソースとevidenceのstrict + noUncheckedIndexedAccess型検査成功。
+- 共通生成物は編集せず、COREのcanonical fragment composerを一時領域へ呼び出して結合した契約を実HTTPへ適用。
+
 ## 未完了条件
 
-- PLUGINS #46 v2統合後の実登録/設定/停止と共通HTTP実接続。
-- 共通HTTPでPOST再送・外部失敗回復の実接続確認。PLUGINSと同じpending-free準備境界でCOREのidempotentMutationを使用済み。
-- PLACES #61の実HTTP検索から地域選択を接続した証拠。
 - 共通生成物への反映はB、通常地図・UI実操作の受入はA #18/#8。
 - root手配の独立レビュー、commit保持merge、task:finish/board/受信/Issue終了。

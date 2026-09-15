@@ -26,7 +26,7 @@ export default defineFeature({
       // Same pending-free preparation boundary as PLUGINS: CORE validates completed
       // replay/hash first; a new-operation sentinel rolls back the reservation.
       // Provider work consists only of public GETs, with no external side effect.
-      try { const replay=mutate(()=>{throw preparationRequired;});return c.json(replay.body); }
+      try { const replay=mutate(()=>{throw preparationRequired;});return c.body(JSON.stringify(replay.body),200,{'Content-Type':'application/json'}); }
       catch(error){if(error!==preparationRequired)throw error;}
       const prepared=await service.prepareRefresh(version);
       if(prepared.failed){
@@ -35,7 +35,7 @@ export default defineFeature({
         throw new CommonError('UPSTREAM_FAILED','防災情報を取得できませんでした。保存済み結果と失敗理由を再取得してください。',true,{statePath:'/api/v1/disaster'});
       }
       const result=mutate(()=>{prepared.commit();return read();});
-      return c.json(result.body);
+      return c.body(JSON.stringify(result.body),200,{'Content-Type':'application/json'});
     });
   },
 });

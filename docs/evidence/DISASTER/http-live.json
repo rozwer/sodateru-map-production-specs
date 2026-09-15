@@ -1,0 +1,177 @@
+{
+  "status": "passed",
+  "verifiedAt": "2026-09-15T03:11:55.300Z",
+  "personId": "c938e487-cc35-4e71-ab7a-f0fa4dcd1e69",
+  "dataMode": "live",
+  "checks": [
+    "CORE real HTTP session",
+    "PLACES real Nominatim search supplies selected point; user bounds are not administrative boundaries",
+    "trial is explicitly mock and does not save disaster results",
+    "installed PLUGINS settings -> real flood/terrain/rainfall + no-data GeoJSON -> SQLite -> map apply",
+    "same-key completed replay does not refetch providers",
+    "HTTP server stop + SQLite close/reopen -> identical images, settings, region, timestamps and map apply",
+    "demo session cannot read live settings/results",
+    "explicit outage fixture -> HTTP502, original snapshot retained/stale, diagnostic failure persisted, no pending receipt",
+    "settings PATCH clears old region; real refresh recovers and applies only new bounds",
+    "stop/delete retain cache, clear only install owner; stopped refresh rejected; old replay never restores map"
+  ],
+  "selectedPlace": {
+    "resultId": "a75319be-5342-45ec-92c5-c77a7b5bda04",
+    "candidateId": "candidate-1",
+    "expiresAt": 1789442811067,
+    "sourceUrl": "https://www.openstreetmap.org/way/1229890416",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "position": {
+      "longitude": 139.8684393,
+      "latitude": 35.7068463
+    }
+  },
+  "firstSettings": {
+    "region": {
+      "id": "選択地点周辺: 江戸川区役所",
+      "bounds": [
+        139.8434393,
+        35.681846300000004,
+        139.8934393,
+        35.7318463
+      ]
+    },
+    "layerIds": [
+      "flood-hazard",
+      "terrain",
+      "rainfall"
+    ]
+  },
+  "updatedSettings": {
+    "region": {
+      "id": "選択地点の東側周辺",
+      "bounds": [
+        139.8684393,
+        35.6868463,
+        139.9084393,
+        35.726846300000005
+      ]
+    },
+    "layerIds": [
+      "flood-hazard",
+      "terrain",
+      "rainfall"
+    ]
+  },
+  "resultId": "e832c80f-9db6-4262-b3f2-47073717765e",
+  "sources": [
+    {
+      "layerId": "flood-hazard",
+      "kind": "hazard",
+      "unit": "m",
+      "status": "available",
+      "sourceUrl": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+      "sourceUpdatedAt": 1789036653000,
+      "validAt": null,
+      "issuedAt": null,
+      "fetchedAt": 1789441911952,
+      "noDataMask": null,
+      "tiles": [
+        {
+          "z": 10,
+          "x": 909,
+          "y": 403,
+          "bounds": [
+            139.5703125,
+            35.4606699514953,
+            139.921875,
+            35.7465122599185
+          ],
+          "role": "data",
+          "sourceUrl": "https://disaportaldata.gsi.go.jp/raster/01_flood_l2_shinsuishin_data/10/909/403.png",
+          "fetchedAt": 1789441911947,
+          "sourceUpdatedAt": 1789036653000,
+          "sha256": "0c95770e04e2d8a705dc2354ad7736aee29b33e8ae82632bc1e3a169181bb1fe",
+          "status": "available",
+          "error": null,
+          "savedImageBytes": 15524
+        }
+      ]
+    },
+    {
+      "layerId": "terrain",
+      "kind": "terrain",
+      "unit": null,
+      "status": "available",
+      "sourceUrl": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+      "sourceUpdatedAt": 1740902708000,
+      "validAt": null,
+      "issuedAt": null,
+      "fetchedAt": 1789441912105,
+      "noDataMask": null,
+      "tiles": [
+        {
+          "z": 10,
+          "x": 909,
+          "y": 403,
+          "bounds": [
+            139.5703125,
+            35.4606699514953,
+            139.921875,
+            35.7465122599185
+          ],
+          "role": "data",
+          "sourceUrl": "https://cyberjapandata.gsi.go.jp/xyz/hillshademap/10/909/403.png",
+          "fetchedAt": 1789441911983,
+          "sourceUpdatedAt": 1740902708000,
+          "sha256": "fa93d93b28b83e573e00b315aa7cad0df6ee9fa034674e68fd0273f5f7c82780",
+          "status": "available",
+          "error": null,
+          "savedImageBytes": 80088
+        }
+      ]
+    },
+    {
+      "layerId": "rainfall",
+      "kind": "observation",
+      "unit": "mm/h",
+      "status": "available",
+      "sourceUrl": "https://www.jma.go.jp/bosai/nowc/",
+      "sourceUpdatedAt": 1789441835000,
+      "validAt": 1789441800000,
+      "issuedAt": 1789441800000,
+      "fetchedAt": 1789441913304,
+      "noDataMask": {
+        "sourceUrl": "https://www.jma.go.jp/bosai/jmatile/data/nowc/20260915031000/none/20260915031000/surf/hrpns_nd/data.geojson",
+        "fetchedAt": 1789441912872,
+        "sourceUpdatedAt": 1789441831000,
+        "sha256": "c7e78340518d3d55b6ef94d012cfcf5f166c7d6cbf0c53976e9dfd0232218a95",
+        "geojson": {
+          "type": "FeatureCollection",
+          "featureCount": 0
+        },
+        "hasNoData": false
+      },
+      "tiles": [
+        {
+          "z": 10,
+          "x": 909,
+          "y": 403,
+          "bounds": [
+            139.5703125,
+            35.4606699514953,
+            139.921875,
+            35.7465122599185
+          ],
+          "role": "data",
+          "sourceUrl": "https://www.jma.go.jp/bosai/jmatile/data/nowc/20260915031000/none/20260915031000/surf/hrpns/10/909/403.png",
+          "fetchedAt": 1789441913304,
+          "sourceUpdatedAt": 1789441835000,
+          "sha256": "b076620ecb4223208f908dfce2474c7747655f5f5018e64e30eb5475cb9a8191",
+          "status": "available",
+          "error": null,
+          "savedImageBytes": 442
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Map apply/clear DTO verified over real HTTP; actual Mapbox rendering and UI interaction are owned by A and separately pending.",
+    "Outage path deliberately uses an explicit test fixture; successful provider requests are real."
+  ]
+}
