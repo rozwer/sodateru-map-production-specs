@@ -35,20 +35,20 @@ function Toggle({ label, checked, onChange, disabled }: { label: string; checked
   return <label className="companion-switch"><input type="checkbox" role="switch" aria-label={label} checked={checked} onChange={e => onChange(e.target.checked)} disabled={disabled}/><span/></label>;
 }
 
-export function SettingsView({ pets, currentId, currentVisible = true, form, onChange, onSave, onImport, onCreate, busy, notice, dirty, loading = false, extra }: {
+export function SettingsView({ pets, currentId, currentVisible = true, form, onChange, onSave, onImport, onCreate, busy, notice, dirty, loading = false, unavailable = false, extra }: {
   pets: CompanionCard[]; currentId: string | null; form: SettingsForm; onChange: (next: SettingsForm) => void;
-  onSave: () => void; onImport: () => void; onCreate?: () => void; busy?: boolean; notice?: Notice; dirty?: boolean; loading?: boolean; currentVisible?: boolean; extra?: ReactNode;
+  onSave: () => void; onImport: () => void; onCreate?: () => void; busy?: boolean; notice?: Notice; dirty?: boolean; loading?: boolean; unavailable?: boolean; currentVisible?: boolean; extra?: ReactNode;
 }) {
   const current = pets.find(pet => pet.id === currentId);
   const patch = (next: Partial<SettingsForm>) => onChange({ ...form, ...next });
   return <div className="companion-page companion-settings">
     <Intro title="いっしょに地図を歩く相棒">相棒と一緒に、見つけた場所や体験を集めて<br/>あなただけの地図を育てましょう。</Intro>
     <section className="companion-card companion-current" aria-label="現在の相棒">
-      <div className="companion-heading"><h3>現在の相棒</h3><span className="companion-badge">{!current ? '未選択' : currentVisible ? '表示中' : '非表示'}</span></div>
-      {current ? <div className="companion-current-body"><AtlasPreview clip={current.clip} label={current.name} reducedMotion={form.reducedMotion}/><div><h3>{current.name}</h3>{current.description && <p>{current.description}</p>}<button type="button" className="companion-button" onClick={() => document.getElementById('companion-choices')?.focus()}>見た目を変更<Glyph name="next"/></button></div></div> : <p>{loading ? '相棒を読み込んでいます…' : '現在の相棒は未選択です。相棒を追加して選べます。'}</p>}
+      <div className="companion-heading"><h3>現在の相棒</h3><span className="companion-badge">{unavailable ? '未確認' : !current ? '未選択' : currentVisible ? '表示中' : '非表示'}</span></div>
+      {current ? <div className="companion-current-body"><AtlasPreview clip={current.clip} label={current.name} reducedMotion={form.reducedMotion}/><div><h3>{current.name}</h3>{current.description && <p>{current.description}</p>}<button type="button" className="companion-button" onClick={() => document.getElementById('companion-choices')?.focus()}>見た目を変更<Glyph name="next"/></button></div></div> : <p>{loading ? '相棒を読み込んでいます…' : unavailable ? '現在の相棒を確認できていません。' : '現在の相棒は未選択です。相棒を追加して選べます。'}</p>}
     </section>
     <fieldset className="companion-choices" id="companion-choices" tabIndex={-1} disabled={busy}><legend>相棒を選ぶ</legend>
-      {pets.length ? <ul>{pets.map(pet => <li key={pet.id}><label className={form.selectedId === pet.id ? 'is-selected' : ''}><input type="radio" name="companion" value={pet.id} checked={form.selectedId === pet.id} onChange={() => patch({ selectedId: pet.id })}/><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={form.reducedMotion}/><strong>{pet.name}</strong></label></li>)}</ul> : <p className="companion-muted">{loading ? '読み込み中…' : '登録済みの相棒はありません。'}</p>}
+      {pets.length ? <ul>{pets.map(pet => <li key={pet.id}><label className={form.selectedId === pet.id ? 'is-selected' : ''}><input type="radio" name="companion" value={pet.id} checked={form.selectedId === pet.id} onChange={() => patch({ selectedId: pet.id })}/><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={form.reducedMotion}/><strong>{pet.name}</strong></label></li>)}</ul> : <p className="companion-muted">{loading ? '読み込み中…' : unavailable ? '相棒の一覧を読み込めていません。' : '登録済みの相棒はありません。'}</p>}
     </fieldset>
     <section className="companion-card companion-options"><h3>相棒の設定</h3>
       <div className="companion-option"><Glyph name="eye"/><span>地図上に表示する</span><Toggle label="地図上に表示する" checked={form.visible} onChange={visible => patch({ visible })} disabled={busy}/></div>
@@ -59,7 +59,7 @@ export function SettingsView({ pets, currentId, currentVisible = true, form, onC
     <div className={`companion-actions${onCreate ? '' : ' companion-actions--single'}`}><button type="button" className="companion-button" onClick={onImport}><Glyph name="file"/>ファイルから追加</button>{onCreate && <button type="button" className="companion-button" onClick={onCreate}><Glyph name="plus"/>相棒を作る</button>}</div>
     <Message notice={notice}/>{dirty && <small role="status">未保存の変更があります。</small>}
     {extra}
-    <button type="button" className="companion-button companion-primary" onClick={onSave} disabled={busy || loading}>{busy ? '保存しています…' : '保存'}</button>
+    <button type="button" className="companion-button companion-primary" onClick={onSave} disabled={busy || loading || unavailable}>{busy ? '保存しています…' : '保存'}</button>
   </div>;
 }
 
