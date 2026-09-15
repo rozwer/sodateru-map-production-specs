@@ -5,9 +5,9 @@ import {deriveDailyEvidence,type ExperienceRecord} from "./daily-evidence.ts";
 import {normalizeRefs,type SourceRef} from "./identity.ts";
 import type {createInsightsService} from "./service.ts";
 import type {StatisticsRange} from "./statistics.ts";
-export const aggregationVersion="insights-fixed-five-2";
+export const aggregationVersion="insights-fixed-five-3";
 export type SummaryDependencies={
- ownMaterials(db:DatabaseSync,context:RequestContext,query:{from:number;to:number;rangeMatch:"startsWithin"}):ExperienceRecord[];
+ ownMaterials(db:DatabaseSync,context:RequestContext,query:{range:{startAt:number;endAt:number;timezone:string};rangeMatch:"startsWithin";includeUndated:true}):ExperienceRecord[];
  assertSourcesCurrent(db:DatabaseSync,context:RequestContext,input:{refs:SourceRef[]}):unknown;
  insights(db:DatabaseSync):ReturnType<typeof createInsightsService>;
 };
@@ -16,7 +16,7 @@ export function createSummaryService(db:DatabaseSync,deps:SummaryDependencies){
    if(!Number.isSafeInteger(range.from)||!Number.isSafeInteger(range.to)||range.to<=range.from)throw new CommonError("INVALID_INPUT","対象期間の開始・終端が不正です。");
    try{new Intl.DateTimeFormat("en",{timeZone:range.timeZone});}catch{throw new CommonError("INVALID_INPUT","IANAタイムゾーンが不正です。");}
    context.signal.throwIfAborted();
-   const records=deps.ownMaterials(db,context,{from:range.from,to:range.to,rangeMatch:"startsWithin"});
+   const records=deps.ownMaterials(db,context,{range:{startAt:range.from,endAt:range.to,timezone:range.timeZone},rangeMatch:"startsWithin",includeUndated:true});
    const sourceRefs=normalizeRefs(records.flatMap(r=>r.sourceRefs));
    if(sourceRefs.length>1000)throw new CommonError("INPUT_TOO_LARGE","根拠が多すぎます。対象期間を絞ってください。");
    const result=deriveDailyEvidence(range,records);
