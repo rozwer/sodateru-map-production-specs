@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 207,
+  "revision": 208,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33717,18 +33717,13 @@
       "base_commit": "6d1b08a6b5814cdf4a764f9e31d7458e38be8df3",
       "generation": 1,
       "issue_number": 30,
-      "landed_main": null,
-      "note": "docs/evidence/DISASTER/README.md",
+      "landed_main": "9d3455661b31ae4f0c61c7a2c12ecc8f89f283b3",
+      "note": "docs/evidence/DISASTER/README.md; https://github.com/rozwer/sodateru-map-production-specs/issues/30#issuecomment-5674566856; UI handoff https://github.com/rozwer/sodateru-map-production-specs/issues/144#issuecomment-5674558091",
       "owner": "kaiya",
-      "paths": [
-        "server/plugins/disaster/",
-        "server/db/migrations/disaster/",
-        "docs/01_requirements/04_api/fragments/DISASTER.json",
-        "docs/evidence/DISASTER/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "08177e0f416f3ad9ff63b4a0873983a34c6c4d73",
-      "token": "ec30c52f4ebc4cb4a851cbe948b6a616"
+      "token": null
     },
     "EXPLORATION": {
       "actor": "mattsun",
