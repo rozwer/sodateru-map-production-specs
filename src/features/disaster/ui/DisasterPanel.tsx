@@ -13,8 +13,8 @@ export function DisasterIcon({ name }: { name: 'shield' | 'pin' | 'rain' | 'refr
   const paths = { shield: 'M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Zm-4 9 3 3 5-6', pin: 'M12 3a7 7 0 0 0-7 7c0 6 7 11 7 11s7-5 7-11a7 7 0 0 0-7-7Zm0 5v4m-2-2h4', rain: 'M5 13a4 4 0 0 1-1-8 6 6 0 0 1 11-1 4 4 0 0 1 3 9M7 16l-2 4m7-4-2 4m7-4-2 4', refresh: 'M20 8a8 8 0 1 0 0 8m0-13v5h-5' };
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={paths[name]}/></svg>;
 }
-export function DisasterPanel({ settings, layers, busy, error, notice, enabled, installed, demo, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
-  settings: DisasterSettings; layers: DisasterLayer[]; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean;
+export function DisasterPanel({ settings, layers, busy, error, notice, enabled, installed, demo, demoLabel, demoWarnings, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
+  settings: DisasterSettings; layers: DisasterLayer[]; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean; demoLabel?: string; demoWarnings?: string[];
   onSettings: (settings: DisasterSettings) => void; onRefresh: () => void; onEnabled: (value: boolean) => void; onInstall: () => void; onLayer: (layer: DisasterLayerId) => void; onFocus: () => void;
   tab: 'layers' | 'sources'; setTab: (tab: 'layers' | 'sources') => void;
 }) {
@@ -22,7 +22,7 @@ export function DisasterPanel({ settings, layers, busy, error, notice, enabled, 
   return <>
     <nav aria-label="防災メニュー"><button aria-pressed={tab === 'layers'} onClick={() => setTab('layers')}><DisasterIcon name="pin"/>地図とレイヤー</button><button aria-pressed={tab === 'sources'} onClick={() => setTab('sources')}><DisasterIcon name="rain"/>取得状況・出典</button></nav>
     <div className="disaster-scroll">
-      {demo && <p className="disaster-error">模擬データの表示確認です。実際の災害情報ではありません。</p>}
+      {demo && <div className="disaster-error"><p>{demoLabel || '模擬データの表示確認です。実際の災害情報ではありません。'}</p>{demoWarnings?.map((warning,i) => <p key={i}>{warning}</p>)}</div>}
       {busy && <p role="status" className="disaster-message">防災情報を更新しています…</p>}
       {error && <div role="alert" className="disaster-error">{error}<button className="disaster-secondary" disabled={busy} onClick={onRefresh}>再試行</button></div>}
       {notice && <p className="disaster-message" role="status">{notice}</p>}
