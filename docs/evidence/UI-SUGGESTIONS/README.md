@@ -15,7 +15,7 @@
 
 ## 検証済みの範囲
 
-**部品表示・契約型の確認。実API/SQLiteへの保存完了を示すものではない。**
+**表示部品・契約型の確認と、確定契約を明示合成した実APIでの回答保存確認。通常起動全体の接続完了とは区別する。**
 
 | 検査 | 結果 |
 | --- | --- |
@@ -24,13 +24,14 @@
 | 320px詳細 / 390px文字200% | DOM幅がviewport内。拡大状態でも下部の「これにする」へスクロールして操作可能 |
 | 5件・長い候補名・評価1と未評価 | 390pxで件数5、評価の区別、横はみ出し0を確認 |
 | 0件・通信失敗 | 条件変更、再試行、入力保持を表示 |
-| TypeScript strict | 公開済みCORE generatorでSUGGESTIONS/COMMUNITY/PLACES/SETTINGSの確定fragmentを一時領域へ合成し、3画面とAPI呼出しの型検査成功 |
+| 写真2枚と次/前切替 | 写真サンプルを表示し390pxの横はみ出し0、2/2への切替、メモ入力を確認。製品データではない |
+| TypeScript strict + noUncheckedIndexedAccess | 公開済みCORE generatorでSUGGESTIONS/COMMUNITY/PLACES/SETTINGSの確定fragmentを一時領域へ合成し、3画面とAPI呼出しの型検査成功 |
 
 参照画像は製品の画像素材にしていない。画面上部の「表示サンプル・API未接続」と、操作後の「API保存は行っていません」で表示検査を明示する。
 
 コントローラーの限定検査: `mise exec -- bunx vitest run src/features/suggestions/screens.test.tsx --environment jsdom`、2件成功。回答だけ保存のPOST→GET（候補/訪問作成なし）、保存後の応答喪失→同じIDのGET確認（POST/PATCH重複なし）を検証。テスト専用の応答storeであり、live DBの証拠ではない。
 
-画像：`reference-layout.png`、`checkin-390.png`、`list-390.png`、`empty-390.png`、`detail-text200.png`、`list-long-390.png`。
+画像：`reference-layout.png`、`checkin-390.png`、`list-390.png`、`empty-390.png`、`detail-text200.png`、`list-long-390.png`、`detail-photo-390.png`。
 
 表示サンプルは、Viteで `/docs/evidence/UI-SUGGESTIONS/preview.html` を開く。`preview.tsx` は製品の画面登録から読まれない。
 
@@ -45,8 +46,20 @@
 ## 未完了
 
 - 確定fragmentと各server registerのdevelop統合後に、同じ起動・本人scope・SQLiteを使ってブラウザ操作→API保存→再取得→再起動を確認する。
-- 現在の部品表示サンプルには場所写真を提供していないため、写真のある状態の画像照合は実媒体接続後に行う。
+- 写真ありの表示部品確認は完了。本人/共有記録の実媒体URLでの読込・権限取消は接続後の受入に残る。
 - 詳細閲覧の独立保存はv1.2.0のviewed:trueへ接続済み。実DBでpresentedAt/viewedAt/selectedAtが別々に保持されることを統合後に確認する。
 - 経路/訪問/共有確認先の同一対象引継ぎと、訪問取消→提案selected復帰を実接続で確認する。
 
 部分提供のみでTask/Issueを完了しない。
+
+## 実APIの回答保存確認（統合前）
+
+2026-09-15、serverはdevelop364f8efを取り込んだ専用worktree。通常起動は共通OpenAPI未更新によりPOSTが422になることを実画面で確認し、CORE #3へ報告済み。共有ファイルは変更せず、COREのcreateApp({contract})へ確定fragment合成を渡す一時起動で進めた。外部応答のモックは使用していない。
+
+- API :3095、Web :5196、DB `.local/suggestions-ui.sqlite`、本人 `46d32afe-ae3d-477a-a787-99dbbdf8cef8`、live。UI-BASEの確定済み共有shellを一時領域へ読取りコピー。
+- 画面で「少し疲れている」「静かな場所で休みたい」「2時間以上」「子どもと」「無理しない距離」→回答だけ残す→GET後の保存表示。
+- DBの同回答 `9dcefaea-91a0-48de-8414-7353cff4bb0d` version1: timeBudget={kind:atLeast,minutes:120}、companion=children、effort=easy、mode=any、minutes=null。提案数0、訪問数0。
+- 同じDBでサーバー停止/再起動後、同URLを再読込して全文/選択値を復元。本人IDやDBを変更していない。
+- cached screen同士の固定input id重複を実シェルで発見しuseIdへ修正。再読込後のlabel対応、重複id0、横はみ出し0を確認。
+
+写真表示サンプルの出典: [窓辺のカフェ](https://unsplash.com/photos/j6ERcKXdlXw)、[Dick Hoogerdijkのカフェ写真](https://unsplash.com/photos/dytlQR4hi4g)。写真は表示検査専用の外部URLで、実際の提案地点の写真とは表示していない。
