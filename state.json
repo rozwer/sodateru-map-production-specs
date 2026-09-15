@@ -33986,7 +33986,7 @@
     "OMO7-EXPERIENCE",
     "ROUTES-TRANSIT-GTFS"
   ],
-  "revision": 272,
+  "revision": 273,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34856,17 +34856,21 @@
       "token": null
     },
     "UI-INSIGHTS": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "e12cfcaa829a384216e444567e891ef3ecc55eb3",
+      "generation": 3,
       "issue_number": 13,
       "landed_main": null,
       "note": "User emergency stop: PR69 merged, PR159 ab52b4a published. Handoff to UI-INTEGRATION #98: five registered screens, shared-shell final QA remains UI; real API/generated five axes/theme persistence and map filtering remain CONNECT-INSIGHTS #140. Preserve worktree and evidence; no completion claim.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/insights/",
+        "src/features/themes/",
+        "docs/evidence/UI-INSIGHTS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "fb8d85520b0e4abda959b6c3e8ff9d92"
     },
     "UI-INTEGRATION": {
       "actor": null,
