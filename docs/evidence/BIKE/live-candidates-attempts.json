@@ -1,0 +1,72 @@
+{
+  "checkedAt": 1789443624466,
+  "developBase": "977d5bf881f964d875da1b9623bcda03944654b9",
+  "placesMerge": "68c44d10b423a1d2e69c5d3a1b43fdfdca286beb",
+  "result": "final attempt passed complete actual candidate registration/adoption/restart sequence",
+  "attempts": [
+    {
+      "provider": "https://overpass-api.de/api/interpreter",
+      "bounds": [
+        139.69,
+        35.65,
+        139.73,
+        35.69
+      ],
+      "count": 2,
+      "httpStatus": 502,
+      "code": "UPSTREAM_FAILED",
+      "providerStatus": 504
+    },
+    {
+      "provider": "https://overpass-api.de/api/interpreter",
+      "bounds": [
+        139.698,
+        35.655,
+        139.718,
+        35.673
+      ],
+      "count": 1,
+      "httpStatus": 502,
+      "code": "UPSTREAM_FAILED",
+      "providerStatus": 504
+    },
+    {
+      "provider": "https://overpass.private.coffee/api/interpreter",
+      "bounds": [
+        139.698,
+        35.655,
+        139.718,
+        35.673
+      ],
+      "count": 1,
+      "httpStatus": 504,
+      "code": "TIMEOUT",
+      "timeoutMs": 35000
+    },
+    {
+      "provider": "https://overpass-api.de/api/interpreter",
+      "bounds": [
+        139.698,
+        35.655,
+        139.718,
+        35.673
+      ],
+      "queryChange": "equivalent exact tag unions replace regex filters",
+      "result": "passed",
+      "places": 10,
+      "roads": 51,
+      "evidence": "live-http-sqlite.json"
+    }
+  ],
+  "completedSeparately": [
+    "6 focused BIKE tests (provider fixtures explicitly labeled)",
+    "strict production registration and live entrypoint typecheck",
+    "previous real search/routes/SQLite/state evidence: live-http-sqlite.json"
+  ],
+  "remaining": [
+    "production API/client generation",
+    "UI acceptance",
+    "PR166 review and commit-preserving integration",
+    "whole-route motorcycle eligibility and adoption (#91)"
+  ]
+}

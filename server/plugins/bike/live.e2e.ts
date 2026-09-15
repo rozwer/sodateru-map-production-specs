@@ -5,8 +5,9 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
-import { defaultSettings } from "./domain.ts";
+import { defaultSettings, validateSettings } from "./domain.ts";
 
+const settings = process.env.BIKE_E2E_BOUNDS ? validateSettings({ ...defaultSettings, region: { ...defaultSettings.region, bounds: JSON.parse(process.env.BIKE_E2E_BOUNDS) } }) : defaultSettings;
 const root = fileURLToPath(new URL("../../../", import.meta.url));
 const dir = join(root, ".local", "bike-e2e", randomUUID());
 mkdirSync(dir, { recursive: true });
@@ -37,10 +38,10 @@ try {
   await start();
   const profiles=success(await api("/session/profiles"));
   success(await api("/session","POST",{profileKey:profiles.items[0].profileKey}));
-  const trial=success(await api("/plugins/bike/trial","POST",{pluginVersion:"1.0.0",settings:defaultSettings}));
+  const trial=success(await api("/plugins/bike/trial","POST",{pluginVersion:"1.0.0",settings}));
   assert.equal(trial.data.preview.dataKind,"mock");
   const before=success(await api("/plugin-state"));
-  const installed=success(await api("/plugin-settings","POST",{id:"bike",pluginVersion:"1.0.0",settings:defaultSettings,enabled:true,confirmed:true,stateRevision:before.data.revision}));
+  const installed=success(await api("/plugin-settings","POST",{id:"bike",pluginVersion:"1.0.0",settings,enabled:true,confirmed:true,stateRevision:before.data.revision}));
   const searchKey=randomUUID();
   const search=success(await api("/bike/searches","POST",{},undefined,searchKey)).data;
   assert.equal(search.dataKind,"real");assert(search.places.length>0);assert(search.roads.length>0);
@@ -83,13 +84,13 @@ try {
   assert.deepEqual(success(await api(`/bike/results/${assessment.id}`)).data,assessment);
   const restored=success(await api("/bike/state")).data;
   assert.equal(restored.display.visible,false);
-  assert.deepEqual(restored.installation.settings,defaultSettings);
+  assert.deepEqual(restored.installation.settings,settings);
   const stoppedPlugin=success(await api("/plugin-settings/bike")).data;
   success(await api("/plugin-settings/bike","PATCH",{enabled:true},stoppedPlugin.version));
   const reenabled=success(await api("/bike/state")).data;
   assert(reenabled.display.visible);assert(reenabled.display.geojson.features.length>0);
   assert.deepEqual(success(await api(`/bike/results/${search.id}`)).data,search);
-  const evidence={contractMode:process.env.BIKE_E2E_CONTRACT ? "temporary composition of current owned fragments; production generation pending" : "shared generated production contract",checkedAt:Date.now(),dataMode:"live",dataKind:"real",searchId:search.id,assessmentId:assessment.id,source:search.source,placeAdoption:{placeId:adoptedPlace.id,candidateId:candidate.candidateId,provider:adoptedPlace.provider,externalId:adoptedPlace.externalId,sourceUrl:adoptedPlace.sourceUrl,fetchedAt:adoptedPlace.fetchedAt,settingsVersion:candidates.settingsVersion,settingsHash:candidates.settingsHash},counts:{places:search.places.length,roads:search.roads.length},route:{resultId:route.resultId,provider:route.provider,fetchedAt:route.fetchedAt,geometryHash:assessment.geometryHash},vehicleAssessment:assessment.vehicleAssessment,highwayAssessment:assessment.highwayAssessment,adoptable:assessment.adoptable,checks:{commonPlaceRegistration:true,commonPlaceAdoption:true,commonPlaceRestartRetrieval:true,expiredCandidateReplayRejected:true,freshCandidateRegistrationAfterRestart:true,canonicalPlaceReused:true,stoppedCandidateRegistrationRejected:true,mockTrialSeparated:true,realSearch:true,idempotentReplay:true,sqliteRestartSameSnapshot:true,settingsRestored:true,stopClearsOnlyBikeOwner:true,reenableRestoresDisplay:true,unknownAdoptionRejected:true},remaining:["Live verified motorcycle route adoption", "UI display acceptance"]};
+  const evidence={contractMode:process.env.BIKE_E2E_CONTRACT ? "temporary composition of current owned fragments; production generation pending" : "shared generated production contract",checkedAt:Date.now(),dataMode:"live",dataKind:"real",settings,searchId:search.id,assessmentId:assessment.id,source:search.source,placeAdoption:{placeId:adoptedPlace.id,candidateId:candidate.candidateId,provider:adoptedPlace.provider,externalId:adoptedPlace.externalId,sourceUrl:adoptedPlace.sourceUrl,fetchedAt:adoptedPlace.fetchedAt,settingsVersion:candidates.settingsVersion,settingsHash:candidates.settingsHash},counts:{places:search.places.length,roads:search.roads.length},route:{resultId:route.resultId,provider:route.provider,fetchedAt:route.fetchedAt,geometryHash:assessment.geometryHash},vehicleAssessment:assessment.vehicleAssessment,highwayAssessment:assessment.highwayAssessment,adoptable:assessment.adoptable,checks:{commonPlaceRegistration:true,commonPlaceAdoption:true,commonPlaceRestartRetrieval:true,expiredCandidateReplayRejected:true,freshCandidateRegistrationAfterRestart:true,canonicalPlaceReused:true,stoppedCandidateRegistrationRejected:true,mockTrialSeparated:true,realSearch:true,idempotentReplay:true,sqliteRestartSameSnapshot:true,settingsRestored:true,stopClearsOnlyBikeOwner:true,reenableRestoresDisplay:true,unknownAdoptionRejected:true},remaining:["Live verified motorcycle route adoption", "UI display acceptance"]};
   writeFileSync(join(root,"docs/evidence/BIKE/live-http-sqlite.json"),JSON.stringify(evidence,null,2)+"\n");
   console.log(JSON.stringify(evidence));
 } finally {if(server!)await stop();}
