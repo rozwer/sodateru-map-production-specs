@@ -70,6 +70,7 @@
         "VISUAL-COMMUNITY": 173,
         "VISUAL-MAP-EXPLORE": 174,
         "VISUAL-PLUGINS": 186,
+        "VISUAL-RECORDS-CAMERA": 189,
         "VISUAL-SELF": 176,
         "VISUAL-SELF-CONTINUE": 185,
         "VISUAL-SETTINGS": 191,
@@ -7236,6 +7237,18 @@
           "src/features/settings/",
           "src/features/health/",
           "docs/evidence/VISUAL-SETTINGS/"
+        ]
+      },
+      {
+        "hard_dependencies": [],
+        "id": "VISUAL-RECORDS-CAMERA",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "写真引継ぎと記録7画面の修復",
+        "write_paths": [
+          "src/features/records/",
+          "src/features/activity/",
+          "docs/evidence/VISUAL-RECORDS-CAMERA/"
         ]
       }
     ],
@@ -33479,9 +33492,10 @@
     "VISUAL-SOCIAL",
     "VISUAL-PLUGINS",
     "VISUAL-SELF-CONTINUE",
-    "VISUAL-SETTINGS"
+    "VISUAL-SETTINGS",
+    "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 185,
+  "revision": 186,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34330,6 +34344,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "a289009a6e154c28b47e458b4befa827"
+    },
+    "VISUAL-RECORDS-CAMERA": {
+      "actor": "rozwer",
+      "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+      "generation": 1,
+      "issue_number": 189,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/VISUAL-RECORDS-CAMERA/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "80093c514f3f44b094a62ce77c3ae85d"
     },
     "VISUAL-SELF": {
       "actor": null,
