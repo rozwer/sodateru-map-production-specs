@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 44,
+  "revision": 45,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4450,12 +4450,23 @@
       "token": "c44c11d3cb54496f852602b24271632e"
     },
     "AI": {
-      "actor": null,
-      "generation": 0,
+      "actor": "mattsun",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 7,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "mattsun",
+      "paths": [
+        "server/ai/",
+        "server/features/conversations/",
+        "server/db/migrations/ai/",
+        "docs/01_requirements/04_api/fragments/AI.json",
+        "docs/evidence/AI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "8aeb9fac755e411c92950b74a97f306a"
     },
     "BIKE": {
       "actor": null,
