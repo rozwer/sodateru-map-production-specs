@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-09-15T02:33:14.897Z",
+  "status": "passed",
+  "checks": [
+    "CORE session HTTP 201",
+    "Nominatim adapter real HTTP search; database still empty",
+    "adoption persisted one place with CORE idempotency receipt",
+    "same HTTP key replay returns same placeId",
+    "same key with changed input conflicts",
+    "same adoption target with changed input conflicts",
+    "Mapbox adapter real HTTP search; temporary adopt rejected without DB growth",
+    "server restart, candidates gone, replay reads current persisted resource",
+    "business receipt replay also survives restart under a new HTTP key",
+    "saved list re-fetch and live/demo DB separation",
+    "deleted resource replay returns NOT_FOUND without restoration"
+  ],
+  "source": {
+    "provider": "nominatim",
+    "sourceUrl": "https://www.openstreetmap.org/way/1361180595",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "fetchedAt": 1789439593472
+  },
+  "candidate": {
+    "resultId": "5f56cc6a-abec-4d32-aa23-544ef87c97b6",
+    "candidateId": "candidate-1",
+    "expiresAt": 1789440493472
+  },
+  "placeId": "7bbcc135-47dc-49c7-afe0-3559e06fc2a9",
+  "notes": "Current-value and deletion states injected directly into isolated test DB while server stopped. PATCH and INFORMATION detail not exercised here. Mapbox temporary candidate payloads and all credentials excluded."
+}
