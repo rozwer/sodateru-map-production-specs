@@ -140,6 +140,7 @@
         "ISSUE-SUPERSESSION-FIX": 234,
         "MAP-CUSTOM": 27,
         "NAV-CARDS": 225,
+        "OMO7-EXPERIENCE": 262,
         "PILGRIMAGE": 38,
         "PLACES": 5,
         "PLAN-UI-CONNECTIONS": 72,
@@ -7701,6 +7702,18 @@
           "tools/sync_graph.py",
           "tools/test_sync_graph.py",
           "docs/evidence/ISSUE-SUPERSESSION-FIX/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "OMO7-EXPERIENCE",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "宿泊体験と生成朝食イメージを既存APIへ接続",
+        "write_paths": [
+          "src/features/plugins/assets/omo7-breakfast-generated.png",
+          "docs/evidence/OMO7-EXPERIENCE/"
         ]
       }
     ],
@@ -33953,9 +33966,10 @@
     "UI-INTEGRATION",
     "VISUAL-MAP-EXPLORE",
     "VISUAL-SETTINGS",
-    "VISUAL-SHELL"
+    "VISUAL-SHELL",
+    "OMO7-EXPERIENCE"
   ],
-  "revision": 262,
+  "revision": 263,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34464,6 +34478,22 @@
       "status": "done",
       "submitted_commit": "d343178ef35c55536647d6e6d7d8ab0172eb11e2",
       "token": null
+    },
+    "OMO7-EXPERIENCE": {
+      "actor": "rozwer",
+      "base_commit": "dd95f9e92ea5b70488d8026da3b6c8c2459fd81d",
+      "generation": 1,
+      "issue_number": 262,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/assets/omo7-breakfast-generated.png",
+        "docs/evidence/OMO7-EXPERIENCE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "734c6416f6c64ef4a8477b23b31d23d9"
     },
     "PILGRIMAGE": {
       "actor": "kaiya",
