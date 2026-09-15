@@ -1,0 +1,19 @@
+{
+  "status": "failed",
+  "model": "gpt-5.6-luna",
+  "transport": "TCP HTTP + shared generated client (settings/history via raw HTTP until CORE generation)",
+  "features": [
+    "conversations",
+    "settings",
+    "PLACES",
+    "routes",
+    "exploration"
+  ],
+  "databaseDirectory": "/tmp/exploration-live-9xrkGS",
+  "stage": "real-dialogue",
+  "error": {
+    "name": "ApiError",
+    "code": "OUTPUT_INVALID",
+    "message": "行き先を絞って再試行してください"
+  }
+}
