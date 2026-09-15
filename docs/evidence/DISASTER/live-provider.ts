@@ -25,7 +25,7 @@ assert.deepEqual(restored,snapshot);
 assert.equal(new DisasterStore(dbs.demo,{...context,dataMode:'demo'}).read().result,null);
 dbs.close();
 const evidence={verifiedAt:new Date().toISOString(),context:{personId:profile.id,dataMode:'live'},settings:defaultSettings,sqliteReopenExactMatch:true,demoIsolated:true,
-  layers:layers.map(l=>({...l,tiles:l.tiles.map(({imageDataUrl,...t})=>({...t,savedImageBytes:imageDataUrl ? Buffer.from(imageDataUrl.split(',')[1],'base64').length : 0}))}))};
+  layers:layers.map(l=>({...l,tiles:l.tiles.map(({imageDataUrl,...t})=>({...t,savedImageBytes:imageDataUrl ? Buffer.from(imageDataUrl.split(',')[1]!,'base64').length : 0}))}))};
 writeFileSync(new URL('./live-provider.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');
 console.log(JSON.stringify({sqliteReopenExactMatch:true,layers:layers.map(l=>({id:l.layerId,status:l.status,tiles:l.tiles.length,sourceUpdatedAt:l.sourceUpdatedAt,validAt:l.validAt,errors:l.tiles.filter(t=>t.error).map(t=>t.error)}))}));
 assert.ok(layers.every(l=>l.status==='available'),'Every real layer must be available for successful evidence');

@@ -3,7 +3,7 @@ import { defaultSettings, definitions, settingsSchema, validateSettings } from '
 const declaration = (): Declaration[] => [{targetKey:'layer:disaster',property:'visibility',value:true}];
 export const disasterRelease: PluginRelease = {
   manifest:{id:'disaster',name:'防災情報',description:'洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。',category:'地域情報',author:'育てる地図',
-    pluginVersion:'1.0.0',updatedAt:1789437600000,changeLog:'実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。',icon:'disaster',
+    pluginVersion:'1.0.0',updatedAt:1789437600000,changeLog:'実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。',icon:'shield',
     usageInfo:['地域とレイヤーを設定し、導入後に防災情報を更新してください。','現在の浸水や安全を判定する機能ではありません。'],
     sources:Object.values(definitions).map(d=>({name:d.label,url:d.sourceUrl,attribution:d.attribution})),
     settingsSchema,defaultSettings:{...defaultSettings},trialConditions:['試用は模擬表示です。実際の災害情報ではありません。']},

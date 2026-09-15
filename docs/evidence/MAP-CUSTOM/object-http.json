@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-15T02:38:59.889Z",
+  "coreCommit": "413598b9379be040be6d4ddbe3d802485911a716",
+  "mode": "live",
+  "objectId": "11607983-610a-495e-86f1-6b4958d05907",
+  "versionBeforeDelete": 2,
+  "realHttp": true,
+  "realSqlite": true,
+  "separateServerProcesses": true,
+  "checks": [
+    "create + replay",
+    "edit + reread",
+    "412/428/422/409 failures",
+    "owner + mode separation",
+    "same session after restart",
+    "persisted object read after restart",
+    "delete 204 then read404",
+    "create replay after delete404"
+  ],
+  "scope": "Manual object operations passed. Settings HTTP/PLUGINS state and AI are pending. Uses real CORE app with official merge_fragments-composed isolated contract; shared generated client not yet integrated."
+}

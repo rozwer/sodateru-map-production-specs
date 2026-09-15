@@ -1,6 +1,6 @@
 {
   "format_version": 1,
-  "status": "registered-board-pending",
+  "status": "registered",
   "created_at": "2026-09-15",
   "repository": "rozwer/sodateru-map-production-specs",
   "integration_branch": "develop",
@@ -14,7 +14,7 @@
     "workers": 4,
     "orchestrator": "調整・現状把握専任。4実装担当に加算しない。担当者はassigneesに定義する。",
     "ui_owner": "A",
-    "issue_completion": "domainは実API/保存/再取得の範囲、uiは同じ要件の実画面/通信/保存後再表示まで。機能全体は両方の合格が必要。",
+    "issue_completion": "uiは指定画像・実描画・画面/端末操作と状態の完了。connectionは元UI done後に実API・保存・再取得・実失敗/取消を確認。domainの提供も揃って利用者向け機能が完了する。user-excludedは未実施の対象外として原IDを保持する。",
     "hard_dependencies": "着手前にdoneが必要。",
     "connect_after": "完了までに利用する提供元の一覧。提供元Issue全体のdoneは待たず、connect_inputs.outputsの該当提供物と実接続証拠を確認する。",
     "ui_implementation": "全UIの設計・描画・端末操作・画面状態・実画面受入はrozwerに固定する。機能固有の業務判断/DTO変換/保存はB〜D。",
@@ -25,19 +25,27 @@
     "delivery_ready": "deliveriesは計画。提供済みの判定は統合commit・契約版・実API/保存/再取得の証拠で行う。部分提供はIssue全体の完了ではない。",
     "map_settings_owner": "kaiyaのMAP-CUSTOM APIと本人/モード別SQLiteが正本。rozwerは描画/一時プレビュー/編集下書き/カメラ/タブ。mattsunはAI実行/結果。",
     "integration_target": "develop。mainへpushしない。実装はorigin/develop起点の専用worktreeで、現行hook/Task手順に従う。",
-    "ui_parallelism": "Aの担当内は独立セッションで並列取得できる。各実装セッションは実行中1Issue、次候補は予約のみ。中央messages/tokens/routerはUI-BASEだけが編集する。"
+    "ui_parallelism": "Aの担当内は独立セッションで並列取得できる。各実装セッションは実行中1Issue、次候補は予約のみ。中央messages/tokens/routerはUI-BASEだけが編集する。",
+    "ui_connection_split": "UI-BASE.shellによる実shell組込みは元UIに残す。非UI提供依存は13件のCONNECT-*へ移管し、各CONNECTは対応する元UI doneをhard_dependencyとする。",
+    "source_acceptance": "317要件/317受入の原文・modeを変更しない。ui-connections.jsonで同じsource IDのUI面と接続面を対応付け、UI closeだけでは元live受入をPASSにしない。"
   },
   "counts": {
-    "tasks": 36,
+    "tasks": 51,
     "pages": 67,
     "requirements": 317,
     "capabilities": 225,
     "existing_operations": 104,
-    "gaps": 20
+    "gaps": 20,
+    "ui_tasks": 14,
+    "connection_tasks": 14,
+    "user_excluded_requirements": 5,
+    "user_excluded_acceptance": 5,
+    "deferred_health_pages": 3,
+    "current_operations": 108
   },
   "lanes": {
     "A": {
-      "role": "全UI",
+      "role": "全UIとUI実接続",
       "first": "UI-BASE",
       "queue": [
         "UI-MAP",
@@ -51,7 +59,22 @@
         "UI-KNOWLEDGE",
         "UI-PLUGINS",
         "UI-SETTINGS",
-        "UI-COMPANION"
+        "UI-COMPANION",
+        "CONNECT-BASE",
+        "CONNECT-MAP",
+        "CONNECT-RECORDS",
+        "CONNECT-EXPLORE",
+        "CONNECT-ROUTES",
+        "CONNECT-REFLECTION",
+        "CONNECT-INSIGHTS",
+        "CONNECT-SUGGESTIONS",
+        "CONNECT-FRIENDS",
+        "CONNECT-KNOWLEDGE",
+        "CONNECT-PLUGINS",
+        "CONNECT-SETTINGS",
+        "CONNECT-COMPANION",
+        "UI-HEALTH",
+        "CONNECT-HEALTH"
       ],
       "reserve": [
         "UI-COMPANION",
@@ -160,10 +183,8 @@
         "navigation"
       ],
       "hard_dependencies": [],
-      "connect_after": [
-        "CORE"
-      ],
-      "early_release": "共通部品・クライアント・機能登録の署名と最小起動画面を先に統合し、共有ファイルのロックを返す。",
+      "connect_after": [],
+      "early_release": "共通部品・画面登録・地図/チャットの境界と実shellを先行統合する。本人context/共通clientの実接続はCONNECT-BASEが持つ。",
       "issue_file": "issues/UI-BASE.md",
       "requirement_ids": [
         "navigation-R1",
@@ -193,25 +214,19 @@
         "../01_requirements/03_pages/common.json",
         "../01_requirements/00_stacks/README.md"
       ],
-      "connect_inputs": [
-        {
-          "issue": "CORE",
-          "outputs": [
-            "CORE.runtime",
-            "CORE.integration"
-          ],
-          "required_output": "同一origin起動・本人context・DB・再送/版／機能登録入口・契約生成・型付き共通クライアント"
-        }
-      ],
+      "connect_inputs": [],
       "provides": [
         "UI-BASE.shell"
       ],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-BASEへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-BASE",
+        "connection_task": "CONNECT-BASE"
       }
     },
     {
@@ -230,13 +245,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "PLACES",
-        "ACTIVITY",
-        "THEMES",
-        "MAP-CUSTOM",
-        "PLUGINS",
-        "COMMUNITY"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-MAP.md",
       "requirement_ids": [
@@ -317,59 +326,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "PLACES",
-          "outputs": [
-            "PLACES.search",
-            "PLACES.detail"
-          ],
-          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
-        },
-        {
-          "issue": "ACTIVITY",
-          "outputs": [
-            "ACTIVITY.growth"
-          ],
-          "required_output": "訪問確認・訂正・地図の成長材料"
-        },
-        {
-          "issue": "THEMES",
-          "outputs": [
-            "THEMES.manual"
-          ],
-          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
-        },
-        {
-          "issue": "MAP-CUSTOM",
-          "outputs": [
-            "MAP-CUSTOM.manual",
-            "MAP-CUSTOM.adopt"
-          ],
-          "required_output": "手動装飾・本人の地図設定のAPI保存/再取得／AI地図設定のプレビューと採用"
-        },
-        {
-          "issue": "PLUGINS",
-          "outputs": [
-            "PLUGINS.state"
-          ],
-          "required_output": "本人別の導入・有効状態・版・適用宣言"
-        },
-        {
-          "issue": "COMMUNITY",
-          "outputs": [
-            "COMMUNITY.knowledge"
-          ],
-          "required_output": "地域の声・分類/範囲・しおり・共有単体"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-MAPへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-MAP",
+        "connection_task": "CONNECT-MAP"
       }
     },
     {
@@ -390,13 +358,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "RECORDS",
-        "ACTIVITY",
-        "INFORMATION",
-        "PLACES",
-        "REFLECTION",
-        "INSIGHTS"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-RECORDS.md",
       "requirement_ids": [
@@ -497,62 +459,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "RECORDS",
-          "outputs": [
-            "RECORDS.save",
-            "RECORDS.media",
-            "RECORDS.lifecycle"
-          ],
-          "required_output": "記録の作成・単体取得・編集・削除／媒体の追加・配信・部分失敗／共有変更・削除影響・書出し"
-        },
-        {
-          "issue": "ACTIVITY",
-          "outputs": [
-            "ACTIVITY.growth",
-            "ACTIVITY.track"
-          ],
-          "required_output": "訪問確認・訂正・地図の成長材料／位置観測・日別軌跡・範囲削除"
-        },
-        {
-          "issue": "INFORMATION",
-          "outputs": [
-            "INFORMATION.read",
-            "INFORMATION.refs"
-          ],
-          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
-        },
-        {
-          "issue": "PLACES",
-          "outputs": [
-            "PLACES.search",
-            "PLACES.detail"
-          ],
-          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
-        },
-        {
-          "issue": "REFLECTION",
-          "outputs": [
-            "REFLECTION.record"
-          ],
-          "required_output": "体験整理・日記・質問/回答"
-        },
-        {
-          "issue": "INSIGHTS",
-          "outputs": [
-            "INSIGHTS.evidence"
-          ],
-          "required_output": "傾向・評価・根拠付き結果の保存"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-RECORDSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-RECORDS",
+        "connection_task": "CONNECT-RECORDS"
       }
     },
     {
@@ -572,13 +490,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "AI",
-        "EXPLORATION",
-        "ROUTES",
-        "COMMUNITY",
-        "SETTINGS",
-        "TRANSFER"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-EXPLORE.md",
       "requirement_ids": [
@@ -655,60 +567,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "AI",
-          "outputs": [
-            "AI.engine",
-            "AI.refs",
-            "AI.voice"
-          ],
-          "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行／音声文字起こし・送信確認への接続"
-        },
-        {
-          "issue": "EXPLORATION",
-          "outputs": [
-            "EXPLORATION.dialogue",
-            "EXPLORATION.discovery"
-          ],
-          "required_output": "街歩きの相談・候補選択・履歴／発見カードと反応・保存"
-        },
-        {
-          "issue": "ROUTES",
-          "outputs": [
-            "ROUTES.basic"
-          ],
-          "required_output": "基本道路経路の取得・保存・再取得"
-        },
-        {
-          "issue": "COMMUNITY",
-          "outputs": [
-            "COMMUNITY.knowledge"
-          ],
-          "required_output": "地域の声・分類/範囲・しおり・共有単体"
-        },
-        {
-          "issue": "SETTINGS",
-          "outputs": [
-            "SETTINGS.preferences"
-          ],
-          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
-        },
-        {
-          "issue": "TRANSFER",
-          "outputs": [
-            "TRANSFER.complete"
-          ],
-          "required_output": "別の街への体験移転・二案比較・採用"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-EXPLOREへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-EXPLORE",
+        "connection_task": "CONNECT-EXPLORE"
       }
     },
     {
@@ -725,9 +595,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "PLACES",
-        "ROUTES"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-ROUTES.md",
       "requirement_ids": [
@@ -779,32 +647,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "PLACES",
-          "outputs": [
-            "PLACES.search",
-            "PLACES.detail"
-          ],
-          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
-        },
-        {
-          "issue": "ROUTES",
-          "outputs": [
-            "ROUTES.basic",
-            "ROUTES.navigation",
-            "ROUTES.conditions"
-          ],
-          "required_output": "基本道路経路の取得・保存・再取得／案内状態・ターン案内・復帰／追加経路条件・交通・定期券"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-ROUTESへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-ROUTES",
+        "connection_task": "CONNECT-ROUTES"
       }
     },
     {
@@ -824,13 +678,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "REFLECTION",
-        "THEMES",
-        "INFORMATION",
-        "RECORDS",
-        "SETTINGS",
-        "CORE"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-REFLECTION.md",
       "requirement_ids": [
@@ -910,59 +758,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "REFLECTION",
-          "outputs": [
-            "REFLECTION.record",
-            "REFLECTION.compare"
-          ],
-          "required_output": "体験整理・日記・質問/回答／体験/友達比較と本人判断"
-        },
-        {
-          "issue": "THEMES",
-          "outputs": [
-            "THEMES.manual"
-          ],
-          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
-        },
-        {
-          "issue": "INFORMATION",
-          "outputs": [
-            "INFORMATION.read",
-            "INFORMATION.refs"
-          ],
-          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
-        },
-        {
-          "issue": "RECORDS",
-          "outputs": [
-            "RECORDS.save"
-          ],
-          "required_output": "記録の作成・単体取得・編集・削除"
-        },
-        {
-          "issue": "SETTINGS",
-          "outputs": [
-            "SETTINGS.preferences"
-          ],
-          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
-        },
-        {
-          "issue": "CORE",
-          "outputs": [
-            "CORE.runtime"
-          ],
-          "required_output": "同一origin起動・本人context・DB・再送/版"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-REFLECTIONへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-REFLECTION",
+        "connection_task": "CONNECT-REFLECTION"
       }
     },
     {
@@ -981,10 +788,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "INSIGHTS",
-        "THEMES",
-        "INFORMATION"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-INSIGHTS.md",
       "requirement_ids": [
@@ -1055,40 +859,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "INSIGHTS",
-          "outputs": [
-            "INSIGHTS.summary",
-            "INSIGHTS.evidence"
-          ],
-          "required_output": "記録/訪問に基づく期間集計／傾向・評価・根拠付き結果の保存"
-        },
-        {
-          "issue": "THEMES",
-          "outputs": [
-            "THEMES.manual",
-            "THEMES.ai"
-          ],
-          "required_output": "テーマ所属・表示属性・由来付きメモの保存／AI命名・提案の採用"
-        },
-        {
-          "issue": "INFORMATION",
-          "outputs": [
-            "INFORMATION.read",
-            "INFORMATION.refs",
-            "INFORMATION.sharing"
-          ],
-          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合／共有検索・地図検索・媒体閲覧"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-INSIGHTSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-INSIGHTS",
+        "connection_task": "CONNECT-INSIGHTS"
       }
     },
     {
@@ -1105,12 +887,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "SUGGESTIONS",
-        "COMMUNITY",
-        "ROUTES",
-        "ACTIVITY",
-        "SETTINGS"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-SUGGESTIONS.md",
       "requirement_ids": [
@@ -1168,50 +945,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "SUGGESTIONS",
-          "outputs": [
-            "SUGGESTIONS.complete"
-          ],
-          "required_output": "今日の条件・候補生成・選択・達成"
-        },
-        {
-          "issue": "COMMUNITY",
-          "outputs": [
-            "COMMUNITY.knowledge"
-          ],
-          "required_output": "地域の声・分類/範囲・しおり・共有単体"
-        },
-        {
-          "issue": "ROUTES",
-          "outputs": [
-            "ROUTES.basic"
-          ],
-          "required_output": "基本道路経路の取得・保存・再取得"
-        },
-        {
-          "issue": "ACTIVITY",
-          "outputs": [
-            "ACTIVITY.growth"
-          ],
-          "required_output": "訪問確認・訂正・地図の成長材料"
-        },
-        {
-          "issue": "SETTINGS",
-          "outputs": [
-            "SETTINGS.preferences"
-          ],
-          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-SUGGESTIONSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SUGGESTIONS",
+        "connection_task": "CONNECT-SUGGESTIONS"
       }
     },
     {
@@ -1232,13 +977,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "INFORMATION",
-        "RECORDS",
-        "REFLECTION",
-        "THEMES",
-        "ROUTES",
-        "COMMUNITY"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-FRIENDS.md",
       "requirement_ids": [
@@ -1326,59 +1065,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "INFORMATION",
-          "outputs": [
-            "INFORMATION.read",
-            "INFORMATION.refs",
-            "INFORMATION.sharing"
-          ],
-          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合／共有検索・地図検索・媒体閲覧"
-        },
-        {
-          "issue": "RECORDS",
-          "outputs": [
-            "RECORDS.lifecycle"
-          ],
-          "required_output": "共有変更・削除影響・書出し"
-        },
-        {
-          "issue": "REFLECTION",
-          "outputs": [
-            "REFLECTION.compare"
-          ],
-          "required_output": "体験/友達比較と本人判断"
-        },
-        {
-          "issue": "THEMES",
-          "outputs": [
-            "THEMES.manual"
-          ],
-          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
-        },
-        {
-          "issue": "ROUTES",
-          "outputs": [
-            "ROUTES.basic"
-          ],
-          "required_output": "基本道路経路の取得・保存・再取得"
-        },
-        {
-          "issue": "COMMUNITY",
-          "outputs": [
-            "COMMUNITY.social"
-          ],
-          "required_output": "人物・友達関係・共有ルート/テーマ"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-FRIENDSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-FRIENDS",
+        "connection_task": "CONNECT-FRIENDS"
       }
     },
     {
@@ -1396,11 +1094,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "COMMUNITY",
-        "INFORMATION",
-        "RECORDS",
-        "PLACES"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-KNOWLEDGE.md",
       "requirement_ids": [
@@ -1458,46 +1152,18 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "COMMUNITY",
-          "outputs": [
-            "COMMUNITY.knowledge"
-          ],
-          "required_output": "地域の声・分類/範囲・しおり・共有単体"
-        },
-        {
-          "issue": "INFORMATION",
-          "outputs": [
-            "INFORMATION.read",
-            "INFORMATION.sharing"
-          ],
-          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／共有検索・地図検索・媒体閲覧"
-        },
-        {
-          "issue": "RECORDS",
-          "outputs": [
-            "RECORDS.save",
-            "RECORDS.lifecycle"
-          ],
-          "required_output": "記録の作成・単体取得・編集・削除／共有変更・削除影響・書出し"
-        },
-        {
-          "issue": "PLACES",
-          "outputs": [
-            "PLACES.search",
-            "PLACES.detail"
-          ],
-          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-KNOWLEDGEへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-KNOWLEDGE",
+        "connection_task": "CONNECT-KNOWLEDGE"
       }
     },
     {
@@ -1520,13 +1186,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "PLUGINS",
-        "BIKE",
-        "DISASTER",
-        "PILGRIMAGE",
-        "FEATURE-REQUESTS",
-        "CORE"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-PLUGINS.md",
       "requirement_ids": [
@@ -1633,64 +1293,24 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "PLUGINS",
-          "outputs": [
-            "PLUGINS.state",
-            "PLUGINS.lifecycle"
-          ],
-          "required_output": "本人別の導入・有効状態・版・適用宣言／試用・導入・更新・競合解決・版戻し"
-        },
-        {
-          "issue": "BIKE",
-          "outputs": [
-            "BIKE.complete"
-          ],
-          "required_output": "車種/高速条件付き地点と経路"
-        },
-        {
-          "issue": "DISASTER",
-          "outputs": [
-            "DISASTER.complete"
-          ],
-          "required_output": "防災情報・出典/時点付き表示材料"
-        },
-        {
-          "issue": "PILGRIMAGE",
-          "outputs": [
-            "PILGRIMAGE.complete"
-          ],
-          "required_output": "作品/地点の出典・巡回計画・保存"
-        },
-        {
-          "issue": "FEATURE-REQUESTS",
-          "outputs": [
-            "FEATURE-REQUESTS.complete"
-          ],
-          "required_output": "機能要望・共感・公開範囲・編集"
-        },
-        {
-          "issue": "CORE",
-          "outputs": [
-            "CORE.runtime"
-          ],
-          "required_output": "同一origin起動・本人context・DB・再送/版"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-PLUGINSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-PLUGINS",
+        "connection_task": "CONNECT-PLUGINS"
       }
     },
     {
       "id": "UI-SETTINGS",
       "lane": "A",
-      "title": "設定・健康取込・取得元と活動統計",
+      "title": "設定・プロフィール・活動統計と取得元（非健康）",
       "kind": "ui",
       "github_issue": 17,
       "status": "registered",
@@ -1706,12 +1326,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "SETTINGS",
-        "HEALTH",
-        "ACTIVITY",
-        "INSIGHTS",
-        "CORE"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-SETTINGS.md",
       "requirement_ids": [
@@ -1804,57 +1419,25 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "SETTINGS",
-          "outputs": [
-            "SETTINGS.preferences",
-            "SETTINGS.data"
-          ],
-          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止／アイコン・本人データ一覧/書出し/削除"
-        },
-        {
-          "issue": "HEALTH",
-          "outputs": [
-            "HEALTH.complete"
-          ],
-          "required_output": "健康取込・期間許可・停止/削除・集計"
-        },
-        {
-          "issue": "ACTIVITY",
-          "outputs": [
-            "ACTIVITY.track"
-          ],
-          "required_output": "位置観測・日別軌跡・範囲削除"
-        },
-        {
-          "issue": "INSIGHTS",
-          "outputs": [
-            "INSIGHTS.summary"
-          ],
-          "required_output": "記録/訪問に基づく期間集計"
-        },
-        {
-          "issue": "CORE",
-          "outputs": [
-            "CORE.runtime"
-          ],
-          "required_output": "同一origin起動・本人context・DB・再送/版"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-SETTINGSへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SETTINGS",
+        "connection_task": "CONNECT-SETTINGS",
+        "deferred_health": "UI-HEALTH"
       }
     },
     {
       "id": "UI-COMPANION",
       "lane": "A",
-      "title": "相棒の取込・制作・動作確認と選択",
+      "title": "既存相棒の取込・管理・動作確認と選択",
       "kind": "ui",
       "github_issue": 19,
       "status": "registered",
@@ -1865,8 +1448,7 @@
       ],
       "hard_dependencies": [],
       "connect_after": [
-        "UI-BASE",
-        "COMPANION"
+        "UI-BASE"
       ],
       "issue_file": "issues/UI-COMPANION.md",
       "requirement_ids": [
@@ -1918,24 +1500,22 @@
             "UI-BASE.shell"
           ],
           "required_output": "共通画面・地図/チャットの受渡し"
-        },
-        {
-          "issue": "COMPANION",
-          "outputs": [
-            "COMPANION.import",
-            "COMPANION.create"
-          ],
-          "required_output": "相棒ZIPの取込・一覧・選択／相棒の制作・実生成・採用"
         }
       ],
       "provides": [],
       "contract_gates": {
-        "common": [
-          "本人context・共通HTTP・登録/型の境界"
-        ],
+        "common": [],
         "feature_gaps": [],
-        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
-      }
+        "scope": "UI境界と表示に必要な確定済み型を使う。非UI契約の実接続ゲートはCONNECT-COMPANIONへ移す。"
+      },
+      "completion_scope": {
+        "phase": "ui",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-COMPANION",
+        "connection_task": "CONNECT-COMPANION"
+      },
+      "scope_exclusions": [
+        "companion-create"
+      ]
     },
     {
       "id": "CORE",
@@ -2676,6 +2256,10 @@
           "health-import"
         ],
         "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "scope_schedule": {
+        "mode": "if-time-remains",
+        "required_for_other_features": false
       }
     },
     {
@@ -4258,7 +3842,7 @@
     {
       "id": "COMPANION",
       "lane": "D",
-      "title": "相棒のZIP取込・制作・保存と選択",
+      "title": "既存相棒のZIP取込・保存・表示管理と選択",
       "kind": "domain",
       "github_issue": 35,
       "status": "registered",
@@ -4340,7 +3924,10 @@
           "pet"
         ],
         "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
-      }
+      },
+      "scope_exclusions": [
+        "companion-create"
+      ]
     },
     {
       "id": "PILGRIMAGE",
@@ -4405,6 +3992,2259 @@
         "feature_gaps": [],
         "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
       }
+    },
+    {
+      "id": "CONNECT-BASE",
+      "lane": "A",
+      "title": "実接続：共通UI・ナビゲーションと画面復帰",
+      "kind": "ui",
+      "github_issue": 137,
+      "status": "registered",
+      "pages": [
+        "navigation"
+      ],
+      "hard_dependencies": [
+        "UI-BASE"
+      ],
+      "connect_after": [
+        "CORE"
+      ],
+      "issue_file": "issues/CONNECT-BASE.md",
+      "requirement_ids": [
+        "navigation-R1",
+        "navigation-R2",
+        "navigation-F01",
+        "navigation-F02",
+        "navigation-F03"
+      ],
+      "acceptance_ids": [
+        "navigation-C1",
+        "navigation-C2",
+        "navigation-FC01",
+        "navigation-FC02",
+        "navigation-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/app/",
+        "src/ui/",
+        "src/messages.ts",
+        "index.html",
+        "vite.config.ts",
+        "docs/evidence/CONNECT-BASE/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "CORE",
+          "outputs": [
+            "CORE.runtime",
+            "CORE.integration"
+          ],
+          "required_output": "同一origin起動・本人context・DB・再送/版／機能登録入口・契約生成・型付き共通クライアント"
+        }
+      ],
+      "provides": [
+        "CONNECT-BASE.integration"
+      ],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-BASE",
+        "source_ui_task": "UI-BASE"
+      }
+    },
+    {
+      "id": "CONNECT-MAP",
+      "lane": "A",
+      "title": "実接続：場所検索・自分の地図・表示と装飾の編集",
+      "kind": "ui",
+      "github_issue": 134,
+      "status": "registered",
+      "pages": [
+        "map",
+        "personal-map",
+        "map-layers",
+        "object-edit",
+        "object-place"
+      ],
+      "hard_dependencies": [
+        "UI-MAP"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "PLACES",
+        "ACTIVITY",
+        "THEMES",
+        "MAP-CUSTOM",
+        "PLUGINS",
+        "COMMUNITY",
+        "CONNECT-BASE",
+        "INFORMATION"
+      ],
+      "issue_file": "issues/CONNECT-MAP.md",
+      "requirement_ids": [
+        "map-R1",
+        "map-R2",
+        "map-R3",
+        "map-F01",
+        "map-F02",
+        "map-F03",
+        "map-F04",
+        "map-F05",
+        "map-layers-R1",
+        "map-layers-F01",
+        "map-layers-F02",
+        "map-layers-F03",
+        "object-edit-R1",
+        "object-edit-F01",
+        "object-edit-F02",
+        "object-edit-F03",
+        "object-edit-F04",
+        "object-edit-SCOPE",
+        "object-place-R1",
+        "object-place-F01",
+        "object-place-F02",
+        "object-place-F03",
+        "object-place-SCOPE",
+        "personal-map-R1",
+        "personal-map-R2",
+        "personal-map-F01",
+        "personal-map-F02",
+        "personal-map-F03"
+      ],
+      "acceptance_ids": [
+        "map-C1",
+        "map-C2",
+        "map-C3",
+        "map-FC01",
+        "map-FC02",
+        "map-FC03",
+        "map-FC04",
+        "map-FC05",
+        "map-layers-C1",
+        "map-layers-FC01",
+        "map-layers-FC02",
+        "map-layers-FC03",
+        "object-edit-C1",
+        "object-edit-FC01",
+        "object-edit-FC02",
+        "object-edit-FC03",
+        "object-edit-FC04",
+        "object-edit-SCOPE-C",
+        "object-place-C1",
+        "object-place-FC01",
+        "object-place-FC02",
+        "object-place-FC03",
+        "object-place-SCOPE-C",
+        "personal-map-C1",
+        "personal-map-C2",
+        "personal-map-FC01",
+        "personal-map-FC02",
+        "personal-map-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/map/",
+        "src/map/",
+        "docs/evidence/CONNECT-MAP/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "PLACES",
+          "outputs": [
+            "PLACES.search",
+            "PLACES.detail"
+          ],
+          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+        },
+        {
+          "issue": "ACTIVITY",
+          "outputs": [
+            "ACTIVITY.growth"
+          ],
+          "required_output": "訪問確認・訂正・地図の成長材料"
+        },
+        {
+          "issue": "THEMES",
+          "outputs": [
+            "THEMES.manual"
+          ],
+          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
+        },
+        {
+          "issue": "MAP-CUSTOM",
+          "outputs": [
+            "MAP-CUSTOM.manual",
+            "MAP-CUSTOM.adopt"
+          ],
+          "required_output": "手動装飾・本人の地図設定のAPI保存/再取得／AI地図設定のプレビューと採用"
+        },
+        {
+          "issue": "PLUGINS",
+          "outputs": [
+            "PLUGINS.state"
+          ],
+          "required_output": "本人別の導入・有効状態・版・適用宣言"
+        },
+        {
+          "issue": "COMMUNITY",
+          "outputs": [
+            "COMMUNITY.knowledge"
+          ],
+          "required_output": "地域の声・分類/範囲・しおり・共有単体"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-MAP",
+        "source_ui_task": "UI-MAP"
+      }
+    },
+    {
+      "id": "CONNECT-RECORDS",
+      "lane": "A",
+      "title": "実接続：体験記録・訪問確認・訂正と地図の成長",
+      "kind": "ui",
+      "github_issue": 135,
+      "status": "registered",
+      "pages": [
+        "record-create",
+        "record-edit",
+        "visit-confirm",
+        "interpretation-correction",
+        "record-delete",
+        "growth-result",
+        "daily-track"
+      ],
+      "hard_dependencies": [
+        "UI-RECORDS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "RECORDS",
+        "ACTIVITY",
+        "INFORMATION",
+        "PLACES",
+        "REFLECTION",
+        "INSIGHTS",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-RECORDS.md",
+      "requirement_ids": [
+        "daily-track-R1",
+        "daily-track-R2",
+        "daily-track-F01",
+        "daily-track-F02",
+        "daily-track-F03",
+        "daily-track-F04",
+        "growth-result-R1",
+        "growth-result-F01",
+        "growth-result-F02",
+        "growth-result-F03",
+        "interpretation-correction-R1",
+        "interpretation-correction-R2",
+        "interpretation-correction-F01",
+        "interpretation-correction-F02",
+        "interpretation-correction-F03",
+        "record-create-R1",
+        "record-create-R2",
+        "record-create-R3",
+        "record-create-F01",
+        "record-create-F02",
+        "record-create-F03",
+        "record-create-F04",
+        "record-delete-R1",
+        "record-delete-R2",
+        "record-delete-F01",
+        "record-delete-F02",
+        "record-delete-F03",
+        "record-edit-R1",
+        "record-edit-R2",
+        "record-edit-F01",
+        "record-edit-F02",
+        "record-edit-F03",
+        "record-edit-F04",
+        "visit-confirm-R1",
+        "visit-confirm-R2",
+        "visit-confirm-F01",
+        "visit-confirm-F02",
+        "visit-confirm-F03"
+      ],
+      "acceptance_ids": [
+        "daily-track-C1",
+        "daily-track-C2",
+        "daily-track-FC01",
+        "daily-track-FC02",
+        "daily-track-FC03",
+        "daily-track-FC04",
+        "growth-result-C1",
+        "growth-result-FC01",
+        "growth-result-FC02",
+        "growth-result-FC03",
+        "interpretation-correction-C1",
+        "interpretation-correction-C2",
+        "interpretation-correction-FC01",
+        "interpretation-correction-FC02",
+        "interpretation-correction-FC03",
+        "record-create-C1",
+        "record-create-C2",
+        "record-create-C3",
+        "record-create-FC01",
+        "record-create-FC02",
+        "record-create-FC03",
+        "record-create-FC04",
+        "record-delete-C1",
+        "record-delete-C2",
+        "record-delete-FC01",
+        "record-delete-FC02",
+        "record-delete-FC03",
+        "record-edit-C1",
+        "record-edit-C2",
+        "record-edit-FC01",
+        "record-edit-FC02",
+        "record-edit-FC03",
+        "record-edit-FC04",
+        "visit-confirm-C1",
+        "visit-confirm-C2",
+        "visit-confirm-FC01",
+        "visit-confirm-FC02",
+        "visit-confirm-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/CONNECT-RECORDS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "RECORDS",
+          "outputs": [
+            "RECORDS.save",
+            "RECORDS.media",
+            "RECORDS.lifecycle"
+          ],
+          "required_output": "記録の作成・単体取得・編集・削除／媒体の追加・配信・部分失敗／共有変更・削除影響・書出し"
+        },
+        {
+          "issue": "ACTIVITY",
+          "outputs": [
+            "ACTIVITY.growth",
+            "ACTIVITY.track"
+          ],
+          "required_output": "訪問確認・訂正・地図の成長材料／位置観測・日別軌跡・範囲削除"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read",
+            "INFORMATION.refs"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+        },
+        {
+          "issue": "PLACES",
+          "outputs": [
+            "PLACES.search",
+            "PLACES.detail"
+          ],
+          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+        },
+        {
+          "issue": "REFLECTION",
+          "outputs": [
+            "REFLECTION.record"
+          ],
+          "required_output": "体験整理・日記・質問/回答"
+        },
+        {
+          "issue": "INSIGHTS",
+          "outputs": [
+            "INSIGHTS.evidence"
+          ],
+          "required_output": "傾向・評価・根拠付き結果の保存"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-RECORDS",
+        "source_ui_task": "UI-RECORDS"
+      }
+    },
+    {
+      "id": "CONNECT-EXPLORE",
+      "lane": "A",
+      "title": "実接続：街歩き相談・履歴・音声と探索候補",
+      "kind": "ui",
+      "github_issue": 136,
+      "status": "registered",
+      "pages": [
+        "ai-explore",
+        "voice-consultation",
+        "ai-consent",
+        "conversation-history",
+        "mist-detail",
+        "quest-compass"
+      ],
+      "hard_dependencies": [
+        "UI-EXPLORE"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "AI",
+        "EXPLORATION",
+        "ROUTES",
+        "COMMUNITY",
+        "SETTINGS",
+        "TRANSFER",
+        "CONNECT-BASE",
+        "PLACES",
+        "SUGGESTIONS"
+      ],
+      "issue_file": "issues/CONNECT-EXPLORE.md",
+      "requirement_ids": [
+        "ai-consent-R1",
+        "ai-consent-F01",
+        "ai-consent-F02",
+        "ai-consent-F03",
+        "ai-explore-R1",
+        "ai-explore-R2",
+        "ai-explore-F01",
+        "ai-explore-F02",
+        "ai-explore-F03",
+        "ai-explore-F04",
+        "conversation-history-R1",
+        "conversation-history-F01",
+        "conversation-history-F02",
+        "conversation-history-F03",
+        "mist-detail-R1",
+        "mist-detail-F01",
+        "mist-detail-F02",
+        "mist-detail-F03",
+        "quest-compass-R1",
+        "quest-compass-F01",
+        "quest-compass-F02",
+        "quest-compass-F03",
+        "voice-consultation-R1",
+        "voice-consultation-F01",
+        "voice-consultation-F02",
+        "voice-consultation-F03"
+      ],
+      "acceptance_ids": [
+        "ai-consent-C1",
+        "ai-consent-FC01",
+        "ai-consent-FC02",
+        "ai-consent-FC03",
+        "ai-explore-C1",
+        "ai-explore-C2",
+        "ai-explore-FC01",
+        "ai-explore-FC02",
+        "ai-explore-FC03",
+        "ai-explore-FC04",
+        "conversation-history-C1",
+        "conversation-history-FC01",
+        "conversation-history-FC02",
+        "conversation-history-FC03",
+        "mist-detail-C1",
+        "mist-detail-FC01",
+        "mist-detail-FC02",
+        "mist-detail-FC03",
+        "quest-compass-C1",
+        "quest-compass-FC01",
+        "quest-compass-FC02",
+        "quest-compass-FC03",
+        "voice-consultation-C1",
+        "voice-consultation-FC01",
+        "voice-consultation-FC02",
+        "voice-consultation-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/exploration/",
+        "src/features/transfer/",
+        "docs/evidence/CONNECT-EXPLORE/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "AI",
+          "outputs": [
+            "AI.engine",
+            "AI.refs",
+            "AI.voice"
+          ],
+          "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行／音声文字起こし・送信確認への接続"
+        },
+        {
+          "issue": "EXPLORATION",
+          "outputs": [
+            "EXPLORATION.dialogue",
+            "EXPLORATION.discovery"
+          ],
+          "required_output": "街歩きの相談・候補選択・履歴／発見カードと反応・保存"
+        },
+        {
+          "issue": "ROUTES",
+          "outputs": [
+            "ROUTES.basic"
+          ],
+          "required_output": "基本道路経路の取得・保存・再取得"
+        },
+        {
+          "issue": "COMMUNITY",
+          "outputs": [
+            "COMMUNITY.knowledge"
+          ],
+          "required_output": "地域の声・分類/範囲・しおり・共有単体"
+        },
+        {
+          "issue": "SETTINGS",
+          "outputs": [
+            "SETTINGS.preferences"
+          ],
+          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
+        },
+        {
+          "issue": "TRANSFER",
+          "outputs": [
+            "TRANSFER.complete"
+          ],
+          "required_output": "別の街への体験移転・二案比較・採用"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        },
+        {
+          "issue": "PLACES",
+          "outputs": [
+            "PLACES.detail"
+          ],
+          "required_output": "場所詳細と本人/共有記録の合成"
+        },
+        {
+          "issue": "SUGGESTIONS",
+          "outputs": [
+            "SUGGESTIONS.complete"
+          ],
+          "required_output": "今日の条件・候補生成・選択・達成"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-EXPLORE",
+        "source_ui_task": "UI-EXPLORE"
+      }
+    },
+    {
+      "id": "CONNECT-ROUTES",
+      "lane": "A",
+      "title": "実接続：経路条件・候補比較・徒歩案内",
+      "kind": "ui",
+      "github_issue": 138,
+      "status": "registered",
+      "pages": [
+        "route-conditions",
+        "route-results",
+        "route-navigation"
+      ],
+      "hard_dependencies": [
+        "UI-ROUTES"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "PLACES",
+        "ROUTES",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-ROUTES.md",
+      "requirement_ids": [
+        "route-conditions-R1",
+        "route-conditions-F01",
+        "route-conditions-F02",
+        "route-conditions-F03",
+        "route-navigation-R1",
+        "route-navigation-F01",
+        "route-navigation-F02",
+        "route-navigation-F03",
+        "route-navigation-F04",
+        "route-results-R1",
+        "route-results-F01",
+        "route-results-F02",
+        "route-results-F03",
+        "route-results-F04"
+      ],
+      "acceptance_ids": [
+        "route-conditions-C1",
+        "route-conditions-FC01",
+        "route-conditions-FC02",
+        "route-conditions-FC03",
+        "route-navigation-C1",
+        "route-navigation-FC01",
+        "route-navigation-FC02",
+        "route-navigation-FC03",
+        "route-navigation-FC04",
+        "route-results-C1",
+        "route-results-FC01",
+        "route-results-FC02",
+        "route-results-FC03",
+        "route-results-FC04"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/routes/",
+        "docs/evidence/CONNECT-ROUTES/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "PLACES",
+          "outputs": [
+            "PLACES.search",
+            "PLACES.detail"
+          ],
+          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+        },
+        {
+          "issue": "ROUTES",
+          "outputs": [
+            "ROUTES.basic",
+            "ROUTES.navigation",
+            "ROUTES.conditions"
+          ],
+          "required_output": "基本道路経路の取得・保存・再取得／案内状態・ターン案内・復帰／追加経路条件・交通・定期券"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-ROUTES",
+        "source_ui_task": "UI-ROUTES"
+      }
+    },
+    {
+      "id": "CONNECT-REFLECTION",
+      "lane": "A",
+      "title": "実接続：日記・振り返り回答・体験比較とメモ",
+      "kind": "ui",
+      "github_issue": 139,
+      "status": "registered",
+      "pages": [
+        "self-home",
+        "diary",
+        "reflection-question",
+        "reflection-history",
+        "experience-compare",
+        "memo-edit"
+      ],
+      "hard_dependencies": [
+        "UI-REFLECTION"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "REFLECTION",
+        "THEMES",
+        "INFORMATION",
+        "RECORDS",
+        "SETTINGS",
+        "CORE",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-REFLECTION.md",
+      "requirement_ids": [
+        "diary-R1",
+        "diary-R2",
+        "diary-F01",
+        "diary-F02",
+        "diary-F03",
+        "experience-compare-R1",
+        "experience-compare-F01",
+        "experience-compare-F02",
+        "experience-compare-F03",
+        "memo-edit-R1",
+        "memo-edit-F01",
+        "memo-edit-F02",
+        "memo-edit-F03",
+        "memo-edit-F04",
+        "reflection-history-R1",
+        "reflection-history-F01",
+        "reflection-history-F02",
+        "reflection-history-F03",
+        "reflection-question-R1",
+        "reflection-question-R2",
+        "reflection-question-F01",
+        "reflection-question-F02",
+        "reflection-question-F03",
+        "self-home-R1",
+        "self-home-R2",
+        "self-home-F01",
+        "self-home-F02",
+        "self-home-F03"
+      ],
+      "acceptance_ids": [
+        "diary-C1",
+        "diary-C2",
+        "diary-FC01",
+        "diary-FC02",
+        "diary-FC03",
+        "experience-compare-C1",
+        "experience-compare-FC01",
+        "experience-compare-FC02",
+        "experience-compare-FC03",
+        "memo-edit-C1",
+        "memo-edit-FC01",
+        "memo-edit-FC02",
+        "memo-edit-FC03",
+        "memo-edit-FC04",
+        "reflection-history-C1",
+        "reflection-history-FC01",
+        "reflection-history-FC02",
+        "reflection-history-FC03",
+        "reflection-question-C1",
+        "reflection-question-C2",
+        "reflection-question-FC01",
+        "reflection-question-FC02",
+        "reflection-question-FC03",
+        "self-home-C1",
+        "self-home-C2",
+        "self-home-FC01",
+        "self-home-FC02",
+        "self-home-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/reflection/",
+        "docs/evidence/CONNECT-REFLECTION/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "REFLECTION",
+          "outputs": [
+            "REFLECTION.record",
+            "REFLECTION.compare"
+          ],
+          "required_output": "体験整理・日記・質問/回答／体験/友達比較と本人判断"
+        },
+        {
+          "issue": "THEMES",
+          "outputs": [
+            "THEMES.manual"
+          ],
+          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read",
+            "INFORMATION.refs"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+        },
+        {
+          "issue": "RECORDS",
+          "outputs": [
+            "RECORDS.save",
+            "RECORDS.media"
+          ],
+          "required_output": "記録の作成・単体取得・編集・削除"
+        },
+        {
+          "issue": "SETTINGS",
+          "outputs": [
+            "SETTINGS.preferences"
+          ],
+          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
+        },
+        {
+          "issue": "CORE",
+          "outputs": [
+            "CORE.runtime"
+          ],
+          "required_output": "同一origin起動・本人context・DB・再送/版"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-REFLECTION",
+        "source_ui_task": "UI-REFLECTION"
+      }
+    },
+    {
+      "id": "CONNECT-INSIGHTS",
+      "lane": "A",
+      "title": "実接続：傾向・根拠の訂正とテーマ管理",
+      "kind": "ui",
+      "github_issue": 140,
+      "status": "registered",
+      "pages": [
+        "type-diagnosis",
+        "trend-evidence",
+        "trend-review",
+        "themes",
+        "theme-edit"
+      ],
+      "hard_dependencies": [
+        "UI-INSIGHTS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "INSIGHTS",
+        "THEMES",
+        "INFORMATION",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-INSIGHTS.md",
+      "requirement_ids": [
+        "theme-edit-R1",
+        "theme-edit-F01",
+        "theme-edit-F02",
+        "theme-edit-F03",
+        "theme-edit-F04",
+        "themes-R1",
+        "themes-F01",
+        "themes-F02",
+        "themes-F03",
+        "trend-evidence-R1",
+        "trend-evidence-F01",
+        "trend-evidence-F02",
+        "trend-evidence-F03",
+        "trend-review-R1",
+        "trend-review-F01",
+        "trend-review-F02",
+        "trend-review-F03",
+        "type-diagnosis-R1",
+        "type-diagnosis-R2",
+        "type-diagnosis-F01",
+        "type-diagnosis-F02",
+        "type-diagnosis-F03",
+        "type-diagnosis-F04"
+      ],
+      "acceptance_ids": [
+        "theme-edit-C1",
+        "theme-edit-FC01",
+        "theme-edit-FC02",
+        "theme-edit-FC03",
+        "theme-edit-FC04",
+        "themes-C1",
+        "themes-FC01",
+        "themes-FC02",
+        "themes-FC03",
+        "trend-evidence-C1",
+        "trend-evidence-FC01",
+        "trend-evidence-FC02",
+        "trend-evidence-FC03",
+        "trend-review-C1",
+        "trend-review-FC01",
+        "trend-review-FC02",
+        "trend-review-FC03",
+        "type-diagnosis-C1",
+        "type-diagnosis-C2",
+        "type-diagnosis-FC01",
+        "type-diagnosis-FC02",
+        "type-diagnosis-FC03",
+        "type-diagnosis-FC04"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/insights/",
+        "src/features/themes/",
+        "docs/evidence/CONNECT-INSIGHTS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "INSIGHTS",
+          "outputs": [
+            "INSIGHTS.summary",
+            "INSIGHTS.evidence"
+          ],
+          "required_output": "記録/訪問に基づく期間集計／傾向・評価・根拠付き結果の保存"
+        },
+        {
+          "issue": "THEMES",
+          "outputs": [
+            "THEMES.manual",
+            "THEMES.ai"
+          ],
+          "required_output": "テーマ所属・表示属性・由来付きメモの保存／AI命名・提案の採用"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read",
+            "INFORMATION.refs",
+            "INFORMATION.sharing"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合／共有検索・地図検索・媒体閲覧"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-INSIGHTS",
+        "source_ui_task": "UI-INSIGHTS"
+      }
+    },
+    {
+      "id": "CONNECT-SUGGESTIONS",
+      "lane": "A",
+      "title": "実接続：今日の希望から候補選択・行き先へ",
+      "kind": "ui",
+      "github_issue": 141,
+      "status": "registered",
+      "pages": [
+        "self-checkin",
+        "suggestions",
+        "suggestion-detail"
+      ],
+      "hard_dependencies": [
+        "UI-SUGGESTIONS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "SUGGESTIONS",
+        "COMMUNITY",
+        "ROUTES",
+        "ACTIVITY",
+        "SETTINGS",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-SUGGESTIONS.md",
+      "requirement_ids": [
+        "self-checkin-R1",
+        "self-checkin-R2",
+        "self-checkin-F01",
+        "self-checkin-F02",
+        "self-checkin-F03",
+        "self-checkin-F04",
+        "self-checkin-F05",
+        "suggestion-detail-R1",
+        "suggestion-detail-F01",
+        "suggestion-detail-F02",
+        "suggestion-detail-F03",
+        "suggestion-detail-F04",
+        "suggestions-R1",
+        "suggestions-R2",
+        "suggestions-F01",
+        "suggestions-F02",
+        "suggestions-F03"
+      ],
+      "acceptance_ids": [
+        "self-checkin-C1",
+        "self-checkin-C2",
+        "self-checkin-FC01",
+        "self-checkin-FC02",
+        "self-checkin-FC03",
+        "self-checkin-FC04",
+        "self-checkin-FC05",
+        "suggestion-detail-C1",
+        "suggestion-detail-FC01",
+        "suggestion-detail-FC02",
+        "suggestion-detail-FC03",
+        "suggestion-detail-FC04",
+        "suggestions-C1",
+        "suggestions-C2",
+        "suggestions-FC01",
+        "suggestions-FC02",
+        "suggestions-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/suggestions/",
+        "docs/evidence/CONNECT-SUGGESTIONS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "SUGGESTIONS",
+          "outputs": [
+            "SUGGESTIONS.complete"
+          ],
+          "required_output": "今日の条件・候補生成・選択・達成"
+        },
+        {
+          "issue": "COMMUNITY",
+          "outputs": [
+            "COMMUNITY.knowledge"
+          ],
+          "required_output": "地域の声・分類/範囲・しおり・共有単体"
+        },
+        {
+          "issue": "ROUTES",
+          "outputs": [
+            "ROUTES.basic"
+          ],
+          "required_output": "基本道路経路の取得・保存・再取得"
+        },
+        {
+          "issue": "ACTIVITY",
+          "outputs": [
+            "ACTIVITY.growth"
+          ],
+          "required_output": "訪問確認・訂正・地図の成長材料"
+        },
+        {
+          "issue": "SETTINGS",
+          "outputs": [
+            "SETTINGS.preferences"
+          ],
+          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SUGGESTIONS",
+        "source_ui_task": "UI-SUGGESTIONS"
+      }
+    },
+    {
+      "id": "CONNECT-FRIENDS",
+      "lane": "A",
+      "title": "実接続：友達との共有・地図・比較とおすすめルート",
+      "kind": "ui",
+      "github_issue": 142,
+      "status": "registered",
+      "pages": [
+        "community-home",
+        "friends-map",
+        "friend-profile",
+        "friend-compare",
+        "shared-route",
+        "sharing",
+        "friend-picker"
+      ],
+      "hard_dependencies": [
+        "UI-FRIENDS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "INFORMATION",
+        "RECORDS",
+        "REFLECTION",
+        "THEMES",
+        "ROUTES",
+        "COMMUNITY",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-FRIENDS.md",
+      "requirement_ids": [
+        "community-home-R1",
+        "community-home-F01",
+        "community-home-F02",
+        "friend-compare-R1",
+        "friend-compare-F01",
+        "friend-compare-F02",
+        "friend-compare-F03",
+        "friend-picker-R1",
+        "friend-picker-F01",
+        "friend-picker-F02",
+        "friend-picker-F03",
+        "friend-profile-R1",
+        "friend-profile-F01",
+        "friend-profile-F02",
+        "friend-profile-F03",
+        "friend-profile-F04",
+        "friends-map-R1",
+        "friends-map-R2",
+        "friends-map-F01",
+        "friends-map-F02",
+        "friends-map-F03",
+        "friends-map-F04",
+        "shared-route-R1",
+        "shared-route-F01",
+        "shared-route-F02",
+        "shared-route-F03",
+        "sharing-R1",
+        "sharing-R2",
+        "sharing-F01",
+        "sharing-F02",
+        "sharing-F03",
+        "sharing-F04"
+      ],
+      "acceptance_ids": [
+        "community-home-C1",
+        "community-home-FC01",
+        "community-home-FC02",
+        "friend-compare-C1",
+        "friend-compare-FC01",
+        "friend-compare-FC02",
+        "friend-compare-FC03",
+        "friend-picker-C1",
+        "friend-picker-FC01",
+        "friend-picker-FC02",
+        "friend-picker-FC03",
+        "friend-profile-C1",
+        "friend-profile-FC01",
+        "friend-profile-FC02",
+        "friend-profile-FC03",
+        "friend-profile-FC04",
+        "friends-map-C1",
+        "friends-map-C2",
+        "friends-map-FC01",
+        "friends-map-FC02",
+        "friends-map-FC03",
+        "friends-map-FC04",
+        "shared-route-C1",
+        "shared-route-FC01",
+        "shared-route-FC02",
+        "shared-route-FC03",
+        "sharing-C1",
+        "sharing-C2",
+        "sharing-FC01",
+        "sharing-FC02",
+        "sharing-FC03",
+        "sharing-FC04"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/friends/",
+        "docs/evidence/CONNECT-FRIENDS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read",
+            "INFORMATION.refs",
+            "INFORMATION.sharing"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合／共有検索・地図検索・媒体閲覧"
+        },
+        {
+          "issue": "RECORDS",
+          "outputs": [
+            "RECORDS.lifecycle"
+          ],
+          "required_output": "共有変更・削除影響・書出し"
+        },
+        {
+          "issue": "REFLECTION",
+          "outputs": [
+            "REFLECTION.compare"
+          ],
+          "required_output": "体験/友達比較と本人判断"
+        },
+        {
+          "issue": "THEMES",
+          "outputs": [
+            "THEMES.manual"
+          ],
+          "required_output": "テーマ所属・表示属性・由来付きメモの保存"
+        },
+        {
+          "issue": "ROUTES",
+          "outputs": [
+            "ROUTES.basic"
+          ],
+          "required_output": "基本道路経路の取得・保存・再取得"
+        },
+        {
+          "issue": "COMMUNITY",
+          "outputs": [
+            "COMMUNITY.social"
+          ],
+          "required_output": "人物・友達関係・共有ルート/テーマ"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-FRIENDS",
+        "source_ui_task": "UI-FRIENDS"
+      }
+    },
+    {
+      "id": "CONNECT-KNOWLEDGE",
+      "lane": "A",
+      "title": "実接続：地域の知の検索・絞込・詳細と投稿",
+      "kind": "ui",
+      "github_issue": 143,
+      "status": "registered",
+      "pages": [
+        "local-knowledge",
+        "knowledge-list",
+        "knowledge-filter",
+        "knowledge-detail"
+      ],
+      "hard_dependencies": [
+        "UI-KNOWLEDGE"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "COMMUNITY",
+        "INFORMATION",
+        "RECORDS",
+        "PLACES",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-KNOWLEDGE.md",
+      "requirement_ids": [
+        "knowledge-detail-R1",
+        "knowledge-detail-F01",
+        "knowledge-detail-F02",
+        "knowledge-detail-F03",
+        "knowledge-filter-R1",
+        "knowledge-filter-F01",
+        "knowledge-filter-F02",
+        "knowledge-filter-F03",
+        "knowledge-list-R1",
+        "knowledge-list-F01",
+        "knowledge-list-F02",
+        "knowledge-list-F03",
+        "knowledge-list-F04",
+        "local-knowledge-R1",
+        "local-knowledge-F01",
+        "local-knowledge-F02",
+        "local-knowledge-F03"
+      ],
+      "acceptance_ids": [
+        "knowledge-detail-C1",
+        "knowledge-detail-FC01",
+        "knowledge-detail-FC02",
+        "knowledge-detail-FC03",
+        "knowledge-filter-C1",
+        "knowledge-filter-FC01",
+        "knowledge-filter-FC02",
+        "knowledge-filter-FC03",
+        "knowledge-list-C1",
+        "knowledge-list-FC01",
+        "knowledge-list-FC02",
+        "knowledge-list-FC03",
+        "knowledge-list-FC04",
+        "local-knowledge-C1",
+        "local-knowledge-FC01",
+        "local-knowledge-FC02",
+        "local-knowledge-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/knowledge/",
+        "docs/evidence/CONNECT-KNOWLEDGE/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "COMMUNITY",
+          "outputs": [
+            "COMMUNITY.knowledge"
+          ],
+          "required_output": "地域の声・分類/範囲・しおり・共有単体"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read",
+            "INFORMATION.sharing"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件／共有検索・地図検索・媒体閲覧"
+        },
+        {
+          "issue": "RECORDS",
+          "outputs": [
+            "RECORDS.save",
+            "RECORDS.lifecycle"
+          ],
+          "required_output": "記録の作成・単体取得・編集・削除／共有変更・削除影響・書出し"
+        },
+        {
+          "issue": "PLACES",
+          "outputs": [
+            "PLACES.search",
+            "PLACES.detail"
+          ],
+          "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-KNOWLEDGE",
+        "source_ui_task": "UI-KNOWLEDGE"
+      }
+    },
+    {
+      "id": "CONNECT-PLUGINS",
+      "lane": "A",
+      "title": "実接続：拡張機能の試用・導入・更新と機能要望",
+      "kind": "ui",
+      "github_issue": 144,
+      "status": "registered",
+      "pages": [
+        "plugin-store",
+        "plugin-detail",
+        "plugin-trial",
+        "plugin-install",
+        "plugin-manage",
+        "plugin-update",
+        "plugin-conflict",
+        "feature-requests",
+        "feature-request-edit"
+      ],
+      "hard_dependencies": [
+        "UI-PLUGINS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "PLUGINS",
+        "BIKE",
+        "DISASTER",
+        "PILGRIMAGE",
+        "FEATURE-REQUESTS",
+        "CORE",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-PLUGINS.md",
+      "requirement_ids": [
+        "feature-request-edit-R1",
+        "feature-request-edit-F01",
+        "feature-request-edit-F02",
+        "feature-request-edit-F03",
+        "feature-request-edit-FORM",
+        "feature-requests-R1",
+        "feature-requests-F01",
+        "feature-requests-F02",
+        "feature-requests-F03",
+        "feature-requests-F04",
+        "feature-requests-FORM",
+        "plugin-conflict-R1",
+        "plugin-conflict-F01",
+        "plugin-conflict-F02",
+        "plugin-conflict-F03",
+        "plugin-detail-R1",
+        "plugin-detail-F01",
+        "plugin-detail-F02",
+        "plugin-install-R1",
+        "plugin-install-F01",
+        "plugin-install-F02",
+        "plugin-install-F03",
+        "plugin-manage-R1",
+        "plugin-manage-F01",
+        "plugin-manage-F02",
+        "plugin-manage-F03",
+        "plugin-manage-F04",
+        "plugin-store-R1",
+        "plugin-store-F01",
+        "plugin-store-F02",
+        "plugin-store-F03",
+        "plugin-store-F04",
+        "plugin-trial-R1",
+        "plugin-trial-F01",
+        "plugin-trial-F02",
+        "plugin-trial-F03",
+        "plugin-update-R1",
+        "plugin-update-F01",
+        "plugin-update-F02",
+        "plugin-update-F03",
+        "plugin-update-F04"
+      ],
+      "acceptance_ids": [
+        "feature-request-edit-C1",
+        "feature-request-edit-FC01",
+        "feature-request-edit-FC02",
+        "feature-request-edit-FC03",
+        "feature-request-edit-FORM-C",
+        "feature-requests-C1",
+        "feature-requests-FC01",
+        "feature-requests-FC02",
+        "feature-requests-FC03",
+        "feature-requests-FC04",
+        "feature-requests-FORM-C",
+        "plugin-conflict-C1",
+        "plugin-conflict-FC01",
+        "plugin-conflict-FC02",
+        "plugin-conflict-FC03",
+        "plugin-detail-C1",
+        "plugin-detail-FC01",
+        "plugin-detail-FC02",
+        "plugin-install-C1",
+        "plugin-install-FC01",
+        "plugin-install-FC02",
+        "plugin-install-FC03",
+        "plugin-manage-C1",
+        "plugin-manage-FC01",
+        "plugin-manage-FC02",
+        "plugin-manage-FC03",
+        "plugin-manage-FC04",
+        "plugin-store-C1",
+        "plugin-store-FC01",
+        "plugin-store-FC02",
+        "plugin-store-FC03",
+        "plugin-store-FC04",
+        "plugin-trial-C1",
+        "plugin-trial-FC01",
+        "plugin-trial-FC02",
+        "plugin-trial-FC03",
+        "plugin-update-C1",
+        "plugin-update-FC01",
+        "plugin-update-FC02",
+        "plugin-update-FC03",
+        "plugin-update-FC04"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/CONNECT-PLUGINS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "PLUGINS",
+          "outputs": [
+            "PLUGINS.state",
+            "PLUGINS.lifecycle"
+          ],
+          "required_output": "本人別の導入・有効状態・版・適用宣言／試用・導入・更新・競合解決・版戻し"
+        },
+        {
+          "issue": "BIKE",
+          "outputs": [
+            "BIKE.complete"
+          ],
+          "required_output": "車種/高速条件付き地点と経路"
+        },
+        {
+          "issue": "DISASTER",
+          "outputs": [
+            "DISASTER.complete"
+          ],
+          "required_output": "防災情報・出典/時点付き表示材料"
+        },
+        {
+          "issue": "PILGRIMAGE",
+          "outputs": [
+            "PILGRIMAGE.complete"
+          ],
+          "required_output": "作品/地点の出典・巡回計画・保存"
+        },
+        {
+          "issue": "FEATURE-REQUESTS",
+          "outputs": [
+            "FEATURE-REQUESTS.complete"
+          ],
+          "required_output": "機能要望・共感・公開範囲・編集"
+        },
+        {
+          "issue": "CORE",
+          "outputs": [
+            "CORE.runtime"
+          ],
+          "required_output": "同一origin起動・本人context・DB・再送/版"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-PLUGINS",
+        "source_ui_task": "UI-PLUGINS"
+      }
+    },
+    {
+      "id": "CONNECT-SETTINGS",
+      "lane": "A",
+      "title": "実接続：設定・プロフィール・活動統計と取得元（非健康）",
+      "kind": "ui",
+      "github_issue": 145,
+      "status": "registered",
+      "pages": [
+        "settings",
+        "profile-settings",
+        "suggestion-settings",
+        "health-connect",
+        "health-permissions",
+        "health-status",
+        "activity-stats",
+        "data-sources"
+      ],
+      "hard_dependencies": [
+        "UI-SETTINGS"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "SETTINGS",
+        "ACTIVITY",
+        "INSIGHTS",
+        "CORE",
+        "CONNECT-BASE",
+        "INFORMATION"
+      ],
+      "issue_file": "issues/CONNECT-SETTINGS.md",
+      "requirement_ids": [
+        "activity-stats-R1",
+        "activity-stats-R2",
+        "activity-stats-F01",
+        "activity-stats-F02",
+        "activity-stats-F03",
+        "data-sources-R1",
+        "data-sources-F01",
+        "data-sources-F02",
+        "data-sources-F03",
+        "health-connect-R1",
+        "health-connect-F01",
+        "health-connect-F02",
+        "health-connect-F03",
+        "health-permissions-R1",
+        "health-permissions-F01",
+        "health-permissions-F02",
+        "health-permissions-F03",
+        "health-permissions-F04",
+        "health-status-R1",
+        "health-status-F01",
+        "health-status-F02",
+        "health-status-F03",
+        "profile-settings-R1",
+        "profile-settings-F01",
+        "profile-settings-F02",
+        "profile-settings-F03",
+        "profile-settings-F04",
+        "settings-R1",
+        "settings-F01",
+        "settings-F02",
+        "suggestion-settings-R1",
+        "suggestion-settings-F01",
+        "suggestion-settings-F02",
+        "suggestion-settings-F03"
+      ],
+      "acceptance_ids": [
+        "activity-stats-C1",
+        "activity-stats-C2",
+        "activity-stats-FC01",
+        "activity-stats-FC02",
+        "activity-stats-FC03",
+        "data-sources-C1",
+        "data-sources-FC01",
+        "data-sources-FC02",
+        "data-sources-FC03",
+        "health-connect-C1",
+        "health-connect-FC01",
+        "health-connect-FC02",
+        "health-connect-FC03",
+        "health-permissions-C1",
+        "health-permissions-FC01",
+        "health-permissions-FC02",
+        "health-permissions-FC03",
+        "health-permissions-FC04",
+        "health-status-C1",
+        "health-status-FC01",
+        "health-status-FC02",
+        "health-status-FC03",
+        "profile-settings-C1",
+        "profile-settings-FC01",
+        "profile-settings-FC02",
+        "profile-settings-FC03",
+        "profile-settings-FC04",
+        "settings-C1",
+        "settings-FC01",
+        "settings-FC02",
+        "suggestion-settings-C1",
+        "suggestion-settings-FC01",
+        "suggestion-settings-FC02",
+        "suggestion-settings-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/CONNECT-SETTINGS/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "SETTINGS",
+          "outputs": [
+            "SETTINGS.preferences",
+            "SETTINGS.data"
+          ],
+          "required_output": "プロフィール・利用設定・AI送信範囲・提案停止／アイコン・本人データ一覧/書出し/削除"
+        },
+        {
+          "issue": "ACTIVITY",
+          "outputs": [
+            "ACTIVITY.track"
+          ],
+          "required_output": "位置観測・日別軌跡・範囲削除"
+        },
+        {
+          "issue": "INSIGHTS",
+          "outputs": [
+            "INSIGHTS.summary"
+          ],
+          "required_output": "記録/訪問に基づく期間集計"
+        },
+        {
+          "issue": "CORE",
+          "outputs": [
+            "CORE.runtime"
+          ],
+          "required_output": "同一origin起動・本人context・DB・再送/版"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        },
+        {
+          "issue": "INFORMATION",
+          "outputs": [
+            "INFORMATION.read"
+          ],
+          "required_output": "記録検索・実効日時/場所・現在の閲覧条件"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SETTINGS",
+        "source_ui_task": "UI-SETTINGS",
+        "deferred_health": "CONNECT-HEALTH"
+      }
+    },
+    {
+      "id": "CONNECT-COMPANION",
+      "lane": "A",
+      "title": "実接続：既存相棒の取込・管理・動作確認と選択",
+      "kind": "ui",
+      "github_issue": 147,
+      "status": "registered",
+      "pages": [
+        "companion-settings",
+        "companion-import",
+        "companion-create"
+      ],
+      "hard_dependencies": [
+        "UI-COMPANION"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "COMPANION",
+        "CONNECT-BASE"
+      ],
+      "issue_file": "issues/CONNECT-COMPANION.md",
+      "requirement_ids": [
+        "companion-create-R1",
+        "companion-create-F01",
+        "companion-create-F02",
+        "companion-create-F03",
+        "companion-create-F04",
+        "companion-import-R1",
+        "companion-import-F01",
+        "companion-import-F02",
+        "companion-import-F03",
+        "companion-settings-R1",
+        "companion-settings-F01",
+        "companion-settings-F02",
+        "companion-settings-F03",
+        "companion-settings-F04"
+      ],
+      "acceptance_ids": [
+        "companion-create-C1",
+        "companion-create-FC01",
+        "companion-create-FC02",
+        "companion-create-FC03",
+        "companion-create-FC04",
+        "companion-import-C1",
+        "companion-import-FC01",
+        "companion-import-FC02",
+        "companion-import-FC03",
+        "companion-settings-C1",
+        "companion-settings-FC01",
+        "companion-settings-FC02",
+        "companion-settings-FC03",
+        "companion-settings-FC04"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "write_paths": [
+        "src/features/companion/",
+        "docs/evidence/CONNECT-COMPANION/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "COMPANION",
+          "outputs": [
+            "COMPANION.import"
+          ],
+          "required_output": "既存CodexペットのZIP取込・保存・一覧・表示管理・選択"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "contract_gates": {
+        "common": [
+          "本人context・共通HTTP・登録/型の境界"
+        ],
+        "feature_gaps": [],
+        "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+      },
+      "completion_scope": {
+        "phase": "connection",
+        "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-COMPANION",
+        "source_ui_task": "UI-COMPANION"
+      },
+      "scope_exclusions": [
+        "companion-create"
+      ]
+    },
+    {
+      "id": "UI-HEALTH",
+      "lane": "A",
+      "title": "余力枠：健康の画面・許可・状態操作",
+      "kind": "ui",
+      "github_issue": 146,
+      "status": "registered",
+      "priority": "P3",
+      "effective_priority": "P3",
+      "pages": [
+        "health-connect",
+        "health-permissions",
+        "health-status"
+      ],
+      "shared_pages": [
+        "settings",
+        "activity-stats",
+        "data-sources"
+      ],
+      "hard_dependencies": [
+        "UI-SETTINGS"
+      ],
+      "connect_after": [
+        "UI-BASE"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        }
+      ],
+      "provides": [],
+      "requirement_ids": [
+        "settings-R1",
+        "settings-F01",
+        "settings-F02",
+        "health-connect-R1",
+        "health-connect-F01",
+        "health-connect-F02",
+        "health-connect-F03",
+        "health-permissions-R1",
+        "health-permissions-F01",
+        "health-permissions-F02",
+        "health-permissions-F03",
+        "health-permissions-F04",
+        "health-status-R1",
+        "health-status-F01",
+        "health-status-F02",
+        "health-status-F03",
+        "activity-stats-R1",
+        "activity-stats-R2",
+        "activity-stats-F01",
+        "activity-stats-F02",
+        "activity-stats-F03",
+        "data-sources-R1",
+        "data-sources-F01",
+        "data-sources-F02",
+        "data-sources-F03"
+      ],
+      "acceptance_ids": [
+        "settings-C1",
+        "settings-FC01",
+        "settings-FC02",
+        "health-connect-C1",
+        "health-connect-FC01",
+        "health-connect-FC02",
+        "health-connect-FC03",
+        "health-permissions-C1",
+        "health-permissions-FC01",
+        "health-permissions-FC02",
+        "health-permissions-FC03",
+        "health-permissions-FC04",
+        "health-status-C1",
+        "health-status-FC01",
+        "health-status-FC02",
+        "health-status-FC03",
+        "activity-stats-C1",
+        "activity-stats-C2",
+        "activity-stats-FC01",
+        "activity-stats-FC02",
+        "activity-stats-FC03",
+        "data-sources-C1",
+        "data-sources-FC01",
+        "data-sources-FC02",
+        "data-sources-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "issue_file": "issues/UI-HEALTH.md",
+      "write_paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/UI-HEALTH/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "contract_gates": {
+        "common": [],
+        "feature_gaps": [],
+        "scope": "健康の余力枠だけ。非健康機能の必須依存にしない。"
+      },
+      "completion_scope": {
+        "phase": "deferred-ui",
+        "mapping": "docs/03_issue/ui-connections.json#/health_deferral",
+        "source_ui_task": "UI-SETTINGS"
+      },
+      "scope_schedule": {
+        "mode": "if-time-remains",
+        "required_for_other_features": false
+      }
+    },
+    {
+      "id": "CONNECT-HEALTH",
+      "lane": "A",
+      "title": "余力枠：健康の取込・保存・停止/削除の実接続",
+      "kind": "ui",
+      "github_issue": 148,
+      "status": "registered",
+      "priority": "P3",
+      "effective_priority": "P3",
+      "pages": [
+        "health-connect",
+        "health-permissions",
+        "health-status"
+      ],
+      "shared_pages": [
+        "settings",
+        "activity-stats",
+        "data-sources"
+      ],
+      "hard_dependencies": [
+        "UI-HEALTH"
+      ],
+      "connect_after": [
+        "UI-BASE",
+        "HEALTH",
+        "CONNECT-BASE"
+      ],
+      "connect_inputs": [
+        {
+          "issue": "UI-BASE",
+          "outputs": [
+            "UI-BASE.shell"
+          ],
+          "required_output": "共通画面・地図/チャットの受渡し"
+        },
+        {
+          "issue": "HEALTH",
+          "outputs": [
+            "HEALTH.complete"
+          ],
+          "required_output": "健康取込・期間許可・停止/削除・集計"
+        },
+        {
+          "issue": "CONNECT-BASE",
+          "outputs": [
+            "CONNECT-BASE.integration"
+          ],
+          "required_output": "本人contextと共通clientを接続済みの実shell"
+        }
+      ],
+      "provides": [],
+      "requirement_ids": [
+        "settings-R1",
+        "settings-F01",
+        "settings-F02",
+        "health-connect-R1",
+        "health-connect-F01",
+        "health-connect-F02",
+        "health-connect-F03",
+        "health-permissions-R1",
+        "health-permissions-F01",
+        "health-permissions-F02",
+        "health-permissions-F03",
+        "health-permissions-F04",
+        "health-status-R1",
+        "health-status-F01",
+        "health-status-F02",
+        "health-status-F03",
+        "activity-stats-R1",
+        "activity-stats-R2",
+        "activity-stats-F01",
+        "activity-stats-F02",
+        "activity-stats-F03",
+        "data-sources-R1",
+        "data-sources-F01",
+        "data-sources-F02",
+        "data-sources-F03"
+      ],
+      "acceptance_ids": [
+        "settings-C1",
+        "settings-FC01",
+        "settings-FC02",
+        "health-connect-C1",
+        "health-connect-FC01",
+        "health-connect-FC02",
+        "health-connect-FC03",
+        "health-permissions-C1",
+        "health-permissions-FC01",
+        "health-permissions-FC02",
+        "health-permissions-FC03",
+        "health-permissions-FC04",
+        "health-status-C1",
+        "health-status-FC01",
+        "health-status-FC02",
+        "health-status-FC03",
+        "activity-stats-C1",
+        "activity-stats-C2",
+        "activity-stats-FC01",
+        "activity-stats-FC02",
+        "activity-stats-FC03",
+        "data-sources-C1",
+        "data-sources-FC01",
+        "data-sources-FC02",
+        "data-sources-FC03"
+      ],
+      "owned_operations": [],
+      "owned_gaps": [],
+      "issue_file": "issues/CONNECT-HEALTH.md",
+      "write_paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/CONNECT-HEALTH/"
+      ],
+      "references": [
+        "../01_requirements/03_pages/common.json",
+        "../01_requirements/00_stacks/README.md"
+      ],
+      "contract_gates": {
+        "common": [],
+        "feature_gaps": [
+          "health",
+          "health-import"
+        ],
+        "scope": "健康の余力枠だけ。非健康機能の必須依存にしない。"
+      },
+      "completion_scope": {
+        "phase": "deferred-connection",
+        "mapping": "docs/03_issue/ui-connections.json#/health_deferral",
+        "source_ui_task": "UI-HEALTH"
+      },
+      "scope_schedule": {
+        "mode": "if-time-remains",
+        "required_for_other_features": false
+      }
     }
   ],
   "coverage": {
@@ -4432,7 +6272,14 @@
         ],
         "gap_owners": [
           "HEALTH"
-        ]
+        ],
+        "connection_issue": "CONNECT-SETTINGS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SETTINGS",
+        "deferred_health": {
+          "ui_issue": "UI-HEALTH",
+          "connection_issue": "CONNECT-HEALTH",
+          "scope_status": "deferred"
+        }
       },
       {
         "page": "ai-consent",
@@ -4452,7 +6299,9 @@
         "api_owners": [],
         "gap_owners": [
           "AI"
-        ]
+        ],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       },
       {
         "page": "ai-explore",
@@ -4478,7 +6327,9 @@
         ],
         "gap_owners": [
           "EXPLORATION"
-        ]
+        ],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       },
       {
         "page": "community-home",
@@ -4494,7 +6345,9 @@
           "community-home-FC02"
         ],
         "api_owners": [],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "companion-create",
@@ -4516,7 +6369,10 @@
         "api_owners": [],
         "gap_owners": [
           "COMPANION"
-        ]
+        ],
+        "connection_issue": "CONNECT-COMPANION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-COMPANION",
+        "scope_status": "user-excluded"
       },
       {
         "page": "companion-import",
@@ -4536,7 +6392,9 @@
         "api_owners": [],
         "gap_owners": [
           "COMPANION"
-        ]
+        ],
+        "connection_issue": "CONNECT-COMPANION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-COMPANION"
       },
       {
         "page": "companion-settings",
@@ -4558,7 +6416,9 @@
         "api_owners": [],
         "gap_owners": [
           "COMPANION"
-        ]
+        ],
+        "connection_issue": "CONNECT-COMPANION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-COMPANION"
       },
       {
         "page": "conversation-history",
@@ -4580,7 +6440,9 @@
         ],
         "gap_owners": [
           "EXPLORATION"
-        ]
+        ],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       },
       {
         "page": "daily-track",
@@ -4605,7 +6467,9 @@
           "ACTIVITY",
           "INFORMATION"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "data-sources",
@@ -4627,7 +6491,14 @@
         ],
         "gap_owners": [
           "HEALTH"
-        ]
+        ],
+        "connection_issue": "CONNECT-SETTINGS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SETTINGS",
+        "deferred_health": {
+          "ui_issue": "UI-HEALTH",
+          "connection_issue": "CONNECT-HEALTH",
+          "scope_status": "deferred"
+        }
       },
       {
         "page": "diary",
@@ -4650,7 +6521,9 @@
           "INFORMATION",
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "experience-compare",
@@ -4672,7 +6545,9 @@
         ],
         "gap_owners": [
           "REFLECTION"
-        ]
+        ],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "feature-request-edit",
@@ -4697,7 +6572,9 @@
         ],
         "gap_owners": [
           "FEATURE-REQUESTS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "feature-requests",
@@ -4723,7 +6600,9 @@
         ],
         "gap_owners": [
           "FEATURE-REQUESTS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "friend-compare",
@@ -4745,7 +6624,9 @@
         ],
         "gap_owners": [
           "REFLECTION"
-        ]
+        ],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "friend-picker",
@@ -4765,7 +6646,9 @@
         "api_owners": [
           "COMMUNITY"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "friend-profile",
@@ -4790,7 +6673,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "friends-map",
@@ -4815,7 +6700,9 @@
           "COMMUNITY",
           "INFORMATION"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "growth-result",
@@ -4836,11 +6723,13 @@
           "ACTIVITY",
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "health-connect",
-        "ui_issue": "UI-SETTINGS",
+        "ui_issue": "UI-HEALTH",
         "requirement_ids": [
           "health-connect-R1",
           "health-connect-F01",
@@ -4856,11 +6745,15 @@
         "api_owners": [],
         "gap_owners": [
           "HEALTH"
-        ]
+        ],
+        "connection_issue": "CONNECT-HEALTH",
+        "acceptance_mapping": "ui-connections.json#/health_deferral",
+        "origin_ui_issue": "UI-SETTINGS",
+        "scope_status": "deferred"
       },
       {
         "page": "health-permissions",
-        "ui_issue": "UI-SETTINGS",
+        "ui_issue": "UI-HEALTH",
         "requirement_ids": [
           "health-permissions-R1",
           "health-permissions-F01",
@@ -4878,11 +6771,15 @@
         "api_owners": [],
         "gap_owners": [
           "HEALTH"
-        ]
+        ],
+        "connection_issue": "CONNECT-HEALTH",
+        "acceptance_mapping": "ui-connections.json#/health_deferral",
+        "origin_ui_issue": "UI-SETTINGS",
+        "scope_status": "deferred"
       },
       {
         "page": "health-status",
-        "ui_issue": "UI-SETTINGS",
+        "ui_issue": "UI-HEALTH",
         "requirement_ids": [
           "health-status-R1",
           "health-status-F01",
@@ -4898,7 +6795,11 @@
         "api_owners": [],
         "gap_owners": [
           "HEALTH"
-        ]
+        ],
+        "connection_issue": "CONNECT-HEALTH",
+        "acceptance_mapping": "ui-connections.json#/health_deferral",
+        "origin_ui_issue": "UI-SETTINGS",
+        "scope_status": "deferred"
       },
       {
         "page": "interpretation-correction",
@@ -4921,7 +6822,9 @@
           "RECORDS",
           "INSIGHTS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "knowledge-detail",
@@ -4944,7 +6847,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-KNOWLEDGE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-KNOWLEDGE"
       },
       {
         "page": "knowledge-filter",
@@ -4964,7 +6869,9 @@
         "api_owners": [],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-KNOWLEDGE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-KNOWLEDGE"
       },
       {
         "page": "knowledge-list",
@@ -4989,7 +6896,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-KNOWLEDGE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-KNOWLEDGE"
       },
       {
         "page": "local-knowledge",
@@ -5010,7 +6919,9 @@
           "PLACES",
           "COMMUNITY"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-KNOWLEDGE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-KNOWLEDGE"
       },
       {
         "page": "map",
@@ -5041,7 +6952,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-MAP",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-MAP"
       },
       {
         "page": "map-layers",
@@ -5063,7 +6976,9 @@
         ],
         "gap_owners": [
           "MAP-CUSTOM"
-        ]
+        ],
+        "connection_issue": "CONNECT-MAP",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-MAP"
       },
       {
         "page": "memo-edit",
@@ -5087,7 +7002,9 @@
         ],
         "gap_owners": [
           "THEMES"
-        ]
+        ],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "mist-detail",
@@ -5110,7 +7027,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       },
       {
         "page": "navigation",
@@ -5130,7 +7049,9 @@
           "navigation-FC03"
         ],
         "api_owners": [],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-BASE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-BASE"
       },
       {
         "page": "object-edit",
@@ -5154,7 +7075,9 @@
         "api_owners": [],
         "gap_owners": [
           "MAP-CUSTOM"
-        ]
+        ],
+        "connection_issue": "CONNECT-MAP",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-MAP"
       },
       {
         "page": "object-place",
@@ -5176,7 +7099,9 @@
         "api_owners": [],
         "gap_owners": [
           "MAP-CUSTOM"
-        ]
+        ],
+        "connection_issue": "CONNECT-MAP",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-MAP"
       },
       {
         "page": "personal-map",
@@ -5201,7 +7126,9 @@
           "PLACES",
           "ACTIVITY"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-MAP",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-MAP"
       },
       {
         "page": "plugin-conflict",
@@ -5223,7 +7150,9 @@
         ],
         "gap_owners": [
           "PLUGINS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-detail",
@@ -5241,7 +7170,9 @@
         "api_owners": [
           "PLUGINS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-install",
@@ -5261,7 +7192,9 @@
         "api_owners": [
           "PLUGINS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-manage",
@@ -5285,7 +7218,9 @@
         ],
         "gap_owners": [
           "PLUGINS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-store",
@@ -5307,7 +7242,9 @@
         "api_owners": [
           "PLUGINS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-trial",
@@ -5329,7 +7266,9 @@
         ],
         "gap_owners": [
           "PLUGINS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "plugin-update",
@@ -5353,7 +7292,9 @@
         ],
         "gap_owners": [
           "PLUGINS"
-        ]
+        ],
+        "connection_issue": "CONNECT-PLUGINS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-PLUGINS"
       },
       {
         "page": "profile-settings",
@@ -5378,7 +7319,9 @@
         ],
         "gap_owners": [
           "SETTINGS"
-        ]
+        ],
+        "connection_issue": "CONNECT-SETTINGS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SETTINGS"
       },
       {
         "page": "quest-compass",
@@ -5396,7 +7339,9 @@
           "quest-compass-FC03"
         ],
         "api_owners": [],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       },
       {
         "page": "record-create",
@@ -5424,7 +7369,9 @@
           "ACTIVITY",
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "record-delete",
@@ -5448,7 +7395,9 @@
         ],
         "gap_owners": [
           "RECORDS"
-        ]
+        ],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "record-edit",
@@ -5472,7 +7421,9 @@
         "api_owners": [
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "reflection-history",
@@ -5494,7 +7445,9 @@
         ],
         "gap_owners": [
           "REFLECTION"
-        ]
+        ],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "reflection-question",
@@ -5518,7 +7471,9 @@
         ],
         "gap_owners": [
           "REFLECTION"
-        ]
+        ],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "route-conditions",
@@ -5541,7 +7496,9 @@
         ],
         "gap_owners": [
           "ROUTES"
-        ]
+        ],
+        "connection_issue": "CONNECT-ROUTES",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-ROUTES"
       },
       {
         "page": "route-navigation",
@@ -5565,7 +7522,9 @@
         ],
         "gap_owners": [
           "ROUTES"
-        ]
+        ],
+        "connection_issue": "CONNECT-ROUTES",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-ROUTES"
       },
       {
         "page": "route-results",
@@ -5589,7 +7548,9 @@
         ],
         "gap_owners": [
           "ROUTES"
-        ]
+        ],
+        "connection_issue": "CONNECT-ROUTES",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-ROUTES"
       },
       {
         "page": "self-checkin",
@@ -5617,7 +7578,9 @@
         ],
         "gap_owners": [
           "SUGGESTIONS"
-        ]
+        ],
+        "connection_issue": "CONNECT-SUGGESTIONS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SUGGESTIONS"
       },
       {
         "page": "self-home",
@@ -5640,7 +7603,9 @@
           "INFORMATION",
           "CORE"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-REFLECTION",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-REFLECTION"
       },
       {
         "page": "settings",
@@ -5660,7 +7625,14 @@
         ],
         "gap_owners": [
           "SETTINGS"
-        ]
+        ],
+        "connection_issue": "CONNECT-SETTINGS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SETTINGS",
+        "deferred_health": {
+          "ui_issue": "UI-HEALTH",
+          "connection_issue": "CONNECT-HEALTH",
+          "scope_status": "deferred"
+        }
       },
       {
         "page": "shared-route",
@@ -5681,7 +7653,9 @@
           "COMMUNITY",
           "ROUTES"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "sharing",
@@ -5705,7 +7679,9 @@
         "api_owners": [
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-FRIENDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-FRIENDS"
       },
       {
         "page": "suggestion-detail",
@@ -5730,7 +7706,9 @@
         ],
         "gap_owners": [
           "COMMUNITY"
-        ]
+        ],
+        "connection_issue": "CONNECT-SUGGESTIONS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SUGGESTIONS"
       },
       {
         "page": "suggestion-settings",
@@ -5750,7 +7728,9 @@
         "api_owners": [],
         "gap_owners": [
           "SETTINGS"
-        ]
+        ],
+        "connection_issue": "CONNECT-SETTINGS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SETTINGS"
       },
       {
         "page": "suggestions",
@@ -5774,7 +7754,9 @@
         ],
         "gap_owners": [
           "SUGGESTIONS"
-        ]
+        ],
+        "connection_issue": "CONNECT-SUGGESTIONS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-SUGGESTIONS"
       },
       {
         "page": "theme-edit",
@@ -5799,7 +7781,9 @@
         ],
         "gap_owners": [
           "THEMES"
-        ]
+        ],
+        "connection_issue": "CONNECT-INSIGHTS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-INSIGHTS"
       },
       {
         "page": "themes",
@@ -5819,7 +7803,9 @@
         "api_owners": [
           "THEMES"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-INSIGHTS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-INSIGHTS"
       },
       {
         "page": "trend-evidence",
@@ -5841,7 +7827,9 @@
           "INFORMATION",
           "RECORDS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-INSIGHTS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-INSIGHTS"
       },
       {
         "page": "trend-review",
@@ -5861,7 +7849,9 @@
         "api_owners": [
           "INSIGHTS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-INSIGHTS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-INSIGHTS"
       },
       {
         "page": "type-diagnosis",
@@ -5885,7 +7875,9 @@
         "api_owners": [
           "INSIGHTS"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-INSIGHTS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-INSIGHTS"
       },
       {
         "page": "visit-confirm",
@@ -5907,7 +7899,9 @@
         "api_owners": [
           "ACTIVITY"
         ],
-        "gap_owners": []
+        "gap_owners": [],
+        "connection_issue": "CONNECT-RECORDS",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-RECORDS"
       },
       {
         "page": "voice-consultation",
@@ -5927,7 +7921,9 @@
         "api_owners": [],
         "gap_owners": [
           "AI"
-        ]
+        ],
+        "connection_issue": "CONNECT-EXPLORE",
+        "acceptance_mapping": "ui-connections.json#/pairs/UI-EXPLORE"
       }
     ],
     "operations": [
@@ -6555,6 +8551,32 @@
         "path": "/discovery-cards/{cardId}/reactions/{reactionId}",
         "owner": "EXPLORATION"
       }
+    ],
+    "additional_operations": [
+      {
+        "id": "getSessionProfiles",
+        "method": "get",
+        "path": "/session/profiles",
+        "owner": "CORE"
+      },
+      {
+        "id": "postSession",
+        "method": "post",
+        "path": "/session",
+        "owner": "CORE"
+      },
+      {
+        "id": "getSession",
+        "method": "get",
+        "path": "/session",
+        "owner": "CORE"
+      },
+      {
+        "id": "deleteSession",
+        "method": "delete",
+        "path": "/session",
+        "owner": "CORE"
+      }
     ]
   },
   "deliveries": [
@@ -6580,11 +8602,8 @@
       "id": "UI-BASE.shell",
       "task": "UI-BASE",
       "result": "共通画面・地図/チャットの受渡し",
-      "requires": [
-        "CORE.runtime",
-        "CORE.integration"
-      ],
-      "ready_when": "同じ起動環境で共通画面を開き、本人切替で旧要求を取消。地点/経路/選択を既存の地図境界へ渡せる。",
+      "requires": [],
+      "ready_when": "指定画像・実Mapbox・共通画面/地図/チャット境界・遷移/入力/取消の表示を実shellで確認する。API未接続応答はmockと明示。実本人/通信の接続はCONNECT-BASEへ。",
       "status": "planned"
     },
     {
@@ -6916,7 +8935,8 @@
         "CORE.runtime"
       ],
       "ready_when": "実対応データの取込から許可変更/停止/削除/再取得まで確認する。",
-      "status": "planned"
+      "status": "deferred",
+      "scope_schedule": "if-time-remains"
     },
     {
       "id": "FEATURE-REQUESTS.complete",
@@ -7032,23 +9052,36 @@
         "COMPANION.import"
       ],
       "ready_when": "実生成先で入力→生成→動作確認→採用を保存。未接続は完了にしない。",
+      "status": "user-excluded",
+      "scope_exclusion": "companion-create"
+    },
+    {
+      "id": "CONNECT-BASE.integration",
+      "task": "CONNECT-BASE",
+      "result": "本人context・共通clientを接続した実shell",
+      "requires": [
+        "UI-BASE.shell",
+        "CORE.runtime",
+        "CORE.integration"
+      ],
+      "ready_when": "同一originで本人開始/live-demo切替、旧要求取消/遅着排除、実通信と再取得を確認する。",
       "status": "planned"
     }
   ],
   "integration_priority": [
     {
       "id": "map-search",
-      "ui_issue": "UI-MAP",
+      "ui_issue": "CONNECT-MAP",
       "operation": "検索→場所採用→再読込",
       "inputs": [
         "UI-BASE.shell",
         "PLACES.search"
       ],
-      "remaining": "共有/訪問/テーマ/装飾/しおりは各提供後に接続し、UI-MAP全体の受入に残す。"
+      "remaining": "共有/訪問/テーマ/装飾/しおりは各提供後に接続し、CONNECT-MAP全体の受入に残す。"
     },
     {
       "id": "record-save",
-      "ui_issue": "UI-RECORDS",
+      "ui_issue": "CONNECT-RECORDS",
       "operation": "手入力記録→保存→再取得/編集",
       "inputs": [
         "UI-BASE.shell",
@@ -7060,18 +9093,18 @@
     },
     {
       "id": "route-basic",
-      "ui_issue": "UI-ROUTES",
+      "ui_issue": "CONNECT-ROUTES",
       "operation": "基本経路の検索→保存→再表示",
       "inputs": [
         "UI-BASE.shell",
         "PLACES.search",
         "ROUTES.basic"
       ],
-      "remaining": "案内/交通/定期券/追加条件の受入はROUTESとUI-ROUTESに残す。"
+      "remaining": "案内/交通/定期券/追加条件の受入はROUTESとCONNECT-ROUTESに残す。"
     },
     {
       "id": "record-growth",
-      "ui_issue": "UI-RECORDS",
+      "ui_issue": "CONNECT-RECORDS",
       "operation": "訪問確認/取消・訂正→成長と軌跡の再表示",
       "inputs": [
         "RECORDS.save",
@@ -7082,7 +9115,7 @@
     },
     {
       "id": "map-custom",
-      "ui_issue": "UI-MAP",
+      "ui_issue": "CONNECT-MAP",
       "operation": "手動表示/装飾の保存→再表示→AI案の採用",
       "inputs": [
         "MAP-CUSTOM.manual",
@@ -7093,7 +9126,7 @@
     },
     {
       "id": "explore",
-      "ui_issue": "UI-EXPLORE",
+      "ui_issue": "CONNECT-EXPLORE",
       "operation": "相談→候補選択→経路→履歴復帰",
       "inputs": [
         "AI.refs",
@@ -7110,5 +9143,6 @@
     "source": "各機能のfragments/<Task-ID>.jsonと共通定義。現在の生成器から移行する仕組みをCOREが先行提供する。",
     "scope": "共通Schema・API生成器・合成OpenAPI・型/クライアントの反映と整合確認。固有契約/SQL/業務処理の担当は変えない。",
     "timing": "各担当が変更前にIssueコメントへ入出力差分と利用先を提示。koshiroは次に接続する機能を優先して反映し、変更単位の統合後に共有pathを返す。"
-  }
+  },
+  "acceptance_mapping": "ui-connections.json"
 }

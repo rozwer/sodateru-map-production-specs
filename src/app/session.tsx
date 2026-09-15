@@ -47,7 +47,10 @@ export function useLocalSession(): SessionController {
         const available = await api.request('getSessionProfiles', { signal: controller.signal });
         if (controller.signal.aborted || started !== generation.current) return;
         if (restored && restored.dataMode !== dataMode) throw new Error(messages.session.modeError);
-        setProfiles(available.items); setSession(restored); setBusy(false);
+        setProfiles(available.items); setSession(restored);
+        // The start button uses the server's configured default; another profile remains selectable.
+        selectProfile(restored ? '' : (available.items.find(profile => profile.profileKey === 'self') ?? available.items[0])?.profileKey ?? '');
+        setBusy(false);
       } catch (problem) {
         if (controller.signal.aborted || started !== generation.current) return;
         setError(describe(problem)); setBusy(false);
