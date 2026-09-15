@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 80,
+  "revision": 81,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4622,17 +4622,22 @@
       "token": null
     },
     "INFORMATION": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "koshiro",
+      "base_commit": "6b91573436e662e4f743b28b3b55b8a19013a60f",
+      "generation": 3,
       "issue_number": 6,
       "landed_main": null,
       "note": "Preserve worktree and staged changes; reacquire own claim at integrated develop to resolve base comparison",
       "owner": "koshiro",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/information/",
+        "server/db/migrations/information/",
+        "docs/01_requirements/04_api/fragments/INFORMATION.json",
+        "docs/evidence/INFORMATION/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "1fc67d9b004c4190838839ef69c3c1bf"
     },
     "INSIGHTS": {
       "actor": "mattsun",
