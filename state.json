@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 125,
+  "revision": 126,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5063,21 +5063,17 @@
       "token": "969f79d0773145028308851ce2e225e4"
     },
     "UI-RECORDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 11,
       "landed_main": null,
-      "note": null,
+      "note": "緊急引継ぎ: PR #75統合済、後続PR #153 / f5180bdはpush済。UI-BASE接続・保存後再表示・媒体headers・breakBefore修正を提供。worktree /Users/roz/.codex/worktrees/ui-records-11 を保持。UI未達: 実Mapbox/参照最終照合と端末選択撮影/キーボード。API未達: export/preview,気分/訪問日時,成長根拠接続。#98へ配送済。UI未達を完了扱いせず、取込担当が取得可能となるよう通常返却。証拠 docs/evidence/UI-RECORDS/README.md。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/UI-RECORDS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "96a37508317942b9874adae6366ddc23"
+      "token": null
     },
     "UI-REFLECTION": {
       "actor": null,
