@@ -7,6 +7,7 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
+import shrinePhoto from "./assets/shrine.jpg";
 import coffeeAvatar from "../feature-requests/assets/coffee.jpg";
 import parkAvatar from "../feature-requests/assets/park.jpg";
 import { PluginIconView, type PluginIconChoice } from "./PluginIconView";
@@ -539,7 +540,10 @@ function PluginFixture({
         <PluginManageView
           plugins={data.plugins.filter((item) => item.installed)}
           previews={Object.fromEntries(
-            data.plugins.map((item) => [item.id, preview(item.enabled, false, item.kind === "nature")]),
+            data.plugins.map((item) => [item.id, item.kind === "pilgrimage" ? {
+              map: <img className="plugin-sample-photo" src={shrinePhoto} alt="桜と神社の参考写真（青梅市・模擬素材）" />,
+              mock: true,
+            } : preview(item.enabled, false, item.kind === "nature")]),
           )}
           onToggle={(id, enabled) => modify(id, { enabled })}
           onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
