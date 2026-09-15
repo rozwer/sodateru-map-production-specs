@@ -1,3 +1,4 @@
+import { CommonError } from '../../core/errors.ts';
 export type Coordinates = [number, number];
 export type Geometry = { type: 'LineString'; coordinates: Coordinates[] };
 export type Mode = 'walking' | 'driving' | 'cycling' | 'transit';
@@ -10,9 +11,9 @@ export type RouteLeg = { fromIndex: number; toIndex: number; geometry: Geometry;
 export type ConditionEvaluation = { key: 'avoidMotorways'; status: 'applied'; reason: string; provider: string; sourceUrl: string; fetchedAt: number };
 export type RoutePreview = { requestedConditions?: Conditions; conditionEvaluations?: ConditionEvaluation[]; previewId: string; waypoints: ResolvedWaypoint[]; mode: Mode; legs: RouteLeg[]; geometry: Geometry; distanceM: number; durationSec: number; provider: 'mapbox-directions'; fetchedAt: number; expiresAt: number; retention: 'storable' | 'temporary' };
 export type SavedRoute = Omit<RoutePreview, 'previewId' | 'expiresAt' | 'retention'> & { id: string; personId: string; title: string; sourceUrl: string; status: 'saved' | 'navigating' | 'finished'; currentLeg: number; visibility: 'private' | 'selected' | 'public'; sharedWith: string[]; version: number; createdAt: number; updatedAt: number };
-// Domain faults are translated once to CORE CommonError in register.ts.
-export class RouteFault extends Error {
-  constructor(public code: string, message: string, public status = 422, public details: Record<string, unknown> = {}) { super(message); this.name = 'RouteFault'; }
+// Domain faults also use CORE CommonError for direct calls from other features.
+export class RouteFault extends CommonError {
+  constructor(code: string, message: string, status = 422, details: Record<string, unknown> = {}) { super(code === 'INVALID_INPUT' ? 'VALIDATION_FAILED' : code, message, [429,503,504].includes(status), details, status); this.name = 'RouteFault'; }
 }
 export function coordinate(value: unknown): value is Coordinates {
   return Array.isArray(value) && value.length === 2 && value.every(Number.isFinite) && Math.abs(value[0]) <= 180 && Math.abs(value[1]) <= 90;

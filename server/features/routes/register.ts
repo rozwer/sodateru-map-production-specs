@@ -12,7 +12,7 @@ import { RouteFault, type RouteInput, type RoutePreview } from './types.ts';
 type Job = { state: 'pending' | 'complete' | 'failed'; expiresAt: number; previews?: RoutePreview[]; error?: unknown };
 const jobsByDb = new WeakMap<DatabaseSync, Map<string, Job>>();
 function common(error: unknown): never {
-  if (error instanceof RouteFault) throw new CommonError(error.code === 'INVALID_INPUT' ? 'VALIDATION_FAILED' : error.code, error.message, [429,503,504].includes(error.status), error.details, error.status);
+  if (error instanceof RouteFault) throw new CommonError(error.code === 'INVALID_INPUT' ? 'VALIDATION_FAILED' : error.code, error.message, [429,503,504].includes(error.status ?? 422), error.details, error.status);
   throw error;
 }
 function response(c: Context<CoreEnv>, result: StoredResult) {
