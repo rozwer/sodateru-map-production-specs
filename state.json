@@ -34021,7 +34021,7 @@
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO"
   ],
-  "revision": 280,
+  "revision": 281,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34274,7 +34274,8 @@
       "owner": "rozwer",
       "paths": [
         "tools/local/demo-media/",
-        "docs/evidence/DEMO-MEDIA/"
+        "docs/evidence/DEMO-MEDIA/",
+        "src/app/navigation-card-data.ts"
       ],
       "status": "claimed",
       "submitted_commit": null,
