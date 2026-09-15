@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 252,
+  "revision": 253,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34490,7 +34490,7 @@
         "docs/evidence/NAV-CARDS/"
       ],
       "status": "submitted",
-      "submitted_commit": "c8b129db9c6944da224e3f499ebb7af0b426167c",
+      "submitted_commit": "d343178ef35c55536647d6e6d7d8ab0172eb11e2",
       "token": "a64041af24b147ca8742e9317a06add7"
     },
     "PILGRIMAGE": {
