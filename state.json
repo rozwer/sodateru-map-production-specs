@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 74,
+  "revision": 75,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4867,7 +4867,7 @@
       "generation": 1,
       "issue_number": 62,
       "landed_main": null,
-      "note": null,
+      "note": "Issue #62: #16 live index old guard rejected 6 upstream paths; patched guard accepts only 2 staged claimed paths; regression fixture verifies upstream merge exclusion, own outside-path rejection, disconnected history rejection; mise run verify passed; git diff --check passed; commit aa9551a",
       "owner": "rozwer",
       "paths": [
         "tools/production_guard.py",
@@ -4875,8 +4875,8 @@
         "tools/test_hooks_guard.py",
         "tools/test_taskctl.py"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "aa9551a31b71c2c262cc8f24a6133cc6213829ac",
       "token": "8e4095858566451f89bc04dab3efe8b6"
     },
     "TOOL-WORKTREE-SETUP": {
