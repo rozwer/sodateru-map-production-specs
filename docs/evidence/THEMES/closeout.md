@@ -1,5 +1,7 @@
 # THEMES #37 提供範囲の完了と残件移管
 
+<!-- task-id: THEMES -->
+
 2026-09-15、利用者の明示した方針変更により、統合済みの提供単位を本Issueの完了範囲とし、原仕様の残要件を [#105](https://github.com/rozwer/sodateru-map-production-specs/issues/105) に移管する。原仕様の全受入完了ではない。
 
 ## 完了範囲と統合
