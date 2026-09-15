@@ -22,6 +22,16 @@ export const messages = {
   communityFooter: 'だれかの地図が、\nわたしの世界をひろげる。',
   chatLabel: 'メッセージ', chatPlaceholder: '気になることを話してみよう', send: '送信',
   processing: '考えています', stop: '処理を取消', demo: 'デモ', live: '自分のデータ',
+  session: {
+    dataMode: 'データモード', demoData: 'デモデータ', person: '本人', choose: '選んでください',
+    continueAs: (name: string) => `${name}で続ける`, loading: '読み込んでいます…', opening: '開いています…',
+    demoDescription: 'デモのデータを表示します', liveDescription: '自分の記録を開きます',
+    brandLine: 'YOUR WORLD. GROWING.', choosePerson: '本人を選ぶ', slogan: '歩くほど、\n自分が見える。',
+    explore: '地図をのぞく', preview: 'PREVIEW', empty: 'この端末で選べる本人がありません。',
+    account: 'アカウントで続ける', google: 'Googleで続ける', apple: 'Appleで続ける', openai: 'OpenAIで続ける',
+    accountPending: 'アカウント接続は準備中です。上で選んだ本人の地図を開きます。',
+    connectionError: '接続できませんでした。', modeError: '本人のデータモードを確認できませんでした。',
+  },
 } as const;
 
 export const featureMessages = import.meta.glob('./features/**/messages.ts', { eager: true });

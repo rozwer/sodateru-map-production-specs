@@ -1,0 +1,57 @@
+Command: mise exec -- node --experimental-transform-types --test server/features/plugins/plugins.test.ts
+TAP version 13
+# (node:43102) ExperimentalWarning: Transform Types is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:43102) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# Subtest: PLUGINS SQLite lifecycle, person/mode isolation and restart
+    # Subtest: trial and cancelled/unconfirmed installation write nothing
+    ok 1 - trial and cancelled/unconfirmed installation write nothing
+      ---
+      duration_ms: 1.254709
+      type: 'test'
+      ...
+    # Subtest: confirmed install survives connection close and reopen; identity/mode remain separate
+    ok 2 - confirmed install survives connection close and reopen; identity/mode remain separate
+      ---
+      duration_ms: 3.776333
+      type: 'test'
+      ...
+    # Subtest: same values coexist without conflict; different values require a persisted choice
+    ok 3 - same values coexist without conflict; different values require a persisted choice
+      ---
+      duration_ms: 11.949
+      type: 'test'
+      ...
+    # Subtest: stale revisions, wrong versions and invalid settings leave saved values unchanged
+    ok 4 - stale revisions, wrong versions and invalid settings leave saved values unchanged
+      ---
+      duration_ms: 1.171583
+      type: 'test'
+      ...
+    # Subtest: update adapter/schema failure preserves the current version; successful update and rollback persist
+    ok 5 - update adapter/schema failure preserves the current version; successful update and rollback persist
+      ---
+      duration_ms: 6.501458
+      type: 'test'
+      ...
+    # Subtest: stopping/removing retains settings, experiences, places and other people
+    ok 6 - stopping/removing retains settings, experiences, places and other people
+      ---
+      duration_ms: 2.571583
+      type: 'test'
+      ...
+    1..6
+ok 1 - PLUGINS SQLite lifecycle, person/mode isolation and restart
+  ---
+  duration_ms: 53.835709
+  type: 'test'
+  ...
+1..1
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 152.59575
