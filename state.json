@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 253,
+  "revision": 254,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34517,7 +34517,7 @@
       "generation": 7,
       "issue_number": 5,
       "landed_main": null,
-      "note": "Preserve all PLACES work and reacquire at latest develop after partial PR52 integration; old base rejects integrated CORE paths",
+      "note": "https://github.com/rozwer/sodateru-map-production-specs/issues/134#issuecomment-5674784083",
       "owner": "kaiya",
       "paths": [
         "server/features/places/",
@@ -34525,8 +34525,8 @@
         "docs/01_requirements/04_api/fragments/PLACES.json",
         "docs/evidence/PLACES/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "beda816b973e3479692000726da80243485fad67",
       "token": "f2c8681b601241ae9a2f423a9d1f4f11"
     },
     "PLAN-UI-CONNECTIONS": {
