@@ -71,6 +71,7 @@
         "VISUAL-MAP-EXPLORE": 174,
         "VISUAL-PLUGINS": 186,
         "VISUAL-SELF": 176,
+        "VISUAL-SELF-CONTINUE": 185,
         "VISUAL-SHELL": 172,
         "VISUAL-SOCIAL": 184
       },
@@ -7206,6 +7207,21 @@
           "src/features/plugins/",
           "src/features/feature-requests/",
           "docs/evidence/VISUAL-PLUGINS/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-SELF-CONTINUE",
+        "kind": "repair",
+        "priority": "P1",
+        "title": "自分を知る14画面の参照と通常データ修復",
+        "write_paths": [
+          "src/features/reflection/",
+          "src/features/insights/",
+          "src/features/themes/",
+          "src/features/suggestions/",
+          "docs/evidence/VISUAL-SELF/"
         ]
       }
     ],
@@ -33447,9 +33463,10 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF",
     "VISUAL-SOCIAL",
-    "VISUAL-PLUGINS"
+    "VISUAL-PLUGINS",
+    "VISUAL-SELF-CONTINUE"
   ],
-  "revision": 183,
+  "revision": 184,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34311,6 +34328,25 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "VISUAL-SELF-CONTINUE": {
+      "actor": "rozwer",
+      "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+      "generation": 1,
+      "issue_number": 185,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "cf30332752234fd792ad1ef3a8839b5f"
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
