@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-09-15T03:51:39.021Z",
+  "status": "passed",
+  "checks": [
+    "extended metadata PATCH accepted by actual common contract and persisted",
+    "real Nominatim refresh through HTTP preserves manual correction",
+    "reset restores latest external metadata without inferring confirmation",
+    "extended attributes and source survive server restart and re-fetch"
+  ],
+  "placeId": "af5563bf-8a23-4164-bc59-81b7ccaf501d",
+  "provider": "nominatim",
+  "externalId": "W661610686",
+  "sourceUrl": "https://www.openstreetmap.org/way/661610686",
+  "fetchedAt": 1789444297977,
+  "version": 4,
+  "recordSourceStates": {
+    "own": "ready",
+    "shared": "ready",
+    "visits": "ready"
+  }
+}

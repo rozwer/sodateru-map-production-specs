@@ -10,9 +10,9 @@ process.loadEnvFile(process.env.PLACES_ENV_FILE || "/Users/shimurakaiya/3_Worksp
 const root=fileURLToPath(new URL("../../../",import.meta.url));
 const directory=mkdtempSync(join(tmpdir(),"places-http-"));
 const livePath=join(directory,"live.sqlite"),demoPath=join(directory,"demo.sqlite");
-let child,origin,cookie="";const checks=[];
+let child,origin,cookie="",injectOwnFailure=false;const checks=[];
 async function start(){
- child=spawn(process.execPath,["--experimental-transform-types","server/app/main.ts"],{cwd:root,env:{...process.env,SODATERU_PORT:"0",SODATERU_DB_PATH:livePath,SODATERU_DEMO_DB_PATH:demoPath,SODATERU_PROFILES_PATH:join(directory,"profiles.json")},stdio:["ignore","pipe","pipe"]});
+ child=spawn(process.execPath,["--experimental-transform-types",...(injectOwnFailure?["--import",fileURLToPath(new URL("./information-source-fault.mjs",import.meta.url))]:[]),"server/app/main.ts"],{cwd:root,env:{...process.env,SODATERU_PORT:"0",SODATERU_DB_PATH:livePath,SODATERU_DEMO_DB_PATH:demoPath,SODATERU_PROFILES_PATH:join(directory,"profiles.json")},stdio:["ignore","pipe","pipe"]});
  await new Promise((resolve,reject)=>{let out="",err="";const timeout=setTimeout(()=>reject(new Error("server start timeout: "+err)),15000);
  child.stdout.on("data",data=>{out+=data.toString();for(const line of out.split("\n")){try{const event=JSON.parse(line);if(event.event==="ready"){origin=event.origin;clearTimeout(timeout);resolve();}}catch{}}});
  child.stderr.on("data",data=>{err+=data.toString();});child.once("exit",code=>{clearTimeout(timeout);reject(new Error(`server exited ${code}: ${err}`));});
@@ -44,6 +44,7 @@ try{
  cookie=otherCookie;response=await request(`/records/${sharedId}`,{method:"PATCH",version:1,body:{visibility:"private",sharedWith:[]}});assert.equal(response.status,200,JSON.stringify(response.value));
  cookie=selfCookie;response=await request(`/places/${placeId}`);assert.equal(response.status,200);assert.equal(response.value.data.sharedRecords.items.length,0);assert.equal(response.value.data.ownRecords.items[0].id,ownId);checks.push("current sharing revocation immediately removes shared content from PlaceDetail");
  const before=response.value.data;await stop();await start();response=await request(`/places/${placeId}`);assert.equal(response.status,200);assert.deepEqual(response.value.data,before);checks.push("restart preserves real records, visit resolution and current sharing access");
+ await stop();injectOwnFailure=true;await start();response=await request(`/places/${placeId}`);assert.equal(response.status,200);assert.equal(response.value.data.place.id,placeId);assert.equal(response.value.data.ownRecords.status,"failed");assert.equal(response.value.data.sharedRecords.status,"ready");assert.equal(response.value.data.visits.status,"ready");assert.ok(!JSON.stringify(response.value).includes("private database diagnostic"));checks.push("test-only own-record SQL failure through real HTTP preserves place and other source sections, without leaking diagnostics");
  response=await request("/session",{method:"POST",key:randomUUID(),body:{profileKey:"self"},mode:"demo"});assert.equal(response.status,201);response=await request(`/places/${placeId}`,{mode:"demo"});assert.equal(response.status,404);checks.push("demo mode cannot read live place/detail");
  evidence={timestamp:new Date().toISOString(),status:"passed",checks,placeId,informationIntegration:"cc710000633262f7436bab3017355aed1633b86e",recordSourceStates:{own:before.ownRecords.status,shared:before.sharedRecords.status,visits:before.visits.status},note:"All records and visit were saved through actual CORE/RECORDS HTTP and read through unmodified INFORMATION service; isolated profile file only configures the second identity."};
 }catch(error){evidence={timestamp:new Date().toISOString(),status:"failed",checks,error:String(error)};process.exitCode=1;}
