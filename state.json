@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 1,
+  "revision": 2,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4426,39 +4426,17 @@
       "token": null
     },
     "CORE": {
-      "actor": "koshiro",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 3,
       "landed_main": null,
-      "note": null,
+      "note": "Worktree preparation failed during mise trust: [Errno 2] No such file or directory: '/Users/roz/Desktop/sodateru-worktrees/koshiro-3-core'",
       "owner": "koshiro",
-      "paths": [
-        "server/app/",
-        "server/core/",
-        "server/db/connection.ts",
-        "server/db/migrate.ts",
-        "server/db/migrations/000-base.sql",
-        "tools/local/",
-        "package.json",
-        "bun.lock",
-        "tsconfig.json",
-        "docs/01_requirements/04_api/fragments/CORE.json",
-        "packages/api-client/",
-        "docs/01_requirements/04_api/tools/",
-        "docs/01_requirements/04_api/fragments/common.json",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/endpoints/",
-        "docs/01_requirements/04_api/conventions/",
-        "docs/01_requirements/04_api/README.md",
-        "docs/01_requirements/04_api/coverage.md",
-        "docs/01_requirements/04_api/examples.md",
-        "docs/evidence/CORE/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "f09f4d90076948cbaee2c4a522ff26f9"
+      "token": null
     },
     "DISASTER": {
       "actor": null,
