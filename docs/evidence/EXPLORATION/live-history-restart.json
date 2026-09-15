@@ -1,0 +1,21 @@
+{
+  "id": "65c59d57-628a-4760-89f5-635cb94bec0c",
+  "aiCalls": 0,
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-history-restart/65c59d57-628a-4760-89f5-635cb94bec0c",
+  "status": "complete",
+  "entry": "server/app/main.ts",
+  "client": "packages/api-client/index.ts",
+  "dataMode": "live",
+  "priorDatabase": "/tmp/exploration-live-fGMM4X",
+  "conversationId": "207f777d-6513-44c6-8648-7c2c878f39b1",
+  "resumeAction": "search",
+  "checks": {
+    "priorRealDialogueLink": true,
+    "priorDatabaseCopied": true,
+    "newProcess": true,
+    "savedConversationRetained": true,
+    "temporaryResultAbsent": true,
+    "explicitSearch": true,
+    "aiCalls": 0
+  }
+}

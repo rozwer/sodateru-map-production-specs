@@ -7,6 +7,7 @@ export function providerSchema(schema:object):object{
   if(!value||typeof value!=='object')return;
   // Structured-output provider rejects uniqueItems; the engine still validates the original schema.
   if(value.type==='array'||Array.isArray(value.type)&&value.type.includes('array'))delete value.uniqueItems;
+  if(value.format==='uri'&&(value.type==='string'||Array.isArray(value.type)&&value.type.includes('string')))delete value.format;
   if(typeof value.$ref==='string'&&/^#\/(definitions|\$defs)\//.test(value.$ref)){
    const path=value.$ref.split('/'),key=path[1]+'/'+path[2];
    if(!required.has(key)){required.add(key);const definition=root[path[1]]?.[path[2]];if(definition)scan(definition);}

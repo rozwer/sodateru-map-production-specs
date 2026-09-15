@@ -3,8 +3,7 @@ import { savedRouteDto } from './dto.ts';
 import { createHash, randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import type { RequestContext } from '../../core/context.ts';
-import { MapboxRoadProvider } from './mapbox.ts';
-import { RouteFault, coordinate, type RouteInput, type Waypoint, type ResolvedWaypoint, type RoutePreview, type SavedRoute } from './types.ts';
+import { RouteFault, coordinate, type RouteInput, type Waypoint, type ResolvedWaypoint, type RoutePreview, type SavedRoute, type RoadProvider } from './types.ts';
 
 export type ResolvedSource = { waypoint: ResolvedWaypoint; retention: 'storable' | 'temporary'; reference: unknown };
 export interface PlacesBoundary {
@@ -32,18 +31,24 @@ export function validateRouteInput(input: RouteInput) {
     else throw new RouteFault('INVALID_INPUT', '地点の種類が不正です');
   }
   if (input.conditions !== undefined) {
-    allowed(input.conditions, ['avoidMotorways', 'departAt', 'returnBy', 'avoidStairs', 'preferCovered', 'transitPassIds', 'stayDurationSec']);
+    allowed(input.conditions, ['timeZone', 'avoidMotorways', 'departAt', 'returnBy', 'avoidStairs', 'preferCovered', 'transitPassIds', 'stayDurationSec']);
     const c = input.conditions;
     if ((c.avoidMotorways !== undefined && typeof c.avoidMotorways !== 'boolean') || (c.avoidStairs !== undefined && typeof c.avoidStairs !== 'boolean') || (c.preferCovered !== undefined && typeof c.preferCovered !== 'boolean') || (c.transitPassIds !== undefined && (!Array.isArray(c.transitPassIds) || c.transitPassIds.length > 100 || c.transitPassIds.some(id => !text(id, 80))))) throw new RouteFault('INVALID_INPUT', '経路条件が不正です');
     for (const key of ['departAt', 'returnBy', 'stayDurationSec'] as const) if (c[key] !== undefined && (!Number.isSafeInteger(c[key]) || c[key]! < 0)) throw new RouteFault('INVALID_INPUT', '時刻・滞在時間が不正です');
-    const requested = Object.entries(c).filter(([k,v]) => k !== 'avoidMotorways' && (Array.isArray(v) ? v.length > 0 : v !== false)).map(([k]) => k);
+    if (c.timeZone !== undefined) { try { if (typeof c.timeZone !== 'string') throw Error(); new Intl.DateTimeFormat('en', {timeZone:c.timeZone}); } catch { throw new RouteFault('INVALID_INPUT', 'IANA時間帯を指定してください'); } }
+    if (input.mode === 'cycling' && (c.departAt !== undefined || c.returnBy !== undefined)) {
+      if (!c.timeZone || [c.departAt,c.returnBy].some(t => t !== undefined && (t % 60000 !== 0 || !Number.isFinite(new Date(t).getTime())))) throw new RouteFault('INVALID_INPUT', '自転車の日時は分単位で時間帯と一緒に指定してください');
+      if (c.departAt !== undefined && c.returnBy !== undefined && c.returnBy <= c.departAt) throw new RouteFault('INVALID_INPUT', '帰着期限は出発より後にしてください');
+    }
+    const supported = input.mode === 'cycling' ? ['timeZone','departAt','returnBy'] : ['timeZone','avoidMotorways'];
+    const requested = Object.entries(c).filter(([k,v]) => !supported.includes(k) && (Array.isArray(v) ? v.length > 0 : v !== false)).map(([k]) => k);
     if (requested.length) throw new RouteFault('MODE_UNSUPPORTED', '指定条件の取得根拠を返せるproviderが未接続です', 501, { unsupportedConditions: requested, applied: false });
   }
 }
 
 export class RoutesService {
   private previews;
-  constructor(private db: DatabaseSync, private atomic: Atomic, private provider: MapboxRoadProvider, private places?: PlacesBoundary) {
+  constructor(private db: DatabaseSync, private atomic: Atomic, private provider: RoadProvider, private places?: PlacesBoundary) {
     if (!previewsByDb.has(db)) previewsByDb.set(db, new Map());
     this.previews = previewsByDb.get(db)!;
   }
@@ -55,7 +60,7 @@ export class RoutesService {
   }
   private async calculate(context: RequestContext, input: RouteInput, compare: boolean): Promise<RoutePreview[]> {
     validateRouteInput(input); cancelled(context);
-    if (input.mode !== 'walking' && input.mode !== 'driving') throw new RouteFault('MODE_UNSUPPORTED', 'この道路契約で未対応の移動手段です', 501);
+    if (input.mode !== 'walking' && input.mode !== 'driving' && input.mode !== 'cycling') throw new RouteFault('MODE_UNSUPPORTED', 'この道路契約で未対応の移動手段です', 501);
     const references: unknown[] = [];
     let retention: 'storable' | 'temporary' = 'storable';
     const waypoints = input.waypoints.map(w => {
@@ -110,8 +115,8 @@ export class RoutesService {
   }
   private storedValues(p: RoutePreview) {
     const points = p.waypoints.map(w => ({ lng: w.coordinates[0], lat: w.coordinates[1], name: w.name, ...(w.placeId ? { placeId: w.placeId } : {}) }));
-    const route = { ...(p.requestedConditions ? { requestedConditions: p.requestedConditions, conditionEvaluations: p.conditionEvaluations } : {}), mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
-    return [JSON.stringify(points), JSON.stringify(route), p.distanceM, p.durationSec, p.provider, sourceUrl, p.fetchedAt] as const;
+    const route = { ...(p.timing ? {timing:p.timing} : {}), ...(p.providerEvidence ? {providerEvidence:p.providerEvidence} : {}), ...(p.requestedConditions ? { requestedConditions: p.requestedConditions, conditionEvaluations: p.conditionEvaluations } : {}), mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
+    return [JSON.stringify(points), JSON.stringify(route), p.distanceM, p.durationSec, p.provider, p.sourceUrl ?? sourceUrl, p.fetchedAt] as const;
   }
   getSavedRoute(context: RequestContext, id: string, own = false): SavedRoute {
     requireId(id);

@@ -26,9 +26,9 @@ export function gpsStatistics(range:StatisticsRange,input:readonly TrackMaterial
    value:edgeCount?meters:null,unit:"m" as const,source:"track_points" as const,
    status:edgeCount?"observed" as const:points.length?"insufficient" as const:"unavailable" as const,
    pointCount:points.length,edgeCount,disconnectedEdges,
-   maxAccuracyM:points.length?Math.max(...points.map(p=>p.accuracyM)):null,
+   maxAccuracyM:points.length?points.reduce((max,p)=>Math.max(max,p.accuracyM),0):null,
    firstObservedAt:points[0]?.observedAt??null,lastObservedAt:points.at(-1)?.observedAt??null,
-   lastUpdatedAt:points.length?Math.max(...points.map(p=>p.updatedAt)):null,
+   lastUpdatedAt:points.length?points.reduce((max,p)=>Math.max(max,p.updatedAt),0):null,
    sourcePointIds:points.map(p=>p.sourcePointId),
    description:"保存されたGPS観測線の距離。測位間の移動や未取得区間は補間していません。"
  };

@@ -1,6 +1,6 @@
 {
   "taskId": "THEMES",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "replaceSchemas": [
     "Theme",
     "ThemeCreate",
@@ -822,7 +822,102 @@
         "memo"
       ],
       "additionalProperties": false
+    },
+    "ThemeNameAdoption": {
+      "type": "object",
+      "properties": {
+        "runId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "expectedAttempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expectedRunVersion": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "runId",
+        "expectedAttempt",
+        "expectedRunVersion"
+      ],
+      "additionalProperties": false
     }
   },
-  "operations": []
+  "operations": [
+    {
+      "method": "post",
+      "path": "/themes/{themeId}/adopt-name",
+      "operationId": "postThemesThemeIdAdoptName",
+      "summary": "本人確認後のAI命名を採用",
+      "description": "生成結果取得は保存を行わない。採用時にtheme版、run版/attempt、所属とsourceRefsの現在版を照合する。名前/説明の本人編集値があればそれを採用する。上限を超えたAI結果は422で保存せず編集を促す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_themeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ThemeNameAdoption"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getThemesThemeId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "description": "所属/根拠/生成結果の変更または未完成",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    }
+  ]
 }

@@ -4,6 +4,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { ObjectPreview, type ObjectPreviewProps } from './ObjectPreview';
 import { decorationsLayer, type SceneDecoration } from './decorations-layer';
 import { attachGrowth, buildingIdentity, type GrowthDisplay } from './growth-display';
+import { UNVISITED_COLOR, type Building } from './growth-rules';
 import './map.css';
 
 export type SceneCamera = { longitude: number; latitude: number; zoom: number; bearing: number; pitch: number; bounds?: [number, number, number, number] };
@@ -33,6 +34,8 @@ type Props = {
   images?: SceneImage[];
   decorations?: SceneDecoration[];
   growth?: GrowthDisplay[];
+  styleRevision?: number;
+  onBuildings?: (buildings: Building[]) => void;
   focus?: { bounds?: [[number, number], [number, number]]; center?: [number, number]; zoom?: number; padding?: ScenePadding; revision: number } | null;
 };
 
@@ -91,9 +94,16 @@ export function MapScene(props: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
   const suppressCamera = useRef(false);
+  const growthController = useRef<ReturnType<typeof attachGrowth> | null>(null);
   const latest = useRef(props); latest.current = props;
   const [ready, setReady] = useState(0);
   const [retry, setRetry] = useState(0);
+  const reloadStyle = () => {
+    const map = mapRef.current;
+    if (map) { setLoading(true); setError(null); map.setStyle('mapbox://styles/mapbox/standard', { diff: false, localFontFamily: null, localIdeographFontFamily: 'sans-serif' }); }
+    else setRetry(value => value + 1);
+  };
+  const [selectionError, setSelectionError] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -107,25 +117,26 @@ export function MapScene(props: Props) {
     try {
       map = new mapboxgl.Map({ container: container.current, accessToken, style: 'mapbox://styles/mapbox/standard', center: [current.camera.longitude, current.camera.latitude], zoom: current.camera.zoom, pitch: current.view.dimension === '2d' ? 0 : current.camera.pitch, bearing: current.camera.bearing,
         antialias: true, interactive: current.interactive !== false, attributionControl: true, language: 'ja', projection: 'mercator',
-        config: { basemap: { theme: current.view.lens === 'personal' ? 'faded' : 'default', lightPreset: current.view.lightPreset, show3dObjects: current.view.dimension === '3d', show3dLandmarks: false, colorBuildingSelect: '#62b5b3', colorBuildingHighlight: '#a8d6d1' } } });
+        config: { basemap: { theme: current.view.lens === 'personal' ? 'faded' : 'default', lightPreset: current.view.lightPreset, show3dObjects: current.view.dimension === '3d', show3dLandmarks: false, show3dTrees: false, show3dFacades: false, showPointOfInterestLabels: false, showPlaceLabels: false, showTransitLabels: false, colorBuildings: UNVISITED_COLOR, colorBuildingSelect: UNVISITED_COLOR, colorBuildingHighlight: UNVISITED_COLOR, colorRoads: '#ffffff', colorMotorways: '#ffffff', colorTrunks: '#ffffff', colorLand: '#F2F0EC', colorGreenspace: '#DDE8D7', colorWater: '#D6E7ED' } } });
     } catch { setLoading(false); setError('この端末で地図を表示できません'); return; }
     mapRef.current = map;
     map.addControl(new mapboxgl.ScaleControl({ maxWidth: 90, unit: 'metric' }), 'bottom-left');
-    let selectedBuilding: TargetFeature | null = null;
     const cameraChanged = () => { if (!suppressCamera.current) latest.current.onCamera?.(readCamera(map)); };
     map.on('moveend', cameraChanged);
     map.on('dragstart', () => latest.current.onManualMove?.());
     map.on('rotatestart', event => { if (event.originalEvent) latest.current.onManualMove?.(); });
     map.on('error', event => { setLoading(false); setError(event.error?.message?.includes('401') ? '地図の接続設定を確認してください' : '地図を取得できませんでした'); });
-    map.on('load', () => {
-      setLoading(false); setError(null); setReady(value => value + 1); cameraChanged();
+    map.on('style.load', () => {
+      setLoading(false); setError(null);
+      for (const [key, value] of Object.entries({ show3dLandmarks: false, show3dTrees: false, show3dFacades: false, showPointOfInterestLabels: false, showPlaceLabels: false, showTransitLabels: false, colorBuildings: UNVISITED_COLOR, colorBuildingSelect: UNVISITED_COLOR, colorBuildingHighlight: UNVISITED_COLOR, colorRoads: '#ffffff', colorMotorways: '#ffffff', colorTrunks: '#ffffff', colorLand: '#F2F0EC', colorGreenspace: '#DDE8D7', colorWater: '#D6E7ED' })) map.setConfigProperty('basemap', key, value);
+      setReady(value => value + 1); cameraChanged();
       map.addSource('sodateru-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addSource('sodateru-radius', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addLayer({ id: 'sodateru-radius-fill', type: 'fill', source: 'sodateru-radius', slot: 'middle', paint: { 'fill-color': '#349fa0', 'fill-opacity': 0.13 } });
       map.addLayer({ id: 'sodateru-radius-line', type: 'line', source: 'sodateru-radius', slot: 'top', paint: { 'line-color': '#349fa0', 'line-width': 2, 'line-dasharray': [3, 2] } });
       map.addSource('sodateru-overlays', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addSource('sodateru-growth', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-      map.addLayer({ id: 'sodateru-growth-building', type: 'fill-extrusion', source: 'sodateru-growth', slot: 'top', paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-base': ['get', 'base'], 'fill-extrusion-height': ['+', ['get', 'height'], 0.06], 'fill-extrusion-opacity': 0.65 } });
+      map.addLayer({ id: 'sodateru-growth-building', type: 'fill-extrusion', source: 'sodateru-growth', slot: 'top', paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-base': ['get', 'base'], 'fill-extrusion-height': ['+', ['get', 'height'], 0.06], 'fill-extrusion-opacity': 1, 'fill-extrusion-color-transition': { duration: 220 } } });
       map.addLayer({ id: 'sodateru-overlay-area', type: 'fill', source: 'sodateru-overlays', slot: 'middle', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['get', 'color'], 'fill-opacity': ['get', 'opacity'] } });
       map.addLayer({ id: 'sodateru-overlay-line', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['!', ['get', 'dashed']]], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'] } });
       map.addLayer({ id: 'sodateru-overlay-dashed', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['get', 'dashed']], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'], 'line-dasharray': [3, 2] } });
@@ -133,16 +144,14 @@ export function MapScene(props: Props) {
       map.addLayer({ id: 'sodateru-route-casing', type: 'line', source: 'sodateru-routes', slot: 'top', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': 9, 'line-opacity': 0.95 } });
       map.addLayer({ id: 'sodateru-route-line', type: 'line', source: 'sodateru-routes', slot: 'top', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', 'color'], 'line-width': ['case', ['get', 'selected'], 6, 4], 'line-opacity': ['case', ['get', 'selected'], 1, 0.65] } });
       if (current.interactive === false) return;
-      map.on('click', 'sodateru-route-line', event => {
-        const line = (event.features?.[0] as unknown as { properties?: Record<string, unknown> } | undefined)?.properties;
-        if (line && typeof line.ownerKey === 'string' && typeof line.lineId === 'string') latest.current.onSelect?.({ ownerKey: line.ownerKey, kind: 'route', id: line.lineId, coordinates: [event.lngLat.lng, event.lngLat.lat] });
-      });
+      map.removeInteraction('sodateru-building'); map.removeInteraction('sodateru-poi');
+
       map.addInteraction('sodateru-building', { type: 'click', target: { featuresetId: 'buildings', importId: 'basemap' }, handler: event => {
         if (latest.current.placement || !event.feature) return;
-        if (selectedBuilding) map.setFeatureState(selectedBuilding, { select: false });
-        selectedBuilding = event.feature; map.setFeatureState(event.feature, { select: true });
         const coordinates = featureCenter(event.feature, [event.lngLat.lng, event.lngLat.lat]);
         const buildingKey = buildingIdentity(event.feature) || undefined;
+        if (!buildingKey) { setSelectionError('この建物は安定したIDを取得できないため対応付けできません。訪問の保存はできます。'); return; }
+        setSelectionError(null);
         latest.current.onSelect?.({ ownerKey: 'map-building', kind: 'building', id: buildingKey || coordinates.join(','), coordinates, buildingKey, height: typeof event.feature.properties.height === 'number' ? event.feature.properties.height : undefined });
       } });
       map.addInteraction('sodateru-poi', { type: 'click', target: { featuresetId: 'poi', importId: 'basemap' }, handler: event => {
@@ -150,9 +159,15 @@ export function MapScene(props: Props) {
         latest.current.onSelect?.({ ownerKey: 'map-poi', kind: 'poi', id: String(event.feature.id ?? ''), coordinates: featureCenter(event.feature, [event.lngLat.lng, event.lngLat.lat]), label: String(event.feature.properties.name ?? '') });
       } });
     });
+      map.on('click', 'sodateru-route-line', event => {
+        const line = (event.features?.[0] as unknown as { properties?: Record<string, unknown> } | undefined)?.properties;
+        if (line && typeof line.ownerKey === 'string' && typeof line.lineId === 'string') latest.current.onSelect?.({ ownerKey: line.ownerKey, kind: 'route', id: line.lineId, coordinates: [event.lngLat.lng, event.lngLat.lat] });
+      });
     const observer = new ResizeObserver(() => map.resize()); observer.observe(container.current);
     return () => { observer.disconnect(); map.remove(); mapRef.current = null; };
   }, [retry]);
+
+  useEffect(() => { if (props.styleRevision) reloadStyle(); }, [props.styleRevision]);
 
   useEffect(() => {
     const map = mapRef.current; if (!map) return;
@@ -204,9 +219,12 @@ export function MapScene(props: Props) {
   }, [props.points, ready]);
 
   useEffect(() => {
-    const map = mapRef.current; if (!map || !ready || !props.growth?.length || props.view.lens !== 'personal') return;
-    return attachGrowth(map, props.growth, item => latest.current.onSelect?.({ ownerKey: 'personal-map', kind: 'place', id: item.place.id, coordinates: item.place.coordinates, label: item.place.name }), props.interactive !== false);
-  }, [props.growth, props.view.lens, ready]);
+    const map = mapRef.current; if (!map || !ready) return;
+    const controller = attachGrowth(map, () => latest.current.view.lens === 'personal' ? latest.current.growth || [] : [], group => latest.current.onSelect?.({ ownerKey: 'map-building', kind: 'building', id: group.building.key, buildingKey: group.building.key, coordinates: group.items[0]!.place.coordinates }), buildings => latest.current.onBuildings?.(buildings), props.interactive !== false);
+    growthController.current = controller;
+    return () => { controller.dispose(); growthController.current = null; };
+  }, [ready, props.interactive]);
+  useEffect(() => { growthController.current?.update(); }, [props.growth, props.view.lens]);
 
   useEffect(() => {
     const map = mapRef.current; if (!map || !ready || !props.decorations?.length) return;
@@ -265,7 +283,8 @@ export function MapScene(props: Props) {
   return <div className="map-scene" aria-label={props.label || '地図'}>
     <div ref={container} className="map-scene-canvas" />
     {loading && <div className="map-scene-message" role="status">地図を読み込み中…</div>}
-    {error && <div className="map-scene-message is-error" role="alert"><span>{error}</span><button type="button" onClick={() => setRetry(value => value + 1)}>地図を再読み込み</button></div>}
+    {error && <div className="map-scene-message is-error" role="alert"><span>{error}</span><button type="button" onClick={reloadStyle}>地図を再読み込み</button></div>}
+    {selectionError && <div className="map-scene-message" role="status">{selectionError}<button type="button" onClick={() => setSelectionError(null)}>閉じる</button></div>}
     {props.placement && <div className="map-placement-target" aria-label="中央の配置点" style={{ left: `calc(50% + ${(props.padding.left - props.padding.right) / 2}px)`, top: `calc(50% + ${(props.padding.top - props.padding.bottom) / 2}px)` }}><span>この場所に置きます</span><div className="map-placement-cube"><ObjectPreview {...props.placement}/></div><i aria-hidden="true" /></div>}
     <div className="map-scene-summary" aria-live="polite">{props.points.find(point => point.selected)?.label || `${props.points.length}件の地点`}{props.lines.length > 0 ? `、${props.lines.length}件の経路` : ''}</div>
   </div>;

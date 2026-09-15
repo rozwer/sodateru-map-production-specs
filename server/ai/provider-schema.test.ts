@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import { Ajv } from 'ajv';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -16,4 +17,18 @@ test('provider omits unsupported array uniqueness while original validation reta
  assert.equal(schema.properties.ids.uniqueItems,true);
  const validate=new Ajv().compile(schema);
  assert.equal(validate({ids:['a','a'],uniqueItems:true}),false);
+});
+
+test('provider omits unsupported uri format but keeps original URI and pattern validation',()=>{
+ const schema={type:'object',properties:{url:{anyOf:[{type:'string',format:'uri',pattern:'^https://'}, {type:'null'}]},createdAt:{type:'string',format:'date-time'}}};
+ const result=providerSchema(schema) as any;
+ assert.equal(result.properties.url.anyOf[0].format,undefined);
+ assert.equal(result.properties.url.anyOf[0].pattern,'^https://');
+ assert.equal(result.properties.createdAt.format,'date-time');
+ assert.equal(schema.properties.url.anyOf[0]!.format,'uri');
+ const ajv=new Ajv();createRequire(import.meta.url)('ajv-formats')(ajv);
+ const validate=ajv.compile(schema);
+ assert.equal(validate({url:'https://invalid host'}),false);
+ assert.equal(validate({url:'http://example.com'}),false);
+ assert.equal(validate({url:'https://example.com'}),true);
 });

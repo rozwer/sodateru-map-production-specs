@@ -1,6 +1,6 @@
 {
   "taskId": "INSIGHTS",
-  "version": "insights-fixed-five-2",
+  "version": "insights-statistics-1",
   "replaceSchemas": [
     "InsightPatch",
     "Insight",
@@ -536,6 +536,430 @@
       ],
       "additionalProperties": false,
       "description": "新規期間分析は自然/本/カフェ/散歩/人との時間の5軸。旧保存結果の読取互換のため旧キーも受理する。"
+    },
+    "ActivityStatistics": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "to": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "timeZone": {
+          "$ref": "#/components/schemas/TimeZone"
+        },
+        "confirmedVisits": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "visits"
+              ]
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "visits.confirmed"
+              ]
+            },
+            "visitIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Id"
+              }
+            }
+          },
+          "required": [
+            "value",
+            "unit",
+            "source",
+            "visitIds"
+          ],
+          "additionalProperties": false
+        },
+        "confirmedPlaces": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "places"
+              ]
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "visits.confirmed"
+              ]
+            },
+            "placeIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Id"
+              }
+            }
+          },
+          "required": [
+            "value",
+            "unit",
+            "source",
+            "placeIds"
+          ],
+          "additionalProperties": false
+        },
+        "newPlaces": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "unit": {
+              "type": "string",
+              "enum": [
+                "places"
+              ]
+            },
+            "source": {
+              "type": "string",
+              "enum": [
+                "visits.confirmed.firstStartedAt"
+              ]
+            },
+            "placeIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Id"
+              }
+            },
+            "unknownPlaceIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Id"
+              }
+            }
+          },
+          "required": [
+            "value",
+            "unit",
+            "source",
+            "placeIds",
+            "unknownPlaceIds"
+          ],
+          "additionalProperties": false
+        },
+        "undatedVisits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "recordCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "undatedRecords": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "recordIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              },
+              "source": {
+                "type": "string",
+                "enum": [
+                  "records.activities"
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "count",
+              "recordIds",
+              "source"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "daily": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "confirmedVisits": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "recordIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "required": [
+              "date",
+              "confirmedVisits",
+              "recordIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          }
+        },
+        "lastUpdatedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gpsDistanceMeters": {
+          "$ref": "#/components/schemas/GpsObservationStatistics"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "enum": [
+                  "visits",
+                  "records",
+                  "gps"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "itemCount": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "firstObservedAt": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/Timestamp"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "lastObservedAt": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/Timestamp"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "lastUpdatedAt": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/Timestamp"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "observed",
+                  "empty",
+                  "insufficient",
+                  "unavailable"
+                ]
+              },
+              "description": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "itemCount",
+              "firstObservedAt",
+              "lastObservedAt",
+              "lastUpdatedAt",
+              "status",
+              "description"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "from",
+        "to",
+        "timeZone",
+        "confirmedVisits",
+        "confirmedPlaces",
+        "newPlaces",
+        "undatedVisits",
+        "recordCount",
+        "undatedRecords",
+        "activities",
+        "daily",
+        "sourceRefs",
+        "lastUpdatedAt",
+        "gpsDistanceMeters",
+        "sources"
+      ],
+      "additionalProperties": false,
+      "description": "本人の保存済み観測から再計算する非健康統計。訪問回数と訪問した場所数を区別。日時不明件数は本人の全履歴で期間へ割り当てられない件数。GPSは観測線距離であり歩数・実際の移動距離の推定ではない。"
+    },
+    "GpsObservationStatistics": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "m"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "track_points"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "observed",
+            "insufficient",
+            "unavailable"
+          ]
+        },
+        "pointCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "edgeCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "disconnectedEdges": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxAccuracyM": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "firstObservedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastObservedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastUpdatedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourcePointIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "value",
+        "unit",
+        "source",
+        "status",
+        "pointCount",
+        "edgeCount",
+        "disconnectedEdges",
+        "maxAccuracyM",
+        "firstObservedAt",
+        "lastObservedAt",
+        "lastUpdatedAt",
+        "sourcePointIds",
+        "description"
+      ],
+      "additionalProperties": false
     }
   },
   "operations": [
@@ -934,7 +1358,7 @@
       "tags": [
         "振り返り・分析・テーマ"
       ],
-      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-2。本を見つけたも本に含む。",
+      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-3。本を見つけたも本に含む。",
       "parameters": [
         {
           "name": "from",
@@ -1029,7 +1453,7 @@
       "tags": [
         "振り返り・分析・テーマ"
       ],
-      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-2。本を見つけたも本に含む。",
+      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-3。本を見つけたも本に含む。",
       "parameters": [
         {
           "$ref": "#/components/parameters/header_Idempotency-Key"
@@ -1196,6 +1620,99 @@
       "path": "/insights",
       "method": "post",
       "replaceOperation": true
+    },
+    {
+      "operationId": "getReflectionActivityStatistics",
+      "summary": "本人の活動統計と取得元",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "from以上to未満に開始した確定訪問・記録とGPS観測を集計。新しい場所だけ全確定訪問履歴を参照する。保存なし。GPSの欠測/単独点はnull、同位置の有効な2点は0。複数ページを全件取得し、segment/breakBeforeを越えて線を接続しない。",
+      "parameters": [
+        {
+          "name": "from",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_timeZone_2"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ActivityStatistics"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "path": "/reflection/activity-statistics",
+      "method": "get"
     }
   ]
 }

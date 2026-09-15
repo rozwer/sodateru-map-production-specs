@@ -1,57 +1,47 @@
 import mapboxgl, { type GeoJSONSource, type TargetFeature } from 'mapbox-gl';
 import type { GrowthItem } from '../../packages/api-client/index';
+import { aggregateBuildings, type Building, type BuildingGrowth } from './growth-rules';
 
 export type GrowthDisplay = GrowthItem;
-type Polygon = { type: 'Polygon'; coordinates: number[][][] } | { type: 'MultiPolygon'; coordinates: number[][][][] };
-const colors = ['#6cae9c', '#c6a365', '#759bbd', '#ad92bd', '#d39b9d'];
+// Standard namespace identifies the underlying building source/layer; retain the shipped key format.
 export const buildingIdentity = (feature: TargetFeature) => feature.id == null ? null : `mapbox:basemap:buildings:${feature.namespace ?? ''}:${feature.id}`;
-function insideRing(point: [number, number], ring: number[][]) {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
-    const a = ring[i], b = ring[j]; if (!a || !b) continue;
-    const [ax, ay] = a, [bx, by] = b; if (ax === undefined || ay === undefined || bx === undefined || by === undefined) continue;
-    if ((ay > point[1]) !== (by > point[1]) && point[0] < (bx - ax) * (point[1] - ay) / (by - ay) + ax) inside = !inside;
-  }
-  return inside;
-}
-function contains(point: [number, number], geometry: Polygon) {
-  return (geometry.type === 'Polygon' ? [geometry.coordinates] : geometry.coordinates).some(rings => !!rings[0] && insideRing(point, rings[0]) && !rings.slice(1).some(ring => insideRing(point, ring)));
-}
 
-/** Draw only provider building geometry. Missing geometry never becomes an invented building. */
-export function attachGrowth(map: mapboxgl.Map, items: GrowthDisplay[], onSelect: (item: GrowthDisplay) => void, interactive: boolean) {
-  let markers: mapboxgl.Marker[] = [], previous = '';
+/** Keep provider geometry across viewport changes. The API snapshot alone controls growth. */
+export function attachGrowth(map: mapboxgl.Map, getItems: () => GrowthDisplay[], onSelect: (group: BuildingGrowth) => void, onBuildings: (buildings: Building[]) => void, interactive: boolean) {
+  let markers: mapboxgl.Marker[] = [], previous = '', catalogSignature = '';
+  const catalog = new Map<string, Building>();
   const update = () => {
     const source = map.getSource('sodateru-growth') as GeoJSONSource | undefined;
     if (!source || !map.isStyleLoaded()) return;
-    const buildings = map.queryRenderedFeatures({ target: { featuresetId: 'buildings', importId: 'basemap' } });
-    const resolved = items.flatMap(item => {
-      // stage belongs to ACTIVITY's current response. The UI never derives visit thresholds.
-      const stage = 'stage' in item && typeof item.stage === 'number' ? item.stage : null;
-      if (stage === null || stage < 1 || stage > 3 || !item.confirmedVisitCount) return [];
-      const feature = buildings.find(feature => item.place.buildingKey && buildingIdentity(feature) === item.place.buildingKey) || buildings.find(feature => (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') && contains(item.place.coordinates, feature.geometry as Polygon));
-      if (!feature || (feature.geometry.type !== 'Polygon' && feature.geometry.type !== 'MultiPolygon')) return [];
-      const height = typeof feature.properties.height === 'number' ? feature.properties.height : null;
-      if (height === null) return [];
-      return [{ item, stage, feature, height, base: typeof feature.properties.min_height === 'number' ? feature.properties.min_height : 0 }];
-    });
-    const signature = JSON.stringify(resolved.map(({ item, stage, feature, height }) => [item.place.id, buildingIdentity(feature), feature.geometry, stage, height, item.purposes]));
+    const features = map.queryRenderedFeatures({ target: { featuresetId: 'buildings', importId: 'basemap' } });
+    for (const feature of features) {
+      const key = buildingIdentity(feature);
+      if (!key || (feature.geometry.type !== 'Polygon' && feature.geometry.type !== 'MultiPolygon')) continue;
+      const height = feature.properties.height;
+      if (typeof height !== 'number' || !Number.isFinite(height)) continue;
+      const candidate: Building = { key, geometry: feature.geometry, height, base: typeof feature.properties.min_height === 'number' ? feature.properties.min_height : 0 };
+      // A zoomed tile can clip a polygon; never replace already observed full geometry with a smaller fragment.
+      const old = catalog.get(key);
+      catalog.set(key, { ...candidate, geometry: old && JSON.stringify(old.geometry).length > JSON.stringify(candidate.geometry).length ? old.geometry : candidate.geometry, height: Math.max(old?.height ?? 0, candidate.height), base: candidate.height >= (old?.height ?? 0) ? candidate.base : old!.base });
+    }
+    const buildings = [...catalog.values()];
+    const catalogKey = JSON.stringify(buildings);
+    if (catalogKey !== catalogSignature) { catalogSignature = catalogKey; onBuildings(buildings); }
+    const groups = aggregateBuildings(getItems(), buildings);
+    const signature = JSON.stringify(groups);
     if (previous === signature) return; previous = signature;
     markers.forEach(marker => marker.remove()); markers = [];
-    source.setData({ type: 'FeatureCollection', features: resolved.map(({ item, stage, feature, height, base }) => {
-      const hash = Array.from(item.purposes.join('|')).reduce((value, char) => (value + (char.codePointAt(0) || 0)) % colors.length, 0);
-      return { type: 'Feature', id: item.place.id, geometry: feature.geometry as Polygon, properties: { height, base, color: colors[hash], stage } };
-    }) });
-    for (const { item, stage, height } of resolved) {
-      const element = document.createElement('button'); element.type = 'button'; element.className = 'map-growth-badge'; element.dataset.stage = String(stage);
-      element.setAttribute('aria-label', `${item.place.name}、成長${stage}、${item.purposes.join('・') || '用途未記入'}、確認済み訪問${item.confirmedVisitCount}回`);
-      const stages = document.createElement('span'); stages.className = 'map-growth-stage'; stages.textContent = '▰'.repeat(stage); stages.setAttribute('aria-hidden', 'true'); element.append(stages);
-      if (item.purposes.length) { const label = document.createElement('span'); label.textContent = item.purposes.join('・'); element.append(label); }
-      if (interactive) element.addEventListener('click', event => { event.stopPropagation(); onSelect(item); });
-      const marker = new mapboxgl.Marker({ element, altitude: height, anchor: 'bottom', offset: [0, -3] }).setLngLat(item.place.coordinates).addTo(map);
+    source.setData({ type: 'FeatureCollection', features: groups.map(group => ({ type: 'Feature', id: group.building.key, geometry: group.building.geometry, properties: { buildingKey: group.building.key, height: group.building.height, base: group.building.base, color: group.color, stage: group.stage, count: group.count } })) });
+    for (const group of groups) {
+      const item = group.items[0]!;
+      const element = document.createElement('button'); element.type = 'button'; element.className = 'map-growth-badge'; element.dataset.stage = String(group.stage); element.dataset.buildingKey = group.building.key; element.dataset.buildingHeight = String(group.building.height); element.dataset.growthColor = group.color;
+      element.setAttribute('aria-label', `${group.items.map(item => item.place.name).join('・')}、確認済み訪問${group.count}回、${group.purposes.join('・') || '用途不明'}`);
+      const text = document.createElement('span'); text.textContent = `${group.count}回 · ${group.purposes.join('・') || '用途不明'}`; element.append(text);
+      if (interactive) element.addEventListener('click', event => { event.stopPropagation(); onSelect(group); });
+      const marker = new mapboxgl.Marker({ element, altitude: group.building.height, anchor: 'bottom', offset: [0, -3] }).setLngLat(item.place.coordinates).addTo(map);
       element.setAttribute('role', interactive ? 'button' : 'img'); element.disabled = !interactive; element.tabIndex = interactive ? 0 : -1; markers.push(marker);
     }
   };
   map.on('idle', update); update();
-  return () => { map.off('idle', update); markers.forEach(marker => marker.remove()); const source = map.getSource('sodateru-growth') as GeoJSONSource | undefined; source?.setData({ type: 'FeatureCollection', features: [] }); };
+  return { update, dispose: () => { map.off('idle', update); markers.forEach(marker => marker.remove()); } };
 }

@@ -1,20 +1,24 @@
-/** Explicit UI inspection routes. No API client or persistent writes. Replace these bindings in UI-PLUGINS-CONNECT. */
+/** Bike, pilgrimage and request bindings are explicit unsaved UI fixtures; disaster settings use the dedicated API. */
 import {
   useMemo,
+  useContext,
   useSyncExternalStore,
   useEffect,
   useState,
   type Dispatch,
   type SetStateAction,
 } from "react";
-import shrinePhoto from "./assets/shrine.jpg";
-import coffeeAvatar from "../feature-requests/assets/coffee.jpg";
-import parkAvatar from "../feature-requests/assets/park.jpg";
+import { createReferencePlugins, createReferencePosts, createReferenceConditions, createReferenceLayers, createReferenceTrial, referencePhotos, referenceVersions } from "./reference-data";
+import { GrowPreview } from "./grow/GrowPreview";
+import { useDisasterData } from "../disaster/data";
+import { disasterScreens } from "../disaster/screens";
+import { disasterMapDisplay } from "../disaster/ui/map-state";
+import { api } from "../../app/api";
 import { PluginIconView, type PluginIconChoice } from "./PluginIconView";
 import { PluginGlyph } from "./PluginGlyph";
 import { PluginControlIcon } from "./views";
 import { MapBridge } from "../../app/map-bridge";
-import { MapPreview } from "../../map/MapPreview";
+import { MapBridgeContext } from "../../app/useMapBridge";
 import { BridgeMap } from "../../map/MapRenderer";
 import type {
   PluginCardModel,
@@ -86,207 +90,8 @@ function useFixture(scopeKey: string) {
   return { data, setData };
 }
 
-const fixturePlugins: PluginCardModel[] = [
-  {
-    id: "fixture-bike",
-    name: "バイクマップ",
-    kind: "bike",
-    category: "mobility",
-    description: "バイクで気持ちよく走れる道を見つけよう。",
-    summary:
-      "車種に応じた道路条件を確認し、快適に走れるルートや注意したい区間を地図上で見つけられます。",
-    author: "育てる地図チーム",
-    updatedAt: "2024/4/15",
-    versionLabel: "v1.2.0",
-    regionLabel: "本山・東山エリア",
-    installed: true,
-    enabled: true,
-    permissions: ["位置情報"],
-    demo: true,
-  },
-  {
-    id: "fixture-pilgrimage",
-    name: "聖地マップ",
-    kind: "pilgrimage",
-    category: "walking",
-    description: "アニメ・作品の舞台になった場所をめぐるマップです。",
-    installed: true,
-    enabled: false,
-    regionLabel: "本山エリア",
-    author: "育てる地図チーム",
-    versionLabel: "v1.0.0",
-    permissions: ["ネットワーク"],
-    demo: true,
-  },
-  {
-    id: "fixture-disaster",
-    name: "防災マップ",
-    kind: "disaster",
-    category: "safety",
-    description: "想定リスクと時点のある地域情報を地図で確認。",
-    installed: false,
-    enabled: false,
-    author: "育てる地図チーム",
-    versionLabel: "v1.0.0",
-    permissions: ["位置情報", "ネットワーク"],
-    demo: true,
-  },
-];
-const conditionDefaults: PluginConditionField[] = [
-  {
-    id: "region",
-    type: "select",
-    label: "地域を選ぶ",
-    help: "地図を表示する地域を選んでください。",
-    value: "motoyama",
-    options: [
-      { value: "motoyama", label: "本山" },
-      { value: "higashiyama", label: "東山公園" },
-    ],
-  },
-  {
-    id: "vehicle",
-    type: "choice",
-    label: "車種を選ぶ",
-    help: "走行する車種を選んでください。",
-    value: "moped",
-    options: [
-      { value: "moped", label: "原付", detail: "〜50cc" },
-      { value: "standard", label: "普通二輪", detail: "51〜400cc" },
-      { value: "large", label: "大型二輪", detail: "401cc〜" },
-    ],
-  },
-  {
-    id: "highway",
-    type: "boolean",
-    label: "高速道路を使う",
-    help: "高速道路をルートに含めて表示します。",
-    value: false,
-  },
-];
-const fixturePosts: FeatureRequestModel[] = [
-  {
-    id: "fixture-own",
-    name: "やまぐち",
-    body: "雨の日に屋根のある道を選びたい。",
-    timestampLabel: "2024/5/12 11:02",
-    visibility: "public",
-    liked: false,
-    likeCount: 0,
-    owned: true,
-    tags: [
-      { id: "area", label: "本山エリア", icon: "place" },
-      { id: "rain", label: "雨の日", icon: "weather" },
-    ],
-  },
-  {
-    id: "fixture-sakura",
-    name: "さくら",
-    avatarUrl: coffeeAvatar,
-    body: "雨の日に屋根のある道を選びたい。",
-    timestampLabel: "2024/5/12 10:24",
-    visibility: "public",
-    liked: false,
-    likeCount: 12,
-    owned: false,
-    tags: [
-      { id: "area", label: "本山エリア", icon: "place" },
-      { id: "mobility", label: "移動", icon: "walking" },
-      { id: "rain", label: "雨の日", icon: "weather" },
-    ],
-  },
-  {
-    id: "fixture-takumi",
-    name: "たくみ",
-    avatarUrl: parkAvatar,
-    body: "ベビーカーでも通れる道を地図で知りたい。",
-    timestampLabel: "2024/5/10 18:03",
-    visibility: "public",
-    liked: false,
-    likeCount: 8,
-    owned: false,
-    tags: [
-      { id: "area", label: "東山公園エリア", icon: "place" },
-      { id: "child", label: "子育て" },
-      { id: "barrier", label: "バリアフリー" },
-    ],
-  },
-];
-function Scene({
-  after = true,
-  extra = false,
-  nature = false,
-}: {
-  after?: boolean;
-  extra?: boolean;
-  nature?: boolean;
-}) {
-  const [bridge] = useState(
-    () => new MapBridge(`plugins-visual-fixture-${Math.random()}`),
-  );
-  useEffect(() => {
-    bridge.setCamera({
-      longitude: 136.9758,
-      latitude: 35.163,
-      zoom: 13.4,
-      bearing: 0,
-      pitch: 0,
-    });
-    bridge.setView({ lens: "physical", dimension: "2d", following: false });
-    return () => bridge.dispose();
-  }, [bridge]);
-  useEffect(() => {
-    bridge.clear("plugin:fixture");
-    if (!after) return;
-    bridge.showCandidates("plugin:fixture", {
-      resultId: "ui-fixture-only",
-      candidates: nature ? [
-        { id: "fixture-green-east", coordinates: [136.983, 35.159], label: "東山公園" },
-        { id: "fixture-green-north", coordinates: [136.976, 35.169], label: "緑のつながり" },
-      ] : [
-        {
-          id: "fixture-park",
-          coordinates: [136.9817, 35.1585],
-          label: "東山公園",
-        },
-        {
-          id: "fixture-coffee",
-          coordinates: [136.9637, 35.1616],
-          label: "休憩スポット",
-        },
-        ...(extra
-          ? [
-              {
-                id: "fixture-photo",
-                coordinates: [136.978, 35.166] as [number, number],
-                label: "写真スポット",
-              },
-            ]
-          : []),
-      ],
-    });
-    if (nature) return;
-    bridge.showRoute("plugin:fixture", {
-      previewId: "ui-fixture-route",
-      geometry: {
-        type: "LineString",
-        coordinates: [
-          [136.965, 35.1658],
-          [136.97, 35.1658],
-          [136.973, 35.1642],
-          [136.976, 35.1608],
-          [136.9817, 35.1585],
-        ],
-      },
-      waypoints: [],
-    });
-  }, [bridge, after, extra, nature]);
-  return (
-    <MapPreview bridge={bridge} label="模擬地点を重ねた本山エリアの実地図" />
-  );
-}
-const preview = (after = true, extra = false, nature = false): PluginPreview => ({
-  map: <Scene after={after} extra={extra} nature={nature} />,
+const preview = (after = true, extra = false, nature = false, pluginId = "fixture-bike", region = "motoyama"): PluginPreview => ({
+  map: <GrowPreview pluginId={nature ? "fixture-nature" : pluginId} after={after} extra={extra} region={region} />,
   mock: true,
 });
 function PluginFixture({
@@ -303,6 +108,32 @@ function PluginFixture({
   scopeKey: string;
 }) {
   const { data, setData } = useFixture(scopeKey);
+  const mainMap = useContext(MapBridgeContext);
+  const disaster = useDisasterData(scopeKey);
+  const [disasterMutation, setDisasterMutation] = useState(false);
+  const [disasterError, setDisasterError] = useState<string>();
+  useEffect(() => {
+    if (active && route.params.pluginId === "fixture-disaster" && ["plugin-trial", "plugin-install"].includes(route.pageId)) navigate("disaster-map", { pluginId: "fixture-disaster" });
+  }, [active, route.pageId, route.params.pluginId]);
+  const displayPlugins = data.plugins.map(item => item.kind === "disaster" ? {
+    ...item, installed: Boolean(disaster.view?.settings), enabled: disaster.view?.settings?.enabled ?? false,
+    versionLabel: disaster.view?.settings ? `v${disaster.view.settings.pluginVersion}` : item.versionLabel,
+    displayIcon: disaster.view?.settings?.icon === "map" ? <PluginControlIcon name="map"/> : disaster.view?.settings?.icon === "pin" ? <PluginControlIcon name="pin"/> : item.displayIcon,
+  } : item);
+  useEffect(() => {
+    if (!mainMap) return;
+    for (const item of data.plugins) {
+      const owner = `plugin:grow-fixture-${item.id}` as const;
+      mainMap.clear(owner);
+      if (!scopeKey.startsWith("demo:") || !item.installed || !item.enabled || item.kind === "disaster") continue;
+      const trial = createReferenceTrial(item.id);
+      const candidates = trial.features.flatMap(feature => feature.geometry.type === "Point" ? [{ id: feature.id, coordinates: feature.geometry.coordinates, label: feature.properties.label }] : []);
+      if (item.kind === "bike" && item.versionLabel === referenceVersions.bike.next) candidates.push({ id: "fixture-photo", coordinates: [136.978,35.166], label: "更新後の写真スポット（模擬）" });
+      mainMap.showCandidates(owner, { resultId: "grow-ui-mock-unsaved", candidates });
+      const coordinates = trial.features.flatMap(feature => feature.geometry.type === "LineString" ? feature.geometry.coordinates : []);
+      if (coordinates.length) mainMap.showRoute(owner, { previewId: "grow-ui-mock-unsaved", geometry: { type: "LineString", coordinates }, waypoints: [] });
+    }
+  }, [mainMap, data.plugins, scopeKey]);
   const [showPreview, setShowPreview] = useState(false);
   const [iconDraft, setIconDraft] = useState<string>();
   const phase = usePreviewPhase(showPreview ? "fixture-trial" : null, active);
@@ -315,10 +146,16 @@ function PluginFixture({
   const [retried, setRetried] = useState(false);
   if (!active) return null;
   const plugin =
-    data.plugins.find((item) => item.id === route.params.pluginId) ||
-    data.plugins[0]!;
+    displayPlugins.find((item) => item.id === route.params.pluginId) ||
+    displayPlugins[0]!;
   const fields =
-    data.fields[plugin.id] || data.savedFields[plugin.id] || conditionDefaults;
+    data.fields[plugin.id] || data.savedFields[plugin.id] || createReferenceConditions(plugin.kind);
+  const region = String(fields.find(field => field.id === "region")?.value || "motoyama");
+  const appPreview = (after = true, extra = plugin.kind === "bike" && plugin.versionLabel === referenceVersions.bike.next): PluginPreview => plugin.kind === "disaster" ? {
+    map: <div className="plugin-disaster-entry"><PluginGlyph kind="disaster"/><strong>避難先・想定リスク・時点のある地域情報</strong><button type="button" className="plugin-button" onClick={() => navigate("disaster-map", { pluginId: plugin.id, intent: "trial" })}>防災マップを開く</button></div>,
+    mock: true,
+  } : preview(after, extra, plugin.kind === "nature", plugin.id, region);
+  const nextVersion = plugin.kind === "bike" && plugin.versionLabel !== referenceVersions.bike.next ? referenceVersions.bike.next : undefined;
   const intent =
     route.params.intent || (plugin.installed ? "settings" : "install");
   const go = (id: string, params: Record<string, string> = {}) =>
@@ -331,12 +168,14 @@ function PluginFixture({
       ),
     }));
   const status = {
+    busyLabel: disasterMutation ? "保存しています…" : "導入状態を読み込み中…",
+    busy: (plugin.kind === "disaster" || route.pageId === "plugin-manage") && (disaster.busy || disasterMutation),
     notice: data.pluginNotice,
     error:
       new URLSearchParams(location.search).has("failure") && !retried
         ? "UI fixture：通信失敗の表示確認です。入力を保持しています。"
-        : undefined,
-    onRetry: () => setRetried(true),
+        : disasterError || (route.pageId === "plugin-manage" ? disaster.error || undefined : undefined),
+    onRetry: () => { setRetried(true); setDisasterError(undefined); if (plugin.kind === "disaster" || route.pageId === "plugin-manage") void disaster.load(); },
   };
   const confirmed = (message: string) =>
     setData((previous) => ({
@@ -362,7 +201,20 @@ function PluginFixture({
       <PluginRemoveConfirmation
         name={plugin.name}
         onCancel={back}
-        onRemove={() => {
+        onRemove={async () => {
+          if (plugin.kind === "disaster") {
+            const version = disaster.view?.settings?.version;
+            if (!version) return;
+            setDisasterMutation(true); setDisasterError(undefined);
+            try {
+              await api.request("deletePluginSettingsPluginId", { path: { pluginId: "disaster" }, version });
+              if (mainMap) disasterMapDisplay(mainMap).clear();
+              await disaster.load();
+              go("plugin-manage");
+            } catch (error) { setDisasterError(error instanceof Error ? error.message : "防災機能を外せませんでした。"); }
+            finally { setDisasterMutation(false); }
+            return;
+          }
           modify(plugin.id, { installed: false, enabled: false });
           confirmed("機能を地図から外しました");
           go("plugin-manage");
@@ -374,14 +226,14 @@ function PluginFixture({
     case "plugin-icon": {
       const options: PluginIconChoice[] = [
         {
-          id: "motorcycle",
-          label: "バイク",
-          icon: <PluginGlyph kind="bike" />,
+          id: plugin.kind === "disaster" ? "shield" : plugin.kind === "pilgrimage" ? "star" : "motorcycle",
+          label: plugin.name,
+          icon: <PluginGlyph kind={plugin.kind} />,
         },
         { id: "pin", label: "ピン", icon: <PluginControlIcon name="pin" /> },
         { id: "map", label: "地図", icon: <PluginControlIcon name="map" /> },
       ];
-      const selected = iconDraft || data.icons[plugin.id] || "motorcycle";
+      const selected = iconDraft || (plugin.kind === "disaster" ? disaster.view?.settings?.icon : data.icons[plugin.id]) || options[0]!.id;
       return (
         <PluginIconView
           plugin={plugin}
@@ -392,7 +244,20 @@ function PluginFixture({
             setIconDraft(undefined);
             back();
           }}
-          onSave={() => {
+          onSave={async () => {
+            if (plugin.kind === "disaster") {
+              const version = disaster.view?.settings?.version;
+              if (!version) return;
+              setDisasterMutation(true); setDisasterError(undefined);
+              try {
+                await api.request("patchPluginSettingsPluginId", { path: { pluginId: "disaster" }, body: { icon: selected as "shield" | "pin" | "map" }, version });
+                await disaster.load();
+                setIconDraft(undefined);
+                go("plugin-manage");
+              } catch (error) { setDisasterError(error instanceof Error ? error.message : "アイコンを変更できませんでした。"); }
+              finally { setDisasterMutation(false); }
+              return;
+            }
             setIconDraft(undefined);
             setData((previous) => ({
               ...previous,
@@ -418,7 +283,8 @@ function PluginFixture({
     case "plugin-store":
       return (
         <PluginStoreView
-          plugins={data.plugins}
+          plugins={displayPlugins}
+          guideUrl="http://127.0.0.1:5284/guide"
           query={query}
           category={category}
           onQuery={setQuery}
@@ -433,10 +299,11 @@ function PluginFixture({
       return (
         <PluginDetailView
           plugin={plugin}
-          preview={preview()}
+          preview={appPreview()}
           onTry={() => {
             setData((previous) => ({ ...previous, pluginNotice: "" }));
-            go("plugin-trial");
+            if (plugin.kind === "disaster") navigate("disaster-map", { pluginId: plugin.id, intent: "trial" });
+            else go("plugin-trial");
           }}
           {...status}
         />
@@ -444,6 +311,7 @@ function PluginFixture({
     case "plugin-trial":
       return (
         <PluginTrialView
+          plugin={plugin}
           fields={fields}
           onChange={(id, value) => {
             setData((previous) => ({
@@ -458,7 +326,7 @@ function PluginFixture({
             setShowPreview(false);
           }}
           onPreview={() => setShowPreview(true)}
-          preview={showPreview ? preview(phase === "after") : undefined}
+          preview={showPreview ? appPreview(phase === "after", intent === "update") : undefined}
           phase={phase}
           onContinue={() => go("plugin-install")}
           {...status}
@@ -478,27 +346,13 @@ function PluginFixture({
                 : field.options?.find((option) => option.value === field.value)
                     ?.label || field.value,
           }))}
-          preview={{
-            ...preview(),
-            legend: [
-              { id: "pleasant", label: "快適な道", color: "#11b586" },
-              { id: "caution", label: "注意が必要", color: "#ed7a28" },
-              {
-                id: "unknown",
-                label: "未確認",
-                color: "#969fa5",
-                dashed: true,
-              },
-            ],
-          }}
-          layers={[
-            {
-              id: "roads",
-              name: "道路条件のレイヤー",
-              description: "快適な道・注意が必要な道・未確認の道を表示します。",
-            },
-          ]}
-          unknownNote="データが不足している道路は「未確認」として表示されます。実際の通行可否は確認してください。"
+          preview={{ ...appPreview(), legend: plugin.kind === "bike" ? [
+            { id: "pleasant", label: "快適な道", color: "#11b586" },
+            { id: "caution", label: "注意が必要", color: "#ed7a28" },
+            { id: "unknown", label: "未確認", color: "#969fa5", dashed: true },
+          ] : undefined }}
+          layers={plugin.kind === "disaster" ? [{ id: "disaster", name: "防災の専用地図", description: "避難先・想定リスク・地域情報を専用画面で確認します。デモと実情報の区別、出典と時点を表示します。" }] : createReferenceLayers(plugin.kind)}
+          unknownNote={plugin.kind === "bike" ? "データが不足している道路は「未確認」として表示されます。実際の通行可否は確認してください。" : undefined}
           onCancel={back}
           onInstall={() => {
             const region = fields.find((field) => field.id === "region");
@@ -523,7 +377,7 @@ function PluginFixture({
                       enabled: plugin.installed ? item.enabled : true,
                       regionLabel: regionLabel || item.regionLabel,
                       ...(intent === "update"
-                        ? { versionLabel: "v1.3.0" }
+                        ? { versionLabel: nextVersion || item.versionLabel }
                         : {}),
                     }
                   : item,
@@ -538,20 +392,24 @@ function PluginFixture({
     case "plugin-manage":
       return (
         <PluginManageView
-          plugins={data.plugins.filter((item) => item.installed)}
+          plugins={displayPlugins.filter((item) => item.installed)}
           previews={Object.fromEntries(
-            data.plugins.map((item) => [item.id, item.kind === "pilgrimage" ? {
-              map: <img className="plugin-sample-photo" src={shrinePhoto} alt="桜と神社の参考写真（青梅市・模擬素材）" />,
+            displayPlugins.map((item) => [item.id, item.kind === "pilgrimage" ? {
+              map: <img className="plugin-sample-photo" src={referencePhotos.shrine.url} alt={referencePhotos.shrine.alt} />,
               mock: true,
-            } : preview(item.enabled, false, item.kind === "nature")]),
+            } : item.kind === "disaster" ? { map: <div className="plugin-disaster-entry"><PluginGlyph kind="disaster"/><strong>避難先・想定リスクを確認</strong></div>, mock: true } : preview(item.enabled, item.kind === "bike" && item.versionLabel === referenceVersions.bike.next, item.kind === "nature", item.id, String(data.savedFields[item.id]?.find(field => field.id === "region")?.value || "motoyama"))]),
           )}
-          onToggle={(id, enabled) => modify(id, { enabled })}
+          onToggle={(id, enabled) => { if (id === "fixture-disaster") { if (mainMap) disasterMapDisplay(mainMap).clear(); void disaster.setEnabled(enabled); } else modify(id, { enabled }); }}
           onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
-          onMap={(id) => navigate("map", { pluginId: id })}
-          onConditions={(id) =>
-            navigate("plugin-trial", { pluginId: id, intent: "settings" })
-          }
-          onUpdate={(id) => navigate("plugin-update", { pluginId: id })}
+          onMap={(id) => {
+            if (id !== "fixture-disaster") {
+              const east = data.savedFields[id]?.find(field => field.id === "region")?.value === "higashiyama";
+              mainMap?.focus(`plugin:grow-fixture-${id}`, { center: east ? [136.9817, 35.1585] : [136.973, 35.163], zoom: east ? 14.2 : 13.3 });
+            }
+            navigate(id === "fixture-disaster" ? "disaster-map" : "map", { pluginId: id });
+          }}
+          onConditions={(id) => navigate(id === "fixture-disaster" ? "disaster-map" : "plugin-trial", { pluginId: id, intent: "settings" })}
+          onUpdate={(id) => navigate(id === "fixture-disaster" ? "disaster-map" : "plugin-update", { pluginId: id })}
           onCompanion={() => navigate("companion-settings")}
           onFind={() => navigate("plugin-store")}
           onRemove={(id) => navigate("plugin-update", { pluginId: id, action: "remove" })}
@@ -565,24 +423,12 @@ function PluginFixture({
           plugin={plugin}
           current={{
             version: plugin.versionLabel || "v1.2.0",
-            preview: preview(),
+            preview: appPreview(),
           }}
-          next={
-            plugin.versionLabel === "v1.3.0"
-              ? undefined
-              : { version: "v1.3.0", preview: preview(true, true) }
-          }
-          changes={
-            plugin.versionLabel === "v1.3.0"
-              ? []
-              : [
-                  "本山・東山エリアのおすすめルートを追加",
-                  "休憩スポットの情報を最新化（5件追加）",
-                  "アイコンデザインを見やすく改善",
-                ]
-          }
+          next={nextVersion ? { version: nextVersion, preview: appPreview(true, true) } : undefined}
+          changes={nextVersion ? referenceVersions.bike.changeLog : []}
           onPreview={() => go("plugin-trial", { intent: "update" })}
-          onUpdate={() => applyVersion("v1.3.0")}
+          onUpdate={() => { if (nextVersion) applyVersion(nextVersion); }}
           onRollback={() =>
             applyVersion(data.previousVersions[plugin.id] || "v1.1.0")
           }
@@ -602,7 +448,7 @@ function PluginFixture({
               name: "バイクマップ",
               kind: "bike",
               description: "道の種類に応じて、道路を色分けします。",
-              preview: { ...preview(), legend: [
+              preview: { ...preview(true, false, false, "fixture-bike-conflict"), legend: [
                 { id: "recommended", label: "おすすめの道", color: "#40a75c" },
                 { id: "ordinary", label: "一般道", color: "#409cfa" },
                 { id: "other", label: "その他の道", color: "#b9c6ce" },
@@ -802,15 +648,15 @@ const titles: Record<string, string> = {
   "plugin-icon": "アイコンを変更",
   "plugin-store": "拡張機能を探す",
   "plugin-detail": "拡張機能の詳細",
-  "plugin-trial": "バイクマップを試す",
+  "plugin-trial": "拡張機能を試す",
   "plugin-install": "導入前の確認",
   "plugin-manage": "マップ機能の管理",
-  "plugin-update": "バイクマップの更新",
+  "plugin-update": "拡張機能の更新",
   "plugin-conflict": "変更が重なる場合",
   "feature-requests": "育てる地図",
   "feature-request-edit": "お願いを書く",
 };
-export const screens: ScreenDefinition[] = Object.entries(titles).map(
+export const screens: ScreenDefinition[] = Object.entries(titles).map<ScreenDefinition>(
   ([id, title]) => ({
     id,
     title,
@@ -822,7 +668,7 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map(
       return (
         <>
           <p className="plugin-notice plugin-inspection-notice" role="status">
-            UI検査・API未接続。操作は再読込で初期化されます。
+            バイク・聖地・お願いは模擬操作（未保存）。防災は専用画面で設定を保存します。
           </p>
           <View {...props} />
         </>
@@ -831,13 +677,15 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map(
     layout: {
       // These nine approved references show standalone content, without an outer map.
       presentation: id === "plugin-icon" ? "panel" as const : "fullscreen" as const,
-      header: "back" as const,
+      header: id === "plugin-store" ? "none" as const : "back" as const,
       bottomNav: ["plugin-store", "feature-requests"].includes(id),
       background: "soft" as const,
     },
   }),
-);
+).concat(disasterScreens);
 function initialFixtureData(): FixtureData {
+  const fixturePlugins = createReferencePlugins(location.hash.startsWith("#/plugin-store") ? "store" : "manage");
+  const fixturePosts = createReferencePosts();
   return {
     plugins: location.hash.startsWith("#/plugin-conflict") ? [...fixturePlugins, {
       id: "fixture-nature", name: "自然マップ", kind: "nature", category: "walking",
@@ -846,7 +694,7 @@ function initialFixtureData(): FixtureData {
     }] : fixturePlugins,
     fields: {},
     savedFields: {},
-    previousVersions: { "fixture-bike": "v1.1.0" },
+    previousVersions: fixturePlugins.find(plugin => plugin.id === "fixture-bike")?.installed ? { "fixture-bike": referenceVersions.bike.previous } : {},
     pluginNotice: "",
     icons: {},
     posts: [
