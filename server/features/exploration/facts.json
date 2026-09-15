@@ -1,0 +1,32 @@
+[
+  {
+    "factKey": "jma-cloud-white",
+    "text": "雲や霧に含まれる小さな水滴は太陽光を散乱させる。特定の色だけが強く散乱されないため白く見える。これは一般的な仕組みであり、観察対象の現在の雲の種類や天候を確認した情報ではない。",
+    "conceptIds": [
+      "cloud",
+      "light-scattering"
+    ],
+    "source": {
+      "url": "https://www.jma.go.jp/jma/kishou/know/faq/faq13.html",
+      "title": "気象庁：雲・大気現象・大気光象について",
+      "claimScope": "general",
+      "sourceId": null
+    },
+    "anchor": null
+  },
+  {
+    "factKey": "jma-blue-sky",
+    "text": "晴れた空が青く見えるのは、可視光の中で波長の短い青い光が強く散乱されるためである。この説明だけから、特定の場所の現在の天候は判断できない。",
+    "conceptIds": [
+      "sky",
+      "light-scattering"
+    ],
+    "source": {
+      "url": "https://www.jma.go.jp/jma/kishou/know/env/uvhp/3-75uvindex_mini.html",
+      "title": "気象庁：散乱される紫外線",
+      "claimScope": "general",
+      "sourceId": null
+    },
+    "anchor": null
+  }
+]

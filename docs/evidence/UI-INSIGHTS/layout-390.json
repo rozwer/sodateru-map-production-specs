@@ -1,0 +1,42 @@
+[
+  {
+    "screen": "type-diagnosis",
+    "layout": {
+      "overflow": [],
+      "scrollWidth": 390,
+      "width": 390
+    }
+  },
+  {
+    "screen": "trend-evidence",
+    "layout": {
+      "overflow": [],
+      "scrollWidth": 390,
+      "width": 390
+    }
+  },
+  {
+    "screen": "trend-review",
+    "layout": {
+      "overflow": [],
+      "scrollWidth": 390,
+      "width": 390
+    }
+  },
+  {
+    "screen": "themes",
+    "layout": {
+      "overflow": [],
+      "scrollWidth": 390,
+      "width": 390
+    }
+  },
+  {
+    "screen": "theme-edit",
+    "layout": {
+      "overflow": [],
+      "scrollWidth": 390,
+      "width": 390
+    }
+  }
+]

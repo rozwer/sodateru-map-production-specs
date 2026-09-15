@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-09-15T02:53:47.021Z",
+  "status": "passed",
+  "checks": [
+    "manual places and shared building persisted through CORE HTTP",
+    "no session cannot edit",
+    "If-Match required",
+    "different active user in same mode can collaboratively correct",
+    "stale If-Match conflicts",
+    "detail re-fetch, ETag, stable colocated selection including selected facility, unknown metadata",
+    "process restart preserves corrected place and detail metadata",
+    "correction actor and timestamp persisted"
+  ],
+  "placeId": "f20c2b8b-ff22-4b35-a065-0a9f7a9379ff",
+  "buildingKey": "mapbox:basemap:buildings:test:123",
+  "version": 2,
+  "recordSourceStates": {
+    "own": "failed",
+    "shared": "failed",
+    "visits": "failed"
+  },
+  "notes": "Two profiles configured only in isolated test environment. No record source is substituted; unavailable INFORMATION remains failed. Extended refresh/metadata PATCH awaits generated common schema."
+}
