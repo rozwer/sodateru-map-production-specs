@@ -4760,7 +4760,7 @@
     "SUGGESTIONS-INTEGRATION",
     "AI-INTEGRATION"
   ],
-  "revision": 142,
+  "revision": 143,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4831,19 +4831,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 22,
-      "landed_main": null,
+      "landed_main": "ed2751ce29b91b869120e137a059e9fe36e8e906",
       "note": "docs/evidence/COMMUNITY/contracts.md",
       "owner": "koshiro",
-      "paths": [
-        "server/features/community/",
-        "server/features/friends/",
-        "server/db/migrations/community/",
-        "docs/01_requirements/04_api/fragments/COMMUNITY.json",
-        "docs/evidence/COMMUNITY/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "40267e44eedd3049f5ae9540bfeb035b0c89ea4a",
-      "token": "51c20d3b03f74fa08651bbc14376a222"
+      "token": null
     },
     "COMPANION": {
       "actor": "mattsun",
