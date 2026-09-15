@@ -44,6 +44,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const [navHeight, setNavHeight] = useState(80);
   const menuMode = current.route.pageId === 'navigation' ? (current.route.params.mode || 'main') as 'main' | 'self' | 'community' : null;
   const screen = screens.find(item => item.id === current.route.pageId);
+  const Toolbar = screen?.toolbar ?? MapToolbar;
   const isMapPage = current.route.pageId === 'map';
   const mapPanelOpen = isMapPage && !!screen && ['state', 'placeId', 'buildingKey', 'q'].some(key => !!current.route.params[key]);
   const isMap = isMapPage && !mapPanelOpen;
@@ -118,10 +119,10 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       if (button && !button.disabled) button.focus({ preventScroll: true });
     }} onKeyDown={event => { if (event.key === 'Escape' && !event.defaultPrevented && !isMap) { event.preventDefault(); back(); } }}>
       <div className="sm-map-host" aria-label={messages.appName}>{MapRenderer ? <MapRenderer bridge={bridge}/> : <div className="sm-map-unavailable"><Status kind="unavailable">{messages.mapPending}</Status></div>}</div>
-      {MapToolbar && <div className="sm-map-toolbar" hidden={mapControlsCovered}><MapToolbar {...screenProps}/></div>}
+      {Toolbar && <div className={`sm-map-toolbar${screen?.toolbar ? ' sm-map-toolbar--page' : ''}`} hidden={mapControlsCovered}><Toolbar {...screenProps}/></div>}
       {MapCompanion && <div hidden={!active || !isMap}><MapCompanion scopeKey={scopeKey} active={active && isMap} onActivate={() => go('ai-explore')}/></div>}
       {menuMode === 'main' && <button type="button" className="sm-menu-backdrop" onClick={back} aria-label={messages.close} aria-hidden="true" tabIndex={-1}/>}
-      <button type="button" hidden={mapControlsCovered} className="sm-map-action sm-menu-trigger" aria-label={messages.menu} onClick={() => go('navigation', { mode: 'main' })}><Icon name="menu"/></button>
+      <button type="button" hidden={mapControlsCovered || !!screen?.toolbar} className="sm-map-action sm-menu-trigger" aria-label={messages.menu} onClick={() => go('navigation', { mode: 'main' })}><Icon name="menu"/></button>
       <button type="button" hidden={mapControlsCovered || !!MapRenderer} className="sm-map-action sm-locate-trigger" aria-label={messages.locate} onClick={locate}><Icon name="locate" size={28}/></button>
       {locationError && <div className="sm-location-error"><Status kind="error" onRetry={locate}>{locationError}</Status></div>}
       {dataMode === 'demo' && <span className="sm-demo-badge">{messages.demo}</span>}
