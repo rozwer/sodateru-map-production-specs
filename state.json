@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 120,
+  "revision": 121,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4610,7 +4610,7 @@
       "generation": 1,
       "issue_number": 26,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/EXPLORATION/verification.md",
       "owner": "mattsun",
       "paths": [
         "server/features/exploration/",
@@ -4618,8 +4618,8 @@
         "docs/01_requirements/04_api/fragments/EXPLORATION.json",
         "docs/evidence/EXPLORATION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6c61ad646aa051130264fc690eb99b63198173c7",
       "token": "6e47e11448d944798e714376124227cd"
     },
     "FEATURE-REQUESTS": {
