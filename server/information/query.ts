@@ -30,6 +30,7 @@ export function normalizeQuery(input: RecordQuery = {}) {
     personIds: [] as string[], purposes: [] as string[], range: null as RecordQuery['range'],
     center: null as RecordQuery['center'], radiusM: null as number | null,
     topicKey: null as string | null, includeUndated: false, cursor: null as string | null, limit: 50,
+    rangeMatch: 'overlap' as 'overlap' | 'startsWithin',
     ...input,
   };
   if (typeof q.text !== 'string' || q.text.length > 200) invalid('text must be at most 200 characters');
@@ -123,5 +124,6 @@ export function queryFromUrl(url: URL, own = false): RecordQuery {
     includeUndated: undated === 'true', cursor: scalar('cursor'), limit: number('limit') ?? 50,
     ...(own && p.has('kind') ? {kind: scalar('kind') as RecordQuery['kind']} : {}),
     ...(own && p.has('themeId') ? {themeId: scalar('themeId')!} : {}),
+    ...(own && p.has('rangeMatch') ? {rangeMatch: scalar('rangeMatch') as RecordQuery['rangeMatch']} : {}),
   });
 }
