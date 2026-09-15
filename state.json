@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 93,
+  "revision": 94,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4793,7 +4793,7 @@
       "generation": 1,
       "issue_number": 20,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/RECORDS/completion-scope.md",
       "owner": "koshiro",
       "paths": [
         "server/features/records/",
@@ -4802,8 +4802,8 @@
         "docs/01_requirements/04_api/fragments/RECORDS.json",
         "docs/evidence/RECORDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "e74c42e1a549ef63484b6abb25a78d94c22a1282",
       "token": "2979fdccbcfb4035ab67bca91e5aabb0"
     },
     "REFLECTION": {
