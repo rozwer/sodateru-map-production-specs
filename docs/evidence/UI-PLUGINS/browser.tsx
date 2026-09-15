@@ -1,9 +1,23 @@
 /** UI-only fixture. No API client, database writes, or product entry-point import. */
-import { useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { createRoot } from "react-dom/client";
+import {
+  PluginIconView,
+  type PluginIconChoice,
+} from "../../../src/features/plugins/PluginIconView";
+import { PluginGlyph } from "../../../src/features/plugins/PluginGlyph";
+import { PluginControlIcon } from "../../../src/features/plugins/views";
 import { App } from "@qa-app/App";
 import { MapBridge } from "@qa-app/map-bridge";
 import { MapPreview } from "@qa-map/MapPreview";
+import { BridgeMap } from "@qa-map/MapRenderer";
 import type {
   PluginCardModel,
   PluginConditionField,
@@ -15,6 +29,7 @@ import {
   PluginDetailView,
   PluginInstallView,
   PluginManageView,
+  PluginRemoveConfirmation,
   PluginStoreView,
   PluginTrialView,
   PluginUpdateView,
@@ -22,11 +37,34 @@ import {
 import {
   FeatureRequestEditorView,
   FeatureRequestListView,
+  FeatureRequestDeleteView,
 } from "../../../src/features/feature-requests/views";
 import type {
   FeatureRequestDraft,
   FeatureRequestModel,
 } from "../../../src/features/feature-requests/view-model";
+
+type FixtureData = {
+  plugins: PluginCardModel[];
+  fields: Record<string, PluginConditionField[]>;
+  savedFields: Record<string, PluginConditionField[]>;
+  previousVersions: Record<string, string>;
+  pluginNotice: string;
+  icons: Record<string, string>;
+  posts: FeatureRequestModel[];
+  drafts: Record<string, FeatureRequestDraft>;
+  requestTab: "public" | "drafts";
+  requestNotice: string;
+};
+const FixtureContext = createContext<{
+  data: FixtureData;
+  setData: Dispatch<SetStateAction<FixtureData>>;
+} | null>(null);
+function useFixture() {
+  const value = useContext(FixtureContext);
+  if (!value) throw new Error("UI fixture provider is required");
+  return value;
+}
 
 const fixturePlugins: PluginCardModel[] = [
   {
@@ -234,42 +272,129 @@ function PluginFixture({
   back: () => void;
   active?: boolean;
 }) {
-  const [plugins, setPlugins] = useState(fixturePlugins);
-  const [fields, setFields] = useState(conditionDefaults);
+  const { data, setData } = useFixture();
   const [showPreview, setShowPreview] = useState(false);
+  const [iconDraft, setIconDraft] = useState<string>();
   const phase = usePreviewPhase(showPreview ? "fixture-trial" : null, active);
-  const after = phase === "after";
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<
     "all" | "safety" | "mobility" | "walking"
   >("all");
   const [selecting, setSelecting] = useState(false);
   const [selection, setSelection] = useState<string>();
-  const [notice, setNotice] = useState("");
+  const [retried, setRetried] = useState(false);
   if (!active) return null;
   const plugin =
-    plugins.find((item) => item.id === route.params.pluginId) || plugins[0];
-  const go = (id: string) => navigate(id, { pluginId: plugin.id });
-  const action = () =>
-    setNotice("UI fixture：操作を受け付けました。API保存は実行していません。");
+    data.plugins.find((item) => item.id === route.params.pluginId) ||
+    data.plugins[0]!;
+  const fields =
+    data.fields[plugin.id] || data.savedFields[plugin.id] || conditionDefaults;
+  const intent =
+    route.params.intent || (plugin.installed ? "settings" : "install");
+  const go = (id: string, params: Record<string, string> = {}) =>
+    navigate(id, { pluginId: plugin.id, intent, ...params });
+  const modify = (id: string, patch: Partial<PluginCardModel>) =>
+    setData((previous) => ({
+      ...previous,
+      plugins: previous.plugins.map((item) =>
+        item.id === id ? { ...item, ...patch } : item,
+      ),
+    }));
   const status = {
-    notice,
-    error: new URLSearchParams(location.search).has("failure")
-      ? "UI fixture：通信失敗の表示確認です。入力を保持しています。"
-      : undefined,
-    onRetry: action,
+    notice: data.pluginNotice,
+    error:
+      new URLSearchParams(location.search).has("failure") && !retried
+        ? "UI fixture：通信失敗の表示確認です。入力を保持しています。"
+        : undefined,
+    onRetry: () => setRetried(true),
   };
+  const confirmed = (message: string) =>
+    setData((previous) => ({
+      ...previous,
+      pluginNotice: `${message}（UI fixture・未保存）`,
+    }));
+  const applyVersion = (version: string) => {
+    setData((previous) => ({
+      ...previous,
+      previousVersions: {
+        ...previous.previousVersions,
+        [plugin.id]: plugin.versionLabel || "v1.2.0",
+      },
+      plugins: previous.plugins.map((item) =>
+        item.id === plugin.id ? { ...item, versionLabel: version } : item,
+      ),
+      pluginNotice: `${version}に切り替えました（UI fixture・未保存）`,
+    }));
+    go("plugin-manage");
+  };
+  if (route.params.action === "remove")
+    return (
+      <PluginRemoveConfirmation
+        name={plugin.name}
+        onCancel={back}
+        onRemove={() => {
+          modify(plugin.id, { installed: false, enabled: false });
+          confirmed("機能を地図から外しました");
+          go("plugin-manage");
+        }}
+        {...status}
+      />
+    );
   switch (route.pageId) {
+    case "plugin-icon": {
+      const options: PluginIconChoice[] = [
+        {
+          id: "motorcycle",
+          label: "バイク",
+          icon: <PluginGlyph kind="bike" />,
+        },
+        { id: "pin", label: "ピン", icon: <PluginControlIcon name="pin" /> },
+        { id: "map", label: "地図", icon: <PluginControlIcon name="map" /> },
+      ];
+      const selected = iconDraft || data.icons[plugin.id] || "motorcycle";
+      return (
+        <PluginIconView
+          plugin={plugin}
+          options={options}
+          selected={selected}
+          onChange={setIconDraft}
+          onCancel={() => {
+            setIconDraft(undefined);
+            back();
+          }}
+          onSave={() => {
+            setIconDraft(undefined);
+            setData((previous) => ({
+              ...previous,
+              icons: { ...previous.icons, [plugin.id]: selected },
+              plugins: previous.plugins.map((item) =>
+                item.id === plugin.id
+                  ? {
+                      ...item,
+                      displayIcon: options.find(
+                        (option) => option.id === selected,
+                      )?.icon,
+                    }
+                  : item,
+              ),
+              pluginNotice: "アイコンを変更しました（UI fixture・未保存）",
+            }));
+            go("plugin-manage");
+          }}
+          {...status}
+        />
+      );
+    }
     case "plugin-store":
       return (
         <PluginStoreView
-          plugins={plugins}
+          plugins={data.plugins}
           query={query}
           category={category}
           onQuery={setQuery}
           onCategory={setCategory}
           onOpen={(id) => navigate("plugin-detail", { pluginId: id })}
-          onManage={() => go("plugin-manage")}
+          onManage={() => navigate("plugin-manage")}
           onRequests={() => navigate("feature-requests")}
           {...status}
         />
@@ -279,7 +404,10 @@ function PluginFixture({
         <PluginDetailView
           plugin={plugin}
           preview={preview()}
-          onTry={() => go("plugin-trial")}
+          onTry={() => {
+            setData((previous) => ({ ...previous, pluginNotice: "" }));
+            go("plugin-trial");
+          }}
           {...status}
         />
       );
@@ -288,15 +416,19 @@ function PluginFixture({
         <PluginTrialView
           fields={fields}
           onChange={(id, value) => {
-            setFields((previous) =>
-              previous.map((field) =>
-                field.id === id ? { ...field, value } : field,
-              ),
-            );
+            setData((previous) => ({
+              ...previous,
+              fields: {
+                ...previous.fields,
+                [plugin.id]: fields.map((field) =>
+                  field.id === id ? { ...field, value } : field,
+                ),
+              },
+            }));
             setShowPreview(false);
           }}
           onPreview={() => setShowPreview(true)}
-          preview={showPreview ? preview(after) : undefined}
+          preview={showPreview ? preview(phase === "after") : undefined}
           phase={phase}
           onContinue={() => go("plugin-install")}
           {...status}
@@ -305,10 +437,17 @@ function PluginFixture({
     case "plugin-install":
       return (
         <PluginInstallView
-          conditions={[
-            { label: "選んだ地域", value: "本山" },
-            { label: "選んだ車種", value: "原付" },
-          ]}
+          editing={intent === "settings"}
+          conditions={fields.map((field) => ({
+            label: field.label,
+            value:
+              typeof field.value === "boolean"
+                ? field.value
+                  ? "使う"
+                  : "使わない"
+                : field.options?.find((option) => option.value === field.value)
+                    ?.label || field.value,
+          }))}
           preview={{
             ...preview(),
             legend: [
@@ -330,31 +469,58 @@ function PluginFixture({
             },
           ]}
           unknownNote="データが不足している道路は「未確認」として表示されます。実際の通行可否は確認してください。"
-          onInstall={action}
           onCancel={back}
+          onInstall={() => {
+            const region = fields.find((field) => field.id === "region");
+            const regionLabel = region?.options?.find(
+              (option) => option.value === region.value,
+            )?.label;
+            setData((previous) => ({
+              ...previous,
+              savedFields: { ...previous.savedFields, [plugin.id]: fields },
+              previousVersions:
+                intent === "update"
+                  ? {
+                      ...previous.previousVersions,
+                      [plugin.id]: plugin.versionLabel || "v1.2.0",
+                    }
+                  : previous.previousVersions,
+              plugins: previous.plugins.map((item) =>
+                item.id === plugin.id
+                  ? {
+                      ...item,
+                      installed: true,
+                      enabled: plugin.installed ? item.enabled : true,
+                      regionLabel: regionLabel || item.regionLabel,
+                      ...(intent === "update"
+                        ? { versionLabel: "v1.3.0" }
+                        : {}),
+                    }
+                  : item,
+              ),
+              pluginNotice: `${intent === "settings" ? "条件を変更しました" : "導入内容を反映しました"}（UI fixture・未保存）`,
+            }));
+            go("plugin-manage");
+          }}
           {...status}
         />
       );
     case "plugin-manage":
       return (
         <PluginManageView
-          plugins={plugins.filter((item) => item.installed)}
+          plugins={data.plugins.filter((item) => item.installed)}
           previews={Object.fromEntries(
-            plugins.map((item) => [item.id, preview()]),
+            data.plugins.map((item) => [item.id, preview(item.enabled)]),
           )}
-          onToggle={(id, enabled) =>
-            setPlugins((previous) =>
-              previous.map((item) =>
-                item.id === id ? { ...item, enabled } : item,
-              ),
-            )
+          onToggle={(id, enabled) => modify(id, { enabled })}
+          onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
+          onMap={(id) => navigate("map", { pluginId: id })}
+          onConditions={(id) =>
+            navigate("plugin-trial", { pluginId: id, intent: "settings" })
           }
-          onIcon={action}
-          onMap={action}
-          onConditions={() => go("plugin-trial")}
-          onUpdate={() => go("plugin-update")}
-          onCompanion={action}
-          onFind={() => go("plugin-store")}
+          onUpdate={(id) => navigate("plugin-update", { pluginId: id })}
+          onCompanion={() => navigate("companion-settings")}
+          onFind={() => navigate("plugin-store")}
           {...status}
         />
       );
@@ -362,22 +528,35 @@ function PluginFixture({
       return (
         <PluginUpdateView
           plugin={plugin}
-          current={{ version: "v1.2.0", preview: preview() }}
-          next={{ version: "v1.3.0", preview: preview(true, true) }}
-          changes={[
-            "本山・東山エリアのおすすめルートを追加",
-            "休憩スポットの情報を最新化（5件追加）",
-            "アイコンデザインを見やすく改善",
-          ]}
-          onPreview={() => go("plugin-trial")}
-          onUpdate={action}
-          onRollback={action}
-          onRemove={action}
-          canRollback
+          current={{
+            version: plugin.versionLabel || "v1.2.0",
+            preview: preview(),
+          }}
+          next={
+            plugin.versionLabel === "v1.3.0"
+              ? undefined
+              : { version: "v1.3.0", preview: preview(true, true) }
+          }
+          changes={
+            plugin.versionLabel === "v1.3.0"
+              ? []
+              : [
+                  "本山・東山エリアのおすすめルートを追加",
+                  "休憩スポットの情報を最新化（5件追加）",
+                  "アイコンデザインを見やすく改善",
+                ]
+          }
+          onPreview={() => go("plugin-trial", { intent: "update" })}
+          onUpdate={() => applyVersion("v1.3.0")}
+          onRollback={() =>
+            applyVersion(data.previousVersions[plugin.id] || "v1.1.0")
+          }
+          onRemove={() => go("plugin-update", { action: "remove" })}
+          canRollback={Boolean(data.previousVersions[plugin.id])}
           {...status}
         />
       );
-    default:
+    case "plugin-conflict":
       return (
         <PluginConflictView
           target="地図の色分け"
@@ -391,10 +570,10 @@ function PluginFixture({
               preview: preview(),
             },
             {
-              id: "fixture-nature",
-              name: "自然マップ",
-              kind: "other",
-              description: "緑の多さに応じて、エリアを色分けします。",
+              id: "fixture-pilgrimage",
+              name: "聖地マップ",
+              kind: "pilgrimage",
+              description: "作品にゆかりのある場所を表示します。",
               preview: preview(false),
             },
           ]}
@@ -402,51 +581,136 @@ function PluginFixture({
           selecting={selecting}
           onSelect={setSelection}
           onChooseDisable={() => setSelecting(true)}
-          onDisable={action}
-          onKeep={action}
+          onDisable={() => {
+            if (!selection) return;
+            modify(selection, { enabled: false });
+            confirmed("選んだ機能を停止しました");
+            go("plugin-manage");
+          }}
+          onKeep={() => {
+            confirmed("併用の選択を反映しました");
+            go("plugin-manage");
+          }}
           onBack={back}
           {...status}
         />
       );
+    default:
+      return null;
   }
 }
 function RequestFixture({
   route,
   navigate,
+  back,
+  active = true,
 }: {
   route: { pageId: string; params: Record<string, string> };
   navigate: (id: string, params?: Record<string, string>) => void;
+  back: () => void;
+  active?: boolean;
 }) {
-  const [items, setItems] = useState(fixturePosts);
-  const [tab, setTab] = useState<"public" | "drafts">("public");
-  const [notice, setNotice] = useState(
-    new URLSearchParams(location.search).has("submitted")
-      ? "投稿しました（UI fixture・未保存）"
-      : "",
+  const { data, setData } = useFixture();
+  if (!active) return null;
+  const edit = data.posts.find(
+    (item) => item.id === route.params.requestId && item.owned,
   );
-  const [value, setValue] = useState<FeatureRequestDraft>({
-    name: "やまぐち",
-    body: "雨の日に屋根のある道を選びたい。",
-    visibility: "public",
-  });
+  const draftKey =
+    route.params.draftId || route.params.requestId || "fixture-direct";
+  const value =
+    data.drafts[draftKey] ||
+    (edit
+      ? { name: edit.name, body: edit.body, visibility: edit.visibility }
+      : {
+          name: "やまぐち",
+          body: "雨の日に屋根のある道を選びたい。",
+          visibility: "public" as const,
+        });
+  const open = (source?: FeatureRequestModel) => {
+    const draftId = crypto.randomUUID();
+    setData((previous) => ({
+      ...previous,
+      drafts: {
+        ...previous.drafts,
+        [draftId]: {
+          name: "やまぐち",
+          body: source?.body || "",
+          visibility: "public",
+        },
+      },
+      requestNotice: "",
+    }));
+    navigate("feature-request-edit", { draftId });
+  };
+  const removed = data.posts.find(
+    (item) => item.id === route.params.deleteId && item.owned,
+  );
+  if (removed)
+    return (
+      <FeatureRequestDeleteView
+        body={removed.body}
+        onCancel={back}
+        onDelete={() => {
+          setData((previous) => ({
+            ...previous,
+            posts: previous.posts.filter((item) => item.id !== removed.id),
+            requestNotice: "お願いを削除しました（UI fixture・未保存）",
+          }));
+          navigate("feature-requests");
+        }}
+      />
+    );
   if (route.pageId === "feature-request-edit")
     return (
       <FeatureRequestEditorView
         value={value}
-        onChange={setValue}
-        onSave={() => setNotice("UI fixture：API保存は実行していません。")}
-        notice={notice}
+        onChange={(next) =>
+          setData((previous) => ({
+            ...previous,
+            drafts: { ...previous.drafts, [draftKey]: next },
+          }))
+        }
+        nameLocked={Boolean(edit)}
+        editing={Boolean(edit)}
+        onSave={(visibility) => {
+          const id = edit?.id || crypto.randomUUID();
+          const post: FeatureRequestModel = {
+            id,
+            name: edit?.name || value.name,
+            body: value.body,
+            visibility,
+            timestampLabel: "UI fixture・たった今",
+            liked: edit?.liked || false,
+            likeCount: edit?.likeCount || 0,
+            owned: true,
+            tags: edit?.tags || [],
+          };
+          setData((previous) => ({
+            ...previous,
+            posts: [post, ...previous.posts.filter((item) => item.id !== id)],
+            requestTab: visibility === "private" ? "drafts" : "public",
+            requestNotice: `${visibility === "private" ? "下書きを保存しました" : "投稿しました"}（UI fixture・未保存）`,
+          }));
+          navigate("feature-requests");
+        }}
       />
     );
   return (
     <FeatureRequestListView
-      items={tab === "public" ? items : []}
-      tab={tab}
-      onTab={setTab}
-      onWrite={() => navigate("feature-request-edit")}
+      items={data.posts.filter((item) =>
+        data.requestTab === "public"
+          ? item.visibility === "public"
+          : item.owned && item.visibility === "private",
+      )}
+      tab={data.requestTab}
+      onTab={(requestTab) =>
+        setData((previous) => ({ ...previous, requestTab }))
+      }
+      onWrite={() => open()}
       onLike={(id) =>
-        setItems((previous) =>
-          previous.map((item) =>
+        setData((previous) => ({
+          ...previous,
+          posts: previous.posts.map((item) =>
             item.id === id
               ? {
                   ...item,
@@ -455,17 +719,41 @@ function RequestFixture({
                 }
               : item,
           ),
-        )
+        }))
       }
-      onEdit={() => navigate("feature-request-edit")}
-      onDelete={() => setNotice("UI fixture：削除は実行していません。")}
-      onRequest={() => navigate("feature-request-edit")}
-      onDismissNotice={() => setNotice("")}
-      notice={notice}
+      onEdit={(requestId) => navigate("feature-request-edit", { requestId })}
+      onDelete={(deleteId) => navigate("feature-requests", { deleteId })}
+      onRequest={(id) => open(data.posts.find((item) => item.id === id))}
+      onDismissNotice={() =>
+        setData((previous) => ({ ...previous, requestNotice: "" }))
+      }
+      notice={data.requestNotice}
     />
   );
 }
+function FixtureMainMap({ bridge }: { bridge: MapBridge }) {
+  const { data } = useFixture();
+  useEffect(() => {
+    for (const plugin of data.plugins) {
+      const owner = `plugin:${plugin.id}` as const;
+      bridge.clear(owner);
+      if (!plugin.installed || !plugin.enabled) continue;
+      bridge.showCandidates(owner, {
+        resultId: "ui-fixture-only",
+        candidates: [
+          {
+            id: plugin.id,
+            coordinates: [136.9758, 35.163],
+            label: `${plugin.name}（模擬）`,
+          },
+        ],
+      });
+    }
+  }, [bridge, data.plugins]);
+  return <BridgeMap bridge={bridge} label="UI fixture：導入状態の模擬表示" />;
+}
 const titles: Record<string, string> = {
+  "plugin-icon": "アイコンを変更",
   "plugin-store": "拡張機能を探す",
   "plugin-detail": "拡張機能の詳細",
   "plugin-trial": "バイクマップを試す",
@@ -488,24 +776,46 @@ const screens = Object.entries(titles).map(([id, title]) => ({
 }));
 if (new URLSearchParams(location.search).has("font200"))
   document.documentElement.style.fontSize = "32px";
-createRoot(document.getElementById("root")!).render(
-  <>
-    <App screens={screens} scopeKey="plugins-ui-fixture:demo" dataMode="demo" />
-    <div
-      style={{
-        position: "fixed",
-        right: 4,
-        bottom: 76,
-        zIndex: 60,
-        background: "#fff8d9",
-        color: "#705317",
-        fontSize: 10,
-        padding: "3px 7px",
-        borderRadius: 5,
-        pointerEvents: "none",
-      }}
-    >
-      UI fixture / API未接続
-    </div>
-  </>,
-);
+function FixtureApp() {
+  const [data, setData] = useState<FixtureData>(() => ({
+    plugins: fixturePlugins,
+    fields: {},
+    savedFields: {},
+    previousVersions: { "fixture-bike": "v1.1.0" },
+    pluginNotice: "",
+    icons: {},
+    posts: fixturePosts,
+    drafts: {},
+    requestTab: "public",
+    requestNotice: new URLSearchParams(location.search).has("submitted")
+      ? "投稿しました（UI fixture・未保存）"
+      : "",
+  }));
+  return (
+    <FixtureContext.Provider value={{ data, setData }}>
+      <App
+        screens={screens}
+        MapRenderer={FixtureMainMap}
+        scopeKey="plugins-ui-fixture:demo"
+        dataMode="demo"
+      />
+      <div
+        style={{
+          position: "fixed",
+          right: 4,
+          bottom: 76,
+          zIndex: 60,
+          background: "#fff8d9",
+          color: "#705317",
+          fontSize: 10,
+          padding: "3px 7px",
+          borderRadius: 5,
+          pointerEvents: "none",
+        }}
+      >
+        UI fixture / API未接続
+      </div>
+    </FixtureContext.Provider>
+  );
+}
+createRoot(document.getElementById("root")!).render(<FixtureApp />);

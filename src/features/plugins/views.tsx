@@ -217,7 +217,7 @@ function FeatureHeading({
     <div
       className={`plugin-feature-heading${large ? " plugin-feature-heading--large" : ""}`}
     >
-      <PluginGlyph kind={plugin.kind} />
+      {plugin.displayIcon || <PluginGlyph kind={plugin.kind} />}
       <div>
         <h2>{plugin.name}</h2>
         <p>{plugin.description}</p>
