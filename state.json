@@ -70,7 +70,8 @@
         "VISUAL-COMMUNITY": 173,
         "VISUAL-MAP-EXPLORE": 174,
         "VISUAL-SELF": 176,
-        "VISUAL-SHELL": 172
+        "VISUAL-SHELL": 172,
+        "VISUAL-SOCIAL": 184
       },
       "owners": {
         "A": "rozwer",
@@ -7175,6 +7176,21 @@
           "src/features/themes/",
           "src/features/suggestions/",
           "docs/evidence/VISUAL-SELF/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P1",
+        "hard_dependencies": [],
+        "id": "VISUAL-SOCIAL",
+        "kind": "ui",
+        "priority": "P1",
+        "title": "友達地図・地域情報・相棒の参照差分修復",
+        "write_paths": [
+          "src/features/friends/",
+          "src/features/knowledge/",
+          "src/features/companion/",
+          "docs/evidence/VISUAL-COMMUNITY/"
         ]
       }
     ],
@@ -33414,9 +33430,10 @@
     "VISUAL-SHELL",
     "VISUAL-MAP-EXPLORE",
     "VISUAL-COMMUNITY",
-    "VISUAL-SELF"
+    "VISUAL-SELF",
+    "VISUAL-SOCIAL"
   ],
-  "revision": 178,
+  "revision": 179,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34291,6 +34308,24 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "3e9057fe567a4c0b83bfe17ee50f9593"
+    },
+    "VISUAL-SOCIAL": {
+      "actor": "rozwer",
+      "base_commit": "7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2",
+      "generation": 1,
+      "issue_number": 184,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/friends/",
+        "src/features/knowledge/",
+        "src/features/companion/",
+        "docs/evidence/VISUAL-COMMUNITY/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "233ba115b1354b03844298fd251a8afb"
     }
   }
 }
