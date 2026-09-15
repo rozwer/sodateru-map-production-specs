@@ -27,7 +27,7 @@ mise exec -- bun run typecheck
 
 - INFORMATIONの実serviceを動的接続。読取基盤不在・取得元失敗時は該当sectionをfailedとして返す。場所本体を保持し、空readyで代替しない。
 - INFORMATION.read/sharingは未統合のため、本人/共有記録を含む実接続検証が残る。
-- Q03の営業時間/入口、手動訂正優先、明示Nominatim lookup、訂正解除、If-Matchの固有処理/fragment v0.3.0を実装。共有場所の編集主体はユーザー回答待ちでPATCH HTTP公開は保留。
+- Q03の営業時間/入口、手動訂正優先、明示Nominatim lookup、訂正解除、If-Matchの固有処理/fragment v0.4.0を実装。共有場所は同じdataModeの開始済み本人による共同訂正とする[委任決定](https://github.com/rozwer/sodateru-map-production-specs/issues/5#issuecomment-5673814786)を確認し、PATCHを公開。実HTTP確認を進める。
 - 共通Schema/生成器への最新fragment反映はCOREへ依頼済み。UI実操作/独立レビュー/全体統合は未完了。Issue #5を閉じない。
 
 ## Provider参照

@@ -1,6 +1,6 @@
 {
   "taskId": "PLACES",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "schemas": {
     "PlaceOpeningHours": {
       "type": "object",
@@ -214,7 +214,7 @@
       "required": [],
       "additionalProperties": false,
       "minProperties": 1,
-      "description": "Manual values override provider refresh. resetFields removes corrections and restores latest saved provider values. refreshExternal performs Nominatim lookup before the version-checked transaction. Editing authority pending user decision."
+      "description": "Manual values override provider refresh. resetFields removes corrections and restores latest saved provider values. refreshExternal performs Nominatim lookup before the version-checked transaction. All active local users in the same dataMode may collaboratively edit; If-Match is required."
     },
     "PlaceDetail": {
       "type": "object",
@@ -1182,7 +1182,7 @@
       "tags": [
         "地図・場所"
       ],
-      "description": "権限: 場所管理権限（未確定）。保存先: places。共有のplacesを編集する権限を先に決める。外部取得項目の手修正・再取得時の優先順位はQ03。",
+      "description": "同じdataModeの本人セッションによる共有場所の共同訂正。If-Match必須。手動fieldは外部refreshより優先しresetFieldsで最新外部値へ戻す。外部取得失敗時は旧値と訂正を保持する。",
       "parameters": [
         {
           "$ref": "#/components/parameters/path_placeId"
@@ -1328,14 +1328,15 @@
     }
   },
   "x-q03": {
-    "status": "permission-decision-pending",
+    "status": "decided-implementation",
     "searchPriority": "Search does not overwrite saved places. Explicit refresh must preserve manually corrected fields and check If-Match.",
     "buildingKey": "source/layer/feature identifier, null when unknown; facilities keep separate placeIds.",
     "openingHours": "rawText/timezone/sourceUrl/fetchedAt/verificationStatus; null unknown, never infer openNow",
     "entrances": "id/coordinates/label/accessibility/sourceUrl/fetchedAt/verificationStatus; empty unknown, accessibility=unknown when not obtained",
-    "authority": "PATCH implementation waits only for shared-place editor policy. User clarification pending.",
+    "authority": "Authenticated local users in the same dataMode may collaboratively edit shared places. CORE resolves/rechecks person. No admin role or per-person overlay. If-Match required; correction actor/time persisted.",
     "externalRefresh": "PATCH refreshExternal=true uses Nominatim /lookup. Stores external values separately from corrections; failure preserves old rows. resetFields restores latest external value. Shared editor policy still pending.",
-    "presentation": "description/photos only when Nominatim extratags provides valid values; nullable/empty otherwise, always source/time/unverified, never labelled official. Walking time belongs to ROUTES with current origin; nearby uses existing temporary candidate search."
+    "presentation": "description/photos only when Nominatim extratags provides valid values; nullable/empty otherwise, always source/time/unverified, never labelled official. Walking time belongs to ROUTES with current origin; nearby uses existing temporary candidate search.",
+    "decision": "https://github.com/rozwer/sodateru-map-production-specs/issues/5#issuecomment-5673814786"
   },
   "replaceSchemas": [
     "PlacePatch",

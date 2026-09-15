@@ -1,6 +1,9 @@
 import {readFileSync} from "node:fs";
 import {defineFeature} from "../../core/features.ts";
 import type {ContentfulStatusCode} from "hono/utils/http-status";
+import {expectedVersion} from "../../core/errors.ts";
+import {getPerson} from "../../core/session.ts";
+import {preparePlaceUpdate,validatePatch} from "./update.ts";
 import {idempotencyKey,idempotentMutation} from "../../core/idempotency.ts";
 import {getPlace} from "./repository.ts";
 import {placesService,listPlaces,validateSearch,validateCreate} from "./service.ts";
@@ -12,7 +15,7 @@ export default defineFeature({
     {id:"places-001-details",sql:readFileSync(new URL("../../db/migrations/places/001-details.sql",import.meta.url),"utf8")},
     {id:"places-002-presentation",sql:readFileSync(new URL("../../db/migrations/places/002-presentation.sql",import.meta.url),"utf8")}
   ],
-  register(api) {
+  register(api,services) {
     api.get("/places",c=>c.json(listPlaces(c.get("context"),c.get("db"),c.req.query())));
     api.get("/place-candidates",async c=>c.json({data:candidateResultDto(await placesService.search(c.get("context"),c.get("db"),validateSearch(c.req.query())))}));
     api.get("/places/:placeId",async c=>{
@@ -35,6 +38,16 @@ export default defineFeature({
       });
       return c.body(JSON.stringify(result.body),result.status as ContentfulStatusCode,{"Content-Type":"application/json",...result.headers});
     });
-    // PATCH registration awaits only the shared-place editing authority decision.
+    api.patch("/places/:placeId",async c=>{
+      const context=c.get("context"),db=c.get("db"),placeId=c.req.param("placeId");
+      const input=validatePatch(c.get("input").body??await c.req.json());
+      const version=expectedVersion(c.req.header("If-Match"));
+      // Q03: shared places are collaboratively editable by active users in this mode.
+      const authorize=()=>{getPerson(db,context.personId);return true;};
+      const commit=await preparePlaceUpdate(context,db,placeId,input,version,authorize);
+      const place=services.transaction(db,commit);
+      c.header("ETag",`"${place.version}"`);
+      return c.json({data:place});
+    });
   }
 });
