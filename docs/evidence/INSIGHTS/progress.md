@@ -1,20 +1,18 @@
-# INSIGHTS #34 提供状態
-2026-09-15。Issue全体は未完了。
+# INSIGHTS 提供状況
 
-## 確認済みの独立部分
-- canonical入力キー: 同じ条件/SourceRef集合は順序によらず同じSHA-256。本人/左右の順序/根拠版変更は別キー。重複参照を統合し、同一参照の版競合を拒否。
-- insights repository: Node SQLite実ファイルへ本人原文・評価/理由を保存、DBを閉じ再接続して再取得。別本人は非開示、古い版で更新/削除しない。削除時messages.insight_idを解除。
-- 暦日と計算の純粋関数: IANA timezone/半開区間/DST、確定日入力の分子・分母・unknown計算。3日でyes/no/unknownなら1/2、全不明ならnull。**記録から5軸日判定を推定する処理は未実装**。
-- 上記はNode test計6件成功。TypeScript 5.9.2で対象6ファイルのnoEmit検査成功。
-- fragment `insights-evidence-1`: 理由200文字、createdAt用from/toを保ち対象rangeStart/rangeEnd/timeZone完全一致filter追加。合成OpenAPIはCORE担当。
+## 先行提供: 保存adapter
+- COREの同期transaction/所有者境界を使う比較・分析結果の保存、取得、本人評価、削除。
+- 同一入力の再利用で本人評価を保持。要求ID別名のreceiptも保存し、異なる入力へのID再利用を拒否。
+- INFORMATIONの同期checkSourcesを注入する。変更済み/取得不可の根拠は返さない。
+- register.tsは保存用migrationだけを登録。HTTPとAIの実接続は次の提供で追加する。
+- REFLECTIONからcreateInsightsService(db,{checkSources})を利用できる。
 
-## 保存adapter（作業中）
-`createInsightsService(db,{checkSources})`、同期のget/list/review/remove/saveComparison/saveAnalysis。
-SOURCE_CHANGED/NOT_FOUNDは共通根拠照合を使用し、同期SAVEPOINTは呼出元AI transactionへ追随。
-現時点はCORE CommonError/context未統合のためserviceテスト実行・HTTP登録・INFORMATION実接続未完了。上記独立部分の成功をadapter提供済みとは扱わない。
+## 検証
+identity/repository/service/HTTP/analysisの限定テスト成功。SQLite保存・再オープン、所有者/版、参照変更/取得不可、同一要求再利用、外側transactionのrollbackを確認。HTTPとAIのテストはCORE実装と依存fixtureを使い、実INFORMATION/AI接続完了の証拠ではない。
 
-## 未達受入
-- Q05の画像5軸判定入力・日別統合定義は担当/ユーザー意図確認中。詳細はq05-evidence.md。新しい日別確認入力を未承認で追加しない。
-- CORE起動/HTTP/再送/版変換、INFORMATION ownMaterials/checkSources接続、期間Summary/POST insights。
-- analysis用途の共通AI登録、実モデル説明、構造化根拠・反例・本人文の表示DTO。
-- UI #13/#17接続、独立レビュー、PR/develop統合、task:finish。
+## 作業中
+固定5軸（自然、本、カフェ、散歩、人との時間）の明示記録による日別集計と根拠。Summary/POST、統計のfactoryを作成中。実環境接続・契約更新・画面確認は未完。
+ユーザーの30分デモ優先方針により、現Issueの提供範囲と残件を明記して後続Issueへ引き継ぐ。現時点で全受入完了とはしない。
+
+## guard復旧
+developの#63修正を通常merge、task:verify後のcommit d965a47成功。変更破棄・claim解除・hook回避なし。

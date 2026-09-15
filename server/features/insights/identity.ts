@@ -1,17 +1,7 @@
-import { createHash } from "node:crypto";
+import { requestHash } from "../../core/idempotency.ts";
+export { canonicalJson } from "../../core/idempotency.ts";
 
 export type SourceRef = { type: "record" | "visit" | "place" | "checkin" | "route"; id: string; version: number };
-
-export function canonicalJson(value: unknown): string {
-  if (value === null || typeof value !== "object") {
-    if (typeof value === "number" && !Number.isFinite(value)) throw new TypeError("Non-finite identity value");
-    const result = JSON.stringify(value);
-    if (result === undefined) throw new TypeError("Undefined identity value");
-    return result;
-  }
-  if (Array.isArray(value)) return "[" + value.map(canonicalJson).join(",") + "]";
-  return "{" + Object.keys(value).sort().map(key => JSON.stringify(key) + ":" + canonicalJson((value as Record<string, unknown>)[key])).join(",") + "}";
-}
 
 export function normalizeRefs(refs: readonly SourceRef[]): SourceRef[] {
   const unique = new Map<string, SourceRef>();
@@ -26,5 +16,5 @@ export function normalizeRefs(refs: readonly SourceRef[]): SourceRef[] {
 }
 
 export function inputKey(input: { personId: string; kind: string; conditions: unknown; sourceRefs: readonly SourceRef[]; timeZone: string; generatorVersion: string; model: string | null }): string {
-  return createHash("sha256").update(canonicalJson({ ...input, sourceRefs: normalizeRefs(input.sourceRefs) })).digest("hex");
+  return requestHash({ ...input, sourceRefs: normalizeRefs(input.sourceRefs) });
 }

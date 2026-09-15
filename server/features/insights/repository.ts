@@ -1,8 +1,9 @@
 import type { DatabaseSync } from "node:sqlite";
+import { transaction } from "../../db/migrate.ts";
 import type { SourceRef } from "./identity.ts";
 
 export type AnalysisAxis = { key: string; numerator: number; denominator: number; value: number | null; unknownDays: number };
-export type AnalysisResult = { axes: AnalysisAxis[]; unknown: string[] };
+export type AnalysisResult = { axes: AnalysisAxis[]; unknown: string[]; provisionalName?:string; evidence?:import("./daily-evidence.ts").StructuredEvidence; daily?:{date:string;key:import("./daily-evidence.ts").AxisKey;value:boolean|null;recordIds:string[]}[] };
 export type ComparisonResult = { common: string[]; differences: string[]; unknown: string[] };
 export type Review = "agree" | "disagree" | "unsure" | "edit" | null;
 export type Insight = {
@@ -47,17 +48,13 @@ export function createInsightsRepository(db: DatabaseSync) {
    return r.changes ? get(personId,id) : null;
  },
  remove(personId:string,id:string,expectedVersion:number) {
-   db.exec("SAVEPOINT insights_remove");
-   try {
+   return transaction(db,()=>{
      const row=get(personId,id);
-     if (!row || row.version!==expectedVersion) { db.exec("RELEASE insights_remove"); return false; }
+     if (!row || row.version!==expectedVersion) return false;
      db.prepare("UPDATE messages SET insight_id=NULL WHERE insight_id=?").run(id);
      db.prepare("DELETE FROM insights WHERE id=? AND person_id=? AND version=?").run(id,personId,expectedVersion);
-     db.exec("RELEASE insights_remove");
      return true;
-   } catch (error) {
-     db.exec("ROLLBACK TO insights_remove"); db.exec("RELEASE insights_remove"); throw error;
-   }
+   });
  }
  };
 }
