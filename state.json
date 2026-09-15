@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 85,
+  "revision": 86,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4843,7 +4843,7 @@
       "generation": 1,
       "issue_number": 24,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/SETTINGS/README.md",
       "owner": "koshiro",
       "paths": [
         "server/features/settings/",
@@ -4851,8 +4851,8 @@
         "docs/01_requirements/04_api/fragments/SETTINGS.json",
         "docs/evidence/SETTINGS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "75565273190ae84fb1d72d2b77b87e9b5da80abc",
       "token": "08e16ae3af8d4629985b401d7cfacd1a"
     },
     "SUGGESTIONS": {
