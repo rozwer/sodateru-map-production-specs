@@ -2,9 +2,8 @@ import type { DatabaseSync } from 'node:sqlite';
 import type { AiContext, AppliedRef, Run } from './types.ts';
 import { aiError } from './errors.ts';
 import { canonicalHash, dependencies } from './registry.ts';
-export function transaction<T>(db:DatabaseSync,fn:()=>T):T {
- db.exec('BEGIN IMMEDIATE');try {const result=fn();db.exec('COMMIT');return result;}catch(e){db.exec('ROLLBACK');throw e;}
-}
+import { transaction } from '../db/migrate.ts';
+export { transaction } from '../db/migrate.ts';
 export function conversationRow(db:DatabaseSync,ctx:AiContext,id:string):any {
  const row=db.prepare('SELECT * FROM conversations WHERE id=? AND person_id=?').get(id,ctx.personId);
  if(!row)throw aiError('NOT_FOUND','会話が見つかりません');return row;
@@ -25,6 +24,7 @@ export function createConversation(db:DatabaseSync,ctx:AiContext,input:{id:strin
  return transaction(db,()=>{
   const found=db.prepare('SELECT * FROM conversations WHERE id=?').get(input.id) as any;
   if(found){if(found.person_id!==ctx.personId)throw aiError('NOT_FOUND','会話が見つかりません');if(found.purpose!==input.purpose||found.title!==input.title||found.record_id!==input.recordId)throw aiError('REQUEST_CONFLICT','同じ会話IDに異なる入力です');return conversationDto(found);}
+  if(input.recordId!==null)dependencies.assertConversationRecord(db,ctx,input.recordId);
   const now=Date.now();db.prepare('INSERT INTO conversations(id,person_id,purpose,title,record_id,version,created_at,updated_at) VALUES(?,?,?,?,?,1,?,?)').run(input.id,ctx.personId,input.purpose,input.title,input.recordId,now,now);return conversationDto(conversationRow(db,ctx,input.id));
  });
 }
@@ -63,7 +63,7 @@ export function patchConversation(db:DatabaseSync,ctx:AiContext,id:string,title:
 export function readAppliedRefs(db:DatabaseSync,ctx:AiContext,id:string):AppliedRef[]{return JSON.parse(messageRow(db,ctx,id).applied_refs_json);}
 export function appendAppliedRef(db:DatabaseSync,ctx:AiContext,id:string,ref:AppliedRef):AppliedRef[]{
  const row=messageRow(db,ctx,id);if(row.role!=='assistant'||row.status!=='complete')throw aiError('REQUEST_CONFLICT','完了結果だけを採用できます');
- if(!ref||!['record','theme','insight','discovery','map-settings','transfer-plan-set'].includes(ref.type)||typeof ref.id!=='string'||!ref.id.trim()||ref.id.length>80||!Number.isSafeInteger(ref.version)||ref.version<1||!/^[a-f0-9]{64}$/.test(ref.contentHash))throw aiError('INVALID_INPUT','採用参照が不正です');
+ if(!ref||!['record','theme','insight','discovery','map-settings','transfer-plan-set','pilgrimage-plan'].includes(ref.type)||typeof ref.id!=='string'||!ref.id.trim()||ref.id.length>80||!Number.isSafeInteger(ref.version)||ref.version<1||!/^[a-f0-9]{64}$/.test(ref.contentHash))throw aiError('INVALID_INPUT','採用参照が不正です');
  const refs=JSON.parse(row.applied_refs_json) as AppliedRef[];
  if(!refs.some(r=>r.type===ref.type&&r.id===ref.id&&r.contentHash===ref.contentHash)){refs.push(ref);db.prepare('UPDATE messages SET applied_refs_json=?,version=version+1,updated_at=? WHERE id=?').run(JSON.stringify(refs),Date.now(),id);}
  return refs;

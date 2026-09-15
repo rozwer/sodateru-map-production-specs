@@ -1,0 +1,58 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { openDatabases } from '../db/connection.ts';
+import { loadLocalIdentity, seedProfiles } from '../core/session.ts';
+import { createApp } from '../app/app.ts';
+import feature from '../features/conversations/register.ts';
+import { configureAi, registerAiTask } from './index.ts';
+const schemas=JSON.parse(readFileSync(new URL('../../docs/01_requirements/02_common/01_ai/schemas.json',import.meta.url),'utf8'));
+const outputSchema={...schemas.definitions.mapstyleResult,definitions:schemas.definitions};
+const inputSchema={...schemas.definitions.mapstyleInput,definitions:schemas.definitions};
+const proposal={theme:'default',lightPreset:'night',showPedestrianRoads:true,showAdminBoundaries:false,showIndoor:false,colors:null};
+registerAiTask({task:'mapstyle',promptVersion:'common-ai-v1',inputSchema,outputSchema,readMaterials:(_db,_ctx,input)=>({context:input,evidence:[],sourceRefs:[]}),buildPrompt:()=> '試験の地図設定',validateResult:()=>{},toBody:(r:any)=>r.explanation});
+test('CORE HTTP receipts, SQLite persistence, cancellation replay and retry survive restart',async()=>{
+ const directory=await mkdtemp(join(tmpdir(),'ai-core-'));
+ const options={livePath:join(directory,'live.sqlite'),demoPath:join(directory,'demo.sqlite')};
+ let databases=openDatabases(options);
+ const identity=loadLocalIdentity(join(directory,'profiles.json'));seedProfiles(databases,identity.profiles);
+ let app=createApp({databases,identity,features:[feature]});
+ const outputs:Array<(value:unknown)=>void>=[];
+ configureAi({model:()=> 'controlled-test-provider',provider:async()=>new Promise(resolve=>outputs.push(resolve)),assertAllowed:()=>{},assertSourceRefs:()=>{}});
+ let cookie='';
+ const request=async(path:string,method='GET',body?:unknown,extra:Record<string,string>={})=>{
+  const response=await app.request('/api/v1'+path,{method,headers:{'X-Request-Id':randomUUID(),'X-Data-Mode':'live','Content-Type':'application/json',Cookie:cookie,...(method==='POST'?{'Idempotency-Key':randomUUID()}:{}),...extra},...(body===undefined?{}:{body:JSON.stringify(body)})});
+  return {response,body:response.status===204?null:await response.json()};
+ };
+ try{
+  const session=await request('/session','POST',{profileKey:'self'});assert.equal(session.response.status,201,JSON.stringify(session.body));cookie=session.response.headers.get('set-cookie')!.split(';')[0]!;
+  const create={id:'chat-http',purpose:'consult',title:'地図相談',recordId:null};
+  assert.equal((await request('/conversations','POST',create,{'Idempotency-Key':'conversation'})).response.status,201);
+  const input={userMessageId:'u-http',assistantMessageId:'a-http',body:'夜の水辺を見やすく',use:'map-style',context:{current:proposal},expectedRefs:[]};
+  const accepted=await request('/conversations/chat-http/messages','POST',input,{'Idempotency-Key':'run'});
+  assert.equal(accepted.response.status,202,JSON.stringify(accepted.body));assert.equal(accepted.body.data.assistantMessage.errorCode,null);
+  await new Promise(r=>setImmediate(r));
+  const current=await request('/messages/a-http');assert.equal(current.body.data.run.status,'running');
+  const headers={'Idempotency-Key':'cancel','If-Match':'"'+current.body.data.run.version+'"'};
+  const cancelled=await request('/messages/a-http/cancel','POST',{attempt:1},headers);
+  assert.equal(cancelled.response.status,200,JSON.stringify(cancelled.body));
+  assert.equal((await request('/messages/a-http/cancel','POST',{attempt:1},headers)).response.status,200);
+  const retryHeaders={'Idempotency-Key':'retry','If-Match':'"'+cancelled.body.data.version+'"'};
+  const retried=await request('/messages/a-http/retry','POST',{attempt:1},retryHeaders);assert.equal(retried.response.status,202,JSON.stringify(retried.body));
+  assert.equal((await request('/messages/a-http/retry','POST',{attempt:1},retryHeaders)).body.data.message.attempt,2);
+  await new Promise(r=>setImmediate(r));outputs.shift()!({proposal,explanation:'旧応答'});outputs.shift()!({proposal,explanation:'現在の水辺'});await new Promise(r=>setImmediate(r));
+  const completed=await request('/messages/a-http');assert.equal(completed.body.data.output.value.explanation,'現在の水辺');
+  assert.equal(completed.body.data.output.use,'map-style');
+  const conflict=await request('/conversations/chat-http/messages','POST',{...input,body:'変更'}, {'Idempotency-Key':'run'});assert.equal(conflict.response.status,409);assert.equal(conflict.body.error.code,'IDEMPOTENCY_CONFLICT');
+  databases.close();databases=openDatabases(options);seedProfiles(databases,identity.profiles);app=createApp({databases,identity,features:[feature]});
+  const restored=await request('/messages/a-http');assert.equal(restored.body.data.output.value.explanation,'現在の水辺');
+  const replay=await request('/conversations/chat-http/messages','POST',input,{'Idempotency-Key':'run'});assert.equal(replay.response.status,202);assert.equal(replay.body.data.assistantMessage.attempt,2);assert.equal(outputs.length,0);
+  const conversation=await request('/conversations/chat-http');
+  assert.equal((await request('/conversations/chat-http','DELETE',undefined,{'If-Match':'"'+conversation.body.data.version+'"'})).response.status,204);
+  assert.equal((await request('/conversations/chat-http/messages','POST',input,{'Idempotency-Key':'run'})).response.status,404);
+ }finally{databases.close();await rm(directory,{recursive:true,force:true});}
+});

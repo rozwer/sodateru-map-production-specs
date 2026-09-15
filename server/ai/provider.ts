@@ -1,3 +1,4 @@
+import { providerSchema } from './provider-schema.ts';
 import { collectAgentMessage } from './ephemeral-output.ts';
 import { Codex } from '@openai/codex-sdk';
 import { createRequire } from 'node:module';
@@ -42,7 +43,7 @@ export async function runStructured(input:ProviderInput):Promise<unknown>{
  try{
   const sdk=new Codex({config:{features:{shell_tool:false}}});
   const thread=sdk.startThread({model:input.model,workingDirectory:directory,skipGitRepoCheck:true,sandboxMode:'read-only',approvalPolicy:'never',networkAccessEnabled:false,webSearchMode:'disabled'});
-  const result=await thread.run(input.prompt,{outputSchema:input.schema,signal});
+  const result=await thread.run(input.prompt,{outputSchema:providerSchema(input.schema),signal});
   return parseOutput(result.finalResponse);
  }catch(e){if(timeout.aborted)throw aiError('TIMEOUT','AI実行の期限を超えました',true);if(input.signal.aborted)throw aiError('CANCELLED','AI実行を取り消しました',true);throw e;}
  finally{await rm(directory,{recursive:true,force:true});}
@@ -53,7 +54,7 @@ export async function runEphemeral(input:ProviderInput):Promise<unknown>{
  const signal=AbortSignal.any([input.signal,timeout]);await loggedIn(signal);
  const directory=await workspace(input.task??'consult'),schemaPath=join(directory,'schema.json');
  try{
-  await writeFile(schemaPath,JSON.stringify(input.schema));
+  await writeFile(schemaPath,JSON.stringify(providerSchema(input.schema)));
   const child=spawn(process.execPath,[cli(),'exec','--ephemeral','--json','--skip-git-repo-check','-s','read-only','--model',input.model,'--output-schema',schemaPath,'-c','features.shell_tool=false','-c','web_search="disabled"','-c','sandbox_workspace_write.network_access=false','-'],{cwd:directory,stdio:['pipe','pipe','pipe'],signal});
   const completion=new Promise<number|null>((resolve,reject)=>{
    child.on('error',()=>reject(aiError(signal.aborted?(timeout.aborted?'TIMEOUT':'CANCELLED'):'UPSTREAM_FAILED','一時AI実行を完了できませんでした',true)));

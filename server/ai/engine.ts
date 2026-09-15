@@ -1,3 +1,5 @@
+import type { RequestIdentity } from '../core/idempotency.ts';
+import { replayRun, withRunReceipt } from './http-receipts.ts';
 import type { DatabaseSync } from 'node:sqlite';
 import type { AiContext, Materials, RunRequest, Run, SourceRef } from './types.ts';
 import { aiError, asRunError } from './errors.ts';
@@ -28,13 +30,14 @@ function findExisting(db:DatabaseSync,ctx:AiContext,req:RunRequest,hash:string):
  if(row.role!=='assistant'||row.request_hash!==hash)throw aiError('REQUEST_CONFLICT','同じ応答IDに異なる入力です');
  return runDto(row);
 }
-export async function startRun(db:DatabaseSync,ctx:AiContext,raw:RunRequest):Promise<Run>{
+export async function startRun(db:DatabaseSync,ctx:AiContext,raw:RunRequest,identity?:RequestIdentity):Promise<Run>{
+ const replay=replayRun(db,ctx,identity);if(replay)return getRun(db,ctx,replay.id);
  validateRequest(raw);const req=normalizeRequest(raw),hash=canonicalHash(req);conversationRow(db,ctx,req.conversationId);
- const existing=findExisting(db,ctx,req,hash);if(existing)return getRun(db,ctx,existing.id);
+ const existing=findExisting(db,ctx,req,hash);if(existing){withRunReceipt(db,ctx,identity,202,()=>({run:existing,created:false}));return getRun(db,ctx,existing.id);}
  const registered=getTask(req.task),model=dependencies.model(req.task);
  if(!model)throw aiError('PROVIDER_UNAVAILABLE','AIモデルが未設定です',true);
  const materials=await materialsFor(db,ctx,req);
- const outcome=transaction(db,()=>{
+ const outcome=withRunReceipt(db,ctx,identity,202,()=>{
   conversationRow(db,ctx,req.conversationId);
   const duplicate=findExisting(db,ctx,req,hash);if(duplicate)return {run:duplicate,created:false};
   if(db.prepare('SELECT id FROM messages WHERE id=?').get(req.userMessageId))throw aiError('REQUEST_CONFLICT','本人の発言IDが使用済みです');
@@ -54,33 +57,35 @@ export async function getRun(db:DatabaseSync,ctx:AiContext,id:string):Promise<Ru
  const run=runDto(messageRow(db,ctx,id));
  await dependencies.assertSourceRefs(db,ctx,run.sourceRefs);return run;
 }
-function expectations(row:any,input:{expectedVersion:number;expectedAttempt:number}){
+function expectations(row:any,input:{expectedVersion:number;expectedAttempt:number},http=false){
  if(!Number.isSafeInteger(input?.expectedVersion)||!Number.isSafeInteger(input?.expectedAttempt)||input.expectedVersion<1||input.expectedAttempt<1)throw aiError('INVALID_INPUT','版または試行番号が不正です');
+ if(http&&row.version!==input.expectedVersion)throw aiError('VERSION_CONFLICT','状態の版が変わりました',false,412);
  if(row.version!==input.expectedVersion||row.attempt!==input.expectedAttempt)throw aiError('REQUEST_CONFLICT','状態が更新されています');
 }
-export async function cancelRun(db:DatabaseSync,ctx:AiContext,id:string,input:{expectedVersion:number;expectedAttempt:number}):Promise<Run>{
- const run=transaction(db,()=>{const row=messageRow(db,ctx,id);expectations(row,input);
+export function cancelRun(db:DatabaseSync,ctx:AiContext,id:string,input:{expectedVersion:number;expectedAttempt:number},identity?:RequestIdentity):Run{
+ const outcome=withRunReceipt(db,ctx,identity,200,()=>{const row=messageRow(db,ctx,id);expectations(row,input,Boolean(identity));
   if(row.role!=='assistant'||!['pending','running'].includes(row.status))throw aiError('REQUEST_CONFLICT','実行中の応答だけを取り消せます');
   db.prepare("UPDATE messages SET status='cancelled',version=version+1,updated_at=? WHERE id=? AND version=? AND attempt=?").run(Date.now(),id,input.expectedVersion,input.expectedAttempt);
-  return runDto(messageRow(db,ctx,id));});
- const current=active(db).get(id);if(current?.attempt===input.expectedAttempt)current.controller.abort();return run;
+  return {run:runDto(messageRow(db,ctx,id)),created:true};});
+ const current=active(db).get(id);if(outcome.created&&current?.attempt===input.expectedAttempt)current.controller.abort();return outcome.run;
 }
-export async function retryRun(db:DatabaseSync,ctx:AiContext,id:string,input:{expectedVersion:number;expectedAttempt:number}):Promise<Run>{
- const row=messageRow(db,ctx,id);expectations(row,input);if(row.role!=='assistant'||!['failed','cancelled'].includes(row.status))throw aiError('REQUEST_CONFLICT','失敗または取消だけを再試行できます');
+export async function retryRun(db:DatabaseSync,ctx:AiContext,id:string,input:{expectedVersion:number;expectedAttempt:number},identity?:RequestIdentity):Promise<Run>{
+ const replay=replayRun(db,ctx,identity);if(replay)return getRun(db,ctx,replay.id);
+ const row=messageRow(db,ctx,id);expectations(row,input,Boolean(identity));if(row.role!=='assistant'||!['failed','cancelled'].includes(row.status))throw aiError('REQUEST_CONFLICT','失敗または取消だけを再試行できます');
  const stored=JSON.parse(row.request_json),definition=getTask(row.task).definition;
  if(stored.promptVersion!==definition.promptVersion)throw aiError('PROVIDER_UNAVAILABLE','元の依頼文の版を利用できません。新しい発言で送信してください');
  const req:RunRequest={conversationId:row.conversation_id,userMessageId:stored.userMessageId,assistantMessageId:id,text:stored.text,task:row.task,input:stored.input,expectedRefs:stored.sourceRefs};
  const materials=await materialsFor(db,ctx,req);
  if(canonicalHash([...materials.sourceRefs].sort(refOrder))!==canonicalHash([...stored.sourceRefs].sort(refOrder)))throw aiError('SOURCE_CHANGED','AI材料の参照が変わりました');
- const run=transaction(db,()=>{
-  const current=messageRow(db,ctx,id);expectations(current,input);
+ const outcome=withRunReceipt(db,ctx,identity,202,()=>{
+  const current=messageRow(db,ctx,id);expectations(current,input,Boolean(identity));
   if(!['failed','cancelled'].includes(current.status))throw aiError('REQUEST_CONFLICT','再試行できない状態です');
   if(db.prepare("SELECT id FROM messages WHERE conversation_id=? AND role='assistant' AND status IN ('pending','running')").get(row.conversation_id))throw aiError('BUSY','同じ会話でAI処理中です',true);
   delete stored.error;
   db.prepare("UPDATE messages SET status='pending',attempt=attempt+1,version=version+1,updated_at=?,result_json=NULL,error_code=NULL,request_json=? WHERE id=? AND version=? AND attempt=?").run(Date.now(),JSON.stringify(stored),id,input.expectedVersion,input.expectedAttempt);
-  return runDto(messageRow(db,ctx,id));
+  return {run:runDto(messageRow(db,ctx,id)),created:true};
  });
- setImmediate(()=>void execute(db,ctx,req,run.attempt,materials));return run;
+ if(outcome.created)setImmediate(()=>void execute(db,ctx,req,outcome.run.attempt,materials));return outcome.run;
 }
 function refOrder(a:SourceRef,b:SourceRef){return (a.type+':'+a.id).localeCompare(b.type+':'+b.id);}
 async function execute(db:DatabaseSync,ctx:AiContext,req:RunRequest,attempt:number,materials:Materials){

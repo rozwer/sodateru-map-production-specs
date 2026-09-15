@@ -35,6 +35,9 @@
           "$ref": "#/components/parameters/header_X-Request-Id"
         },
         {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        },
+        {
           "name": "q",
           "in": "query",
           "required": false,
@@ -118,11 +121,18 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "03-01",
       "x-sort": "updatedAt DESC, id DESC",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "method": "get",
       "path": "/conversations",
       "replaceOperation": true
