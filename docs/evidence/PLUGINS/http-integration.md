@@ -38,3 +38,9 @@ PASS（1 HTTPシナリオ、fail 0）。
 ## 未達
 
 PLUGINS fragment v2の共通生成物への正式反映、実プラグインの登録と固有API、UI-MAP/通常地図の実操作E2Eは未完了。Issueを閉じない。
+
+## 再レビュー：完了済み再送を準備より先に照合
+
+COREのidempotentMutationをそのまま通し、完了済み受付のhash/期限/現在資源をprepare前に照合する。新規要求のexecuteだけ内部sentinelをthrowし、COREが受付transactionをrollbackしてから非保存prepareへ進む。外部I/O中にtransactionやpending行を保持しない。受付表のSQL・hash・再送処理は固有側に複製していない。
+
+導入201後にprepareを失敗へ切替→同一キー/入力の再送200、prepare呼出し増加なし。更新200後にも同条件を確認。既存の異入力409・削除後404も同じ共通経路で確認。http.test.tsの実localhostシナリオPASS、全固有TSがstrict/noUncheckedIndexedAccessでPASS。

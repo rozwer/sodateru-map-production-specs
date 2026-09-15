@@ -24,7 +24,9 @@ test('real CORE HTTP session, trial, install/replay, update/rollback, delete and
   const dir=mkdtempSync(join(tmpdir(),'plugins-http-')),contractPath=join(dir,'contract.json');
   execFileSync('mise',['exec','--','python3','docs/evidence/PLUGINS/compose-contract.py',contractPath]);
   const contract=JSON.parse(readFileSync(contractPath,'utf8')) as ApiContract;
-  registerPlugin(release('1'));registerPlugin(release('2'));registerPlugin({...release('failed'),prepare:async()=>{throw new Error('provider failure');}});
+  let preparationUnavailable=false,prepares=0;
+  const prepare=async()=>{prepares++;if(preparationUnavailable)throw new Error('provider unavailable after success');};
+  registerPlugin({...release('1'),prepare});registerPlugin({...release('2'),prepare});registerPlugin({...release('failed'),prepare:async()=>{throw new Error('provider failure');}});
   const identity=loadLocalIdentity(join(dir,'profiles.json'));
   const open=()=>openDatabases({livePath:join(dir,'live.sqlite'),demoPath:join(dir,'demo.sqlite'),migrations:plugins.migrations});
   let databases=open();seedProfiles(databases,identity.profiles);
@@ -50,7 +52,9 @@ test('real CORE HTTP session, trial, install/replay, update/rollback, delete and
     const input={id:'http-fixture',pluginVersion:'1',settings:trial.body.data.snapshot.settings,enabled:true,confirmed:true,stateRevision:trial.body.data.stateRevision};
     const created=await call('/plugin-settings','POST',input,{key:'install'});assert.equal(created.status,201,JSON.stringify(created));
     let item=created.body.data;
+    preparationUnavailable=true;const beforeReplay=prepares;
     assert.equal((await call('/plugin-settings','POST',input,{key:'install'})).status,200);
+    assert.equal(prepares,beforeReplay);preparationUnavailable=false;
     assert.equal((await call('/plugin-settings','POST',{...input,enabled:false},{key:'install'})).status,409);
     assert.equal((await call('/plugin-settings/http-fixture','PATCH',{enabled:false})).status,428);
     assert.equal((await call('/plugin-settings/http-fixture','PATCH',{enabled:false},{version:99})).status,412);
@@ -62,8 +66,12 @@ test('real CORE HTTP session, trial, install/replay, update/rollback, delete and
     let revision=(await call('/plugin-state')).body.data.revision;
     const failed=await call('/plugin-settings/http-fixture/update','POST',{confirmed:true,stateRevision:revision,pluginVersion:'failed'},{version:item.version});
     assert.equal(failed.status,502);assert.deepEqual((await call('/plugin-settings/http-fixture')).body.data,item);
-    let result=await call('/plugin-settings/http-fixture/update','POST',{confirmed:true,stateRevision:revision,pluginVersion:'2'},{version:item.version,key:'update'});
+    const updateInput={confirmed:true,stateRevision:revision,pluginVersion:'2'},updateVersion=item.version;
+    let result=await call('/plugin-settings/http-fixture/update','POST',updateInput,{version:updateVersion,key:'update'});
     assert.equal(result.status,200,JSON.stringify(result));item=result.body.data;assert.equal(item.pluginVersion,'2');
+    preparationUnavailable=true;const beforeUpdateReplay=prepares;
+    const replayedUpdate=await call('/plugin-settings/http-fixture/update','POST',updateInput,{version:updateVersion,key:'update'});
+    assert.equal(replayedUpdate.status,200);assert.deepEqual(replayedUpdate.body.data,item);assert.equal(prepares,beforeUpdateReplay);preparationUnavailable=false;
     revision=(await call('/plugin-state')).body.data.revision;
     result=await call('/plugin-settings/http-fixture/rollback','POST',{confirmed:true,stateRevision:revision},{version:item.version});
     assert.equal(result.status,200);item=result.body.data;assert.equal(item.pluginVersion,'1');

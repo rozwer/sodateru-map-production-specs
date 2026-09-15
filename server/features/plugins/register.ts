@@ -21,6 +21,15 @@ const mutation=(c:Context<CoreEnv>,input:unknown,execute:()=>StoredResult)=>idem
   context:c.get('context'),operation:`POST ${c.req.path}`,key:c.req.header('Idempotency-Key')!,input,
 },{execute,replay:result=>result.resource ? stored(service(c).store.get(result.resource.id)) : result});
 
+// Reuse CORE's complete hash/expiry/current-resource replay path before external preparation.
+// For a new request the sentinel rolls back CORE's reservation transaction; no pending row
+// or transaction survives into the await. Only preparation performs external, non-saving I/O.
+const preparationRequired=Symbol('plugin preparation required');
+function completedReplay(c:Context<CoreEnv>,input:unknown):StoredResult|undefined {
+  try {return mutation(c,input,()=>{throw preparationRequired;});}
+  catch(error) {if(error===preparationRequired)return undefined;throw error;}
+}
+
 export default defineFeature({
   id:'PLUGINS',
   migrations:[{id:'plugins-001',sql:readFileSync(new URL('../../db/migrations/plugins/001-plugins.sql',import.meta.url),'utf8')}],
@@ -38,6 +47,7 @@ export default defineFeature({
     }));
     api.post('/plugin-settings',featureHandler(async c=>{
       const body=c.get('input').body as InstallInput, plugins=service(c);
+      const replay=completedReplay(c,body);if(replay)return response(c,replay);
       // prepare performs no persistent writes; CORE wraps only the final synchronous commit.
       const prepared=await plugins.prepareInstall(body);
       const result=mutation(c,body,()=>stored(plugins.installPrepared(body,prepared),201));
@@ -53,7 +63,9 @@ export default defineFeature({
     }));
     api.post('/plugin-settings/:pluginId/update',featureHandler(async c=>{
       const body=c.get('input').body as Parameters<PluginService['update']>[2], plugins=service(c), id=c.req.param('pluginId');
-      const version=expectedVersion(c.req.header('If-Match')), prepared=await plugins.prepareUpdate(id,body);
+      const version=expectedVersion(c.req.header('If-Match'));
+      const replay=completedReplay(c,{body,version});if(replay)return response(c,replay);
+      const prepared=await plugins.prepareUpdate(id,body);
       return response(c,mutation(c,{body,version},()=>stored(plugins.updatePrepared(id,version,body,prepared))));
     }));
     api.post('/plugin-settings/:pluginId/rollback',featureHandler(c=>{
