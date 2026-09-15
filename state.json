@@ -45,6 +45,7 @@
         "SUGGESTIONS": 36,
         "SUGGESTIONS-INTEGRATION": 108,
         "THEMES": 37,
+        "THEMES-INTEGRATION": 105,
         "TOOL-ISSUE-COMMENT": 49,
         "TOOL-UPSTREAM-GUARD": 62,
         "TOOL-WORKTREE-SETUP": 41,
@@ -6818,6 +6819,141 @@
           "server/db/migrations/transfer/",
           "docs/01_requirements/04_api/fragments/TRANSFER.json",
           "docs/evidence/TRANSFER/"
+        ]
+      },
+      {
+        "acceptance_ids": [
+          "memo-edit-C1",
+          "memo-edit-FC01",
+          "memo-edit-FC02",
+          "memo-edit-FC03",
+          "memo-edit-FC04",
+          "personal-map-C1",
+          "personal-map-C2",
+          "personal-map-FC01",
+          "personal-map-FC02",
+          "personal-map-FC03",
+          "theme-edit-C1",
+          "theme-edit-FC01",
+          "theme-edit-FC02",
+          "theme-edit-FC03",
+          "theme-edit-FC04",
+          "themes-C1",
+          "themes-FC01",
+          "themes-FC02",
+          "themes-FC03"
+        ],
+        "connect_after": [
+          "AI",
+          "RECORDS",
+          "INFORMATION"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行"
+          },
+          {
+            "issue": "RECORDS",
+            "outputs": [
+              "RECORDS.save"
+            ],
+            "required_output": "記録の作成・単体取得・編集・削除"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [
+            "presentation"
+          ],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 105,
+        "hard_dependencies": [],
+        "id": "THEMES-INTEGRATION",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/105",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [
+          "presentation"
+        ],
+        "owned_operations": [
+          "getThemes",
+          "postThemes",
+          "getThemesThemeId",
+          "patchThemesThemeId",
+          "deleteThemesThemeId"
+        ],
+        "pages": [
+          "themes",
+          "theme-edit",
+          "memo-edit",
+          "personal-map"
+        ],
+        "priority": "P0",
+        "provides": [
+          "THEMES.manual",
+          "THEMES.ai"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/features/themes/",
+          "server/db/migrations/themes/",
+          "docs/01_requirements/04_api/fragments/THEMES.json",
+          "docs/evidence/THEMES/"
+        ],
+        "references": [
+          "../01_requirements/01_DB/13_themes.json",
+          "../01_requirements/01_DB/02_records.json"
+        ],
+        "requirement_ids": [
+          "memo-edit-R1",
+          "memo-edit-F01",
+          "memo-edit-F02",
+          "memo-edit-F03",
+          "memo-edit-F04",
+          "personal-map-R1",
+          "personal-map-R2",
+          "personal-map-F01",
+          "personal-map-F02",
+          "personal-map-F03",
+          "theme-edit-R1",
+          "theme-edit-F01",
+          "theme-edit-F02",
+          "theme-edit-F03",
+          "theme-edit-F04",
+          "themes-R1",
+          "themes-F01",
+          "themes-F02",
+          "themes-F03"
+        ],
+        "source_task_ids": [
+          "THEMES"
+        ],
+        "status": "registered",
+        "title": "THEMES follow-up｜生成契約・画面接続の受入とAI命名採用",
+        "write_paths": [
+          "server/features/themes/",
+          "server/db/migrations/themes/",
+          "docs/01_requirements/04_api/fragments/THEMES.json",
+          "docs/evidence/THEMES/"
         ]
       }
     ],
@@ -33051,9 +33187,10 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION",
     "INSIGHTS-DEMO",
-    "TRANSFER-INTEGRATION"
+    "TRANSFER-INTEGRATION",
+    "THEMES-INTEGRATION"
   ],
-  "revision": 160,
+  "revision": 161,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33589,6 +33726,24 @@
       "status": "done",
       "submitted_commit": "e427bae86ca03a2c0e3e8adc18f99e268944c4e3",
       "token": null
+    },
+    "THEMES-INTEGRATION": {
+      "actor": "mattsun",
+      "base_commit": "977d5bf881f964d875da1b9623bcda03944654b9",
+      "generation": 1,
+      "issue_number": 105,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/themes/",
+        "server/db/migrations/themes/",
+        "docs/01_requirements/04_api/fragments/THEMES.json",
+        "docs/evidence/THEMES/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "8f1b1ef6aeeb429884ef620483311d5a"
     },
     "TOOL-ISSUE-COMMENT": {
       "actor": "rozwer",
