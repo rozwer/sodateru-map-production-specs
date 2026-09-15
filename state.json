@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 258,
+  "revision": 259,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34022,27 +34022,17 @@
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "BUILDING-GROWTH": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "5760202281c6a73b7f51c58ab90bde28ec826664",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 222,
       "landed_main": null,
-      "note": null,
+      "note": "User requested convergence. PRs 239/251/253 merged, HEAD8301624 preserved. API/browser evidence and unverified actual face color plus remaining nine acceptance in docs/evidence/BUILDING-GROWTH/handoff.md. Issue stays open for final QA.",
       "owner": "rozwer",
-      "paths": [
-        "src/map/growth-display.ts",
-        "src/map/growth-rules.ts",
-        "src/map/growth-rules.test.ts",
-        "src/map/MapScene.tsx",
-        "src/map/display-state.ts",
-        "src/map/map.css",
-        "src/features/map/",
-        "docs/evidence/BUILDING-GROWTH/",
-        "src/map/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "617eceb6f2b44f4d90757cb68227667a"
+      "token": null
     },
     "BUILDING-RECORDS": {
       "actor": null,
