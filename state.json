@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 134,
+  "revision": 135,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4547,7 +4547,7 @@
       "generation": 1,
       "issue_number": 22,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/COMMUNITY/contracts.md",
       "owner": "koshiro",
       "paths": [
         "server/features/community/",
@@ -4556,8 +4556,8 @@
         "docs/01_requirements/04_api/fragments/COMMUNITY.json",
         "docs/evidence/COMMUNITY/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "40267e44eedd3049f5ae9540bfeb035b0c89ea4a",
       "token": "51c20d3b03f74fa08651bbc14376a222"
     },
     "COMPANION": {
