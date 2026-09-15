@@ -67,6 +67,7 @@
         "UI-ROUTES": 9,
         "UI-SETTINGS": 17,
         "UI-SUGGESTIONS": 15,
+        "VISUAL-MAP-EXPLORE": 174,
         "VISUAL-SHELL": 172
       },
       "owners": {
@@ -7127,6 +7128,20 @@
           "src/ui/",
           "src/messages.ts",
           "docs/evidence/VISUAL-SHELL/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-MAP-EXPLORE",
+        "kind": "ui",
+        "lane": "A",
+        "priority": "P1",
+        "title": "地図・経路の参照差分修復と担当画面照合",
+        "write_paths": [
+          "src/features/map/",
+          "src/features/routes/",
+          "docs/evidence/VISUAL-MAP-EXPLORE/"
         ]
       }
     ],
@@ -33363,9 +33378,10 @@
     "TRANSFER-INTEGRATION",
     "THEMES-INTEGRATION",
     "REFLECTION-INTEGRATION",
-    "VISUAL-SHELL"
+    "VISUAL-SHELL",
+    "VISUAL-MAP-EXPLORE"
   ],
-  "revision": 166,
+  "revision": 167,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34179,6 +34195,23 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "VISUAL-MAP-EXPLORE": {
+      "actor": "rozwer",
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 1,
+      "issue_number": 174,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/map/",
+        "src/features/routes/",
+        "docs/evidence/VISUAL-MAP-EXPLORE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "2c2ea76c81324604a1c4189a12dbb03e"
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
