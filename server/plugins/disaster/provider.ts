@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { regionMask } from './mask.ts';
+import { validatePng } from './png.ts';
 import { JAPAN, definitions } from './catalog.ts';
 import type { Bounds, Tile, Layer, LayerId, DisasterSettings, DataStatus } from './types.ts';
 
@@ -50,7 +51,7 @@ export class DisasterProvider {
       if (r.status === 404 || r.status === 204) return {...base,status:'missing',error:'提供元に該当タイルがありません。安全を意味しません。'};
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const bytes = Buffer.from(await r.arrayBuffer());
-      if (bytes.length > 2_000_000 || bytes.length < 33 || !bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])) || bytes.readUInt32BE(16)!==256 || bytes.readUInt32BE(20)!==256) throw new Error('Invalid PNG tile');
+      validatePng(bytes);
       return {...base,status:'available',sha256:createHash('sha256').update(bytes).digest('hex'),imageDataUrl:`data:image/png;base64,${bytes.toString('base64')}`};
     } catch (error) {
       signal.throwIfAborted();

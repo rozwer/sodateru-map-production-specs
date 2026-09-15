@@ -1,12 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { DisasterProvider, tilesFor } from './provider.ts';
+import { crc32, deflateSync } from 'node:zlib';
+import { validatePng } from './png.ts';
 import { regionMask } from './mask.ts';
 import { defaultSettings, validateSettings } from './catalog.ts';
 
 const now=Date.UTC(2026,8,15,2,30);
 // Deliberate provider transport fixture, never used by production registration.
-const png=Buffer.alloc(33);Buffer.from([137,80,78,71,13,10,26,10]).copy(png);png.writeUInt32BE(256,16);png.writeUInt32BE(256,20);
+const chunk=(kind:string,data:Buffer)=>{const b=Buffer.alloc(data.length+12);b.writeUInt32BE(data.length);b.write(kind,4);data.copy(b,8);b.writeUInt32BE(crc32(b.subarray(4,-4)),b.length-4);return b;};
+const header=Buffer.alloc(13);header.writeUInt32BE(256);header.writeUInt32BE(256,4);header[8]=8;header[9]=6;
+const png=Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(Buffer.alloc(256*(256*4+1)))),chunk('IEND',Buffer.alloc(0))]);
 function transport(tileStatus=200): typeof fetch {
   return async (input)=>{
     if(String(input).endsWith('.geojson')) return Response.json({type:'FeatureCollection',features:[]});
@@ -46,4 +50,10 @@ test('provider no-data polygons are clipped and holes preserved; empty mask is d
   const clipped=regionMask(input,[1,1,3,3]);assert.equal(clipped.hasNoData,true);
   assert.ok(clipped.geojson.features[0].geometry.coordinates.flat().every(([x,y])=>x>=1&&x<=3&&y>=1&&y<=3));
   assert.throws(()=>regionMask({},[1,1,3,3]));
+});
+
+test('corrupt/truncated images are rejected instead of cached as available',()=>{
+  validatePng(png);
+  assert.throws(()=>validatePng(png.subarray(0,-5)));
+  const corrupt=Buffer.from(png);corrupt[50]^=1;assert.throws(()=>validatePng(corrupt));
 });
