@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-09-15T03:32:40.959Z",
+  "status": "passed",
+  "checks": [
+    "actual INFORMATION reads own visit-linked record, selected shared record and own visit; excludes other private record",
+    "current sharing revocation immediately removes shared content from PlaceDetail",
+    "restart preserves real records, visit resolution and current sharing access",
+    "demo mode cannot read live place/detail"
+  ],
+  "placeId": "2ae078fb-7aed-45c0-a18d-5fe9577e39c7",
+  "informationIntegration": "cc710000633262f7436bab3017355aed1633b86e",
+  "recordSourceStates": {
+    "own": "ready",
+    "shared": "ready",
+    "visits": "ready"
+  },
+  "note": "All records and visit were saved through actual CORE/RECORDS HTTP and read through unmodified INFORMATION service; isolated profile file only configures the second identity."
+}
