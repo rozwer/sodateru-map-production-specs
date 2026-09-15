@@ -40,6 +40,7 @@ export class PlacesService {
   private results=new Map<string,StoredResult>();
   constructor(private now:()=>number=Date.now){}
   async search(context:RequestContext,db:DatabaseSync,input:CandidateInput):Promise<SearchResult> {
+    context.signal.throwIfAborted();
     input=validateSearch(input);
     const now=this.now();
     for(const [key,value] of this.results)if(value.result.expiresAt<=now)this.results.delete(key);
@@ -56,6 +57,7 @@ export class PlacesService {
     context.signal.throwIfAborted();
     const result={resultId:randomUUID(),items:items.map((item,i)=>({...item,candidateId:`candidate-${i+1}`})),expiresAt:this.now()+15*60_000};
     this.results.set(result.resultId,{personId:context.personId,dataMode:context.dataMode,input,result});
+    setTimeout(()=>this.results.delete(result.resultId),Math.max(0,result.expiresAt-this.now())).unref();
     return structuredClone(result);
   }
   resolveCandidate(context:RequestContext,resultId:string,candidateId:string):PlaceCandidate {
