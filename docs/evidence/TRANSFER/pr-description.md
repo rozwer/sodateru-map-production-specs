@@ -1,17 +1,20 @@
 ## 変更
 
-元体験の意味・順序・参照版をレシピへ保存し、忠実案/本人向け案を検査して別の街で採用するQ10固有処理です。AIが候補外の地点や引用を追加した場合、必須条件の評価を省略した場合、移動と滞在が予算を超える場合は採用しません。元記録を更新しません。
+元体験の意味・順序・参照版をレシピに保存し、忠実案/本人向け案を比較して採用するQ10処理です。候補外の地点・引用、欠けた必須条件、移動と滞在の予算超過は採用しません。元記録は更新しません。
 
-レシピ/計画/採用のSQLite保存、8operation断片、CORE登録/再送接続、AI用途登録と各共通サービスadapterを含みます。採用は固定した共通route IDを再送し、最終PlanSet更新・AI採用参照・共通受付完了を同じtransactionへ接続します。
+レシピ/計画/採用のSQLite保存、8operation断片、CORE登録/再送、共通AI/PLACES/INFORMATION/ROUTES adapterを含みます。採用は固定route IDを再送し、PlanSet更新・AI採用参照・受付完了を同じtransactionへ接続します。
 
 ## 検証
 
-- 固有6検証成功：実SQLite再オープン、順序/本人/版、AI候補/引用/二案/条件/時間、採用再送と根拠変更。
-- 共通SchemaとQ10断片の参照コンパイル、実SQLite DTOとの照合1件成功。
-- CORE統合後、固有store/service/planning/httpのstrict型検査成功。
+- 固有6件、共通schema/DTO境界1件、CORE Hono HTTP境界1件が成功。
+- 実SQLite再開、順序/本人/版、二案/根拠/条件/時間、採用中断時のrollback・再送・再取得を確認。
+- 独立モジュールのstrict型検査成功。最新develop01f38a2を通常merge済み。
+- 証拠: docs/evidence/TRANSFER/progress.md
 
-## 未完了
+## 残件
 
-AI/PLACES/INFORMATION/ROUTESの実統合と全adapter型検査、実API/外部取得/採用後プロセス再起動GET、A担当UI bindingの受入が残っています。採用再送テストの共通依存はテスト用であり、製品の実接続証拠には数えません。このdraftはTRANSFER.completeやIssue closeを要求しません。
+AI/INFORMATION未統合のため全adapter型検査と実アプリ起動が未完了。全体typecheckにはTHEMESテストの既存診断も2件あります。実provider、採用後OSプロセス再起動GET、A担当UI bindingは未確認です。HTTPテストの外部依存はテスト用で、製品実接続の証拠とは扱いません。
+
+30分デモ向けに、動く提供範囲の先行統合と残要件の後続Issue化を調整中です。元のTRANSFER全要件を完成扱いしません。
 
 Refs #32

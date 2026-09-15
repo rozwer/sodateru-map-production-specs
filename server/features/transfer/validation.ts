@@ -55,7 +55,7 @@ export function planInput(value: unknown): PlanInput {
   const v = object(value), p = object(v.start);
   if (typeof p.longitude !== 'number' || !Number.isFinite(p.longitude) || Math.abs(p.longitude) > 180 || typeof p.latitude !== 'number' || !Number.isFinite(p.latitude) || Math.abs(p.latitude) > 90) invalid('出発点の座標が不正です');
   if (!['walking', 'driving'].includes(v.mode as string)) invalid('移動方法が不正です');
-  return { id: string(v.id, 'id', 200), recipeId: string(v.recipeId, 'recipeId', 200), recipeVersion: integer(v.recipeVersion, 'recipeVersion', 1, Number.MAX_SAFE_INTEGER),
+  return { id: string(v.id, 'id', 80), recipeId: string(v.recipeId, 'recipeId', 200), recipeVersion: integer(v.recipeVersion, 'recipeVersion', 1, Number.MAX_SAFE_INTEGER),
     region: string(v.region, 'region', 300), start: { longitude: p.longitude, latitude: p.latitude }, mode: v.mode as PlanInput['mode'],
     timeBudgetMinutes: integer(v.timeBudgetMinutes, 'timeBudgetMinutes', 1, 1440), preferences: string(v.preferences, 'preferences', 4000, 0) };
 }

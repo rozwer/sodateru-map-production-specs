@@ -7,6 +7,7 @@ import addFormats from 'ajv-formats';
 import { TransferStore } from './store.ts';
 import { transferMigration } from '../../db/migrations/transfer/migration.ts';
 import { transferFragment } from './schemas.ts';
+import { planInput } from './validation.ts';
 
 test('Q10 fragment references compile with shared schemas and real SQLite DTOs match', () => {
   const base = JSON.parse(readFileSync(new URL('../../../docs/01_requirements/04_api/openapi.json',import.meta.url),'utf8'));
@@ -22,5 +23,11 @@ test('Q10 fragment references compile with shared schemas and real SQLite DTOs m
     const valid=ajv.getSchema(`contract#/components/schemas/${schema}`)!;
     assert.equal(valid(value),true,JSON.stringify(valid.errors));
   }
+  const validInput=ajv.getSchema('contract#/components/schemas/TransferPlanInput')!;
+  const {id: _id, ...rest}=plan;
+  const input={id:'p'.repeat(80),recipeId:rest.recipeId,recipeVersion:rest.recipeVersion,region:rest.region,start:rest.start,mode:rest.mode,timeBudgetMinutes:rest.timeBudgetMinutes,preferences:rest.preferences};
+  assert.equal(validInput(input),true);
+  assert.equal(validInput({...input,id:'p'.repeat(81)}),false,'IDs must fit the shared AI applied reference');
+  assert.throws(()=>planInput({...input,id:'p'.repeat(81)}),{code:'VALIDATION_FAILED'});
   db.close();
 });

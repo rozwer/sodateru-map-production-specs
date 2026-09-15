@@ -1,28 +1,25 @@
 # TRANSFER verification progress
 
-Status: incomplete. Domain/store tests pass; common runtime, AI and routing adapters are not yet integrated or verified. No mock or partial unit result is accepted as TRANSFER.complete.
+Status: incomplete. Reviewed deliverable candidate: persistent recipe/plan domain, eight-operation contract and CORE HTTP integration. Common AI/INFORMATION and real end-to-end acceptance remain.
 
 ## Verified
 
-2026-09-15, Node 22.22.1 through mise, dedicated mattsun/32-transfer worktree:
+2026-09-15, Node 22.22.1 via mise, dedicated mattsun/32-transfer worktree.
 
-`mise exec -- node --experimental-strip-types --test server/features/transfer/recipe.test.ts server/features/transfer/planning.test.ts server/features/transfer/service.test.ts`
+- Six recipe/planning/service tests passed: real SQLite close/reopen, original order/owner/version, unknown candidate/evidence/missing variant rejection, actual route-duration field plus stay budget, required-condition evidence tied to selected destinations, adoption retry and changed-source rejection.
+- One schema test passed: shared schema reference compilation, real SQLite DTO validation, 80-character PlanSet ID boundary matching common AI applied references.
+- One CORE Hono HTTP boundary test passed: real session and separate SQLite files, recipe idempotency, conflicting input, pending adoption receipt recovery after final callback failure, receipt/PlanSet transaction rollback, close/reopen GET and replay, mode isolation. External dependencies are explicit test doubles; this is not real provider or OS process-restart evidence.
+- Independent strict ESNext/Bundler type checks passed for store/service/planning/HTTP and boundary tests before latest shared merge.
 
-6 tests passed: SQLite file close/reopen recipe retrieval, exact step order, owner isolation, version conflict, duplicate/unattached source rejection, unprovided place/reordered step/invented evidence/missing variant rejection, road duration plus stay budget, missing required step, unverified mandatory condition, stable route adoption retry after simulated connection loss and changed-source read rejection.
+Commands: `mise exec -- node --experimental-transform-types --test server/features/transfer/{recipe,planning,service,contract,http}.test.ts` (tests were run in the necessary affected groups).
+Type check: `mise exec -- node node_modules/typescript/bin/tsc --noEmit --target es2022 --module esnext --moduleResolution bundler --allowImportingTsExtensions --skipLibCheck --strict --noUncheckedIndexedAccess --esModuleInterop server/features/transfer/http.test.ts`.
 
-The adoption dependency in the unit test is a test double. Actual common route persistence/restart is still required. Recipe persistence uses a real temporary SQLite file.
+## Integration
 
-`mise exec -- node node_modules/typescript/bin/tsc --noEmit --target es2023 --module nodenext --allowImportingTsExtensions --skipLibCheck server/features/transfer/service.ts server/features/transfer/planning.ts server/features/transfer/schemas.ts server/features/transfer/store.ts`
+Latest merged develop: 01f38a2. CORE, PLACES, ROUTES, RECORDS and ACTIVITY are present. AI 6275ac1 and INFORMATION d220157 signatures were inspected but their branches are not merged here. Full `bun run typecheck` is blocked by missing AI/INFORMATION imports and two existing THEMES service.test.ts:41 diagnostics; coordinator notified.
 
-Passed for independent modules. Node emits its normal experimental SQLite warning.
+Fragment v2 preserves explicit mandatory conditionChecks and assistantAttempt. PlanSet IDs are bounded to the shared AI applied-reference limit. Original source records are never updated.
 
-## Connection status
+## Remaining demo acceptance
 
-- CORE: feature/context/error/fragment signature received. Transaction and replay entry awaited.
-- AI: registry, startRun/getRun, synchronous assertRunAdoptable/appendAppliedRef accepted. transfer-plan-set applied reference agreed. Integration awaited.
-- PLACES: 80cf955, search/resolve/adopt/getPlace signature inspected; not integrated.
-- INFORMATION: 865afe6, sourceMaterials uses getRecord/assertSourcesCurrent; not integrated.
-- ROUTES: createRoutesService/previewRoute/revalidatePreview/saveRoute and stable save ID agreed; integration awaited.
-- UI #10: operation binding sent; Q10 screen based on approved rehearsal reference belongs to A.
-
-Fragment v2 adds explicit conditionChecks for every mandatory condition and assistantAttempt for adoption validation. Source records are never updated by this feature.
+Start actual application after shared dependencies land; save/get recipe using current authorized source records; generate both plans through common AI and actual place/route providers; adopt an ordered route; restart the OS server process and retrieve the same selection. A owns Q10 UI binding. No original full-scope completion claim is made. The coordinator has authorized splitting unfinished acceptance into a follow-up issue for the demo deadline.

@@ -290,7 +290,7 @@
         "id": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 200
+          "maxLength": 80
         },
         "recipeId": {
           "type": "string",
@@ -363,7 +363,7 @@
         "id": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 200
+          "maxLength": 80
         },
         "recipeId": {
           "type": "string",
@@ -1092,7 +1092,7 @@
         "planSetId": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 200
+          "maxLength": 80
         }
       },
       "required": [
