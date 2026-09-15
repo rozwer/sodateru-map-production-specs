@@ -71,16 +71,30 @@ export async function evidenceRecords(refs: SourceRef[], timeZone: string, signa
   return { records, changed: changed || records.some(record => record.sourceState !== 'current') };
 }
 
-/** Only fields present in the approved DTO are read here. The five display axes
- * and provisional title await INSIGHTS #34; never relabel the six existing axes. */
+/** INSIGHTS fragment defines the five experience axes; the generated client still
+ * carries the older six-axis union. Validate the fragment fields at this boundary. */
+const experienceLabels: Record<string, string> = { nature: '自然', books: '本', cafe: 'カフェ', walk: '散歩', social: '人との時間' };
+function experiencePresentation(result: unknown) {
+  const value = result as { provisionalName?: unknown; axes?: unknown[] } | undefined;
+  const axes = (value?.axes ?? []).flatMap(item => {
+    const axis = item as { key?: unknown; numerator?: unknown; denominator?: unknown; value?: unknown; unknownDays?: unknown };
+    if (typeof axis.key !== 'string' || !experienceLabels[axis.key] ||
+      typeof axis.numerator !== 'number' || typeof axis.denominator !== 'number' ||
+      typeof axis.unknownDays !== 'number' || !(axis.value === null || typeof axis.value === 'number')) return [];
+    return [{ key: axis.key, label: experienceLabels[axis.key]!, numerator: axis.numerator,
+      denominator: axis.denominator, value: axis.value, unknownDays: axis.unknownDays }];
+  });
+  return { axes, title: typeof value?.provisionalName === 'string' ? value.provisionalName : null };
+}
 export function insightPresentation(raw: Insight | null, summary: Summary | null, records: EvidenceRecordView[], changed = false): InsightView {
   if (raw && (raw.rangeStart === null || raw.rangeEnd === null)) throw new Error('対象期間のない結果はタイプ診断に表示できません。');
   const range = raw ? { from: raw.rangeStart!, to: raw.rangeEnd!, timeZone: raw.timeZone } : summary!;
   const result = raw?.result ?? summary?.result;
   const review = raw?.review;
+  const presentation = experiencePresentation(changed ? undefined : result);
   return {
-    id: raw?.id ?? '', version: raw?.version ?? 0, title: null,
-    summary: changed ? '' : raw?.summary ?? '', periodLabel: rangeLabel(range), provisional: true, axes: [], records,
+    id: raw?.id ?? '', version: raw?.version ?? 0, title: presentation.title,
+    summary: changed ? '' : raw?.summary ?? '', periodLabel: rangeLabel(range), provisional: true, axes: presentation.axes, records,
     alternatives: [], unknown: changed ? ['元の根拠が変わったため、古い説明と引用を外しています。'] : result?.unknown ?? [],
     review: review === 'agree' || review === 'disagree' || review === 'unsure' ? review : null,
     reviewNote: raw?.reviewNote ?? '',
