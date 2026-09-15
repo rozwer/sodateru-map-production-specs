@@ -28,3 +28,44 @@ test("願望・他人・日時不明はyesにせず、明示日否定と競合�
  assert.equal(social.value,0);assert.equal(social.denominator,1);
  assert.ok(result.unknown.some(s=>s.includes("日時")));
 });
+
+
+test("承認済み原文と補完14記録から日別割合を計算し、無記録4日は分母に含めない",async()=>{
+ const {readFileSync}=await import("node:fs");
+ const data=JSON.parse(readFileSync(new URL("../../../docs/evidence/INSIGHTS/self-type-diagnosis-grounded-demo.json",import.meta.url),"utf8"));
+ const range={from:Date.parse("2026-09-02T00:00:00+09:00"),to:Date.parse("2026-09-16T00:00:00+09:00"),timeZone:"Asia/Tokyo"};
+ const records=data.records.map((r:any)=>({
+  id:r.id,body:r.text,effectiveAt:Date.parse(r.date+"T"+(r.time??"00:00")+":00+09:00"),
+  timePrecision:r.time?"exact":"approximate",
+  // These explicit activities retain the place+text context of the two source scenes.
+  // A venue category alone never creates a claim.
+  activities:r.id==="rehearsal-0910-cafe"?[{id:"cafe-experience",name:"カフェで過ごす"}]:
+   r.id==="rehearsal-0910-park"?[{id:"green-experience",name:"自然に触れる"}]:[],
+  sourceRefs:[{type:"record" as const,id:r.id,version:1}]
+ }));
+ const result=deriveDailyEvidence(range,records);
+ assert.deepEqual(result.axes.map(a=>[a.numerator,a.denominator,a.unknownDays]),[[6,10,4],[8,10,4],[6,10,4],[8,10,4],[4,10,4]]);
+ assert.deepEqual(result.daily,data.daily.map(({date,key,value,recordIds}:any)=>({date,key,value,recordIds})));
+ assert.ok(result.evidence.selfReports.every(e=>e.field==="activities"||records.find((r:any)=>r.id===e.recordId).body.includes(e.quote)));
+});
+
+test("自然文の願望・伝聞・他人・用途・部分否定・場所名だけは体験にしない",()=>{
+ const result=deriveDailyEvidence({from,to:from+day,timeZone:"UTC"},[
+ record("wish","公園を散歩して本を読みたい。友人とカフェで話す予定だった。"),
+ record("other","友人が公園を散歩した。友人が本を読んだと聞いた。"),
+ record("partial","本を読まなかった。本を見つけなかった。カフェの近くで待った。"),
+ record("question","カフェで本を読んだ？公園を散歩した？"),
+ record("future","明日は公園を散歩してから本を読む。"),
+ record("unrealized","本を読んだことはない。散歩していない。本を開いていない。本を読んだら話そう。")
+ ]);
+ assert.ok(result.axes.every(a=>a.value===null&&a.denominator===0));
+});
+
+test("否定された体験と一部時間帯の不実施を日全体の判定にしない",()=>{
+ const result=deriveDailyEvidence({from,to:from+day,timeZone:"UTC"},[
+ record("denied","本を読んだわけではない。友人と話したわけではない。"),
+ record("morning","朝は散歩しなかった。午後は家で休んだ。"),
+ record("evening","夜はカフェに行かなかった。")
+ ]);
+ assert.ok(result.axes.every(a=>a.denominator===0&&a.value===null));
+});

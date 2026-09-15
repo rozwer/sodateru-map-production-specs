@@ -1,0 +1,122 @@
+{
+  "format": "self-demo-data-extract-v1",
+  "sourceMode": "sample",
+  "notice": "リハーサルに存在するデモ用サンプルデータの値だけを抽出。実在人物の実体験ではない。コードは含まない。",
+  "sourceRoot": "/Users/kmattsun/Documents/01_Workspace/sodateru-map-rehearsal",
+  "day": {
+    "date": "2026-09-10",
+    "timeZone": "Asia/Tokyo",
+    "sourceFile": "src/features/self/journey.tsx",
+    "sourceValue": "sampleTodayJourney",
+    "records": [
+      {
+        "id": "home",
+        "time": "08:30",
+        "placeName": "自宅",
+        "area": null,
+        "text": "いつもの朝。いい天気で気持ちのいいスタート！"
+      },
+      {
+        "id": "cafe",
+        "time": "11:20",
+        "placeName": "やすらぎカフェ",
+        "area": "覚王山",
+        "text": "お気に入りのラテ。今日も落ち着く空間だった☕"
+      },
+      {
+        "id": "book",
+        "time": "14:10",
+        "placeName": "三省堂書店",
+        "area": "名古屋駅",
+        "text": "気になっていた本を発見！つい2冊も買ってしまった。"
+      },
+      {
+        "id": "park",
+        "time": "16:30",
+        "placeName": "鶴舞公園",
+        "area": null,
+        "text": "少し散歩してリフレッシュ。緑の中でぼーっとする時間が好き。"
+      },
+      {
+        "id": "dinner",
+        "time": "19:05",
+        "placeName": "ビストロ ルポ",
+        "area": "栄",
+        "text": "友達と合流してごはん。美味しくて楽しい時間だった！"
+      }
+    ],
+    "highlight": {
+      "placeName": "やすらぎカフェ",
+      "label": "一番印象に残った場所",
+      "text": "「落ち着く空間で、\nゆっくり考えることができた」"
+    },
+    "keywords": [
+      "カフェ",
+      "本",
+      "自然",
+      "友達",
+      "新しい発見",
+      "リフレッシュ"
+    ],
+    "note": "好きな場所に囲まれて、\n充実した1日だった。また行きたい場所が増えた！"
+  },
+  "additionalRecordTexts": {
+    "sourceFile": "src/integrations/successor-local/review-samples.ts",
+    "records": [
+      {
+        "text": "【サンプル】静かな場所で本を読んだ。次は窓際でゆっくり過ごしたい。",
+        "purpose": "読書",
+        "reason": "静かに集中したかった",
+        "explicitPreference": "like"
+      },
+      {
+        "text": "【サンプル】散歩の途中でひと休み。風が心地よかった。",
+        "purpose": "ひと休み",
+        "reason": "歩いた後に休みたかった",
+        "explicitPreference": "like"
+      }
+    ]
+  },
+  "comparisonPersonas": {
+    "sourceFile": "fixtures/core/sample-seed.ts",
+    "people": [
+      {
+        "sourceId": "actor_ao",
+        "name": "あお（サンプル）",
+        "currentIntent": "静かに読める寄り道",
+        "preferredPurposes": [
+          "reading",
+          "quiet"
+        ],
+        "companion": "alone",
+        "timeBudgetMinutes": 45,
+        "timeBand": "day"
+      },
+      {
+        "sourceId": "actor_aka",
+        "name": "あか（サンプル）",
+        "currentIntent": "人と話せる寄り道",
+        "preferredPurposes": [
+          "conversation",
+          "meet"
+        ],
+        "companion": "friend",
+        "timeBudgetMinutes": 45,
+        "timeBand": "day"
+      }
+    ]
+  },
+  "exclusions": [
+    "TS/TSX/SQL・関数・コンポーネント・seed実行処理・CSS・地図の画面座標",
+    "diagnosis.tsxの固定6軸点数、固定の偉人比較・平均滞在等（保存記録からの算出結果ではない）",
+    "journey.tsxの固定歩数12482・距離8.4km・滞在7時間12分（測定根拠を伴わない表示サンプル）"
+  ],
+  "integrationNotes": [
+    "元の地名と2026-09-10の日付を保存し、横浜の訪問に無断置換しない。",
+    "現在の5軸は自然・本・カフェ・散歩・人との時間。元データ中の明示体験を用いて実処理で集計し、無記録は不明。",
+    "day.recordsの5件とnoteは同じ日の記録。二重の体験件数として数えない。",
+    "additionalRecordTextsは2種類の文面。日時・場所の割当は保存済みDBから取れる場合だけ追加する。",
+    "比較人物は同一人物として統合しない。",
+    "全てdemo用。sourceMode/sample表示を保持。"
+  ]
+}

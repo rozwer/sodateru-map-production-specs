@@ -1,0 +1,412 @@
+{
+  "format": "self-type-diagnosis-mock-v1",
+  "createdAt": "2026-09-15",
+  "dataKind": "authored_mock",
+  "sourceMode": "sample",
+  "notice": "ユーザー依頼で新規作成したタイプ診断のモック表示データ。実AIの診断・実履歴の集計・実在人物の評価ではありません。",
+  "scoreDefinition": {
+    "range": [
+      0,
+      100
+    ],
+    "meaning": "3タイプの違いをレーダーで見せるための架空の表示値。体験日数の割合・心理尺度ではない。",
+    "apiCompatible": false
+  },
+  "currentPeriod": {
+    "label": "今月の傾向",
+    "from": "2026-09-01",
+    "to": "2026-09-15"
+  },
+  "comparisonPeriod": {
+    "label": "前月の傾向",
+    "from": "2026-08-01",
+    "to": "2026-08-31"
+  },
+  "axes": [
+    {
+      "key": "nature",
+      "label": "自然"
+    },
+    {
+      "key": "books",
+      "label": "本"
+    },
+    {
+      "key": "cafe",
+      "label": "カフェ"
+    },
+    {
+      "key": "walk",
+      "label": "散歩"
+    },
+    {
+      "key": "social",
+      "label": "人との時間"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "quiet-reader",
+      "provisionalName": "木陰の読書家",
+      "subtitle": "本と緑のあいだで、自分のペースを取り戻す",
+      "description": "本との出会いと、緑のある場所でゆっくり過ごす時間を大切にするタイプ。にぎやかな一日より、気になる本を手に取って、カフェや公園で余韻を楽しむ過ごし方が似合います。",
+      "tags": [
+        "本との出会い",
+        "緑でひと息",
+        "カフェ",
+        "自分のペース"
+      ],
+      "axes": [
+        {
+          "key": "nature",
+          "label": "自然",
+          "displayValue": 85,
+          "previousDisplayValue": 65,
+          "change": 20,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "books",
+          "label": "本",
+          "displayValue": 90,
+          "previousDisplayValue": 70,
+          "change": 20,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "cafe",
+          "label": "カフェ",
+          "displayValue": 70,
+          "previousDisplayValue": 75,
+          "change": -5,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "walk",
+          "label": "散歩",
+          "displayValue": 75,
+          "previousDisplayValue": 60,
+          "change": 15,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "social",
+          "label": "人との時間",
+          "displayValue": 30,
+          "previousDisplayValue": 40,
+          "change": -10,
+          "origin": "authored_mock"
+        }
+      ],
+      "trends": [
+        {
+          "title": "本をきっかけに寄り道が広がる",
+          "description": "目的の本を探すだけでなく、棚で気になった一冊に出会う時間を楽しむ傾向。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "緑のある場所で気分を切り替える",
+          "description": "公園を歩いたり、景色を眺めたりする過ごし方が印象に残りやすい。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "カフェは考えを整理する居場所",
+          "description": "飲み物と一緒に、読んだ本やその日の出来事をゆっくり振り返る時間を好む。",
+          "origin": "authored_mock"
+        }
+      ],
+      "comparisonSummary": "前月のサンプルより「本」と「自然」が高め。本屋のあとに公園へ寄る過ごし方が増えた、という変化を見せる例です。",
+      "exampleEvidence": [
+        {
+          "id": "mock-quiet-reader-1",
+          "text": "棚に添えられた紹介文が気になって、予定になかった本を手に取った。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-quiet-reader-2",
+          "text": "公園をゆっくり歩いたら、頭の中が少し整理された。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-quiet-reader-3",
+          "text": "カフェで本を読みながら、気になった言葉をメモした。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        }
+      ],
+      "recommendations": [
+        {
+          "name": "LOCAL BOOK STORE kita.",
+          "reason": "棚ごとのおすすめから、次に読みたい一冊を探す。",
+          "sourceUrl": "https://kitabooks.jp/info/",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "港の見える丘公園",
+          "reason": "読書の余韻を楽しみながら、庭園をゆっくり歩く。",
+          "sourceUrl": "https://www.city.yokohama.lg.jp/kurashi/machizukuri-kankyo/midori-koen/koen/koen/daihyoteki/kouen007.html",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "象の鼻カフェ",
+          "reason": "海辺の寄り道で、気になった本の話をメモする。",
+          "sourceUrl": "https://zounohana.com/cafe/",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        }
+      ],
+      "advice": "次の休みは、本屋と公園を一つずつ。予定を詰めず、気になったものを一つだけ記録してみましょう。"
+    },
+    {
+      "id": "social-explorer",
+      "provisionalName": "人と街を楽しむ交流家",
+      "subtitle": "誰かと分かち合うと、いつもの街も新鮮になる",
+      "description": "友人との会話や、一緒に過ごす時間から楽しさを見つけるタイプ。行き先そのものに加えて、そこで誰と何を話したかが思い出の中心になります。",
+      "tags": [
+        "友人との時間",
+        "カフェ巡り",
+        "会話",
+        "一緒に発見"
+      ],
+      "axes": [
+        {
+          "key": "nature",
+          "label": "自然",
+          "displayValue": 40,
+          "previousDisplayValue": 45,
+          "change": -5,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "books",
+          "label": "本",
+          "displayValue": 35,
+          "previousDisplayValue": 40,
+          "change": -5,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "cafe",
+          "label": "カフェ",
+          "displayValue": 85,
+          "previousDisplayValue": 65,
+          "change": 20,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "walk",
+          "label": "散歩",
+          "displayValue": 70,
+          "previousDisplayValue": 55,
+          "change": 15,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "social",
+          "label": "人との時間",
+          "displayValue": 95,
+          "previousDisplayValue": 75,
+          "change": 20,
+          "origin": "authored_mock"
+        }
+      ],
+      "trends": [
+        {
+          "title": "人と過ごす時間が一日のハイライト",
+          "description": "何を見たかだけでなく、誰と笑ったかが印象に残りやすい。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "カフェが会話のきっかけになる",
+          "description": "気になる飲み物やお菓子を選ぶ時間も、会話の楽しみに。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "食事のあとにもう少し歩きたい",
+          "description": "目的地に着いたあとも、街を歩きながら話を続ける過ごし方が似合う。",
+          "origin": "authored_mock"
+        }
+      ],
+      "comparisonSummary": "前月のサンプルより「人との時間」と「カフェ」が高め。友人と出かける機会が増えた、という変化を見せる例です。",
+      "exampleEvidence": [
+        {
+          "id": "mock-social-explorer-1",
+          "text": "友達とカフェで近況を話した。気がついたらずっと笑っていた。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-social-explorer-2",
+          "text": "食事のあと、まだ話したくて海の方まで一緒に歩いた。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-social-explorer-3",
+          "text": "同じ景色でも、友達の見方を聞くと違うものが見えて面白かった。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        }
+      ],
+      "recommendations": [
+        {
+          "name": "象の鼻カフェ",
+          "reason": "象の形のソフトクリームを話題に、友人とひと息つく。",
+          "sourceUrl": "https://zounohana.com/cafe/",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "Kurumicco Factory",
+          "reason": "お菓子ができる様子を見て、気になったことを話す。",
+          "sourceUrl": "https://beniya-ajisai.co.jp/kf/",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "山下公園",
+          "reason": "カフェのあとに海沿いを歩きながら、会話を続ける。",
+          "sourceUrl": "https://www.city.yokohama.lg.jp/kurashi/machizukuri-kankyo/midori-koen/koen/koen/daihyoteki/kouen008.html",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        }
+      ],
+      "advice": "次は友人と「お互いが気になっている場所」を一つずつ選ぶと、いつもと少し違う一日になりそうです。"
+    },
+    {
+      "id": "detour-discoverer",
+      "provisionalName": "寄り道の発見家",
+      "subtitle": "いつもの道の、その先にある小さな発見へ",
+      "description": "歩きながら目に入った景色や建物に興味が広がるタイプ。目的地までの道のりも楽しみの一つで、少しルートを変えた先の発見を集めていきます。",
+      "tags": [
+        "散歩",
+        "街の歴史",
+        "新しい景色",
+        "寄り道"
+      ],
+      "axes": [
+        {
+          "key": "nature",
+          "label": "自然",
+          "displayValue": 75,
+          "previousDisplayValue": 60,
+          "change": 15,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "books",
+          "label": "本",
+          "displayValue": 55,
+          "previousDisplayValue": 45,
+          "change": 10,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "cafe",
+          "label": "カフェ",
+          "displayValue": 65,
+          "previousDisplayValue": 60,
+          "change": 5,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "walk",
+          "label": "散歩",
+          "displayValue": 95,
+          "previousDisplayValue": 70,
+          "change": 25,
+          "origin": "authored_mock"
+        },
+        {
+          "key": "social",
+          "label": "人との時間",
+          "displayValue": 60,
+          "previousDisplayValue": 55,
+          "change": 5,
+          "origin": "authored_mock"
+        }
+      ],
+      "trends": [
+        {
+          "title": "予定外の寄り道が思い出になる",
+          "description": "気になった路地や建物に足を止め、小さな発見を持ち帰る。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "街の由来を知ると景色が変わる",
+          "description": "橋や線路の跡など、歩いて気づいたものの背景にも興味が向く。",
+          "origin": "authored_mock"
+        },
+        {
+          "title": "歩く途中の休憩も楽しみの一つ",
+          "description": "新しいカフェやベンチを見つけ、次の行き先を考える時間を楽しむ。",
+          "origin": "authored_mock"
+        }
+      ],
+      "comparisonSummary": "前月のサンプルより「散歩」と「自然」が高め。いつもより歩く範囲を広げた、という変化を見せる例です。",
+      "exampleEvidence": [
+        {
+          "id": "mock-detour-discoverer-1",
+          "text": "いつもと違う道を歩いたら、昔の線路の跡を見つけた。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-detour-discoverer-2",
+          "text": "気になっていた建物を近くで見て、細かい装飾に初めて気づいた。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        },
+        {
+          "id": "mock-detour-discoverer-3",
+          "text": "海が見えるところで休憩して、次に歩きたい方向を決めた。",
+          "origin": "authored_mock",
+          "displayLabel": "架空の記録例"
+        }
+      ],
+      "recommendations": [
+        {
+          "name": "汽車道",
+          "reason": "線路や橋の痕跡を探しながら、新港地区へ歩く。",
+          "sourceUrl": "https://www.city.yokohama.lg.jp/kanko-bunka/minato/taikan/zentai/kisyamiti.html",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "横浜赤レンガ倉庫",
+          "reason": "建物の表情や残されたレールに目を向ける。",
+          "sourceUrl": "https://www.yokohama-akarenga.jp/about/",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        },
+        {
+          "name": "大さん橋 屋上広場",
+          "reason": "海から街を眺めて、次に歩きたい場所を探す。",
+          "sourceUrl": "https://osanbashi.jp/floorguide/rooftop",
+          "matchOrigin": "authored_mock",
+          "visitStatus": "not_asserted"
+        }
+      ],
+      "advice": "次の散歩では「初めて気づいたもの」を三つ探してみましょう。遠くへ行かなくても、いつもの街に発見がありそうです。"
+    }
+  ],
+  "demoFlow": [
+    "木陰の読書家のタイプ名とレーダーを表示する。",
+    "前月との比較で本・自然の変化を見せる。",
+    "行動傾向から架空の記録例を開く。",
+    "横浜のおすすめ候補を見せる。",
+    "交流家・発見家に切り替えて、タイプごとの違いを比較する。"
+  ],
+  "usageNotes": [
+    "画面でデモ用サンプルと分かる表示を保持。実AI成功や実履歴の統計として扱わない。",
+    "既存のrehearsal-self-sample-texts.json/rehearsal-self-db-data.jsonは変更しない。記録例は今回新たに作った架空文で、それらの抽出原文ではない。",
+    "現在の5軸を使用。旧6軸/偉人比較は含めない。",
+    "このJSONは表示素材であり既存APIの応答契約ではない。displayValueを実APIのvalue/numerator/denominatorに流用しない。",
+    "店舗・公園は横浜調査で確認した実在候補。人物との相性・訪問・感想は架空。",
+    "コード・DB・AI設定の変更は含まない。"
+  ]
+}
