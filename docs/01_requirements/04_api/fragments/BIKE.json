@@ -1,0 +1,1513 @@
+{
+  "taskId": "BIKE",
+  "version": "1.0.0",
+  "schemas": {
+    "BikeSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "region",
+        "vehicle",
+        "highwayPolicy"
+      ],
+      "properties": {
+        "region": {
+          "type": "object",
+          "title": "検索地域",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "bounds"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "title": "地域ID"
+            },
+            "bounds": {
+              "type": "array",
+              "title": "検索範囲（西・南・東・北）",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "vehicle": {
+          "type": "object",
+          "title": "車種",
+          "additionalProperties": false,
+          "required": [
+            "class"
+          ],
+          "properties": {
+            "class": {
+              "type": "string",
+              "title": "車種区分",
+              "enum": [
+                "moped",
+                "light_motorcycle",
+                "motorcycle",
+                "electric_motorcycle"
+              ]
+            },
+            "displacementCc": {
+              "type": "number",
+              "title": "排気量（cc・電動車は指定しない）",
+              "exclusiveMinimum": 0,
+              "maximum": 3000
+            }
+          }
+        },
+        "highwayPolicy": {
+          "type": "string",
+          "title": "高速道路",
+          "enum": [
+            "allow",
+            "avoid"
+          ]
+        }
+      }
+    },
+    "BikeSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "url",
+        "attribution",
+        "fetchedAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "updatedAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "BikeAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "sourceRefs",
+        "checkedAt"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "ineligible",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checkedAt": {
+          "type": "integer"
+        }
+      }
+    },
+    "BikePlace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "position",
+        "category",
+        "tags",
+        "source",
+        "vehicleAssessment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "position": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "longitude",
+            "latitude"
+          ],
+          "properties": {
+            "longitude": {
+              "type": "number"
+            },
+            "latitude": {
+              "type": "number"
+            }
+          }
+        },
+        "category": {
+          "enum": [
+            "motorcycle_parking",
+            "fuel",
+            "motorcycle_shop"
+          ]
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "source": {
+          "$ref": "#/components/schemas/BikeSource"
+        },
+        "vehicleAssessment": {
+          "$ref": "#/components/schemas/BikeAssessment"
+        }
+      }
+    },
+    "BikeRoadObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "geometry",
+        "tags",
+        "source",
+        "vehicleAssessment"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "source": {
+          "$ref": "#/components/schemas/BikeSource"
+        },
+        "vehicleAssessment": {
+          "$ref": "#/components/schemas/BikeAssessment"
+        }
+      }
+    },
+    "BikeSearchResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installId",
+        "settingsVersion",
+        "settingsHash",
+        "settings",
+        "id",
+        "kind",
+        "dataKind",
+        "fetchedAt",
+        "expiresAt",
+        "places",
+        "roads",
+        "source"
+      ],
+      "properties": {
+        "installId": {
+          "type": "string"
+        },
+        "settingsVersion": {
+          "type": "integer"
+        },
+        "settingsHash": {
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/BikeSettings"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "search"
+        },
+        "dataKind": {
+          "const": "real"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "expiresAt": {
+          "type": "integer"
+        },
+        "places": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/BikePlace"
+          }
+        },
+        "roads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/BikeRoadObservation"
+          }
+        },
+        "source": {
+          "$ref": "#/components/schemas/BikeSource"
+        }
+      }
+    },
+    "BikeRouteAssessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installId",
+        "settingsVersion",
+        "settingsHash",
+        "settings",
+        "id",
+        "kind",
+        "dataKind",
+        "previewId",
+        "searchId",
+        "geometryHash",
+        "geometry",
+        "routeFetchedAt",
+        "vehicleAssessment",
+        "highwayAssessment",
+        "adoptable",
+        "checkedAt",
+        "expiresAt"
+      ],
+      "properties": {
+        "installId": {
+          "type": "string"
+        },
+        "settingsVersion": {
+          "type": "integer"
+        },
+        "settingsHash": {
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/BikeSettings"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "assessment"
+        },
+        "dataKind": {
+          "const": "real"
+        },
+        "previewId": {
+          "type": "string"
+        },
+        "searchId": {
+          "type": "string"
+        },
+        "geometryHash": {
+          "type": "string"
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "routeFetchedAt": {
+          "type": "integer"
+        },
+        "vehicleAssessment": {
+          "$ref": "#/components/schemas/BikeAssessment"
+        },
+        "highwayAssessment": {
+          "$ref": "#/components/schemas/BikeAssessment"
+        },
+        "adoptable": {
+          "type": "boolean"
+        },
+        "checkedAt": {
+          "type": "integer"
+        },
+        "expiresAt": {
+          "type": "integer"
+        }
+      }
+    },
+    "BikeAdoption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installId",
+        "settingsVersion",
+        "settingsHash",
+        "settings",
+        "id",
+        "kind",
+        "assessment",
+        "routeId",
+        "adoptedAt"
+      ],
+      "properties": {
+        "installId": {
+          "type": "string"
+        },
+        "settingsVersion": {
+          "type": "integer"
+        },
+        "settingsHash": {
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/BikeSettings"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "adoption"
+        },
+        "assessment": {
+          "$ref": "#/components/schemas/BikeRouteAssessment"
+        },
+        "routeId": {
+          "type": "string"
+        },
+        "adoptedAt": {
+          "type": "integer"
+        }
+      }
+    },
+    "BikeResult": {
+      "oneOf": [
+        {
+          "$ref": "#/components/schemas/BikeSearchResult"
+        },
+        {
+          "$ref": "#/components/schemas/BikeRouteAssessment"
+        },
+        {
+          "$ref": "#/components/schemas/BikeAdoption"
+        }
+      ]
+    },
+    "BikeMapFeature": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "id",
+            "geometry",
+            "properties"
+          ],
+          "properties": {
+            "type": {
+              "const": "Feature"
+            },
+            "id": {
+              "type": "string"
+            },
+            "geometry": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "properties": {
+                "type": {
+                  "const": "Point"
+                },
+                "coordinates": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ownerKey",
+                "name",
+                "category",
+                "assessmentStatus",
+                "source",
+                "stale"
+              ],
+              "properties": {
+                "ownerKey": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "assessmentStatus": {
+                  "enum": [
+                    "verified",
+                    "ineligible",
+                    "unknown"
+                  ]
+                },
+                "source": {
+                  "$ref": "#/components/schemas/BikeSource"
+                },
+                "stale": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "id",
+            "geometry",
+            "properties"
+          ],
+          "properties": {
+            "type": {
+              "const": "Feature"
+            },
+            "id": {
+              "type": "string"
+            },
+            "geometry": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "coordinates"
+              ],
+              "properties": {
+                "type": {
+                  "const": "LineString"
+                },
+                "coordinates": {
+                  "type": "array",
+                  "minItems": 2,
+                  "items": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            },
+            "properties": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "ownerKey",
+                "assessmentStatus",
+                "checkedAt",
+                "stale"
+              ],
+              "properties": {
+                "ownerKey": {
+                  "type": "string"
+                },
+                "assessmentStatus": {
+                  "const": "verified"
+                },
+                "checkedAt": {
+                  "type": "integer"
+                },
+                "stale": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "BikeState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installation",
+        "results",
+        "display"
+      ],
+      "properties": {
+        "installation": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "installId",
+                "version",
+                "enabled",
+                "settings",
+                "visible"
+              ],
+              "properties": {
+                "installId": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "integer"
+                },
+                "enabled": {
+                  "type": "boolean"
+                },
+                "settings": {
+                  "$ref": "#/components/schemas/BikeSettings"
+                },
+                "visible": {
+                  "type": "boolean"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/BikeResult"
+          }
+        },
+        "display": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ownerKey",
+            "visible",
+            "clearOwnerKeys",
+            "geojson"
+          ],
+          "properties": {
+            "ownerKey": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "visible": {
+              "type": "boolean"
+            },
+            "clearOwnerKeys": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "geojson": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "features"
+              ],
+              "properties": {
+                "type": {
+                  "const": "FeatureCollection"
+                },
+                "features": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BikeMapFeature"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "BikeRouteAssessmentInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "previewId",
+        "searchId"
+      ],
+      "properties": {
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "searchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    },
+    "BikeAdoptionInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "assessmentId",
+        "title"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assessmentId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        }
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/bike/state",
+      "operationId": "getBikeState",
+      "summary": "設定・保存結果・停止状態に応じた表示",
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeState"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "description": "ownerKeyはplugin:{installId}。停止・削除後はclearOwnerKeysだけを解除し、他の共通地図表示を残す。保存結果は削除しない。"
+    },
+    {
+      "method": "POST",
+      "path": "/bike/searches",
+      "operationId": "postBikeSearch",
+      "summary": "導入設定で実地点・道路検索し保存",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [],
+              "properties": {}
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeSearchResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeSearchResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "description": "実取得はdataKind=real。PLUGINS trialのdataKind=mockとは別。設定正本はPLUGINS。時点のない出典はupdatedAt=null。検索失敗・中断後は新しいIdempotency-Keyで明示再検索する。"
+    },
+    {
+      "method": "GET",
+      "path": "/bike/results/{resultId}",
+      "operationId": "getBikeResult",
+      "summary": "本人・モード別の保存snapshot再取得",
+      "parameters": [
+        {
+          "name": "resultId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/bike/route-assessments",
+      "operationId": "postBikeRouteAssessment",
+      "summary": "共通driving経路と車種条件の根拠を評価",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BikeRouteAssessmentInput"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeRouteAssessment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeRouteAssessment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "description": "検索結果と経路形状hash・設定hash/versionを固定。周辺道路タグをMapbox全区間通行根拠には転用しない。unknown/ineligibleはadoptable=false。"
+    },
+    {
+      "method": "POST",
+      "path": "/bike/adoptions",
+      "operationId": "postBikeAdoption",
+      "summary": "確認済み経路だけ共通保存へ採用",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BikeAdoptionInput"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeAdoption"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeAdoption"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
