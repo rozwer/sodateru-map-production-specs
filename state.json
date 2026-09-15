@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 188,
+  "revision": 189,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33881,7 +33881,7 @@
       "generation": 5,
       "issue_number": 28,
       "landed_main": null,
-      "note": "docs/evidence/PLUGINS/http-integration.md",
+      "note": "docs/evidence/PLUGINS/normal-main.md",
       "owner": "kaiya",
       "paths": [
         "server/features/plugins/",
@@ -33890,7 +33890,7 @@
         "docs/evidence/PLUGINS/"
       ],
       "status": "submitted",
-      "submitted_commit": "625ff67c1dc3b9abbf0c524047edae2c9be690dc",
+      "submitted_commit": "2c1a5ad47398d64314263daf2ca336d276548337",
       "token": "30a5c79a3d5d495a805dd2040d30d824"
     },
     "QA-VISUAL": {
