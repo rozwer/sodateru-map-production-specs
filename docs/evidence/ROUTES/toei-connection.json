@@ -1,0 +1,1089 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-15T05:19:23.853Z",
+  "scope": "Actual provided Toei GTFS via formal direct-bus factory; compare/save in real CORE SQLite. Separate OS normal main HTTP GET and save replay. Shared generation and standard HTTP search selection are not integrated.",
+  "externalCalls": 0,
+  "parentPid": 20102,
+  "readPid": 20122,
+  "checks": [
+    "three ordered stops and two full-trip timetable choices",
+    "active service day and actual cash fare210, no pass applied",
+    "all two legs joined, wait+ride totals",
+    "pass request and expired feed rejected without extra saves",
+    "normal main HTTP after separate OS startup returns identical evidence/geometry/times/fare and save replay"
+  ],
+  "snapshots": [
+    {
+      "input": {
+        "id": "toei-0",
+        "previewId": "34e585be-f2dd-4ac9-88c1-5d0ac7a55133",
+        "title": "都営時刻表 0"
+      },
+      "route": {
+        "transitEvidence": {
+          "provider": "toei-gtfs",
+          "scope": "direct_bus_only",
+          "tripId": "72414-2-81-170-1002",
+          "routeId": "184",
+          "routeName": "都０５－１",
+          "serviceId": "81-170",
+          "serviceDate": "20260916",
+          "shapeId": "72414-2",
+          "stops": [
+            {
+              "stopId": "0966-03",
+              "parentId": "0966",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.765721,
+                35.679934
+              ],
+              "stopSequence": 1,
+              "shapePosition": 0.02906103011578101,
+              "arrivalAt": 1789520520000,
+              "departureAt": 1789520520000
+            },
+            {
+              "stopId": "0946-02",
+              "parentId": "0946",
+              "name": "築地六丁目",
+              "coordinates": [
+                139.773148,
+                35.664239
+              ],
+              "stopSequence": 8,
+              "shapePosition": 14.579331336301784,
+              "arrivalAt": 1789521420000,
+              "departureAt": 1789521420000
+            },
+            {
+              "stopId": "1249-01",
+              "parentId": "1249",
+              "name": "晴海埠頭",
+              "coordinates": [
+                139.773195,
+                35.64708
+              ],
+              "stopSequence": 15,
+              "shapePosition": 37,
+              "arrivalAt": 1789522380000,
+              "departureAt": 1789522380000
+            }
+          ],
+          "departureAt": 1789520520000,
+          "arrivalAt": 1789522380000,
+          "waitDurationSec": 120,
+          "rideDurationSec": 1860,
+          "fare": {
+            "fareId": "210_210_110_105",
+            "currency": "JPY",
+            "cash": 210,
+            "ic": null,
+            "rules": [
+              {
+                "fare_id": "210_210_110_105",
+                "route_id": "184",
+                "origin_id": "",
+                "destination_id": "",
+                "contains_id": ""
+              }
+            ],
+            "transfers": "0",
+            "transferDurationSec": 0,
+            "payment": "cash",
+            "amount": 210,
+            "passEvaluation": "not_applied"
+          },
+          "shapeMatching": {
+            "method": "monotonic_segment_projection_inference",
+            "maxSnapM": 60
+          },
+          "source": {
+            "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "東京都交通局・公共交通オープンデータ協議会",
+            "modification": "GTFSから運行日/便/区間/運賃を抽出しshapeと停留所を照合",
+            "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+            "version": "20260915_030753",
+            "validFrom": "20260915",
+            "validThrough": "20290914",
+            "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+            "loadedAt": 1789449562716
+          }
+        },
+        "timing": {
+          "departureAt": 1789520520000,
+          "arrivalAt": 1789522380000,
+          "timeZone": "Asia/Tokyo",
+          "providerTimePrecisionSec": 1,
+          "locations": [
+            {
+              "waypointIndex": 0,
+              "localDateTime": "2026-09-16T10:02:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            },
+            {
+              "waypointIndex": 1,
+              "localDateTime": "2026-09-16T10:17:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            },
+            {
+              "waypointIndex": 2,
+              "localDateTime": "2026-09-16T10:33:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            }
+          ]
+        },
+        "requestedConditions": {
+          "departAt": 1789520400000,
+          "timeZone": "Asia/Tokyo",
+          "returnBy": 1789524000000
+        },
+        "conditionEvaluations": [
+          {
+            "key": "departAt",
+            "status": "applied",
+            "reason": "出発可能時刻以降の同一運行日・便の時刻表を照合。乗車までの待ち時間を全時間に含む。遅延や到着を保証しない",
+            "provider": "toei-gtfs",
+            "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "fetchedAt": 1789449562716
+          },
+          {
+            "key": "returnBy",
+            "status": "applied",
+            "reason": "同一便の予定到着が期限以内",
+            "provider": "toei-gtfs",
+            "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "fetchedAt": 1789449562716
+          }
+        ],
+        "id": "toei-0",
+        "personId": "toei-owner",
+        "title": "都営時刻表 0",
+        "waypoints": [
+          {
+            "coordinates": [
+              139.765721,
+              35.679934
+            ],
+            "name": "東京駅丸の内南口",
+            "placeId": null
+          },
+          {
+            "coordinates": [
+              139.773148,
+              35.664239
+            ],
+            "name": "築地六丁目",
+            "placeId": null
+          },
+          {
+            "coordinates": [
+              139.773195,
+              35.64708
+            ],
+            "name": "晴海埠頭",
+            "placeId": null
+          }
+        ],
+        "mode": "transit",
+        "legs": [
+          {
+            "fromIndex": 0,
+            "toIndex": 1,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76566773173684,
+                  35.67992638751293
+                ],
+                [
+                  139.765759,
+                  35.679505
+                ],
+                [
+                  139.765059,
+                  35.677575
+                ],
+                [
+                  139.763411,
+                  35.677935
+                ],
+                [
+                  139.762726,
+                  35.675842
+                ],
+                [
+                  139.76231,
+                  35.674597
+                ],
+                [
+                  139.762023,
+                  35.673735
+                ],
+                [
+                  139.76195,
+                  35.673614
+                ],
+                [
+                  139.761841,
+                  35.673511
+                ],
+                [
+                  139.763294,
+                  35.672567
+                ],
+                [
+                  139.764669,
+                  35.67156
+                ],
+                [
+                  139.767111,
+                  35.66964
+                ],
+                [
+                  139.768382,
+                  35.668527
+                ],
+                [
+                  139.76974,
+                  35.667402
+                ],
+                [
+                  139.772113,
+                  35.665162
+                ],
+                [
+                  139.77309786327172,
+                  35.66420494463243
+                ]
+              ]
+            },
+            "distanceM": 2393,
+            "durationSec": 1020
+          },
+          {
+            "fromIndex": 1,
+            "toIndex": 2,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.77309786327172,
+                  35.66420494463243
+                ],
+                [
+                  139.773813,
+                  35.66351
+                ],
+                [
+                  139.774527,
+                  35.662733
+                ],
+                [
+                  139.775749,
+                  35.661385
+                ],
+                [
+                  139.776418,
+                  35.660695
+                ],
+                [
+                  139.777411,
+                  35.659696
+                ],
+                [
+                  139.778199,
+                  35.658902
+                ],
+                [
+                  139.778417,
+                  35.658683
+                ],
+                [
+                  139.779091,
+                  35.658029
+                ],
+                [
+                  139.780475,
+                  35.65669
+                ],
+                [
+                  139.781207,
+                  35.65598
+                ],
+                [
+                  139.781938,
+                  35.655271
+                ],
+                [
+                  139.781735,
+                  35.655132
+                ],
+                [
+                  139.777982,
+                  35.652615
+                ],
+                [
+                  139.77673,
+                  35.651775
+                ],
+                [
+                  139.776027,
+                  35.651356
+                ],
+                [
+                  139.774563,
+                  35.650376
+                ],
+                [
+                  139.775633,
+                  35.649304
+                ],
+                [
+                  139.774645,
+                  35.648611
+                ],
+                [
+                  139.775115,
+                  35.648155
+                ],
+                [
+                  139.775096,
+                  35.648026
+                ],
+                [
+                  139.774567,
+                  35.647711
+                ],
+                [
+                  139.773765,
+                  35.647553
+                ],
+                [
+                  139.773178,
+                  35.647178
+                ]
+              ]
+            },
+            "distanceM": 2689,
+            "durationSec": 960
+          }
+        ],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              139.76566773173684,
+              35.67992638751293
+            ],
+            [
+              139.765759,
+              35.679505
+            ],
+            [
+              139.765059,
+              35.677575
+            ],
+            [
+              139.763411,
+              35.677935
+            ],
+            [
+              139.762726,
+              35.675842
+            ],
+            [
+              139.76231,
+              35.674597
+            ],
+            [
+              139.762023,
+              35.673735
+            ],
+            [
+              139.76195,
+              35.673614
+            ],
+            [
+              139.761841,
+              35.673511
+            ],
+            [
+              139.763294,
+              35.672567
+            ],
+            [
+              139.764669,
+              35.67156
+            ],
+            [
+              139.767111,
+              35.66964
+            ],
+            [
+              139.768382,
+              35.668527
+            ],
+            [
+              139.76974,
+              35.667402
+            ],
+            [
+              139.772113,
+              35.665162
+            ],
+            [
+              139.77309786327172,
+              35.66420494463243
+            ],
+            [
+              139.773813,
+              35.66351
+            ],
+            [
+              139.774527,
+              35.662733
+            ],
+            [
+              139.775749,
+              35.661385
+            ],
+            [
+              139.776418,
+              35.660695
+            ],
+            [
+              139.777411,
+              35.659696
+            ],
+            [
+              139.778199,
+              35.658902
+            ],
+            [
+              139.778417,
+              35.658683
+            ],
+            [
+              139.779091,
+              35.658029
+            ],
+            [
+              139.780475,
+              35.65669
+            ],
+            [
+              139.781207,
+              35.65598
+            ],
+            [
+              139.781938,
+              35.655271
+            ],
+            [
+              139.781735,
+              35.655132
+            ],
+            [
+              139.777982,
+              35.652615
+            ],
+            [
+              139.77673,
+              35.651775
+            ],
+            [
+              139.776027,
+              35.651356
+            ],
+            [
+              139.774563,
+              35.650376
+            ],
+            [
+              139.775633,
+              35.649304
+            ],
+            [
+              139.774645,
+              35.648611
+            ],
+            [
+              139.775115,
+              35.648155
+            ],
+            [
+              139.775096,
+              35.648026
+            ],
+            [
+              139.774567,
+              35.647711
+            ],
+            [
+              139.773765,
+              35.647553
+            ],
+            [
+              139.773178,
+              35.647178
+            ]
+          ]
+        },
+        "distanceM": 5082,
+        "durationSec": 1980,
+        "provider": "toei-gtfs",
+        "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+        "fetchedAt": 1789449562716,
+        "status": "saved",
+        "currentLeg": 0,
+        "visibility": "private",
+        "sharedWith": [],
+        "version": 1,
+        "createdAt": 1789449562746,
+        "updatedAt": 1789449562746
+      }
+    },
+    {
+      "input": {
+        "id": "toei-1",
+        "previewId": "41bb4c18-aa68-40bc-a419-724f1927e9d8",
+        "title": "都営時刻表 1"
+      },
+      "route": {
+        "transitEvidence": {
+          "provider": "toei-gtfs",
+          "scope": "direct_bus_only",
+          "tripId": "72414-2-81-170-1009",
+          "routeId": "184",
+          "routeName": "都０５－１",
+          "serviceId": "81-170",
+          "serviceDate": "20260916",
+          "shapeId": "72414-2",
+          "stops": [
+            {
+              "stopId": "0966-03",
+              "parentId": "0966",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.765721,
+                35.679934
+              ],
+              "stopSequence": 1,
+              "shapePosition": 0.02906103011578101,
+              "arrivalAt": 1789520940000,
+              "departureAt": 1789520940000
+            },
+            {
+              "stopId": "0946-02",
+              "parentId": "0946",
+              "name": "築地六丁目",
+              "coordinates": [
+                139.773148,
+                35.664239
+              ],
+              "stopSequence": 8,
+              "shapePosition": 14.579331336301784,
+              "arrivalAt": 1789521840000,
+              "departureAt": 1789521840000
+            },
+            {
+              "stopId": "1249-01",
+              "parentId": "1249",
+              "name": "晴海埠頭",
+              "coordinates": [
+                139.773195,
+                35.64708
+              ],
+              "stopSequence": 15,
+              "shapePosition": 37,
+              "arrivalAt": 1789522800000,
+              "departureAt": 1789522800000
+            }
+          ],
+          "departureAt": 1789520940000,
+          "arrivalAt": 1789522800000,
+          "waitDurationSec": 540,
+          "rideDurationSec": 1860,
+          "fare": {
+            "fareId": "210_210_110_105",
+            "currency": "JPY",
+            "cash": 210,
+            "ic": null,
+            "rules": [
+              {
+                "fare_id": "210_210_110_105",
+                "route_id": "184",
+                "origin_id": "",
+                "destination_id": "",
+                "contains_id": ""
+              }
+            ],
+            "transfers": "0",
+            "transferDurationSec": 0,
+            "payment": "cash",
+            "amount": 210,
+            "passEvaluation": "not_applied"
+          },
+          "shapeMatching": {
+            "method": "monotonic_segment_projection_inference",
+            "maxSnapM": 60
+          },
+          "source": {
+            "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "license": "https://creativecommons.org/licenses/by/4.0/",
+            "attribution": "東京都交通局・公共交通オープンデータ協議会",
+            "modification": "GTFSから運行日/便/区間/運賃を抽出しshapeと停留所を照合",
+            "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+            "version": "20260915_030753",
+            "validFrom": "20260915",
+            "validThrough": "20290914",
+            "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+            "loadedAt": 1789449562716
+          }
+        },
+        "timing": {
+          "departureAt": 1789520940000,
+          "arrivalAt": 1789522800000,
+          "timeZone": "Asia/Tokyo",
+          "providerTimePrecisionSec": 1,
+          "locations": [
+            {
+              "waypointIndex": 0,
+              "localDateTime": "2026-09-16T10:09:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            },
+            {
+              "waypointIndex": 1,
+              "localDateTime": "2026-09-16T10:24:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            },
+            {
+              "waypointIndex": 2,
+              "localDateTime": "2026-09-16T10:40:00",
+              "timeZone": "Asia/Tokyo",
+              "utcOffset": "+09:00"
+            }
+          ]
+        },
+        "requestedConditions": {
+          "departAt": 1789520400000,
+          "timeZone": "Asia/Tokyo",
+          "returnBy": 1789524000000
+        },
+        "conditionEvaluations": [
+          {
+            "key": "departAt",
+            "status": "applied",
+            "reason": "出発可能時刻以降の同一運行日・便の時刻表を照合。乗車までの待ち時間を全時間に含む。遅延や到着を保証しない",
+            "provider": "toei-gtfs",
+            "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "fetchedAt": 1789449562716
+          },
+          {
+            "key": "returnBy",
+            "status": "applied",
+            "reason": "同一便の予定到着が期限以内",
+            "provider": "toei-gtfs",
+            "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+            "fetchedAt": 1789449562716
+          }
+        ],
+        "id": "toei-1",
+        "personId": "toei-owner",
+        "title": "都営時刻表 1",
+        "waypoints": [
+          {
+            "coordinates": [
+              139.765721,
+              35.679934
+            ],
+            "name": "東京駅丸の内南口",
+            "placeId": null
+          },
+          {
+            "coordinates": [
+              139.773148,
+              35.664239
+            ],
+            "name": "築地六丁目",
+            "placeId": null
+          },
+          {
+            "coordinates": [
+              139.773195,
+              35.64708
+            ],
+            "name": "晴海埠頭",
+            "placeId": null
+          }
+        ],
+        "mode": "transit",
+        "legs": [
+          {
+            "fromIndex": 0,
+            "toIndex": 1,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76566773173684,
+                  35.67992638751293
+                ],
+                [
+                  139.765759,
+                  35.679505
+                ],
+                [
+                  139.765059,
+                  35.677575
+                ],
+                [
+                  139.763411,
+                  35.677935
+                ],
+                [
+                  139.762726,
+                  35.675842
+                ],
+                [
+                  139.76231,
+                  35.674597
+                ],
+                [
+                  139.762023,
+                  35.673735
+                ],
+                [
+                  139.76195,
+                  35.673614
+                ],
+                [
+                  139.761841,
+                  35.673511
+                ],
+                [
+                  139.763294,
+                  35.672567
+                ],
+                [
+                  139.764669,
+                  35.67156
+                ],
+                [
+                  139.767111,
+                  35.66964
+                ],
+                [
+                  139.768382,
+                  35.668527
+                ],
+                [
+                  139.76974,
+                  35.667402
+                ],
+                [
+                  139.772113,
+                  35.665162
+                ],
+                [
+                  139.77309786327172,
+                  35.66420494463243
+                ]
+              ]
+            },
+            "distanceM": 2393,
+            "durationSec": 1440
+          },
+          {
+            "fromIndex": 1,
+            "toIndex": 2,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.77309786327172,
+                  35.66420494463243
+                ],
+                [
+                  139.773813,
+                  35.66351
+                ],
+                [
+                  139.774527,
+                  35.662733
+                ],
+                [
+                  139.775749,
+                  35.661385
+                ],
+                [
+                  139.776418,
+                  35.660695
+                ],
+                [
+                  139.777411,
+                  35.659696
+                ],
+                [
+                  139.778199,
+                  35.658902
+                ],
+                [
+                  139.778417,
+                  35.658683
+                ],
+                [
+                  139.779091,
+                  35.658029
+                ],
+                [
+                  139.780475,
+                  35.65669
+                ],
+                [
+                  139.781207,
+                  35.65598
+                ],
+                [
+                  139.781938,
+                  35.655271
+                ],
+                [
+                  139.781735,
+                  35.655132
+                ],
+                [
+                  139.777982,
+                  35.652615
+                ],
+                [
+                  139.77673,
+                  35.651775
+                ],
+                [
+                  139.776027,
+                  35.651356
+                ],
+                [
+                  139.774563,
+                  35.650376
+                ],
+                [
+                  139.775633,
+                  35.649304
+                ],
+                [
+                  139.774645,
+                  35.648611
+                ],
+                [
+                  139.775115,
+                  35.648155
+                ],
+                [
+                  139.775096,
+                  35.648026
+                ],
+                [
+                  139.774567,
+                  35.647711
+                ],
+                [
+                  139.773765,
+                  35.647553
+                ],
+                [
+                  139.773178,
+                  35.647178
+                ]
+              ]
+            },
+            "distanceM": 2689,
+            "durationSec": 960
+          }
+        ],
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              139.76566773173684,
+              35.67992638751293
+            ],
+            [
+              139.765759,
+              35.679505
+            ],
+            [
+              139.765059,
+              35.677575
+            ],
+            [
+              139.763411,
+              35.677935
+            ],
+            [
+              139.762726,
+              35.675842
+            ],
+            [
+              139.76231,
+              35.674597
+            ],
+            [
+              139.762023,
+              35.673735
+            ],
+            [
+              139.76195,
+              35.673614
+            ],
+            [
+              139.761841,
+              35.673511
+            ],
+            [
+              139.763294,
+              35.672567
+            ],
+            [
+              139.764669,
+              35.67156
+            ],
+            [
+              139.767111,
+              35.66964
+            ],
+            [
+              139.768382,
+              35.668527
+            ],
+            [
+              139.76974,
+              35.667402
+            ],
+            [
+              139.772113,
+              35.665162
+            ],
+            [
+              139.77309786327172,
+              35.66420494463243
+            ],
+            [
+              139.773813,
+              35.66351
+            ],
+            [
+              139.774527,
+              35.662733
+            ],
+            [
+              139.775749,
+              35.661385
+            ],
+            [
+              139.776418,
+              35.660695
+            ],
+            [
+              139.777411,
+              35.659696
+            ],
+            [
+              139.778199,
+              35.658902
+            ],
+            [
+              139.778417,
+              35.658683
+            ],
+            [
+              139.779091,
+              35.658029
+            ],
+            [
+              139.780475,
+              35.65669
+            ],
+            [
+              139.781207,
+              35.65598
+            ],
+            [
+              139.781938,
+              35.655271
+            ],
+            [
+              139.781735,
+              35.655132
+            ],
+            [
+              139.777982,
+              35.652615
+            ],
+            [
+              139.77673,
+              35.651775
+            ],
+            [
+              139.776027,
+              35.651356
+            ],
+            [
+              139.774563,
+              35.650376
+            ],
+            [
+              139.775633,
+              35.649304
+            ],
+            [
+              139.774645,
+              35.648611
+            ],
+            [
+              139.775115,
+              35.648155
+            ],
+            [
+              139.775096,
+              35.648026
+            ],
+            [
+              139.774567,
+              35.647711
+            ],
+            [
+              139.773765,
+              35.647553
+            ],
+            [
+              139.773178,
+              35.647178
+            ]
+          ]
+        },
+        "distanceM": 5082,
+        "durationSec": 2400,
+        "provider": "toei-gtfs",
+        "sourceUrl": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+        "fetchedAt": 1789449562716,
+        "status": "saved",
+        "currentLeg": 0,
+        "visibility": "private",
+        "sharedWith": [],
+        "version": 1,
+        "createdAt": 1789449562747,
+        "updatedAt": 1789449562747
+      }
+    }
+  ]
+}

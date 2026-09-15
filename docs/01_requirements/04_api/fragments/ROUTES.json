@@ -1,6 +1,6 @@
 {
   "taskId": "ROUTES",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "replaceSchemas": [
     "RouteSearchInput",
     "RouteSearchResult",
@@ -259,7 +259,8 @@
         "provider": {
           "enum": [
             "mapbox-directions",
-            "valhalla"
+            "valhalla",
+            "toei-gtfs"
           ]
         },
         "fetchedAt": {
@@ -298,6 +299,9 @@
         "segmentEvidence": {
           "$ref": "#/components/schemas/BikeSegmentEvidence",
           "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
+        },
+        "transitEvidence": {
+          "$ref": "#/components/schemas/RouteTransitEvidence"
         }
       },
       "required": [
@@ -444,7 +448,8 @@
         "provider": {
           "enum": [
             "mapbox-directions",
-            "valhalla"
+            "valhalla",
+            "toei-gtfs"
           ]
         },
         "fetchedAt": {
@@ -483,6 +488,9 @@
         "segmentEvidence": {
           "$ref": "#/components/schemas/BikeSegmentEvidence",
           "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
+        },
+        "transitEvidence": {
+          "$ref": "#/components/schemas/RouteTransitEvidence"
         }
       },
       "required": [
@@ -646,7 +654,8 @@
         "provider": {
           "enum": [
             "mapbox-directions",
-            "valhalla"
+            "valhalla",
+            "toei-gtfs"
           ]
         },
         "sourceUrl": {
@@ -736,6 +745,9 @@
         "segmentEvidence": {
           "$ref": "#/components/schemas/BikeSegmentEvidence",
           "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
+        },
+        "transitEvidence": {
+          "$ref": "#/components/schemas/RouteTransitEvidence"
         }
       },
       "required": [
@@ -919,7 +931,8 @@
         "provider": {
           "enum": [
             "mapbox-directions",
-            "valhalla"
+            "valhalla",
+            "toei-gtfs"
           ]
         },
         "sourceUrl": {
@@ -955,7 +968,11 @@
           "type": "string"
         },
         "providerTimePrecisionSec": {
-          "const": 60
+          "type": "integer",
+          "enum": [
+            1,
+            60
+          ]
         },
         "locations": {
           "type": "array",
@@ -977,7 +994,7 @@
               },
               "localDateTime": {
                 "type": "string",
-                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2})?$"
               },
               "timeZone": {
                 "type": "string"
@@ -990,7 +1007,7 @@
           }
         }
       },
-      "description": "同一provider応答の地点時刻は分精度。departureAt/arrivalAtは指定端点と保存された区間秒合計による移動予定で到着保証ではない。"
+      "description": "Valhallaは分精度、GTFSは秒精度の時刻表。予定時刻は到着保証ではない。直通バスのdepartAt入力は出発可能時刻で、実乗車時刻はtiming.departureAt、待ち時間はtransitEvidence.waitDurationSec。"
     },
     "RouteProviderEvidence": {
       "type": "object",
@@ -1059,6 +1076,290 @@
         }
       },
       "description": "同一geometryの取得根拠。warningは取得失敗として返し、保存可能な結果には含めない。"
+    },
+    "RouteTransitEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "scope",
+        "tripId",
+        "routeId",
+        "routeName",
+        "serviceId",
+        "serviceDate",
+        "shapeId",
+        "stops",
+        "departureAt",
+        "arrivalAt",
+        "waitDurationSec",
+        "rideDurationSec",
+        "fare",
+        "shapeMatching",
+        "source"
+      ],
+      "properties": {
+        "provider": {
+          "const": "toei-gtfs"
+        },
+        "scope": {
+          "const": "direct_bus_only"
+        },
+        "tripId": {
+          "type": "string"
+        },
+        "routeId": {
+          "type": "string"
+        },
+        "routeName": {
+          "type": "string"
+        },
+        "serviceId": {
+          "type": "string"
+        },
+        "serviceDate": {
+          "type": "string"
+        },
+        "shapeId": {
+          "type": "string"
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stopId",
+              "parentId",
+              "name",
+              "coordinates",
+              "stopSequence",
+              "shapePosition",
+              "arrivalAt",
+              "departureAt"
+            ],
+            "properties": {
+              "stopId": {
+                "type": "string"
+              },
+              "parentId": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "coordinates": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "stopSequence": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "shapePosition": {
+                "type": "number",
+                "minimum": 0
+              },
+              "arrivalAt": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "departureAt": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "departureAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "arrivalAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "waitDurationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rideDurationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fare": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "fareId",
+            "currency",
+            "cash",
+            "ic",
+            "payment",
+            "amount",
+            "passEvaluation",
+            "rules",
+            "transfers",
+            "transferDurationSec"
+          ],
+          "properties": {
+            "fareId": {
+              "type": "string"
+            },
+            "currency": {
+              "const": "JPY"
+            },
+            "cash": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "ic": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "payment": {
+              "enum": [
+                "cash",
+                "ic"
+              ]
+            },
+            "amount": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "passEvaluation": {
+              "const": "not_applied"
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "fare_id",
+                  "route_id",
+                  "origin_id",
+                  "destination_id",
+                  "contains_id"
+                ],
+                "properties": {
+                  "fare_id": {
+                    "type": "string"
+                  },
+                  "route_id": {
+                    "type": "string"
+                  },
+                  "origin_id": {
+                    "type": "string"
+                  },
+                  "destination_id": {
+                    "type": "string"
+                  },
+                  "contains_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "transfers": {
+              "type": "string"
+            },
+            "transferDurationSec": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "shapeMatching": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "method",
+            "maxSnapM"
+          ],
+          "properties": {
+            "method": {
+              "const": "monotonic_segment_projection_inference"
+            },
+            "maxSnapM": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "url",
+            "license",
+            "attribution",
+            "modification",
+            "sha256",
+            "version",
+            "validFrom",
+            "validThrough",
+            "lastModified",
+            "loadedAt"
+          ],
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "license": {
+              "type": "string"
+            },
+            "attribution": {
+              "type": "string"
+            },
+            "modification": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "validFrom": {
+              "type": "string"
+            },
+            "validThrough": {
+              "type": "string"
+            },
+            "lastModified": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "loadedAt": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      }
     }
   },
   "operations": [
@@ -2085,5 +2386,13 @@
     "input": "existing RouteInput mode=driving; conditions.departAt/timeZone required; avoidMotorways becomes requested exclusion, not a guarantee",
     "output": "RoutePreview.segmentEvidence matches BIKE BikeSegmentEvidence, same ordered full geometry; save and GET retain it",
     "http": "No new operation or client-supplied profile/evidence. BIKE owns installation/settings to server factory wiring. Shared generation held by root."
+  },
+  "x-toei-server-contract": {
+    "factory": "server/features/routes/index.ts#createDirectBusRoutesService(db,{feedPath,metadataPath,payment?})",
+    "stops": "searchToeiBusStops(options,q,signal?) returns real platforms, keeping parentId",
+    "input": "RouteInput mode=transit, exact real platform waypoints in order, conditions.departAt earliest departure UTCms and timeZone Asia/Tokyo, optional returnBy",
+    "scope": "Direct bus trips within Toei GTFS; two timetable candidates. No transfers, rail, first/last mile walking or passes. Explicit separate server entry, not default transit routing.",
+    "source": "provided valid ZIP+matching metadata, source version/hash/lastModified/loadedAt and CC BY4.0 attribution; no fresh remote fetch claim",
+    "remaining": "root-held common generation; normal HTTP search/client/UI; full public transport, transfer and commuter-pass acceptance"
   }
 }
