@@ -796,7 +796,7 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map(
       if (props.active === false) return null;
       return (
         <>
-          <p className="plugin-notice" role="status">
+          <p className="plugin-notice plugin-inspection-notice" role="status">
             UI検査・API未接続。操作は再読込で初期化されます。
           </p>
           <View {...props} />
