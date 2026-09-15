@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 91,
+  "revision": 92,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4624,12 +4624,22 @@
       "token": "6e47e11448d944798e714376124227cd"
     },
     "FEATURE-REQUESTS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "koshiro",
+      "base_commit": "3f1d6598984fa45b5a4af1febae1ba54f12a83bd",
+      "generation": 1,
+      "issue_number": 31,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "koshiro",
+      "paths": [
+        "server/features/feature-requests/",
+        "server/db/migrations/feature-requests/",
+        "docs/01_requirements/04_api/fragments/FEATURE-REQUESTS.json",
+        "docs/evidence/FEATURE-REQUESTS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "99eef6a7d6ac4ac3ad4c0ffb2639c87a"
     },
     "HEALTH": {
       "actor": null,
