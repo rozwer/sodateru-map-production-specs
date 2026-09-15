@@ -19,9 +19,9 @@
 
 `mise exec -- node --experimental-transform-types --test server/plugins/pilgrimage/service.test.ts` : 5件PASS。実SQLiteの再open/保存順/停止保持/本人・モード分離/設定版競合/未確認拒否/更新/AI採用rollback/AI候補ID、preview再送時に外部通信しないこと・再起動で一時previewを再取得しないことを確認。経路とAIはこの単体テストでは明示したtest double。
 
-`live-probe.ts` は実公式出典・実Nominatim・実Mapbox Directions・共通PLUGINSとROUTESを使用。飛騨古川駅→飛騨市図書館を516.274m/339秒/13点の道路形状で保存・再取得。実SQLite再openでも一致、停止後に場所と経路を保持。出力は `live-service-result.json`。この実行では未統合の担当worktreeの共通依存を読取利用したため、develop統合後の全機能起動成功とは区別する。
+`live-probe.ts` は実公式出典・実Nominatim・実Mapbox Directions・共通PLUGINSとROUTESを使用。飛騨古川駅→飛騨市図書館を516.274m/339秒/13点の道路形状で保存・再取得。実SQLite再openでも一致、停止後に場所と経路を保持。出力は `live-service-result.json`。初回service検証は先行提供worktreeを読取利用。後述の実HTTPは正式統合後に同じworktreeのPLUGINS/ROUTES/PLACESで再検証済み。
 
-`http-probe.ts` は実HTTPサーバーで本人セッション開始→検索→preview→計画保存/GET、同一POSTの再送200、異入力409、未対応modeの入力422、停止後GET保持、別本人404を確認。本人記録を1件保存した上で停止後の件数維持も確認。結果は `live-http-result.json`。AIのHTTP生成はこの検証の対象外。
+`http-probe.ts` は実HTTPサーバーで本人セッション開始→検索→preview→計画保存/GET、同一POSTの再送200、異入力409、未対応modeの入力422、停止後GET保持、別本人404を確認。本人記録を1件保存した上で停止後の件数維持も確認。結果は `live-http-result.json`。AIのHTTP生成はこの検証の対象外。正式統合後の再検証結果はdependencies.integrated=true。PILGRIMAGEとその依存の標準tsconfigによる限定型検査もPASS（全体は他担当の未生成API型/型エラーが残存）。
 
 `PILGRIMAGE.json` の検索/保存結果schemaを実取得・保存JSONへAJV2020で照合しPASS。
 
@@ -36,9 +36,13 @@ mise exec -- node --experimental-transform-types --env-file-if-exists=.env docs/
 
 一時DB/結果は `.local/pilgrimage-live/` に生成する。別途、`PILGRIMAGE_ROUTES_ROOT` / `PILGRIMAGE_PLUGINS_ROOT` で先行提供worktreeの実装を読取検証できる。指定した場合は出力のdependencies.integrated=falseを保持する。
 
-## 未完了（先行提供）
+## 提供単位と残件
 
-- PLUGINS.state/ROUTES.basic/AI.engine・AI.refsの統合commit確認と、同じdevelop上の全機能起動・生成API反映。
-- 実共通AIによる生成→採用の成功証拠。ai-probe.tsで提供commit50bd6c0へ接続し、固定gpt-5.6-luna、実SETTINGS送信許可、HTTP受付/状態GETまで確認したが、実行器がUPSTREAM_FAILEDを返した。ai-attempt.jsonへ保存して#7担当へ連絡済み。
-- A担当の通常地図がgetPilgrimageOverlayを使って表示・停止を反映する接続確認。
-- 独立レビュー、提出commitを保持するmerge、task:finish。先行PR作成だけではIssueを閉じない。
+- #126 PILGRIMAGE.plan: 正式統合済みPLUGINS/ROUTES/PLACESによる実HTTP・実道路・保存・再取得を確認。PR #79の独立レビュー/commit保持統合が残る。
+- #127 PILGRIMAGE.ai: 固有SchemaのuniqueItemsがSDKに拒否される問題を特定。固有validateResultの完全並べ替え検証は維持し、SDK用指定のみ除く修正と実AI成功証拠を次の子PRで提供する。PR #79の単体AIは固定結果の境界検証であり、この単位の完成証拠にはしない。
+- #128 PILGRIMAGE.connect: 共通生成物への合成とA #18/#8の通常地図による検索・順序変更・保存・再読込・停止表示の実操作が残る。全機能のregister.ts収集は成功、全体型検査は他担当範囲の未生成型等で未達。
+- 親 #38のtask:finish/closeは上記全体の受入後。子の先行統合だけでは行わない。
+
+## 証拠の訂正
+
+映画「君の名は。」のWikidata IDは実検索によりQ21697406を確認（work-identity.json）。初回live-service-result.json/AI失敗試行には訂正前のIDが含まれるため履歴として扱い、現行の作品同定・計画保存の受入証拠にはlive-http-result.jsonを使う。作品と各地点との関係そのものは独立して飛騨市公式ページの個別記載へ戻せる。

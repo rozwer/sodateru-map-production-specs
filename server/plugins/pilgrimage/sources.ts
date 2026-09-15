@@ -31,10 +31,10 @@ async function hida(input: SearchInput, signal: AbortSignal) {
   const point=[Number(longitude),Number(latitude)];
   if(!latitude||!longitude||!coordinates(point)||!inRegion(point,input.region))continue;
   const confirmed=entry.proof.every(p=>block.includes(p));
-  relations.push({id:`hida-${officialEntries.indexOf(entry)+1}`,workId:'Q21561771',name:entry.name,address:null,coordinates:point,relationType:entry.type,description:confirmed?entry.description:'公式ページの関係説明を再確認できません。',sourceRefs:[source,{...source,claimScope:'coordinates'}],verificationStatus:confirmed?'confirmed':'unverified',unknowns:confirmed?[]:['作品と地点の対応が掲載内容から再確認できません。']});
+  relations.push({id:`hida-${officialEntries.indexOf(entry)+1}`,workId:'Q21697406',name:entry.name,address:null,coordinates:point,relationType:entry.type,description:confirmed?entry.description:'公式ページの関係説明を再確認できません。',sourceRefs:[source,{...source,claimScope:'coordinates'}],verificationStatus:confirmed?'confirmed':'unverified',unknowns:confirmed?[]:['作品と地点の対応が掲載内容から再確認できません。']});
  }
  if(!relations.length && input.region.bounds[0]<137.2 && input.region.bounds[2]>137.1 && input.region.bounds[1]<36.3 && input.region.bounds[3]>36.2) throw new CommonError('OUTPUT_INVALID','公式出典の施設位置を読み取れません。');
- return {works:[{id:'Q21561771',title:'君の名は。',aliases:['Your Name','Kimi no Na wa']}],relations,fetchedAt,warnings:[],dataKind:'live' as const};
+ return {works:[{id:'Q21697406',title:'君の名は。',aliases:['Your Name','Kimi no Na wa']}],relations,fetchedAt,warnings:[],dataKind:'live' as const};
 }
 async function wikidataJson(params: Record<string,string>, signal: AbortSignal): Promise<any> {
  const url=new URL('https://www.wikidata.org/w/api.php');
@@ -77,6 +77,6 @@ async function wikidata(input:SearchInput,signal:AbortSignal) {
  return {works,relations:[...new Map(relations.map(r=>[r.id,r])).values()],fetchedAt,warnings:relations.length?['未確認の関係を確定事実として扱わないでください。']:['指定地域で位置付きの作品関連データが見つかりません。作品・地域を変更してください。'],dataKind:'live' as const};
 }
 export async function searchSources(input:SearchInput,signal:AbortSignal) {
- if(input.workId==='Q21561771'||!input.workId&&['君の名は','yourname','kiminonawa'].includes(normalize(input.workQuery)))return hida(input,signal);
+ if(input.workId==='Q21697406'||!input.workId&&['君の名は','yourname','kiminonawa'].includes(normalize(input.workQuery)))return hida(input,signal);
  return wikidata(input,signal);
 }

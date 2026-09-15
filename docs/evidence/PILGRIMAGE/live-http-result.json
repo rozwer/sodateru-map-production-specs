@@ -32,7 +32,7 @@
     },
     {
       "method": "GET",
-      "path": "/plugins/pilgrimage/plans/plan-51b148bc-a0e3-4165-8569-6118c3091116",
+      "path": "/plugins/pilgrimage/plans/plan-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
       "status": 200,
       "error": null
     },
@@ -56,7 +56,7 @@
     },
     {
       "method": "GET",
-      "path": "/plugins/pilgrimage/plans/plan-51b148bc-a0e3-4165-8569-6118c3091116",
+      "path": "/plugins/pilgrimage/plans/plan-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
       "status": 200,
       "error": null
     },
@@ -74,16 +74,16 @@
     },
     {
       "method": "GET",
-      "path": "/plugins/pilgrimage/plans/plan-51b148bc-a0e3-4165-8569-6118c3091116",
+      "path": "/plugins/pilgrimage/plans/plan-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
       "status": 404,
       "error": "NOT_FOUND"
     }
   ],
-  "checkedAt": "2026-09-15T02:52:20.035Z",
+  "checkedAt": "2026-09-15T03:18:20.162Z",
   "dependencies": {
-    "routeRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-25-routes",
-    "pluginRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-28-plugins",
-    "integrated": false
+    "routeRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-38-pilgrimage",
+    "pluginRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-38-pilgrimage",
+    "integrated": true
   },
   "assertions": {
     "realHttp": true,
@@ -99,9 +99,9 @@
     "placesAndRoutesAndRecordsRetained": true
   },
   "search": {
-    "id": "search-51b148bc-a0e3-4165-8569-6118c3091116",
+    "id": "search-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
     "input": {
-      "id": "search-51b148bc-a0e3-4165-8569-6118c3091116",
+      "id": "search-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
       "workQuery": "君の名は。",
       "region": {
         "id": "飛騨",
@@ -115,7 +115,7 @@
     },
     "works": [
       {
-        "id": "Q21561771",
+        "id": "Q21697406",
         "title": "君の名は。",
         "aliases": [
           "Your Name",
@@ -126,7 +126,7 @@
     "relations": [
       {
         "id": "hida-1",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "飛騨市図書館",
         "address": null,
         "coordinates": [
@@ -139,14 +139,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -156,7 +156,7 @@
       },
       {
         "id": "hida-2",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "飛騨古川駅",
         "address": null,
         "coordinates": [
@@ -169,14 +169,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -186,7 +186,7 @@
       },
       {
         "id": "hida-3",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "気多若宮神社",
         "address": null,
         "coordinates": [
@@ -199,14 +199,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -216,7 +216,7 @@
       },
       {
         "id": "hida-4",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "落合バス停",
         "address": null,
         "coordinates": [
@@ -229,14 +229,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -245,17 +245,17 @@
         "unknowns": []
       }
     ],
-    "fetchedAt": 1789440736812,
+    "fetchedAt": 1789442298273,
     "warnings": [],
     "dataKind": "live"
   },
   "plan": {
-    "id": "plan-51b148bc-a0e3-4165-8569-6118c3091116",
-    "personId": "probe-51b148bc-a0e3-4165-8569-6118c3091116",
+    "id": "plan-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
+    "personId": "probe-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
     "dataMode": "live",
     "title": "飛騨古川駅 → 飛騨市図書館",
     "workIds": [
-      "Q21561771"
+      "Q21697406"
     ],
     "region": {
       "id": "飛騨",
@@ -271,13 +271,13 @@
       "hida-1"
     ],
     "orderedPlaceIds": [
-      "route-place-f7c3eab85a449dde62d7e4a0c257e02440017fb4c8d11385",
-      "route-place-69a238b82dc070f9bc8621e263421204f088ab4d3ed2077e"
+      "route-place-e5494e6336403502adda6c1340207682cba61d76ffc2f7dd",
+      "route-place-aaa8999d862c0b85b21cfcd595991bb6cf22ea9db3442816"
     ],
-    "routeId": "pilgrimage-4ed60ca11ca8d3c844ab040a1fde5b4e3b7c4594534b5d6b",
+    "routeId": "pilgrimage-db35c2934cd6c6e335f68c08aa239061be72b6f2c95af650",
     "route": {
-      "id": "pilgrimage-4ed60ca11ca8d3c844ab040a1fde5b4e3b7c4594534b5d6b",
-      "personId": "probe-51b148bc-a0e3-4165-8569-6118c3091116",
+      "id": "pilgrimage-db35c2934cd6c6e335f68c08aa239061be72b6f2c95af650",
+      "personId": "probe-f3eee4f6-8e2a-49a4-b631-5540c0ea9607",
       "title": "飛騨古川駅 → 飛騨市図書館",
       "waypoints": [
         {
@@ -286,7 +286,7 @@
             36.2367306
           ],
           "name": "飛驒古川駅",
-          "placeId": "route-place-f7c3eab85a449dde62d7e4a0c257e02440017fb4c8d11385"
+          "placeId": "route-place-e5494e6336403502adda6c1340207682cba61d76ffc2f7dd"
         },
         {
           "coordinates": [
@@ -294,7 +294,7 @@
             36.2381173
           ],
           "name": "飛騨市図書館",
-          "placeId": "route-place-69a238b82dc070f9bc8621e263421204f088ab4d3ed2077e"
+          "placeId": "route-place-aaa8999d862c0b85b21cfcd595991bb6cf22ea9db3442816"
         }
       ],
       "mode": "walking",
@@ -562,19 +562,19 @@
       "durationSec": 339,
       "provider": "mapbox-directions",
       "sourceUrl": "https://www.mapbox.com/about/maps/",
-      "fetchedAt": 1789440740004,
+      "fetchedAt": 1789442300143,
       "status": "saved",
       "currentLeg": 0,
       "visibility": "private",
       "sharedWith": [],
       "version": 1,
-      "createdAt": 1789440740014,
-      "updatedAt": 1789440740014
+      "createdAt": 1789442300147,
+      "updatedAt": 1789442300147
     },
     "sourceSnapshot": [
       {
         "id": "hida-2",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "飛騨古川駅",
         "address": null,
         "coordinates": [
@@ -587,14 +587,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -604,7 +604,7 @@
       },
       {
         "id": "hida-1",
-        "workId": "Q21561771",
+        "workId": "Q21697406",
         "name": "飛騨市図書館",
         "address": null,
         "coordinates": [
@@ -617,14 +617,14 @@
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "relation",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           },
           {
             "url": "https://www.hida-kankou.jp/courses/73",
             "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
-            "fetchedAt": 1789440736812,
+            "fetchedAt": 1789442298273,
             "claimScope": "coordinates",
             "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
           }
@@ -649,7 +649,8 @@
     "settingsVersion": 1,
     "ai": null,
     "version": 1,
-    "createdAt": 1789440740015,
-    "updatedAt": 1789440740015
-  }
+    "createdAt": 1789442300147,
+    "updatedAt": 1789442300147
+  },
+  "integrationCommit": "0c703f4a76a643bd64f7ff16598d9c41060cad76"
 }

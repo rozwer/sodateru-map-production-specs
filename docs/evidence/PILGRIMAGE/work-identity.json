@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-09-15T03:16:18.338869+00:00",
+  "provider": "Wikidata wbsearchentities",
+  "query": "君の名は。",
+  "sourceUrl": "https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&search=%E5%90%9B%E3%81%AE%E5%90%8D%E3%81%AF%E3%80%82&language=ja",
+  "work": {
+    "id": "Q21697406",
+    "title": "君の名は。",
+    "description": "日本のアニメーション映画 (2016)"
+  },
+  "correction": "初回検証のQ21561771はラベルなし。現行source adapterを実検索で確認したQ21697406へ訂正。作品と地点の根拠は別途飛騨市公式ページで照合。"
+}
