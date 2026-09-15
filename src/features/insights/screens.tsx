@@ -3,7 +3,7 @@ import { ApiError, type Insight, type Summary } from '../../../packages/api-clie
 import { api } from '../../app/api';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
-import { DiagnosisView, EvidenceView, ReviewView } from './InsightViews';
+import { DiagnosisView, EvidenceView, ReviewView, InsightBackHeader } from './InsightViews';
 import { earliestRecordTime, evidenceRecords, findPeriodInsight, insightPresentation, isCancelled, requestError } from './data';
 import { periodRange, rangeFromParams, rangeParams, type InsightRange } from './periods';
 import { notifyInsightSaved, useInsightRevision } from './revisions';
@@ -27,7 +27,7 @@ async function loadInsight(params: Record<string, string>, signal: AbortSignal):
   return { raw, summary, range: range!, view: insightPresentation(raw, summary, evidence.records, evidence.changed) };
 }
 
-function DiagnosisScreen({ route, navigate, scopeKey, active = true }: ScreenProps) {
+function DiagnosisScreen({ route, navigate, back, scopeKey, active = true }: ScreenProps) {
   const [model, setModel] = useScreenState<{ period: Period; anchor: number }>({ period: 'week', anchor: Date.now() });
   const [loaded, setLoaded] = useState<(Loaded & { period: Period }) | null>(null), [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true), [reload, setReload] = useState(0);
@@ -46,10 +46,10 @@ function DiagnosisScreen({ route, navigate, scopeKey, active = true }: ScreenPro
   }, [model.period, model.anchor, timeZone, scopeKey, reload, revision, active]);
   const current = loaded?.period === model.period ? loaded : null;
   const params = current ? { ...rangeParams(current.range), ...(current.raw ? { insightId: current.raw.id } : {}) } : {};
-  return <DiagnosisView value={current?.view ?? null} period={model.period} onPeriod={period => setModel({ ...model, period })}
+  return <><InsightBackHeader onBack={back}/><DiagnosisView value={current?.view ?? null} period={model.period} onPeriod={period => setModel({ ...model, period })}
     status={{ loading: loading || (!current && !error), error }} onRetry={() => setReload(value => value + 1)}
     onEvidence={() => navigate('trend-evidence', params)} onRecord={recordId => navigate('record-edit', { ...params, recordId })}
-    onReview={choice => navigate('trend-review', { ...params, choice })} onExplore={() => navigate('self-checkin', params)}/>;
+    onReview={choice => navigate('trend-review', { ...params, choice })} onExplore={() => navigate('self-checkin', params)}/></>;
 }
 
 function EvidenceScreen({ route, navigate, scopeKey, active = true }: ScreenProps) {
@@ -124,7 +124,7 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
 }
 
 export const screens: ScreenDefinition[] = [
-  { id: 'type-diagnosis', title: m.title, component: DiagnosisScreen, layout: { header: 'back', bottomNav: true, background: 'surface' } },
-  { id: 'trend-evidence', title: m.title, component: EvidenceScreen, layout: { header: 'back', bottomNav: false, background: 'surface' } },
-  { id: 'trend-review', title: m.title, component: ReviewScreen, layout: { header: 'back', bottomNav: false, background: 'surface' } },
+  { id: 'type-diagnosis', title: m.title, component: DiagnosisScreen, layout: { header: 'none', contentPadding: 'none', bottomNav: true, background: 'surface' } },
+  { id: 'trend-evidence', title: m.title, component: EvidenceScreen, layout: { header: 'back', contentPadding: 'none', bottomNav: false, background: 'surface' } },
+  { id: 'trend-review', title: m.title, component: ReviewScreen, layout: { header: 'back', contentPadding: 'none', bottomNav: false, background: 'surface' } },
 ];

@@ -4,6 +4,8 @@ export const knowledgeMessages = {
   back: '戻る', close: '閉じる', clearConditions: '条件をクリア',
   kind: '探す内容', restTip: '休憩チップ', experience: '体験', people: '人',
   area: '地域', areaHelp: '検索する中心のエリアを選びましょう',
+  areaSelectionRequired: '検索結果から地域を選んでください。', areaResults: '地域の検索結果',
+  areaEmpty: '一致する地域が見つかりませんでした。別の名前で検索してください。',
   purpose: '目的', purposeHelp: 'どんな体験を探しますか？',
   meal: '食事', rest: '休憩', walk: '散歩',
   period: '期間', periodHelp: 'いつの投稿を見ますか？', week: '今週', month: '今月',
