@@ -37,6 +37,7 @@
         "UI-EXPLORE": 10,
         "UI-FRIENDS": 14,
         "UI-INSIGHTS": 13,
+        "UI-INTEGRATION": 98,
         "UI-KNOWLEDGE": 16,
         "UI-MAP": 8,
         "UI-PLUGINS": 18,
@@ -4469,6 +4470,19 @@
           "tools/test_sync_graph.py",
           "docs/evidence/PLAN-UI-CONNECTIONS/"
         ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "UI-INTEGRATION",
+        "kind": "implementation",
+        "owner": "rozwer",
+        "priority": "P0",
+        "title": "提供UIを共通入口と起動QA画面へ接続",
+        "write_paths": [
+          "src/integration/",
+          "docs/integration/"
+        ]
       }
     ]
   },
@@ -4477,9 +4491,10 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD",
-    "PLAN-UI-CONNECTIONS"
+    "PLAN-UI-CONNECTIONS",
+    "UI-INTEGRATION"
   ],
-  "revision": 98,
+  "revision": 99,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5022,6 +5037,22 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "05e208d9b55143e8a5aeeeef17f80647"
+    },
+    "UI-INTEGRATION": {
+      "actor": "rozwer",
+      "base_commit": "0216502b0fcba53a379fff9b7fdf8cc8da24b191",
+      "generation": 1,
+      "issue_number": 98,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/integration/",
+        "docs/integration/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "07f8508378e6493bb003656af48cb98f"
     },
     "UI-KNOWLEDGE": {
       "actor": "rozwer",
