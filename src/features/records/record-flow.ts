@@ -25,11 +25,12 @@ export type RecordSaveSession = {
   uploaded: Record<string, Media>;
 };
 
-export function createSaveSession(draft: RecordDraft, place: PlaceChoice | null, topicKey: string | null = null): RecordSaveSession {
+export function createSaveSession(draft: RecordDraft, place: PlaceChoice | null, topicKey: string | null = null, existingVisit?: Visit): RecordSaveSession {
   return {
     recordId: crypto.randomUUID(),
     placeId: place ? place.source === 'saved' ? place.id : crypto.randomUUID() : null,
-    visitId: draft.visited && place ? crypto.randomUUID() : null,
+    visitId: existingVisit?.id ?? (draft.visited && place ? crypto.randomUUID() : null),
+    visit: existingVisit,
     placeKey: crypto.randomUUID(), visitKey: crypto.randomUUID(), recordKey: crypto.randomUUID(),
     draft: {...draft,media:draft.media.map(item=>({...item})),purposes:[...draft.purposes],sharedWith:[...draft.sharedWith]},
     place, topicKey, uploaded: {},
@@ -83,7 +84,7 @@ export function draftFromRecord(record: RecordView, media: Media[]): RecordDraft
 }
 
 /** Freeze one logical save; retry it with exactly the same IDs, inputs, and keys. */
-export async function saveNewRecord(client: ApiClient, session: RecordSaveSession, progress: (state: SaveProgress) => void, signal?: AbortSignal): Promise<RecordView> {
+export async function saveNewRecord(client: ApiClient, session: RecordSaveSession, progress: (state: SaveProgress) => void, signal?: AbortSignal, onChanged?: () => void): Promise<RecordView> {
   const state = (stage: SaveProgress['stage']) => progress({recordId:session.recordId,record:session.record,stage,media:session.draft.media.map(item=>session.uploaded[item.id] ? {...item,...mediaDraft(session.uploaded[item.id]!)} : item)});
   const time = draftTimes(session.draft);
   if (session.place?.source === 'candidate') {
@@ -96,18 +97,18 @@ export async function saveNewRecord(client: ApiClient, session: RecordSaveSessio
     if (!session.placeId) throw new Error('訪問を確認する場所を選んでください。');
     state('visit');
     const {data} = await client.request('postVisits',{body:{id:session.visitId,placeId:session.placeId,startedAt:time.occurredAt,endedAt:time.endedAt,timePrecision:time.timePrecision,origin:'manual'},idempotencyKey:session.visitKey,signal});
-    session.visit=data;
+    session.visit=data; onChanged?.();
   }
-  if (session.visit && session.visit.status!=='confirmed') {
+  if (session.visit && session.draft.visited && session.visit.status!=='confirmed') {
     state('visit');
     if(session.visitConfirmationStarted){
       const {data}=await client.request('getVisitsVisitId',{path:{visitId:session.visit.id},signal});
-      if(data.status==='confirmed')session.visit=data;
+      if(data.status==='confirmed'){session.visit=data;onChanged?.();}
     }
     if(session.visit.status!=='confirmed'){
       session.visitConfirmationStarted=true;
       const {data}=await client.request('patchVisitsVisitId',{path:{visitId:session.visit.id},version:session.visit.version,body:{status:'confirmed'},signal});
-      session.visit=data;
+      session.visit=data; onChanged?.();
     }
   }
   if (!session.record) {
@@ -119,7 +120,7 @@ export async function saveNewRecord(client: ApiClient, session: RecordSaveSessio
       bookmarked:session.draft.bookmarked,useForSuggestions:false,topicKey:session.topicKey,visibility:session.draft.visibility,sharedWith:session.draft.sharedWith,
     };
     const {data} = await client.request('postRecords',{body:session.body,idempotencyKey:session.recordKey,signal});
-    session.record=data;
+    session.record=data; onChanged?.();
   }
   const failures: string[] = [];
   for (const item of session.draft.media) {
@@ -183,7 +184,7 @@ export function createEditSession(original: RecordView, draft: RecordDraft): Edi
   return {original,draft:{...draft,media:draft.media.map(item=>({...item})),removedMedia:[...draft.removedMedia]},patch:recordPatch(original,draft),patchStarted:false,patchSaved:false,record:original,uploaded:{},deleted:[],uploadPositions:{},orderKey:crypto.randomUUID(),orderSaved:false};
 }
 
-export async function saveEditedRecord(client: ApiClient, session: EditSession, progress: (state: SaveProgress) => void, signal?: AbortSignal): Promise<RecordView> {
+export async function saveEditedRecord(client: ApiClient, session: EditSession, progress: (state: SaveProgress) => void, signal?: AbortSignal, onChanged?: () => void): Promise<RecordView> {
   const recordId=session.original.id;
   const state=(stage:SaveProgress['stage'])=>progress({recordId,record:session.record,stage,media:session.draft.media.map(item=>session.uploaded[item.id] ? {...item,...mediaDraft(session.uploaded[item.id]!)} : item)});
   if (!session.patchSaved && Object.keys(session.patch).length) {
@@ -197,7 +198,7 @@ export async function saveEditedRecord(client: ApiClient, session: EditSession, 
     if (!session.patchSaved) {
       session.patchStarted=true;
       const {data}=await client.request('patchRecordsRecordId',{path:{recordId},body:session.patch,version:session.original.version,signal});
-      session.record=data;session.patchSaved=true;
+      session.record=data;session.patchSaved=true;onChanged?.();
     }
   }
   for (const removal of session.draft.removedMedia) {

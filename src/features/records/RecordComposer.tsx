@@ -24,6 +24,7 @@ export type RecordComposerProps = {
   moodControl?: ReactNode;
   sharingControl?: ReactNode;
   savedLocationLocked?: boolean;
+  editingActions?: ReactNode;
 };
 
 export function formatDraftDate(draft: RecordDraft): string {
@@ -47,7 +48,7 @@ function ReviewCard({ title, icon, children, onEdit }: { title: string; icon: Re
 }
 
 export function RecordComposer(props: RecordComposerProps) {
-  const { draft, setDraft, place, step, onStep, editing, busy, error, notice, onBack, onChoosePlace, onFiles, onRemove, onMove, onSave, onRetry, onReload, moodControl, sharingControl, savedLocationLocked } = props;
+  const { draft, setDraft, place, step, onStep, editing, busy, error, notice, onBack, onChoosePlace, onFiles, onRemove, onMove, onSave, onRetry, onReload, moodControl, sharingControl, savedLocationLocked, editingActions } = props;
   const [dateOpen, setDateOpen] = useState(false);
   const [help, setHelp] = useState<'visit' | 'sharing' | null>(null);
   const sharingSelect = useRef<HTMLSelectElement>(null);
@@ -85,7 +86,7 @@ export function RecordComposer(props: RecordComposerProps) {
         </>}
         {!valid && <p className="records-draft-state">{m.noContent}</p>}
         <button type="button" disabled={busy || !valid} className="records-primary" onClick={editing ? onSave : () => changeStep('confirmation')}>{busy ? m.saving : editing ? m.saveChanges : m.confirm}{!editing && <RecordIcon name="next" />}</button>
-        {editing && <button type="button" className="records-text-button records-centered" onClick={onBack}>{m.returnList}</button>}
+        {editing && <button type="button" className="records-text-button records-centered" onClick={onBack}>{m.returnList}</button>}{editing && editingActions}
       </>}
       {confirmation && <>
         <ReviewCard title={m.text} icon="document" onEdit={() => changeStep('editor')}><p className="records-review-value">{draft.body || '本文なし（媒体のみの記録）'}</p></ReviewCard>

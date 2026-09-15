@@ -1,3 +1,4 @@
+import { notifyGrowthChanged } from '../activity/growth-refresh';
 import { useEffect, useRef, useState } from 'react';
 import type { ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
@@ -18,7 +19,8 @@ export function EditRecordScreen({route,scopeKey,back,navigate,active=true}:Scre
  useEffect(()=>()=>controller.current?.abort(),[scopeKey]);
  useEffect(()=>{if(!active)controller.current?.abort();},[active]);
  useEffect(()=>{
-  if(!loaded.detail || state.initialized===recordId && state.dirty)return;
+  if(!loaded.detail)return;
+  if(state.initialized===recordId && state.dirty){setState(previous=>({...previous,current:loaded.detail!.record,session:null}));setNotice(`現在の保存内容（版 ${loaded.detail.record.version}）：${loaded.detail.record.body} ／ 用途：${loaded.detail.record.purposes.join('・') || '未指定'}。編集中の入力は保持しています。`);return;}
   if(loaded.detail.media.status==='failed'){setError('媒体一覧を取得できませんでした。読み直してから編集してください。');return;}
   setState({draft:draftFromRecord(loaded.detail.record,loaded.detail.media.data.items),initialized:recordId!,session:null,current:loaded.detail.record,dirty:false});
  },[loaded.detail,recordId]);
@@ -44,7 +46,7 @@ export function EditRecordScreen({route,scopeKey,back,navigate,active=true}:Scre
     if(abort.signal.aborted)return;
     setState(previous=>({...previous,draft:{...previous.draft,media:progress.media}}));
     setNotice(progress.stage==='media'?'本文を保存しました。媒体を処理しています。':'');
-   },abort.signal);
+   },abort.signal,()=>notifyGrowthChanged(scopeKey));
    if(abort.signal.aborted)return;
    setNotice('変更を保存しました。');setState(previous=>({...previous,initialized:null,session:null,dirty:false}));
    if(route.params.returnPage==='daily-track')navigate('daily-track',{date:state.draft.date||route.params.date||new Date().toLocaleDateString('sv-SE'),timeZone:route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone,recordId:saved.id,includeUndated:saved.effectiveStartedAt===null?'true':'false'});
@@ -54,5 +56,5 @@ export function EditRecordScreen({route,scopeKey,back,navigate,active=true}:Scre
  };
  if(!recordId)return <section className="records-screen"><RecordHeading title="体験を編集" onBack={back}/><RecordNotice error>編集する記録が指定されていません。</RecordNotice></section>;
  if(!loaded.detail || !state.initialized)return <section className="records-screen"><RecordHeading title="体験を編集" onBack={back}/><div className="records-body"><RecordNotice error={!!loaded.error} retry={loaded.error?loaded.reload:undefined}>{loaded.error||'記録を読み込んでいます…'}</RecordNotice></div></section>;
- return <RecordComposer draft={state.draft} setDraft={update} place={loaded.place} step="editor" onStep={()=>{}} editing onBack={back} onChoosePlace={()=>{}} onFiles={files} onRemove={remove} onMove={move} onSave={()=>void save()} onRetry={()=>void save()} onReload={()=>{setState(previous=>({...previous,session:null,current:undefined}));loaded.reload();}} busy={busy} error={error||loaded.error} notice={notice} moodControl={<label className="records-input-label">気分<span className="records-inline-input"><RecordIcon name="smile"/><select aria-label="気分" disabled><option>未取得</option></select></span></label>}/>;
+ return <RecordComposer draft={state.draft} setDraft={update} place={loaded.place} step="editor" onStep={()=>{}} editing onBack={back} onChoosePlace={()=>{}} onFiles={files} onRemove={remove} onMove={move} onSave={()=>void save()} onRetry={()=>void save()} onReload={()=>{setState(previous=>({...previous,session:null,current:undefined}));loaded.reload();}} busy={busy} error={error||loaded.error} notice={notice} editingActions={<nav aria-label="記録と訪問の操作"><button type="button" className="records-detail-row" onClick={()=>navigate('interpretation-correction',{recordId})}>用途を訂正する</button>{loaded.detail.record.visitId && <button type="button" className="records-detail-row" onClick={()=>navigate('visit-confirm',{visitId:loaded.detail!.record.visitId!})}>訪問の確認・取消・場所訂正</button>}<button type="button" className="records-detail-row" onClick={()=>navigate('growth-result',{recordId})}>現在の地図の成長を見る</button><button type="button" className="records-text-button" onClick={()=>navigate('record-delete',{recordId})}>記録の削除を確認する</button></nav>} moodControl={<label className="records-input-label">気分<span className="records-inline-input"><RecordIcon name="smile"/><select aria-label="気分" disabled><option>未取得</option></select></span></label>}/>;
 }
