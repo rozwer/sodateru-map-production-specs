@@ -21,6 +21,7 @@ export type RecordSaveSession = {
   body?: RecordCreate;
   record?: RecordView;
   visit?: Visit;
+  visitConfirmationStarted?: boolean;
   uploaded: Record<string, Media>;
 };
 
@@ -96,6 +97,18 @@ export async function saveNewRecord(client: ApiClient, session: RecordSaveSessio
     state('visit');
     const {data} = await client.request('postVisits',{body:{id:session.visitId,placeId:session.placeId,startedAt:time.occurredAt,endedAt:time.endedAt,timePrecision:time.timePrecision,origin:'manual'},idempotencyKey:session.visitKey,signal});
     session.visit=data;
+  }
+  if (session.visit && session.visit.status!=='confirmed') {
+    state('visit');
+    if(session.visitConfirmationStarted){
+      const {data}=await client.request('getVisitsVisitId',{path:{visitId:session.visit.id},signal});
+      if(data.status==='confirmed')session.visit=data;
+    }
+    if(session.visit.status!=='confirmed'){
+      session.visitConfirmationStarted=true;
+      const {data}=await client.request('patchVisitsVisitId',{path:{visitId:session.visit.id},version:session.visit.version,body:{status:'confirmed'},signal});
+      session.visit=data;
+    }
   }
   if (!session.record) {
     state('record');

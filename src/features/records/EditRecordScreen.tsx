@@ -8,21 +8,21 @@ import { blankDraft, type RecordDraft } from './form-types';
 import { useRecordDetail } from './record-hooks';
 import { createEditSession, draftFromRecord, errorText, saveEditedRecord, type EditSession } from './record-flow';
 
-interface EditState {draft:RecordDraft; initialized:string|null; session:EditSession|null; current?:EditSession['record']}
+interface EditState {draft:RecordDraft; initialized:string|null; session:EditSession|null; current?:EditSession['record'];dirty:boolean}
 export function EditRecordScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {active?:boolean}) {
  const recordId=route.params.recordId;
  const loaded=useRecordDetail(recordId,scopeKey,active);
- const [state,setState]=useScreenState<EditState>(()=>({draft:blankDraft(),initialized:null,session:null}));
+ const [state,setState]=useScreenState<EditState>(()=>({draft:blankDraft(),initialized:null,session:null,dirty:false}));
  const [busy,setBusy]=useState(false), [error,setError]=useState(''), [notice,setNotice]=useState('');
  const submitting=useRef(false), controller=useRef<AbortController|null>(null);
  useEffect(()=>()=>controller.current?.abort(),[scopeKey]);
  useEffect(()=>{if(!active)controller.current?.abort();},[active]);
  useEffect(()=>{
-  if(!loaded.detail || state.initialized===recordId)return;
+  if(!loaded.detail || state.initialized===recordId && state.dirty)return;
   if(loaded.detail.media.status==='failed'){setError('媒体一覧を取得できませんでした。読み直してから編集してください。');return;}
-  setState({draft:draftFromRecord(loaded.detail.record,loaded.detail.media.data.items),initialized:recordId!,session:null});
+  setState({draft:draftFromRecord(loaded.detail.record,loaded.detail.media.data.items),initialized:recordId!,session:null,current:loaded.detail.record,dirty:false});
  },[loaded.detail,recordId]);
- const update=(draft:RecordDraft)=>{setState(previous=>({...previous,draft,current:previous.session?.record??previous.current,session:null}));setError('');};
+ const update=(draft:RecordDraft)=>{setState(previous=>({...previous,draft,current:previous.session?.record??previous.current,session:null,dirty:true}));setError('');};
  const files=(files:File[])=>update({...state.draft,media:[...state.draft.media,...files.slice(0,100-state.draft.media.length).map((file,index)=>({id:crypto.randomUUID(),file,url:URL.createObjectURL(file),kind:file.type.startsWith('image/')?'photo' as const:'video' as const,name:file.name,position:state.draft.media.length+index,state:'draft' as const}))]});
  const remove=(id:string)=>{
   const item=state.draft.media.find(item=>item.id===id);if(!item)return;
@@ -46,8 +46,8 @@ export function EditRecordScreen({route,scopeKey,back,navigate,active=true}:Scre
     setNotice(progress.stage==='media'?'本文を保存しました。媒体を処理しています。':'');
    },abort.signal);
    if(abort.signal.aborted)return;
-   setNotice('変更を保存しました。');setState(previous=>({...previous,initialized:null,session:null}));
-   if(route.params.returnPage==='daily-track')navigate('daily-track',{date:state.draft.date||route.params.date||new Date().toLocaleDateString('sv-SE'),timeZone:route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone,recordId:saved.id});
+   setNotice('変更を保存しました。');setState(previous=>({...previous,initialized:null,session:null,dirty:false}));
+   if(route.params.returnPage==='daily-track')navigate('daily-track',{date:state.draft.date||route.params.date||new Date().toLocaleDateString('sv-SE'),timeZone:route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone,recordId:saved.id,includeUndated:saved.effectiveStartedAt===null?'true':'false'});
    else back();
   }catch(error){if(!abort.signal.aborted)setError(errorText(error));}
   finally{submitting.current=false;setBusy(false);}

@@ -1,11 +1,11 @@
+import { withRecordMediaScope } from '../records/MediaContent';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Place, RecordView, RecordDetail, Visit, TrackPoint, GrowthItem } from '../../../packages/api-client/index';
 import { api } from '../../app/api';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
 import { MapBridge } from '../../app/map-bridge';
-import { MapPreview } from '../../map/MapPreview';
-import { showGrowth } from '../../map/display-state';
+import { RecordMapPreview as MapPreview, showRecordGrowth } from '../records/map-preview';
 import { RecordHeading, RecordNotice } from '../records/RecordParts';
 import { errorText, readRecord } from '../records/record-flow';
 import { placeChoice, useRecordDetail, useScreenMutation } from '../records/record-hooks';
@@ -13,7 +13,7 @@ import type { PlaceChoice } from '../records/form-types';
 import { VisitConfirmation } from './VisitConfirmation';
 import { GrowthResult } from './GrowthResult';
 import { DailyTrack, type TimelineEntry } from './DailyTrack';
-import { allTrackPoints, allVisits, displayDuration, displayTime, growthForPlace, localDay, recordDetails, timelineEntries } from './activity-data';
+import { allTrackPoints, allVisits, displayDuration, displayTime, growthForPlace, localDay, recordDetails, timelineEntries, trackRuns } from './activity-data';
 
 function usePreviewBridge(scopeKey:string) {
  const bridge=useMemo(()=>new MapBridge(`${scopeKey}:records-preview`),[scopeKey]);
@@ -42,7 +42,7 @@ function VisitScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
  };
  if(!visit)return <section className="records-screen"><RecordHeading title="訪問の確認" onBack={back}/><div className="records-body"><RecordNotice error={!!error} retry={error?()=>setRevision(value=>value+1):undefined}>{error||(loading?'訪問を読み込んでいます…':'確認する訪問が指定されていません。')}</RecordNotice></div></section>;
  const timeZone=route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone;
- return <VisitConfirmation place={place} date={visit.startedAt===null?'日時未指定':new Intl.DateTimeFormat('ja-JP',{timeZone,month:'long',day:'numeric',weekday:'short'}).format(visit.startedAt)} time={`${displayTime(visit.startedAt,timeZone)}${visit.endedAt!==null?' ～ '+displayTime(visit.endedAt,timeZone):''}`} duration={displayDuration(visit.startedAt,visit.endedAt)} origin={visit.origin} status={state.status} onStatus={status=>setState(previous=>({...previous,status}))} onSave={()=>void save()} onBack={back} onPlace={()=>navigate('place-detail',{placeId:visit.placeId})} onExpandMap={()=>navigate('map',{placeId:visit.placeId})} map={active?<MapPreview bridge={bridge} label="訪問候補の場所" interactive/>:null} busy={busy} error={error} notice={notice}/>;
+ return <VisitConfirmation place={place} date={visit.startedAt===null?'日時未指定':new Intl.DateTimeFormat('ja-JP',{timeZone,month:'long',day:'numeric',weekday:'short'}).format(visit.startedAt)} time={`${displayTime(visit.startedAt,timeZone)}${visit.endedAt!==null?' ～ '+displayTime(visit.endedAt,timeZone):''}`} duration={displayDuration(visit.startedAt,visit.endedAt)} origin={visit.origin} status={state.status} onStatus={status=>setState(previous=>({...previous,status}))} onSave={()=>void save()} onBack={back} onPlace={()=>navigate('map',{placeId:visit.placeId})} onExpandMap={()=>navigate('map',{placeId:visit.placeId})} map={active?<MapPreview bridge={bridge} label="訪問候補の場所" interactive/>:null} busy={busy} error={error} notice={notice}/>;
 }
 
 function GrowthScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {active?:boolean}) {
@@ -53,13 +53,13 @@ function GrowthScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {
   const placeId=loaded.detail?.record.effectivePlaceId;if(!placeId||!active)return;
   const abort=new AbortController();setLoading(true);setError('');setGrowth(null);
   void growthForPlace(api,placeId,abort.signal).then(result=>{
-   if(abort.signal.aborted)return;setGrowth(result);showGrowth(bridge,result?[result]:[]);
+   if(abort.signal.aborted)return;setGrowth(result);showRecordGrowth(bridge,result?[result]:[]);
    if(result){bridge.showPlaces('daily-track',{places:[{id:placeId,placeId,coordinates:result.place.coordinates,label:result.place.name}]});bridge.focus('daily-track',{center:result.place.coordinates,zoom:18});bridge.setView({dimension:'3d',lens:'personal'});}
   }).catch(error=>{if(!abort.signal.aborted)setError(errorText(error));}).finally(()=>{if(!abort.signal.aborted)setLoading(false);});return()=>abort.abort();
  },[loaded.detail?.record.effectivePlaceId,loaded.detail?.record.version,scopeKey,active]);
  if(!loaded.detail)return <section className="records-screen"><RecordHeading title="体験から形になる" onBack={back}/><div className="records-body"><RecordNotice error={!!loaded.error} retry={loaded.error?loaded.reload:undefined}>{loaded.error||'成長のもとになった記録を読み込んでいます…'}</RecordNotice></div></section>;
  const record=loaded.detail.record;
- return <GrowthResult place={loaded.place} body={record.body} purposes={growth?.purposes??[]} visitCount={growth?.confirmedVisitCount??0} preview={active?<MapPreview bridge={bridge} label="体験による建物の成長"/>:null} onBack={back} onOriginal={()=>navigate('daily-track',{recordId:record.id,date:record.effectiveStartedAt===null?new Date().toLocaleDateString('sv-SE'):new Date(record.effectiveStartedAt).toLocaleDateString('sv-SE'),includeUndated:record.effectiveStartedAt===null?'true':'false'})} onNext={()=>navigate('suggestions',{recordId:record.id})} onMap={()=>navigate('map',{...(record.effectivePlaceId?{placeId:record.effectivePlaceId}:{})})} loading={loading} error={error||loaded.error}/>;
+ return <GrowthResult place={loaded.place} body={record.body} purposes={growth?.purposes??[]} visitCount={growth?.confirmedVisitCount??0} preview={active?<MapPreview bridge={bridge} label="体験による建物の成長"/>:null} onBack={back} onOriginal={()=>navigate('record-edit',{recordId:record.id})} onNext={()=>navigate('self-checkin',{recordId:record.id})} onMap={()=>navigate('map',{...(record.effectivePlaceId?{placeId:record.effectivePlaceId}:{})})} loading={loading} error={error||loaded.error}/>;
 }
 
 interface DailyState {date:string;calendar:boolean;month:string;expandedId:string|null}
@@ -116,9 +116,9 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
  },[state.calendar,state.month,scopeKey,active,timeZone,revision]);
  useEffect(()=>{
   if(!active)return;
-  const segments=new Map<string,TrackPoint[]>();for(const point of track){const items=segments.get(point.segmentId)??[];items.push(point);segments.set(point.segmentId,items);}
+  const segments=trackRuns(track);
   const points=visits.flatMap(visit=>{const place=places.get(visit.placeId);return place?[{id:visit.id,coordinates:place.coordinates,label:`${place.name} ${displayTime(visit.startedAt,timeZone)}`}]:[];});
-  bridge.showTrack('daily-track',{segments:[...segments].filter(([,items])=>items.length>1).map(([id,items])=>({id,coordinates:items.sort((a,b)=>a.observedAt-b.observedAt).map(point=>[point.longitude,point.latitude])})),points});
+  bridge.showTrack('daily-track',{segments:segments.filter(run=>run.points.length>1).map(run=>({id:run.id,coordinates:run.points.map(point=>[point.longitude,point.latitude])})),points});
   if(points[0])bridge.focus('daily-track',{center:points[0].coordinates,zoom:14});
  },[track,visits,places,active]);
  const entries=useMemo(()=>timelineEntries(records,visits,places,details,timeZone,track),[records,visits,places,details,timeZone,track]);
@@ -146,7 +146,7 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
 }
 
 export const screens:ScreenDefinition[]=[
- {id:'visit-confirm',title:'訪問の確認',component:VisitScreen},
- {id:'growth-result',title:'体験で地図が育った',component:GrowthScreen},
- {id:'daily-track',title:'今日の軌跡',component:DailyScreen},
+ {id:'visit-confirm',title:'訪問の確認',component:withRecordMediaScope(VisitScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'growth-result',title:'体験で地図が育った',component:withRecordMediaScope(GrowthScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'daily-track',title:'今日の軌跡',component:withRecordMediaScope(DailyScreen),layout:{header:'none',contentPadding:'none',bottomNav:true}},
 ];

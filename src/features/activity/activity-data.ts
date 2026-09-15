@@ -44,6 +44,18 @@ export async function recordDetails(client:ApiClient,records:RecordView[],signal
   return new Map(results.flatMap(result=>result.status==='fulfilled'?[[result.value.record.id,result.value] as const]:[]));
 }
 
+/** Keep explicit provider gaps even when points retain the same segmentId. */
+export function trackRuns(points:TrackPoint[]):{id:string;points:TrackPoint[]}[] {
+ const runs:{id:string;points:TrackPoint[]}[]=[];
+ for(const point of [...points].sort((a,b)=>a.observedAt-b.observedAt||a.id.localeCompare(b.id))){
+  const previous=runs.at(-1);
+  const breakBefore='breakBefore' in point && point.breakBefore===true;
+  if(!previous || previous.points.at(-1)?.segmentId!==point.segmentId || breakBefore)runs.push({id:`${point.segmentId}:${point.id}`,points:[point]});
+  else previous.points.push(point);
+ }
+ return runs;
+}
+
 export function timelineEntries(records:RecordView[],visits:Visit[],places:Map<string,Place>,details:Map<string,RecordDetail>,timeZone:string,track:TrackPoint[]=[]):TimelineEntry[] {
   const entries:{time:number|null;entry:TimelineEntry}[]=[];
   const attached=new Set(records.flatMap(record=>record.visitId?[record.visitId]:[]));
@@ -56,11 +68,10 @@ export function timelineEntries(records:RecordView[],visits:Visit[],places:Map<s
     if(attached.has(visit.id))continue;
     entries.push({time:visit.startedAt,entry:{id:visit.id,visitId:visit.id,name:places.get(visit.placeId)?.name??'訪問先を取得できません',time:displayTime(visit.startedAt,timeZone),duration:displayDuration(visit.startedAt,visit.endedAt),media:[],status:visit.status,connectedToNext:false}});
   }
-  const segments=new Map<string,{from:number;to:number}>();
-  for(const point of track){const previous=segments.get(point.segmentId);segments.set(point.segmentId,{from:Math.min(previous?.from??point.observedAt,point.observedAt),to:Math.max(previous?.to??point.observedAt,point.observedAt)});}
+  const segments=trackRuns(track).map(run=>({from:run.points[0]!.observedAt,to:run.points.at(-1)!.observedAt}));
   const sorted=entries.sort((a,b)=>(a.time??Infinity)-(b.time??Infinity)||a.entry.id.localeCompare(b.entry.id));
   return sorted.map(({time,entry},index)=>{
     const next=sorted[index+1];
-    return {...entry,connectedToNext:time!==null && next?.time!=null && [...segments.values()].some(segment=>segment.from<=time && segment.to>=next.time!)};
+    return {...entry,connectedToNext:time!==null && next?.time!=null && segments.some(segment=>segment.from<=time && segment.to>=next.time!)};
   });
 }
