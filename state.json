@@ -32837,7 +32837,7 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION"
   ],
-  "revision": 147,
+  "revision": 148,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33213,19 +33213,13 @@
       "base_commit": "560c97600352b03e09e02f80d25f79950656a83f",
       "generation": 1,
       "issue_number": 72,
-      "landed_main": null,
+      "landed_main": "2a7e78bfbbc720f7cc2147c21e50f70b938df4c7",
       "note": "docs/evidence/PLAN-UI-CONNECTIONS/validation.md",
       "owner": "rozwer",
-      "paths": [
-        "docs/03_issue/",
-        "TASK_GRAPH.json",
-        "tools/sync_graph.py",
-        "tools/test_sync_graph.py",
-        "docs/evidence/PLAN-UI-CONNECTIONS/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "4f59bfe45e3b0a2e93a21476c0765c7e77a64657",
-      "token": "32dc3aabd6f14a18aa77b9edb4e796f8"
+      "token": null
     },
     "PLUGINS": {
       "actor": "kaiya",
