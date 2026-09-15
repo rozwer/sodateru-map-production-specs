@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 255,
+  "revision": 256,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34813,20 +34813,17 @@
       "token": null
     },
     "UI-FRIENDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "edf48a07d0e551b3052165401710298041883b7b",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 14,
       "landed_main": null,
-      "note": "PR89/45374ee pushed; handoff to integration task 01a0a305-c796-7653-8dfe-b0aa1cdf858c. Remaining comparison/routes acceptance retained at issue72 comment5674167432; worktree ui-friends-14 preserved, no uncommitted changes.",
+      "note": "PR255 merged 33b0e1f; scoped reference repair complete; UI-FRIENDS full acceptance remains open; evidence docs/evidence/UI-FRIENDS/reference-repair.md; worktree and branch preserved",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "docs/evidence/UI-FRIENDS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "41f1b602a38a48f6bc3e5e0a3985d759"
+      "token": null
     },
     "UI-HEALTH": {
       "actor": null,
