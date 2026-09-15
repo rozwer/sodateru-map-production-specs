@@ -2,7 +2,7 @@
 
 <!-- task-id: SUGGESTIONS -->
 
-初期担当枠：D。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：D。担当者：mattsun。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 

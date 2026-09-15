@@ -4,18 +4,18 @@
 
 ## 運用の前提
 
-Aが全UIを実装する。B〜Dは非UIの機能を完結させ、API・保存・固有処理の提供でAを支える。画面群をB〜Dへ移す運用は行わない。
+A（rozwer）が全UIを実装する。B（koshiro）・C（kaiya）・D（mattsun）は非UIの機能を完結させ、API・保存・固有処理の提供でAを支える。画面群をB〜Dへ移す運用は行わない。
 
-実装開始前に、契約補完・担当者対応・origin/develop・GitHub Issue/boardを整える。下表はその後の作業候補であり、現在claim可能という表示ではない。
+実装開始前に、契約補完・origin/develop・GitHub Issue/boardと担当者の登録を整える。下表はその後の作業候補であり、現在claim可能という表示ではない。
 
 ## 最初の4件と次の候補
 
 | 担当 | 初手で進めること | 次の候補 | 提供待ちで進める独立作業 |
 |---|---|---|---|
-| A | UI-BASE：共通画面・通信・地図/チャットの受渡し | UI-MAP / UI-RECORDS | 契約が決まった相棒・地域・設定の構成/状態/端末操作 |
-| B | CORE：起動・本人context・DB・機能登録 | INFORMATION / RECORDS | HEALTHのXML解析、FEATURE-REQUESTSの投稿保存 |
-| C | PLACES：検索・候補・採用・場所詳細 | ROUTES / PLUGINS | PLUGINSの版/競合、MAP-CUSTOMの手動装飾 |
-| D | AI：実行・保存・取消/再試行 | INSIGHTS / COMPANION | COMPANIONのZIP検査/保存、THEMESの所属/メモ保存 |
+| A（rozwer） | UI-BASE：共通画面・通信・地図/チャットの受渡し | UI-MAP / UI-RECORDS | 契約が決まった相棒・地域・設定の構成/状態/端末操作 |
+| B（koshiro） | CORE：起動・本人context・DB・機能登録 | INFORMATION / RECORDS | HEALTHのXML解析、FEATURE-REQUESTSの投稿保存 |
+| C（kaiya） | PLACES：検索・候補・採用・場所詳細 | ROUTES / PLUGINS | PLUGINSの版/競合、MAP-CUSTOMの手動装飾 |
+| D（mattsun） | AI：実行・保存・取消/再試行 | INSIGHTS / COMPANION | COMPANIONのZIP検査/保存、THEMESの所属/メモ保存 |
 
 4件の提案pathは互いに重ならない。CとDはBの起動基盤を待つ間、固定した契約に沿ってadapter・固有処理・保存SQLを進め、基盤提供後に実接続する。Aは共通クライアントに明示的なテスト応答を入れて画面状態を進め、同じ入力で実APIへ接続する。
 

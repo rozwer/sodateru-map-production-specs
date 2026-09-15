@@ -2,7 +2,7 @@
 
 **Aが全UIを設計・実装し、B〜Dが機能ごとのAPI・業務処理・保存・再取得を担当する。** UI実装はAに固定する。B〜Dは、それぞれの機能に必要なSQL・外部接続・固有のAI処理も持つ。
 
-36件を **A：13件、B：8件、C：7件、D：8件** に割り当てた。担当はA〜Dの枠で定め、人名との対応は未指定。
+36件を **A：13件、B：8件、C：7件、D：8件** に割り当てた。担当はA＝rozwer、B＝koshiro、C＝kaiya、D＝mattsunで確定。
 
 [着手順・依存・待ちへの対応](execution.md) · [画面/API対応](coverage.md) · [契約補完](contract-gates.md) · [機械可読の一覧](index.json)
 
@@ -10,10 +10,10 @@
 
 | 担当 | 責任範囲 | 最初のIssue | 次の候補2件 |
 |---|---|---|---|
-| A：全UI | 全67画面、共通部品、文言、画面状態、API呼出し、Mapbox/Three.js描画、チャット/音声の端末操作、実画面受入 | [UI-BASE](issues/UI-BASE.md) | [UI-MAP](issues/UI-MAP.md)、[UI-RECORDS](issues/UI-RECORDS.md) |
-| B：起動・記録・共有・設定 | 起動・共通HTTP/DB、記録/媒体、訪問/軌跡/成長、共有検索、友達/地域、設定/健康、機能要望 | [CORE](issues/CORE.md) | [INFORMATION](issues/INFORMATION.md)、[RECORDS](issues/RECORDS.md) |
-| C：場所・経路・地図拡張 | 場所検索/採用、道路経路/案内、地図設定/装飾の処理、拡張管理、バイク/防災/聖地の固有処理 | [PLACES](issues/PLACES.md) | [ROUTES](issues/ROUTES.md)、[PLUGINS](issues/PLUGINS.md) |
-| D：AI・探索・振り返り・提案 | 共通AI、街歩き相談/発見、集計/振り返り/比較、テーマ/提案、体験移転、相棒の取込/生成 | [AI](issues/AI.md) | [INSIGHTS](issues/INSIGHTS.md)、[COMPANION](issues/COMPANION.md) |
+| A（rozwer）：全UI | 全67画面、共通部品、文言、画面状態、API呼出し、Mapbox/Three.js描画、チャット/音声の端末操作、実画面受入 | [UI-BASE](issues/UI-BASE.md) | [UI-MAP](issues/UI-MAP.md)、[UI-RECORDS](issues/UI-RECORDS.md) |
+| B（koshiro）：起動・記録・共有・設定 | 起動・共通HTTP/DB、記録/媒体、訪問/軌跡/成長、共有検索、友達/地域、設定/健康、機能要望 | [CORE](issues/CORE.md) | [INFORMATION](issues/INFORMATION.md)、[RECORDS](issues/RECORDS.md) |
+| C（kaiya）：場所・経路・地図拡張 | 場所検索/採用、道路経路/案内、地図設定/装飾の処理、拡張管理、バイク/防災/聖地の固有処理 | [PLACES](issues/PLACES.md) | [ROUTES](issues/ROUTES.md)、[PLUGINS](issues/PLUGINS.md) |
+| D（mattsun）：AI・探索・振り返り・提案 | 共通AI、街歩き相談/発見、集計/振り返り/比較、テーマ/提案、体験移転、相棒の取込/生成 | [AI](issues/AI.md) | [INSIGHTS](issues/INSIGHTS.md)、[COMPANION](issues/COMPANION.md) |
 
 AのMapbox担当は描画・カメラ・選択・レイヤーの操作。Cはサーバー側の場所/道路検索と表示材料を担当する。Dは共通AIを提供し、Cの地図設定や拡張機能などは利用側が固有プロンプトと結果の採用を担当する。
 
@@ -21,7 +21,7 @@ BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI
 
 ## 担当Issue
 
-### A：全UI
+### A（rozwer）：全UI
 
 | Issue | 完成させる操作 |
 |---|---|
@@ -39,7 +39,7 @@ BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI
 | [UI-SETTINGS](issues/UI-SETTINGS.md) | 設定・健康取込・取得元と活動統計 |
 | [UI-COMPANION](issues/UI-COMPANION.md) | 相棒の取込・制作・動作確認と選択 |
 
-### B：起動・記録・共有・設定
+### B（koshiro）：起動・記録・共有・設定
 
 | Issue | 完成させる操作 |
 |---|---|
@@ -52,7 +52,7 @@ BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI
 | [HEALTH](issues/HEALTH.md) | 健康データの取込・期間許可・停止と集計 |
 | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 機能要望の投稿・共感・公開と編集 |
 
-### C：場所・経路・地図拡張
+### C（kaiya）：場所・経路・地図拡張
 
 | Issue | 完成させる操作 |
 |---|---|
@@ -64,7 +64,7 @@ BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI
 | [DISASTER](issues/DISASTER.md) | 防災情報の取得・根拠と地図表示 |
 | [PILGRIMAGE](issues/PILGRIMAGE.md) | 作品と地点の対応・聖地巡りの計画 |
 
-### D：AI・探索・振り返り・提案
+### D（mattsun）：AI・探索・振り返り・提案
 
 | Issue | 完成させる操作 |
 |---|---|
@@ -87,6 +87,6 @@ Issue数を工数としては扱わない。Aは画面数が多く、Cは外部�
 
 67画面の317要件（利用者向け機能225件を含む）、既存API104操作、API不足20項目を対応付けている。体験移転と3種の拡張機能も含む。実装・受入は未着手で、ここにあるのはローカルのIssue草案。
 
-本番remoteは [rozwer/sodateru-map-production-specs](https://github.com/rozwer/sodateru-map-production-specs)。GitHub Issue、担当者との対応、develop、Task boardは未設定。契約補完を反映してから登録する。`index.json` は検討用索引であり、実行用 `TASK_GRAPH.json` ではない。[初期導入手順](../../.agents/skills/sodateru-task/references/board-bootstrap.md)。
+本番remoteは [rozwer/sodateru-map-production-specs](https://github.com/rozwer/sodateru-map-production-specs)。担当者との対応は確定済み。GitHub Issue、develop、Task boardは未設定。契約補完を反映してから登録する。`index.json` は検討用索引であり、実行用 `TASK_GRAPH.json` ではない。[初期導入手順](../../.agents/skills/sodateru-task/references/board-bootstrap.md)。
 
 検査：`mise exec -- node docs/03_issue/verify.mjs`。要件/操作の担当、4人のキュー、UI担当の固定、依存の循環、初手のpath競合を確認する。所要時間や常時稼働の実績を証明する検査ではない。
