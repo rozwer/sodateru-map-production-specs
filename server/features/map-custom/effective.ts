@@ -7,7 +7,7 @@ export function effectiveSettings(settings: MapSettings, state: PluginState) {
   const pluginDisplays = state.plugins.map(plugin => {
     const bike = plugin.resolvedDeclarations.some(d => d.targetKey === 'layer:bike' && d.property === 'visibility' && d.value === true);
     const requested = Object.hasOwn(settings.layers.plugins, plugin.pluginId)
-      ? settings.layers.plugins[plugin.pluginId] : (bike && settings.layers.bike);
+      ? settings.layers.plugins[plugin.pluginId] === true : (bike && settings.layers.bike);
     const visible = requested && plugin.enabled && plugin.resolvedDeclarations.length > 0;
     effectiveLayers.plugins[plugin.pluginId] = visible;
     if (visible && bike && settings.layers.bike) effectiveLayers.bike = true;

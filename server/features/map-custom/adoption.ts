@@ -2,13 +2,14 @@ import { randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import type { RequestContext } from '../../core/context.ts';
 import { CommonError } from '../../core/errors.ts';
-import { getRun, readAppliedRefs, appendAppliedRef, canonicalHash } from '../../ai/index.ts';
+import { getRun, readAppliedRefs, appendAppliedRef, canonicalHash, assertRunAdoptable } from '../../ai/index.ts';
 import { getPluginState } from '../plugins/index.ts';
 import { MapCustomRepository } from './repository.ts';
 import { effectiveSettings } from './effective.ts';
 import { validateMapstyleResult } from './domain.ts';
 
 type Row = Record<string, any>;
+type VerifiedMapstyle = ReturnType<typeof validateMapstyleResult> & { runId: string; runAttempt: number; runVersion: number };
 function error(code: string, message: string, status: number): never {
   throw new CommonError(code, message, false, undefined, status);
 }
@@ -33,9 +34,9 @@ export class MapCustomAdoption {
   async verifiedResult(messageId: string) {
     const run = await getRun(this.db, this.context, messageId);
     if (run.task !== 'mapstyle' || run.status !== 'complete' || !run.result) error('STATE_CONFLICT','完了した地図設定案だけをプレビューできます。',409);
-    return validateMapstyleResult(run.result);
+    return { ...validateMapstyleResult(run.result), runId: run.id, runAttempt: run.attempt, runVersion: run.version };
   }
-  createPreviewSync(messageId: string, result: ReturnType<typeof validateMapstyleResult>) {
+  createPreviewSync(messageId: string, result: VerifiedMapstyle) {
     const existing = this.db.prepare('SELECT * FROM map_custom_previews WHERE message_id=? AND person_id=? AND data_mode=?')
       .get(messageId,this.context.personId,this.context.dataMode);
     if (existing) return previewDto(existing);
@@ -46,10 +47,10 @@ export class MapCustomAdoption {
     if (source.settings_id !== saved.id || source.settings_version !== saved.version) error('VERSION_CONFLICT','提案後に地図設定が変更されています。',412);
     if (source.plugin_snapshot !== getPluginState(this.db,this.context).revision) error('INPUT_CHANGED','拡張機能が変更されています。再確認してください。',409);
     // Confirms ownership/complete in the same DB transaction after the awaited result check.
-    readAppliedRefs(this.db,this.context,messageId);
+    assertRunAdoptable(this.db,this.context,messageId,{expectedAttempt:result.runAttempt,expectedVersion:result.runVersion});
     const now = Date.now(), id = randomUUID();
     this.db.prepare(`INSERT INTO map_custom_previews(id,person_id,data_mode,message_id,settings_id,settings_version,plugin_snapshot,proposal_json,content_hash,explanation,created_at,updated_at)
-      VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,this.context.personId,this.context.dataMode,messageId,saved.id,saved.version,source.plugin_snapshot,JSON.stringify(result.proposal),canonicalHash(result.proposal),result.explanation,now,now);
+      VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).run(id,this.context.personId,this.context.dataMode,messageId,saved.id,saved.version,String(source.plugin_snapshot),JSON.stringify(result.proposal),canonicalHash(result.proposal),result.explanation,now,now);
     return this.getPreview(id);
   }
   cancelSync(id: string, expectedVersion: number) {
@@ -59,10 +60,11 @@ export class MapCustomAdoption {
     if (row.state !== 'cancelled') this.db.prepare("UPDATE map_custom_previews SET state='cancelled',version=version+1,updated_at=? WHERE id=? AND version=?").run(Date.now(),id,expectedVersion);
     return this.getPreview(id);
   }
-  adoptSync(id: string, expectedSettingsVersion: number, verified: ReturnType<typeof validateMapstyleResult>) {
+  adoptSync(id: string, expectedSettingsVersion: number, verified: VerifiedMapstyle) {
     const row = this.row(id);
     if (row.state === 'cancelled') error('STATE_CONFLICT','取り消した設定案は採用できません。',409);
     if (canonicalHash(verified.proposal) !== row.content_hash) error('INPUT_CHANGED','AI結果が変更されています。',409);
+    assertRunAdoptable(this.db,this.context,row.message_id,{expectedAttempt:verified.runAttempt,expectedVersion:verified.runVersion});
     const state = getPluginState(this.db,this.context);
     const saved = this.repository.getSettings();
     const refs = readAppliedRefs(this.db,this.context,row.message_id);

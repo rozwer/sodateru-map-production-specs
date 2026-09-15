@@ -780,6 +780,16 @@
         },
         "503": {
           "description": "共通HTTPエラー"
+        },
+        "200": {
+          "description": "再送時の現在資源",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapObjectResponse"
+              }
+            }
+          }
         }
       },
       "requestBody": {
@@ -1284,6 +1294,16 @@
         },
         "503": {
           "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "200": {
+          "description": "再送時の現在資源",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapSettingsPreviewResponse"
+              }
+            }
+          }
         }
       },
       "requestBody": {

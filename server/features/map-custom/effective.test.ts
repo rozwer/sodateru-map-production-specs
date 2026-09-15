@@ -15,9 +15,9 @@ test('display wishes survive plugin disable/remove/conflict without re-enabling 
   const before=JSON.stringify(settings);
   const enabled=effectiveSettings(settings,state);
   assert.equal(enabled.effectiveLayers.bike,true);
-  assert.equal(enabled.pluginDisplays[0].ownerKey,'plugin:install-bike');
+  assert.equal(enabled.pluginDisplays[0]!.ownerKey,'plugin:install-bike');
   assert.equal(enabled.effectiveLayers.plugins.missing,false);
-  for(const plugins of [[],[{...state.plugins[0],enabled:false}],[{...state.plugins[0],resolvedDeclarations:[]}]]){
+  for(const plugins of [[],[{...state.plugins[0]!,enabled:false}],[{...state.plugins[0]!,resolvedDeclarations:[]}]]){
     const result=effectiveSettings(settings,{...state,revision:'changed',plugins});
     assert.equal(result.effectiveLayers.bike,false);
     assert.equal(result.effectiveLayers.plugins.bike,false);
@@ -25,12 +25,12 @@ test('display wishes survive plugin disable/remove/conflict without re-enabling 
     assert.equal(result.pluginSnapshot,'changed');
   }
   assert.equal(JSON.stringify(settings),before);
-  assert.equal(state.plugins[0].enabled,true);
+  assert.equal(state.plugins[0]!.enabled,true);
 });
 
 test('explicit plugin hide wins over the bike display wish',()=>{
   const result=effectiveSettings({...settings,layers:{...settings.layers,plugins:{bike:false}}},state);
   assert.equal(result.effectiveLayers.bike,false);
-  assert.equal(result.pluginDisplays[0].visible,false);
-  assert.deepEqual(result.pluginDisplays[0].resolvedDeclarations,[]);
+  assert.equal(result.pluginDisplays[0]!.visible,false);
+  assert.deepEqual(result.pluginDisplays[0]!.resolvedDeclarations,[]);
 });

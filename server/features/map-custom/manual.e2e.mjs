@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
-const base = process.env.MAP_CUSTOM_BASE_URL ?? 'http://127.0.0.1:3000/api/v1';
+const base = process.env.MAP_CUSTOM_BASE_URL ?? 'http://127.0.0.1:3001/api/v1';
 const stateFile = process.env.MAP_CUSTOM_E2E_STATE ?? '/tmp/map-custom-e2e.json';
 let cookie = '';
 async function api(path, { method='GET', body, version, key, mode='live', status=200 } = {}) {
@@ -20,7 +20,7 @@ async function api(path, { method='GET', body, version, key, mode='live', status
   if(cookies.length) cookie=cookies.map(x=>x.split(';')[0]).join('; ');
   return value;
 }
-await api('/session', {method:'POST',body:{profileKey:'self'}});
+await api('/session', {method:'POST',body:{profileKey:'self'},status:201});
 if (process.argv[2] === 'verify') {
   const saved=JSON.parse(readFileSync(stateFile));
   const object=(await api('/map-objects/'+saved.object.id)).data;
@@ -36,7 +36,7 @@ if (process.argv[2] === 'verify') {
   const key=randomUUID();
   const input={name:'待ち合わせ',memo:'手動装飾E2E',color:'blue',size:'small',position:{longitude:139.7671,latitude:35.6812}};
   const created=(await api('/map-objects',{method:'POST',body:input,key,status:201})).data;
-  const replay=(await api('/map-objects',{method:'POST',body:input,key,status:201})).data;
+  const replay=(await api('/map-objects',{method:'POST',body:input,key,status:200})).data;
   assert.equal(replay.id,created.id);
   assert.equal((await api('/map-objects',{method:'POST',body:{...input,name:'異なる内容'},key,status:409})).error.code,'IDEMPOTENCY_CONFLICT');
   await api('/map-objects',{method:'POST',body:{...input,height:100},key:randomUUID(),status:422});
@@ -53,7 +53,7 @@ if (process.argv[2] === 'verify') {
   assert.deepEqual(settings.style,style);
   await api('/map-settings',{method:'PATCH',version:before.version,body:{style},status:412});
   await api('/map-settings',{method:'PATCH',version:settings.version,body:{style:{...style,colors:{water:'#ffffff'}}},status:422});
-  await api('/session',{method:'POST',mode:'demo',body:{profileKey:'self'}});
+  await api('/session',{method:'POST',mode:'demo',body:{profileKey:'self'},status:201});
   await api('/map-objects/'+created.id,{mode:'demo',status:404});
   const demo=(await api('/map-settings',{mode:'demo'})).data;
   assert.notEqual(demo.id,settings.id);
