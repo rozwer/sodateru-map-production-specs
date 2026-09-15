@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 176,
+  "revision": 177,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34252,7 +34252,9 @@
       "paths": [
         "src/features/map/",
         "src/features/routes/",
-        "docs/evidence/VISUAL-MAP-EXPLORE/"
+        "docs/evidence/VISUAL-MAP-EXPLORE/",
+        "src/features/exploration/",
+        "src/features/transfer/"
       ],
       "status": "claimed",
       "submitted_commit": null,
