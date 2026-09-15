@@ -4,9 +4,13 @@ import type { PluginKind } from "./view-model";
 export function PluginGlyph({
   kind,
   className = "",
+  variant,
+  vehicle,
 }: {
   kind: PluginKind;
   className?: string;
+  variant?: "store";
+  vehicle?: string;
 }) {
   return (
     <span
@@ -21,7 +25,7 @@ export function PluginGlyph({
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {kind === "bike" ? (
+        {kind === "bike" && vehicle === "moped" ? <><circle cx="13" cy="46" r="9" strokeWidth="5"/><circle cx="51" cy="46" r="9" strokeWidth="5"/><path d="M13 46h20l11-15-3-17h8m-8 0-5-6M9 28h15v18m-14-18h18" strokeWidth="5"/></> : kind === "bike" ? (
           <>
             <circle cx="13" cy="46" r="10" strokeWidth="5" />
             <circle cx="51" cy="46" r="10" strokeWidth="5" />
@@ -35,6 +39,7 @@ export function PluginGlyph({
               strokeWidth="2"
             />
             <path d="M42 19h7v8h-5" fill="currentColor" strokeWidth="2" />
+            {vehicle === "large" && <path d="M19 21h17l9 13-12 4-12-5Z" fill="currentColor"/>}
           </>
         ) : kind === "disaster" ? (
           <>
@@ -47,7 +52,7 @@ export function PluginGlyph({
           </>
         ) : kind === "nature" ? (
           <><path d="m32 6-12 17h7L15 39h11l-6 11h24l-6-11h11L37 23h7Z" /><path d="M32 50v10" /></>
-        ) : kind === "pilgrimage" ? (
+        ) : kind === "pilgrimage" && variant === "store" ? <><path d="M32 60S10 37 10 24a22 22 0 0 1 44 0c0 13-22 36-22 36Z"/><path d="m32 12 4 9 10 1-8 7 2 10-8-5-8 5 2-10-8-7 10-1Z" fill="currentColor" strokeWidth="1"/></> : kind === "pilgrimage" ? (
           <>
             <path
               d="M7 12c17 3 33 3 50 0M9 18h46M13 28h38M20 19l-2 37M44 19l2 37M29 19v9M35 19v9"
