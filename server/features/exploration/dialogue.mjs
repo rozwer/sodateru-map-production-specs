@@ -13,13 +13,20 @@ function validateOrigin(o) {
  assertInput(Array.isArray(o.coordinates)&&o.coordinates.length===2&&o.coordinates.every(Number.isFinite)&&Math.abs(o.coordinates[0])<=180&&Math.abs(o.coordinates[1])<=90,'起点座標が不正です');
 }
 export class DialogueService {
- constructor(dependencies) { this.dependencies=dependencies;this.active=new Map();this.results=new Map();this.histories=new Map(); }
+ constructor(dependencies) { this.dependencies=dependencies;this.active=new Map();this.results=new Map();this.histories=new Map();this.cleanupTimer=null; }
  get resultCount() { this.purge();return this.results.size; }
  now() { return this.dependencies.now?.()??Date.now(); }
  purge() {
   const now=this.now();
   for(const [id,r] of this.results) if(r.data.expiresAt<=now)this.results.delete(id);
   for(const [key,h] of this.histories) if(h.expiresAt<=now)this.histories.delete(key);
+ }
+ scheduleCleanup(){
+  if(this.cleanupTimer)clearTimeout(this.cleanupTimer);
+  const expiries=[...this.results.values()].map(r=>r.data.expiresAt).concat([...this.histories.values()].map(h=>h.expiresAt));
+  if(!expiries.length){this.cleanupTimer=null;return;}
+  this.cleanupTimer=setTimeout(()=>{this.purge();this.scheduleCleanup();},Math.max(1,Math.min(...expiries)-this.now()));
+  this.cleanupTimer.unref?.();
  }
  async settings(context) {
   const s=await this.dependencies.settings(context);
@@ -80,6 +87,7 @@ export class DialogueService {
   const own=[...this.results].filter(([,r])=>r.owner===owner);
   while(own.length>6)this.results.delete(own.shift()[0]);
   if(history)this.histories.set(owner,{history:clone(history.slice(-8)),places:clone(data.places),origin:clone(data.origin),expiresAt:data.expiresAt,settingsVersion,searchResultId});
+  this.scheduleCleanup();
   return clone(data);
  }
  async run(context,input) {

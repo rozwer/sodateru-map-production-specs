@@ -72,3 +72,10 @@ test('pagination follows time descending and ID ascending with owner/query-bound
   await assert.rejects(f.service.list({...ctx,personId:'p2'},{cursor:first.nextCursor}),{code:'INVALID_INPUT'});
  }finally{db.close();}
 });
+
+test('adoption checks current fact sources using complete generated card fields',async()=>{
+ const db=database(':memory:');try{
+  const f=fixture(db);f.deps.validateCard=(context,card)=>{assert.deepEqual(card.anchor,result.anchor);assert.deepEqual(card.sources,result.sources);};
+  await f.service.create(ctx,{id:'card1',assistantMessageId:'a1',expectedAttempt:1});
+ }finally{db.close();}
+});

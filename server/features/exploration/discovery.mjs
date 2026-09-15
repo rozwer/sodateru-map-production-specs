@@ -1,3 +1,4 @@
+import {transaction} from '../../db/migrate.ts';
 import {createHash} from 'node:crypto';
 import { fail, assertInput } from './errors.mjs';
 const id = v => typeof v==='string'&&v.trim().length>0&&v.length<=80;
@@ -20,11 +21,8 @@ function page(c,rows,limit,kind,convert) {
 export class DiscoveryRepository {
  constructor(db,dataMode) {this.db=db;this.dataMode=dataMode;}
  owner(c) {if(c.dataMode!==this.dataMode)fail('NOT_FOUND','対象がありません');checkActive(c);return c.personId;}
- transaction(work) {
-  this.db.exec('SAVEPOINT exploration_write');
-  try{const result=work();this.db.exec('RELEASE exploration_write');return result;}
-  catch(e){this.db.exec('ROLLBACK TO exploration_write; RELEASE exploration_write');throw e;}
- }
+ transaction(work) {return transaction(this.db,work);}
+
  get(c,cardId) {
   const row=this.db.prepare('SELECT * FROM discovery_cards WHERE id=? AND person_id=?').get(cardId,this.owner(c));
   if(!row)fail('NOT_FOUND','発見カードがありません');return cardDto(row);
@@ -93,6 +91,7 @@ export class DiscoveryService {
  constructor(repository,dependencies) {this.repository=repository;this.dependencies=dependencies;}
  async sources(c,card) {
   checkActive(c);
+  this.dependencies.validateCard?.(c,card);
   const checks=await this.dependencies.checkSources(c,{refs:card.sourceRefs});
   const list=Array.isArray(checks)?checks:checks.items;
   if(!Array.isArray(list)||list.length!==card.sourceRefs.length)fail('OUTPUT_INVALID','根拠の照合結果が不足しています');
@@ -101,16 +100,17 @@ export class DiscoveryService {
   if(list.some(s=>s.state!=='current'))fail('OUTPUT_INVALID','根拠の照合状態が不正です');
   checkActive(c);return card;
  }
+ commit(work){return this.dependencies.commit?this.dependencies.commit(work):this.repository.transaction(work);}
  async create(c,input) {
   assertInput(id(input?.id)&&id(input?.assistantMessageId)&&Number.isSafeInteger(input?.expectedAttempt)&&input.expectedAttempt>=1,'採用入力が不正です');
   const previous=this.repository.receipt(c,input);
-  if(previous)return this.sources(c,previous);
+  if(previous){await this.sources(c,previous);return this.commit(()=>previous);}
   const run=await this.dependencies.getRun(c,input.assistantMessageId);checkActive(c);
   if(run.task!=='discover'||run.status!=='complete'||!run.result)fail('NOT_READY','完成した発見だけを保存できます');
   if(run.id!==input.assistantMessageId||run.attempt!==input.expectedAttempt)fail('STATE_CONFLICT','生成の試行が変わりました');
   validateResult(run.result);
-  await this.sources(c,{sourceRefs:run.sourceRefs});
-  return this.repository.transaction(()=>{
+  await this.sources(c,{...run.result,sourceRefs:run.sourceRefs});
+  return this.commit(()=>{
    checkActive(c);
    const raced=this.repository.receipt(c,input);if(raced)return raced;
    const guard=this.dependencies.assertAdoptable(c,run);
@@ -126,7 +126,7 @@ export class DiscoveryService {
  async react(c,cardId,input) {
   assertInput(id(input?.id)&&reactions.has(input?.reaction),'反応が不正です');
   await this.get(c,cardId);checkActive(c);
-  return this.repository.transaction(()=>this.repository.react(c,cardId,input,this.dependencies.now?.()??Date.now()));
+  return this.commit(()=>this.repository.react(c,cardId,input,this.dependencies.now?.()??Date.now()));
  }
  async reactions(c,cardId,input={}) {await this.get(c,cardId);return this.repository.reactions(c,cardId,input);}
  async reaction(c,cardId,reactionId) {await this.get(c,cardId);return this.repository.reaction(c,cardId,reactionId);}

@@ -1,12 +1,16 @@
-# EXPLORATION 先行検証（2026-09-15）
-状態: 固有処理の先行提供。CORE/共通AI/PLACES/ROUTES/INFORMATION未統合、実HTTP/実AI/実経路の完了証拠ではない。
-環境: Node 22.22.1、node:test、node:sqlite。正規task:verifyでEXPLORATION/mattsunの4pathを確認。
-## 実行した検証
-- node --test server/features/exploration/dialogue.test.mjs: 4成功。候補ID/起点維持、所有者・mode・設定版・期限、取消/BUSY/遅着、検索上限。
-- node --test server/features/exploration/discovery.test.mjs: 3成功。実SQLiteファイル保存→close/reopen→同じカードと反応再取得、saved/dismissed/interested、根拠変更/非公開、反応再送、取消/古いattempt、削除後再送拒否。NodeのSQLite ExperimentalWarningあり。
-- node --test server/features/exploration/history.test.mjs: 1成功。同じ候補で履歴復帰、別mode/本人、期限切れは再検索。
-- node --test server/features/exploration/facts.test.mjs: 1成功。出典完全組、別対象のplace-specific、未知factKeyと捏造URLを拒否。
-- EXPLORATION断片の5 Schemaを既存componentsと合成しAjv2020でコンパイル。
-外部依存はテスト用の注入値。これらを外部API接続の証拠にしない。共有DB列は正本storage-additions.sqlからテストに適用し、固有migrationは採用receiptだけ。
-## 残り
-共通入口へHTTP/AI用途登録、実AI相談→実場所→実経路、実Runからdiscovery保存/再取得、#10のUI操作、独立レビュー、develop統合、board/Issue終了。
+# EXPLORATION 接続途中の検証（2026-09-15）
+状態: CORE.runtime接続まで。実AI/実地理APIとUIの受入は未達。
+## 統合境界
+CORE PR #53（413598b）を含むdevelopを専用worktreeへ取り込み、CoreServices/本人cookie/contractValidation/idempotentMutation/transactionを使用した。
+共通AI/SETTINGS/INFORMATION/ROUTESのruntime.mjsは提供署名で接続コードを用意したが、これらの統合と実呼出し確認はまだ必要。register.tsはそれらの実moduleをimportするので、必要提供物の無い版で単体起動する提供物ではない。
+## 確認したもの
+- dialogue.test.mjs 7成功: 2番目/同一候補ID・元検索resultId/固定起点、別本人/mode/設定版/期限、取消/BUSY/遅着破棄、検索上限、直近4往復と6結果、元候補の期限上限、共通エラー時の入力保持、アイドル時TTL消去。
+- discovery.test.mjs 5成功: 実SQLiteファイルsave→close/reopen→get、出典/反応/非表示、版/所有者/mode、根拠変更/削除、取消/古いattempt、採用receiptによる削除後復活拒否、共通順序とcursor、採用時完全出典検査。
+- history.test.mjs 1成功、facts.test.mjs 1成功、discover-task.test.mjs 3成功。
+- http.test.mjs 1成功: 統合済みCORE createAppの本人cookie・入力検査を通してAPI呼出し。SQLiteカード保存、同一キー再送、異入力409、DB再open再取得、非表示、If-Match必須428、削除204、削除後再送404、mode不一致401。一時相談再送で同じresultId、再送DBには本文なし、再起動後は410。
+- bun run typecheck 成功（MJSの実行検証は上記テスト）。EXPLORATIONの5 Schemaは既存components参照込みAjv2020コンパイル成功。
+コマンド: mise exec -- node --experimental-transform-types --test server/features/exploration/<対象>.test.mjs。Node 22.22.1、SQLite/Transform Types/MockTimersのExperimentalWarningあり。
+## 証拠の限界
+HTTPテストはHono Requestを通す同一プロセスのHTTP境界テスト。通信ポートや実CLIはまだ起動していない。AI/場所/経路/SourceChecksはこのテストでは注入値、SQLiteとCORE本人・検証・再送は実装そのもの。外部実接続の成功と取り違えない。
+## 残る受入
+統合済みの共通AI実CLI＋PLACES/ROUTESで相談→同候補2番目→経路→保存会話から復帰、実Run→カード保存・反応・再取得、#10の実UI、独立レビュー、PR統合、board/Issue終了。

@@ -79,3 +79,11 @@ test('provider CommonError retains retry input',async()=>{
  const f=fixture([]);f.dependencies.decide=async()=>{throw Object.assign(new Error('AI unavailable'),{code:'PROVIDER_UNAVAILABLE',retryable:true});};
  await assert.rejects(f.service.run(person(),{text:'原文',origin}),e=>e.code==='PROVIDER_UNAVAILABLE'&&e.details?.input.text==='原文');
 });
+
+test('idle expiry removes raw provider candidates and history from memory',async t=>{
+ t.mock.timers.enable({apis:['setTimeout']});
+ const f=fixture([{action:'search_nearby',category:'coffee',destinationId:'',text:''},{action:'finish',category:'',destinationId:'',text:'候補'}]);
+ const result=await f.service.run(person(),{text:'探して',origin});
+ f.setNow(result.expiresAt);t.mock.timers.tick(900000);
+ assert.equal(f.service.results.size,0);assert.equal(f.service.histories.size,0);
+});
