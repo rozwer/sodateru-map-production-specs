@@ -59,7 +59,7 @@ export function RecordComposer(props: RecordComposerProps) {
     <RecordHeading title={editing ? m.editTitle : confirmation ? m.confirmTitle : m.createTitle} onBack={confirmation ? () => changeStep('editor') : onBack} close={!editing && !confirmation} />
     <fieldset className="records-body records-composer-fields" disabled={busy}>
       {!editing && <p className="records-lead">{confirmation ? m.confirmLead : m.createLead}</p>}
-      {error && <RecordNotice error retry={onRetry}>{error}<p>{m.retainDraft}</p>{onReload && <button type="button" className="records-text-button" onClick={onReload}>現在の内容を読み直す</button>}</RecordNotice>}
+      {error && <RecordNotice error retry={onRetry}>{error}{(draft.body || draft.media.length > 0) && <p>{m.retainDraft}</p>}{onReload && <button type="button" className="records-text-button" onClick={onReload}>現在の内容を読み直す</button>}</RecordNotice>}
       {notice && <RecordNotice>{notice}</RecordNotice>}
       {editing && <PlaceCard place={place} detail={<p><RecordIcon name="calendar" />{formatDraftDate(draft)} {draft.startTime}{draft.endTime && ` ～ ${draft.endTime}`}</p>} />}
       {!editing && <MediaGallery items={draft.media} onRemove={confirmation || busy ? undefined : onRemove} onMove={confirmation || busy ? undefined : onMove} />}
