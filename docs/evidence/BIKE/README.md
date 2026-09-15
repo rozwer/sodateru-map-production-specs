@@ -6,7 +6,7 @@ Status: **partial delivery; BIKE.complete is not satisfied**. Do not close #29 o
 
 - Contract `BIKE.json` v1.0.0: `getBikeState`, `postBikeSearch`, `getBikeResult`, `postBikeRouteAssessment`, `postBikeAdoption`.
 - Settings belong to PLUGINS (`bike@1.0.0`); region bounds, vehicle class/optional displacement, highway policy are validated. Electric vehicles never receive an invented displacement.
-- PLUGINS v2 trial is explicitly mock, with a simulated GeoJSON point and legend. Real Overpass results are served separately and saved with `dataKind: real`.
+- PLUGINS v2 trial (v3 motorcycle glyph) is explicitly mock, with a simulated GeoJSON point and legend. Real Overpass results are served separately and saved with `dataKind: real`.
 - OpenStreetMap places and roads retain object URL, fetchedAt and the actual element edit timestamp (null if unavailable). Unknown tags are not permission. Tag assessment concerns the individual OSM object only.
 - Route assessment binds common ROUTES driving preview geometry hash, settings hash/version, installation, source search and times. Nearby OSM roads are **not** used to certify a different Mapbox route. Unknown/ineligible cannot reach common route adoption.
 - Search, assessment and adoption snapshots are stored in owner/mode-scoped SQLite tables. Search acceptance uses CORE idempotentMutation; BIKE jobs handle completion/failure/interruption without writing common request tables directly.
@@ -20,9 +20,9 @@ Status: **partial delivery; BIKE.complete is not satisfied**. Do not close #29 o
 mise exec -- node --experimental-transform-types --test server/plugins/bike/bike.test.ts
 ```
 
-3 tests passed. The HTTP test uses a real local TCP server and real live/demo SQLite files, closes/reopens the databases and server, and compares persisted snapshots. It checks search replay without a duplicate provider call, isolation, changed settings rejection, unknown route adoption rejection, and stop/display clearing with saved results retained.
+5 tests passed, including the same-preview motorway evidence check and fixture-only verified adoption rollback/replay checks. The HTTP test uses a real local TCP server and real live/demo SQLite files, closes/reopens the databases and server, and compares persisted snapshots. It checks search replay without a duplicate provider call, isolation, changed settings rejection, unknown route adoption rejection, and stop/display clearing with saved results retained.
 
-**Boundary limitation:** those tests use explicitly named provider/PLUGINS/ROUTES fixtures. They are not evidence of full live integration. Feature/domain strict type checking passed. Full registration type checking awaits the dependencies below.
+**Boundary limitation:** those tests use explicitly named provider/PLUGINS/ROUTES fixtures. They are not evidence of full live integration. Feature/domain strict type checking passed. Full registration type checking awaits the dependencies below. The prepared `server/plugins/bike/live.e2e.ts` also passes strict type checking but has not been run: it starts the actual CORE server, calls actual PLUGINS/ROUTES/BIKE HTTP operations, and fails without those integrated dependencies. Run with `mise exec -- node --experimental-transform-types --env-file=/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs/.env server/plugins/bike/live.e2e.ts` after integration and contract generation. It writes no secrets to evidence.
 
 ## Live source evidence
 
@@ -32,7 +32,7 @@ mise exec -- node --experimental-transform-types --test server/plugins/bike/bike
 
 1. Integrate PLUGINS #28 / PR #46 and ROUTES #25 on develop, then exercise their actual public imports and HTTP operations with the same CORE app/databases/context.
 2. Verify real Overpass results through HTTP and SQLite restart with those integrated dependencies.
-3. Connect ROUTES highway avoidance with same-geometry condition evidence. Request posted to #25.
+3. The ROUTES PR #68 condition adapter is implemented locally (same fetchedAt/provider/requestedCondition checks); execute the actual shared HTTP connection after integration.
 4. Supply an actual motorcycle restrictions provider with evidence for every segment of the selected geometry and the selected vehicle. The present Mapbox-only adapter deliberately leaves this unknown; the positive adoption path has not been demonstrated live. NAVITIME availability and retention terms are a root/consultant decision already raised on #29. Do not describe unknown-only output as complete.
 5. UI acceptance by A: real query, settings round trip, common-map display, stop removing only BIKE ownership. API material is provided to #18; UI/Mapbox files are outside this claim.
 6. Short independent review arranged by root, commit-preserving merge, task:finish/board/receiver/Issue closure only after the above pass.

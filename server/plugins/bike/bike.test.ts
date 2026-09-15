@@ -9,9 +9,11 @@ import { openDatabases } from "../../db/connection.ts";
 import { createApp } from "../../app/app.ts";
 import { loadContract, type ApiContract } from "../../core/validation.ts";
 import { seedProfiles } from "../../core/session.ts";
+import { assessCommonRoute } from "./route-evidence.ts";
 import { BikeService, type Installation, type RoutesBoundary, type RouteSnapshot } from "./service.ts";
 import { createBikeFeature } from "./feature.ts";
-import { assessTags, defaultSettings, validateSettings, type BikeSettings } from "./domain.ts";
+import { CommonError } from "../../core/errors.ts";
+import { assessTags, defaultSettings, geometryHash, settingsHash, validateSettings, type BikeSettings } from "./domain.ts";
 import { OverpassBikeProvider, type BikeProvider } from "./overpass.ts";
 import { bikeMigration } from "./migration.ts";
 
@@ -96,4 +98,44 @@ test("HTTP + real SQLite: persisted search/replay/reopen, isolation, unknown ado
     assert.equal((await api("/bike/searches","POST",{},key)).data.id,first.data.id);
     assert.equal(calls,1);
   } finally { await stop(); databases.close(); rmSync(directory,{recursive:true,force:true}); }
+});
+
+test("motorway proof must belong to the same preview fetch and requested condition", () => {
+  const context={personId:"fixture",dataMode:"live" as const,requestId:"fixture",signal:new AbortController().signal};
+  const proof={key:"avoidMotorways",status:"applied",reason:"provider excluded motorways",provider:"mapbox-directions",sourceUrl:"https://docs.mapbox.com/api/navigation/directions/",fetchedAt:preview.fetchedAt};
+  const route={...preview,requestedConditions:{avoidMotorways:true},conditionEvaluations:[proof]};
+  assert.equal(assessCommonRoute(context,route,settings).highway.status,"verified");
+  assert.equal(assessCommonRoute(context,route,settings).vehicle.status,"unknown");
+  assert.equal(assessCommonRoute(context,{...route,fetchedAt:route.fetchedAt+1},settings).highway.status,"unknown");
+  assert.equal(assessCommonRoute(context,{...route,requestedConditions:{avoidMotorways:false}},settings).highway.status,"unknown");
+});
+
+test("verified fixture adoption is atomic and replay checks the current saved route", async () => {
+  const dir=mkdtempSync(join(tmpdir(),"bike-adopt-"));
+  const databases=openDatabases({livePath:join(dir,"live.sqlite"),demoPath:join(dir,"demo.sqlite"),migrations:[bikeMigration]});
+  const personId=randomUUID(), db=databases.live;
+  seedProfiles(databases,[{id:personId,key:"test",name:"FIXTURE"}]);
+  const context={personId,dataMode:"live" as const,requestId:randomUUID(),signal:new AbortController().signal};
+  db.exec("CREATE TABLE fixture_saved_routes(id TEXT PRIMARY KEY, geometry_json TEXT NOT NULL)");
+  let failAfterSave=false;
+  const boundary: RoutesBoundary={
+    revalidatePreview:()=>structuredClone(preview),
+    assess:(_c,r,s)=>({vehicle:{status:"verified",reason:"TEST PROOF ONLY",sourceRefs:["fixture"],checkedAt:Date.now()},highway:{status:"verified",reason:"TEST PROOF ONLY",sourceRefs:["fixture"],checkedAt:Date.now()},geometryHash:geometryHash(r.geometry),settingsHash:settingsHash(s)}),
+    saveRoute:(_c,input)=>{db.prepare("INSERT INTO fixture_saved_routes VALUES (?,?)").run(input.id,JSON.stringify(preview.geometry));if(failAfterSave)throw new CommonError("STATE_CONFLICT","fixture failure");return {data:{id:input.id},created:true};},
+    getSavedRoute:(_c,id)=>{const row=db.prepare("SELECT geometry_json FROM fixture_saved_routes WHERE id=?").get(id) as {geometry_json:string}|undefined;if(!row)throw new CommonError("NOT_FOUND","fixture route removed");return {id,geometry:JSON.parse(row.geometry_json)};},
+  };
+  const service=new BikeService(db,()=>({installId:"fixture",version:1,enabled:true,visible:true,settings}),boundary,provider);
+  try {
+    const search=await service.search(context);
+    const assessed=service.assessRoute(context,{previewId:preview.previewId,searchId:search.id});
+    const input={id:randomUUID(),assessmentId:assessed.id,title:"fixture verified"};
+    failAfterSave=true;assert.throws(()=>service.adopt(context,input));
+    assert.equal(db.prepare("SELECT count(*) AS n FROM fixture_saved_routes").get()!.n,0);
+    failAfterSave=false;const saved=service.adopt(context,input);
+    assert.equal(service.replayAdoption(context,saved.id).routeId,input.id);
+    db.prepare("UPDATE fixture_saved_routes SET geometry_json=? WHERE id=?").run(JSON.stringify({...preview.geometry,coordinates:[[139.701,35.659],[139.704,35.661]]}),input.id);
+    assert.throws(()=>service.replayAdoption(context,saved.id),{code:"SOURCE_CHANGED"});
+    db.prepare("DELETE FROM fixture_saved_routes WHERE id=?").run(input.id);
+    assert.throws(()=>service.replayAdoption(context,saved.id),{code:"NOT_FOUND"});
+  } finally {databases.close();rmSync(dir,{recursive:true,force:true});}
 });

@@ -10,6 +10,8 @@ export interface Installation { installId: string; version: number; enabled: boo
 export interface RouteSnapshot {
   previewId: string; mode: string; geometry: { type: "LineString"; coordinates: Position[] };
   expiresAt: number; fetchedAt: number; retention: "storable" | "temporary";
+  requestedConditions?: { avoidMotorways?: boolean };
+  conditionEvaluations?: { key: string; status: string; reason: string; provider: string; sourceUrl: string; fetchedAt: number }[];
 }
 /** Implemented only by server-owned common ROUTES adapter, never accepted in an HTTP request. */
 export interface RoutesBoundary {
@@ -93,6 +95,13 @@ export class BikeService {
       this.put(context, result);
       return result;
     });
+  }
+  replayAdoption(context: RequestContext, id: string): Adoption {
+    const result = this.get(context, id);
+    if (result.kind !== "adoption") throw new CommonError("NOT_FOUND", "採用結果がありません。");
+    const route = this.routes.getSavedRoute(context, result.routeId, true);
+    if (geometryHash(route.geometry) !== result.assessment.geometryHash) throw new CommonError("SOURCE_CHANGED", "採用後に共通経路の形状が変わりました。現在の経路を再確認してください。");
+    return result;
   }
   state(context: RequestContext) {
     const installation = this.installation(context);

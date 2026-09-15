@@ -3,6 +3,7 @@ import { CommonError } from "../../core/errors.ts";
 import { getPluginState, registerPlugin } from "../../features/plugins/index.ts";
 import { createRoutesService } from "../../features/routes/index.ts";
 import { BikeService, type RoutesBoundary } from "./service.ts";
+import { assessCommonRoute } from "./route-evidence.ts";
 import { bikeRelease } from "./release.ts";
 import { createBikeFeature } from "./feature.ts";
 
@@ -20,6 +21,7 @@ function common<T>(work: () => T): T {
 export function createBikeService(db: DatabaseSync) {
   const routes = createRoutesService(db);
   const boundary: RoutesBoundary = {
+    assess: assessCommonRoute,
     revalidatePreview: (...args) => common(() => routes.revalidatePreview(...args)),
     saveRoute: (...args) => common(() => routes.saveRoute(...args)),
     getSavedRoute: (...args) => common(() => routes.getSavedRoute(...args)),

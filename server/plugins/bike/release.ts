@@ -5,7 +5,7 @@ export const bikeRelease: PluginRelease = {
   manifest: {
     id: "bike", name: "バイク", description: "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
     category: "移動", author: "育てる地図", pluginVersion: "1.0.0", updatedAt: Date.UTC(2026, 8, 15),
-    changeLog: "車種設定、実地点・道路情報、経路評価の保存・再取得", icon: "bike", settingsSchema,
+    changeLog: "車種設定、実地点・道路情報、経路評価の保存・再取得", icon: "motorcycle", settingsSchema,
     defaultSettings,
     usageInfo: ["道路タグ欠測・車種規制未確認の経路は採用できません。", "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"],
     sources: [{ name: "OpenStreetMap", url: "https://www.openstreetmap.org/copyright", attribution: "© OpenStreetMap contributors (ODbL)" }, { name: "Mapbox Directions", url: "https://docs.mapbox.com/api/navigation/directions/", attribution: "© Mapbox" }],

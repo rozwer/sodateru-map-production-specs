@@ -65,7 +65,7 @@ export function createBikeFeature(serviceFor: (db: DatabaseSync) => BikeService)
       const db = c.get("db"), context = c.get("context"), service = serviceFor(db), input = c.get("input").body as { id: string; assessmentId: string; title: string };
       return response(c, idempotentMutation(db, { context, operation: "POST /api/v1/bike/adoptions", key: c.req.header("Idempotency-Key")!, input }, {
         execute() { const data = service.adopt(context, input); return { status: 201, body: { data }, resource: { type: "bike-result", id: data.id } }; },
-        replay(result) { return { status: 200, body: { data: service.get(context, result.resource!.id) } }; },
+        replay(result) { return { status: 200, body: { data: service.replayAdoption(context, result.resource!.id) } }; },
       }));
     });
   } });
