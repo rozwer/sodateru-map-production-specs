@@ -1,203 +1,194 @@
-# 要件とIssueの対応
+# 画面・元ID・実接続・APIの対応
 
-[Issue一覧](README.md)へ戻る。
+[一覧](README.md) · [原文を保持した機械可読対応](ui-connections.json)
 
-対象は現在の画面JSON・OpenAPI・API不足一覧。317件の画面要件（225件の機能を含む）を、UI担当Issueへ一度ずつ割り当てる。共通処理の受入は各処理側Issueから参照する。API104操作は実装担当を一つずつ割り当てた。これは文書の対応確認で、実装済みの件数ではない。
+67ページ/317要件/317受入の原条件を保持する。同じIDのUI面と実接続面が両方必要。sourceのmode/liveや原文を変更せず、画面単体の証拠はUIのscopeだけを満たす。
 
-## 画面
+| ページ | UI | 接続 | 元要件/受入 | API担当 | 不足担当 |
+|---|---|---|---|---|---|
+| activity-stats | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CONNECT-SETTINGS](issues/CONNECT-SETTINGS.md) | 5/5 | INSIGHTS, INFORMATION | HEALTH |
+| ai-consent | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 4/4 |  | AI |
+| ai-explore | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 6/6 | EXPLORATION | EXPLORATION |
+| community-home | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 3/3 |  |  |
+| companion-create | [UI-COMPANION](issues/UI-COMPANION.md) | [CONNECT-COMPANION](issues/CONNECT-COMPANION.md) | 5/5 |  | COMPANION |
+| companion-import | [UI-COMPANION](issues/UI-COMPANION.md) | [CONNECT-COMPANION](issues/CONNECT-COMPANION.md) | 4/4 |  | COMPANION |
+| companion-settings | [UI-COMPANION](issues/UI-COMPANION.md) | [CONNECT-COMPANION](issues/CONNECT-COMPANION.md) | 5/5 |  | COMPANION |
+| conversation-history | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 4/4 | AI | EXPLORATION |
+| daily-track | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 6/6 | ACTIVITY, INFORMATION |  |
+| data-sources | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CONNECT-SETTINGS](issues/CONNECT-SETTINGS.md) | 4/4 | ACTIVITY | HEALTH |
+| diary | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 5/5 | INFORMATION, RECORDS |  |
+| experience-compare | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 4/4 | RECORDS | REFLECTION |
+| feature-request-edit | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 5/5 | CORE, FEATURE-REQUESTS | FEATURE-REQUESTS |
+| feature-requests | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 6/6 | FEATURE-REQUESTS | FEATURE-REQUESTS |
+| friend-compare | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 4/4 | INFORMATION | REFLECTION |
+| friend-picker | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 4/4 | COMMUNITY |  |
+| friend-profile | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 5/5 | COMMUNITY, INFORMATION | COMMUNITY |
+| friends-map | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 6/6 | COMMUNITY, INFORMATION |  |
+| growth-result | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 4/4 | ACTIVITY, RECORDS |  |
+| health-connect | [UI-HEALTH](issues/UI-HEALTH.md) | [CONNECT-HEALTH](issues/CONNECT-HEALTH.md) | 4/4 |  | HEALTH |
+| health-permissions | [UI-HEALTH](issues/UI-HEALTH.md) | [CONNECT-HEALTH](issues/CONNECT-HEALTH.md) | 5/5 |  | HEALTH |
+| health-status | [UI-HEALTH](issues/UI-HEALTH.md) | [CONNECT-HEALTH](issues/CONNECT-HEALTH.md) | 4/4 |  | HEALTH |
+| interpretation-correction | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 5/5 | RECORDS, INSIGHTS |  |
+| knowledge-detail | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [CONNECT-KNOWLEDGE](issues/CONNECT-KNOWLEDGE.md) | 4/4 | INFORMATION, RECORDS | COMMUNITY |
+| knowledge-filter | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [CONNECT-KNOWLEDGE](issues/CONNECT-KNOWLEDGE.md) | 4/4 |  | COMMUNITY |
+| knowledge-list | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [CONNECT-KNOWLEDGE](issues/CONNECT-KNOWLEDGE.md) | 5/5 | INFORMATION, COMMUNITY | COMMUNITY |
+| local-knowledge | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [CONNECT-KNOWLEDGE](issues/CONNECT-KNOWLEDGE.md) | 4/4 | PLACES, COMMUNITY |  |
+| map | [UI-MAP](issues/UI-MAP.md) | [CONNECT-MAP](issues/CONNECT-MAP.md) | 8/8 | PLACES, ACTIVITY | COMMUNITY |
+| map-layers | [UI-MAP](issues/UI-MAP.md) | [CONNECT-MAP](issues/CONNECT-MAP.md) | 4/4 | PLUGINS | MAP-CUSTOM |
+| memo-edit | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 5/5 | RECORDS | THEMES |
+| mist-detail | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 4/4 | SUGGESTIONS, PLACES | COMMUNITY |
+| navigation | [UI-BASE](issues/UI-BASE.md) | [CONNECT-BASE](issues/CONNECT-BASE.md) | 5/5 |  |  |
+| object-edit | [UI-MAP](issues/UI-MAP.md) | [CONNECT-MAP](issues/CONNECT-MAP.md) | 6/6 |  | MAP-CUSTOM |
+| object-place | [UI-MAP](issues/UI-MAP.md) | [CONNECT-MAP](issues/CONNECT-MAP.md) | 5/5 |  | MAP-CUSTOM |
+| personal-map | [UI-MAP](issues/UI-MAP.md) | [CONNECT-MAP](issues/CONNECT-MAP.md) | 5/5 | THEMES, INFORMATION, PLACES, ACTIVITY |  |
+| plugin-conflict | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 4/4 | PLUGINS | PLUGINS |
+| plugin-detail | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 3/3 | PLUGINS |  |
+| plugin-install | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 4/4 | PLUGINS |  |
+| plugin-manage | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 5/5 | PLUGINS | PLUGINS |
+| plugin-store | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 5/5 | PLUGINS |  |
+| plugin-trial | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 4/4 | PLUGINS | PLUGINS |
+| plugin-update | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CONNECT-PLUGINS](issues/CONNECT-PLUGINS.md) | 5/5 | PLUGINS | PLUGINS |
+| profile-settings | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CONNECT-SETTINGS](issues/CONNECT-SETTINGS.md) | 5/5 | CORE, SETTINGS | SETTINGS |
+| quest-compass | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 4/4 |  |  |
+| record-create | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 7/7 | PLACES, ACTIVITY, RECORDS |  |
+| record-delete | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 5/5 | RECORDS | RECORDS |
+| record-edit | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 6/6 | RECORDS |  |
+| reflection-history | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 4/4 | AI | REFLECTION |
+| reflection-question | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 5/5 | AI | REFLECTION |
+| route-conditions | [UI-ROUTES](issues/UI-ROUTES.md) | [CONNECT-ROUTES](issues/CONNECT-ROUTES.md) | 4/4 | PLACES, ROUTES | ROUTES |
+| route-navigation | [UI-ROUTES](issues/UI-ROUTES.md) | [CONNECT-ROUTES](issues/CONNECT-ROUTES.md) | 5/5 | ROUTES | ROUTES |
+| route-results | [UI-ROUTES](issues/UI-ROUTES.md) | [CONNECT-ROUTES](issues/CONNECT-ROUTES.md) | 5/5 | ROUTES | ROUTES |
+| self-checkin | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [CONNECT-SUGGESTIONS](issues/CONNECT-SUGGESTIONS.md) | 7/7 | SUGGESTIONS | SUGGESTIONS |
+| self-home | [UI-REFLECTION](issues/UI-REFLECTION.md) | [CONNECT-REFLECTION](issues/CONNECT-REFLECTION.md) | 5/5 | INFORMATION, CORE |  |
+| settings | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CONNECT-SETTINGS](issues/CONNECT-SETTINGS.md) | 3/3 | CORE | SETTINGS |
+| shared-route | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 4/4 | COMMUNITY, ROUTES |  |
+| sharing | [UI-FRIENDS](issues/UI-FRIENDS.md) | [CONNECT-FRIENDS](issues/CONNECT-FRIENDS.md) | 6/6 | RECORDS |  |
+| suggestion-detail | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [CONNECT-SUGGESTIONS](issues/CONNECT-SUGGESTIONS.md) | 5/5 | SUGGESTIONS, INFORMATION | COMMUNITY |
+| suggestion-settings | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CONNECT-SETTINGS](issues/CONNECT-SETTINGS.md) | 4/4 |  | SETTINGS |
+| suggestions | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [CONNECT-SUGGESTIONS](issues/CONNECT-SUGGESTIONS.md) | 5/5 | SUGGESTIONS | SUGGESTIONS |
+| theme-edit | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [CONNECT-INSIGHTS](issues/CONNECT-INSIGHTS.md) | 5/5 | THEMES, INFORMATION | THEMES |
+| themes | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [CONNECT-INSIGHTS](issues/CONNECT-INSIGHTS.md) | 4/4 | THEMES |  |
+| trend-evidence | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [CONNECT-INSIGHTS](issues/CONNECT-INSIGHTS.md) | 4/4 | INSIGHTS, INFORMATION, RECORDS |  |
+| trend-review | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [CONNECT-INSIGHTS](issues/CONNECT-INSIGHTS.md) | 4/4 | INSIGHTS |  |
+| type-diagnosis | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [CONNECT-INSIGHTS](issues/CONNECT-INSIGHTS.md) | 6/6 | INSIGHTS |  |
+| visit-confirm | [UI-RECORDS](issues/UI-RECORDS.md) | [CONNECT-RECORDS](issues/CONNECT-RECORDS.md) | 5/5 | ACTIVITY |  |
+| voice-consultation | [UI-EXPLORE](issues/UI-EXPLORE.md) | [CONNECT-EXPLORE](issues/CONNECT-EXPLORE.md) | 4/4 |  | AI |
 
-| 画面 | 要件数 | UIの完成担当 | 既存APIの実装担当 | 契約補完 |
-|---|---:|---|---|---|
-| [活動の統計](../01_requirements/03_pages/activity-stats/README.md) | 5 | [UI-SETTINGS](issues/UI-SETTINGS.md) | [INSIGHTS](issues/INSIGHTS.md)、[INFORMATION](issues/INFORMATION.md) | [HEALTH](issues/HEALTH.md) |
-| [AIへ送る内容の確認](../01_requirements/03_pages/ai-consent/README.md) | 4 | [UI-EXPLORE](issues/UI-EXPLORE.md) | 端末内/画面内 | [AI](issues/AI.md) |
-| [Codexと探索](../01_requirements/03_pages/ai-explore/README.md) | 6 | [UI-EXPLORE](issues/UI-EXPLORE.md) | [EXPLORATION](issues/EXPLORATION.md) | [EXPLORATION](issues/EXPLORATION.md) |
-| [みんなを知る](../01_requirements/03_pages/community-home/README.md) | 3 | [UI-FRIENDS](issues/UI-FRIENDS.md) | 端末内/画面内 | — |
-| [相棒の制作](../01_requirements/03_pages/companion-create/README.md) | 5 | [UI-COMPANION](issues/UI-COMPANION.md) | 端末内/画面内 | [COMPANION](issues/COMPANION.md) |
-| [相棒をファイルから追加](../01_requirements/03_pages/companion-import/README.md) | 4 | [UI-COMPANION](issues/UI-COMPANION.md) | 端末内/画面内 | [COMPANION](issues/COMPANION.md) |
-| [相棒の管理](../01_requirements/03_pages/companion-settings/README.md) | 5 | [UI-COMPANION](issues/UI-COMPANION.md) | 端末内/画面内 | [COMPANION](issues/COMPANION.md) |
-| [相談履歴](../01_requirements/03_pages/conversation-history/README.md) | 4 | [UI-EXPLORE](issues/UI-EXPLORE.md) | [AI](issues/AI.md) | [EXPLORATION](issues/EXPLORATION.md) |
-| [今日の軌跡](../01_requirements/03_pages/daily-track/README.md) | 6 | [UI-RECORDS](issues/UI-RECORDS.md) | [ACTIVITY](issues/ACTIVITY.md)、[INFORMATION](issues/INFORMATION.md) | — |
-| [データの取得元](../01_requirements/03_pages/data-sources/README.md) | 4 | [UI-SETTINGS](issues/UI-SETTINGS.md) | [ACTIVITY](issues/ACTIVITY.md) | [HEALTH](issues/HEALTH.md) |
-| [日記](../01_requirements/03_pages/diary/README.md) | 5 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [INFORMATION](issues/INFORMATION.md)、[RECORDS](issues/RECORDS.md) | — |
-| [二つの体験を比較](../01_requirements/03_pages/experience-compare/README.md) | 4 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [RECORDS](issues/RECORDS.md) | [REFLECTION](issues/REFLECTION.md) |
-| [お願いを書く](../01_requirements/03_pages/feature-request-edit/README.md) | 5 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [CORE](issues/CORE.md)、[FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| [みんなの欲しい機能](../01_requirements/03_pages/feature-requests/README.md) | 6 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| [友達との共通点](../01_requirements/03_pages/friend-compare/README.md) | 4 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [INFORMATION](issues/INFORMATION.md) | [REFLECTION](issues/REFLECTION.md) |
-| [共有する友達](../01_requirements/03_pages/friend-picker/README.md) | 4 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [COMMUNITY](issues/COMMUNITY.md) | — |
-| [友達のプロフィール](../01_requirements/03_pages/friend-profile/README.md) | 5 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [COMMUNITY](issues/COMMUNITY.md)、[INFORMATION](issues/INFORMATION.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [友達の地図](../01_requirements/03_pages/friends-map/README.md) | 6 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [COMMUNITY](issues/COMMUNITY.md)、[INFORMATION](issues/INFORMATION.md) | — |
-| [体験で地図が育った](../01_requirements/03_pages/growth-result/README.md) | 4 | [UI-RECORDS](issues/UI-RECORDS.md) | [ACTIVITY](issues/ACTIVITY.md)、[RECORDS](issues/RECORDS.md) | — |
-| [健康データの連携](../01_requirements/03_pages/health-connect/README.md) | 4 | [UI-SETTINGS](issues/UI-SETTINGS.md) | 端末内/画面内 | [HEALTH](issues/HEALTH.md) |
-| [健康データの項目と期間](../01_requirements/03_pages/health-permissions/README.md) | 5 | [UI-SETTINGS](issues/UI-SETTINGS.md) | 端末内/画面内 | [HEALTH](issues/HEALTH.md) |
-| [健康データの連携状態](../01_requirements/03_pages/health-status/README.md) | 4 | [UI-SETTINGS](issues/UI-SETTINGS.md) | 端末内/画面内 | [HEALTH](issues/HEALTH.md) |
-| [解釈を訂正](../01_requirements/03_pages/interpretation-correction/README.md) | 5 | [UI-RECORDS](issues/UI-RECORDS.md) | [RECORDS](issues/RECORDS.md)、[INSIGHTS](issues/INSIGHTS.md) | — |
-| [地域投稿の詳細](../01_requirements/03_pages/knowledge-detail/README.md) | 4 | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [INFORMATION](issues/INFORMATION.md)、[RECORDS](issues/RECORDS.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [地域の知の絞り込み](../01_requirements/03_pages/knowledge-filter/README.md) | 4 | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | 端末内/画面内 | [COMMUNITY](issues/COMMUNITY.md) |
-| [地域の知を探す](../01_requirements/03_pages/knowledge-list/README.md) | 5 | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [INFORMATION](issues/INFORMATION.md)、[COMMUNITY](issues/COMMUNITY.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [地域の知](../01_requirements/03_pages/local-knowledge/README.md) | 4 | [UI-KNOWLEDGE](issues/UI-KNOWLEDGE.md) | [PLACES](issues/PLACES.md)、[COMMUNITY](issues/COMMUNITY.md) | — |
-| [地図](../01_requirements/03_pages/map/README.md) | 8 | [UI-MAP](issues/UI-MAP.md) | [PLACES](issues/PLACES.md)、[ACTIVITY](issues/ACTIVITY.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [地図の表示設定](../01_requirements/03_pages/map-layers/README.md) | 4 | [UI-MAP](issues/UI-MAP.md) | [PLUGINS](issues/PLUGINS.md) | [MAP-CUSTOM](issues/MAP-CUSTOM.md) |
-| [メモを編集](../01_requirements/03_pages/memo-edit/README.md) | 5 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [RECORDS](issues/RECORDS.md) | [THEMES](issues/THEMES.md) |
-| [もやの探索候補](../01_requirements/03_pages/mist-detail/README.md) | 4 | [UI-EXPLORE](issues/UI-EXPLORE.md) | [SUGGESTIONS](issues/SUGGESTIONS.md)、[PLACES](issues/PLACES.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [共通メニュー・モード切替](../01_requirements/03_pages/navigation/README.md) | 5 | [UI-BASE](issues/UI-BASE.md) | 端末内/画面内 | — |
-| [地図オブジェクトを編集](../01_requirements/03_pages/object-edit/README.md) | 6 | [UI-MAP](issues/UI-MAP.md) | 端末内/画面内 | [MAP-CUSTOM](issues/MAP-CUSTOM.md) |
-| [地図に配置](../01_requirements/03_pages/object-place/README.md) | 5 | [UI-MAP](issues/UI-MAP.md) | 端末内/画面内 | [MAP-CUSTOM](issues/MAP-CUSTOM.md) |
-| [わたしの地図](../01_requirements/03_pages/personal-map/README.md) | 5 | [UI-MAP](issues/UI-MAP.md) | [THEMES](issues/THEMES.md)、[INFORMATION](issues/INFORMATION.md)、[PLACES](issues/PLACES.md)、[ACTIVITY](issues/ACTIVITY.md) | — |
-| [変更が重なる場合](../01_requirements/03_pages/plugin-conflict/README.md) | 4 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) |
-| [拡張機能の詳細](../01_requirements/03_pages/plugin-detail/README.md) | 3 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | — |
-| [導入前の確認](../01_requirements/03_pages/plugin-install/README.md) | 4 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | — |
-| [導入済みの機能](../01_requirements/03_pages/plugin-manage/README.md) | 5 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) |
-| [拡張機能を探す](../01_requirements/03_pages/plugin-store/README.md) | 5 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | — |
-| [拡張機能を試す](../01_requirements/03_pages/plugin-trial/README.md) | 4 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) |
-| [機能の更新](../01_requirements/03_pages/plugin-update/README.md) | 5 | [UI-PLUGINS](issues/UI-PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) | [PLUGINS](issues/PLUGINS.md) |
-| [プロフィールと表示](../01_requirements/03_pages/profile-settings/README.md) | 5 | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CORE](issues/CORE.md)、[SETTINGS](issues/SETTINGS.md) | [SETTINGS](issues/SETTINGS.md) |
-| [探索コンパス](../01_requirements/03_pages/quest-compass/README.md) | 4 | [UI-EXPLORE](issues/UI-EXPLORE.md) | 端末内/画面内 | — |
-| [体験を残す](../01_requirements/03_pages/record-create/README.md) | 7 | [UI-RECORDS](issues/UI-RECORDS.md) | [PLACES](issues/PLACES.md)、[ACTIVITY](issues/ACTIVITY.md)、[RECORDS](issues/RECORDS.md) | — |
-| [記録を削除](../01_requirements/03_pages/record-delete/README.md) | 5 | [UI-RECORDS](issues/UI-RECORDS.md) | [RECORDS](issues/RECORDS.md) | [RECORDS](issues/RECORDS.md) |
-| [体験を編集](../01_requirements/03_pages/record-edit/README.md) | 6 | [UI-RECORDS](issues/UI-RECORDS.md) | [RECORDS](issues/RECORDS.md) | — |
-| [振り返りの記録](../01_requirements/03_pages/reflection-history/README.md) | 4 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [AI](issues/AI.md) | [REFLECTION](issues/REFLECTION.md) |
-| [振り返りの質問](../01_requirements/03_pages/reflection-question/README.md) | 5 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [AI](issues/AI.md) | [REFLECTION](issues/REFLECTION.md) |
-| [経路の条件](../01_requirements/03_pages/route-conditions/README.md) | 4 | [UI-ROUTES](issues/UI-ROUTES.md) | [PLACES](issues/PLACES.md)、[ROUTES](issues/ROUTES.md) | [ROUTES](issues/ROUTES.md) |
-| [徒歩ナビゲーション](../01_requirements/03_pages/route-navigation/README.md) | 5 | [UI-ROUTES](issues/UI-ROUTES.md) | [ROUTES](issues/ROUTES.md) | [ROUTES](issues/ROUTES.md) |
-| [経路の候補](../01_requirements/03_pages/route-results/README.md) | 5 | [UI-ROUTES](issues/UI-ROUTES.md) | [ROUTES](issues/ROUTES.md) | [ROUTES](issues/ROUTES.md) |
-| [今日はどう過ごしたい？](../01_requirements/03_pages/self-checkin/README.md) | 7 | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [SUGGESTIONS](issues/SUGGESTIONS.md) | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| [自分を知る](../01_requirements/03_pages/self-home/README.md) | 5 | [UI-REFLECTION](issues/UI-REFLECTION.md) | [INFORMATION](issues/INFORMATION.md)、[CORE](issues/CORE.md) | — |
-| [設定](../01_requirements/03_pages/settings/README.md) | 3 | [UI-SETTINGS](issues/UI-SETTINGS.md) | [CORE](issues/CORE.md) | [SETTINGS](issues/SETTINGS.md) |
-| [友達のおすすめルート](../01_requirements/03_pages/shared-route/README.md) | 4 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [COMMUNITY](issues/COMMUNITY.md)、[ROUTES](issues/ROUTES.md) | — |
-| [共有範囲の確認](../01_requirements/03_pages/sharing/README.md) | 6 | [UI-FRIENDS](issues/UI-FRIENDS.md) | [RECORDS](issues/RECORDS.md) | — |
-| [提案候補の詳細](../01_requirements/03_pages/suggestion-detail/README.md) | 5 | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [SUGGESTIONS](issues/SUGGESTIONS.md)、[INFORMATION](issues/INFORMATION.md) | [COMMUNITY](issues/COMMUNITY.md) |
-| [提案とまとめの条件](../01_requirements/03_pages/suggestion-settings/README.md) | 4 | [UI-SETTINGS](issues/UI-SETTINGS.md) | 端末内/画面内 | [SETTINGS](issues/SETTINGS.md) |
-| [提案候補一覧](../01_requirements/03_pages/suggestions/README.md) | 5 | [UI-SUGGESTIONS](issues/UI-SUGGESTIONS.md) | [SUGGESTIONS](issues/SUGGESTIONS.md) | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| [テーマを編集](../01_requirements/03_pages/theme-edit/README.md) | 5 | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [THEMES](issues/THEMES.md)、[INFORMATION](issues/INFORMATION.md) | [THEMES](issues/THEMES.md) |
-| [自分のテーマ](../01_requirements/03_pages/themes/README.md) | 4 | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [THEMES](issues/THEMES.md) | — |
-| [傾向の根拠](../01_requirements/03_pages/trend-evidence/README.md) | 4 | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [INSIGHTS](issues/INSIGHTS.md)、[INFORMATION](issues/INFORMATION.md)、[RECORDS](issues/RECORDS.md) | — |
-| [傾向の確認・訂正](../01_requirements/03_pages/trend-review/README.md) | 4 | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [INSIGHTS](issues/INSIGHTS.md) | — |
-| [タイプ診断](../01_requirements/03_pages/type-diagnosis/README.md) | 6 | [UI-INSIGHTS](issues/UI-INSIGHTS.md) | [INSIGHTS](issues/INSIGHTS.md) | — |
-| [訪問の確認](../01_requirements/03_pages/visit-confirm/README.md) | 5 | [UI-RECORDS](issues/UI-RECORDS.md) | [ACTIVITY](issues/ACTIVITY.md) | — |
-| [音声で相談](../01_requirements/03_pages/voice-consultation/README.md) | 4 | [UI-EXPLORE](issues/UI-EXPLORE.md) | 端末内/画面内 | [AI](issues/AI.md) |
+健康3ページはdeferred。settings/activity-stats/data-sourcesは健康面だけUI-HEALTH/CONNECT-HEALTHに対応し、非健康面を上表の元担当に残す。companion-create 5要件/5受入とcompanion-settings-F03の制作部分はuser-excluded。原文は保持する。
 
-各UI Issueは表の対象ページについて、requirements/acceptanceの全ID、interactionsの条件・渡す値、statesの全状態、参照画像を持つ。API担当列は実装所有であり、そのすべてが着手前依存という意味ではない。
+## 既存APIと追加の統合済操作
 
-## 既存API
+当初104操作の割当は変更しない。現在108操作との差4件をCORE所有として別登録し、COREのactive定義を変更しない。
 
-| operationId | HTTP | 実装担当 |
-|---|---|---|
-| `getPlaces` | `GET /places` | [PLACES](issues/PLACES.md) |
-| `postPlaces` | `POST /places` | [PLACES](issues/PLACES.md) |
-| `getPlaceCandidates` | `GET /place-candidates` | [PLACES](issues/PLACES.md) |
-| `getPlacesPlaceId` | `GET /places/{placeId}` | [PLACES](issues/PLACES.md) |
-| `patchPlacesPlaceId` | `PATCH /places/{placeId}` | [PLACES](issues/PLACES.md) |
-| `getMapGrowth` | `GET /map/growth` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getVisits` | `GET /visits` | [ACTIVITY](issues/ACTIVITY.md) |
-| `postVisits` | `POST /visits` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getVisitsVisitId` | `GET /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) |
-| `patchVisitsVisitId` | `PATCH /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) |
-| `deleteVisitsVisitId` | `DELETE /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getRecords` | `GET /records` | [INFORMATION](issues/INFORMATION.md) |
-| `postRecords` | `POST /records` | [RECORDS](issues/RECORDS.md) |
-| `getRecordsRecordId` | `GET /records/{recordId}` | [RECORDS](issues/RECORDS.md) |
-| `patchRecordsRecordId` | `PATCH /records/{recordId}` | [RECORDS](issues/RECORDS.md) |
-| `deleteRecordsRecordId` | `DELETE /records/{recordId}` | [RECORDS](issues/RECORDS.md) |
-| `getRecordsRecordIdMedia` | `GET /records/{recordId}/media` | [RECORDS](issues/RECORDS.md) |
-| `postRecordsRecordIdMedia` | `POST /records/{recordId}/media` | [RECORDS](issues/RECORDS.md) |
-| `postRecordsRecordIdMediaReorder` | `POST /records/{recordId}/media/reorder` | [RECORDS](issues/RECORDS.md) |
-| `getMediaMediaId` | `GET /media/{mediaId}` | [RECORDS](issues/RECORDS.md) |
-| `deleteMediaMediaId` | `DELETE /media/{mediaId}` | [RECORDS](issues/RECORDS.md) |
-| `getMediaMediaIdContent` | `GET /media/{mediaId}/content` | [RECORDS](issues/RECORDS.md) |
-| `getTrackPoints` | `GET /track-points` | [ACTIVITY](issues/ACTIVITY.md) |
-| `postTrackPoints` | `POST /track-points` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getTrackPointsPointId` | `GET /track-points/{pointId}` | [ACTIVITY](issues/ACTIVITY.md) |
-| `postTrackPointsDeleteRange` | `POST /track-points/delete-range` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getConversations` | `GET /conversations` | [AI](issues/AI.md) |
-| `postConversations` | `POST /conversations` | [AI](issues/AI.md) |
-| `getConversationsConversationId` | `GET /conversations/{conversationId}` | [AI](issues/AI.md) |
-| `patchConversationsConversationId` | `PATCH /conversations/{conversationId}` | [AI](issues/AI.md) |
-| `deleteConversationsConversationId` | `DELETE /conversations/{conversationId}` | [AI](issues/AI.md) |
-| `getConversationsConversationIdMessages` | `GET /conversations/{conversationId}/messages` | [AI](issues/AI.md) |
-| `postConversationsConversationIdMessages` | `POST /conversations/{conversationId}/messages` | [AI](issues/AI.md) |
-| `getMessagesMessageId` | `GET /messages/{messageId}` | [AI](issues/AI.md) |
-| `postMessagesMessageIdCancel` | `POST /messages/{messageId}/cancel` | [AI](issues/AI.md) |
-| `postMessagesMessageIdRetry` | `POST /messages/{messageId}/retry` | [AI](issues/AI.md) |
-| `getReflectionDaysDate` | `GET /reflection/days/{date}` | [ACTIVITY](issues/ACTIVITY.md) |
-| `getSelfCheckins` | `GET /self-checkins` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `postSelfCheckins` | `POST /self-checkins` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `getSelfCheckinsCheckinId` | `GET /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `patchSelfCheckinsCheckinId` | `PATCH /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `deleteSelfCheckinsCheckinId` | `DELETE /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `getThemes` | `GET /themes` | [THEMES](issues/THEMES.md) |
-| `postThemes` | `POST /themes` | [THEMES](issues/THEMES.md) |
-| `getThemesThemeId` | `GET /themes/{themeId}` | [THEMES](issues/THEMES.md) |
-| `patchThemesThemeId` | `PATCH /themes/{themeId}` | [THEMES](issues/THEMES.md) |
-| `deleteThemesThemeId` | `DELETE /themes/{themeId}` | [THEMES](issues/THEMES.md) |
-| `getReflectionSummary` | `GET /reflection/summary` | [INSIGHTS](issues/INSIGHTS.md) |
-| `getInsights` | `GET /insights` | [INSIGHTS](issues/INSIGHTS.md) |
-| `postInsights` | `POST /insights` | [INSIGHTS](issues/INSIGHTS.md) |
-| `getInsightsInsightId` | `GET /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) |
-| `patchInsightsInsightId` | `PATCH /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) |
-| `deleteInsightsInsightId` | `DELETE /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) |
-| `postSourceChecks` | `POST /source-checks` | [INFORMATION](issues/INFORMATION.md) |
-| `postSuggestionBatches` | `POST /suggestion-batches` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `getSuggestions` | `GET /suggestions` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `getSuggestionsSuggestionId` | `GET /suggestions/{suggestionId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `patchSuggestionsSuggestionId` | `PATCH /suggestions/{suggestionId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) |
-| `postRouteSearches` | `POST /route-searches` | [ROUTES](issues/ROUTES.md) |
-| `getSavedRoutes` | `GET /saved-routes` | [ROUTES](issues/ROUTES.md) |
-| `postSavedRoutes` | `POST /saved-routes` | [ROUTES](issues/ROUTES.md) |
-| `getSavedRoutesRouteId` | `GET /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) |
-| `patchSavedRoutesRouteId` | `PATCH /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) |
-| `deleteSavedRoutesRouteId` | `DELETE /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) |
-| `getTransitPasses` | `GET /transit-passes` | [ROUTES](issues/ROUTES.md) |
-| `postTransitPasses` | `POST /transit-passes` | [ROUTES](issues/ROUTES.md) |
-| `getTransitPassesPassId` | `GET /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) |
-| `patchTransitPassesPassId` | `PATCH /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) |
-| `deleteTransitPassesPassId` | `DELETE /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) |
-| `getMe` | `GET /me` | [CORE](issues/CORE.md) |
-| `patchMe` | `PATCH /me` | [SETTINGS](issues/SETTINGS.md) |
-| `getPeople` | `GET /people` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getPeoplePersonId` | `GET /people/{personId}` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getFriendships` | `GET /friendships` | [COMMUNITY](issues/COMMUNITY.md) |
-| `postFriendships` | `POST /friendships` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getFriendshipsFriendshipId` | `GET /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) |
-| `patchFriendshipsFriendshipId` | `PATCH /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) |
-| `deleteFriendshipsFriendshipId` | `DELETE /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getSharedRecords` | `GET /shared-records` | [INFORMATION](issues/INFORMATION.md) |
-| `getSharedRecordsMap` | `GET /shared-records/map` | [INFORMATION](issues/INFORMATION.md) |
-| `getPlacesPlaceIdVoices` | `GET /places/{placeId}/voices` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getSharedRoutes` | `GET /shared-routes` | [COMMUNITY](issues/COMMUNITY.md) |
-| `getPlugins` | `GET /plugins` | [PLUGINS](issues/PLUGINS.md) |
-| `getPluginSettings` | `GET /plugin-settings` | [PLUGINS](issues/PLUGINS.md) |
-| `postPluginSettings` | `POST /plugin-settings` | [PLUGINS](issues/PLUGINS.md) |
-| `getPluginSettingsPluginId` | `GET /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) |
-| `patchPluginSettingsPluginId` | `PATCH /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) |
-| `deletePluginSettingsPluginId` | `DELETE /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) |
-| `getFeatureRequests` | `GET /feature-requests` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| `postFeatureRequests` | `POST /feature-requests` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| `getFeatureRequestsRequestId` | `GET /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| `patchFeatureRequestsRequestId` | `PATCH /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| `deleteFeatureRequestsRequestId` | `DELETE /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) |
-| `postMapDialogues` | `POST /map-dialogues` | [EXPLORATION](issues/EXPLORATION.md) |
-| `postMapDialoguesSelect` | `POST /map-dialogues/select` | [EXPLORATION](issues/EXPLORATION.md) |
-| `postMapDialoguesCancel` | `POST /map-dialogues/cancel` | [EXPLORATION](issues/EXPLORATION.md) |
-| `getMapDialoguesResultsResultId` | `GET /map-dialogues/results/{resultId}` | [EXPLORATION](issues/EXPLORATION.md) |
-| `postDiscoveryCards` | `POST /discovery-cards` | [EXPLORATION](issues/EXPLORATION.md) |
-| `getDiscoveryCards` | `GET /discovery-cards` | [EXPLORATION](issues/EXPLORATION.md) |
-| `getDiscoveryCardsCardId` | `GET /discovery-cards/{cardId}` | [EXPLORATION](issues/EXPLORATION.md) |
-| `deleteDiscoveryCardsCardId` | `DELETE /discovery-cards/{cardId}` | [EXPLORATION](issues/EXPLORATION.md) |
-| `postDiscoveryCardsCardIdReactions` | `POST /discovery-cards/{cardId}/reactions` | [EXPLORATION](issues/EXPLORATION.md) |
-| `getDiscoveryCardsCardIdReactions` | `GET /discovery-cards/{cardId}/reactions` | [EXPLORATION](issues/EXPLORATION.md) |
-| `getDiscoveryCardsCardIdReactionsReactionId` | `GET /discovery-cards/{cardId}/reactions/{reactionId}` | [EXPLORATION](issues/EXPLORATION.md) |
+| operationId | method/path | 所有Task | 登録 |
+|---|---|---|---|
+| `getPlaces` | `GET /places` | [PLACES](issues/PLACES.md) | 当初 |
+| `postPlaces` | `POST /places` | [PLACES](issues/PLACES.md) | 当初 |
+| `getPlaceCandidates` | `GET /place-candidates` | [PLACES](issues/PLACES.md) | 当初 |
+| `getPlacesPlaceId` | `GET /places/{placeId}` | [PLACES](issues/PLACES.md) | 当初 |
+| `patchPlacesPlaceId` | `PATCH /places/{placeId}` | [PLACES](issues/PLACES.md) | 当初 |
+| `getMapGrowth` | `GET /map/growth` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getVisits` | `GET /visits` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `postVisits` | `POST /visits` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getVisitsVisitId` | `GET /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `patchVisitsVisitId` | `PATCH /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `deleteVisitsVisitId` | `DELETE /visits/{visitId}` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getRecords` | `GET /records` | [INFORMATION](issues/INFORMATION.md) | 当初 |
+| `postRecords` | `POST /records` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `getRecordsRecordId` | `GET /records/{recordId}` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `patchRecordsRecordId` | `PATCH /records/{recordId}` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `deleteRecordsRecordId` | `DELETE /records/{recordId}` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `getRecordsRecordIdMedia` | `GET /records/{recordId}/media` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `postRecordsRecordIdMedia` | `POST /records/{recordId}/media` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `postRecordsRecordIdMediaReorder` | `POST /records/{recordId}/media/reorder` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `getMediaMediaId` | `GET /media/{mediaId}` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `deleteMediaMediaId` | `DELETE /media/{mediaId}` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `getMediaMediaIdContent` | `GET /media/{mediaId}/content` | [RECORDS](issues/RECORDS.md) | 当初 |
+| `getTrackPoints` | `GET /track-points` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `postTrackPoints` | `POST /track-points` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getTrackPointsPointId` | `GET /track-points/{pointId}` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `postTrackPointsDeleteRange` | `POST /track-points/delete-range` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getConversations` | `GET /conversations` | [AI](issues/AI.md) | 当初 |
+| `postConversations` | `POST /conversations` | [AI](issues/AI.md) | 当初 |
+| `getConversationsConversationId` | `GET /conversations/{conversationId}` | [AI](issues/AI.md) | 当初 |
+| `patchConversationsConversationId` | `PATCH /conversations/{conversationId}` | [AI](issues/AI.md) | 当初 |
+| `deleteConversationsConversationId` | `DELETE /conversations/{conversationId}` | [AI](issues/AI.md) | 当初 |
+| `getConversationsConversationIdMessages` | `GET /conversations/{conversationId}/messages` | [AI](issues/AI.md) | 当初 |
+| `postConversationsConversationIdMessages` | `POST /conversations/{conversationId}/messages` | [AI](issues/AI.md) | 当初 |
+| `getMessagesMessageId` | `GET /messages/{messageId}` | [AI](issues/AI.md) | 当初 |
+| `postMessagesMessageIdCancel` | `POST /messages/{messageId}/cancel` | [AI](issues/AI.md) | 当初 |
+| `postMessagesMessageIdRetry` | `POST /messages/{messageId}/retry` | [AI](issues/AI.md) | 当初 |
+| `getReflectionDaysDate` | `GET /reflection/days/{date}` | [ACTIVITY](issues/ACTIVITY.md) | 当初 |
+| `getSelfCheckins` | `GET /self-checkins` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `postSelfCheckins` | `POST /self-checkins` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `getSelfCheckinsCheckinId` | `GET /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `patchSelfCheckinsCheckinId` | `PATCH /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `deleteSelfCheckinsCheckinId` | `DELETE /self-checkins/{checkinId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `getThemes` | `GET /themes` | [THEMES](issues/THEMES.md) | 当初 |
+| `postThemes` | `POST /themes` | [THEMES](issues/THEMES.md) | 当初 |
+| `getThemesThemeId` | `GET /themes/{themeId}` | [THEMES](issues/THEMES.md) | 当初 |
+| `patchThemesThemeId` | `PATCH /themes/{themeId}` | [THEMES](issues/THEMES.md) | 当初 |
+| `deleteThemesThemeId` | `DELETE /themes/{themeId}` | [THEMES](issues/THEMES.md) | 当初 |
+| `getReflectionSummary` | `GET /reflection/summary` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `getInsights` | `GET /insights` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `postInsights` | `POST /insights` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `getInsightsInsightId` | `GET /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `patchInsightsInsightId` | `PATCH /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `deleteInsightsInsightId` | `DELETE /insights/{insightId}` | [INSIGHTS](issues/INSIGHTS.md) | 当初 |
+| `postSourceChecks` | `POST /source-checks` | [INFORMATION](issues/INFORMATION.md) | 当初 |
+| `postSuggestionBatches` | `POST /suggestion-batches` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `getSuggestions` | `GET /suggestions` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `getSuggestionsSuggestionId` | `GET /suggestions/{suggestionId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `patchSuggestionsSuggestionId` | `PATCH /suggestions/{suggestionId}` | [SUGGESTIONS](issues/SUGGESTIONS.md) | 当初 |
+| `postRouteSearches` | `POST /route-searches` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `getSavedRoutes` | `GET /saved-routes` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `postSavedRoutes` | `POST /saved-routes` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `getSavedRoutesRouteId` | `GET /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `patchSavedRoutesRouteId` | `PATCH /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `deleteSavedRoutesRouteId` | `DELETE /saved-routes/{routeId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `getTransitPasses` | `GET /transit-passes` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `postTransitPasses` | `POST /transit-passes` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `getTransitPassesPassId` | `GET /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `patchTransitPassesPassId` | `PATCH /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `deleteTransitPassesPassId` | `DELETE /transit-passes/{passId}` | [ROUTES](issues/ROUTES.md) | 当初 |
+| `getMe` | `GET /me` | [CORE](issues/CORE.md) | 当初 |
+| `patchMe` | `PATCH /me` | [SETTINGS](issues/SETTINGS.md) | 当初 |
+| `getPeople` | `GET /people` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getPeoplePersonId` | `GET /people/{personId}` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getFriendships` | `GET /friendships` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `postFriendships` | `POST /friendships` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getFriendshipsFriendshipId` | `GET /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `patchFriendshipsFriendshipId` | `PATCH /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `deleteFriendshipsFriendshipId` | `DELETE /friendships/{friendshipId}` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getSharedRecords` | `GET /shared-records` | [INFORMATION](issues/INFORMATION.md) | 当初 |
+| `getSharedRecordsMap` | `GET /shared-records/map` | [INFORMATION](issues/INFORMATION.md) | 当初 |
+| `getPlacesPlaceIdVoices` | `GET /places/{placeId}/voices` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getSharedRoutes` | `GET /shared-routes` | [COMMUNITY](issues/COMMUNITY.md) | 当初 |
+| `getPlugins` | `GET /plugins` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `getPluginSettings` | `GET /plugin-settings` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `postPluginSettings` | `POST /plugin-settings` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `getPluginSettingsPluginId` | `GET /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `patchPluginSettingsPluginId` | `PATCH /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `deletePluginSettingsPluginId` | `DELETE /plugin-settings/{pluginId}` | [PLUGINS](issues/PLUGINS.md) | 当初 |
+| `getFeatureRequests` | `GET /feature-requests` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 当初 |
+| `postFeatureRequests` | `POST /feature-requests` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 当初 |
+| `getFeatureRequestsRequestId` | `GET /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 当初 |
+| `patchFeatureRequestsRequestId` | `PATCH /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 当初 |
+| `deleteFeatureRequestsRequestId` | `DELETE /feature-requests/{requestId}` | [FEATURE-REQUESTS](issues/FEATURE-REQUESTS.md) | 当初 |
+| `postMapDialogues` | `POST /map-dialogues` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `postMapDialoguesSelect` | `POST /map-dialogues/select` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `postMapDialoguesCancel` | `POST /map-dialogues/cancel` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getMapDialoguesResultsResultId` | `GET /map-dialogues/results/{resultId}` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `postDiscoveryCards` | `POST /discovery-cards` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getDiscoveryCards` | `GET /discovery-cards` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getDiscoveryCardsCardId` | `GET /discovery-cards/{cardId}` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `deleteDiscoveryCardsCardId` | `DELETE /discovery-cards/{cardId}` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `postDiscoveryCardsCardIdReactions` | `POST /discovery-cards/{cardId}/reactions` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getDiscoveryCardsCardIdReactions` | `GET /discovery-cards/{cardId}/reactions` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getDiscoveryCardsCardIdReactionsReactionId` | `GET /discovery-cards/{cardId}/reactions/{reactionId}` | [EXPLORATION](issues/EXPLORATION.md) | 当初 |
+| `getSessionProfiles` | `GET /session/profiles` | [CORE](issues/CORE.md) | 統合済CORE追加 |
+| `postSession` | `POST /session` | [CORE](issues/CORE.md) | 統合済CORE追加 |
+| `getSession` | `GET /session` | [CORE](issues/CORE.md) | 統合済CORE追加 |
+| `deleteSession` | `DELETE /session` | [CORE](issues/CORE.md) | 統合済CORE追加 |
 
-## 画面数だけでは数えない範囲
-
-| 要件の根拠 | 担当 |
-|---|---|
-| 技術スタック、共通通信、DB17表と既存追加DDL | COREが起動/登録/初期適用。各機能が固有SQL・更新規則 |
-| 共通AI8用途 | AIが実行。REFLECTION / INSIGHTS / THEMES / EXPLORATION / MAP-CUSTOM / SUGGESTIONSが固有処理 |
-| 共通場所/経路、保存可能性、取得元/期限 | PLACES / ROUTES |
-| 情報取得、媒体閲覧、SourceRef、実効日時 | INFORMATION / RECORDS / ACTIVITY |
-| 体験移転の二案・採用（API資料Q10） | TRANSFER / UI-EXPLORE |
-| バイク・防災・聖地の固有データ | BIKE / DISASTER / PILGRIMAGE / UI-PLUGINS |
-| 画面画像のない共通設定入口 | UI-SETTINGS / SETTINGS / CORE、生成先はCOMPANION |
-| 提出・実デモの再現と開示 | 各担当が利用元・ライセンス・取得時点を証拠へ記録し、最後に調整担当が提出物へ集約 |
-
-健康・相棒・装飾など新APIが必要な範囲は[契約補完表](contract-gates.md)に残している。旧リハーサルのIssueや台帳は本番の所有/進捗として引き継がない。
+API不足20項目の所有は[契約補完](contract-gates.md)とindex.gap_ownersのまま維持する。API bindingの原method/path/inputFrom/responsesを各pageの対応に保持し、具体的な接続チェックと失敗条件を列挙する。
