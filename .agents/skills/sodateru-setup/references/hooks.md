@@ -15,4 +15,6 @@ Codex hooksの編集元は `.codex/hooks.macos.json` / `.codex/hooks.windows.jso
 
 hooks変更時の検証入口は `mise run verify`。製品の機能受入テストとは別である。
 
-boardがない間のbootstrapは `main` の初期準備commitとfast-forward pushに限る。他branchの作成・push・削除に流用しない。board導入後はpreparation Taskの状態が `main` 例外を制御し、bootstrap fallbackは使われない。
+boardがない間のbootstrapは二段階で扱う。`origin/develop` がない最初だけ `main` の初期準備commitとfast-forward pushを許可する。`origin/develop` 作成後は `main` / `develop` をoriginへの同期専用とし、`origin/develop` から `bootstrap/<説明>` を作成して同名branchへpushし、PRで `develop` に統合する。直接 `develop` へpushしない。board導入後はpreparation Taskの状態が `main` 例外を制御し、bootstrap fallbackは使われない。
+
+既存の未コミット準備を `main` から移す場合もstashやhook無効化は不要である。`git fetch origin develop`、ローカルbranchがなければ `git branch develop origin/develop`、`git switch -m develop`、`git switch -c bootstrap/<説明>` の順で切り替える。`-m` は現在の差分を新しい基準へ三者マージして保持する。衝突する場合はその場で止めて確認し、解消を推測したり差分を破棄したりしない。

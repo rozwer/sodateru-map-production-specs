@@ -11,6 +11,6 @@
 
 該当するSkillを使う：[環境構築・修復](.agents/skills/sodateru-setup/SKILL.md)／[Task着手・完了・引継ぎ](.agents/skills/sodateru-task/SKILL.md)／[Issue連絡・配送](.agents/skills/sodateru-issue-contact/SKILL.md)。
 
-- コマンドは `mise exec --` / `mise run`。実装は `origin/develop` 起点の専用worktree・取得範囲内で行う。
+- コマンドは `mise exec --` / `mise run`。board導入前の準備は `origin/develop` 起点の `bootstrap/<説明>` branchからPRで `develop` へ統合し、実装は `origin/develop` 起点の専用worktree・取得範囲内で行う。
 - `main` / `develop` への直接push、他担当のロック解除、既存変更の破棄は禁止。
 - 仕様・証拠は `docs/`、手順は `.agents/skills/`。ルートのMarkdownは本書と `README.md` のみ。
