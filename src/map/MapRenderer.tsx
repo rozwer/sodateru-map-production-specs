@@ -36,6 +36,7 @@ export function BridgeMap({ bridge, interactive = true, label, preview = false, 
 }
 
 export function MapRenderer({ bridge }: { bridge: MapBridge }) {
+  useDisasterMapDisplay(bridge, true);
   const snapshot = useSyncExternalStore(bridge.subscribe, bridge.getSnapshot);
   const display = useMapDisplay(bridge);
   useEffect(() => {
