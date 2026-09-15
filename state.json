@@ -4413,7 +4413,7 @@
   "inline_tasks": [
     "QA-VISUAL"
   ],
-  "revision": 28,
+  "revision": 29,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4561,17 +4561,22 @@
       "token": null
     },
     "PLACES": {
-      "actor": null,
+      "actor": "kaiya",
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 4,
+      "generation": 5,
       "issue_number": 5,
       "landed_main": null,
       "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
       "owner": "kaiya",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/places/",
+        "server/db/migrations/places/",
+        "docs/01_requirements/04_api/fragments/PLACES.json",
+        "docs/evidence/PLACES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "069d13bbb8024ec6b9014ab1dc2eb470"
     },
     "PLUGINS": {
       "actor": null,
