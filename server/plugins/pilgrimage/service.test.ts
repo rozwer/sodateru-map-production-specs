@@ -5,6 +5,8 @@ import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { PilgrimageService } from './service.ts';
+import { baseMigration } from '../../db/migrate.ts';
+import * as sharedAi from '../../ai/index.ts';
 import { coreMigration } from '../../core/migration.ts';
 import { requestPreview } from './http.ts';
 import { pilgrimageTask } from './ai.ts';
@@ -13,7 +15,7 @@ const context={personId:'owner',dataMode:'live' as const,requestId:'test',signal
 const relations:Relation[]=[0,1,2].map(i=>({id:`r${i}`,workId:'Q1',name:`場所${i}`,address:null,coordinates:[137.18+i*.003,36.23],relationType:'model-location',description:'テスト用の関係。実データではありません。',sourceRefs:[{url:'https://example.test/source',title:'テスト資料',fetchedAt:1,claimScope:'relation',attribution:'test double'}],verificationStatus:i===2?'unverified':'confirmed',unknowns:i===2?['未確認']:[]}));
 function setup() {
  const dir=mkdtempSync(join(tmpdir(),'pilgrimage-test-')),path=join(dir,'db.sqlite');
- const db=new DatabaseSync(path);db.exec("PRAGMA foreign_keys=ON; CREATE TABLE people(id TEXT PRIMARY KEY); INSERT INTO people VALUES('owner'),('other'); CREATE TABLE test_saved_routes(id TEXT PRIMARY KEY,json TEXT); CREATE TABLE test_records(id TEXT PRIMARY KEY); INSERT INTO test_records VALUES('keep');");db.exec(readFileSync(new URL('../../db/migrations/pilgrimage/001-pilgrimage.sql',import.meta.url),'utf8'));
+ const db=new DatabaseSync(path);db.exec(baseMigration.sql);db.exec("PRAGMA foreign_keys=ON; INSERT INTO people(id,created_at,updated_at,name,bio) VALUES('owner',1,1,'owner',''),('other',1,1,'other',''); CREATE TABLE test_saved_routes(id TEXT PRIMARY KEY,json TEXT); CREATE TABLE test_records(id TEXT PRIMARY KEY); INSERT INTO test_records VALUES('keep');");db.exec(readFileSync(new URL('../../db/migrations/pilgrimage/001-pilgrimage.sql',import.meta.url),'utf8'));
  db.exec(coreMigration.sql);
  const setting={id:'pilgrimage',enabled:true,version:1,settings:{mode:'walking'}},state=()=>({revision:`v${setting.version}-${setting.enabled}`,items:[setting],appliedDeclarations:setting.enabled?[{pluginId:'pilgrimage',targetKey:'layer:pilgrimage',property:'visibility',value:true}]:[]});
  let lastRoute:any;
@@ -52,4 +54,37 @@ test('preview再送は外部APIを呼ばず復元し、異入力と再起動後�
  await assert.rejects(requestPreview(f.db,context,f.service,{...f.selection,title:'異入力'},'key'),{code:'IDEMPOTENCY_CONFLICT'});assert.equal(calls,1);
  const reopened=new DatabaseSync(f.path);try{await assert.rejects(requestPreview(reopened,context,new PilgrimageService(reopened,f.deps),f.selection,'key'),{code:'RESULT_EXPIRED'});assert.equal(calls,1);}finally{reopened.close();}
  }finally{f.close();}
+});
+
+// The common AI engine/storage are real. Only model/places/roads are explicit test doubles;
+// the separate live-ai-result.json demonstrates the real model and providers.
+test('共通AI取消・再試行・期限・採用参照rollbackを固有計画の境界で照合する',async()=>{
+ const f=setup(),pending:Array<(value:any)=>void>=[];
+ const tick=()=>new Promise<void>(resolve=>setImmediate(resolve));
+ try {
+  await f.seed();sharedAi.registerAiTask(pilgrimageTask(f.deps.pluginState));
+  sharedAi.configureAi({provider:async()=>new Promise(resolve=>pending.push(resolve)),assertAllowed:()=>{},model:()=> 'explicit-test-double'});
+  sharedAi.createConversation(f.db,context,{id:'c',purpose:'consult',title:'境界検証',recordId:null});
+  const request={conversationId:'c',userMessageId:'u',assistantMessageId:'a',text:'模擬候補の順序',task:'pilgrimage',input:{searchId:'search',relationIds:['r0','r1'],settingsVersion:1},expectedRefs:[]};
+  f.deps.ai={assertRunAdoptable:sharedAi.assertRunAdoptable,appendAppliedRef:sharedAi.appendAppliedRef};
+  await sharedAi.startRun(f.db,context,request);await tick();
+  const running=await sharedAi.getRun(f.db,context,'a');
+  const cancelled=sharedAi.cancelRun(f.db,context,'a',{expectedVersion:running.version,expectedAttempt:1});
+  await assert.rejects(f.service.preview(context,{...f.selection,ai:{runId:'a',attempt:1}}),{code:'REQUEST_CONFLICT'});
+  f.setting.version=2;await assert.rejects(sharedAi.retryRun(f.db,context,'a',{expectedVersion:cancelled.version,expectedAttempt:1}),{code:'SOURCE_CHANGED'});f.setting.version=1;
+  await sharedAi.retryRun(f.db,context,'a',{expectedVersion:cancelled.version,expectedAttempt:1});await tick();
+  const result={searchId:'search',settingsVersion:1,orderedRelationIds:['r1','r0'],explanation:'テスト用',unknowns:['テスト用']};
+  pending.shift()!(result);await tick();assert.equal((await sharedAi.getRun(f.db,context,'a')).status,'running');
+  pending.shift()!(result);await tick();assert.equal((await sharedAi.getRun(f.db,context,'a')).status,'complete');
+  await assert.rejects(f.service.preview(context,{...f.selection,ai:{runId:'a',attempt:1}}),{code:'REQUEST_CONFLICT'});
+  const preview=await f.service.preview(context,{...f.selection,ai:{runId:'a',attempt:2}});
+  const actualNow=Date.now;try{Date.now=()=>preview.expiresAt+1;assert.throws(()=>f.service.savePlan(context,'plan',preview.id),{code:'RESULT_EXPIRED'});}finally{Date.now=actualNow;}
+  const version=(await sharedAi.getRun(f.db,context,'a')).version;
+  f.deps.ai.appendAppliedRef=(...args)=>{sharedAi.appendAppliedRef(...args);throw new Error('failure after real AI reference insert');};
+  assert.throws(()=>f.service.savePlan(context,'plan',preview.id),/failure after real/);
+  assert.equal(f.service.listPlans(context).items.length,0);assert.equal((f.db.prepare('SELECT count(*) n FROM test_saved_routes').get() as any).n,0);
+  assert.deepEqual(sharedAi.readAppliedRefs(f.db,context,'a'),[]);assert.equal((await sharedAi.getRun(f.db,context,'a')).version,version);
+  f.deps.ai.appendAppliedRef=sharedAi.appendAppliedRef;const plan=f.service.savePlan(context,'plan',preview.id);
+  assert.equal(plan.ai!.attempt,2);assert.equal(sharedAi.readAppliedRefs(f.db,context,'a')[0]!.id,plan.id);
+ } finally {for(const resolve of pending)resolve({});await tick();f.close();}
 });

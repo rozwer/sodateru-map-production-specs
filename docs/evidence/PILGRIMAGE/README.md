@@ -17,7 +17,7 @@
 
 ## 確認済み
 
-`mise exec -- node --experimental-transform-types --test server/plugins/pilgrimage/service.test.ts` : 5件PASS。実SQLiteの再open/保存順/停止保持/本人・モード分離/設定版競合/未確認拒否/更新/AI採用rollback/AI候補ID、preview再送時に外部通信しないこと・再起動で一時previewを再取得しないことを確認。経路とAIはこの単体テストでは明示したtest double。
+`mise exec -- node --experimental-transform-types --test server/plugins/pilgrimage/service.test.ts` : 6件PASS。実SQLiteの再open/保存順/停止保持/本人・モード分離/設定版競合/未確認拒否/更新/AI採用rollback/AI候補ID、preview再送時に外部通信しないこと・再起動で一時previewを再取得しないことを確認。経路は明示したtest double。6件目は実共通AIエンジン/SQLiteを使用し、モデルだけ遅延するtest doubleとして、取消→再試行後の古い応答/試行の拒否、設定変更後の再試行拒否、preview期限切れ、実AI採用参照の書込後に故意の失敗を起こした計画/経路/AI参照/AI版の一括rollbackを確認。実モデルの成功とは下記の証拠で区別する。
 
 `live-probe.ts` は実公式出典・実Nominatim・実Mapbox Directions・共通PLUGINSとROUTESを使用。飛騨古川駅→飛騨市図書館を516.274m/339秒/13点の道路形状で保存・再取得。実SQLite再openでも一致、停止後に場所と経路を保持。出力は `live-service-result.json`。初回service検証は先行提供worktreeを読取利用。後述の実HTTPは正式統合後に同じworktreeのPLUGINS/ROUTES/PLACESで再検証済み。
 
@@ -38,11 +38,23 @@ mise exec -- node --experimental-transform-types --env-file-if-exists=.env docs/
 
 ## 提供単位と残件
 
-- #126 PILGRIMAGE.plan: 正式統合済みPLUGINS/ROUTES/PLACESによる実HTTP・実道路・保存・再取得を確認。PR #79の独立レビュー/commit保持統合が残る。
-- #127 PILGRIMAGE.ai: 固有SchemaのuniqueItemsがSDKに拒否される問題を特定。固有validateResultの完全並べ替え検証は維持し、SDK用指定のみ除く修正と実AI成功証拠を次の子PRで提供する。PR #79の単体AIは固定結果の境界検証であり、この単位の完成証拠にはしない。
+- #126 PILGRIMAGE.plan: 正式統合済みPLUGINS/ROUTES/PLACESによる実HTTP・実道路・保存・再取得を確認。PR #79を独立レビュー後にcommit保持統合。
+- #127 PILGRIMAGE.ai: SDKが拒否する出力SchemaのuniqueItemsだけを除去し、固有validateResultの完全並べ替え検証を維持。実共通AIの生成・実道路・計画/採用参照の保存・再取得が成功（live-ai-result.json）。この子PRの独立レビュー/commit保持統合が残る。
 - #128 PILGRIMAGE.connect: 共通生成物への合成とA #18/#8の通常地図による検索・順序変更・保存・再読込・停止表示の実操作が残る。全機能のregister.ts収集は成功、全体型検査は他担当範囲の未生成型等で未達。
 - 親 #38のtask:finish/closeは上記全体の受入後。子の先行統合だけでは行わない。
 
 ## 証拠の訂正
 
 映画「君の名は。」のWikidata IDは実検索によりQ21697406を確認（work-identity.json）。初回live-service-result.json/AI失敗試行には訂正前のIDが含まれるため履歴として扱い、現行の作品同定・計画保存の受入証拠にはlive-http-result.jsonを使う。作品と各地点との関係そのものは独立して飛騨市公式ページの個別記載へ戻せる。
+
+## #127 実AI接続
+
+`live-ai-result.json` は同一worktreeの正式共通AI/SETTINGS/PLUGINS/PLACES/ROUTESと実HTTPを使用した成功記録。共通SETTINGSで本人のAI/位置利用を許可し、`gpt-5.6-luna`（reasoning overrideなし）で確認済みの飛騨古川駅・飛騨市図書館から訪問順を生成。実Mapboxの516.274m/339秒/13点の道路形状を取得し、計画と場所/道路/AI採用参照を確定、別SQLite接続から計画とAI結果を再取得した。AI resultの営業時間等のunknownsも保持。検索/計画はQ21697406で一致する。
+
+```sh
+mise exec -- env CODEX_AI_MODEL=gpt-5.6-luna node --experimental-transform-types --env-file-if-exists=.env docs/evidence/PILGRIMAGE/ai-probe.ts
+```
+
+初回の失敗原因は `ai-provider-error.json` に記録したSDKの `invalid_json_schema`（出力orderedRelationIdsのuniqueItems非対応）。修正後も入力Schemaと固有意味検証で候補外/重複/欠落を拒否する。再現スクリプトのprovider wrapperは実SDKを呼び、失敗診断のみsecret値を伏せて保存する。
+
+実HTTP証拠は固有fragmentをメモリ上でCORE契約に合成し、PLUGINSの導入/停止は実serviceを呼ぶ。この証拠だけで共通生成物・全機能起動・OSプロセス再起動・通常地図UIまで受入済みとはしない（#128）。
