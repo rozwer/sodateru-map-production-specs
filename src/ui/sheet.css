@@ -1,0 +1,29 @@
+.sm-sheet { position: absolute; z-index: 20; display: flex; flex-direction: column; top: 0; bottom: 0; width: min(430px,100%); max-width: 100%; background: rgba(255,255,255,.98); border: 1px solid #dce9e9; border-radius: 18px 18px 0 0; box-shadow: var(--shadow-panel); outline: none; }
+.sm-sheet--left { left: 0; }
+.sm-sheet--right { right: 0; }
+.sm-sheet__header { display: flex; align-items: center; min-height: 66px; padding: 10px 16px 2px; gap: 4px; flex: 0 0 auto; }
+.sm-sheet__header h1 { font-size: 1.25rem; line-height: 1.4; margin: 0; }
+.sm-sheet__header--centered { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; }
+.sm-sheet__header--centered h1 { grid-column: 2; text-align: center; }
+.sm-sheet--soft { background: linear-gradient(160deg,#f2f9f9,#eaf7f6); }
+.sm-sheet__close { margin-left: auto; flex-shrink: 0; }
+.sm-sheet__body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 16px 20px calc(var(--bottom-nav-height,80px) + 20px + env(safe-area-inset-bottom)); scrollbar-width: thin; }
+.sm-sheet--navigation { width: min(286px, 64%); border-radius: 18px 18px 0 0; }
+.sm-sheet--navigation.sm-sheet--right { width: clamp(248px, 54.4%, 286px); }
+.sm-sheet--navigation .sm-sheet__header { position: absolute; top: 16px; left: 8px; right: 8px; min-height: 44px; padding: 0; pointer-events: none; z-index: 1; }
+.sm-sheet--navigation .sm-sheet__header button { pointer-events: auto; }
+.sm-sheet--navigation .sm-sheet__body { padding: 42px 16px calc(var(--bottom-nav-height,80px) + 18px); display: flex; flex-direction: column; }
+.sm-sheet--navigation.sm-sheet--right .sm-sheet__body { padding-top: 42px; }
+@media (max-width: 359px) {
+  .sm-sheet--navigation { width: 76%; }
+  .sm-sheet--navigation.sm-sheet--right { width: calc(100% - 70px); }
+  .sm-sheet__body { padding-left: 14px; padding-right: 14px; }
+}
+@media (min-width: 768px) {
+  .sm-sheet { top: 20px; bottom: 20px; border-radius: 20px; }
+  .sm-sheet--left { left: 20px; }
+  .sm-sheet--right { right: 20px; }
+  .sm-sheet--navigation { width: 300px; }
+  .sm-sheet--navigation.sm-sheet--right { width: 286px; }
+  .sm-sheet__body { padding-bottom: calc(var(--bottom-nav-height,80px) + 30px); }
+}
