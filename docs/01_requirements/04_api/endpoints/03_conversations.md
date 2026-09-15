@@ -44,6 +44,9 @@
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
 | query | `purpose` | consult / reflection / analysis / comparison | 省略可 | —  |
+| query | `q` | string | 省略可 | maxLength=1000  |
+| query | `dateFrom` | integer | 省略可 | minimum=0  |
+| query | `dateTo` | integer | 省略可 | minimum=0  |
 
 ### リクエスト本文
 

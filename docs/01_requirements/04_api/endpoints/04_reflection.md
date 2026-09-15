@@ -481,6 +481,9 @@ HTTP 200。
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
 | query | `kind` | analysis / comparison | 省略可 | —  |
+| query | `rangeStart` | [Timestamp](../schemas/models.md#timestamp) | 省略可 | — 対象期間開始の完全一致。rangeEndと組で指定。from/toはcreatedAtのまま。 |
+| query | `rangeEnd` | [Timestamp](../schemas/models.md#timestamp) | 省略可 | — 対象期間終端の完全一致。rangeStartと組で指定。 |
+| query | `timeZone` | [TimeZone](../schemas/models.md#timezone) | 省略可 | — 集計timezoneの完全一致。 |
 
 ### リクエスト本文
 

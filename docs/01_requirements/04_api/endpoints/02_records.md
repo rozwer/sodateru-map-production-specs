@@ -233,6 +233,7 @@ HTTP 204。
 | query | `kind` | experience / diary / memo | 省略可 | —  |
 | query | `timeZone` | [TimeZone](../schemas/models.md#timezone) | 省略可 | —  |
 | query | `includeUndated` | boolean | 省略可 | default=False  |
+| query | `rangeMatch` | overlap / startsWithin | 省略可 | default=overlap 期間判定。startsWithinは日別詳細の開始日時限定と続きのページ取得に使う。 |
 
 ### リクエスト本文
 

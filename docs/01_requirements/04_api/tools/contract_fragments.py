@@ -3,7 +3,26 @@ import copy
 import json
 
 
-def merge_fragments(spec, root):
+def merge_fragments(spec, root, http_components=None):
+    http_components = copy.deepcopy(http_components or spec['components'])
+    http_components.setdefault('parameters', {}).setdefault('header_X-Data-Mode', {
+        'name': 'X-Data-Mode', 'in': 'header', 'required': True,
+        'schema': {'type': 'string', 'enum': ['live', 'demo']},
+    })
+    def resolve_http(value):
+        if isinstance(value, list):
+            return [resolve_http(item) for item in value]
+        if isinstance(value, dict):
+            reference = value.get('$ref', '')
+            if reference.startswith(('#/components/parameters/', '#/components/responses/')):
+                _, _, collection, name = reference.split('/')
+                target = http_components.get(collection, {}).get(name)
+                if target is None:
+                    raise ValueError(f'Unresolved HTTP reference: {reference}')
+                return resolve_http({**target, **{key: child for key, child in value.items() if key != '$ref'}})
+            return {key: resolve_http(child) for key, child in value.items()}
+        return value
+    spec['paths'] = resolve_http(spec['paths'])
     sources = []
     operations = []
     header_templates = {p['name'].lower(): copy.deepcopy(p)
@@ -20,7 +39,7 @@ def merge_fragments(spec, root):
                 raise ValueError(f'{path.name}: schema collision: {name}')
             spec['components']['schemas'][name] = copy.deepcopy(schema)
         for item in fragment.get('operations', []):
-            entry = copy.deepcopy(item)
+            entry = resolve_http(copy.deepcopy(item))
             method, route = entry.pop('method').lower(), entry.pop('path')
             replace = entry.pop('replaceOperation', False)
             if method not in ('get', 'post', 'put', 'patch', 'delete') or not route.startswith('/'):
@@ -29,6 +48,8 @@ def merge_fragments(spec, root):
             if previous and (not replace or previous['operationId'] != entry['operationId']):
                 raise ValueError(f'{path.name}: operation collision: {method} {route}')
             entry.setdefault('parameters', [])
+            for parameter in entry['parameters']:
+                parameter.setdefault('required', False)
             entry.setdefault('tags', [fragment['taskId']])
             entry['x-contract-fragment'] = sources[-1]
             spec['paths'].setdefault(route, {})[method] = entry
