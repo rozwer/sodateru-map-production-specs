@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 19,
+  "revision": 20,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4553,12 +4553,22 @@
       "token": "e123d6a92a054b389fd97e9a5b0f786f"
     },
     "PLUGINS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 28,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/features/plugins/",
+        "server/db/migrations/plugins/",
+        "docs/01_requirements/04_api/fragments/PLUGINS.json",
+        "docs/evidence/PLUGINS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "66372d3da36543778417bbf767239de4"
     },
     "RECORDS": {
       "actor": null,
