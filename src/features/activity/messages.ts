@@ -1,0 +1,16 @@
+export const activityMessages = {
+ visitTitle: '訪問の確認', visitHeading: 'この場所に行きましたか？',
+ gpsSource: '位置の記録から見つかった候補です。', manualSource: 'この場所の訪問を確認できます。',
+ nearby: 'このあたりに滞在していた記録があります',
+ confirmed: '行った', confirmedHelp: 'この場所に行った', rejected: '行っていない', rejectedHelp: 'この場所には行っていない',
+ candidate: 'まだ分からない', candidateHelp: '記憶があいまい', saveVisit: '確認を保存',
+ growthTitle: '体験から形になる', growthSaved: '記録を保存しました',
+ growthLead: 'この場所が、あなたにとって\n意味のある場所として地図に加わりました。',
+ original: '元の記録を見る', next: 'この体験の続きを見る', map: '地図に戻る',
+ dailyTitle: '今日の軌跡', byDate: '日付で探す', track: '歩いた軌跡', stay: '滞在記録',
+ previousDay: '前の日', nextDay: '次の日', previousMonth: '前の月', nextMonth: '次の月',
+ edit: '記録を編集', reflect: '振り返る', showTrack: 'この日の軌跡を見る',
+ noRecords: 'この日の記録はまだありません。', newRecord: '体験を残す',
+ noTrack: 'この日の位置記録はありません。', missing: '位置が記録されていない区間',
+ undated: '日時未指定の記録', noPlace: '場所未指定', noTime: '時刻未指定', mood: '気分',
+} as const;
