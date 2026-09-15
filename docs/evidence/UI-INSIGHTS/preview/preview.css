@@ -1,0 +1,17 @@
+html { background: #f3f8f8; font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif; font-size: 16px; }
+html[data-text-scale="200"] { font-size: 32px; }
+body { margin: 0; }
+.preview-tools { padding: 10px 14px; display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 15px; font-size: 12px; color: #546770; background: #fff8dc; border-bottom: 1px solid #e8d596; }
+.preview-tools select { font: inherit; }
+.preview-tools label { display: flex; align-items: center; }
+.preview-phone { width: 430px; max-width: 100%; margin: 15px auto; border: 1px solid #ccdde0; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px #345c6312; background: white; }
+.preview-header { min-height: 54px; padding: 0 17px; display: flex; align-items: center; position: relative; gap: 12px; background: #f3f9f9; color: #143f48; }
+.preview-header button { display: flex; padding: 6px 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.preview-header .insight-glyph { width: 20px; height: 20px; }
+.preview-header strong { position: absolute; left: 45px; right: 45px; text-align: center; font-size: 16px; font-weight: 650; pointer-events: none; }
+.preview-theme-edit .theme-editor { padding-bottom: 16px; }
+.preview-trend-review .insight-review { min-height: 738px; }
+.preview-type-diagnosis .preview-header { min-height: 25px; }
+.preview-type-diagnosis .preview-header button { position: absolute; top: 25px; left: 20px; z-index: 1; }
+.preview-type-diagnosis .insight-diagnosis-heading { padding-left: 40px; }
+@media(max-width:500px) { .preview-phone { margin: 0; width: 100%; border: 0; border-radius: 0; box-shadow: none; } }

@@ -65,9 +65,9 @@ export async function preparePlaceUpdate(context:RequestContext,db:DatabaseSync,
     const changed=db.prepare(`UPDATE places SET name=?,address=?,building_key=?,longitude=?,latitude=?,categories_json=?,source_url=?,attribution=?,fetched_at=?,version=version+1,updated_at=? WHERE id=? AND version=?`)
       .run(values.name,values.address,values.buildingKey,...(candidate?.coordinates??place.coordinates),JSON.stringify(candidate?.categories??place.categories),candidate?.sourceUrl??place.sourceUrl,candidate?.attribution??place.attribution,candidate?.fetchedAt??place.fetchedAt,now,placeId,version);
     if(!changed.changes)throw new CommonError("VERSION_CONFLICT","場所が更新されています。",false,undefined,412);
-    db.prepare(`INSERT INTO place_details(place_id,opening_hours_json,entrances_json,corrections_json,external_values_json) VALUES (?,?,?,?,?)
-      ON CONFLICT(place_id) DO UPDATE SET opening_hours_json=excluded.opening_hours_json,entrances_json=excluded.entrances_json,corrections_json=excluded.corrections_json,external_values_json=excluded.external_values_json`)
-      .run(placeId,JSON.stringify(values.openingHours),JSON.stringify(values.entrances),JSON.stringify(corrections),JSON.stringify(external));
+    db.prepare(`INSERT INTO place_details(place_id,opening_hours_json,entrances_json,corrections_json,external_values_json,description_json,photos_json) VALUES (?,?,?,?,?,?,?)
+      ON CONFLICT(place_id) DO UPDATE SET opening_hours_json=excluded.opening_hours_json,entrances_json=excluded.entrances_json,corrections_json=excluded.corrections_json,external_values_json=excluded.external_values_json,description_json=excluded.description_json,photos_json=excluded.photos_json`)
+      .run(placeId,JSON.stringify(values.openingHours),JSON.stringify(values.entrances),JSON.stringify(corrections),JSON.stringify(external),JSON.stringify(refreshed?refreshed.description:metadata.description),JSON.stringify(refreshed?refreshed.photos:metadata.photos));
     return getPlace(db,placeId);
   };
 }

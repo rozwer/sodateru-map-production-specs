@@ -1,0 +1,20 @@
+{
+  "requestId": "db6ebccd-663f-4dca-995a-f1667eaef3ba",
+  "adapter": "sdk",
+  "model": "gpt-5.6-luna",
+  "promptVersion": "common-ai-v1",
+  "startedAt": 1789439962703,
+  "durationMs": 16732,
+  "result": {
+    "proposal": {
+      "theme": "default",
+      "lightPreset": "night",
+      "showPedestrianRoads": true,
+      "showAdminBoundaries": false,
+      "showIndoor": false,
+      "colors": null
+    },
+    "explanation": "夜間でも水辺を見やすくするため、許可された設定の範囲でlightPresetをnightに変更します。その他の現在設定は維持します。"
+  },
+  "status": "complete"
+}

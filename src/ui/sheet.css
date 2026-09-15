@@ -14,6 +14,10 @@
 .sm-sheet--navigation .sm-sheet__header button { pointer-events: auto; }
 .sm-sheet--navigation .sm-sheet__body { padding: 42px 16px calc(var(--bottom-nav-height,80px) + 18px); display: flex; flex-direction: column; }
 .sm-sheet--navigation.sm-sheet--right .sm-sheet__body { padding-top: 42px; }
+.sm-sheet .sm-sheet__body--no-padding { padding-top: 0; padding-left: 0; padding-right: 0; }
+@media (max-width: 767px) {
+  .sm-sheet--mobile-height { top: auto; height: var(--sheet-mobile-height); }
+}
 @media (max-width: 359px) {
   .sm-sheet--navigation { width: 76%; }
   .sm-sheet--navigation.sm-sheet--right { width: calc(100% - 70px); }
