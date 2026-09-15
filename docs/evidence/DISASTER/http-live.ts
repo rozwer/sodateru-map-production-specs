@@ -23,10 +23,12 @@ let databases=open();seedProfiles(databases,identity.profiles);
 let server:ReturnType<typeof serve>|undefined,origin='';const cookies:Record<string,string>={};
 const checks:string[]=[];let evidence:Record<string,unknown>={};
 const realFetch=globalThis.fetch;let simulateOutage=false,providerCalls=0;
+let holdProvider:Promise<void>|null=null,releaseProvider:(()=>void)|undefined,providerStarted:(()=>void)|undefined;
 globalThis.fetch=async(input,init)=>{
  const url=String(input);
  if(url.startsWith('https://disaportaldata.gsi.go.jp/')||url.startsWith('https://cyberjapandata.gsi.go.jp/')||url.startsWith('https://www.jma.go.jp/')){
    providerCalls++;if(simulateOutage)throw new Error('EXPLICIT TEST FIXTURE: provider outage');
+   if(holdProvider){providerStarted?.();await holdProvider;}
  }
  return realFetch(input,init);
 };
@@ -79,8 +81,15 @@ try{
  const recovered=await call('/disaster/refresh','POST',{}, {key:'after-settings-change',version:item.version});assert.equal(recovered.status,200,JSON.stringify(recovered));
  assert.deepEqual(recovered.body.data.result.settings,changedSettings);assert.notEqual(recovered.body.data.result.resultId,snapshot.resultId);assert.equal(recovered.body.data.map.action,'apply');
  checks.push('settings PATCH clears old region; real refresh recovers and applies only new bounds');
+ const started=new Promise<void>(resolve=>{providerStarted=resolve;});
+ holdProvider=new Promise<void>(resolve=>{releaseProvider=resolve;});
+ const lateRefresh=call('/disaster/refresh','POST',{}, {key:'delayed-real-refresh',version:item.version});
+ await started;
  const disabled=await call('/plugin-settings/disaster','PATCH',{enabled:false},{version:item.version});assert.equal(disabled.status,200);item=disabled.body.data;
- const stopped=(await call('/disaster')).body.data;assert.equal(stopped.map.action,'clear');assert.equal(stopped.map.ownerKey,`plugin:${item.installId}`);assert.ok(stopped.result);
+ releaseProvider!();holdProvider=null;providerStarted=undefined;
+ const lateResult=await lateRefresh;assert.equal(lateResult.status,409,JSON.stringify(lateResult));
+ const stopped=(await call('/disaster')).body.data;assert.equal(stopped.result.resultId,recovered.body.data.result.resultId);
+ checks.push('real provider completion delayed until after HTTP disable -> SOURCE_CHANGED 409; no cache overwrite or map resurrection');assert.equal(stopped.map.action,'clear');assert.equal(stopped.map.ownerKey,`plugin:${item.installId}`);assert.ok(stopped.result);
  assert.equal((await call('/disaster/refresh','POST',{}, {key:'stopped',version:item.version})).status,409);
  const replayStopped=await call('/disaster/refresh','POST',{}, {key:'real-refresh',version:1});assert.equal(replayStopped.status,200);assert.equal(replayStopped.body.data.map.action,'clear');
  assert.equal((await call('/plugin-settings/disaster','DELETE',undefined,{version:item.version})).status,204);assert.equal((await call('/disaster')).body.data.map.action,'clear');
@@ -91,4 +100,4 @@ try{
    sources:snapshot.layers.map((l:any)=>({layerId:l.layerId,kind:l.kind,unit:l.unit,status:l.status,sourceUrl:l.sourceUrl,sourceUpdatedAt:l.sourceUpdatedAt,validAt:l.validAt,issuedAt:l.issuedAt,fetchedAt:l.fetchedAt,noDataMask:l.noDataMask?{...l.noDataMask,geojson:{type:'FeatureCollection',featureCount:l.noDataMask.geojson.features.length}}:null,tiles:l.tiles.map(({imageDataUrl,...tile}:any)=>({...tile,savedImageBytes:Buffer.from(imageDataUrl.split(',')[1],'base64').length}))})),
    limitations:['Map apply/clear DTO verified over real HTTP; actual Mapbox rendering and UI interaction are owned by A and separately pending.','Outage path deliberately uses an explicit test fixture; successful provider requests are real.']};
 }catch(error){evidence={status:'failed',verifiedAt:new Date().toISOString(),checks,error:String(error)};process.exitCode=1;}
-finally{globalThis.fetch=realFetch;await stop();databases.close();writeFileSync(new URL('./http-live.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify({status:evidence.status,checks:evidence.checks,error:evidence.error}));rmSync(dir,{recursive:true,force:true});}
+finally{releaseProvider?.();globalThis.fetch=realFetch;await stop();databases.close();writeFileSync(new URL('./http-live.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify({status:evidence.status,checks:evidence.checks,error:evidence.error}));rmSync(dir,{recursive:true,force:true});}

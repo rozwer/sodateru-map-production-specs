@@ -1,5 +1,7 @@
 # DISASTER #30 実装・検証状況
 
+提供単位: #124 DISASTER.data（先行統合済み）、#125 DISASTER.connect（処理側実接続済み、共通生成とUI受入待ち）。親Task/claimを維持する。
+
 ## 現在の提供範囲
 
 防災固有のDTO、設定検証、実provider adapter、SQLite cache、PLUGINS v2 release、停止/版変更の照合処理、API断片 v1.0.0を提供する。共通GET/POST登録と実HTTP一連操作を確認済み。通常地図の実画面受入が残るためIssue未完了。
@@ -45,6 +47,7 @@ GET `/disaster` → `{data:DisasterView}`。POST `/disaster/refresh` → 同形�
 - 同一POST再送で外部再取得なし。demoからlive設定/結果は不可視。
 - 意図的な外部障害fixtureはHTTP502、旧画像/時刻保持、stale、lastAttempt.failed、pending receiptなし。同じ成功キーの再送は障害中も成功し現在状態を返す。
 - 設定変更で旧地域clear、実再取得で新範囲へ更新。停止/削除でcache保持、対象ownerKeyのみclear。停止中の更新は409、過去成功キー再送でもmapを復活しない。
+- 実provider通信を意図的にHTTP停止操作の後まで待たせ、停止後の完了がSOURCE_CHANGED 409となり、直前snapshotも地図表示も復活しないことを確認。
 - 固有ソースとevidenceのstrict + noUncheckedIndexedAccess型検査成功。
 - 共通生成物は編集せず、COREのcanonical fragment composerを一時領域へ呼び出して結合した契約を実HTTPへ適用。
 
