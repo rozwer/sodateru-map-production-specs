@@ -9,6 +9,7 @@ import { periodRange, rangeFromParams, rangeParams, type InsightRange } from './
 import { notifyInsightSaved, useInsightRevision } from './revisions';
 import type { InsightView, Period, ReviewChoice, ReviewDraft } from './types';
 import { insightsMessages as m } from './messages';
+import { referenceDemo } from './reference-demo';
 
 type Loaded = { raw: Insight | null; summary: Summary | null; view: InsightView; range: InsightRange };
 async function loadInsight(params: Record<string, string>, signal: AbortSignal): Promise<Loaded> {
@@ -46,7 +47,7 @@ function DiagnosisScreen({ route, navigate, back, scopeKey, active = true }: Scr
   }, [model.period, model.anchor, timeZone, scopeKey, reload, revision, active]);
   const current = loaded?.period === model.period ? loaded : null;
   const params = current ? { ...rangeParams(current.range), ...(current.raw ? { insightId: current.raw.id } : {}) } : {};
-  return <><InsightBackHeader onBack={back}/><DiagnosisView value={current?.view ?? null} period={model.period} onPeriod={period => setModel({ ...model, period })}
+  return <><InsightBackHeader onBack={back}/><DiagnosisView value={scopeKey.startsWith('demo:') && current ? referenceDemo(current.view) : current?.view ?? null} period={model.period} onPeriod={period => setModel({ ...model, period })}
     status={{ loading: loading || (!current && !error), error }} onRetry={() => setReload(value => value + 1)}
     onEvidence={() => navigate('trend-evidence', params)} onRecord={recordId => navigate('record-edit', { ...params, recordId })}
     onReview={choice => navigate('trend-review', { ...params, choice })} onExplore={() => navigate('self-checkin', params)}/></>;
