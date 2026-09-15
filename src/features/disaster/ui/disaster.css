@@ -45,3 +45,18 @@
 .disaster-screen .disaster-layer-toggle button{margin-left:auto;min-width:44px;min-height:40px;background:#edf5f2;border-radius:7px;color:#006e72}
 .disaster-app[data-compact=false] .disaster-panel-size{display:none}
 .disaster-app[data-compact=true][data-expanded=true] .disaster-panel{height:calc(100% - 126px)}
+
+/* Only the active disaster panel changes its own sheet geometry. The shared map remains mounted. */
+.disaster-toolbar-root{pointer-events:none!important}
+.disaster-toolbar-root>.disaster-app{height:100dvh;z-index:10}
+.disaster-screen.disaster-app{position:relative;inset:auto;height:100%;min-height:0;pointer-events:auto;background:white}
+.disaster-screen>.disaster-panel{position:relative;inset:auto!important;width:100%!important;height:auto!important;min-height:0!important;border:0;box-shadow:none;border-radius:0}
+.sm-sheet--screen:has(.sm-screen-content:not([hidden]) .disaster-screen){top:148px;bottom:18px;left:18px;width:366px}
+.sm-sheet--screen:has(.sm-screen-content:not([hidden]) .disaster-screen) .sm-sheet__body{padding:0}
+.disaster-toolbar-root .disaster-mode-badge{position:absolute;left:410px;top:248px;max-width:calc(100% - 490px);background:#fff0d4;padding:8px 12px;border-radius:8px;font-size:11px;pointer-events:auto}
+@media(max-width:767px){
+.sm-sheet--screen:has(.sm-screen-content:not([hidden]) .disaster-screen){top:auto;left:0;bottom:0;width:100%;height:42dvh}
+.sm-sheet--screen:has(.sm-screen-content:not([hidden]) .disaster-screen[data-expanded=true]){height:calc(100dvh - 126px)}
+.sm-sheet--screen:has(.sm-screen-content:not([hidden]) .disaster-screen[data-wide-map=true]){height:89px}
+.disaster-toolbar-root .disaster-mode-badge{left:12px;top:218px;max-width:calc(100% - 86px);font-size:10px}
+}

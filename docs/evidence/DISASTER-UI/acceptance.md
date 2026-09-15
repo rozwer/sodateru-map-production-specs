@@ -21,3 +21,11 @@
 - #222: BridgeMap/MapRendererがuseDisasterMapDisplayの画像/geometryをMapSceneへ渡す。専任pathのため本PRで編集していない。
 - 390/1536px実ブラウザ・導入/更新/停止/戻る・再読込の実確認は上記統合後に実施。現時点ではUI全体完了としていない。
 - 避難所/流域/警報/雨雲時間軸の最小差分をC #30へ相談済み（comment 5674714669）。既存DTO外の機能は未接続。
+
+## 第2差分とローカル実操作
+
+- 既存panel+toolbarへ変更。共通常駐Mapboxを背景に使い、専用Mapboxインスタンスを削除。共通Schema追加なし。防災のactive panelだけを局所CSSで配置する。
+- 担当限定のVite5187/API3017と独立.local SQLite/本人領域で、ブラウザから試用→導入確認→設定保存→情報更新を操作。GSI/JMAの洪水/地形/降水が取得済み、降水解析時点2026-09-15 13:35 JST、取得13:37 JSTを別表示。
+- 390x844で実canvas 1個、横overflowなし、下panel幅390/高さ354.48。再表示で保存された3layerと取得時点を復元。
+- この確認は専用exportをSessionRootへ渡す担当検査入口。通常plugins入口は#215の次差分反映待ち。
+- demo fixtureのlabel/warningsを省略せず表示。live DisasterViewへ変換しない。
