@@ -33839,7 +33839,7 @@
     "BUILDING-RECORDS",
     "ISSUE-REPAIR-SUPERSESSIONS"
   ],
-  "revision": 234,
+  "revision": 235,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34314,15 +34314,13 @@
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
       "generation": 1,
       "issue_number": 218,
-      "landed_main": null,
-      "note": "docs/evidence/ISSUE-CLOSE-UI/README.md",
+      "landed_main": "54683e72014242ad4f512d99b4ff700dc008cfc0",
+      "note": "docs/evidence/ISSUE-CLOSE-UI/README.md; PR227 merge54683e7; 28 Issue comments recorded, completed-close0/superseded-close0/keep-open28",
       "owner": "rozwer",
-      "paths": [
-        "docs/evidence/ISSUE-CLOSE-UI/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "be45d2b1f6a7edd80a2ebbb52de2302a94c510d5",
-      "token": "8d2a3dcb39044219850109438689ad30"
+      "token": null
     },
     "ISSUE-REPAIR-SUPERSESSIONS": {
       "actor": "rozwer",
