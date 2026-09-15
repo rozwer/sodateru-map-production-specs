@@ -144,6 +144,7 @@
         "OMO7-EXPERIENCE": 262,
         "PILGRIMAGE": 38,
         "PLACES": 5,
+        "PLACES-YOKOHAMA-DEMO": 274,
         "PLAN-UI-CONNECTIONS": 72,
         "PLUGINS": 28,
         "QA-DISASTER-GROW": 217,
@@ -7744,6 +7745,24 @@
         "write_paths": [
           "tools/local/demo-media/",
           "docs/evidence/DEMO-MEDIA/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P0",
+        "hard_dependencies": [
+          "PLACES"
+        ],
+        "id": "PLACES-YOKOHAMA-DEMO",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "横浜15地点の座標確認と正式API取込提供",
+        "write_paths": [
+          "docs/evidence/PLACES/yokohama-15-spots-source.json",
+          "docs/evidence/PLACES/yokohama-15-spots-resolved.json",
+          "docs/evidence/PLACES/yokohama-demo-import.ts",
+          "docs/evidence/PLACES/yokohama-demo-import.md",
+          "docs/evidence/PLACES/yokohama-demo-import.json"
         ]
       }
     ],
@@ -33999,9 +34018,10 @@
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE",
     "ROUTES-TRANSIT-GTFS",
-    "DEMO-MEDIA"
+    "DEMO-MEDIA",
+    "PLACES-YOKOHAMA-DEMO"
   ],
-  "revision": 276,
+  "revision": 277,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34560,6 +34580,25 @@
       "status": "done",
       "submitted_commit": "beda816b973e3479692000726da80243485fad67",
       "token": null
+    },
+    "PLACES-YOKOHAMA-DEMO": {
+      "actor": "kaiya",
+      "base_commit": "fe4e4e6aa86285e29ac3da5a411676aa3c8dbf71",
+      "generation": 1,
+      "issue_number": 274,
+      "landed_main": null,
+      "note": null,
+      "owner": "kaiya",
+      "paths": [
+        "docs/evidence/PLACES/yokohama-15-spots-source.json",
+        "docs/evidence/PLACES/yokohama-15-spots-resolved.json",
+        "docs/evidence/PLACES/yokohama-demo-import.ts",
+        "docs/evidence/PLACES/yokohama-demo-import.md",
+        "docs/evidence/PLACES/yokohama-demo-import.json"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "7feea632781c4593bb1f0cb310d57393"
     },
     "PLAN-UI-CONNECTIONS": {
       "actor": "rozwer",
