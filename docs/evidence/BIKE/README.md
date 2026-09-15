@@ -24,9 +24,24 @@ mise exec -- node --experimental-transform-types --test server/plugins/bike/bike
 
 **Boundary limitation:** those tests use explicitly named provider/PLUGINS/ROUTES fixtures. They are not evidence of full live integration. Feature/domain strict type checking passed. Full registration type checking awaits the dependencies below.
 
+## Live source evidence
+
+`live-overpass.json` records an actual Overpass query on 2026-09-15: 35 places and 243 roads, with source timestamp, object edit timestamps and representative road geometries. With motorway avoidance selected, 242 queried road objects were ineligible and 1 unknown; none were verified. The query deliberately selects roads with restrictions, so these counts are not a regional road census. This is adapter evidence; it does not establish that those roads match a particular Mapbox route.
+
 ## Remaining acceptance conditions
 
 1. Integrate PLUGINS #28 / PR #46 and ROUTES #25 on develop, then exercise their actual public imports and HTTP operations with the same CORE app/databases/context.
-2. Obtain real road geometry/source response through the Overpass adapter (initial live point retrieval succeeded; geometry output issue found and corrected; public API intermittently returns 504).
+2. Verify real Overpass results through HTTP and SQLite restart with those integrated dependencies.
 3. Connect ROUTES highway avoidance with same-geometry condition evidence. Request posted to #25.
-4. Supply an actual motorcycle restrictions provider with evidence for **every segment of the selected geometry** and the users
+4. Supply an actual motorcycle restrictions provider with evidence for every segment of the selected geometry and the selected vehicle. The present Mapbox-only adapter deliberately leaves this unknown; the positive adoption path has not been demonstrated live. NAVITIME availability and retention terms are a root/consultant decision already raised on #29. Do not describe unknown-only output as complete.
+5. UI acceptance by A: real query, settings round trip, common-map display, stop removing only BIKE ownership. API material is provided to #18; UI/Mapbox files are outside this claim.
+6. Short independent review arranged by root, commit-preserving merge, task:finish/board/receiver/Issue closure only after the above pass.
+
+## Sources checked
+
+- [OSM motorcycle tag definition](https://wiki.openstreetmap.org/wiki/Key:motorcycle): explicit mode access and conditional tags; a missing tag does not establish bike verification.
+- [Overpass QL](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL): bounded queries, metadata, geometry.
+- [Mapbox Directions](https://docs.mapbox.com/api/navigation/directions/): driving and motorway exclusion; not a motorcycle legal-access guarantee.
+- [NEXCO highway entry guidance](https://www.c-nexco.co.jp/safety/safety_drive/pdf/safety_drive01.pdf): Japan motorway exclusion for mopeds/125cc-or-less. This narrows an OSM-object assessment; it does not certify a Mapbox route.
+
+OSM geometry and tags retain OpenStreetMap contributor attribution and ODbL source links. Provider keys and profile credentials are never stored in evidence.
