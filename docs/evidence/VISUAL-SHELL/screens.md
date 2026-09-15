@@ -6,10 +6,10 @@
 
 |画面|参照/原本状態|実ブラウザURL・commit・幅・状態|差分|修正|未確認|
 |---|---|---|---|---|---|
-|navigation self|03_pages/references/08_11_51.png（正式名Codex 画像 2026年9月15日 08_11_51.png）原本実画像を開いた、451×860領域|127.0.0.1:5173/#/navigation?mode=self、QA報告448a857、451×860 demo|286px panel、見出し/3項目/下nav/図版の配置は対応。図版は既存SVGで細部差、地図/プロフィール値はdemo|既存panelを保全|390px/新commit表示は後述、完全一致扱いでない|
-|navigation main|同08_11_51 main-menu458×860原本を開いた|未確認|未確認|既存右panelを保全|新commit実表示|
-|navigation community|同08_11_51 community460×860原本を開いた|未確認|未確認|既存左panelを保全|新commit実表示|
-|$start|page原本absent、既存UI-BASE/session-integration.mdがリハーサルwelcome/独立背景を指す|未確認|新デザイン不可|PR162開始一クリックを維持、開始コード無変更|原本代替の画像/実表示照合|
+|navigation self|03_pages/references/08_11_51.png（正式名Codex 画像 2026年9月15日 08_11_51.png）原本実画像を開いた、451×860領域|127.0.0.1:5173/#/navigation?mode=self、QA報告448a857、451×860 demo|286px panel、見出し/3項目/下nav/図版の配置は対応。図版は既存SVGで細部差、地図/プロフィール値はdemo|既存panelを保全|390px実表示済み。図版細部/通常プロフィール差は未解消、完全一致扱いでない|
+|navigation main|同08_11_51 main-menu458×860原本を開いた|127.0.0.1:5173/#/navigation?mode=main、QA第一反映7ac7f68、458×860/390×844 demo|プロフィール自分/空bio、図版細部と背面状態が原本と異なる|既存右panelを保全|完全一致は未達|
+|navigation community|同08_11_51 community460×860原本を開いた|5173/docs/evidence/UI-BASE/preview.html#/navigation?mode=community、QA2f4df19、460×860/390×844 fixture|panel286px、2カード、footer/nav配置対応。図版細部差、背景mapはAPI未接続fixture|既存左panelを保全|実地図/通常データ込み完全一致は未達|
+|$start|page原本absent、既存UI-BASE/session-integration.mdがリハーサルwelcome/独立背景を指す|127.0.0.1:5173/#/$start、QA第一反映7ac7f68、390×844 demo|既存start-live-390.pngも実画像として開き、背景/文字/ボタン構成を照合。demo/live表示のみ異なる|PR162開始一クリックを維持、開始コード無変更|page原本absent、過去QA画像を代替比較に使用|
 |friends-map（共通原因のみ）|07_41_08.png853×1844原本実画像＋ユーザー証拠画像を開いた|ユーザー提供画像1079px幅/commit不明、empty|430px全高panel内のmapと共通背景mapが二重。原本は全幅header/map/bottom records|明示presentation fullscreenを追加。feature担当が原本根拠で選択|feature採用後の実画像一致。通常データはCOMMUNITY担当|
 
 common.jsonは「モバイル単一Sheet、広い画面単一side panel」。全ページfullscreenを示す根拠ではないため既定panelを維持。
@@ -52,3 +52,32 @@ QA報告: 5173/API3002をdevelop 7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2へ更�
 ### 未受領データの具体的不足（SELFから）
 
 self-home/diary/reflection-question/history/compare/theme写真: getRecords→getRecordsRecordId→getRecordsRecordIdMedia/getPlacesPlaceId。診断: getReflectionSummary/getInsights原本4/5軸。提案: 同batchIdの2候補/写真/座標/所要時間。SELFの既存UI-SUGGESTIONS写真fixtureはPR188。現機能担当へ既存入口で反映する範囲であり、新共通mock基盤なし。
+
+### 受領: ROUTES #25 / #172 comment5674461620
+
+- PR194 / commit `3f1678dc1d7b3e3b19e66dd2321f4deec0c87023`。`docs/evidence/ROUTES/visual-fixture.mjs` と `visual-fixture.md`。提供時点は通常merge候補。
+- 生成: `mise exec -- node docs/evidence/ROUTES/visual-fixture.mjs > /tmp/routes-visual.json`。ネットワーク/キー/DB投入不要、既存live-comparison1938689由来。東京駅3地点、2区間、2候補、geometry/steps、saved/navigating/finished。生成Schema RouteSearchInput/RouteSearchResult/RouteComparisonResult/CommonMapRoutePreview/SavedRoute AJV成功は提供者報告。
+- 既存fixture応答へ同名HTTP envelopeプロパティを適用（commonMapRoutePreviewのみDTO）。同じJSONとvisual-saved-routeで再表示。写真/作者文/滞在合計/recordId/追加条件根拠なし。実serverにpreviewIDなし、保存APIへ送れない。mock表示必須、実保存証拠ではない。
+- 転送済み: VISUAL-MAP-EXPLORE #174の実thread。
+
+### Cから既存実接続の所在（#172 comment5674461189）
+
+PLACES/MAP-CUSTOM→CONNECT-MAP #134（C親#5/#27）、ROUTES→CONNECT-ROUTES #138（#25）、PLUGINS→CONNECT-PLUGINS #144（#28/#29/#30/#38）。docs/evidenceの各featureに正式API証拠。画像一致/画面接続の完了証拠と混同しない。
+
+### SETTINGS担当不足（#172 comment5674463052）
+
+VISUAL-SETTINGS #191は既存UI-SETTINGS/preview/fixture.tsのSchema準拠profile/settings通常値で表示例を用意。本人icon Blob/停止place photosが不足、非健康統計operationが未登録。こちらで新Schemaや独自集計を作らず担当証拠へ継続。
+
+### 第二QA反映・Shell自身の実操作
+
+QA HEAD `2f4df19f46afcbc42986b403ce2df71aade82882`、提出`5b886a043fab8251ca850cb969173d93708e2592`祖先保持。既存5173/API3002、390×844、demo。中央カメラ→dialogのキャンセル→#/mapを維持。再open→「端末の写真を選ぶ」file chooserで独立背景素材`src/ui/assets/start-background.png`を選択。
+
+`#/record-create?captureId=5195b0f5-bdf7-4696-b5e9-84c8bf91decf`へ遷移し、画像読込成功→本文入力→確認→戻って編集で同画像と同本文の保持を確認。使用画像は表示用の独立素材、撮影した実写真ではない。Shell担当はこの下書きを投稿していない。記録API保存/再表示は#189担当へ証拠とともに引継ぎ。実機カメラ・OS許可拒否は未確認。地図の実MapboxとモックHinataラベルも表示維持。
+
+共通fullscreenは同QA既存`/docs/evidence/UI-BASE/preview.html#/fixture-chat`でx=0,y=0,width=390,height=844、mapHidden=trueをDOM矩形と実画像で確認（API未接続の明示fixture）。最初の1280×720でも同様に全面矩形。元UIの完全一致を意味しない。
+
+最終操作: 390×844で撮影dialogをEscape取消→#/mapを維持。community原本幅460のpanel286×860、390では横overflowなし。全体typecheckは二度目もcore/companion/exploration/friends/records/reflectionの既存契約エラーで失敗、今回src/app/src/ui変更のエラーなし。
+
+## 引継ぎ境界
+
+共通コンテナ/カメラ入口の変更・QA反映は完了。全ページ画像一致は宣言しない。navigationの図版細部/通常プロフィール、原本のないstart、実機撮影/OS拒否、記録API保存の証拠は未達を上記のとおり残す。各featureのfullscreen採否は担当が原本根拠を記録。健康3画面と新規相棒制作は対象外。B/D未着サンプル待ちでclaimを保持せず、受領済みPLUGINS/ROUTESを各担当へ渡して終了する。
