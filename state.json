@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 58,
+  "revision": 59,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4530,39 +4530,17 @@
       "token": "55951bfb17884a9092571685f97731a9"
     },
     "CORE": {
-      "actor": "koshiro",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 3,
       "landed_main": null,
-      "note": "docs/evidence/CORE/runtime-integration.md",
+      "note": "CORE runtime/integration merged by PR53 at 413598b. Release shared paths after delivery; UI/feature connection acceptance remains in open Issue3. Keep worktree koshiro/3-core and evidence docs/evidence/CORE/runtime-integration.md.",
       "owner": "koshiro",
-      "paths": [
-        "server/app/",
-        "server/core/",
-        "server/db/connection.ts",
-        "server/db/migrate.ts",
-        "server/db/migrations/000-base.sql",
-        "tools/local/",
-        "package.json",
-        "bun.lock",
-        "tsconfig.json",
-        "docs/01_requirements/04_api/fragments/CORE.json",
-        "packages/api-client/",
-        "docs/01_requirements/04_api/tools/",
-        "docs/01_requirements/04_api/fragments/common.json",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/endpoints/",
-        "docs/01_requirements/04_api/conventions/",
-        "docs/01_requirements/04_api/README.md",
-        "docs/01_requirements/04_api/coverage.md",
-        "docs/01_requirements/04_api/examples.md",
-        "docs/evidence/CORE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "fb767fe0c7a1cdfc7f3a27f5e60e39fe07b92b0d",
-      "token": "9b337aa3d51b4705a96e8e63542d63d5"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "DISASTER": {
       "actor": null,
