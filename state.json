@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 2,
+  "revision": 3,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4591,12 +4591,21 @@
       "token": null
     },
     "UI-EXPLORE": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 10,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/exploration/",
+        "src/features/transfer/",
+        "docs/evidence/UI-EXPLORE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "c62b64d01fa3456483e22d5224add4ca"
     },
     "UI-FRIENDS": {
       "actor": null,
