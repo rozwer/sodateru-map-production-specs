@@ -191,6 +191,33 @@ def normalized(path:str)->str:
     if not path:raise BoardError('Empty lock path')
     return path
 
+def task_changed_files(board:dict[str,Any],state:dict[str,Any],commit:str,*,staged:bool=False)->list[str]:
+    """Return changes introduced by the task, excluding integrated develop history."""
+    base=state['base_commit']
+    if subprocess.run(['git','merge-base','--is-ancestor',base,commit],capture_output=True).returncode:
+        raise BoardError('Claim base is not an ancestor')
+    if staged:
+        return sorted(f for f in git('diff','--name-only','--no-renames','-z','--cached',commit).split('\0') if f)
+    policy=op.policy_for(board)
+    if not policy:
+        return sorted(f for f in git('diff','--name-only','--no-renames','-z',base,commit).split('\0') if f)
+    integration='refs/remotes/origin/'+policy['integration_branch']
+    tip=git('rev-parse','--verify',integration,check=False).strip()
+    if not tip:
+        raise BoardError('Fetch origin/'+policy['integration_branch']+' before validating task changes')
+    if subprocess.run(['git','merge-base','--is-ancestor',base,tip],capture_output=True).returncode:
+        raise BoardError('Integration branch no longer descends from claim base')
+    common=git('merge-base',commit,tip,check=False).strip()
+    if not common or subprocess.run(['git','merge-base','--is-ancestor',base,common],capture_output=True).returncode:
+        raise BoardError('Task and integration history diverged before the claim base')
+    files={f for f in git('diff','--name-only','--no-renames','-z',common,commit).split('\0') if f}
+    for oid in git('rev-list','--no-merges',commit,'--not',tip).splitlines():
+        parents=git('rev-list','--parents','-n','1',oid).split()[1:]
+        if not parents:
+            raise BoardError('Task history contains a root commit after the claim base')
+        files.update(f for f in git('diff','--name-only','--no-renames','-z',parents[0],oid).split('\0') if f)
+    return sorted(files)
+
 def overlap(a:str,b:str)->bool:
     return a==b or (a.endswith('/') and b.startswith(a)) or (b.endswith('/') and a.startswith(b))
 
@@ -272,7 +299,7 @@ def change(board:dict[str,Any],args:argparse.Namespace)->dict[str,Any]:
         elif args.command in ('submit','complete'):
             if s['status'] not in ('claimed','submitted'):raise BoardError('An active claim is required to submit')
             commit=git('rev-parse',f'{args.commit}^{{commit}}')
-            files=[f for f in git('diff','--name-only','--no-renames','-z',s['base_commit'],commit).split('\0') if f]
+            files=task_changed_files(board,s,commit)
             outside=[f for f in files if not any(f==p or (p.endswith('/') and f.startswith(p)) for p in s['paths'])]
             if outside:raise BoardError('Changed paths outside claim: '+', '.join(outside))
             s.update(status='submitted',submitted_commit=commit,note=args.evidence)
