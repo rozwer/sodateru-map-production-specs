@@ -1,0 +1,1924 @@
+{
+  "baseCommit": "342eea235948fbfd47dee30963bc4839e0be763e",
+  "contractSha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf",
+  "entrypoint": "server/app/main.ts",
+  "mode": "demo",
+  "dataBoundary": "Product manifests; trial data explicitly mock. Version roundtrip uses real releases. No provider call or fabricated search input.",
+  "starts": [
+    {
+      "features": [
+        "activity",
+        "community",
+        "companion",
+        "conversations",
+        "exploration",
+        "feature-requests",
+        "friends",
+        "insights",
+        "map-custom",
+        "PLACES",
+        "PLUGINS",
+        "records",
+        "reflection",
+        "routes",
+        "settings",
+        "suggestions",
+        "themes",
+        "transfer",
+        "information",
+        "BIKE",
+        "DISASTER",
+        "PILGRIMAGE"
+      ],
+      "contractVersion": "0.3.0"
+    },
+    {
+      "features": [
+        "activity",
+        "community",
+        "companion",
+        "conversations",
+        "exploration",
+        "feature-requests",
+        "friends",
+        "insights",
+        "map-custom",
+        "PLACES",
+        "PLUGINS",
+        "records",
+        "reflection",
+        "routes",
+        "settings",
+        "suggestions",
+        "themes",
+        "transfer",
+        "information",
+        "BIKE",
+        "DISASTER",
+        "PILGRIMAGE"
+      ],
+      "contractVersion": "0.3.0"
+    }
+  ],
+  "steps": [
+    {
+      "path": "/session",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugins",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugins/bike/versions",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugins/bike/trial",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike/update",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike/update",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike/rollback",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike/rollback",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/session",
+      "method": "POST",
+      "mode": "live",
+      "status": 201
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "live",
+      "status": 200
+    }
+  ],
+  "snapshots": {
+    "manifests": [
+      {
+        "id": "bike",
+        "name": "バイク",
+        "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+        "category": "移動",
+        "author": "育てる地図",
+        "pluginVersion": "1.0.0",
+        "updatedAt": 1789430400000,
+        "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+        "icon": "motorcycle",
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "region",
+            "vehicle",
+            "highwayPolicy"
+          ],
+          "properties": {
+            "region": {
+              "type": "object",
+              "title": "検索地域",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "bounds"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "title": "地域ID"
+                },
+                "bounds": {
+                  "type": "array",
+                  "title": "検索範囲（西・南・東・北）",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "vehicle": {
+              "type": "object",
+              "title": "車種",
+              "additionalProperties": false,
+              "required": [
+                "class"
+              ],
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "title": "車種区分",
+                  "enum": [
+                    "moped",
+                    "light_motorcycle",
+                    "motorcycle",
+                    "electric_motorcycle"
+                  ]
+                },
+                "displacementCc": {
+                  "type": "number",
+                  "title": "排気量（cc・電動車は指定しない）",
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000
+                }
+              }
+            },
+            "highwayPolicy": {
+              "type": "string",
+              "title": "高速道路",
+              "enum": [
+                "allow",
+                "avoid"
+              ]
+            }
+          }
+        },
+        "defaultSettings": {
+          "region": {
+            "id": "JP-13-shibuya",
+            "bounds": [
+              139.69,
+              35.65,
+              139.73,
+              35.69
+            ]
+          },
+          "vehicle": {
+            "class": "motorcycle",
+            "displacementCc": 250
+          },
+          "highwayPolicy": "avoid"
+        },
+        "usageInfo": [
+          "道路タグ欠測・車種規制未確認の経路は採用できません。",
+          "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+        ],
+        "sources": [
+          {
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright",
+            "attribution": "© OpenStreetMap contributors (ODbL)"
+          },
+          {
+            "name": "Mapbox Directions",
+            "url": "https://docs.mapbox.com/api/navigation/directions/",
+            "attribution": "© Mapbox"
+          }
+        ],
+        "trialConditions": [
+          "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+        ]
+      },
+      {
+        "id": "bike",
+        "name": "バイク",
+        "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+        "category": "移動",
+        "author": "育てる地図",
+        "pluginVersion": "1.1.0",
+        "updatedAt": 1789444800000,
+        "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+        "icon": "motorcycle",
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "region",
+            "vehicle",
+            "highwayPolicy"
+          ],
+          "properties": {
+            "region": {
+              "type": "object",
+              "title": "検索地域",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "bounds"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "title": "地域ID"
+                },
+                "bounds": {
+                  "type": "array",
+                  "title": "検索範囲（西・南・東・北）",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "vehicle": {
+              "type": "object",
+              "title": "車種",
+              "additionalProperties": false,
+              "required": [
+                "class"
+              ],
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "title": "車種区分",
+                  "enum": [
+                    "moped",
+                    "light_motorcycle",
+                    "motorcycle",
+                    "electric_motorcycle"
+                  ]
+                },
+                "displacementCc": {
+                  "type": "number",
+                  "title": "排気量（cc・電動車は指定しない）",
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000
+                }
+              }
+            },
+            "highwayPolicy": {
+              "type": "string",
+              "title": "高速道路",
+              "enum": [
+                "allow",
+                "avoid"
+              ]
+            }
+          }
+        },
+        "defaultSettings": {
+          "region": {
+            "id": "JP-13-shibuya",
+            "bounds": [
+              139.69,
+              35.65,
+              139.73,
+              35.69
+            ]
+          },
+          "vehicle": {
+            "class": "motorcycle",
+            "displacementCc": 250
+          },
+          "highwayPolicy": "avoid"
+        },
+        "usageInfo": [
+          "道路タグ欠測・車種規制未確認の経路は採用できません。",
+          "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
+          "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
+          "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
+          "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+        ],
+        "sources": [
+          {
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright",
+            "attribution": "© OpenStreetMap contributors (ODbL)"
+          },
+          {
+            "name": "Mapbox Directions",
+            "url": "https://docs.mapbox.com/api/navigation/directions/",
+            "attribution": "© Mapbox"
+          }
+        ],
+        "trialConditions": [
+          "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+        ]
+      }
+    ],
+    "initial": {
+      "id": "bike",
+      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "version": 1,
+      "createdAt": 1789448280994,
+      "updatedAt": 1789448280994,
+      "enabled": true,
+      "settings": {
+        "region": {
+          "id": "版戻し後も保持する本人地域",
+          "bounds": [
+            139.69,
+            35.65,
+            139.73,
+            35.69
+          ]
+        },
+        "vehicle": {
+          "class": "motorcycle",
+          "displacementCc": 250
+        },
+        "highwayPolicy": "avoid"
+      },
+      "pluginVersion": "1.0.0",
+      "icon": "star",
+      "declarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true
+        }
+      ],
+      "manifest": {
+        "id": "bike",
+        "name": "バイク",
+        "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+        "category": "移動",
+        "author": "育てる地図",
+        "pluginVersion": "1.0.0",
+        "updatedAt": 1789430400000,
+        "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+        "icon": "motorcycle",
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "region",
+            "vehicle",
+            "highwayPolicy"
+          ],
+          "properties": {
+            "region": {
+              "type": "object",
+              "title": "検索地域",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "bounds"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "title": "地域ID"
+                },
+                "bounds": {
+                  "type": "array",
+                  "title": "検索範囲（西・南・東・北）",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "vehicle": {
+              "type": "object",
+              "title": "車種",
+              "additionalProperties": false,
+              "required": [
+                "class"
+              ],
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "title": "車種区分",
+                  "enum": [
+                    "moped",
+                    "light_motorcycle",
+                    "motorcycle",
+                    "electric_motorcycle"
+                  ]
+                },
+                "displacementCc": {
+                  "type": "number",
+                  "title": "排気量（cc・電動車は指定しない）",
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000
+                }
+              }
+            },
+            "highwayPolicy": {
+              "type": "string",
+              "title": "高速道路",
+              "enum": [
+                "allow",
+                "avoid"
+              ]
+            }
+          }
+        },
+        "defaultSettings": {
+          "region": {
+            "id": "JP-13-shibuya",
+            "bounds": [
+              139.69,
+              35.65,
+              139.73,
+              35.69
+            ]
+          },
+          "vehicle": {
+            "class": "motorcycle",
+            "displacementCc": 250
+          },
+          "highwayPolicy": "avoid"
+        },
+        "usageInfo": [
+          "道路タグ欠測・車種規制未確認の経路は採用できません。",
+          "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+        ],
+        "sources": [
+          {
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright",
+            "attribution": "© OpenStreetMap contributors (ODbL)"
+          },
+          {
+            "name": "Mapbox Directions",
+            "url": "https://docs.mapbox.com/api/navigation/directions/",
+            "attribution": "© Mapbox"
+          }
+        ],
+        "trialConditions": [
+          "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+        ]
+      },
+      "previousVersion": null
+    },
+    "updated": {
+      "id": "bike",
+      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "version": 2,
+      "createdAt": 1789448280994,
+      "updatedAt": 1789448280998,
+      "enabled": true,
+      "settings": {
+        "region": {
+          "id": "版戻し後も保持する本人地域",
+          "bounds": [
+            139.69,
+            35.65,
+            139.73,
+            35.69
+          ]
+        },
+        "vehicle": {
+          "class": "motorcycle",
+          "displacementCc": 250
+        },
+        "highwayPolicy": "avoid"
+      },
+      "pluginVersion": "1.1.0",
+      "icon": "star",
+      "declarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true
+        },
+        {
+          "targetKey": "feature:bike:place-candidates",
+          "property": "enabled",
+          "value": true
+        }
+      ],
+      "manifest": {
+        "id": "bike",
+        "name": "バイク",
+        "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+        "category": "移動",
+        "author": "育てる地図",
+        "pluginVersion": "1.1.0",
+        "updatedAt": 1789444800000,
+        "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+        "icon": "motorcycle",
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "region",
+            "vehicle",
+            "highwayPolicy"
+          ],
+          "properties": {
+            "region": {
+              "type": "object",
+              "title": "検索地域",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "bounds"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "title": "地域ID"
+                },
+                "bounds": {
+                  "type": "array",
+                  "title": "検索範囲（西・南・東・北）",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "vehicle": {
+              "type": "object",
+              "title": "車種",
+              "additionalProperties": false,
+              "required": [
+                "class"
+              ],
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "title": "車種区分",
+                  "enum": [
+                    "moped",
+                    "light_motorcycle",
+                    "motorcycle",
+                    "electric_motorcycle"
+                  ]
+                },
+                "displacementCc": {
+                  "type": "number",
+                  "title": "排気量（cc・電動車は指定しない）",
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000
+                }
+              }
+            },
+            "highwayPolicy": {
+              "type": "string",
+              "title": "高速道路",
+              "enum": [
+                "allow",
+                "avoid"
+              ]
+            }
+          }
+        },
+        "defaultSettings": {
+          "region": {
+            "id": "JP-13-shibuya",
+            "bounds": [
+              139.69,
+              35.65,
+              139.73,
+              35.69
+            ]
+          },
+          "vehicle": {
+            "class": "motorcycle",
+            "displacementCc": 250
+          },
+          "highwayPolicy": "avoid"
+        },
+        "usageInfo": [
+          "道路タグ欠測・車種規制未確認の経路は採用できません。",
+          "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
+          "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
+          "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
+          "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+        ],
+        "sources": [
+          {
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright",
+            "attribution": "© OpenStreetMap contributors (ODbL)"
+          },
+          {
+            "name": "Mapbox Directions",
+            "url": "https://docs.mapbox.com/api/navigation/directions/",
+            "attribution": "© Mapbox"
+          }
+        ],
+        "trialConditions": [
+          "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+        ]
+      },
+      "previousVersion": "1.0.0"
+    },
+    "reverted": {
+      "id": "bike",
+      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "version": 3,
+      "createdAt": 1789448280994,
+      "updatedAt": 1789448281004,
+      "enabled": true,
+      "settings": {
+        "region": {
+          "id": "版戻し後も保持する本人地域",
+          "bounds": [
+            139.69,
+            35.65,
+            139.73,
+            35.69
+          ]
+        },
+        "vehicle": {
+          "class": "motorcycle",
+          "displacementCc": 250
+        },
+        "highwayPolicy": "avoid"
+      },
+      "pluginVersion": "1.0.0",
+      "icon": "star",
+      "declarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true
+        }
+      ],
+      "manifest": {
+        "id": "bike",
+        "name": "バイク",
+        "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+        "category": "移動",
+        "author": "育てる地図",
+        "pluginVersion": "1.0.0",
+        "updatedAt": 1789430400000,
+        "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+        "icon": "motorcycle",
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "region",
+            "vehicle",
+            "highwayPolicy"
+          ],
+          "properties": {
+            "region": {
+              "type": "object",
+              "title": "検索地域",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "bounds"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "title": "地域ID"
+                },
+                "bounds": {
+                  "type": "array",
+                  "title": "検索範囲（西・南・東・北）",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "vehicle": {
+              "type": "object",
+              "title": "車種",
+              "additionalProperties": false,
+              "required": [
+                "class"
+              ],
+              "properties": {
+                "class": {
+                  "type": "string",
+                  "title": "車種区分",
+                  "enum": [
+                    "moped",
+                    "light_motorcycle",
+                    "motorcycle",
+                    "electric_motorcycle"
+                  ]
+                },
+                "displacementCc": {
+                  "type": "number",
+                  "title": "排気量（cc・電動車は指定しない）",
+                  "exclusiveMinimum": 0,
+                  "maximum": 3000
+                }
+              }
+            },
+            "highwayPolicy": {
+              "type": "string",
+              "title": "高速道路",
+              "enum": [
+                "allow",
+                "avoid"
+              ]
+            }
+          }
+        },
+        "defaultSettings": {
+          "region": {
+            "id": "JP-13-shibuya",
+            "bounds": [
+              139.69,
+              35.65,
+              139.73,
+              35.69
+            ]
+          },
+          "vehicle": {
+            "class": "motorcycle",
+            "displacementCc": 250
+          },
+          "highwayPolicy": "avoid"
+        },
+        "usageInfo": [
+          "道路タグ欠測・車種規制未確認の経路は採用できません。",
+          "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+        ],
+        "sources": [
+          {
+            "name": "OpenStreetMap",
+            "url": "https://www.openstreetmap.org/copyright",
+            "attribution": "© OpenStreetMap contributors (ODbL)"
+          },
+          {
+            "name": "Mapbox Directions",
+            "url": "https://docs.mapbox.com/api/navigation/directions/",
+            "attribution": "© Mapbox"
+          }
+        ],
+        "trialConditions": [
+          "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+        ]
+      },
+      "previousVersion": "1.1.0"
+    },
+    "before": {
+      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "dataMode": "demo",
+      "revision": "4fd56c51025a2906369dfe7ff34182a6a2a97ac7fddf0fca74e8d61a7787a5b6",
+      "items": [
+        {
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 1,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448280994,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "star",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": null
+        }
+      ],
+      "appliedDeclarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "bike",
+          "pluginVersion": "1.0.0"
+        }
+      ],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": [
+        {
+          "pluginId": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installedVersion": "1.0.0",
+          "version": 1,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "bike",
+              "pluginVersion": "1.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    "upgraded": {
+      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "dataMode": "demo",
+      "revision": "6e3b67d0339281a0a9f610c6573619e42dccc22b4dc7f7a6ade3f4ac91c50325",
+      "items": [
+        {
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 2,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448280998,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.1.0",
+          "icon": "star",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            },
+            {
+              "targetKey": "feature:bike:place-candidates",
+              "property": "enabled",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.1.0",
+            "updatedAt": 1789444800000,
+            "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
+              "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
+              "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
+              "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": "1.0.0"
+        }
+      ],
+      "appliedDeclarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "bike",
+          "pluginVersion": "1.1.0"
+        },
+        {
+          "targetKey": "feature:bike:place-candidates",
+          "property": "enabled",
+          "value": true,
+          "pluginId": "bike",
+          "pluginVersion": "1.1.0"
+        }
+      ],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": [
+        {
+          "pluginId": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installedVersion": "1.1.0",
+          "version": 2,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "bike",
+              "pluginVersion": "1.1.0"
+            },
+            {
+              "targetKey": "feature:bike:place-candidates",
+              "property": "enabled",
+              "value": true,
+              "pluginId": "bike",
+              "pluginVersion": "1.1.0"
+            }
+          ]
+        }
+      ]
+    },
+    "rolledBack": {
+      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "dataMode": "demo",
+      "revision": "6a8b0879443b829b93cf621eab1a0de1accca516e486cccf2435f8a4a355875a",
+      "items": [
+        {
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 3,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448281004,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "star",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": "1.1.0"
+        }
+      ],
+      "appliedDeclarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "bike",
+          "pluginVersion": "1.0.0"
+        }
+      ],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": [
+        {
+          "pluginId": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installedVersion": "1.0.0",
+          "version": 3,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "bike",
+              "pluginVersion": "1.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    "history": [
+      {
+        "revision": 1,
+        "snapshot": {
+          "pluginVersion": "1.0.0",
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "icon": "star",
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 1,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448280994,
+          "enabled": true,
+          "previousVersion": null
+        }
+      },
+      {
+        "revision": 2,
+        "snapshot": {
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 2,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448280998,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.1.0",
+          "icon": "star",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            },
+            {
+              "targetKey": "feature:bike:place-candidates",
+              "property": "enabled",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.1.0",
+            "updatedAt": 1789444800000,
+            "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
+              "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
+              "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
+              "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": "1.0.0"
+        }
+      },
+      {
+        "revision": 3,
+        "snapshot": {
+          "id": "bike",
+          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "version": 3,
+          "createdAt": 1789448280994,
+          "updatedAt": 1789448281004,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "版戻し後も保持する本人地域",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "star",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": "1.1.0"
+        }
+      }
+    ]
+  },
+  "passed": true,
+  "restartMatched": true,
+  "modeSeparationWithNonemptyDemo": true
+}
