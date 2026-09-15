@@ -15,5 +15,8 @@ connected-http.json / server/features/insights/connected-http.test.ts。
 本を見つけた/カフェで過ごした/公園を歩いた/友人と話したの4文から5軸はいずれも1/1、不明1日。
 
 ## 未完と限界
-共有UIでの最終表示、実AI providerによる説明生成、活動統計HTTP登録は未完。原文判定は版付き定型表現で、自由文の包括的な意味判定ではない。未対応表現は不明。
+共有UIでの最終表示、活動統計HTTP登録は未完。原文判定は版付き定型表現で、自由文の包括的な意味判定ではない。未対応表現は不明。
 全体tscは共有生成クライアント未反映によるCOMPANION/SUGGESTIONS/THEMES等の型エラーで失敗。今回の実接続HTTP検証は成功。共有契約生成はCORE担当の反映を要する。
+
+## 実AI説明の保存
+実main/全feature、隔離SQLiteと合成記録、正規設定APIのenabled/allowRecords許可でLuna gpt-5.6-lunaを実行。26秒でcomplete、promptVersion insights-analysis-1。計算値保持、unsure判断保持、サーバ再起動後の結果一致と本人入力保存を確認。証拠はlive-analysis.json、再現手順はlive-analysis.ts。最初の許可未設定でFORBIDDENも確認し、許可後に成功。
