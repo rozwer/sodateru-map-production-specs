@@ -1,0 +1,1702 @@
+{
+  "taskId": "SUGGESTIONS",
+  "version": "1.2.0",
+  "replaceSchemas": [
+    "CheckinAnswers",
+    "SelfCheckinCreate",
+    "SelfCheckinPatch",
+    "SelfCheckin",
+    "SuggestionConditions",
+    "Suggestion",
+    "SuggestionBatchInput",
+    "SuggestionBatch",
+    "SuggestionPatch",
+    "SuggestionPage"
+  ],
+  "schemas": {
+    "CheckinAnswers": {
+      "type": "object",
+      "properties": {
+        "state": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000
+        },
+        "wishes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "minutes": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1440
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000
+        },
+        "timeBudget": {
+          "$ref": "#/components/schemas/SuggestionTimeBudget"
+        },
+        "companion": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "solo",
+            "friends_family",
+            "children",
+            "pet",
+            null
+          ]
+        },
+        "effort": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "easy",
+            "moderate",
+            "any",
+            null
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit",
+            "any"
+          ]
+        },
+        "stayMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1440,
+          "description": "User specified activity duration; never inferred from the overall budget"
+        }
+      },
+      "required": [
+        "state",
+        "wishes",
+        "minutes",
+        "note"
+      ],
+      "additionalProperties": false
+    },
+    "SelfCheckinCreate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "localDate": {
+          "$ref": "#/components/schemas/Date",
+          "description": "対象日。YYYY-MM-DD"
+        },
+        "answers": {
+          "$ref": "#/components/schemas/CheckinAnswers",
+          "description": "任意の状態・希望・時間・補足"
+        },
+        "validUntil": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案条件に使える期限"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone of localDate",
+          "example": "Asia/Tokyo"
+        }
+      },
+      "required": [
+        "id",
+        "localDate",
+        "answers",
+        "validUntil"
+      ],
+      "additionalProperties": false
+    },
+    "SelfCheckinPatch": {
+      "type": "object",
+      "properties": {
+        "localDate": {
+          "$ref": "#/components/schemas/Date",
+          "description": "対象日。YYYY-MM-DD"
+        },
+        "answers": {
+          "$ref": "#/components/schemas/CheckinAnswers",
+          "description": "任意の状態・希望・時間・補足"
+        },
+        "validUntil": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案条件に使える期限"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone of localDate",
+          "example": "Asia/Tokyo"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "SelfCheckin": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "回答した人物"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案条件に使える期限"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案条件に使える期限"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "回答した人物"
+        },
+        "localDate": {
+          "$ref": "#/components/schemas/Date",
+          "description": "対象日。YYYY-MM-DD"
+        },
+        "answers": {
+          "$ref": "#/components/schemas/CheckinAnswers",
+          "description": "任意の状態・希望・時間・補足"
+        },
+        "validUntil": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案条件に使える期限"
+        },
+        "timezone": {
+          "type": "string",
+          "description": "IANA timezone of localDate",
+          "example": "Asia/Tokyo"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "localDate",
+        "answers",
+        "validUntil"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/11_self_checkins.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "SuggestionConditions": {
+      "type": "object",
+      "properties": {
+        "minutes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1440
+        },
+        "budget": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit",
+            "any"
+          ]
+        },
+        "activity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "note": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000
+        },
+        "timeBudget": {
+          "$ref": "#/components/schemas/SuggestionTimeBudget"
+        },
+        "companion": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "solo",
+            "friends_family",
+            "children",
+            "pet",
+            null
+          ]
+        },
+        "effort": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "easy",
+            "moderate",
+            "any",
+            null
+          ]
+        },
+        "wishes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "stayMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1440,
+          "description": "User specified activity duration; never inferred from the overall budget"
+        },
+        "state": {
+          "type": "string",
+          "maxLength": 10000
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "Suggestion": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "同じ検索条件で作った候補集合ID"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案の有効期限"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案の有効期限"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "同じ検索条件で作った候補集合ID"
+        },
+        "placeId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "同じ検索条件で作った候補集合ID"
+        },
+        "batchId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "同じ検索条件で作った候補集合ID"
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "description": "集合内の提示順"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "提案する活動"
+        },
+        "activity": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "提案する活動"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000,
+          "description": "見送り・選び直し等の任意の原文"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/SuggestionConditions",
+          "description": "検索・提案時の条件"
+        },
+        "checkinId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "条件として参照した回答。任意"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "description": "提案根拠のIDと版"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "offered",
+            "later",
+            "dismissed",
+            "selected",
+            "completed",
+            "not_done"
+          ],
+          "description": "操作状態"
+        },
+        "presentedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "実際に提示した時刻。未提示はNULL"
+        },
+        "selectedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "選んだ時刻。未選択はNULL"
+        },
+        "expiresAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "提案の有効期限"
+        },
+        "routeId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "案内に使う保存ルート。任意"
+        },
+        "completedVisitId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "達成に対応する訪問。未達成はNULL"
+        },
+        "feedback": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000,
+          "description": "見送り・選び直し等の任意の原文"
+        },
+        "checkinVersion": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "checkinSnapshot": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SelfCheckin"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "travelMinutes": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "stayMinutes": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "totalMinutes": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "stay": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "minutes": {
+              "type": "number",
+              "minimum": 0
+            },
+            "kind": {
+              "type": "string",
+              "enum": [
+                "user",
+                "source"
+              ]
+            },
+            "checkedAt": {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/SourceRef"
+              }
+            },
+            "sourceUrl": {
+              "type": "string",
+              "format": "uri"
+            },
+            "basis": {
+              "type": "string"
+            }
+          }
+        },
+        "evaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SuggestionConditionEvaluation"
+          }
+        },
+        "memo": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "sourceState": {
+          "type": "string",
+          "enum": [
+            "current",
+            "changed",
+            "unavailable"
+          ]
+        },
+        "evaluationState": {
+          "type": "string",
+          "enum": [
+            "unevaluated",
+            "rated"
+          ]
+        },
+        "rating": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "matchedWishes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "routeEvidence": {
+          "$ref": "#/components/schemas/CommonMapRoutePreview"
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "generator": {
+          "type": "object",
+          "required": [
+            "model",
+            "promptVersion"
+          ],
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "promptVersion": {
+              "type": "string"
+            }
+          }
+        },
+        "viewedAt": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "最初に詳細を実際に閲覧した時刻。表示・選択とは独立。"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "placeId",
+        "batchId",
+        "position",
+        "title",
+        "activity",
+        "reason",
+        "conditions",
+        "checkinId",
+        "sourceRefs",
+        "status",
+        "presentedAt",
+        "selectedAt",
+        "expiresAt",
+        "routeId",
+        "completedVisitId",
+        "feedback"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/12_suggestions.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "SuggestionBatchInput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "checkin": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/SourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "origin": {
+          "$ref": "#/components/schemas/Position"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/SuggestionConditions"
+        },
+        "excludedActivities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "excludedPlaceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "expiresAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "localDate": {
+          "$ref": "#/components/schemas/Date"
+        },
+        "timezone": {
+          "type": "string"
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "onOpen",
+            "continuous"
+          ],
+          "default": "onOpen"
+        }
+      },
+      "required": [
+        "id",
+        "checkin",
+        "origin",
+        "conditions",
+        "excludedActivities",
+        "excludedPlaceIds",
+        "expiresAt"
+      ],
+      "additionalProperties": false
+    },
+    "SuggestionBatch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Suggestion"
+          },
+          "minItems": 0,
+          "maxItems": 20
+        },
+        "expiresAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "emptyReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/SuggestionConditions"
+        }
+      },
+      "required": [
+        "id",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "SuggestionPatch": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "offered",
+            "later",
+            "dismissed",
+            "selected",
+            "completed",
+            "not_done"
+          ],
+          "description": "操作状態"
+        },
+        "presented": {
+          "const": true
+        },
+        "routeId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "案内に使う保存ルート。任意"
+        },
+        "completedVisitId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "達成に対応する訪問。未達成はNULL"
+        },
+        "feedback": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000,
+          "description": "見送り・選び直し等の任意の原文"
+        },
+        "memo": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "viewed": {
+          "type": "boolean",
+          "const": true,
+          "description": "詳細が実際に表示された時に送信。最初の閲覧時刻だけ保存。"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "SuggestionTimeBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "minutes"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "atLeast",
+            "unspecified"
+          ]
+        },
+        "minutes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 1440
+        }
+      },
+      "description": "exact is a finite upper budget; atLeast(120) is not an upper ceiling; unspecified requires minutes:null"
+    },
+    "SuggestionConditionEvaluation": {
+      "type": "object",
+      "required": [
+        "key",
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "matched",
+            "unmatched",
+            "unknown"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "hard": {
+          "type": "boolean"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          }
+        }
+      }
+    },
+    "SuggestionPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Suggestion"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "emptyReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expiresAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/SuggestionConditions"
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "operationId": "getSelfCheckins",
+      "summary": "SelfCheckin一覧",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。 dateはlocalDateと一致。",
+      "parameters": [
+        {
+          "name": "date",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Date"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelfCheckinPage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-02",
+      "x-sort": "localDate DESC, createdAt DESC, id DESC",
+      "method": "get",
+      "path": "/self-checkins",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "postSelfCheckins",
+      "summary": "SelfCheckin作成",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: 11_self_checkins。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。validUntilは作成日時より後。同じ時点の訂正は同じID、新しい回答は新ID。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/SelfCheckin"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "checkin-001",
+                  "version": 1,
+                  "createdAt": 1789430400000,
+                  "updatedAt": 1789430400000,
+                  "personId": "person-001",
+                  "localDate": "2026-09-15",
+                  "answers": {
+                    "state": "少し疲れている",
+                    "wishes": [
+                      "休みたい"
+                    ],
+                    "minutes": 20,
+                    "note": ""
+                  },
+                  "validUntil": 1789516800000
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postVisits"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01",
+        "Q02"
+      ],
+      "x-api-id": "04-03",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SelfCheckinCreate"
+            },
+            "example": {
+              "id": "checkin-001",
+              "localDate": "2026-09-15",
+              "answers": {
+                "state": "少し疲れている",
+                "wishes": [
+                  "休みたい"
+                ],
+                "minutes": 20,
+                "note": ""
+              },
+              "validUntil": 1789516800000
+            }
+          }
+        }
+      },
+      "method": "post",
+      "path": "/self-checkins",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getSelfCheckinsCheckinId",
+      "summary": "SelfCheckin単体取得",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_checkinId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSelfCheckinsCheckinId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-04",
+      "method": "get",
+      "path": "/self-checkins/{checkinId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "patchSelfCheckinsCheckinId",
+      "summary": "SelfCheckin編集",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: 11_self_checkins。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。validUntilは作成日時より後。同じ時点の訂正は同じID、新しい回答は新ID。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_checkinId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSelfCheckinsCheckinId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-05",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SelfCheckinPatch"
+            },
+            "example": {
+              "localDate": "2026-09-15"
+            }
+          }
+        }
+      },
+      "method": "patch",
+      "path": "/self-checkins/{checkinId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "deleteSelfCheckinsCheckinId",
+      "summary": "SelfCheckin削除",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: 11_self_checkins。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。提案のcheckinIdをnullにする。依存結果は根拠照合で無効化。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_checkinId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "204": {
+          "$ref": "#/components/responses/Response204_deleteVisitsVisitId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-06",
+      "method": "delete",
+      "path": "/self-checkins/{checkinId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "postSuggestionBatches",
+      "summary": "提案候補生成",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: suggestions。checkin非nullならtype=checkinで本人・version・validUntilを照合。expiresAtは処理時刻より後。候補はoffered、未提示、completedVisitId=nullで保存。全候補を一括保存し空ならitems=[]。候補の適合・順序・処理期限はQ05。再取得はsuggestionsのbatchId条件。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/SuggestionBatch"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "record-001",
+                  "items": []
+                }
+              }
+            }
+          },
+          "headers": {
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "429": {
+          "$ref": "#/components/responses/Response429_postPlaces"
+        },
+        "502": {
+          "$ref": "#/components/responses/Response502_postPlaces"
+        },
+        "503": {
+          "description": "実行環境を利用できない",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "enum": [
+                          "UNAVAILABLE"
+                        ]
+                      },
+                      "message": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 10000
+                      },
+                      "requestId": {
+                        "$ref": "#/components/schemas/Id"
+                      },
+                      "details": {
+                        "type": "object",
+                        "properties": {
+                          "currentVersion": {
+                            "$ref": "#/components/schemas/Version"
+                          },
+                          "fields": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "path": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 300
+                                },
+                                "reason": {
+                                  "type": "string",
+                                  "minLength": 0,
+                                  "maxLength": 10000
+                                }
+                              },
+                              "required": [
+                                "path",
+                                "reason"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "retryAfterSec": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "retryable": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "message",
+                      "requestId"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "error"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "error": {
+                  "code": "UNAVAILABLE",
+                  "message": "実行環境を利用できない",
+                  "requestId": "123e4567-e89b-42d3-a456-426614174000"
+                }
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postVisits"
+        }
+      },
+      "x-open-questions": [
+        "Q05"
+      ],
+      "x-common-open-questions": [
+        "Q01",
+        "Q02"
+      ],
+      "x-api-id": "05-01",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SuggestionBatchInput"
+            },
+            "example": {
+              "id": "record-001",
+              "checkin": null,
+              "origin": {
+                "longitude": 136.9066,
+                "latitude": 35.1815
+              },
+              "conditions": {},
+              "excludedActivities": [],
+              "excludedPlaceIds": [],
+              "expiresAt": 1789430400000
+            }
+          }
+        }
+      },
+      "method": "post",
+      "path": "/suggestion-batches",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getSuggestions",
+      "summary": "提案一覧",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。",
+      "parameters": [
+        {
+          "name": "batchId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "offered",
+              "later",
+              "dismissed",
+              "selected",
+              "completed",
+              "not_done"
+            ]
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuggestionPage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "05-02",
+      "x-sort": "createdAt DESC, batchId ASC, position ASC, id ASC",
+      "method": "get",
+      "path": "/suggestions",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getSuggestionsSuggestionId",
+      "summary": "提案詳細",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_suggestionId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSuggestionsSuggestionId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "05-03",
+      "method": "get",
+      "path": "/suggestions/{suggestionId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "patchSuggestionsSuggestionId",
+      "summary": "提案の提示・選択・達成",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: suggestions。状態遷移表に従う。presented=trueで初回presentedAtのみ保存。selectedへ初遷移した時刻をselectedAtへ。completedは同じ本人・場所のconfirmed訪問を指定。それ以外はcompletedVisitId=null。routeIdは本人ルートのみ。期限後の新規選択・達成は409。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_suggestionId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSuggestionsSuggestionId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "05-04",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SuggestionPatch"
+            },
+            "example": {
+              "status": "offered"
+            }
+          }
+        }
+      },
+      "method": "patch",
+      "path": "/suggestions/{suggestionId}",
+      "replaceOperation": true
+    }
+  ]
+}

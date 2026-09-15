@@ -1,0 +1,1277 @@
+{
+  "taskId": "SETTINGS",
+  "version": "1.0.0",
+  "replaceSchemas": [
+    "Person",
+    "PersonPatch"
+  ],
+  "schemas": {
+    "Person": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "description": "表示名"
+        },
+        "bio": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200,
+          "description": "紹介文"
+        },
+        "avatarUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "アイコンのURLまたはアセットパス"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "name",
+        "bio",
+        "avatarUrl"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/00_people.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "PersonPatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "avatarUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "Settings": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "display": {
+          "type": "object",
+          "properties": {
+            "fontSize": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "large",
+                "extraLarge"
+              ]
+            },
+            "reduceMotion": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "fontSize",
+            "reduceMotion"
+          ],
+          "additionalProperties": false
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "saveTrack": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled",
+            "saveTrack"
+          ],
+          "additionalProperties": false
+        },
+        "media": {
+          "type": "object",
+          "properties": {
+            "photosEnabled": {
+              "type": "boolean"
+            },
+            "microphoneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "photosEnabled",
+            "microphoneEnabled"
+          ],
+          "additionalProperties": false
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "allowRecords": {
+              "type": "boolean"
+            },
+            "allowLocation": {
+              "type": "boolean"
+            },
+            "allowMedia": {
+              "type": "boolean"
+            },
+            "allowProfile": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled",
+            "allowRecords",
+            "allowLocation",
+            "allowMedia",
+            "allowProfile"
+          ],
+          "additionalProperties": false
+        },
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "timing": {
+              "type": "string",
+              "enum": [
+                "immediate",
+                "daily"
+              ]
+            },
+            "dailyAt": {
+              "type": "string",
+              "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+            },
+            "timeZone": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          },
+          "required": [
+            "enabled",
+            "timing",
+            "dailyAt",
+            "timeZone"
+          ],
+          "additionalProperties": false
+        },
+        "retention": {
+          "type": "object",
+          "properties": {
+            "recordsDays": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 36500
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "trackDays": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 36500
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "recordsDays",
+            "trackDays"
+          ],
+          "additionalProperties": false
+        },
+        "suggestions": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "timing": {
+              "type": "string",
+              "enum": [
+                "onOpen",
+                "continuous"
+              ]
+            },
+            "summaryDays": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 36500
+            },
+            "stopped": {
+              "type": "array",
+              "maxItems": 1000,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "placeId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "activity": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "placeId",
+                  "activity"
+                ],
+                "additionalProperties": false,
+                "anyOf": [
+                  {
+                    "properties": {
+                      "placeId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "activity": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "enabled",
+            "timing",
+            "summaryDays",
+            "stopped"
+          ],
+          "additionalProperties": false
+        },
+        "profileVisibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "friends",
+            "public"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "display",
+        "location",
+        "media",
+        "ai",
+        "notifications",
+        "retention",
+        "suggestions",
+        "profileVisibility"
+      ],
+      "additionalProperties": false
+    },
+    "SettingsPatch": {
+      "type": "object",
+      "properties": {
+        "display": {
+          "type": "object",
+          "properties": {
+            "fontSize": {
+              "type": "string",
+              "enum": [
+                "standard",
+                "large",
+                "extraLarge"
+              ]
+            },
+            "reduceMotion": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "fontSize",
+            "reduceMotion"
+          ],
+          "additionalProperties": false
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "saveTrack": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled",
+            "saveTrack"
+          ],
+          "additionalProperties": false
+        },
+        "media": {
+          "type": "object",
+          "properties": {
+            "photosEnabled": {
+              "type": "boolean"
+            },
+            "microphoneEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "photosEnabled",
+            "microphoneEnabled"
+          ],
+          "additionalProperties": false
+        },
+        "ai": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "allowRecords": {
+              "type": "boolean"
+            },
+            "allowLocation": {
+              "type": "boolean"
+            },
+            "allowMedia": {
+              "type": "boolean"
+            },
+            "allowProfile": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled",
+            "allowRecords",
+            "allowLocation",
+            "allowMedia",
+            "allowProfile"
+          ],
+          "additionalProperties": false
+        },
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "timing": {
+              "type": "string",
+              "enum": [
+                "immediate",
+                "daily"
+              ]
+            },
+            "dailyAt": {
+              "type": "string",
+              "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+            },
+            "timeZone": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            }
+          },
+          "required": [
+            "enabled",
+            "timing",
+            "dailyAt",
+            "timeZone"
+          ],
+          "additionalProperties": false
+        },
+        "retention": {
+          "type": "object",
+          "properties": {
+            "recordsDays": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 36500
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "trackDays": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 36500
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "recordsDays",
+            "trackDays"
+          ],
+          "additionalProperties": false
+        },
+        "suggestions": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "timing": {
+              "type": "string",
+              "enum": [
+                "onOpen",
+                "continuous"
+              ]
+            },
+            "summaryDays": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 36500
+            },
+            "stopped": {
+              "type": "array",
+              "maxItems": 1000,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "placeId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "activity": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "placeId",
+                  "activity"
+                ],
+                "additionalProperties": false,
+                "anyOf": [
+                  {
+                    "properties": {
+                      "placeId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80
+                      }
+                    }
+                  },
+                  {
+                    "properties": {
+                      "activity": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "required": [
+            "enabled",
+            "timing",
+            "summaryDays",
+            "stopped"
+          ],
+          "additionalProperties": false
+        },
+        "profileVisibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "friends",
+            "public"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "SettingsResult": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/Settings"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "OwnDataSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "person": {
+          "$ref": "#/components/schemas/Person"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/Settings"
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "profile",
+                  "settings",
+                  "records"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "readUrl": {
+                "type": "string"
+              },
+              "exportUrl": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deletionPreviewUrl": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deleteUrl": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "version": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "deletionEffect": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "label",
+              "count",
+              "readUrl",
+              "exportUrl",
+              "deletionPreviewUrl",
+              "deleteUrl",
+              "version",
+              "deletionEffect"
+            ]
+          }
+        },
+        "recordActions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "exportTemplate": {
+              "type": "string"
+            },
+            "deletionPreviewTemplate": {
+              "type": "string"
+            },
+            "deleteTemplate": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "exportTemplate",
+            "deletionPreviewTemplate",
+            "deleteTemplate"
+          ]
+        }
+      },
+      "required": [
+        "person",
+        "settings",
+        "categories",
+        "recordActions"
+      ]
+    },
+    "OwnDataSummaryResult": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/OwnDataSummary"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "operationId": "patchMe",
+      "summary": "本人プロフィール編集",
+      "tags": [
+        "人物・共有"
+      ],
+      "description": "本人プロフィール編集。表示名1〜20文字・紹介200文字以内。変更しない項目は省略、avatarUrl=nullでアイコン参照解除。If-MatchはPerson.version。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getMe"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [
+        "Q06"
+      ],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "06-02",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PersonPatch"
+            },
+            "example": {
+              "name": "本山のカフェ"
+            }
+          }
+        }
+      },
+      "method": "patch",
+      "path": "/me",
+      "replaceOperation": true
+    },
+    {
+      "method": "get",
+      "path": "/me/settings",
+      "operationId": "getMeSettings",
+      "summary": "本人の利用設定",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "保存済みの現在値",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsResult"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "description": "本人contextとmode別DBから取得。未保存は明記した既定値とversion=1。ブラウザ権限の実際の状態とは分離。"
+    },
+    {
+      "method": "patch",
+      "path": "/me/settings",
+      "operationId": "patchMeSettings",
+      "summary": "本人の利用設定を保存",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SettingsPatch"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "保存済みの現在値",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SettingsResult"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "description": "If-MatchはSettings.version。トップレベル省略は維持、内部オブジェクト・配列は全置換。AI許可は次の外部送信直前に再取得、提案停止は生成/現在候補表示に適用。履歴は削除しない。保存期間変更は方針の保存で、過去データの即時一括削除を行わない。"
+    },
+    {
+      "method": "delete",
+      "path": "/me/settings",
+      "operationId": "resetMeSettings",
+      "summary": "本人設定を初期値へ戻す",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "設定のみ初期化。versionは増加し履歴の古い版を再利用しない。"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/me/data",
+      "operationId": "getMeData",
+      "summary": "本人データ一覧と管理入口",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "保存済みの現在値",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OwnDataSummaryResult"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/me/settings/export",
+      "operationId": "exportMeSettings",
+      "summary": "プロフィールと設定を文書へ書出す",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "単体の日本語HTML文書を添付ダウンロード。記録・媒体は各記録の書出し入口を利用。",
+          "content": {
+            "text/html": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/me/icon",
+      "operationId": "getMeIcon",
+      "summary": "本人アイコンの画像取得",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "保存した本人画像。private,no-store。",
+          "content": {
+            "image/png": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/jpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "image/webp": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/me/icon",
+      "operationId": "patchMeIcon",
+      "summary": "本人アイコンを変更",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "file"
+              ],
+              "properties": {
+                "file": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getMe"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "413": {
+          "description": "50MiB超過"
+        },
+        "415": {
+          "description": "JPEG/PNG/WebP以外または内容不一致"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "description": "If-MatchはPerson.version。1枚50MiBまで。元画像は本人/モード別の専用ファイルとして保存。差替えは古い本人アイコンだけ清掃し、記録mediaは削除しない。"
+    },
+    {
+      "method": "delete",
+      "path": "/me/icon",
+      "operationId": "deleteMeIcon",
+      "summary": "本人アイコンだけを削除",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "アイコンのみ削除。Person.versionは増加。記録/媒体/名前/紹介は維持。"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      }
+    }
+  ]
+}

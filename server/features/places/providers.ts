@@ -90,11 +90,12 @@ export async function searchMapbox(category: string, origin: Position, caller: A
   const token=process.env.MAPBOX_ACCESS_TOKEN;
   if (!token) throw new CommonError("PROVIDER_UNAVAILABLE","Mapboxの検索設定がありません。",false);
   const signal=AbortSignal.any([caller,AbortSignal.timeout(10_000)]);
-  const groups=await Promise.all(nearbyBounds(origin).map(async bbox => {
+  const boxes=nearbyBounds(origin);
+  const groups=await Promise.all(boxes.map(async bbox => {
     const url=new URL(`https://api.mapbox.com/search/searchbox/v1/category/${category}`);
     url.search=new URLSearchParams({access_token:token,language:"ja",limit:"5",proximity:origin.join(","),bbox:bbox.join(",")}).toString();
     return parseMapbox(await json(url,signal),Date.now());
-  })).catch(error=> { if(error instanceof CommonError && error.code==="OUTPUT_INVALID") throw error; throw new CommonError("PROVIDER_UNAVAILABLE","周辺候補を取得できません。",true); });
+  })).catch(error=> { if(caller.aborted)throw caller.reason; if(boxes.length===1)throw error; throw new CommonError("PROVIDER_UNAVAILABLE","周辺候補を取得できません。",true); });
   const seen=new Set<string>();
   return groups.flat().filter(item => {if(!item.externalId)return true; if(seen.has(item.externalId))return false;seen.add(item.externalId);return true;}).slice(0,5);
 }
@@ -112,8 +113,8 @@ export async function refreshNominatim(externalId:string,caller:AbortSignal) {
   const openingHours=text(row.extratags?.opening_hours)?{rawText:row.extratags.opening_hours,timezone:null,sourceUrl:candidate.sourceUrl,fetchedAt,verificationStatus:"unverified" as const}:null;
   const entrances=(Array.isArray(row.entrances)?row.entrances:[]).flatMap((item:any)=> {
     const coordinates=[Number(item.lon),Number(item.lat)];
-    if(!isPosition(coordinates)||!item.osm_id||!text(String(item.lat))||!text(String(item.lon)))return [];
+    if(!isPosition(coordinates)||!item.osm_id||item.lat==null||item.lon==null||String(item.lat).trim()===""||String(item.lon).trim()==="")return [];
     return [{id:`N${item.osm_id}`,coordinates,label:text(item.name)?item.name:null,accessibility:"unknown",sourceUrl:`https://www.openstreetmap.org/node/${item.osm_id}`,fetchedAt,verificationStatus:"unverified"}];
   });
-  return {candidate,openingHours,entrances};
+  return {candidate,openingHours,entrances:entrances.slice(0,100)};
 }
