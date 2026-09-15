@@ -1,0 +1,25 @@
+{
+  "requestId": "83ae2cbc-a41c-4f43-94be-c4796fafa92e",
+  "adapter": "ephemeral",
+  "model": "gpt-5.6-luna",
+  "promptVersion": "common-ai-v1",
+  "startedAt": 1789440034169,
+  "durationMs": 41757,
+  "result": {
+    "proposal": {
+      "theme": "default",
+      "lightPreset": "night",
+      "showPedestrianRoads": true,
+      "showAdminBoundaries": false,
+      "showIndoor": false,
+      "colors": {
+        "water": "#2B6CB0",
+        "greenspace": "#1B4332",
+        "roads": "#4A5568",
+        "buildings": "#2D3748"
+      }
+    },
+    "explanation": "夜間でも水辺を見やすくするため、ライトプリセットをnightに変更し、水域を明るめの青に設定します。その他の設定は現在値を維持します。"
+  },
+  "status": "complete"
+}
