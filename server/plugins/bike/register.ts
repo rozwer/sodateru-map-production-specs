@@ -1,6 +1,7 @@
 import type { DatabaseSync } from "node:sqlite";
 import { CommonError } from "../../core/errors.ts";
 import { getPluginState, registerPlugin } from "../../features/plugins/index.ts";
+import { placesService } from "../../features/places/service.ts";
 import { createRoutesService } from "../../features/routes/index.ts";
 import { BikeService, type RoutesBoundary } from "./service.ts";
 import { assessCommonRoute } from "./route-evidence.ts";
@@ -29,6 +30,6 @@ export function createBikeService(db: DatabaseSync) {
   return new BikeService(db, context => common(() => {
     const state = getPluginState(db, context), item = state.items.find(i => i.id === "bike"), applied = state.plugins.find(p => p.pluginId === "bike");
     return item && applied ? { installId: item.installId, version: item.version, enabled: item.enabled, settings: item.settings, visible: applied.resolvedDeclarations.some(d => d.targetKey === "layer:bike" && d.property === "visibility" && d.value === true) } : null;
-  }), boundary);
+  }), boundary, undefined, placesService);
 }
 export default createBikeFeature(createBikeService);
