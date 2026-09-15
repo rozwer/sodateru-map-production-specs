@@ -29,3 +29,10 @@ generatorVersionはinsights-fixed-five-4。入力定義が変わるため旧定�
 既存demo/selfに同期間の別記録があれば実APIはそれも含む。上記期待値へ合わせるために既存記録を隠す/消すことはしない。
 
 POST /insightsはid/from/to/timeZoneから再計算する契約。素材の編集上の人物名/説明/おすすめや手計算dailyを自由注入しない。現行の実result.provisionalName/axes表示は#140の責任範囲で、確認時点board255では#140/#13はbacklog・取得なし、develop e8bf8e4のUI data.tsもtitle:null/axes:[]。データ投入だけをUI表示完了や実AI成功と扱わない。
+
+## 生成画像4枚（追加）
+generated-media/cafe.png、books.png、park.png、dinner.pngを元bytes保持で永続保存。全て1448×1086のPNG、生成元はbuilt-in imagegen。特定店舗の現地写真や本人の訪問写真ではない。grounded-media-assets.jsonに元path/SHA256/Record ID/媒体ID/生成出所を保持し、grounded-media-plan.jsonに必須ヘッダーと添付順を記録。
+
+元ファイル不変、PNG全chunk CRC/圧縮データの検証を確認。既存の隔離HTTP試験を拡張し、正式multipart添付4枚、親If-Match、各同一ID/key再送、ready、認証付きcontent GET200と全bytes一致、親版が1回だけ増加、本文保持を確認。媒体添付後の3期間Insight保存/DB再開もPASS。型検査PASS。証拠はgrounded-http.jsonのmediaChecks。
+
+共有UIは管理者の2026-09-15 14:16:45〜14:17:12 JST確認時点で404。共有投入・実ブラウザdecodeは未実施。#140画像の必須ヘッダー不足は https://github.com/rozwer/sodateru-map-production-specs/issues/140#issuecomment-5675170126 へ別途引渡済み。画像保存/隔離API成功を共有画面表示完了と扱わない。
