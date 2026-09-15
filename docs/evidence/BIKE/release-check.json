@@ -1,0 +1,37 @@
+{
+  "checkedAt": 1789447139935,
+  "kind": "real production registry and SQLite with explicitly seeded observation fixture",
+  "versions": [
+    "1.0.0",
+    "1.1.0"
+  ],
+  "legacyDeclarations": [
+    {
+      "targetKey": "layer:bike",
+      "property": "visibility",
+      "value": true
+    }
+  ],
+  "latestDeclarations": [
+    {
+      "targetKey": "layer:bike",
+      "property": "visibility",
+      "value": true
+    },
+    {
+      "targetKey": "feature:bike:place-candidates",
+      "property": "enabled",
+      "value": true
+    }
+  ],
+  "checks": {
+    "oldRejectsNewCandidates": true,
+    "updateEnablesActualCommonRegistrationAndAdoption": true,
+    "rollbackRestoresSettingsManifestDeclarations": true,
+    "originalManifestUnchanged": true,
+    "retainedSearchesAndAdoptedPlaceEqualAfterSQLiteReopen": true,
+    "existingCandidateLifetimePreserved": true,
+    "rollbackKeepsDisplay": true
+  },
+  "remaining": "PLUGINS owner runs normal-main HTTP update/rollback and separate OS restart after merge; no fresh provider call performed"
+}

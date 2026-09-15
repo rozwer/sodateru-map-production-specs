@@ -24,3 +24,28 @@ export const bikeRelease: PluginRelease = {
   },
   async prepare(settings) { validateSettings(settings); },
 };
+
+/** 1.0.0 remains registered unchanged; this release enables the shipped PLACES bridge. */
+const placeCandidateDeclarations = () => [
+  ...declarations(),
+  { targetKey: "feature:bike:place-candidates", property: "enabled", value: true },
+];
+export const bikePlacesRelease: PluginRelease = {
+  ...bikeRelease,
+  manifest: {
+    ...structuredClone(bikeRelease.manifest),
+    pluginVersion: "1.1.0",
+    updatedAt: Date.UTC(2026, 8, 15, 4),
+    changeLog: "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+    usageInfo: [
+      ...bikeRelease.manifest.usageInfo,
+      "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
+      "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
+      "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。",
+    ],
+  },
+  declarations: placeCandidateDeclarations,
+  trial(settings) {
+    return { ...bikeRelease.trial(settings), declarations: placeCandidateDeclarations() };
+  },
+};
