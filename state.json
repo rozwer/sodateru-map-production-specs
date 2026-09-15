@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 15,
+  "revision": 16,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4525,17 +4525,22 @@
       "token": null
     },
     "PLACES": {
-      "actor": null,
+      "actor": "kaiya",
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "generation": 3,
       "issue_number": 5,
       "landed_main": null,
       "note": "Worktree preparation failed during mise trust: [Errno 2] No such file or directory: '/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-5-places'",
       "owner": "kaiya",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/places/",
+        "server/db/migrations/places/",
+        "docs/01_requirements/04_api/fragments/PLACES.json",
+        "docs/evidence/PLACES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "e123d6a92a054b389fd97e9a5b0f786f"
     },
     "PLUGINS": {
       "actor": null,
