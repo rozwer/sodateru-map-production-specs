@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 288,
+  "revision": 289,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34103,26 +34103,17 @@
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "BUILDING-GROWTH": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "71279ce6b36606f13d9bef3f9e8f5bd3775d407b",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 222,
       "landed_main": null,
-      "note": "User final deadline: PR264 camera fallback and normal theme; commit651443e. PR261 height fix merged. Actual face color unverified; own demo visit UI cancelled to candidate v5. Evidence docs/evidence/BUILDING-GROWTH/handoff.md. Keep Issue222 open for unmet acceptance.",
+      "note": "Track replay and Yokohama-only vicinity filter merged via PR #281/#282 (8841514, 91c3be7). Worktree /Users/roz/Desktop/sodateru-map-building-animation preserved. Broader Issue #222 acceptance remains open; recording is being completed from qa-visual-40 on shared 5173.",
       "owner": "rozwer",
-      "paths": [
-        "src/map/growth-display.ts",
-        "src/map/growth-rules.ts",
-        "src/map/growth-rules.test.ts",
-        "src/map/MapScene.tsx",
-        "src/map/display-state.ts",
-        "src/map/map.css",
-        "src/features/map/",
-        "docs/evidence/BUILDING-GROWTH/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "5a54987b70114f9eb22050e4cb7d75f8"
+      "token": null
     },
     "BUILDING-RECORDS": {
       "actor": null,
