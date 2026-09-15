@@ -1,0 +1,37 @@
+{
+  "board_oid": "cacea32958d81ae008cebf440cc5b3ab6aa46386",
+  "board_revision": 242,
+  "implementation_base": "68a2552d45f645f4d9197070ae90e8b3ced9c2ae",
+  "manifest_sha256": "b89a7d9057883096ba7b4ea91bc73f0a54d61e0a61f6c7dc5f0ce2f16593921f",
+  "changed_states": [
+    "VISUAL-COMMUNITY",
+    "VISUAL-SELF"
+  ],
+  "other_states_preserved": 84,
+  "input_board_unchanged": true,
+  "source_evidence_preserved": true,
+  "transfers": {
+    "VISUAL-COMMUNITY": {
+      "successors": [
+        "VISUAL-SOCIAL",
+        "VISUAL-PLUGINS"
+      ],
+      "pages": {
+        "VISUAL-SOCIAL": 13,
+        "VISUAL-PLUGINS": 9
+      },
+      "acceptance_count": 4
+    },
+    "VISUAL-SELF": {
+      "successors": [
+        "VISUAL-SELF-CONTINUE",
+        "VISUAL-RECORDS-CAMERA"
+      ],
+      "pages": {
+        "VISUAL-SELF-CONTINUE": 14,
+        "VISUAL-RECORDS-CAMERA": 7
+      },
+      "acceptance_count": 4
+    }
+  }
+}

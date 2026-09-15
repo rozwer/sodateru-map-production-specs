@@ -101,6 +101,41 @@ def validate_ui_split(graph):
               for t in graph['tasks'] if t['id'] not in ('UI-HEALTH','CONNECT-HEALTH')),'health became a required dependency')
     return before
 
+def successors(value):
+    """Preserve published string values; normalize only for validation."""
+    result=[value] if isinstance(value,str) else value
+    if (not isinstance(result,list) or not result or
+        any(not isinstance(item,str) or not item for item in result) or
+        len(set(result))!=len(result)):
+        raise tc.BoardError('Successors must be a nonempty string or unique string list')
+    return result
+
+def validate_supersession_details(source, targets, graph, by):
+    details=graph.get('supersession_details',{}).get(source)
+    if details is None:
+        if len(targets)>1:raise tc.BoardError('Split supersession needs acceptance and page mapping: '+source)
+        return
+    def require(condition,message):
+        if not condition:raise tc.BoardError('Supersession '+source+': '+message)
+    def strings(value):
+        return isinstance(value,list) and bool(value) and all(isinstance(x,str) and x.strip() for x in value)
+    require(isinstance(details,dict),'details must be an object')
+    issue=graph.get('task_policy',{}).get('issue_numbers',{}).get(source,by[source].get('github_issue'))
+    require(type(details.get('source_issue')) is int and details['source_issue']==issue,'source Issue mismatch')
+    require(type(details.get('authorization_issue')) is int and details['authorization_issue']>0,'authorization Issue missing')
+    for field in ('reason','evidence'):
+        require(isinstance(details.get(field),str) and bool(details[field].strip()),field+' missing')
+    # These criteria are shared by every successor on its assigned pages.
+    require(strings(details.get('source_acceptance')),'source acceptance missing')
+    pages=details.get('pages_by_successor')
+    require(isinstance(pages,dict) and set(pages)==set(targets),'successor page mapping incomplete')
+    require(all(strings(value) and len(value)==len(set(value)) for value in pages.values()),'successor pages missing/duplicated')
+    assigned={page for value in pages.values() for page in value}
+    require(set(by[source].get('pages',[]))<=assigned,'source pages dropped')
+    original=by[source].get('acceptance')
+    if original:
+        require(set(original if isinstance(original,list) else [original])<=set(details['source_acceptance']),'original acceptance dropped')
+
 def validate(graph):
     tasks=graph['tasks']; ids=[t['id'] for t in tasks]
     if len(ids)!=len(set(ids)): raise tc.BoardError('Duplicate task ID')
@@ -116,14 +151,24 @@ def validate(graph):
             if dep not in by or dep==t['id']: raise tc.BoardError('Unknown/self dependency: '+dep)
     supersessions=graph.get('supersessions',{})
     if not isinstance(supersessions,dict):raise tc.BoardError('Supersessions must map stable IDs to successors')
-    for old,successor in supersessions.items():
-        if old not in by or successor not in by or old==successor or successor in supersessions:
+    details=graph.get('supersession_details',{})
+    if not isinstance(details,dict) or set(details)-set(supersessions):raise tc.BoardError('Details must refer to superseded sources')
+    for old,value in supersessions.items():
+        targets=successors(value)
+        if old not in by or any(target not in by or old==target or target in supersessions for target in targets):
             raise tc.BoardError('Invalid or chained successor: '+old)
-        if old not in by[successor].get('source_task_ids',[]):raise tc.BoardError('Successor must retain source scope: '+old)
+        for target in targets:
+            if old not in by[target].get('source_task_ids',[]):raise tc.BoardError('Successor must retain source scope: '+old)
+        for field in ('requirement_ids','acceptance_ids'):
+            retained={item for target in targets for item in by[target].get(field,[])}
+            if field=='requirement_ids':
+                retained.update(item for target in targets for item in by[target].get('legacy_requirement_ids',[]))
+            if not set(by[old].get(field,[]))<=retained:raise tc.BoardError('Supersession drops '+field+': '+old)
+        validate_supersession_details(old,targets,graph,by)
     for t in tasks:
         if not t.get('residual_unit'):continue
         for source in t['source_task_ids']:
-            if supersessions.get(source)!=t['id']:raise tc.BoardError('Residual source ownership mismatch: '+source)
+            if source not in supersessions or t['id'] not in successors(supersessions[source]):raise tc.BoardError('Residual source ownership mismatch: '+source)
         required={req for source in t['source_task_ids'] for req in by[source]['requirement_ids']}
         if not required<=set(t['requirement_ids']) | set(t.get('legacy_requirement_ids', [])):raise tc.BoardError('Residual unit drops requirements: '+t['id'])
         expected=[{'id':source,'issue':policy['issue_numbers'][source],
@@ -181,6 +226,9 @@ def migrate(board,graph,document_moves=None):
     mapping=graph.get('supersessions',{})
     if any(mapping.get(source)!=target for source,target in old_mapping.items()):
         raise tc.BoardError('Cannot remove or change a published supersession')
+    old_details=board['graph'].get('supersession_details',{})
+    if any(graph.get('supersession_details',{}).get(source)!=detail for source,detail in old_details.items()):
+        raise tc.BoardError('Cannot remove or change published supersession details')
     for source,successor in mapping.items():
         if source not in board['tasks']:raise tc.BoardError('Cannot retire a missing source')
         state=board['tasks'][source]
@@ -191,7 +239,7 @@ def migrate(board,graph,document_moves=None):
         if previous[source]!=current[source]:raise tc.BoardError('Keep superseded source definition unchanged: '+source)
         new['tasks'][source].update(status='superseded',superseded_by=successor,
                                    superseded_at_revision=board['revision']+1)
-    if split_before:
+    if split_before and old_split is None:
         check(all(new['tasks'][id]==state for id,state in board['tasks'].items()),'existing execution state must remain byte-for-byte equivalent')
     new['graph']=copy.deepcopy(graph);new['revision']+=1
     return new
