@@ -33756,7 +33756,7 @@
     "QA-DISASTER-GROW",
     "ISSUE-CLOSE-REPAIRS"
   ],
-  "revision": 223,
+  "revision": 224,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34003,23 +34003,17 @@
       "token": "b7a845b224db43eabc65f4de7c69e9e2"
     },
     "DISASTER-UI": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 219,
       "landed_main": null,
-      "note": null,
+      "note": "共通MapRendererを新3D担当へ集約する指示。MapRenderer未編集、UI成果はdisaster-ui-219に保持。部分解放非対応につき同UI限定の後続Taskへ移管。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/disaster/ui/",
-        "src/features/disaster/screens.tsx",
-        "src/features/disaster/types.ts",
-        "src/map/MapRenderer.tsx",
-        "docs/evidence/DISASTER-UI/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "39401bfdc8834fe582cca7efcb35e0a3"
+      "token": null
     },
     "EXPLORATION": {
       "actor": "mattsun",
