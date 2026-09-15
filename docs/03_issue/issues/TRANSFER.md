@@ -2,7 +2,7 @@
 
 <!-- task-id: TRANSFER -->
 
-初期担当枠：D。担当者：mattsun。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：D。担当者：mattsun。[GitHub #32](https://github.com/rozwer/sodateru-map-production-specs/issues/32)。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 
@@ -30,10 +30,25 @@
 - 着手前：なし。
 - 実接続・完了前：[AI](AI.md)、[PLACES](PLACES.md)、[ROUTES](ROUTES.md)、[INFORMATION](INFORMATION.md)。
 
-担当の契約補完、業務処理、SQL/保存、外部adapterと固有の失敗確認を機能内で進める。未提供の共通処理は固定済みの署名で差し替え可能にし、実接続時は共通実装へ切り替える。
+契約が確定した部分から固有処理・SQL・外部接続を進める。未決事項は、その契約を使う部分だけを止める。共通Schema/API生成器の反映はkoshiro、固有の契約断片・DTO変換・業務処理・保存は本Issue担当が持つ。共通処理を複製せず、提供済みの型付きクライアントと登録入口を使う。
+
+### 提供単位
+
+Issueを分割せず、次の利用操作ごとに先行統合する。部分提供の成功だけでIssue全体を閉じない。
+
+- **TRANSFER.complete**：別の街への体験移転・二案比較・採用。実在の場所/経路と元体験の根拠を持つ二案を比較し、採用結果を保存/再取得する。
+
+### 接続に必要な提供物
+
+- [AI](AI.md)：`AI.engine`、`AI.refs`。
+- [PLACES](PLACES.md)：`PLACES.search`、`PLACES.detail`。
+- [ROUTES](ROUTES.md)：`ROUTES.basic`。
+- [INFORMATION](INFORMATION.md)：`INFORMATION.read`、`INFORMATION.refs`。
+
+提供元Issue全体のdoneではなく、必要な提供物の統合commit・契約版・実API/保存/再取得の証拠を確認する。[提供と接続の進め方](../delivery.md)。
 
 ## 編集範囲
 
-提案path：`server/features/transfer/`、`server/db/migrations/transfer/`、`docs/evidence/TRANSFER/`。
+提案path：`server/features/transfer/`、`server/db/migrations/transfer/`、`docs/01_requirements/04_api/fragments/TRANSFER.json`、`docs/evidence/TRANSFER/`。
 
 共通ファイルの変更・途中統合・ロック返却は[4人の進め方](../execution.md)に従う。実際の取得範囲はclaimReceiptで確認する。

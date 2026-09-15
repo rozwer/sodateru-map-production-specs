@@ -4,7 +4,7 @@
 
 36件を **A：13件、B：8件、C：7件、D：8件** に割り当てた。担当はA＝rozwer、B＝koshiro、C＝kaiya、D＝mattsunで確定。
 
-[着手順・依存・待ちへの対応](execution.md) · [画面/API対応](coverage.md) · [契約補完](contract-gates.md) · [機械可読の一覧](index.json)
+[着手順・依存・待ちへの対応](execution.md) · [先行提供と接続責任](delivery.md) · [画面/API対応](coverage.md) · [契約補完](contract-gates.md) · [機械可読の一覧](index.json)
 
 ## 分担と初手
 
@@ -17,7 +17,7 @@
 
 AのMapbox担当は描画・カメラ・選択・レイヤーの操作。Cはサーバー側の場所/道路検索と表示材料を担当する。Dは共通AIを提供し、Cの地図設定や拡張機能などは利用側が固有プロンプトと結果の採用を担当する。
 
-BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI/DBをBへ集めず、C・Dも機能内のAPI/SQL/migrationを実装する。オーケストレーターは4人の実装担当に加算せず、調整・現状把握を行う。
+koshiroのCOREは起動・登録入口と型付き共通クライアントを先に提供し、共通Schema/API生成器の反映担当も持つ。以後、全機能のAPI/DBをBへ集めず、C・Dも機能内のAPI/SQL/migrationを実装する。オーケストレーターは4人の実装担当に加算せず、調整・現状把握を行う。
 
 ## 担当Issue
 
@@ -79,14 +79,14 @@ BのCOREは起動と共通処理を先に提供する。以後、全機能のAPI
 
 ## 作業量の扱い
 
-Issue数を工数としては扱わない。Aは画面数が多く、Cは外部データ、DはAI/分析の不確定要素が多い。各担当の「実行中1件＋次候補2件」を更新し、残る非UI機能はB〜D間で移管する。
+Issue数を工数としては扱わない。Aは画面数が多く、Cは外部データ、DはAI/分析の不確定要素が多い。各担当内の独立セッションごとに「実行中1件＋次候補2件」を更新し、残る非UI機能はB〜D間で移管する。
 
 画面の詳細/編集/確認や同じ保存のCRUDは一つにまとめ、独立した利用目的・保存結果・取得元を持つ機能は分けた。大きめのUI-EXPLORE、UI-PLUGINS、ROUTES、REFLECTION、COMPANIONは、途中の提供物を明記して先行統合する。受入を減らしてサイズ調整しない。
 
 ## 対応と登録状態
 
-67画面の317要件（利用者向け機能225件を含む）、既存API104操作、API不足20項目を対応付けている。体験移転と3種の拡張機能も含む。実装・受入は未着手で、ここにあるのはローカルのIssue草案。
+67画面の317要件（利用者向け機能225件を含む）、既存API104操作、API不足20項目を対応付けている。体験移転と3種の拡張機能も含む。ここにあるのは仕様とIssue定義。登録・着手・実接続・受入の状態はIssue/boardで別々に確認する。
 
-本番remoteは [rozwer/sodateru-map-production-specs](https://github.com/rozwer/sodateru-map-production-specs)。担当者との対応は確定済み。GitHub Issue、develop、Task boardは未設定。契約補完を反映してから登録する。`index.json` は検討用索引であり、実行用 `TASK_GRAPH.json` ではない。[初期導入手順](../../.agents/skills/sodateru-task/references/board-bootstrap.md)。
+本番remoteは [rozwer/sodateru-map-production-specs](https://github.com/rozwer/sodateru-map-production-specs)。担当者との対応は確定済み。developは整備済み。全36件をGitHub #3〜#38へ登録済み。未解決事項はコメントに残し、登録済みTaskと担当/取得pathを対応させてboardへ導入する。固有契約の不足で他機能の登録を止めない。`index.json` は検討用索引であり、実行用 `TASK_GRAPH.json` ではない。[初期導入手順](../../.agents/skills/sodateru-task/references/board-bootstrap.md)。
 
 検査：`mise exec -- node docs/03_issue/verify.mjs`。要件/操作の担当、4人のキュー、UI担当の固定、依存の循環、初手のpath競合を確認する。所要時間や常時稼働の実績を証明する検査ではない。

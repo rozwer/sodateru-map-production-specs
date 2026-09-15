@@ -2,7 +2,7 @@
 
 <!-- task-id: AI -->
 
-初期担当枠：D。担当者：mattsun。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：D。担当者：mattsun。[GitHub #7](https://github.com/rozwer/sodateru-map-production-specs/issues/7)。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 
@@ -34,14 +34,29 @@
 ## 依存と先行作業
 
 - 着手前：なし。
-- 実接続・完了前：[CORE](CORE.md)。
+- 実接続・完了前：[CORE](CORE.md)、[INFORMATION](INFORMATION.md)。
 
-担当の契約補完、業務処理、SQL/保存、外部adapterと固有の失敗確認を機能内で進める。未提供の共通処理は固定済みの署名で差し替え可能にし、実接続時は共通実装へ切り替える。
+契約が確定した部分から固有処理・SQL・外部接続を進める。未決事項は、その契約を使う部分だけを止める。共通Schema/API生成器の反映はkoshiro、固有の契約断片・DTO変換・業務処理・保存は本Issue担当が持つ。共通処理を複製せず、提供済みの型付きクライアントと登録入口を使う。
 
-先行提供：用途登録・SourceRef解決・実行/取消/結果取得の署名を共有する。用途別プロンプトと保存適用は各機能が持つ。
+先行提供：用途登録・実行/取消/結果取得を先に渡す。SourceRefの解決・現在権限・版照合はkoshiroのINFORMATIONへ一元化し、mattsunは共通処理を呼ぶ境界とAI実行/結果を持つ。用途別プロンプトと結果採用は各機能担当が持つ。
+
+### 提供単位
+
+Issueを分割せず、次の利用操作ごとに先行統合する。部分提供の成功だけでIssue全体を閉じない。
+
+- **AI.engine**：用途登録・実行・保存・取消・結果取得。実AIを一用途で実行して結果を保存/再取得し、取消と遅着結果を区別する。材料読取は登録した提供関数を呼ぶ。
+- **AI.refs**：共通根拠照合を使う生成・再試行。koshiroの根拠処理で生成前/保存直前/再試行時の権限と参照版を照合し、コピー実装しない。
+- **AI.voice**：音声文字起こし・送信確認への接続。音声の実取得/文字起こしと送信対象の確認を契約どおりに受け渡す。
+
+### 接続に必要な提供物
+
+- [CORE](CORE.md)：`CORE.runtime`。
+- [INFORMATION](INFORMATION.md)：`INFORMATION.refs`。
+
+提供元Issue全体のdoneではなく、必要な提供物の統合commit・契約版・実API/保存/再取得の証拠を確認する。[提供と接続の進め方](../delivery.md)。
 
 ## 編集範囲
 
-提案path：`server/ai/`、`server/features/conversations/`、`server/db/migrations/ai/`、`docs/evidence/AI/`。
+提案path：`server/ai/`、`server/features/conversations/`、`server/db/migrations/ai/`、`docs/01_requirements/04_api/fragments/AI.json`、`docs/evidence/AI/`。
 
 共通ファイルの変更・途中統合・ロック返却は[4人の進め方](../execution.md)に従う。実際の取得範囲はclaimReceiptで確認する。

@@ -2,7 +2,7 @@
 
 <!-- task-id: ROUTES -->
 
-初期担当枠：C。担当者：kaiya。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：C。担当者：kaiya。[GitHub #25](https://github.com/rozwer/sodateru-map-production-specs/issues/25)。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 
@@ -36,10 +36,27 @@
 - 着手前：なし。
 - 実接続・完了前：[CORE](CORE.md)、[PLACES](PLACES.md)。
 
-担当の契約補完、業務処理、SQL/保存、外部adapterと固有の失敗確認を機能内で進める。未提供の共通処理は固定済みの署名で差し替え可能にし、実接続時は共通実装へ切り替える。
+契約が確定した部分から固有処理・SQL・外部接続を進める。未決事項は、その契約を使う部分だけを止める。共通Schema/API生成器の反映はkoshiro、固有の契約断片・DTO変換・業務処理・保存は本Issue担当が持つ。共通処理を複製せず、提供済みの型付きクライアントと登録入口を使う。
+
+### 提供単位
+
+Issueを分割せず、次の利用操作ごとに先行統合する。部分提供の成功だけでIssue全体を閉じない。
+
+- **ROUTES.basic**：基本道路経路の取得・保存・再取得。まずwalking/drivingの全行程を実providerで取得し、形状/地点順/距離/時間/取得時刻を保存・再起動後再取得する。区間失敗を全行程成功にしない。
+- **ROUTES.navigation**：案内状態・ターン案内・復帰。同じ保存経路で開始/進行/終了と画面復帰ができる。
+- **ROUTES.conditions**：追加経路条件・交通・定期券。階段/屋根/出発帰着/交通/運賃/定期券の全要求を実取得根拠付きで確認。未対応の条件を適用済みにしない。
+
+### 接続に必要な提供物
+
+- [CORE](CORE.md)：`CORE.runtime`。
+- [PLACES](PLACES.md)：`PLACES.search`。
+
+提供元Issue全体のdoneではなく、必要な提供物の統合commit・契約版・実API/保存/再取得の証拠を確認する。[提供と接続の進め方](../delivery.md)。
+
+基本経路の取得・保存・再取得を最初の統合単位として、rozwerのUI-ROUTESとmattsunのEXPLORATION/SUGGESTIONS/TRANSFERへ渡す。案内、追加条件、交通・定期券は同じIssueで続ける。条件契約の共通部分を先に固定し、後から基本経路の入出力を作り直さない。未対応条件を無視した成功応答は返さない。
 
 ## 編集範囲
 
-提案path：`server/features/routes/`、`server/db/migrations/routes/`、`docs/evidence/ROUTES/`。
+提案path：`server/features/routes/`、`server/db/migrations/routes/`、`docs/01_requirements/04_api/fragments/ROUTES.json`、`docs/evidence/ROUTES/`。
 
 共通ファイルの変更・途中統合・ロック返却は[4人の進め方](../execution.md)に従う。実際の取得範囲はclaimReceiptで確認する。
