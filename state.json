@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 132,
+  "revision": 133,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5036,21 +5036,17 @@
       "token": "b3d8cb7e61134a24845c5ea598f64542"
     },
     "UI-PLUGINS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 18,
       "landed_main": null,
-      "note": "docs/evidence/UI-PLUGINS/implementation.md",
+      "note": "User requested immediate shutdown. All changes committed and pushed: PR73 and PR132 merged; registration PR160 head6648f06 handed to UI-INTEGRATION#98. Worktree and evidence retained. API/DB/real map acceptance remains CONNECT-PLUGINS#144; UI finish/close not performed before formal split and shared QA acceptance.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "src/features/feature-requests/",
-        "docs/evidence/UI-PLUGINS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "6648f068b9fbd5aad40f127e437f0dd65d5cf93b",
-      "token": "969f79d0773145028308851ce2e225e4"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-RECORDS": {
       "actor": null,
