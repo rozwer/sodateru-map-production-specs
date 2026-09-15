@@ -49,6 +49,6 @@ export function candidateView(suggestion:Suggestion,detail:PlaceDetail|undefined
   travel:`${modeLabels[suggestion.conditions.mode??'any']??'移動'}${formatTime(suggestion.travelMinutes)}`,stay:formatTime(suggestion.stayMinutes),total:suggestion.totalMinutes==null?'未取得':`約${formatTime(suggestion.totalMinutes)}`,
   status:statusLabels[suggestion.status],photos,
   confirmed:evaluations.filter(e=>e.status==='matched').map(e=>e.reason),
-  unknown:[...evaluations.filter(e=>e.status!=='matched').map(e=>`${e.status==='unmatched'?'条件に合わない：':''}${e.reason}`),...(!detail?['場所の現在情報は未取得です']:!detail.openingHours?['現在の営業時間は未取得です']:[`取得元の営業時間（未確認）：${detail.openingHours.rawText}`])],
+  unknown:[...(suggestion.unknowns??[]),...evaluations.filter(e=>e.status!=='matched').map(e=>`${e.status==='unmatched'?'条件に合わない：':''}${e.reason}`),...(!detail?['場所の現在情報は未取得です']:!detail.openingHours?['現在の営業時間は未取得です']:[`取得元の営業時間（未確認）：${detail.openingHours.rawText}`])],
   sourceUrl:detail?.place.sourceUrl??null,sourceLabel:detail?.place.attribution||'',fetchedAt:formatDate(detail?.place.fetchedAt,timeZone),expiresAt:formatDate(suggestion.expiresAt,timeZone),memo:suggestion.memo??'',bookmarked};
 }

@@ -14,11 +14,12 @@ import { suggestionMessages as m } from './messages';
 
 type Props=ScreenProps & {active?:boolean};
 const timezone=(props:Props)=>props.route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone;
-interface CheckinState {form:CheckinForm;saved:SelfCheckin|null;dirty:boolean;createId:string;createKey:string;pendingCreate:SelfCheckinCreate|null;batch:SuggestionBatchInput|null;batchKey:string;}
+interface CheckinState {form:CheckinForm;saved:SelfCheckin|null;dirty:boolean;createId:string;createKey:string;pendingCreate:SelfCheckinCreate|null;pendingForm?:CheckinForm|null;batch:SuggestionBatchInput|null;batchKey:string;}
 function CheckinScreen(props:Props) {
- const {route,navigate,scopeKey,active=true}=props;const zone=timezone(props);const date=route.params.date||localDay(zone);
+ const {route,navigate,scopeKey,active=true}=props;const requestedZone=timezone(props);
  const bridge=useMapBridge();const request=useRequest(scopeKey,active);
  const [state,setState]=useScreenState<CheckinState>(()=>({form:{...emptyForm},saved:null,dirty:false,createId:crypto.randomUUID(),createKey:crypto.randomUUID(),pendingCreate:null,batch:null,batchKey:crypto.randomUUID()}));
+ const zone=state.saved?.timezone||requestedZone;const date=state.saved?.localDate||route.params.date||localDay(zone);
  const latest=useRef(state);latest.current=state;
  const [history,setHistory]=useState<SelfCheckin[]>([]);
  const checkinId=route.params.checkinId;
@@ -26,28 +27,28 @@ function CheckinScreen(props:Props) {
   if(checkinId){const {data}=await api.request('getSelfCheckinsCheckinId',{path:{checkinId},signal});if(!request.valid(signal))return;setState(previous=>({...previous,saved:data,form:previous.dirty?previous.form:checkinForm(data)}));}
   else {const result=await api.request('getSelfCheckins',{query:{date},signal});if(request.valid(signal))setHistory(result.items);}
  };
- useEffect(()=>{if(active)void request.run(load,'回答を読み込み');},[checkinId,date,scopeKey,active]);
+ useEffect(()=>{if(active)void request.run(load,'回答を読み込み');},[checkinId,checkinId?null:date,scopeKey,active]);
  const change=<K extends keyof CheckinForm>(key:K,value:CheckinForm[K])=>{setState(previous=>({...previous,form:{...previous.form,[key]:value},dirty:true,batch:null,batchKey:crypto.randomUUID()}));request.setNotice({kind:'info',text:m.unSaved});};
  const save=async(signal:AbortSignal):Promise<SelfCheckin>=>{
   const before=latest.current;
   if(before.saved&&!before.dirty)return before.saved;
-  let saved=before.saved;
+  let saved=before.saved;let recovered=false;
   // A lost create response is resolved by ID before a new mutation; the original body/key are retained.
-  if(!saved&&before.pendingCreate){try{saved=(await api.request('getSelfCheckinsCheckinId',{path:{checkinId:before.pendingCreate.id},signal})).data;}catch(error){if(!(error instanceof ApiError&&error.status===404))throw error;}}
+  if(!saved&&before.pendingCreate){try{saved=(await api.request('getSelfCheckinsCheckinId',{path:{checkinId:before.pendingCreate.id},signal})).data;recovered=true;}catch(error){if(!(error instanceof ApiError&&error.status===404))throw error;}}
   const answers=formAnswers(before.form,saved?.answers);
-  if(saved){
+  if(saved&&!(recovered&&before.pendingForm&&JSON.stringify(before.pendingForm)===JSON.stringify(before.form))){
    const {data}=await api.request('patchSelfCheckinsCheckinId',{path:{checkinId:saved.id},version:saved.version,body:{answers,localDate:date,validUntil:endOfDay(date,zone),timezone:zone},signal});
    saved=data;
-  }else{
+  }else if(!saved){
    const body=before.pendingCreate??{id:before.createId,localDate:date,answers,validUntil:endOfDay(date,zone),timezone:zone};
-   setState(previous=>({...previous,pendingCreate:body}));latest.current={...before,pendingCreate:body};
+   setState(previous=>({...previous,pendingCreate:body,pendingForm:previous.pendingForm??{...before.form}}));latest.current={...before,pendingCreate:body,pendingForm:before.pendingForm??{...before.form}};
    saved=(await api.request('postSelfCheckins',{body,idempotencyKey:before.createKey,signal})).data;
-   if(JSON.stringify(saved.answers)!==JSON.stringify(answers)){saved=(await api.request('patchSelfCheckinsCheckinId',{path:{checkinId:saved.id},version:saved.version,body:{answers},signal})).data;}
+   if(before.pendingForm&&JSON.stringify(before.pendingForm)!==JSON.stringify(before.form)){saved=(await api.request('patchSelfCheckinsCheckinId',{path:{checkinId:saved.id},version:saved.version,body:{answers},signal})).data;}
   }
   if(!request.valid(signal))throw new DOMException('画面を離れました','AbortError');
   const reloaded=(await api.request('getSelfCheckinsCheckinId',{path:{checkinId:saved.id},signal})).data;
   if(!request.valid(signal))throw new DOMException('画面を離れました','AbortError');
-  const next={...latest.current,saved:reloaded,dirty:false,pendingCreate:null};latest.current=next;setState(next);return reloaded;
+  const next={...latest.current,saved:reloaded,dirty:false,pendingCreate:null,pendingForm:null};latest.current=next;setState(next);return reloaded;
  };
  const saveOnly=()=>{void request.run(async signal=>{const saved=await save(signal);request.setNotice({kind:'success',text:m.saved});if(!checkinId)navigate('self-checkin',{checkinId:saved.id,date,timeZone:zone,saved:'1'});},'回答を保存');};
  const search=()=>{void request.run(async signal=>{
@@ -64,7 +65,7 @@ function CheckinScreen(props:Props) {
  const notice=request.notice??(route.params.saved==='1'?{kind:'success' as const,text:m.saved}:null);
  return <div className="sg-shell-content"><FeatureHeader title="タイプ診断" onBack={props.back}/><CheckinView form={state.form} onChange={change} date={`${date}（${zone}）`} busy={request.busy} notice={notice} onSave={saveOnly} onSearch={search} onSkip={()=>{bridge.clear('suggestion');navigate('map');}}>
   <small className="sg-origin">出発点：地図の中心。移動前に地図で位置を確認できます。</small>
-  {checkinId&&<div className="sg-inline-actions"><button type="button" disabled={request.busy} onClick={()=>{void request.run(load,'最新の回答を読み込み');}}>保存済みの内容を確認</button><button type="button" disabled={request.busy} onClick={()=>navigate('self-checkin',{date:localDay(zone),timeZone:zone})}>今の状態を新しく回答</button></div>}
+  {checkinId&&<div className="sg-inline-actions"><button type="button" disabled={request.busy} onClick={()=>{void request.run(load,'最新の回答を読み込み');}}>保存済みの内容を確認</button><button type="button" disabled={request.busy} onClick={()=>navigate('self-checkin',{date:localDay(zone),timeZone:zone,draftId:crypto.randomUUID()})}>今の状態を新しく回答</button></div>}
   {state.saved&&state.dirty&&<details className="sg-saved-comparison"><summary>保存済みの回答と比較</summary><p>{state.saved.answers.state||'状態は未回答'}</p><p>{state.saved.answers.wishes.join('・')||'希望は未回答'}</p><p>版 {state.saved.version} · {state.saved.localDate}</p></details>}
   {!checkinId&&history.length>0&&<details className="sg-saved-comparison"><summary>今日保存した回答（{history.length}件）</summary><p>過去の回答は自動適用しません。</p>{history.map(answer=><button type="button" key={answer.id} onClick={()=>navigate('self-checkin',{checkinId:answer.id,date:answer.localDate,timeZone:zone})}>{new Date(answer.createdAt).toLocaleTimeString('ja-JP',{timeZone:zone,hour:'2-digit',minute:'2-digit'})} · {answer.answers.state||answer.answers.wishes.join('・')||'未回答'}</button>)}</details>}
  </CheckinView></div>;
@@ -126,8 +127,9 @@ function DetailScreen(props:Props) {
   if(!id)throw new Error('候補が指定されていません。一覧から選んでください。');
   setSuggestion(previous=>previous?.id===id?previous:null);
   let data:Suggestion;
-  try{data=(await api.request('getSuggestionsSuggestionId',{path:{suggestionId:id},signal})).data;}catch(error){if(error instanceof ApiError&&[403,404,410].includes(error.status)){setSuggestion(null);setPlace(undefined);setBookmark(null);}throw error;}
+  try{data=(await api.request('getSuggestionsSuggestionId',{path:{suggestionId:id},signal})).data;}catch(error){if(error instanceof ApiError&&[401,403,404,409,410].includes(error.status)){setSuggestion(null);setPlace(undefined);setBookmark(null);}throw error;}
   if(!request.valid(signal))return;setSuggestion(data);setMemoState(previous=>previous.dirty?previous:{...previous,value:data.memo??''});
+  if(data.viewedAt==null){try{data=(await api.request('patchSuggestionsSuggestionId',{path:{suggestionId:data.id},version:data.version,body:{viewed:true},signal})).data;if(request.valid(signal)){currentSuggestion.current=data;setSuggestion(data);}}catch(error){if(!signal.aborted)request.setNotice({kind:'info',text:'詳細の閲覧履歴を保存できませんでした。',retry:()=>{void request.run(load,'詳細の閲覧履歴を保存');}});}}
   try{const detail=await api.request('getPlacesPlaceId',{path:{placeId:data.placeId},signal});if(request.valid(signal))setPlace(detail.data);}catch(error){if(!signal.aborted)request.setNotice({kind:'info',text:`場所情報を読み込めませんでした。${error instanceof Error?error.message:''}`,retry:()=>{void request.run(load,'場所情報を読み込み');}});}
   try{const savedBookmark=await readBookmark(data.placeId,signal);if(request.valid(signal))setBookmark(savedBookmark);}catch(error){if(!signal.aborted)request.setNotice({kind:'info',text:'しおりの状態を取得できませんでした。保存操作で再確認します。'});}
  };

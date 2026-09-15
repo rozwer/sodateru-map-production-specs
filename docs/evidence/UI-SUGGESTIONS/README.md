@@ -34,7 +34,7 @@
 ## 契約の根拠
 
 - UI-BASE #4: `ScreenDefinition` / `ScreenProps` / `useScreenState` / shared `api` / `MapBridge`。先行shell統合 `6dac91f`。header:none/contentPadding:noneは#4追補の入口を利用。
-- SUGGESTIONS #36: `mattsun/36-suggestions` の `3cfc3d3`、fragment v1.0.0。timeBudget、companion、effort、条件評価、memo、checkinSnapshotを使用。
+- SUGGESTIONS #36: `mattsun/36-suggestions` の `d6ddc50`、fragment v1.2.0。timeBudget、companion、effort、条件評価、memo、checkinSnapshotを使用。
 - COMMUNITY #22: `1704832`、fragment v1.0.0。しおりは `{type:"place",id:placeId}`。suggestion本文をしおりへ複製しない。
 - PLACES #5: `4714cd3`、fragment v0.2.0。写真はPlaceDetailの記録媒体、タグ/出典/取得時刻はplaceから使用。
 - SETTINGS #24: `1291124`、本人設定の提案停止をGET/PATCH/GETで確認する。
@@ -43,7 +43,7 @@
 
 - 確定fragmentと各server registerのdevelop統合後に、同じ起動・本人scope・SQLiteを使ってブラウザ操作→API保存→再取得→再起動を確認する。
 - 現在の部品表示サンプルには場所写真を提供していないため、写真のある状態の画像照合は実媒体接続後に行う。
-- #36へ詳細閲覧の独立保存契約を照会中。候補提示はpresented:true、選択や訪問と混同しない。
+- 詳細閲覧の独立保存はv1.2.0のviewed:trueへ接続済み。実DBでpresentedAt/viewedAt/selectedAtが別々に保持されることを統合後に確認する。
 - 経路/訪問/共有確認先の同一対象引継ぎと、訪問取消→提案selected復帰を実接続で確認する。
 
 部分提供のみでTask/Issueを完了しない。
