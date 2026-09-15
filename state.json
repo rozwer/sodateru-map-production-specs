@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 212,
+  "revision": 213,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33893,17 +33893,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 40,
-      "landed_main": null,
+      "landed_main": "2155430f137a69964d58d96a8507b192d2e7f15f",
       "note": "docs/evidence/QA-VISUAL/2026-09-15-api-readiness.md",
       "owner": "rozwer",
-      "paths": [
-        "qa/manual/",
-        "docs/evidence/QA-VISUAL/",
-        "tools/local/dev.ts"
-      ],
-      "status": "submitted",
-      "submitted_commit": "3159ab4dac4dfc6ab5a9710e361f29cfb0b2fa28",
-      "token": "01e546c746074999b9f479175c6aa02b"
+      "paths": [],
+      "status": "done",
+      "submitted_commit": "2155430f137a69964d58d96a8507b192d2e7f15f",
+      "token": null
     },
     "RECORDS": {
       "actor": "koshiro",
