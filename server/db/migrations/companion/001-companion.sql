@@ -1,3 +1,7 @@
+CREATE TABLE IF NOT EXISTS companion_reference_images (
+ id TEXT PRIMARY KEY, person_id TEXT NOT NULL, bytes BLOB NOT NULL,
+ mime TEXT NOT NULL, created_at TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS companion_drafts (
  id TEXT PRIMARY KEY, person_id TEXT NOT NULL, name TEXT NOT NULL,
  appearance TEXT NOT NULL, reference_image_id TEXT,

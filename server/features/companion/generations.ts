@@ -58,6 +58,10 @@ export class GenerationRepository {
     if (r.changes!==1) fail('VERSION_CONFLICT');
     return this.get(id);
   }
+  noteCancellationFailure(id: string) {
+    this.get(id);
+    this.db.prepare("UPDATE companion_generations SET failure_code='REMOTE_CANCEL_FAILED',version=version+1,updated_at=? WHERE id=? AND person_id=? AND status='cancelled'").run(new Date().toISOString(),id,this.personId);
+  }
   adopt(id: string, expected: number) {
     const item=this.get(id);
     if (item.version!==expected) fail('VERSION_CONFLICT');

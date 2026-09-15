@@ -30,6 +30,22 @@ export class CompanionRepository {
   private draftInput(input: DraftInput) {
     if (!input || typeof input.name !== 'string' || typeof input.appearance !== 'string' || [...input.name].length > 20 || [...input.appearance].length > 200) fail('INVALID_INPUT');
     if (input.referenceImageId !== null && typeof input.referenceImageId !== 'string') fail('INVALID_INPUT');
+    if (input.referenceImageId !== null) this.getReferenceImage(input.referenceImageId);
+  }
+  /** Bytes must have passed actual image decoding before reaching this method. */
+  saveReferenceImage(bytes: Uint8Array, mime: 'image/png' | 'image/jpeg' | 'image/webp') {
+    if (!bytes.length) fail('INVALID_IMAGE');
+    const id=randomUUID();
+    this.db.prepare('INSERT INTO companion_reference_images(id,person_id,bytes,mime,created_at) VALUES(?,?,?,?,?)').run(id,this.personId,bytes,mime,new Date().toISOString());
+    return {id,mime,byteLength:bytes.length,url:`/api/v1/companion/reference-images/${id}`};
+  }
+  getReferenceImage(id: string) {
+    const r=present(this.db.prepare('SELECT bytes,mime FROM companion_reference_images WHERE id=? AND person_id=?').get(id,this.personId));
+    return {bytes:Buffer.from(r.bytes),mime:r.mime as string};
+  }
+  exportInstructions(id: string) {
+    const draft=this.getDraft(id);
+    return {draft,instructions:`相棒の名前: ${draft.name}\n外見の希望:\n${draft.appearance}`,referenceImageUrl:draft.referenceImageId ? `/api/v1/companion/reference-images/${draft.referenceImageId}` : null};
   }
   createDraft(input: DraftInput) {
     this.draftInput(input);
