@@ -20,6 +20,7 @@
         "PILGRIMAGE": 38,
         "PLACES": 5,
         "PLUGINS": 28,
+        "QA-VISUAL": 40,
         "RECORDS": 20,
         "REFLECTION": 33,
         "ROUTES": 25,
@@ -4379,10 +4380,40 @@
           "docs/01_requirements/04_api/fragments/PILGRIMAGE.json",
           "docs/evidence/PILGRIMAGE/"
         ]
+      },
+      {
+        "acceptance": "起動URL、代表遷移、demo/live区別、実API/DBの保存再表示を同じ手順で確認できる",
+        "acceptance_ids": [],
+        "connect_after": [
+          "CORE",
+          "UI-BASE"
+        ],
+        "deliverable": "現在のdevelopを実画面で確認する最小起動・遷移・保存再表示手順",
+        "effective_priority": "P0",
+        "github_issue": 40,
+        "hard_dependencies": [],
+        "id": "QA-VISUAL",
+        "kind": "qa",
+        "lane": "A",
+        "priority": "P0",
+        "references": [
+          "docs/01_requirements/03_pages/",
+          "docs/03_issue/execution.md"
+        ],
+        "requirement_ids": [],
+        "status": "registered",
+        "title": "実画面の起動・遷移・保存再表示確認",
+        "write_paths": [
+          "qa/manual/",
+          "docs/evidence/QA-VISUAL/"
+        ]
       }
     ]
   },
-  "revision": 27,
+  "inline_tasks": [
+    "QA-VISUAL"
+  ],
+  "revision": 28,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4554,6 +4585,22 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "QA-VISUAL": {
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 40,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "qa/manual/",
+        "docs/evidence/QA-VISUAL/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "01e546c746074999b9f479175c6aa02b"
     },
     "RECORDS": {
       "actor": null,
