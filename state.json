@@ -33433,7 +33433,7 @@
     "VISUAL-SELF",
     "VISUAL-SOCIAL"
   ],
-  "revision": 179,
+  "revision": 180,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34276,7 +34276,7 @@
       "generation": 1,
       "issue_number": 176,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/VISUAL-SELF/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/records/",
@@ -34287,8 +34287,8 @@
         "src/features/suggestions/",
         "docs/evidence/VISUAL-SELF/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "5b39f2dad0cf669808adf283902a80d282712848",
       "token": "53ab18654f51401f941605c7254b37bb"
     },
     "VISUAL-SHELL": {
