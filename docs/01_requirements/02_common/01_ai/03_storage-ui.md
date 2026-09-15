@@ -77,7 +77,7 @@ sourceRefsを読み直し、版が変わっていればSOURCE_CHANGEDとして�
 | compare | mappingsの説明を改行。0件なら「比較できる根拠がありません」 | result_jsonとinsightsを保存 |
 | analysis | result.summary | 計算済みaxesとともにinsightsへ |
 | theme | name、改行、description | テーマ編集へ。保存操作でthemesへ |
-| mapstyle | explanation | proposalをプレビューへ。保存で端末の地図設定へ |
+| mapstyle | explanation | proposalを一時プレビューへ。本人の採用操作でMAP-CUSTOMのAPIから本人・dataMode別のSQLite地図設定へ |
 | discover | bridge、knowledge、observationPromptを改行 | 発見カードへ。保存操作は[根拠と更新](../03_information/03_evidence.md) |
 
 比較のinsights.result_jsonはcommon・differences・unknown。
@@ -115,6 +115,8 @@ complete/failed/cancelledで監視を止める。
 共有取消・根拠削除は、表示時と採用時のsourceRefs照合で扱う。
 非公開になった原文を引用するbodyとresultは取得結果から外し、NOT_FOUNDとして表示を解除する。
 
-request_jsonにはuserMessageId、task、input、text、sourceRefs、model、promptVersionを保存する。Run.createdAt/updatedAtは発言行、Run.promptVersionはrequest_jsonから復元する。applied_refs_jsonの要素は{type,id,version,contentHash}で、typeはrecord/theme/insight/discovery/map-settings、contentHashは採用した値のcanonical JSONのSHA-256。端末設定のidは本人・モードで固定した設定キーとする。
+request_jsonにはuserMessageId、task、input、text、sourceRefs、model、promptVersionを保存する。Run.createdAt/updatedAtは発言行、Run.promptVersionはrequest_jsonから復元する。applied_refs_jsonの要素は{type,id,version,contentHash}で、typeはrecord/theme/insight/discovery/map-settings、contentHashは採用した値のcanonical JSONのSHA-256。map-settingsのidは本人・dataModeで一意に解決するサーバー側の設定IDとする。
 
-生成結果と採用先が同じDBなら、対象の更新とapplied_refs_json追記を同じトランザクションで行う。端末設定は設定値と採用ハッシュを一緒に保存し、応答喪失時もそのハッシュから採用済みを復元する。
+生成結果と採用先が同じDBなら、対象の更新とapplied_refs_json追記を同じトランザクションで行う。mapstyleの採用も同じSQLiteで行い、MAP-CUSTOMのAPIが設定更新と採用先/版/内容ハッシュの追記をまとめる。応答喪失時はAPI再取得で採用済みを判定する。端末保存を別の正本にしない。
+
+地図設定の保存・採用・実効表示はkaiya（MAP-CUSTOM）、UI描画・一時プレビュー・編集下書きはrozwer、AI実行と結果はmattsunが持つ。採用前に設定版と関連プラグインの導入状態・版・enabled・競合解決後の適用宣言をサーバーで再確認する。設定の版不一致は共通の412、プラグイン状態変更は409 INPUT_CHANGEDとして編集値を保ち再確認する。地図設定の採用からプラグインを再有効化しない。[詳細な責任と照合条件](../../../03_issue/issues/MAP-CUSTOM.md#地図設定の保存責任)。
