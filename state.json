@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 177,
+  "revision": 178,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34222,24 +34222,17 @@
       "token": null
     },
     "VISUAL-COMMUNITY": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 173,
       "landed_main": null,
-      "note": null,
+      "note": "ユーザー指示で分割。全成果origin/rozwer/173-visual-community HEAD66f7091保全。plugins変更0b0d02aを新担当へ、friends差分66f7091とevidenceをVISUAL-SOCIAL #184へ移す。旧Taskは再claimしない。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "src/features/feature-requests/",
-        "docs/evidence/VISUAL-COMMUNITY/",
-        "src/features/friends/",
-        "src/features/knowledge/",
-        "src/features/companion/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "ea50ffae0c7a48ef949a15943c9b97e3"
+      "token": null
     },
     "VISUAL-MAP-EXPLORE": {
       "actor": "rozwer",
