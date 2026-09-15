@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 7,
+  "revision": 8,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4597,12 +4597,24 @@
       "token": null
     },
     "UI-BASE": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 4,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/app/",
+        "src/ui/",
+        "src/messages.ts",
+        "index.html",
+        "vite.config.ts",
+        "docs/evidence/UI-BASE/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "26030033ebde45e285cd1f58ccaf1300"
     },
     "UI-COMPANION": {
       "actor": null,
