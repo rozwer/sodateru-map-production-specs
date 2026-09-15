@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 286,
+  "revision": 287,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34310,18 +34310,13 @@
       "base_commit": "f78e77bccf2b19dc9b0e7579b0729eb46e05a6e7",
       "generation": 1,
       "issue_number": 270,
-      "landed_main": null,
+      "landed_main": "4bd14a9b2749d3d1c8865c7a14524c7bd61e05ac",
       "note": "docs/evidence/DEMO-MEDIA/acceptance.md",
       "owner": "rozwer",
-      "paths": [
-        "tools/local/demo-media/",
-        "docs/evidence/DEMO-MEDIA/",
-        "src/app/navigation-card-data.ts",
-        "src/app/NavigationCards.tsx"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "6b1d473a07c93ad6be9ff9260cf4220a94b0d335",
-      "token": "904b047b9fa64090bb1a6403e6652428"
+      "token": null
     },
     "DISASTER": {
       "actor": "kaiya",
