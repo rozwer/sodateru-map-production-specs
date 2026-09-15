@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, type ReactNode } from "react";
 import { PluginGlyph } from "./PluginGlyph";
+import { StoreSkyline } from "./grow/StoreSkyline";
 import { pluginMessages as m } from "./messages";
 import type {
   PluginCardModel,
@@ -275,12 +276,10 @@ export function PluginStoreView({
   );
   return (
     <div className="plugin-page plugin-store">
+      <StoreSkyline />
       <header className="plugin-store-heading">
         <h2>{m.storeHeading}</h2>
-        <details className="plugin-development-guide">
-          <summary><PluginControlIcon name="github" />開発ガイド</summary>
-          <div><strong>自分のアイデアで地図を育てる</strong><p>まずは「お願い」から、ほしい機能を提案できます。</p><button type="button" onClick={onRequests}>お願いを書く・見る</button><a href={guideUrl || "https://github.com/rozwer/sodateru-map-production-specs/blob/develop/docs/01_requirements/04_api/endpoints/07_plugins.md"} target="_blank" rel="noreferrer">拡張機能の仕様を読む ↗</a></div>
-        </details>
+        {guideUrl ? <a className="plugin-development-link" href={guideUrl}><PluginControlIcon name="github"/><span>開発ガイド<small>自分で開発</small></span></a> : <span className="plugin-subtle">開発ガイド準備中</span>}
       </header>
       <label className="plugin-search" htmlFor={inputId}>
         <PluginControlIcon name="search" />
@@ -325,7 +324,7 @@ export function PluginStoreView({
               onClick={() => onOpen(plugin.id)}
               aria-label={`${plugin.name}の詳細を見る`}
             >
-              <PluginGlyph kind={plugin.kind} />
+              <PluginGlyph kind={plugin.kind} variant="store" />
               <div className="plugin-store-copy">
                 <h3>{plugin.name}</h3>
                 <div className="plugin-badges">
@@ -477,7 +476,7 @@ export function PluginConditions({
                       onChange={() => onChange(field.id, option.value)}
                     />
                     <span>
-                      <PluginGlyph kind="bike" />
+                      <PluginGlyph kind="bike" vehicle={option.value} />
                       <strong>{option.label}</strong>
                       {option.detail && <small>{option.detail}</small>}
                     </span>
@@ -546,6 +545,7 @@ export function PluginConditions({
 }
 
 export function PluginTrialView({
+  plugin,
   fields,
   onChange,
   onPreview,
@@ -559,6 +559,7 @@ export function PluginTrialView({
   onPreview: () => void;
   preview?: PluginPreview;
   phase?: "before" | "after";
+  plugin?: PluginCardModel;
   onContinue: () => void;
 }) {
   const result = useRef<HTMLElement>(null);
@@ -568,6 +569,7 @@ export function PluginTrialView({
   }, [hasPreview]);
   return (
     <div className="plugin-page plugin-trial">
+      {plugin && <div className="plugin-app-context"><PluginGlyph kind={plugin.kind}/><h2>{plugin.name}を試す</h2></div>}
       <p className="plugin-intro">{m.previewIntro}</p>
       <div className="plugin-card plugin-trial-card">
         <PluginConditions
