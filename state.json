@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 199,
+  "revision": 200,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34335,15 +34335,15 @@
       "generation": 1,
       "issue_number": 186,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/VISUAL-PLUGINS/screens.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
         "docs/evidence/VISUAL-PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "529cf982b51e006b76192918dda152db5cb91c1f",
       "token": "a289009a6e154c28b47e458b4befa827"
     },
     "VISUAL-RECORDS-CAMERA": {
