@@ -47,3 +47,7 @@ API未接続・未提供の状態やこの技術fixtureだけをlive完了とし
 - 非表示/未選択/媒体取得失敗のときもAIボタンを残す。全体が非activeの間は表示と読み込みを止める。409の構造検査/未確認エラーを版競合メッセージに置換しない。
 - develop a080b3dを通常merge。公式`bun run dev`をAPI `127.0.0.1:3091`、Vite `127.0.0.1:5175`で起動。live DBは担当worktreeの`.local/app.sqlite`、demoは`.local/demo.sqlite`、本人設定は`.local/profiles.json`。共有環境ファイルは変更していない。
 - ブラウザでrootを開くと`src/features/activity/screens.tsx`から`../../map/display-state`を解決できずViteエラーになった。組込み担当へ通知済み。本人選択/ZIP保存/再読込のlive確認はこの時点で未実施であり、API単体証拠とは区別する。
+
+## 共通画面への到達（12:20 JST）
+
+develop 891c1cdを取り込み、上記display-state不足は解消。公式起動の本人選択→地図→相棒管理の共有Sheet表示へ到達した。相棒の共通生成operationが未反映のため`Unknown operation: listCompanions`を確認。失敗時は0件/未選択と断定せず「未確認」「一覧を読み込めていない」と表示し、保存無効・再試行ありになることを実ブラウザで確認した。地図で媒体取得に失敗しても「AIと話す」ボタンが残ることも確認済み。ZIP保存/設定再取得は引き続き未完了。

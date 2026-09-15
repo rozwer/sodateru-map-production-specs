@@ -5,6 +5,8 @@ import { loadAtlas, v2Clip } from './atlas';
 import { companionRevision, subscribeCompanion } from './requests';
 import './companion.css';
 
+const mockClip = v2Clip(new URL('./assets/hinata.webp', import.meta.url).href, 'idle');
+
 /** The shared shell mounts one instance. Hiding the companion leaves its AI entry intact. */
 export function MapCompanion({ scopeKey, onActivate, active = true }: { scopeKey: string; onActivate: () => void; active?: boolean }) {
   const revision = useSyncExternalStore(subscribeCompanion, companionRevision);
@@ -25,8 +27,8 @@ export function MapCompanion({ scopeKey, onActivate, active = true }: { scopeKey
     return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
   }, [scopeKey, revision, active]);
   if (!active) return null;
-  return pet ? <button type="button" className={`companion-map companion-map--${pet.size}`} aria-label={`${pet.name}と話す`} onClick={onActivate}><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={pet.reducedMotion}/></button> : <>
-    {error && <div className="companion-map-error" role="status">相棒を表示できません。相棒の管理から再確認できます。</div>}
-    <button type="button" className="companion-map companion-map--ai" aria-label="AIと話す" onClick={onActivate}>AI</button>
-  </>;
+  return pet ? <button type="button" className={`companion-map companion-map--${pet.size}`} aria-label={`${pet.name}と話す`} onClick={onActivate}><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={pet.reducedMotion}/></button> : <button type="button" className="companion-map companion-map--mock" aria-label="モックのHinataとAIで話す" onClick={onActivate} title={error ? '相棒APIは未接続です。表示用のHinataを使用しています。' : '表示用のHinataです。相棒の登録・選択は行っていません。'}>
+    <AtlasPreview clip={mockClip} label="Hinata（表示用モック）"/>
+    <span className="companion-map-caption">{error ? 'モック・未接続' : 'モック'}</span>
+  </button>;
 }

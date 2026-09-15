@@ -5,7 +5,10 @@ import { useMapBridge } from "../../app/useMapBridge";
 import { api } from "../../app/api";
 import { Icon } from "../../ui/Icon";
 import { MapPreview } from "../../map/MapPreview";
-import type { CommonInfoRecordView } from "../../../packages/api-client";
+import type {
+  CommonInfoRecordView,
+  CommunitySharedTheme,
+} from "../../../packages/api-client";
 import {
   Action,
   Avatar,
@@ -225,12 +228,44 @@ function FriendsMap(props: Props) {
         personIds: [personId],
         ...periodQuery(props.route.params),
       };
+      const theme = props.route.params.themeId
+        ? (
+            await api.request("getSharedThemesThemeId", {
+              path: { themeId: props.route.params.themeId },
+              signal,
+            })
+          ).data
+        : null;
+      if (theme && theme.personId !== personId)
+        throw new Error("選択した人のテーマを選び直してください。");
       const [records, map, own] = await Promise.all([
-        api.request("getSharedRecords", {
-          query: { ...query, cursor: form.cursor || undefined, limit: 20 },
-          signal,
-        }),
-        api.request("getSharedRecordsMap", { query, signal }),
+        theme
+          ? Promise.resolve({ items: theme.records, nextCursor: null })
+          : api.request("getSharedRecords", {
+              query: { ...query, cursor: form.cursor || undefined, limit: 20 },
+              signal,
+            }),
+        theme
+          ? Promise.resolve({
+              data: {
+                items: theme.records.flatMap((record) =>
+                  record.place
+                    ? [
+                        {
+                          recordId: record.id,
+                          personId: record.person.id,
+                          placeId: record.place.id,
+                          coordinates: record.place.coordinates,
+                          mediaId: null,
+                        },
+                      ]
+                    : [],
+                ),
+                totalCount: theme.records.filter((record) => record.place)
+                  .length,
+              },
+            })
+          : api.request("getSharedRecordsMap", { query, signal }),
         props.route.params.overlay === "both"
           ? api.request("getSharedRecordsMap", {
               query: { audience: "own", ...periodQuery(props.route.params) },
@@ -238,7 +273,7 @@ function FriendsMap(props: Props) {
             })
           : Promise.resolve(null),
       ]);
-      return { records, map: map.data, own: own?.data };
+      return { records, map: map.data, own: own?.data, theme };
     },
     !!personId && props.active !== false,
   );
@@ -318,7 +353,11 @@ function FriendsMap(props: Props) {
           <button
             key={p.id}
             aria-pressed={p.id === personId}
-            onClick={() => setForm({ ...form, selected: p.id, cursor: "" })}
+            onClick={() =>
+              props.route.params.themeId
+                ? props.navigate("friends-map", { personId: p.id })
+                : setForm({ ...form, selected: p.id, cursor: "" })
+            }
           >
             <Avatar person={p} />
             <span>{p.name}</span>
@@ -369,6 +408,18 @@ function FriendsMap(props: Props) {
             </button>
           </div>
         )}
+        {shared.data?.theme && (
+          <div className="fr-theme-heading">
+            <h3>{shared.data.theme.name}</h3>
+            <p>{shared.data.theme.description}</p>
+            <button
+              className="fr-text-button"
+              onClick={() => props.navigate("friends-map", { personId })}
+            >
+              すべての共有記録を見る
+            </button>
+          </div>
+        )}
         {shared.data?.records.items.map((record) => (
           <RecordCard
             key={record.id}
@@ -409,7 +460,52 @@ function FriendsMap(props: Props) {
     </div>
   );
 }
+function ThemeCard({
+  theme,
+  open,
+}: {
+  theme: CommunitySharedTheme;
+  open: () => void;
+}) {
+  return (
+    <button
+      className={`fr-theme-card fr-theme-${theme.colorKey}`}
+      onClick={open}
+    >
+      <div>
+        <strong>{theme.name}</strong>
+        <p>{theme.description}</p>
+        <small>閲覧できる記録 {theme.records.length}件</small>
+      </div>
+      {theme.coverMedia ? (
+        <Media items={[theme.coverMedia]} retryable={false} />
+      ) : (
+        <span className="fr-theme-leaf">
+          <Icon name="leaf" size={36} />
+        </span>
+      )}
+    </button>
+  );
+}
 function FriendProfile(props: Props) {
+  const [themeForm, setThemeForm] = useScreenState({
+    expanded: false,
+    cursor: "",
+  });
+  const themes = useRead(
+    readKey(props, `themes:${themeForm.expanded}:${themeForm.cursor}`),
+    (signal) =>
+      api.request("getSharedThemes", {
+        query: {
+          personId: props.route.params.personId,
+          limit: themeForm.expanded ? 20 : 3,
+          cursor: themeForm.cursor || undefined,
+        },
+        signal,
+      }),
+    !!props.route.params.personId && props.active !== false,
+  );
+
   const personId = props.route.params.personId ?? "";
   const profile = useRead(
     readKey(props),
@@ -465,6 +561,7 @@ function FriendProfile(props: Props) {
           idempotencyKey: requestId.current,
         });
       }
+      requestId.current = "";
       setMenu(false);
       profile.reload();
     } catch (e) {
@@ -562,14 +659,35 @@ function FriendProfile(props: Props) {
             <h3>公開しているテーマ</h3>
             <button
               className="fr-text-button"
-              onClick={() => props.navigate("personal-map", { personId })}
+              onClick={() => setThemeForm({ expanded: true, cursor: "" })}
             >
               すべて見る <Icon name="chevron" size={14} />
             </button>
           </div>
-          <Notice>
-            共有テーマは提供待ちです。共有記録からテーマを推測して公開しません。
-          </Notice>
+          <ReadStatus state={themes} />
+          <div className="fr-theme-list">
+            {themes.data?.items.map((theme) => (
+              <ThemeCard
+                key={theme.id}
+                theme={theme}
+                open={() =>
+                  props.navigate("friends-map", { personId, themeId: theme.id })
+                }
+              />
+            ))}
+          </div>
+          {themes.data && !themes.data.items.length && (
+            <Notice>現在見られる共有テーマはありません。</Notice>
+          )}
+          {themeForm.expanded && themes.data?.nextCursor && (
+            <Action
+              onClick={() =>
+                setThemeForm({ ...themeForm, cursor: themes.data!.nextCursor! })
+              }
+            >
+              次のテーマを見る
+            </Action>
+          )}
           <div className="fr-section-heading">
             <h3>最近の体験</h3>
             <button

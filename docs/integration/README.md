@@ -52,3 +52,9 @@ Task: UI-INTEGRATION #98。担当: rozwer。編集境界: src/integration/ と d
 - KNOWLEDGE担当の通常release/明示引継ぎ後、#98へsrc/features/knowledge/をadd-lock。4既存Viewをscreens.tsxで共通入口へ登録。
 - 地域の声は既存の共通getSharedRecordsで検索/再試行/追加取得し、現在閲覧可能な実記録のみ表示。媒体は同clientのBlob取得。地域条件は既存変換を使用。人物/チップ分類・地域検索・目的辞書・しおり・出典確認の未接続は明示し、成功の模擬応答を作らない。
 - KNOWLEDGE登録コードは限定strict/noUnchecked検査成功。実画面到達と最終API受入を区別する。
+
+## 相棒モックと競合PR回収
+
+ユーザーが右下操作の重なりとペットモック不在を指摘。既存CodexペットHinataのv2画像を変更せず表示素材として同梱し、実相棒未選択/取得失敗時は「モック」「モック・未接続」を表示する。登録/選択/保存は行わず、クリックは既存AI相談へ接続。大きな失敗通知と独立AI丸ボタンを置き換え、現在地操作から横に離す。
+
+終了担当の通常releaseを確認し、FRIENDS/COMPANION/EXPLOREの必要pathを#98で取得。GitHubが競合判定したPR158/161/151の公開HEADをローカルで通常mergeし、全て競合なし。元commitの到達性を保持したまま組込みPRで公開する。
