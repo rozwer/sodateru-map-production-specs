@@ -1,0 +1,66 @@
+import { useEffect, useRef, useState } from 'react';
+import { api } from '../../app/api';
+
+type Saved = { id: string; version: number };
+
+/** Record bookmarks are separate COMMUNITY resources; Record.bookmarked is never written. */
+export function useKnowledgeBookmarks(scopeKey: string, active: boolean) {
+  const [saved, setSaved] = useState<Map<string, Saved>>(new Map());
+  const [ready, setReady] = useState(false);
+  const [busy, setBusy] = useState<Set<string>>(new Set());
+  const [error, setError] = useState<string | null>(null);
+  const [revision, setRevision] = useState(0);
+  const pending = useRef<AbortController | null>(null);
+  const mutations = useRef(new Set<string>());
+  const createKeys = useRef(new Map<string, string>());
+  useEffect(() => {
+    createKeys.current.clear();
+  }, [scopeKey]);
+  useEffect(() => {
+    setSaved(new Map()); setReady(false); setBusy(new Set()); setError(null); mutations.current.clear();
+    if (!active) return;
+    const controller = new AbortController(); pending.current = controller;
+    void (async () => {
+      const values = new Map<string, Saved>();
+      let cursor: string | undefined;
+      do {
+        const page = await api.request('getBookmarks', { query: { limit: 100, cursor }, signal: controller.signal });
+        if (controller.signal.aborted) return;
+        for (const bookmark of page.items) {
+          if (bookmark.target.type === 'record') values.set(bookmark.target.id, { id: bookmark.id, version: bookmark.version });
+        }
+        cursor = page.nextCursor ?? undefined;
+      } while (cursor);
+      setSaved(values); setReady(true);
+    })().catch(reason => { if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'しおりを取得できませんでした。'); });
+    return () => { controller.abort(); if (pending.current === controller) pending.current = null; };
+  }, [scopeKey, active, revision]);
+  const toggle = async (recordId: string) => {
+    const controller = pending.current;
+    if (!ready || !active || !controller || controller.signal.aborted || mutations.current.has(recordId)) return;
+    mutations.current.add(recordId); setBusy(new Set(mutations.current)); setError(null);
+    try {
+      const bookmark = saved.get(recordId);
+      if (bookmark) {
+        await api.request('deleteBookmarksBookmarkId', { path: { bookmarkId: bookmark.id }, version: bookmark.version, signal: controller.signal });
+        if (!controller.signal.aborted) {
+          setSaved(current => { const next = new Map(current); next.delete(recordId); return next; });
+          createKeys.current.delete(recordId);
+        }
+      } else {
+        const id = createKeys.current.get(recordId) ?? crypto.randomUUID();
+        createKeys.current.set(recordId, id);
+        const response = await api.request('postBookmarks', { body: { id, target: { type: 'record', id: recordId } }, idempotencyKey: id, signal: controller.signal });
+        if (!controller.signal.aborted) {
+          setSaved(current => new Map(current).set(recordId, { id: response.data.id, version: response.data.version }));
+          createKeys.current.delete(recordId);
+        }
+      }
+    } catch (reason) {
+      if (!controller.signal.aborted) setError(reason instanceof Error ? reason.message : 'しおりを保存できませんでした。');
+    } finally {
+      if (pending.current === controller) { mutations.current.delete(recordId); setBusy(new Set(mutations.current)); }
+    }
+  };
+  return { bookmarks: new Set(saved.keys()), busy, ready: active && ready, error, toggle, retry: () => setRevision(value => value + 1) };
+}

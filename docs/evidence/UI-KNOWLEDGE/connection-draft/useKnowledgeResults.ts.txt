@@ -1,0 +1,52 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { api } from '../../app/api';
+import { appendKnowledgePage, knowledgeMapQuery, type KnowledgeMap, type KnowledgePage, type KnowledgeQuery } from './query';
+
+type Results = {
+  key: string; page: KnowledgePage | null; map: KnowledgeMap | null;
+  loading: boolean; loadingMore: boolean; error: string | null; mapError: string | null;
+};
+const initial: Results = { key: '', page: null, map: null, loading: true, loadingMore: false, error: null, mapError: null };
+const errorMessage = (error: unknown) => error instanceof Error ? error.message : '地域の声を取得できませんでした。';
+
+/** One filter set drives the complete map and cursor-paged list. No record body survives a scope change. */
+export function useKnowledgeResults(query: KnowledgeQuery | null, scopeKey: string, active: boolean) {
+  const queryJson = JSON.stringify(query);
+  const key = `${scopeKey}\n${queryJson}`;
+  const [result, setResult] = useState<Results>(initial);
+  const [revision, setRevision] = useState(0);
+  const pending = useRef<AbortController | null>(null);
+  const paging = useRef(false);
+  useEffect(() => {
+    setResult({ ...initial, key });
+    paging.current = false;
+    if (!active || queryJson === 'null') return;
+    const filter = JSON.parse(queryJson) as KnowledgeQuery;
+    const controller = new AbortController();
+    pending.current = controller;
+    void api.request('getKnowledge', { query: { ...filter, limit: 100, cursor: undefined }, signal: controller.signal }).then(page => {
+      if (!controller.signal.aborted) setResult(current => ({ ...current, page, loading: false }));
+    }).catch(error => {
+      if (!controller.signal.aborted) setResult(current => ({ ...current, error: errorMessage(error), loading: false }));
+    });
+    void api.request('getKnowledgeMap', { query: knowledgeMapQuery(filter), signal: controller.signal }).then(response => {
+      if (!controller.signal.aborted) setResult(current => ({ ...current, map: response.data }));
+    }).catch(error => {
+      if (!controller.signal.aborted) setResult(current => ({ ...current, mapError: errorMessage(error) }));
+    });
+    return () => { controller.abort(); if (pending.current === controller) pending.current = null; };
+  }, [key, queryJson, active, revision]);
+  const loadMore = useCallback(async () => {
+    const controller = pending.current;
+    if (!active || !query || result.key !== key || !result.page?.nextCursor || !controller || controller.signal.aborted || paging.current) return;
+    paging.current = true;
+    setResult(current => ({ ...current, loadingMore: true, error: null }));
+    try {
+      const next = await api.request('getKnowledge', { query: { ...query, limit: 100, cursor: result.page.nextCursor }, signal: controller.signal });
+      if (!controller.signal.aborted) setResult(current => ({ ...current, page: current.page ? appendKnowledgePage(current.page, next) : next, loadingMore: false }));
+    } catch (error) {
+      if (!controller.signal.aborted) setResult(current => ({ ...current, error: errorMessage(error), loadingMore: false }));
+    } finally { if (pending.current === controller) paging.current = false; }
+  }, [active, key, query, result.key, result.page?.nextCursor]);
+  return { ...(active && result.key === key ? result : initial), loadMore, retry: () => setRevision(value => value + 1) };
+}
