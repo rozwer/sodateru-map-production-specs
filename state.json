@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 100,
+  "revision": 101,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4660,7 +4660,7 @@
       "generation": 3,
       "issue_number": 6,
       "landed_main": null,
-      "note": "Preserve worktree and staged changes; reacquire own claim at integrated develop to resolve base comparison",
+      "note": "docs/evidence/INFORMATION/acceptance.md",
       "owner": "koshiro",
       "paths": [
         "server/information/",
@@ -4668,8 +4668,8 @@
         "docs/01_requirements/04_api/fragments/INFORMATION.json",
         "docs/evidence/INFORMATION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "dfcb151449f0025a9ceea2895c9ce916ee66d963",
       "token": "1fc67d9b004c4190838839ef69c3c1bf"
     },
     "INSIGHTS": {
