@@ -53,3 +53,7 @@ Issueを分割せず、次の利用操作ごとに先行統合する。部分提
 提案path：`server/features/health/`、`server/db/migrations/health/`、`docs/01_requirements/04_api/fragments/HEALTH.json`、`docs/evidence/HEALTH/`。
 
 共通ファイルの変更・途中統合・ロック返却は[4人の進め方](../execution.md)に従う。実際の取得範囲はclaimReceiptで確認する。
+
+## 着手時期と余力の受入
+
+ユーザー指定で時間が余れば着手する未実施の余力枠（P3）。HEALTH.complete、XML/iPhone取込・項目/期間/AI許可・状態・停止/保存分削除を保持し、恒久除外や完成にしない。画面は[UI-HEALTH](UI-HEALTH.md)、実接続は[CONNECT-HEALTH](CONNECT-HEALTH.md)。非健康の設定・記録/訪問/軌跡統計はこれを必須依存にしない。業務契約・担当・paths・既存状態は保持する。

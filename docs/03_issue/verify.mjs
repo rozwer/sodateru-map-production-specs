@@ -11,6 +11,9 @@ const pagesRoot = path.resolve(root, '../01_requirements/03_pages');
 const api = read(path.resolve(root, '../01_requirements/04_api/openapi.json'));
 const gaps = read(path.join(pagesRoot, 'api-gaps.json')).items;
 const tasks = new Map(index.tasks.map(t => [t.id, t]));
+const split = read(path.join(root, 'ui-connections.json'));
+const graph = read(path.resolve(root, '../../TASK_GRAPH.json'));
+assert.deepEqual(graph.ui_connection_split, split, 'Published migration/acceptance mapping differs');
 assert.equal(tasks.size, index.tasks.length, 'Duplicate Issue ID');
 assert.equal(index.policy.ui_owner, 'A');
 for (const task of tasks.values()) {
@@ -27,7 +30,8 @@ for (const task of tasks.values()) {
 const same = (a, b, label) => assert.deepEqual([...a].sort(), [...b].sort(), label);
 const pages = fs.readdirSync(pagesRoot).filter(p => fs.existsSync(path.join(pagesRoot, p, 'page.json')));
 same(index.coverage.pages.map(p => p.page), pages, 'Page coverage');
-same(index.tasks.filter(t => t.lane === 'A').flatMap(t => t.pages), pages, 'Each page has one UI owner');
+same(index.tasks.filter(t => ['ui', 'deferred-ui'].includes(t.completion_scope?.phase))
+  .flatMap(t => t.pages.filter(p => !(t.id === 'UI-SETTINGS' && split.health_deferral.pages.includes(p)))), pages, 'Each page has one effective UI owner');
 let requirements = 0, capabilities = 0, acceptance = 0;
 for (const page of pages) {
   const req = read(path.join(pagesRoot, page, 'requirements.json'));
@@ -35,9 +39,10 @@ for (const page of pages) {
   const row = index.coverage.pages.find(p => p.page === page);
   const ui = tasks.get(row.ui_issue);
   const bindings = read(path.join(pagesRoot, page, 'api.json'));
-  same(row.api_owners, new Set(bindings.bindings.map(b => index.coverage.operations.find(o => o.id === b.id)?.owner)), `Page API owners: ${page}`);
+  same(row.api_owners, new Set(bindings.bindings.map(b => [...index.coverage.operations, ...index.coverage.additional_operations].find(o => o.id === b.id)?.owner)), `Page API owners: ${page}`);
   same(row.gap_owners, new Set(bindings.gaps.map(g => index.gap_owners[g])), `Page gap owners: ${page}`);
   assert(ui?.lane === 'A' && ui.pages.includes(page), `UI owner: ${page}`);
+  assert(tasks.has(row.connection_issue), `Connection owner: ${page}`);
   same(row.requirement_ids, req.map(r => r.id), `Requirements: ${page}`);
   same(row.acceptance_ids, acc.map(a => a.id), `Acceptance: ${page}`);
   requirements += req.length;
@@ -46,13 +51,44 @@ for (const page of pages) {
 }
 const operations = Object.entries(api.paths).flatMap(([p, methods]) => Object.entries(methods)
   .filter(([, o]) => o.operationId).map(([method, o]) => ({ id: o.operationId, method, path: p })));
-same(index.coverage.operations.map(o => o.id), operations.map(o => o.id), 'Operation coverage');
-same(index.tasks.flatMap(t => t.owned_operations), operations.map(o => o.id), 'One owner per operation');
+const allOperations = [...index.coverage.operations, ...index.coverage.additional_operations];
+same(allOperations.map(o => o.id), operations.map(o => o.id), 'Operation coverage including integrated CORE additions');
+same(index.tasks.flatMap(t => t.owned_operations), index.coverage.operations.map(o => o.id), 'Original operation ownership stays unchanged');
+for (const op of index.coverage.additional_operations) assert.equal(op.owner, 'CORE');
 for (const op of operations) {
-  const row = index.coverage.operations.find(o => o.id === op.id);
+  const row = allOperations.find(o => o.id === op.id);
   assert.equal(row.method, op.method);
   assert.equal(row.path, op.path);
-  assert(tasks.get(row.owner)?.owned_operations.includes(op.id), `Operation owner: ${op.id}`);
+  assert(tasks.get(row.owner)?.owned_operations.includes(op.id) || index.coverage.additional_operations.includes(row), `Operation owner: ${op.id}`);
+}
+let mappedRequirements = 0, mappedAcceptance = 0;
+for (const [id, pair] of Object.entries(split.pairs)) {
+  const ui = tasks.get(id), connection = tasks.get(pair.connection_task);
+  same(ui.requirement_ids, pair.criteria.map(c => c.source_requirement_id), `Mapped requirements: ${id}`);
+  same(ui.acceptance_ids, pair.criteria.flatMap(c => c.source_acceptance_ids), `Mapped acceptance: ${id}`);
+  same(connection.requirement_ids, ui.requirement_ids, `Connection retains source IDs: ${id}`);
+  assert.deepEqual(connection.hard_dependencies, [id]);
+  for (const criterion of pair.criteria) {
+    const folder = path.join(pagesRoot, criterion.page);
+    assert.deepEqual(criterion.source_requirement, read(path.join(folder, 'requirements.json')).find(x => x.id === criterion.source_requirement_id));
+    assert.deepEqual(criterion.source_acceptance, read(path.join(folder, 'acceptance.json')).filter(x => x.requirement === criterion.source_requirement_id));
+    assert(criterion.ui_check && criterion.connection_check && criterion.failure_check);
+    mappedRequirements++;
+    mappedAcceptance += criterion.source_acceptance_ids.length;
+  }
+  for (const page of pair.pages) {
+    const binding = read(path.join(pagesRoot, page.page, 'api.json'));
+    assert.deepEqual(page.api_bindings, binding.bindings, `Original binding: ${page.page}`);
+    assert.deepEqual(page.api_gaps, binding.gaps, `Original gaps: ${page.page}`);
+  }
+}
+assert.equal(mappedRequirements, requirements);
+assert.equal(mappedAcceptance, acceptance);
+for (const task of index.tasks) {
+  const actual = graph.tasks.find(x => x.id === task.id);
+  const withoutPriority = ({priority, effective_priority, ...rest}) => rest;
+  assert.deepEqual(withoutPriority(actual), withoutPriority(task), `Index/graph: ${task.id}`);
+  assert.equal(graph.task_policy.issue_numbers[task.id], task.github_issue);
 }
 same(Object.keys(index.gap_owners), gaps.map(g => g.id), 'Gap coverage');
 for (const gap of gaps) assert(tasks.get(index.gap_owners[gap.id])?.owned_gaps.includes(gap.id), `Gap owner: ${gap.id}`);
@@ -79,7 +115,7 @@ const overlaps = (a, b) => a === b || (a.endsWith('/') && b.startsWith(a)) || (b
 for (let i = 0; i < first.length; i++) for (let j = i + 1; j < first.length; j++)
   for (const a of first[i].write_paths) for (const b of first[j].write_paths)
     assert(!overlaps(a, b), `Initial path conflict: ${first[i].id}/${first[j].id}: ${a} ${b}`);
-const documents = ['README.md', 'execution.md', 'coverage.md', 'contract-gates.md', ...index.tasks.map(t => t.issue_file)];
+const documents = ['README.md', 'execution.md', 'delivery.md', 'coverage.md', 'contract-gates.md', ...index.tasks.map(t => t.issue_file)];
 for (const relative of documents) {
   const file = path.join(root, relative), text = fs.readFileSync(file, 'utf8');
   for (const match of text.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {
@@ -92,7 +128,8 @@ assert.equal(index.counts.tasks, tasks.size);
 assert.equal(index.counts.pages, pages.length);
 assert.equal(index.counts.requirements, requirements);
 assert.equal(index.counts.capabilities, capabilities);
-assert.equal(index.counts.existing_operations, operations.length);
+assert.equal(index.counts.existing_operations, index.coverage.operations.length);
+assert.equal(index.counts.current_operations, operations.length);
 assert.equal(index.counts.gaps, gaps.length);
 console.log(JSON.stringify({ status: 'PASS', issues: tasks.size, pages: pages.length, requirements, capabilities, acceptance,
   operations: operations.length, gaps: gaps.length, dependencyCycles: 0, initialPathConflicts: 0, documents: documents.length,
