@@ -2,7 +2,7 @@
 
 <!-- task-id: UI-EXPLORE -->
 
-初期担当枠：A。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：A。担当者：rozwer。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 

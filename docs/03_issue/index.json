@@ -5,21 +5,21 @@
   "repository": "rozwer/sodateru-map-production-specs",
   "integration_branch": "develop",
   "assignees": {
-    "A": null,
-    "B": null,
-    "C": null,
-    "D": null
+    "A": "rozwer",
+    "B": "koshiro",
+    "C": "kaiya",
+    "D": "mattsun"
   },
   "policy": {
     "workers": 4,
-    "orchestrator": "調整・現状把握専任。4実装担当に加算しない。担当枠A〜Dの人名対応は未指定。",
+    "orchestrator": "調整・現状把握専任。4実装担当に加算しない。担当者はassigneesに定義する。",
     "ui_owner": "A",
     "issue_completion": "domainは実API/保存/再取得の範囲、uiは同じ要件の実画面/通信/保存後再表示まで。機能全体は両方の合格が必要。",
     "hard_dependencies": "着手前にdoneが必要。",
     "connect_after": "先に着手可能。実接続・当該Issueの完了までに提供と確認が必要。",
     "ui_implementation": "全UIの設計・実装・API呼出し・実画面受入はAに固定する。B〜DへUI実装を移管しない。",
     "reassignment": "B〜Dの間で未着手の非UI機能、または取得pathを明示した非UI残作業を移管する。",
-    "execution_prerequisites": "契約補完、担当者対応、origin/develop、GitHub Issueとboardの導入後に実装着手する。本索引の候補はclaim済み/実装READYを意味しない。"
+    "execution_prerequisites": "契約補完、origin/develop、GitHub Issueとboardの導入および担当者登録後に実装着手する。本索引の候補はclaim済み/実装READYを意味しない。"
   },
   "counts": {
     "tasks": 36,

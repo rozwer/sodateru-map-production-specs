@@ -2,7 +2,7 @@
 
 <!-- task-id: BIKE -->
 
-初期担当枠：C。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
+初期担当枠：C。担当者：kaiya。GitHub未登録。[一覧](../README.md) · [共通完了条件](../execution.md#完了の扱い)。
 
 ## 完成結果
 
