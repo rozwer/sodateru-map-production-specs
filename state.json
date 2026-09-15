@@ -67,6 +67,7 @@
         "UI-ROUTES": 9,
         "UI-SETTINGS": 17,
         "UI-SUGGESTIONS": 15,
+        "VISUAL-COMMUNITY": 173,
         "VISUAL-MAP-EXPLORE": 174,
         "VISUAL-SHELL": 172
       },
@@ -7142,6 +7143,20 @@
           "src/features/map/",
           "src/features/routes/",
           "docs/evidence/VISUAL-MAP-EXPLORE/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P1",
+        "hard_dependencies": [],
+        "id": "VISUAL-COMMUNITY",
+        "kind": "ui",
+        "priority": "P1",
+        "title": "友達地図の重複修復と担当画面の参照照合",
+        "write_paths": [
+          "src/features/plugins/",
+          "src/features/feature-requests/",
+          "docs/evidence/VISUAL-COMMUNITY/"
         ]
       }
     ],
@@ -33379,9 +33394,10 @@
     "THEMES-INTEGRATION",
     "REFLECTION-INTEGRATION",
     "VISUAL-SHELL",
-    "VISUAL-MAP-EXPLORE"
+    "VISUAL-MAP-EXPLORE",
+    "VISUAL-COMMUNITY"
   ],
-  "revision": 167,
+  "revision": 168,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34195,6 +34211,23 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "VISUAL-COMMUNITY": {
+      "actor": "rozwer",
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 1,
+      "issue_number": 173,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/VISUAL-COMMUNITY/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "ea50ffae0c7a48ef949a15943c9b97e3"
     },
     "VISUAL-MAP-EXPLORE": {
       "actor": "rozwer",
