@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 108,
+  "revision": 109,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4515,19 +4515,13 @@
       "base_commit": "57591b1a27913c62dbbabfffa2df0b8c7e63e685",
       "generation": 3,
       "issue_number": 7,
-      "landed_main": null,
+      "landed_main": "a080b3d49ff8f49e9c16a26dfbd7cc2038df59df",
       "note": "docs/evidence/AI/current-issue-7.md",
       "owner": "mattsun",
-      "paths": [
-        "server/ai/",
-        "server/features/conversations/",
-        "server/db/migrations/ai/",
-        "docs/01_requirements/04_api/fragments/AI.json",
-        "docs/evidence/AI/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "dc3717d051faa2c9ed13576ce6386e8bf52ed70f",
-      "token": "707de93b417d4504a6744daa542ba45e"
+      "token": null
     },
     "BIKE": {
       "actor": "kaiya",
