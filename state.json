@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 105,
+  "revision": 106,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4865,7 +4865,7 @@
       "generation": 1,
       "issue_number": 36,
       "landed_main": null,
-      "note": null,
+      "note": "PR77/develop364f8ef: 保存API提供。docs/evidence/SUGGESTIONS/runtime-checks.md。正式契約422・実provider・ACTIVITY・UI残件はhttps://github.com/rozwer/sodateru-map-production-specs/issues/108へ移管。元全受入完了ではない。",
       "owner": "mattsun",
       "paths": [
         "server/features/suggestions/",
@@ -4873,8 +4873,8 @@
         "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
         "docs/evidence/SUGGESTIONS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "ca88f2ead49cb8c6753ca6a37098edfa5160096e",
       "token": "c100bd10dff04fcabcdeef3687a8cbaf"
     },
     "THEMES": {
