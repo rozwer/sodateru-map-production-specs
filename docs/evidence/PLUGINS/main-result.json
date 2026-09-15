@@ -1,0 +1,2867 @@
+{
+  "baseCommit": "7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2",
+  "contractSha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf",
+  "entrypoint": "server/app/main.ts",
+  "mode": "demo",
+  "dataBoundary": "Product manifests; trial data explicitly mock. No external provider re-fetch in this probe.",
+  "starts": [
+    {
+      "features": [
+        "activity",
+        "community",
+        "companion",
+        "conversations",
+        "exploration",
+        "feature-requests",
+        "friends",
+        "insights",
+        "map-custom",
+        "PLACES",
+        "PLUGINS",
+        "records",
+        "reflection",
+        "routes",
+        "settings",
+        "suggestions",
+        "themes",
+        "transfer",
+        "information",
+        "BIKE",
+        "DISASTER",
+        "PILGRIMAGE"
+      ],
+      "contractVersion": "0.3.0"
+    },
+    {
+      "features": [
+        "activity",
+        "community",
+        "companion",
+        "conversations",
+        "exploration",
+        "feature-requests",
+        "friends",
+        "insights",
+        "map-custom",
+        "PLACES",
+        "PLUGINS",
+        "records",
+        "reflection",
+        "routes",
+        "settings",
+        "suggestions",
+        "themes",
+        "transfer",
+        "information",
+        "BIKE",
+        "DISASTER",
+        "PILGRIMAGE"
+      ],
+      "contractVersion": "0.3.0"
+    }
+  ],
+  "steps": [
+    {
+      "path": "/session",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugins",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugins/bike/trial",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugins/disaster/trial",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugins/pilgrimage/trial",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 201
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "POST",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/map-settings",
+      "method": "GET",
+      "mode": "demo",
+      "status": 404,
+      "error": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "API契約が見つかりません。",
+          "requestId": "791bc8d0-2b08-4442-bfe7-426bffe1a348",
+          "details": {
+            "retryable": false
+          }
+        }
+      }
+    },
+    {
+      "path": "/plugins/bike/versions",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike/update",
+      "method": "POST",
+      "mode": "demo",
+      "status": 404,
+      "error": {
+        "error": {
+          "code": "NOT_FOUND",
+          "message": "指定した拡張機能の版がありません",
+          "requestId": "b695e2dd-e28e-4567-ad21-88265b16c1d8",
+          "details": {
+            "retryable": false
+          }
+        }
+      }
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike",
+      "method": "PATCH",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/disaster",
+      "method": "PATCH",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/pilgrimage",
+      "method": "PATCH",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/plugin-settings/bike",
+      "method": "DELETE",
+      "mode": "demo",
+      "status": 204
+    },
+    {
+      "path": "/plugin-settings/disaster",
+      "method": "DELETE",
+      "mode": "demo",
+      "status": 204
+    },
+    {
+      "path": "/plugin-settings/pilgrimage",
+      "method": "DELETE",
+      "mode": "demo",
+      "status": 204
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "demo",
+      "status": 200
+    },
+    {
+      "path": "/session",
+      "method": "POST",
+      "mode": "live",
+      "status": 201
+    },
+    {
+      "path": "/plugin-state",
+      "method": "GET",
+      "mode": "live",
+      "status": 200
+    }
+  ],
+  "snapshots": {
+    "catalog": {
+      "items": [
+        {
+          "id": "bike",
+          "name": "バイク",
+          "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+          "category": "移動",
+          "author": "育てる地図",
+          "pluginVersion": "1.0.0",
+          "updatedAt": 1789430400000,
+          "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+          "icon": "motorcycle",
+          "settingsSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "region",
+              "vehicle",
+              "highwayPolicy"
+            ],
+            "properties": {
+              "region": {
+                "type": "object",
+                "title": "検索地域",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "bounds"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "title": "地域ID"
+                  },
+                  "bounds": {
+                    "type": "array",
+                    "title": "検索範囲（西・南・東・北）",
+                    "minItems": 4,
+                    "maxItems": 4,
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "vehicle": {
+                "type": "object",
+                "title": "車種",
+                "additionalProperties": false,
+                "required": [
+                  "class"
+                ],
+                "properties": {
+                  "class": {
+                    "type": "string",
+                    "title": "車種区分",
+                    "enum": [
+                      "moped",
+                      "light_motorcycle",
+                      "motorcycle",
+                      "electric_motorcycle"
+                    ]
+                  },
+                  "displacementCc": {
+                    "type": "number",
+                    "title": "排気量（cc・電動車は指定しない）",
+                    "exclusiveMinimum": 0,
+                    "maximum": 3000
+                  }
+                }
+              },
+              "highwayPolicy": {
+                "type": "string",
+                "title": "高速道路",
+                "enum": [
+                  "allow",
+                  "avoid"
+                ]
+              }
+            }
+          },
+          "defaultSettings": {
+            "region": {
+              "id": "JP-13-shibuya",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "usageInfo": [
+            "道路タグ欠測・車種規制未確認の経路は採用できません。",
+            "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+          ],
+          "sources": [
+            {
+              "name": "OpenStreetMap",
+              "url": "https://www.openstreetmap.org/copyright",
+              "attribution": "© OpenStreetMap contributors (ODbL)"
+            },
+            {
+              "name": "Mapbox Directions",
+              "url": "https://docs.mapbox.com/api/navigation/directions/",
+              "attribution": "© Mapbox"
+            }
+          ],
+          "trialConditions": [
+            "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+          ],
+          "iconOptions": [
+            {
+              "id": "pin",
+              "label": "ピン",
+              "symbol": "📍"
+            },
+            {
+              "id": "motorcycle",
+              "label": "バイク",
+              "symbol": "🏍️"
+            },
+            {
+              "id": "shield",
+              "label": "防災",
+              "symbol": "🛡️"
+            },
+            {
+              "id": "book",
+              "label": "作品",
+              "symbol": "📖"
+            },
+            {
+              "id": "star",
+              "label": "星",
+              "symbol": "⭐"
+            },
+            {
+              "id": "map",
+              "label": "地図",
+              "symbol": "🗺️"
+            }
+          ],
+          "installed": null,
+          "versions": [
+            {
+              "id": "bike",
+              "name": "バイク",
+              "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+              "category": "移動",
+              "author": "育てる地図",
+              "pluginVersion": "1.0.0",
+              "updatedAt": 1789430400000,
+              "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+              "icon": "motorcycle",
+              "settingsSchema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "region",
+                  "vehicle",
+                  "highwayPolicy"
+                ],
+                "properties": {
+                  "region": {
+                    "type": "object",
+                    "title": "検索地域",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "bounds"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "title": "地域ID"
+                      },
+                      "bounds": {
+                        "type": "array",
+                        "title": "検索範囲（西・南・東・北）",
+                        "minItems": 4,
+                        "maxItems": 4,
+                        "items": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "vehicle": {
+                    "type": "object",
+                    "title": "車種",
+                    "additionalProperties": false,
+                    "required": [
+                      "class"
+                    ],
+                    "properties": {
+                      "class": {
+                        "type": "string",
+                        "title": "車種区分",
+                        "enum": [
+                          "moped",
+                          "light_motorcycle",
+                          "motorcycle",
+                          "electric_motorcycle"
+                        ]
+                      },
+                      "displacementCc": {
+                        "type": "number",
+                        "title": "排気量（cc・電動車は指定しない）",
+                        "exclusiveMinimum": 0,
+                        "maximum": 3000
+                      }
+                    }
+                  },
+                  "highwayPolicy": {
+                    "type": "string",
+                    "title": "高速道路",
+                    "enum": [
+                      "allow",
+                      "avoid"
+                    ]
+                  }
+                }
+              },
+              "defaultSettings": {
+                "region": {
+                  "id": "JP-13-shibuya",
+                  "bounds": [
+                    139.69,
+                    35.65,
+                    139.73,
+                    35.69
+                  ]
+                },
+                "vehicle": {
+                  "class": "motorcycle",
+                  "displacementCc": 250
+                },
+                "highwayPolicy": "avoid"
+              },
+              "usageInfo": [
+                "道路タグ欠測・車種規制未確認の経路は採用できません。",
+                "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+              ],
+              "sources": [
+                {
+                  "name": "OpenStreetMap",
+                  "url": "https://www.openstreetmap.org/copyright",
+                  "attribution": "© OpenStreetMap contributors (ODbL)"
+                },
+                {
+                  "name": "Mapbox Directions",
+                  "url": "https://docs.mapbox.com/api/navigation/directions/",
+                  "attribution": "© Mapbox"
+                }
+              ],
+              "trialConditions": [
+                "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "disaster",
+          "name": "防災情報",
+          "description": "洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。",
+          "category": "地域情報",
+          "author": "育てる地図",
+          "pluginVersion": "1.0.0",
+          "updatedAt": 1789437600000,
+          "changeLog": "実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。",
+          "icon": "shield",
+          "usageInfo": [
+            "地域とレイヤーを設定し、導入後に防災情報を更新してください。",
+            "現在の浸水や安全を判定する機能ではありません。"
+          ],
+          "sources": [
+            {
+              "name": "洪水浸水想定（想定最大規模）",
+              "url": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+              "attribution": "国土交通省各地方整備局等・都道府県／国土地理院 重ねるハザードマップ"
+            },
+            {
+              "name": "地形（陰影起伏図）",
+              "url": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+              "attribution": "国土地理院 地理院タイル"
+            },
+            {
+              "name": "降水強度（気象庁の解析時点）",
+              "url": "https://www.jma.go.jp/bosai/nowc/",
+              "attribution": "気象庁 高解像度降水ナウキャスト"
+            }
+          ],
+          "settingsSchema": {
+            "type": "object",
+            "title": "防災情報の設定",
+            "additionalProperties": false,
+            "required": [
+              "region",
+              "layerIds"
+            ],
+            "properties": {
+              "region": {
+                "title": "対象地域",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "bounds"
+                ],
+                "properties": {
+                  "id": {
+                    "title": "地域名・識別子",
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "bounds": {
+                    "title": "経緯度範囲 [西,南,東,北]",
+                    "type": "array",
+                    "minItems": 4,
+                    "maxItems": 4,
+                    "items": {
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  }
+                }
+              },
+              "layerIds": {
+                "title": "表示する情報",
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 3,
+                "uniqueItems": true,
+                "items": {
+                  "enum": [
+                    "flood-hazard",
+                    "terrain",
+                    "rainfall"
+                  ]
+                }
+              }
+            }
+          },
+          "defaultSettings": {
+            "region": {
+              "id": "江戸川周辺",
+              "bounds": [
+                139.84,
+                35.68,
+                139.92,
+                35.76
+              ]
+            },
+            "layerIds": [
+              "flood-hazard",
+              "terrain",
+              "rainfall"
+            ]
+          },
+          "trialConditions": [
+            "試用は模擬表示です。実際の災害情報ではありません。"
+          ],
+          "iconOptions": [
+            {
+              "id": "pin",
+              "label": "ピン",
+              "symbol": "📍"
+            },
+            {
+              "id": "motorcycle",
+              "label": "バイク",
+              "symbol": "🏍️"
+            },
+            {
+              "id": "shield",
+              "label": "防災",
+              "symbol": "🛡️"
+            },
+            {
+              "id": "book",
+              "label": "作品",
+              "symbol": "📖"
+            },
+            {
+              "id": "star",
+              "label": "星",
+              "symbol": "⭐"
+            },
+            {
+              "id": "map",
+              "label": "地図",
+              "symbol": "🗺️"
+            }
+          ],
+          "installed": null,
+          "versions": [
+            {
+              "id": "disaster",
+              "name": "防災情報",
+              "description": "洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。",
+              "category": "地域情報",
+              "author": "育てる地図",
+              "pluginVersion": "1.0.0",
+              "updatedAt": 1789437600000,
+              "changeLog": "実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。",
+              "icon": "shield",
+              "usageInfo": [
+                "地域とレイヤーを設定し、導入後に防災情報を更新してください。",
+                "現在の浸水や安全を判定する機能ではありません。"
+              ],
+              "sources": [
+                {
+                  "name": "洪水浸水想定（想定最大規模）",
+                  "url": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+                  "attribution": "国土交通省各地方整備局等・都道府県／国土地理院 重ねるハザードマップ"
+                },
+                {
+                  "name": "地形（陰影起伏図）",
+                  "url": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+                  "attribution": "国土地理院 地理院タイル"
+                },
+                {
+                  "name": "降水強度（気象庁の解析時点）",
+                  "url": "https://www.jma.go.jp/bosai/nowc/",
+                  "attribution": "気象庁 高解像度降水ナウキャスト"
+                }
+              ],
+              "settingsSchema": {
+                "type": "object",
+                "title": "防災情報の設定",
+                "additionalProperties": false,
+                "required": [
+                  "region",
+                  "layerIds"
+                ],
+                "properties": {
+                  "region": {
+                    "title": "対象地域",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "bounds"
+                    ],
+                    "properties": {
+                      "id": {
+                        "title": "地域名・識別子",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "bounds": {
+                        "title": "経緯度範囲 [西,南,東,北]",
+                        "type": "array",
+                        "minItems": 4,
+                        "maxItems": 4,
+                        "items": {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
+                      }
+                    }
+                  },
+                  "layerIds": {
+                    "title": "表示する情報",
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 3,
+                    "uniqueItems": true,
+                    "items": {
+                      "enum": [
+                        "flood-hazard",
+                        "terrain",
+                        "rainfall"
+                      ]
+                    }
+                  }
+                }
+              },
+              "defaultSettings": {
+                "region": {
+                  "id": "江戸川周辺",
+                  "bounds": [
+                    139.84,
+                    35.68,
+                    139.92,
+                    35.76
+                  ]
+                },
+                "layerIds": [
+                  "flood-hazard",
+                  "terrain",
+                  "rainfall"
+                ]
+              },
+              "trialConditions": [
+                "試用は模擬表示です。実際の災害情報ではありません。"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "pilgrimage",
+          "name": "聖地巡り",
+          "description": "作品と出典付きの地点を地域で探し、訪問順と道路経路を保存します。",
+          "category": "travel",
+          "author": "育てる地図",
+          "pluginVersion": "1.0.0",
+          "updatedAt": 1789430400000,
+          "changeLog": "作品・出典検索、訪問順の保存、道路経路、AI順序提案",
+          "icon": "book",
+          "order": 30,
+          "usageInfo": [
+            "作品名と地域を指定して検索します。",
+            "未確認の作品関連は未確認と表示します。",
+            "停止しても保存済みの計画・場所・経路・本人記録は残ります。"
+          ],
+          "sources": [
+            {
+              "name": "飛騨市公式観光サイト",
+              "url": "https://www.hida-kankou.jp/courses/73",
+              "attribution": "飛騨市・事実の要約と原典リンク"
+            },
+            {
+              "name": "Wikidata",
+              "url": "https://www.wikidata.org/",
+              "attribution": "CC0・共同編集情報は未確認と表示"
+            },
+            {
+              "name": "道路経路",
+              "url": "https://www.mapbox.com/about/maps/",
+              "attribution": "Mapbox Directions（共通ROUTES）"
+            }
+          ],
+          "settingsSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "workQuery",
+              "region",
+              "mode"
+            ],
+            "properties": {
+              "workQuery": {
+                "type": "string",
+                "title": "作品名",
+                "maxLength": 200
+              },
+              "region": {
+                "type": "object",
+                "title": "対象地域",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "bounds"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "title": "地域名"
+                  },
+                  "bounds": {
+                    "type": "array",
+                    "title": "西・南・東・北の境界",
+                    "minItems": 4,
+                    "maxItems": 4,
+                    "items": {
+                      "type": "number"
+                    },
+                    "prefixItems": [
+                      {
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      {
+                        "minimum": -90,
+                        "maximum": 90
+                      },
+                      {
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      {
+                        "minimum": -90,
+                        "maximum": 90
+                      }
+                    ]
+                  }
+                }
+              },
+              "mode": {
+                "type": "string",
+                "title": "移動方法",
+                "enum": [
+                  "walking",
+                  "driving"
+                ]
+              }
+            }
+          },
+          "defaultSettings": {
+            "workQuery": "",
+            "region": {
+              "id": "日本",
+              "bounds": [
+                122,
+                24,
+                146,
+                46
+              ]
+            },
+            "mode": "walking"
+          },
+          "trialConditions": [
+            "試用の地図と作品は模擬です。実在作品との対応確認・保存は通常検索で行います。"
+          ],
+          "iconOptions": [
+            {
+              "id": "pin",
+              "label": "ピン",
+              "symbol": "📍"
+            },
+            {
+              "id": "motorcycle",
+              "label": "バイク",
+              "symbol": "🏍️"
+            },
+            {
+              "id": "shield",
+              "label": "防災",
+              "symbol": "🛡️"
+            },
+            {
+              "id": "book",
+              "label": "作品",
+              "symbol": "📖"
+            },
+            {
+              "id": "star",
+              "label": "星",
+              "symbol": "⭐"
+            },
+            {
+              "id": "map",
+              "label": "地図",
+              "symbol": "🗺️"
+            }
+          ],
+          "installed": null,
+          "versions": [
+            {
+              "id": "pilgrimage",
+              "name": "聖地巡り",
+              "description": "作品と出典付きの地点を地域で探し、訪問順と道路経路を保存します。",
+              "category": "travel",
+              "author": "育てる地図",
+              "pluginVersion": "1.0.0",
+              "updatedAt": 1789430400000,
+              "changeLog": "作品・出典検索、訪問順の保存、道路経路、AI順序提案",
+              "icon": "book",
+              "order": 30,
+              "usageInfo": [
+                "作品名と地域を指定して検索します。",
+                "未確認の作品関連は未確認と表示します。",
+                "停止しても保存済みの計画・場所・経路・本人記録は残ります。"
+              ],
+              "sources": [
+                {
+                  "name": "飛騨市公式観光サイト",
+                  "url": "https://www.hida-kankou.jp/courses/73",
+                  "attribution": "飛騨市・事実の要約と原典リンク"
+                },
+                {
+                  "name": "Wikidata",
+                  "url": "https://www.wikidata.org/",
+                  "attribution": "CC0・共同編集情報は未確認と表示"
+                },
+                {
+                  "name": "道路経路",
+                  "url": "https://www.mapbox.com/about/maps/",
+                  "attribution": "Mapbox Directions（共通ROUTES）"
+                }
+              ],
+              "settingsSchema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "workQuery",
+                  "region",
+                  "mode"
+                ],
+                "properties": {
+                  "workQuery": {
+                    "type": "string",
+                    "title": "作品名",
+                    "maxLength": 200
+                  },
+                  "region": {
+                    "type": "object",
+                    "title": "対象地域",
+                    "additionalProperties": false,
+                    "required": [
+                      "id",
+                      "bounds"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "title": "地域名"
+                      },
+                      "bounds": {
+                        "type": "array",
+                        "title": "西・南・東・北の境界",
+                        "minItems": 4,
+                        "maxItems": 4,
+                        "items": {
+                          "type": "number"
+                        },
+                        "prefixItems": [
+                          {
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "minimum": -90,
+                            "maximum": 90
+                          },
+                          {
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "minimum": -90,
+                            "maximum": 90
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "mode": {
+                    "type": "string",
+                    "title": "移動方法",
+                    "enum": [
+                      "walking",
+                      "driving"
+                    ]
+                  }
+                }
+              },
+              "defaultSettings": {
+                "workQuery": "",
+                "region": {
+                  "id": "日本",
+                  "bounds": [
+                    122,
+                    24,
+                    146,
+                    46
+                  ]
+                },
+                "mode": "walking"
+              },
+              "trialConditions": [
+                "試用の地図と作品は模擬です。実在作品との対応確認・保存は通常検索で行います。"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "trials": {
+      "bike": {
+        "snapshot": {
+          "pluginVersion": "1.0.0",
+          "settings": {
+            "region": {
+              "id": "JP-13-shibuya",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "icon": "motorcycle",
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ]
+        },
+        "stateRevision": "a9f72d89b2b0885a1091eb3203077c96d63e9a35da13d70582c86633e36e772a",
+        "preview": {
+          "dataKind": "mock",
+          "label": "模擬試用：実際の地点・通行条件ではありません",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "generatedAt": 1789444279387,
+          "features": [
+            {
+              "type": "Feature",
+              "id": "bike-trial-place",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  139.70999999999998,
+                  35.67
+                ]
+              },
+              "properties": {
+                "kind": "place",
+                "label": "模擬の二輪駐車場",
+                "legendId": "bike-mock",
+                "sourceIds": [
+                  "bike-mock"
+                ],
+                "status": "simulated",
+                "value": null,
+                "unit": null
+              }
+            }
+          ],
+          "legends": [
+            {
+              "id": "bike-mock",
+              "label": "模擬地点",
+              "color": "#8A6D3B",
+              "meaning": "表示の試用用。車種条件への適合・実在は未確認です。"
+            }
+          ],
+          "sources": [
+            {
+              "id": "bike-mock",
+              "title": "BIKE模擬試用",
+              "url": null,
+              "attribution": "育てる地図の試用データ",
+              "dataKind": "mock",
+              "fetchedAt": null,
+              "sourceUpdatedAt": null,
+              "observedAt": null,
+              "issuedAt": null,
+              "validAt": null
+            }
+          ],
+          "warnings": [
+            "実検索は導入後のバイク検索から実行してください。模擬地点は保存・経路採用できません。"
+          ]
+        },
+        "conflicts": []
+      },
+      "disaster": {
+        "snapshot": {
+          "pluginVersion": "1.0.0",
+          "settings": {
+            "region": {
+              "id": "江戸川周辺",
+              "bounds": [
+                139.84,
+                35.68,
+                139.92,
+                35.76
+              ]
+            },
+            "layerIds": [
+              "flood-hazard",
+              "terrain",
+              "rainfall"
+            ]
+          },
+          "icon": "shield",
+          "manifest": {
+            "id": "disaster",
+            "name": "防災情報",
+            "description": "洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。",
+            "category": "地域情報",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789437600000,
+            "changeLog": "実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。",
+            "icon": "shield",
+            "usageInfo": [
+              "地域とレイヤーを設定し、導入後に防災情報を更新してください。",
+              "現在の浸水や安全を判定する機能ではありません。"
+            ],
+            "sources": [
+              {
+                "name": "洪水浸水想定（想定最大規模）",
+                "url": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+                "attribution": "国土交通省各地方整備局等・都道府県／国土地理院 重ねるハザードマップ"
+              },
+              {
+                "name": "地形（陰影起伏図）",
+                "url": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+                "attribution": "国土地理院 地理院タイル"
+              },
+              {
+                "name": "降水強度（気象庁の解析時点）",
+                "url": "https://www.jma.go.jp/bosai/nowc/",
+                "attribution": "気象庁 高解像度降水ナウキャスト"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "title": "防災情報の設定",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "layerIds"
+              ],
+              "properties": {
+                "region": {
+                  "title": "対象地域",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "title": "地域名・識別子",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "bounds": {
+                      "title": "経緯度範囲 [西,南,東,北]",
+                      "type": "array",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    }
+                  }
+                },
+                "layerIds": {
+                  "title": "表示する情報",
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "flood-hazard",
+                      "terrain",
+                      "rainfall"
+                    ]
+                  }
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "江戸川周辺",
+                "bounds": [
+                  139.84,
+                  35.68,
+                  139.92,
+                  35.76
+                ]
+              },
+              "layerIds": [
+                "flood-hazard",
+                "terrain",
+                "rainfall"
+              ]
+            },
+            "trialConditions": [
+              "試用は模擬表示です。実際の災害情報ではありません。"
+            ]
+          },
+          "declarations": [
+            {
+              "targetKey": "layer:disaster",
+              "property": "visibility",
+              "value": true
+            }
+          ]
+        },
+        "stateRevision": "e5b4df28995debe9cf9a797eeb9f4fb16a2943b1e53e6e155270a366daf6fada",
+        "preview": {
+          "dataKind": "mock",
+          "label": "防災レイヤーの模擬表示（実際の災害情報ではありません）",
+          "generatedAt": 1789444279408,
+          "declarations": [
+            {
+              "targetKey": "layer:disaster",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "features": [
+            {
+              "type": "Feature",
+              "id": "disaster-trial",
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      139.84,
+                      35.68
+                    ],
+                    [
+                      139.92,
+                      35.68
+                    ],
+                    [
+                      139.92,
+                      35.76
+                    ],
+                    [
+                      139.84,
+                      35.76
+                    ],
+                    [
+                      139.84,
+                      35.68
+                    ]
+                  ]
+                ]
+              },
+              "properties": {
+                "kind": "hazard",
+                "label": "模擬ハザード表示",
+                "legendId": "mock-hazard",
+                "sourceIds": [
+                  "mock"
+                ],
+                "status": "simulated",
+                "value": null,
+                "unit": null
+              }
+            }
+          ],
+          "legends": [
+            {
+              "id": "mock-hazard",
+              "label": "模擬ハザード",
+              "color": "#E59745",
+              "meaning": "表示確認用の架空の範囲。実ハザードや現在の浸水ではありません。"
+            }
+          ],
+          "sources": [
+            {
+              "id": "mock",
+              "title": "表示確認用の模擬データ",
+              "url": null,
+              "attribution": "育てる地図",
+              "dataKind": "mock",
+              "fetchedAt": null,
+              "sourceUpdatedAt": null,
+              "observedAt": null,
+              "issuedAt": null,
+              "validAt": null
+            }
+          ],
+          "warnings": [
+            "この試用結果は保存・実取得されません。導入後に実情報を取得してください。"
+          ]
+        },
+        "conflicts": []
+      },
+      "pilgrimage": {
+        "snapshot": {
+          "pluginVersion": "1.0.0",
+          "settings": {
+            "workQuery": "",
+            "region": {
+              "id": "日本",
+              "bounds": [
+                122,
+                24,
+                146,
+                46
+              ]
+            },
+            "mode": "walking"
+          },
+          "icon": "book",
+          "manifest": {
+            "id": "pilgrimage",
+            "name": "聖地巡り",
+            "description": "作品と出典付きの地点を地域で探し、訪問順と道路経路を保存します。",
+            "category": "travel",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "作品・出典検索、訪問順の保存、道路経路、AI順序提案",
+            "icon": "book",
+            "order": 30,
+            "usageInfo": [
+              "作品名と地域を指定して検索します。",
+              "未確認の作品関連は未確認と表示します。",
+              "停止しても保存済みの計画・場所・経路・本人記録は残ります。"
+            ],
+            "sources": [
+              {
+                "name": "飛騨市公式観光サイト",
+                "url": "https://www.hida-kankou.jp/courses/73",
+                "attribution": "飛騨市・事実の要約と原典リンク"
+              },
+              {
+                "name": "Wikidata",
+                "url": "https://www.wikidata.org/",
+                "attribution": "CC0・共同編集情報は未確認と表示"
+              },
+              {
+                "name": "道路経路",
+                "url": "https://www.mapbox.com/about/maps/",
+                "attribution": "Mapbox Directions（共通ROUTES）"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "workQuery",
+                "region",
+                "mode"
+              ],
+              "properties": {
+                "workQuery": {
+                  "type": "string",
+                  "title": "作品名",
+                  "maxLength": 200
+                },
+                "region": {
+                  "type": "object",
+                  "title": "対象地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域名"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "西・南・東・北の境界",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      },
+                      "prefixItems": [
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ]
+                    }
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "title": "移動方法",
+                  "enum": [
+                    "walking",
+                    "driving"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "workQuery": "",
+              "region": {
+                "id": "日本",
+                "bounds": [
+                  122,
+                  24,
+                  146,
+                  46
+                ]
+              },
+              "mode": "walking"
+            },
+            "trialConditions": [
+              "試用の地図と作品は模擬です。実在作品との対応確認・保存は通常検索で行います。"
+            ]
+          },
+          "declarations": [
+            {
+              "targetKey": "layer:pilgrimage",
+              "property": "visibility",
+              "value": true
+            }
+          ]
+        },
+        "stateRevision": "625eac4d30bc314c2b84d8ed54fa58f6799391d58ca967a7b701b22b6a5933c9",
+        "preview": {
+          "dataKind": "mock",
+          "label": "模擬の聖地巡り（実在作品との関係はありません）",
+          "declarations": [
+            {
+              "targetKey": "layer:pilgrimage",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "features": [
+            {
+              "type": "Feature",
+              "id": "pilgrimage-trial",
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  139.7,
+                  35.7
+                ]
+              },
+              "properties": {
+                "kind": "pilgrimage",
+                "label": "模擬地点・作品関連未確認",
+                "legendId": "trial",
+                "sourceIds": [
+                  "trial"
+                ],
+                "status": "simulated",
+                "value": null,
+                "unit": null
+              }
+            }
+          ],
+          "legends": [
+            {
+              "id": "trial",
+              "label": "模擬地点",
+              "color": "#9b6fbd",
+              "meaning": "表示確認用。実在作品との対応を示しません。"
+            }
+          ],
+          "sources": [
+            {
+              "id": "trial",
+              "title": "試用の模擬データ",
+              "url": null,
+              "attribution": "育てる地図",
+              "dataKind": "mock",
+              "fetchedAt": null,
+              "sourceUpdatedAt": null,
+              "observedAt": null,
+              "issuedAt": null,
+              "validAt": null
+            }
+          ],
+          "generatedAt": 1789444279414,
+          "warnings": [
+            "モックです。実検索・経路保存の完了を示すものではありません。"
+          ]
+        },
+        "conflicts": []
+      }
+    },
+    "installed": {
+      "personId": "cc4b1fa9-0180-4e11-9ee7-e1e63e082570",
+      "dataMode": "demo",
+      "revision": "e1eb6485bd167de809d8d7855d8ef907238f6e027a511d6bbe4c2cad999a8db7",
+      "items": [
+        {
+          "id": "bike",
+          "installId": "d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "version": 1,
+          "createdAt": 1789444279403,
+          "updatedAt": 1789444279403,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "JP-13-shibuya",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "motorcycle",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": null
+        },
+        {
+          "id": "disaster",
+          "installId": "c665e619-b78e-45e5-89cb-c1b03e608550",
+          "version": 1,
+          "createdAt": 1789444279412,
+          "updatedAt": 1789444279412,
+          "enabled": true,
+          "settings": {
+            "region": {
+              "id": "江戸川周辺",
+              "bounds": [
+                139.84,
+                35.68,
+                139.92,
+                35.76
+              ]
+            },
+            "layerIds": [
+              "flood-hazard",
+              "terrain",
+              "rainfall"
+            ]
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "shield",
+          "declarations": [
+            {
+              "targetKey": "layer:disaster",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "disaster",
+            "name": "防災情報",
+            "description": "洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。",
+            "category": "地域情報",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789437600000,
+            "changeLog": "実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。",
+            "icon": "shield",
+            "usageInfo": [
+              "地域とレイヤーを設定し、導入後に防災情報を更新してください。",
+              "現在の浸水や安全を判定する機能ではありません。"
+            ],
+            "sources": [
+              {
+                "name": "洪水浸水想定（想定最大規模）",
+                "url": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+                "attribution": "国土交通省各地方整備局等・都道府県／国土地理院 重ねるハザードマップ"
+              },
+              {
+                "name": "地形（陰影起伏図）",
+                "url": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+                "attribution": "国土地理院 地理院タイル"
+              },
+              {
+                "name": "降水強度（気象庁の解析時点）",
+                "url": "https://www.jma.go.jp/bosai/nowc/",
+                "attribution": "気象庁 高解像度降水ナウキャスト"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "title": "防災情報の設定",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "layerIds"
+              ],
+              "properties": {
+                "region": {
+                  "title": "対象地域",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "title": "地域名・識別子",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "bounds": {
+                      "title": "経緯度範囲 [西,南,東,北]",
+                      "type": "array",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    }
+                  }
+                },
+                "layerIds": {
+                  "title": "表示する情報",
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "flood-hazard",
+                      "terrain",
+                      "rainfall"
+                    ]
+                  }
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "江戸川周辺",
+                "bounds": [
+                  139.84,
+                  35.68,
+                  139.92,
+                  35.76
+                ]
+              },
+              "layerIds": [
+                "flood-hazard",
+                "terrain",
+                "rainfall"
+              ]
+            },
+            "trialConditions": [
+              "試用は模擬表示です。実際の災害情報ではありません。"
+            ]
+          },
+          "previousVersion": null
+        },
+        {
+          "id": "pilgrimage",
+          "installId": "ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "version": 1,
+          "createdAt": 1789444279418,
+          "updatedAt": 1789444279418,
+          "enabled": true,
+          "settings": {
+            "workQuery": "",
+            "region": {
+              "id": "日本",
+              "bounds": [
+                122,
+                24,
+                146,
+                46
+              ]
+            },
+            "mode": "walking"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "book",
+          "declarations": [
+            {
+              "targetKey": "layer:pilgrimage",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "pilgrimage",
+            "name": "聖地巡り",
+            "description": "作品と出典付きの地点を地域で探し、訪問順と道路経路を保存します。",
+            "category": "travel",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "作品・出典検索、訪問順の保存、道路経路、AI順序提案",
+            "icon": "book",
+            "order": 30,
+            "usageInfo": [
+              "作品名と地域を指定して検索します。",
+              "未確認の作品関連は未確認と表示します。",
+              "停止しても保存済みの計画・場所・経路・本人記録は残ります。"
+            ],
+            "sources": [
+              {
+                "name": "飛騨市公式観光サイト",
+                "url": "https://www.hida-kankou.jp/courses/73",
+                "attribution": "飛騨市・事実の要約と原典リンク"
+              },
+              {
+                "name": "Wikidata",
+                "url": "https://www.wikidata.org/",
+                "attribution": "CC0・共同編集情報は未確認と表示"
+              },
+              {
+                "name": "道路経路",
+                "url": "https://www.mapbox.com/about/maps/",
+                "attribution": "Mapbox Directions（共通ROUTES）"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "workQuery",
+                "region",
+                "mode"
+              ],
+              "properties": {
+                "workQuery": {
+                  "type": "string",
+                  "title": "作品名",
+                  "maxLength": 200
+                },
+                "region": {
+                  "type": "object",
+                  "title": "対象地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域名"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "西・南・東・北の境界",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      },
+                      "prefixItems": [
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ]
+                    }
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "title": "移動方法",
+                  "enum": [
+                    "walking",
+                    "driving"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "workQuery": "",
+              "region": {
+                "id": "日本",
+                "bounds": [
+                  122,
+                  24,
+                  146,
+                  46
+                ]
+              },
+              "mode": "walking"
+            },
+            "trialConditions": [
+              "試用の地図と作品は模擬です。実在作品との対応確認・保存は通常検索で行います。"
+            ]
+          },
+          "previousVersion": null
+        }
+      ],
+      "appliedDeclarations": [
+        {
+          "targetKey": "layer:bike",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "bike",
+          "pluginVersion": "1.0.0"
+        },
+        {
+          "targetKey": "layer:disaster",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "disaster",
+          "pluginVersion": "1.0.0"
+        },
+        {
+          "targetKey": "layer:pilgrimage",
+          "property": "visibility",
+          "value": true,
+          "pluginId": "pilgrimage",
+          "pluginVersion": "1.0.0"
+        }
+      ],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": [
+        {
+          "pluginId": "bike",
+          "installId": "d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "ownerKey": "plugin:d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "installedVersion": "1.0.0",
+          "version": 1,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "bike",
+              "pluginVersion": "1.0.0"
+            }
+          ]
+        },
+        {
+          "pluginId": "disaster",
+          "installId": "c665e619-b78e-45e5-89cb-c1b03e608550",
+          "ownerKey": "plugin:c665e619-b78e-45e5-89cb-c1b03e608550",
+          "installedVersion": "1.0.0",
+          "version": 1,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:disaster",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "disaster",
+              "pluginVersion": "1.0.0"
+            }
+          ]
+        },
+        {
+          "pluginId": "pilgrimage",
+          "installId": "ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "ownerKey": "plugin:ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "installedVersion": "1.0.0",
+          "version": 1,
+          "enabled": true,
+          "resolvedDeclarations": [
+            {
+              "targetKey": "layer:pilgrimage",
+              "property": "visibility",
+              "value": true,
+              "pluginId": "pilgrimage",
+              "pluginVersion": "1.0.0"
+            }
+          ]
+        }
+      ]
+    },
+    "bikeVersions": {
+      "items": [
+        {
+          "id": "bike",
+          "name": "バイク",
+          "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+          "category": "移動",
+          "author": "育てる地図",
+          "pluginVersion": "1.0.0",
+          "updatedAt": 1789430400000,
+          "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+          "icon": "motorcycle",
+          "settingsSchema": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "region",
+              "vehicle",
+              "highwayPolicy"
+            ],
+            "properties": {
+              "region": {
+                "type": "object",
+                "title": "検索地域",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "bounds"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "title": "地域ID"
+                  },
+                  "bounds": {
+                    "type": "array",
+                    "title": "検索範囲（西・南・東・北）",
+                    "minItems": 4,
+                    "maxItems": 4,
+                    "items": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "vehicle": {
+                "type": "object",
+                "title": "車種",
+                "additionalProperties": false,
+                "required": [
+                  "class"
+                ],
+                "properties": {
+                  "class": {
+                    "type": "string",
+                    "title": "車種区分",
+                    "enum": [
+                      "moped",
+                      "light_motorcycle",
+                      "motorcycle",
+                      "electric_motorcycle"
+                    ]
+                  },
+                  "displacementCc": {
+                    "type": "number",
+                    "title": "排気量（cc・電動車は指定しない）",
+                    "exclusiveMinimum": 0,
+                    "maximum": 3000
+                  }
+                }
+              },
+              "highwayPolicy": {
+                "type": "string",
+                "title": "高速道路",
+                "enum": [
+                  "allow",
+                  "avoid"
+                ]
+              }
+            }
+          },
+          "defaultSettings": {
+            "region": {
+              "id": "JP-13-shibuya",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "usageInfo": [
+            "道路タグ欠測・車種規制未確認の経路は採用できません。",
+            "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+          ],
+          "sources": [
+            {
+              "name": "OpenStreetMap",
+              "url": "https://www.openstreetmap.org/copyright",
+              "attribution": "© OpenStreetMap contributors (ODbL)"
+            },
+            {
+              "name": "Mapbox Directions",
+              "url": "https://docs.mapbox.com/api/navigation/directions/",
+              "attribution": "© Mapbox"
+            }
+          ],
+          "trialConditions": [
+            "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+          ]
+        }
+      ]
+    },
+    "stopped": {
+      "personId": "cc4b1fa9-0180-4e11-9ee7-e1e63e082570",
+      "dataMode": "demo",
+      "revision": "9108d27e99ea7133bb6211defdb8c4d7d3ad2e1bd32c54ced804fc323c1e04bb",
+      "items": [
+        {
+          "id": "bike",
+          "installId": "d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "version": 2,
+          "createdAt": 1789444279403,
+          "updatedAt": 1789444279423,
+          "enabled": false,
+          "settings": {
+            "region": {
+              "id": "JP-13-shibuya",
+              "bounds": [
+                139.69,
+                35.65,
+                139.73,
+                35.69
+              ]
+            },
+            "vehicle": {
+              "class": "motorcycle",
+              "displacementCc": 250
+            },
+            "highwayPolicy": "avoid"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "motorcycle",
+          "declarations": [
+            {
+              "targetKey": "layer:bike",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "bike",
+            "name": "バイク",
+            "description": "車種・地域・高速道路条件から地点と経路の根拠を確認します。",
+            "category": "移動",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "車種設定、実地点・道路情報、経路評価の保存・再取得",
+            "icon": "motorcycle",
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "vehicle",
+                "highwayPolicy"
+              ],
+              "properties": {
+                "region": {
+                  "type": "object",
+                  "title": "検索地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域ID"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "検索範囲（西・南・東・北）",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "vehicle": {
+                  "type": "object",
+                  "title": "車種",
+                  "additionalProperties": false,
+                  "required": [
+                    "class"
+                  ],
+                  "properties": {
+                    "class": {
+                      "type": "string",
+                      "title": "車種区分",
+                      "enum": [
+                        "moped",
+                        "light_motorcycle",
+                        "motorcycle",
+                        "electric_motorcycle"
+                      ]
+                    },
+                    "displacementCc": {
+                      "type": "number",
+                      "title": "排気量（cc・電動車は指定しない）",
+                      "exclusiveMinimum": 0,
+                      "maximum": 3000
+                    }
+                  }
+                },
+                "highwayPolicy": {
+                  "type": "string",
+                  "title": "高速道路",
+                  "enum": [
+                    "allow",
+                    "avoid"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "JP-13-shibuya",
+                "bounds": [
+                  139.69,
+                  35.65,
+                  139.73,
+                  35.69
+                ]
+              },
+              "vehicle": {
+                "class": "motorcycle",
+                "displacementCc": 250
+              },
+              "highwayPolicy": "avoid"
+            },
+            "usageInfo": [
+              "道路タグ欠測・車種規制未確認の経路は採用できません。",
+              "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。"
+            ],
+            "sources": [
+              {
+                "name": "OpenStreetMap",
+                "url": "https://www.openstreetmap.org/copyright",
+                "attribution": "© OpenStreetMap contributors (ODbL)"
+              },
+              {
+                "name": "Mapbox Directions",
+                "url": "https://docs.mapbox.com/api/navigation/directions/",
+                "attribution": "© Mapbox"
+              }
+            ],
+            "trialConditions": [
+              "試用は模擬表示です。実在する駐車場・通行可能な経路を示しません。"
+            ]
+          },
+          "previousVersion": null
+        },
+        {
+          "id": "disaster",
+          "installId": "c665e619-b78e-45e5-89cb-c1b03e608550",
+          "version": 2,
+          "createdAt": 1789444279412,
+          "updatedAt": 1789444279425,
+          "enabled": false,
+          "settings": {
+            "region": {
+              "id": "江戸川周辺",
+              "bounds": [
+                139.84,
+                35.68,
+                139.92,
+                35.76
+              ]
+            },
+            "layerIds": [
+              "flood-hazard",
+              "terrain",
+              "rainfall"
+            ]
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "shield",
+          "declarations": [
+            {
+              "targetKey": "layer:disaster",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "disaster",
+            "name": "防災情報",
+            "description": "洪水想定・地形・降水解析を出典と時点付きで地図に重ねます。",
+            "category": "地域情報",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789437600000,
+            "changeLog": "実提供元の画像と地域・時点を保存して再取得。停止時に地図表示を解除。",
+            "icon": "shield",
+            "usageInfo": [
+              "地域とレイヤーを設定し、導入後に防災情報を更新してください。",
+              "現在の浸水や安全を判定する機能ではありません。"
+            ],
+            "sources": [
+              {
+                "name": "洪水浸水想定（想定最大規模）",
+                "url": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+                "attribution": "国土交通省各地方整備局等・都道府県／国土地理院 重ねるハザードマップ"
+              },
+              {
+                "name": "地形（陰影起伏図）",
+                "url": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+                "attribution": "国土地理院 地理院タイル"
+              },
+              {
+                "name": "降水強度（気象庁の解析時点）",
+                "url": "https://www.jma.go.jp/bosai/nowc/",
+                "attribution": "気象庁 高解像度降水ナウキャスト"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "title": "防災情報の設定",
+              "additionalProperties": false,
+              "required": [
+                "region",
+                "layerIds"
+              ],
+              "properties": {
+                "region": {
+                  "title": "対象地域",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "title": "地域名・識別子",
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "bounds": {
+                      "title": "経緯度範囲 [西,南,東,北]",
+                      "type": "array",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      }
+                    }
+                  }
+                },
+                "layerIds": {
+                  "title": "表示する情報",
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 3,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "flood-hazard",
+                      "terrain",
+                      "rainfall"
+                    ]
+                  }
+                }
+              }
+            },
+            "defaultSettings": {
+              "region": {
+                "id": "江戸川周辺",
+                "bounds": [
+                  139.84,
+                  35.68,
+                  139.92,
+                  35.76
+                ]
+              },
+              "layerIds": [
+                "flood-hazard",
+                "terrain",
+                "rainfall"
+              ]
+            },
+            "trialConditions": [
+              "試用は模擬表示です。実際の災害情報ではありません。"
+            ]
+          },
+          "previousVersion": null
+        },
+        {
+          "id": "pilgrimage",
+          "installId": "ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "version": 2,
+          "createdAt": 1789444279418,
+          "updatedAt": 1789444279427,
+          "enabled": false,
+          "settings": {
+            "workQuery": "",
+            "region": {
+              "id": "日本",
+              "bounds": [
+                122,
+                24,
+                146,
+                46
+              ]
+            },
+            "mode": "walking"
+          },
+          "pluginVersion": "1.0.0",
+          "icon": "book",
+          "declarations": [
+            {
+              "targetKey": "layer:pilgrimage",
+              "property": "visibility",
+              "value": true
+            }
+          ],
+          "manifest": {
+            "id": "pilgrimage",
+            "name": "聖地巡り",
+            "description": "作品と出典付きの地点を地域で探し、訪問順と道路経路を保存します。",
+            "category": "travel",
+            "author": "育てる地図",
+            "pluginVersion": "1.0.0",
+            "updatedAt": 1789430400000,
+            "changeLog": "作品・出典検索、訪問順の保存、道路経路、AI順序提案",
+            "icon": "book",
+            "order": 30,
+            "usageInfo": [
+              "作品名と地域を指定して検索します。",
+              "未確認の作品関連は未確認と表示します。",
+              "停止しても保存済みの計画・場所・経路・本人記録は残ります。"
+            ],
+            "sources": [
+              {
+                "name": "飛騨市公式観光サイト",
+                "url": "https://www.hida-kankou.jp/courses/73",
+                "attribution": "飛騨市・事実の要約と原典リンク"
+              },
+              {
+                "name": "Wikidata",
+                "url": "https://www.wikidata.org/",
+                "attribution": "CC0・共同編集情報は未確認と表示"
+              },
+              {
+                "name": "道路経路",
+                "url": "https://www.mapbox.com/about/maps/",
+                "attribution": "Mapbox Directions（共通ROUTES）"
+              }
+            ],
+            "settingsSchema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "workQuery",
+                "region",
+                "mode"
+              ],
+              "properties": {
+                "workQuery": {
+                  "type": "string",
+                  "title": "作品名",
+                  "maxLength": 200
+                },
+                "region": {
+                  "type": "object",
+                  "title": "対象地域",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "bounds"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "title": "地域名"
+                    },
+                    "bounds": {
+                      "type": "array",
+                      "title": "西・南・東・北の境界",
+                      "minItems": 4,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "number"
+                      },
+                      "prefixItems": [
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        {
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ]
+                    }
+                  }
+                },
+                "mode": {
+                  "type": "string",
+                  "title": "移動方法",
+                  "enum": [
+                    "walking",
+                    "driving"
+                  ]
+                }
+              }
+            },
+            "defaultSettings": {
+              "workQuery": "",
+              "region": {
+                "id": "日本",
+                "bounds": [
+                  122,
+                  24,
+                  146,
+                  46
+                ]
+              },
+              "mode": "walking"
+            },
+            "trialConditions": [
+              "試用の地図と作品は模擬です。実在作品との対応確認・保存は通常検索で行います。"
+            ]
+          },
+          "previousVersion": null
+        }
+      ],
+      "appliedDeclarations": [],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": [
+        {
+          "pluginId": "bike",
+          "installId": "d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "ownerKey": "plugin:d09a1f10-eb0a-4e95-89e4-ec37625604d0",
+          "installedVersion": "1.0.0",
+          "version": 2,
+          "enabled": false,
+          "resolvedDeclarations": []
+        },
+        {
+          "pluginId": "disaster",
+          "installId": "c665e619-b78e-45e5-89cb-c1b03e608550",
+          "ownerKey": "plugin:c665e619-b78e-45e5-89cb-c1b03e608550",
+          "installedVersion": "1.0.0",
+          "version": 2,
+          "enabled": false,
+          "resolvedDeclarations": []
+        },
+        {
+          "pluginId": "pilgrimage",
+          "installId": "ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "ownerKey": "plugin:ceb19a74-399a-4d4d-92c9-8b80e2ddf01e",
+          "installedVersion": "1.0.0",
+          "version": 2,
+          "enabled": false,
+          "resolvedDeclarations": []
+        }
+      ]
+    },
+    "mapStopped": null,
+    "removed": {
+      "personId": "cc4b1fa9-0180-4e11-9ee7-e1e63e082570",
+      "dataMode": "demo",
+      "revision": "a9f72d89b2b0885a1091eb3203077c96d63e9a35da13d70582c86633e36e772a",
+      "items": [],
+      "appliedDeclarations": [],
+      "conflicts": [],
+      "resolutions": [],
+      "plugins": []
+    }
+  },
+  "passed": true,
+  "blockers": [
+    "MAP-CUSTOM /map-settings is missing from the formal generated contract; shared map checks pending #3."
+  ],
+  "restartMatched": true
+}
