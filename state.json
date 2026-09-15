@@ -27,6 +27,7 @@
         "ROUTES": 25,
         "SETTINGS": 24,
         "SUGGESTIONS": 36,
+        "SUGGESTIONS-INTEGRATION": 108,
         "THEMES": 37,
         "TOOL-ISSUE-COMMENT": 49,
         "TOOL-UPSTREAM-GUARD": 62,
@@ -4483,6 +4484,166 @@
           "src/integration/",
           "docs/integration/"
         ]
+      },
+      {
+        "acceptance_ids": [
+          "self-checkin-C1",
+          "self-checkin-C2",
+          "self-checkin-FC01",
+          "self-checkin-FC02",
+          "self-checkin-FC03",
+          "self-checkin-FC04",
+          "self-checkin-FC05",
+          "suggestion-detail-C1",
+          "suggestion-detail-FC01",
+          "suggestion-detail-FC02",
+          "suggestion-detail-FC03",
+          "suggestion-detail-FC04",
+          "suggestions-C1",
+          "suggestions-C2",
+          "suggestions-FC01",
+          "suggestions-FC02",
+          "suggestions-FC03"
+        ],
+        "connect_after": [
+          "AI",
+          "PLACES",
+          "ROUTES",
+          "INFORMATION",
+          "ACTIVITY",
+          "SETTINGS"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行"
+          },
+          {
+            "issue": "PLACES",
+            "outputs": [
+              "PLACES.search",
+              "PLACES.detail"
+            ],
+            "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+          },
+          {
+            "issue": "ROUTES",
+            "outputs": [
+              "ROUTES.basic"
+            ],
+            "required_output": "基本道路経路の取得・保存・再取得"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          },
+          {
+            "issue": "ACTIVITY",
+            "outputs": [
+              "ACTIVITY.growth"
+            ],
+            "required_output": "訪問確認・訂正・地図の成長材料"
+          },
+          {
+            "issue": "SETTINGS",
+            "outputs": [
+              "SETTINGS.preferences"
+            ],
+            "required_output": "プロフィール・利用設定・AI送信範囲・提案停止"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [
+            "checkin"
+          ],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 108,
+        "hard_dependencies": [],
+        "id": "SUGGESTIONS-INTEGRATION",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/108",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [
+          "checkin"
+        ],
+        "owned_operations": [
+          "getSelfCheckins",
+          "postSelfCheckins",
+          "getSelfCheckinsCheckinId",
+          "patchSelfCheckinsCheckinId",
+          "deleteSelfCheckinsCheckinId",
+          "postSuggestionBatches",
+          "getSuggestions",
+          "getSuggestionsSuggestionId",
+          "patchSuggestionsSuggestionId"
+        ],
+        "pages": [
+          "self-checkin",
+          "suggestions",
+          "suggestion-detail"
+        ],
+        "priority": "P0",
+        "provides": [
+          "SUGGESTIONS.complete"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/features/suggestions/",
+          "server/db/migrations/suggestions/",
+          "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
+          "docs/evidence/SUGGESTIONS/"
+        ],
+        "references": [
+          "../01_requirements/01_DB/11_self_checkins.json",
+          "../01_requirements/01_DB/12_suggestions.json",
+          "../01_requirements/04_api/conventions/04_state-transitions.md"
+        ],
+        "requirement_ids": [
+          "self-checkin-R1",
+          "self-checkin-R2",
+          "self-checkin-F01",
+          "self-checkin-F02",
+          "self-checkin-F03",
+          "self-checkin-F04",
+          "self-checkin-F05",
+          "suggestion-detail-R1",
+          "suggestion-detail-F01",
+          "suggestion-detail-F02",
+          "suggestion-detail-F03",
+          "suggestion-detail-F04",
+          "suggestions-R1",
+          "suggestions-R2",
+          "suggestions-F01",
+          "suggestions-F02",
+          "suggestions-F03"
+        ],
+        "source_issue": 36,
+        "source_task_ids": [
+          "SUGGESTIONS"
+        ],
+        "status": "registered",
+        "title": "SUGGESTIONS後続｜実provider接続・UI導線と残り受入",
+        "write_paths": [
+          "server/features/suggestions/",
+          "server/db/migrations/suggestions/",
+          "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
+          "docs/evidence/SUGGESTIONS/"
+        ]
       }
     ]
   },
@@ -4492,9 +4653,10 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS",
-    "UI-INTEGRATION"
+    "UI-INTEGRATION",
+    "SUGGESTIONS-INTEGRATION"
   ],
-  "revision": 137,
+  "revision": 138,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4845,6 +5007,24 @@
       "status": "done",
       "submitted_commit": "ca88f2ead49cb8c6753ca6a37098edfa5160096e",
       "token": null
+    },
+    "SUGGESTIONS-INTEGRATION": {
+      "actor": "mattsun",
+      "base_commit": "df5e5073085eddda1e6598664e00881e12b25d81",
+      "generation": 1,
+      "issue_number": 108,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/suggestions/",
+        "server/db/migrations/suggestions/",
+        "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
+        "docs/evidence/SUGGESTIONS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "1cdffaf7bc944bd9977c80450a8f3928"
     },
     "THEMES": {
       "actor": "mattsun",
