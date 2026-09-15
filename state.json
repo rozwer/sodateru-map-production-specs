@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 114,
+  "revision": 115,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5101,20 +5101,17 @@
       "token": "96a37508317942b9874adae6366ddc23"
     },
     "UI-REFLECTION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 12,
       "landed_main": null,
-      "note": "docs/evidence/UI-REFLECTION/README.md",
+      "note": "緊急統合へ委譲。PR92/d179abaはdevelopへ統合済み。未commitなし。src/features/reflection/とdocs/evidence/UI-REFLECTION/の残UI照合・API型/REFLECTION新契約接続は未完。証拠README参照。専用worktree ui-reflection-12を保持。後続CONNECT正式反映前なのでfinishしない。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/reflection/",
-        "docs/evidence/UI-REFLECTION/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "d179aba9a37d234161b177abb4c39c22843f1e35",
-      "token": "db7e3a53e8274d5bbc210ba5c258779a"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-ROUTES": {
       "actor": "rozwer",
