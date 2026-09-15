@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 111,
+  "revision": 112,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4592,7 +4592,7 @@
       "generation": 1,
       "issue_number": 30,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/DISASTER/README.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/disaster/",
@@ -4600,8 +4600,8 @@
         "docs/01_requirements/04_api/fragments/DISASTER.json",
         "docs/evidence/DISASTER/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "1e719f166a56f439ad6e7b5cbb22af1738c287f4",
       "token": "ec30c52f4ebc4cb4a851cbe948b6a616"
     },
     "EXPLORATION": {
