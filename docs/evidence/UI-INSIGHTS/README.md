@@ -1,6 +1,6 @@
 # UI-INSIGHTS #13 — 5画面の実装と接続状況
 
-2026-09-15。担当branch `rozwer/13-insights-ui`、専用worktree `ui-insights-13`。基準の統合commitは `6dac91f`（UI-BASE先行版）。**Taskは未完了。画面のテスト応答確認と実APIの受入は別。**
+2026-09-15。担当branch `rozwer/13-insights-ui`、専用worktree `ui-insights-13`。画面確認の基準は `6dac91f`（UI-BASE先行版）、正式コミット時の統合基準は `2332231`。先行実装commit `0ae3b77`。**Taskは未完了。画面のテスト応答確認と実APIの受入は別。**
 
 ## 実装
 
@@ -39,7 +39,7 @@
 2. **THEMES #37 / CORE #3**：1.0.0断片は統合済みだが、現developの共有generated ThemeにcolorKey/coverMediaIdが未反映。現develop型だけのscreensチェックはこのfield不足で失敗する。型/HTTP/migration登録とRECORDS媒体APIの提供後、live保存→再取得→再起動再取得を確認する。
 3. **UI-BASE #4**：共通Sheetのbody20pxとfeature余白が二重。390pxのtheme-editで入力左端x49、`theme-edit-shell-390.png`。診断は中央headerと本文見出しも重複。contentPadding:none/header表示境界を依頼済み。担当外CSSの上書きはしていない。
 4. 期間/根拠/判断の実API保存、元記録変更後の再表示、テーマ所属変更後の地図絞込、写真取消/失敗/削除、空状態/権限喪失/競合、再起動後の保持を同じ本人・mode・DBで確認する。現在は達成を主張しない。
-5. peer reviewはQA-VISUAL #40へ依頼済み。コミットは共通guardの固定base誤判定で拒否され、取得3pathのみstage保持。修復先はTOOL-UPSTREAM-GUARD #62。developへの実装統合、task:finish、Issue終了は未実施。
+5. peer reviewはQA-VISUAL #40へ依頼済み。共通guard修復PR #63を取り込み、通常task:verifyとコミット0ae3b77が成功（#62）。developへの実装統合、task:finish、Issue終了は未実施。
 
 ## 表示確認用の起動
 
