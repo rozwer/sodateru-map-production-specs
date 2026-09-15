@@ -11,7 +11,7 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 空のコレクション等も省略せずに示す。
 
 各一覧の型からHTTPクライアントや応答の検証を作れる。
-ただし、認証、集計の判定規則、別都市への体験転用など未確定の依存があるため、**この仕様だけで全機能の動作を再現できる状態にはまだない**。
+ただし、人物管理、集計の判定規則、別都市への体験転用など未確定の依存があるため、**この仕様だけで全機能の動作を再現できる状態にはまだない**。ローカル本人識別と再送・機能登録は[CORE契約](conventions/07_core-runtime.md)へ具体化した。
 操作固有の依存を各一覧、全体の不足を[機能対応表](coverage.md)と[未確定事項](conventions/03_open-questions.md)に記載する。
 画面仕様は[67画面](../03_pages/README.md)に整備済み。[画面側のAPI不足](../03_pages/api-gaps.json)を参照する。全画面の実動作との対応は未検証。
 
@@ -22,6 +22,7 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 | [通信・データ形式](conventions/01_http.md) | URL、入力、応答、一覧、上限 |
 | [共通ヘッダーとエラー](conventions/06_shared-http.md) | 各操作が参照する型・制約・エラー条件 |
 | [保存・権限・エラー](conventions/02_mutations.md) | 再送、版、権限、部分失敗、原文の保持 |
+| [CORE起動・本人・再送](conventions/07_core-runtime.md) | ローカルsession、DB、機能登録、生成クライアント |
 | [共通関数との接続](conventions/05_common-bindings.md) | HTTP名と共通Schemaの明示的な変換 |
 | [状態遷移](conventions/04_state-transitions.md) | 訪問、提案、案内、AI、友人関係 |
 | [未確定事項](conventions/03_open-questions.md) | 未決定内容と解消済み事項 |
@@ -38,6 +39,7 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 | [提案・経路](endpoints/05_routes.md) | 候補、達成、経路取得、保存、案内、定期券 |
 | [人物・共有](endpoints/06_sharing.md) | 本人、人物、友人、共有検索、地域の声 |
 | [拡張機能](endpoints/07_plugins.md) | 導入、設定、無効化、削除、機能要望 |
+| [機能別契約断片](endpoints/08_fragments.md) | COREセッション等、担当が追加した操作 |
 
 ## 型定義と整合確認
 
@@ -47,12 +49,12 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 - [入出力例と確認条件](examples.md)：保存・競合・取消・権限・空結果。
 
 同じ定義から機能別文書・型一覧・OpenAPIを生成する。同一のヘッダー・応答はOpenAPIの `components.parameters` / `components.responses` を `$ref` で参照する。操作の例はOpenAPIに集約し、機能別文書から該当操作へリンクする。
-変更は [build_contracts.py](tools/build_contracts.py) に反映して再生成する。
+機能固有の追加はfragments/<Task-ID>.jsonへ記録し、[build_contracts.py](tools/build_contracts.py)で合成する。共有Schema/既存操作の変更はCORE担当へ連絡する。
 説明文書の共通規約・対応表・未確定事項は直接編集する。
 
 ```sh
-mise exec -- python3 docs/01_requirements/04_api/tools/build_contracts.py
-mise exec -- node docs/01_requirements/04_api/tools/check_contracts.mjs
+mise exec -- bun run contracts:build
+mise exec -- bun run contracts:check
 ```
 
 契約検査は参照・重複・Schema・掲載例を確認する。
