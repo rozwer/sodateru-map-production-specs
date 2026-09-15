@@ -1,0 +1,1414 @@
+{
+  "dataKind": "real",
+  "settings": {
+    "region": {
+      "id": "JP-13-shibuya",
+      "bounds": [
+        139.69,
+        35.65,
+        139.73,
+        35.69
+      ]
+    },
+    "vehicle": {
+      "class": "motorcycle",
+      "displacementCc": 250
+    },
+    "highwayPolicy": "avoid"
+  },
+  "source": {
+    "id": "osm-overpass",
+    "name": "OpenStreetMap / Overpass",
+    "url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "fetchedAt": 1789440399534,
+    "updatedAt": 1789440301000
+  },
+  "counts": {
+    "places": 35,
+    "roads": 243,
+    "roadAssessments": {
+      "verified": 0,
+      "ineligible": 242,
+      "unknown": 1
+    }
+  },
+  "places": [
+    {
+      "id": "osm:node:748883693",
+      "name": "エネオス",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7044419,
+        "latitude": 35.6518156
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "brand:wikipedia": "en:JXTG Nippon Oil & Energy",
+        "name": "エネオス",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス"
+      },
+      "source": {
+        "id": "osm:node:748883693",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/748883693",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1752802322000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:748883693"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:885679761",
+      "name": "エネオス",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7129952,
+        "latitude": 35.6716316
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "brand:wikipedia": "en:Eneos",
+        "name": "エネオス",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス"
+      },
+      "source": {
+        "id": "osm:node:885679761",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/885679761",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1698522331000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:885679761"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:1559944778",
+      "name": "ENEOS",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7071591,
+        "latitude": 35.6509844
+      },
+      "tags": {
+        "addr:block_number": "6",
+        "addr:city": "渋谷区",
+        "addr:housenumber": "7",
+        "addr:neighbourhood": "恵比寿西二丁目",
+        "addr:postcode": "150-0021",
+        "addr:province": "東京都",
+        "amenity": "fuel",
+        "branch": "恵比寿SS",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "fuel:diesel": "no",
+        "name": "ENEOS",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス",
+        "opening_hours": "Mo-Sa 08:00-19:00",
+        "operator": "ユニオン石油",
+        "phone": "+81-3-3461-2181"
+      },
+      "source": {
+        "id": "osm:node:1559944778",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/1559944778",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1780012206000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:1559944778"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:1655440013",
+      "name": "ENEOS",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7239093,
+        "latitude": 35.6588065
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "name": "ENEOS",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス",
+        "name:ja_rm": "Eneosu",
+        "source": "survey; bing"
+      },
+      "source": {
+        "id": "osm:node:1655440013",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/1655440013",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1747793568000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:1655440013"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:1886283112",
+      "name": "ENEOS",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7053135,
+        "latitude": 35.6598787
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "name": "ENEOS",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス",
+        "wheelchair": "yes"
+      },
+      "source": {
+        "id": "osm:node:1886283112",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/1886283112",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1698522331000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:1886283112"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:1973619896",
+      "name": "昭和シェル",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7040368,
+        "latitude": 35.6848723
+      },
+      "tags": {
+        "addr:block_number": "28",
+        "addr:city": "渋谷区",
+        "addr:neighbourhood": "千駄ヶ谷五丁目",
+        "addr:postcode": "151-0051",
+        "addr:province": "東京都",
+        "amenity": "fuel",
+        "branch": "セルフ高島屋前SS",
+        "brand": "シェル",
+        "brand:en": "Shell",
+        "brand:ja": "シェル",
+        "brand:wikidata": "Q110716465",
+        "brand:wikipedia": "en:Showa Shell Sekiyu",
+        "fax": "+81-3-33542473",
+        "fuel:diesel": "yes",
+        "fuel:octane_91": "yes",
+        "fuel:octane_98": "yes",
+        "kerosene": "yes",
+        "level": "0",
+        "name": "昭和シェル",
+        "name:en": "Showa Shell Sekiyu",
+        "name:ja": "昭和シェル",
+        "name:ja_rm": "Showa Sheru",
+        "opening_hours": "24/7",
+        "operator": "ヤマヒロ",
+        "payment:cash": "yes",
+        "phone": "+81-3-33541951",
+        "source": "Bing 2010;(URL)",
+        "website": "http://www.showa-shell.co.jp/"
+      },
+      "source": {
+        "id": "osm:node:1973619896",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/1973619896",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1752967099000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:1973619896"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2137167846",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.697303,
+        "latitude": 35.687262
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2137167846",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2137167846",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1359717759000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2137167846"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2137169310",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.6985376,
+        "latitude": 35.6879699
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2137169310",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2137169310",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1424925030000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2137169310"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2146027209",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.6988448,
+        "latitude": 35.6880265
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2146027209",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2146027209",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1424925029000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2146027209"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2195523213",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.697021,
+        "latitude": 35.687221
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2195523213",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2195523213",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1363000122000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2195523213"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2209622492",
+      "name": "ENEOS高樹町SS",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7151447,
+        "latitude": 35.6587343
+      },
+      "tags": {
+        "amenity": "fuel",
+        "atm": "no",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "car_wash": "yes",
+        "name": "ENEOS高樹町SS",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス"
+      },
+      "source": {
+        "id": "osm:node:2209622492",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2209622492",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1756883196000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2209622492"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2209725963",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.692684,
+        "latitude": 35.684731
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2209725963",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2209725963",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1363692879000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2209725963"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2212625414",
+      "name": "二輪車店（名称未登録）",
+      "category": "motorcycle_shop",
+      "position": {
+        "longitude": 139.706699,
+        "latitude": 35.658012
+      },
+      "tags": {
+        "shop": "motorcycle"
+      },
+      "source": {
+        "id": "osm:node:2212625414",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2212625414",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1363857064000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2212625414"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2282509700",
+      "name": "出光",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7289175,
+        "latitude": 35.6656854
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "出光",
+        "brand:en": "Idemitsu",
+        "brand:ja": "出光",
+        "brand:wikidata": "Q2216770",
+        "name": "出光",
+        "name:en": "Idemitsu",
+        "name:ja": "出光",
+        "source": "image,2013-04;Bing"
+      },
+      "source": {
+        "id": "osm:node:2282509700",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2282509700",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1747793568000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2282509700"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2371741850",
+      "name": "エネオス",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.6918538,
+        "latitude": 35.6868506
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "brand:wikipedia": "en:JXTG Nippon Oil & Energy",
+        "name": "エネオス",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス",
+        "name:ja_rm": "Eneosu",
+        "wheelchair": "yes"
+      },
+      "source": {
+        "id": "osm:node:2371741850",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2371741850",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1762676877000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2371741850"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2637894172",
+      "name": "エネオス",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.6922142,
+        "latitude": 35.66701
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "brand:wikipedia": "en:JXTG Nippon Oil & Energy",
+        "construction:amenity": "fuel",
+        "name": "エネオス",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス",
+        "name:ja_rm": "Eneosu",
+        "source": "image,2014-01;Bing"
+      },
+      "source": {
+        "id": "osm:node:2637894172",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2637894172",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1684943119000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2637894172"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2779523194",
+      "name": "出光",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7187688,
+        "latitude": 35.6678023
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "出光",
+        "brand:en": "Idemitsu",
+        "brand:ja": "出光",
+        "brand:wikidata": "Q2216770",
+        "name": "出光",
+        "name:en": "IDEMITSU",
+        "name:ja": "出光",
+        "name:ja_rm": "Idemitsu",
+        "operator": "青山石油販売",
+        "source": "survey"
+      },
+      "source": {
+        "id": "osm:node:2779523194",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2779523194",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1756883196000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2779523194"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:2967372834",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.690641,
+        "latitude": 35.65804
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:2967372834",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/2967372834",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1405593276000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:2967372834"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:3058656210",
+      "name": "出光",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7223909,
+        "latitude": 35.6724833
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "出光",
+        "brand:en": "Idemitsu",
+        "brand:ja": "出光",
+        "brand:wikidata": "Q2216770",
+        "name": "出光",
+        "name:en": "Idemitsu Kosan",
+        "name:ja": "出光",
+        "source": "survey",
+        "wheelchair": "yes"
+      },
+      "source": {
+        "id": "osm:node:3058656210",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/3058656210",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1753678296000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:3058656210"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:3131008829",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.690499,
+        "latitude": 35.683627
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:3131008829",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/3131008829",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1413373003000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:3131008829"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:3606411358",
+      "name": "サイカパーク 渋谷区 北谷公園第１バイク駐車場",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.6997814,
+        "latitude": 35.6641003
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "covered": "no",
+        "name": "サイカパーク 渋谷区 北谷公園第１バイク駐車場",
+        "name:en": "Cyca Park",
+        "wheelchair": "no"
+      },
+      "source": {
+        "id": "osm:node:3606411358",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/3606411358",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1751522802000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:3606411358"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:3680831697",
+      "name": "Deus Ex Machina",
+      "category": "motorcycle_shop",
+      "position": {
+        "longitude": 139.7096762,
+        "latitude": 35.6717961
+      },
+      "tags": {
+        "addr:block_number": "29",
+        "addr:city": "神宮前",
+        "addr:housenumber": "5",
+        "addr:neighbourhood": "3",
+        "addr:province": "東京都",
+        "addr:quarter": "神宮前",
+        "addr:suburb": "渋谷区",
+        "amenity": "cafe",
+        "name": "Deus Ex Machina",
+        "name:en": "Deus Ex Machina",
+        "name:es": "Deus Ex Machina",
+        "name:ja": "Deus Ex Machina",
+        "name:ko": "Deus Ex Machina",
+        "outdoor_seating": "yes",
+        "shop": "motorcycle",
+        "smoking": "no",
+        "website": "https://deuscustoms.com/cafes/harajuku/"
+      },
+      "source": {
+        "id": "osm:node:3680831697",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/3680831697",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1778428407000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:3680831697"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:3897774078",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.7081997,
+        "latitude": 35.6634884
+      },
+      "tags": {
+        "amenity": "motorcycle_parking"
+      },
+      "source": {
+        "id": "osm:node:3897774078",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/3897774078",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1450426876000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:3897774078"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:5294958107",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.7088869,
+        "latitude": 35.6710646
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "capacity": "10"
+      },
+      "source": {
+        "id": "osm:node:5294958107",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/5294958107",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1513744993000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:5294958107"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:5928106485",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.6944771,
+        "latitude": 35.6600708
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "operator": "It’s a paid parking lot for cars, I couldn’t add it"
+      },
+      "source": {
+        "id": "osm:node:5928106485",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/5928106485",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1537854806000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:5928106485"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:6170148293",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.698302,
+        "latitude": 35.6812247
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "capacity": "3",
+        "covered": "no"
+      },
+      "source": {
+        "id": "osm:node:6170148293",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/6170148293",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1546075565000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:6170148293"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:6856536055",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.7056864,
+        "latitude": 35.6898859
+      },
+      "tags": {
+        "access": "yes",
+        "amenity": "motorcycle_parking",
+        "covered": "no",
+        "fee": "yes"
+      },
+      "source": {
+        "id": "osm:node:6856536055",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/6856536055",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1570422632000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:6856536055"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:7232557939",
+      "name": "TOKUTAKE",
+      "category": "motorcycle_shop",
+      "position": {
+        "longitude": 139.6919842,
+        "latitude": 35.6663124
+      },
+      "tags": {
+        "name": "TOKUTAKE",
+        "shop": "motorcycle"
+      },
+      "source": {
+        "id": "osm:node:7232557939",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/7232557939",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1582283265000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:7232557939"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:9364666128",
+      "name": "エネオス",
+      "category": "fuel",
+      "position": {
+        "longitude": 139.7151799,
+        "latitude": 35.658752
+      },
+      "tags": {
+        "amenity": "fuel",
+        "brand": "ENEOS",
+        "brand:en": "ENEOS",
+        "brand:ja": "エネオス",
+        "brand:wikidata": "Q1640290",
+        "brand:wikipedia": "en:Eneos",
+        "name": "エネオス",
+        "name:en": "ENEOS",
+        "name:ja": "エネオス"
+      },
+      "source": {
+        "id": "osm:node:9364666128",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/9364666128",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1756883196000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:9364666128"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:node:12311585312",
+      "name": "NTTル・パルク",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.7035092,
+        "latitude": 35.6511846
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "branch": "代官山バイク駐車場",
+        "brand": "NTTル・パルク",
+        "brand:en": "NTT LePerc",
+        "brand:ja": "NTTル・パルク",
+        "brand:wikidata": "Q11236111",
+        "fee": "yes",
+        "name": "NTTル・パルク",
+        "name:en": "NTT LePerc",
+        "name:ja": "NTTル・パルク",
+        "operator": "NTTル・パルク",
+        "operator:en": "NTT LePerc",
+        "operator:ja": "NTTル・パルク",
+        "operator:wikidata": "Q11236111"
+      },
+      "source": {
+        "id": "osm:node:12311585312",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/node/12311585312",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1730714124000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:node:12311585312"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:157400795",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.72287914999998,
+        "latitude": 35.6882897
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "source": "Bing",
+        "wheelchair": "yes"
+      },
+      "source": {
+        "id": "osm:way:157400795",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/157400795",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1751523231000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:way:157400795"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:258429236",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.69453905,
+        "latitude": 35.664702500000004
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "source": "image,2014-01;Bing"
+      },
+      "source": {
+        "id": "osm:way:258429236",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/258429236",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1390721145000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:way:258429236"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:335296751",
+      "name": "渋谷区神南1丁目月極バイク駐車場",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.70158205,
+        "latitude": 35.665026499999996
+      },
+      "tags": {
+        "access": "permissive",
+        "amenity": "motorcycle_parking",
+        "fee": "yes",
+        "name": "渋谷区神南1丁目月極バイク駐車場",
+        "name:en": "Shibuya-ku Jinnan 1 Monthly Motorbike Parking",
+        "parking": "surface"
+      },
+      "source": {
+        "id": "osm:way:335296751",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/335296751",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1476428203000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:way:335296751"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:541875140",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.70248375,
+        "latitude": 35.68830025
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "capacity": "32",
+        "covered": "no",
+        "parking": "surface",
+        "surface": "paving_stones"
+      },
+      "source": {
+        "id": "osm:way:541875140",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/541875140",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1696903596000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:way:541875140"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:570603154",
+      "name": "二輪駐車場（名称未登録）",
+      "category": "motorcycle_parking",
+      "position": {
+        "longitude": 139.70305869999999,
+        "latitude": 35.683878050000004
+      },
+      "tags": {
+        "amenity": "motorcycle_parking",
+        "fee": "yes",
+        "opening_hours": "Sa-Su 00:00-24:00",
+        "parking": "surface",
+        "source": "survey",
+        "supervised": "no"
+      },
+      "source": {
+        "id": "osm:way:570603154",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/570603154",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1521359352000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "車種別の明示的な許可情報がありません。利用可能とは断定しません。",
+        "sourceRefs": [
+          "osm:way:570603154"
+        ],
+        "checkedAt": 1789440399534
+      }
+    }
+  ],
+  "roadExamples": [
+    {
+      "id": "osm:way:23335324",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            139.7211224,
+            35.6796115
+          ],
+          [
+            139.7206026,
+            35.6796654
+          ],
+          [
+            139.7205138,
+            35.6796735
+          ],
+          [
+            139.7204378,
+            35.6796721
+          ],
+          [
+            139.7203664,
+            35.6796596
+          ],
+          [
+            139.7202999,
+            35.6796373
+          ],
+          [
+            139.7202423,
+            35.6796036
+          ],
+          [
+            139.7201912,
+            35.6795554
+          ],
+          [
+            139.7201591,
+            35.6795133
+          ],
+          [
+            139.7201342,
+            35.6794694
+          ],
+          [
+            139.7201193,
+            35.679422
+          ],
+          [
+            139.7201146,
+            35.6793763
+          ],
+          [
+            139.7201182,
+            35.6793324
+          ],
+          [
+            139.7201271,
+            35.6792817
+          ],
+          [
+            139.7201559,
+            35.6791784
+          ]
+        ]
+      },
+      "tags": {
+        "bicycle": "no",
+        "bridge": "yes",
+        "destination": "北青山",
+        "destination:en": "Kita-aoyama",
+        "foot": "no",
+        "hgv:conditional": "no @ (Sa 22:00-24:00; Su 00:00-07:00)",
+        "highway": "motorway_link",
+        "lanes": "1",
+        "layer": "1",
+        "lit": "yes",
+        "maxspeed": "40",
+        "motorcar": "designated",
+        "motorcycle": "designated",
+        "name": "外苑出口",
+        "oneway": "yes",
+        "ref": "4",
+        "smoothness": "excellent",
+        "source": "Bing 2012",
+        "surface": "paved",
+        "toll": "yes"
+      },
+      "source": {
+        "id": "osm:way:23335324",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/23335324",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1768521866000
+      },
+      "vehicleAssessment": {
+        "status": "ineligible",
+        "reason": "高速道路を使わない設定に適合しません。",
+        "sourceRefs": [
+          "osm:way:23335324"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:23811631",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            139.7046917,
+            35.6580679
+          ],
+          [
+            139.7046811,
+            35.658186
+          ],
+          [
+            139.7047137,
+            35.6582687
+          ],
+          [
+            139.7047655,
+            35.6583359
+          ]
+        ]
+      },
+      "tags": {
+        "access": "no",
+        "highway": "secondary_link",
+        "oneway": "yes",
+        "ref": "412"
+      },
+      "source": {
+        "id": "osm:way:23811631",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/23811631",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1701683342000
+      },
+      "vehicleAssessment": {
+        "status": "ineligible",
+        "reason": "公開タグの通行・利用制限に該当します。",
+        "sourceRefs": [
+          "osm:way:23811631"
+        ],
+        "checkedAt": 1789440399534
+      }
+    },
+    {
+      "id": "osm:way:670733039",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            139.7142236,
+            35.6878086
+          ],
+          [
+            139.7142485,
+            35.6878773
+          ]
+        ]
+      },
+      "tags": {
+        "crossing": "marked",
+        "crossing:markings": "yes",
+        "footway": "crossing",
+        "highway": "footway",
+        "lit": "yes",
+        "motor_vehicle": "no",
+        "motor_vehicle:conditional": "yes @ (20:00-08:00)"
+      },
+      "source": {
+        "id": "osm:way:670733039",
+        "name": "OpenStreetMap / Overpass",
+        "url": "https://www.openstreetmap.org/way/670733039",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789440399534,
+        "updatedAt": 1763355897000
+      },
+      "vehicleAssessment": {
+        "status": "unknown",
+        "reason": "時間・方向・車種の追加条件があり、通行可否は未確認です。",
+        "sourceRefs": [
+          "osm:way:670733039"
+        ],
+        "checkedAt": 1789440399534
+      }
+    }
+  ]
+}
