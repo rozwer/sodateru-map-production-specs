@@ -1,0 +1,85 @@
+[
+  {
+    "phase": "selected",
+    "time": "2026-09-15T03:16:54.497Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 3,
+    "visibility": "selected",
+    "sharedWith": [
+      "friends-live-bob"
+    ],
+    "friendships": [
+      {
+        "id": "c6caf696-f0d2-49a4-b458-0fb3ec8fcbd2",
+        "status": "accepted",
+        "version": 2
+      }
+    ],
+    "viewerRecordCount": 1,
+    "viewerDetailStatus": 200,
+    "viewerMediaStatus": 200,
+    "viewerMediaBytes": 68
+  },
+  {
+    "phase": "restart",
+    "time": "2026-09-15T03:17:01.269Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 3,
+    "visibility": "selected",
+    "sharedWith": [
+      "friends-live-bob"
+    ],
+    "friendships": [
+      {
+        "id": "c6caf696-f0d2-49a4-b458-0fb3ec8fcbd2",
+        "status": "accepted",
+        "version": 2
+      }
+    ],
+    "viewerRecordCount": 1,
+    "viewerDetailStatus": 200,
+    "viewerMediaStatus": 200,
+    "viewerMediaBytes": 68
+  },
+  {
+    "phase": "unlinked",
+    "time": "2026-09-15T03:17:22.456Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 3,
+    "visibility": "selected",
+    "sharedWith": [
+      "friends-live-bob"
+    ],
+    "friendships": [],
+    "viewerRecordCount": 1,
+    "viewerDetailStatus": 200,
+    "viewerMediaStatus": 200,
+    "viewerMediaBytes": 68
+  },
+  {
+    "phase": "public",
+    "time": "2026-09-15T03:17:44.663Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 4,
+    "visibility": "public",
+    "sharedWith": [],
+    "friendships": [],
+    "viewerRecordCount": 1,
+    "viewerDetailStatus": 200,
+    "viewerMediaStatus": 200,
+    "viewerMediaBytes": 68
+  },
+  {
+    "phase": "private",
+    "time": "2026-09-15T03:18:06.239Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 5,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": [],
+    "viewerRecordCount": 0,
+    "viewerDetailStatus": 404,
+    "viewerMediaStatus": 404,
+    "viewerMediaBytes": 0
+  }
+]

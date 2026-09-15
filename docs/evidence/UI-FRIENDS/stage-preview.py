@@ -14,3 +14,21 @@ if not (qa / 'node_modules').exists():
 (qa / 'index.html').write_text('<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>UI-FRIENDS 視覚確認・テスト応答</title></head><body><div id="root"></div><script type="module" src="/docs/evidence/UI-FRIENDS/fixture.tsx"></script></body></html>')
 (qa / 'vite.config.mjs').write_text("import {defineConfig} from 'vite'; export default defineConfig({envDir:'/Users/roz/.codex/worktrees/ui-friends-14',esbuild:{jsx:'automatic'},server:{host:'127.0.0.1',port:5214,strictPort:true}})")
 print(qa)
+
+# Preview only: use the provider's exact shared-theme contract while CORE generation is pending.
+import json, subprocess
+api_source = repo / 'docs/01_requirements/04_api'
+api_stage = qa / 'docs/01_requirements/04_api'
+(api_stage / 'tools').mkdir(parents=True, exist_ok=True)
+spec = json.loads((api_source / 'openapi.json').read_text())
+fragment = json.loads(subprocess.check_output(['git', 'show', 'origin/koshiro/22-community-api:docs/01_requirements/04_api/fragments/COMMUNITY.json'], cwd=repo))
+if 'CommunitySharedTheme' not in spec['components']['schemas']:
+    spec['components']['schemas'].update(fragment['schemas'])
+    for operation in fragment['operations']:
+        if not operation['path'].startswith('/shared-themes'): continue
+        entry = operation.copy()
+        method, path = entry.pop('method'), entry.pop('path')
+        spec['paths'].setdefault(path, {})[method] = entry
+    (api_stage / 'openapi.json').write_text(json.dumps(spec))
+    shutil.copy2(api_source / 'tools/generate-client.mjs', api_stage / 'tools/generate-client.mjs')
+    subprocess.run(['node', str(api_stage / 'tools/generate-client.mjs')], check=True)
