@@ -14,7 +14,7 @@ import { TransferError } from './types.ts';
 import type { Recipe, PlanSet, Variant } from './types.ts';
 import { recipeInput, planInput } from './validation.ts';
 
-type Factory = (db:DatabaseSync,context:RequestContext)=>Dependencies;
+type Factory = (db:DatabaseSync,context:RequestContext)=>Dependencies|Promise<Dependencies>;
 async function guarded<T>(fn:()=>Promise<T>): Promise<T> {
   try { return await fn(); }
   catch(error) {
@@ -33,12 +33,12 @@ function saved(value:Recipe|PlanSet,status=200):StoredResult {
 export function createTransferFeature(factory:Factory,onRegister?:()=>void) {
   return defineFeature({id:'transfer',migrations:[transferMigration],register(api,services) {
     onRegister?.();
-    const bindings=(c:HonoContext<CoreEnv>)=>{
-      const db=c.get('db'),context=c.get('context'),store=new TransferStore(db),deps=factory(db,context);
+    const bindings=async (c:HonoContext<CoreEnv>)=>{
+      const db=c.get('db'),context=c.get('context'),store=new TransferStore(db),deps=await factory(db,context);
       return {db,context,store,deps,service:new TransferService(store,context,deps)};
     };
     api.post('/transfer/recipes',c=>guarded(async()=>{
-      const {db,context,store,deps}=bindings(c);
+      const {db,context,store,deps}=await bindings(c);
       const input=recipeInput(c.get('input').body);
       await deps.assertSources(input.sourceRefs);
       const materials=await deps.sourceMaterials(input.sourceRefs);
@@ -49,14 +49,14 @@ export function createTransferFeature(factory:Factory,onRegister?:()=>void) {
       return response(c,(result.body as {data:Recipe}).data,result.status as ContentfulStatusCode);
     }));
     api.get('/transfer/recipes',c=>guarded(async()=>{
-      const {store,context,deps}=bindings(c);
+      const {store,context,deps}=await bindings(c);
       const items=store.listRecipes(context.personId);
       for(const item of items)await deps.assertSources(item.sourceRefs);
       return c.json({data:{items}});
     }));
-    api.get('/transfer/recipes/:recipeId',c=>guarded(async()=>response(c,await bindings(c).service.getRecipe(c.req.param('recipeId')))));
+    api.get('/transfer/recipes/:recipeId',c=>guarded(async()=>response(c,await (await bindings(c)).service.getRecipe(c.req.param('recipeId')))));
     api.patch('/transfer/recipes/:recipeId',c=>guarded(async()=>{
-      const {db,context,store,deps}=bindings(c),input=recipeInput(c.get('input').body);
+      const {db,context,store,deps}=await bindings(c),input=recipeInput(c.get('input').body);
       await deps.assertSources(input.sourceRefs);const materials=await deps.sourceMaterials(input.sourceRefs);
       return response(c,services.transaction(db,()=>{
         deps.assertSourcesNow(materials.sourceRefs);
@@ -64,7 +64,7 @@ export function createTransferFeature(factory:Factory,onRegister?:()=>void) {
       }));
     }));
     api.post('/transfer/plan-sets',c=>guarded(async()=>{
-      const {db,context,store,deps,service}=bindings(c),input=planInput(c.get('input').body);
+      const {db,context,store,deps,service}=await bindings(c),input=planInput(c.get('input').body);
       const recipe=await service.getRecipe(input.recipeId);
       const result=idempotentMutation(db,{context,operation:'POST /api/v1/transfer/plan-sets',key:idempotencyKey(c.req.header('Idempotency-Key')),input},{
         execute(){
@@ -79,18 +79,18 @@ export function createTransferFeature(factory:Factory,onRegister?:()=>void) {
       return response(c,plan,202);
     }));
     api.get('/transfer/plan-sets',c=>guarded(async()=>{
-      const {store,context,deps}=bindings(c),items=store.listPlans(context.personId);
+      const {store,context,deps}=await bindings(c),items=store.listPlans(context.personId);
       for(const item of items)await deps.assertSources(item.sourceRefs);
       return c.json({data:{items}});
     }));
     api.get('/transfer/plan-sets/:planSetId',c=>guarded(async()=>{
-      const {store,context,service}=bindings(c),id=c.req.param('planSetId');
+      const {store,context,service}=await bindings(c),id=c.req.param('planSetId');
       const plan=store.getPlan(context.personId,id);
       if(plan.status==='pending')await service.createPlan(planInput(plan));
       return response(c,await service.getPlan(id));
     }));
     api.post('/transfer/plan-sets/:planSetId/adoption',c=>guarded(async()=>{
-      const {db,context,service}=bindings(c),id=c.req.param('planSetId');
+      const {db,context,service}=await bindings(c),id=c.req.param('planSetId');
       const variant=(c.get('input').body as {variant:Variant}).variant;
       const version=expectedVersion(c.req.header('If-Match'));
       await service.getPlan(id);
