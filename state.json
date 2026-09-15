@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 174,
+  "revision": 175,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34019,18 +34019,13 @@
       "base_commit": "68c44d10b423a1d2e69c5d3a1b43fdfdca286beb",
       "generation": 1,
       "issue_number": 109,
-      "landed_main": null,
+      "landed_main": "537a15cc275b41ec98c1d25b9558ef9845fdcb07",
       "note": "docs/evidence/TRANSFER/integration-acceptance.md",
       "owner": "mattsun",
-      "paths": [
-        "server/features/transfer/",
-        "server/db/migrations/transfer/",
-        "docs/01_requirements/04_api/fragments/TRANSFER.json",
-        "docs/evidence/TRANSFER/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "7e91cdc9c1079fde97f985142712922a682440be",
-      "token": "973244faff1744d9a706e7f51715c07b"
+      "token": null
     },
     "UI-BASE": {
       "actor": null,
