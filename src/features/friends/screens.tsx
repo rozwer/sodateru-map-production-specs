@@ -1266,13 +1266,13 @@ export const screens: ScreenDefinition[] = [
     id: "community-home",
     title: "みんなを知る",
     component: CommunityHome,
-    layout: { header: "none", contentPadding: "none", background: "soft" },
+    layout: { presentation: "fullscreen", header: "none", contentPadding: "none", background: "soft" },
   },
   {
     id: "friends-map",
     title: "友達の地図",
     component: FriendsMap,
-    layout: { header: "none", contentPadding: "none", background: "soft" },
+    layout: { presentation: "fullscreen", header: "none", contentPadding: "none", background: "soft" },
   },
   {
     id: "friend-profile",
