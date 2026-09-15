@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 73,
+  "revision": 74,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4483,23 +4483,17 @@
       "token": "c44c11d3cb54496f852602b24271632e"
     },
     "AI": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 7,
       "landed_main": null,
-      "note": null,
+      "note": "AI author baseline refresh after merged develop; preserve worktree /Users/kmattsun/.codex/worktrees/c667/ai-7 and all staged work; immediate same-author reclaim per commander",
       "owner": "mattsun",
-      "paths": [
-        "server/ai/",
-        "server/features/conversations/",
-        "server/db/migrations/ai/",
-        "docs/01_requirements/04_api/fragments/AI.json",
-        "docs/evidence/AI/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "8aeb9fac755e411c92950b74a97f306a"
+      "token": null
     },
     "BIKE": {
       "actor": "kaiya",
