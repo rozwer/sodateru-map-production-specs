@@ -51,3 +51,11 @@ mise exec -- bunx vite --config docs/evidence/UI-INSIGHTS/preview/vite.config.ts
 - `http://127.0.0.1:5178/docs/evidence/UI-INSIGHTS/preview/shell.html#/theme-edit`：共通枠への組込照合。**保存ボタンはAPIへ送信しない**。
 
 本番入口はUI-BASEが各featureのscreens.tsxを自動登録する。preview/fixturesは本番入口からimportしない。
+
+## 緊急統合の追加差分（2026-09-15 12:24）
+
+先行PR #69はdevelop統合済み。UI-BASE PR81の正式layoutを適用し、全5画面をcontentPadding:noneへ変更。診断だけheader:noneと既存意匠の戻る行を使い、中央タイトルの重複を解消した。共通ファイルは変更していない。
+
+390pxの共通Shellでテーマ入力左端29px（修正前49px）、本文padding-left 0px、幅390pxを確認。診断の見出し1件・戻る1件をAXで確認。新規の共通Shell fixture strictチェック成功。成功済み検査は反復していない。証拠 `screenshots/theme-edit-shell-padding-fixed-390.png`。上記残件3の二重余白/見出しは本差分で解消。
+
+接続残件は#72の正式CONNECT移管対象。5軸DTO/生成型と実API、同一本人/mode/DBでの保存→再取得→地図絞込は未確認のまま保持。QA5173での統合後の5画面目視は組込み担当#98へ引継ぐ。UIの全受入完了はまだ宣言せず、#72の反映確認と残る目視結果をもって通常finishを判断する。
