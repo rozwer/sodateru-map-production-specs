@@ -14,3 +14,7 @@
 - 初回API/ブラウザ往復中に共有配信切替を挟み、セッション再開始を要した。再読込受入は固定commitで未確認。
 - 次差分: 建物選択→名前入力→場所保存、施設ピンから詳細へ遷移、安定ID取得不能/成長取得失敗の明示、同一mapでstyle再読込、#223表示storeのPNG/欠測接続。
 - 対象strict TypeScript検査PASS（MapRenderer/MapScene/map screensと依存、vite/client,node）。Vite build PASS。
+
+## 最終接続と収束
+PR #251に場所登録/施設ピン詳細/取得失敗区別/同一map style再読込/防災storeを統合。#228通知を同scopeで購読し、最新growth全ページへ差し替える。#250防災hydrateは常駐MapRendererだけtrueで呼ぶ。施設詳細にcandidate/confirmed/rejected訪問の確認入口を追加し、記録画面から戻っても同じ場所ならcameraをfocusし直さない。共通canvas CSS詳細度の競合を修復。
+ユーザーの収束指示により追加探索を終了し、未実施9受入は未達として最終QAへ渡す。全体型検査既存エラーは残り、完了扱いにはしない。
