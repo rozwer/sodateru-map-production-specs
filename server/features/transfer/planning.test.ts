@@ -48,4 +48,6 @@ test('an unchecked required condition cannot become an adoptable plan', () => {
   const fabricated=structuredClone(result);
   for(const plan of fabricated.plans)plan.conditionChecks=[{condition:'静かな場所',status:'satisfied',explanation:'静か',evidenceIds:['src_1']}];
   assert.throws(() => validateProposal(fabricated, required, candidates, evidence), { code:'OUTPUT_INVALID' });
+  for(const plan of fabricated.plans)plan.conditionChecks[0]!.evidenceIds=['old_place'];
+  assert.throws(() => validateProposal(fabricated, required, candidates, [...evidence,{id:'old_place',sourceRef:{type:'place',id:'original-place',version:1}}]), { code:'OUTPUT_INVALID' });
 });

@@ -7,9 +7,11 @@ import { TransferError } from './types.ts';
 import type { Materials } from './service.ts';
 import type { ModelResult } from './types.ts';
 
+let registered = false;
 export function registerTransferAiTask(): void {
+  if (registered) return;
   registerAiTask({
-    task:'transfer',promptVersion:'transfer-v1',inputSchema:transferInputSchema,outputSchema:transferOutputSchema,
+    task:'transfer',promptVersion:'transfer-v1',permissionScope:{records:true,location:true},inputSchema:transferInputSchema,outputSchema:transferOutputSchema,
     readMaterials(db,context,input) {
       const store = new TransferStore(db);
       const planSet = store.getPlan(context.personId,(input as {planSetId:string}).planSetId);
@@ -26,4 +28,5 @@ export function registerTransferAiTask(): void {
     },
     toBody(result) { return (result as ModelResult).plans.map(p=>`${p.variant==='faithful'?'元体験に忠実な案':'本人向けの案'}: ${p.explanation}`).join('\n'); },
   });
+  registered = true;
 }

@@ -14,10 +14,14 @@ export function validateProposal(raw: unknown, recipe: Recipe, candidates: Candi
   const places = new Map(candidates.map(c => [c.placeId, c]));
   const sources = new Map(evidence.map(e => [e.id, e.sourceRef]));
   for (const plan of result.plans) {
+    const destinationIds = new Set(plan.steps.flatMap(step => step.placeId === null ? [] : [step.placeId]));
     if (plan.conditionChecks.length !== recipe.requiredConditions.length || plan.conditionChecks.some((c,i) => c.condition !== recipe.requiredConditions[i])) bad('必須条件をすべて同じ順序で評価してください');
     for (const check of plan.conditionChecks) {
       if (check.evidenceIds.some(id => !sources.has(id))) bad('条件評価に入力にない引用があります');
-      if (check.status === 'satisfied' && !check.evidenceIds.some(id => sources.get(id)?.type === 'place')) bad('移転先の条件を満たす根拠がありません');
+      if (check.status === 'satisfied' && !check.evidenceIds.some(id => {
+        const ref = sources.get(id);
+        return ref?.type === 'place' && destinationIds.has(ref.id);
+      })) bad('選択した移転先の条件を満たす根拠がありません');
     }
     if (plan.steps.length !== recipe.steps.length) bad('元stepごとの対応が必要です');
     const chosen = new Set<string>();
