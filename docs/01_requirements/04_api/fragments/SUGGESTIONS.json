@@ -1,6 +1,6 @@
 {
   "taskId": "SUGGESTIONS",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "replaceSchemas": [
     "CheckinAnswers",
     "SelfCheckinCreate",
@@ -10,7 +10,8 @@
     "Suggestion",
     "SuggestionBatchInput",
     "SuggestionBatch",
-    "SuggestionPatch"
+    "SuggestionPatch",
+    "SuggestionPage"
   ],
   "schemas": {
     "CheckinAnswers": {
@@ -289,6 +290,10 @@
           "minimum": 1,
           "maximum": 1440,
           "description": "User specified activity duration; never inferred from the overall budget"
+        },
+        "state": {
+          "type": "string",
+          "maxLength": 10000
         }
       },
       "required": [],
@@ -507,6 +512,9 @@
             "sourceUrl": {
               "type": "string",
               "format": "uri"
+            },
+            "basis": {
+              "type": "string"
             }
           }
         },
@@ -546,6 +554,39 @@
           "items": {
             "type": "string"
           }
+        },
+        "routeEvidence": {
+          "$ref": "#/components/schemas/CommonMapRoutePreview"
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "generator": {
+          "type": "object",
+          "required": [
+            "model",
+            "promptVersion"
+          ],
+          "properties": {
+            "model": {
+              "type": "string"
+            },
+            "promptVersion": {
+              "type": "string"
+            }
+          }
+        },
+        "viewedAt": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "description": "最初に詳細を実際に閲覧した時刻。表示・選択とは独立。"
         }
       },
       "required": [
@@ -727,6 +768,11 @@
         "memo": {
           "type": "string",
           "maxLength": 10000
+        },
+        "viewed": {
+          "type": "boolean",
+          "const": true,
+          "description": "詳細が実際に表示された時に送信。最初の閲覧時刻だけ保存。"
         }
       },
       "required": [],
@@ -792,6 +838,48 @@
           }
         }
       }
+    },
+    "SuggestionPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Suggestion"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "emptyReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expiresAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/SuggestionConditions"
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
     }
   },
   "operations": [

@@ -17,7 +17,9 @@ export function normalizeConditions(input = {}) {
   const effort=oneOf(input.effort ?? null,[null,'easy','moderate','any'],'effort');
   const wishes=input.wishes ?? [];
   if (!Array.isArray(wishes) || wishes.length>100 || wishes.some(w=>typeof w!=='string'||!w.trim()||w.length>200)||new Set(wishes).size!==wishes.length) fail('VALIDATION_FAILED','Invalid wishes');
-  return {...input,timeBudget:{...timeBudget},mode,companion,effort,wishes:[...wishes]};
+  const normalized={...input,timeBudget:{...timeBudget},mode,companion,effort,wishes:[...wishes]};
+  if(timeBudget.kind!=='exact')delete normalized.minutes;
+  return normalized;
 }
 
 // Candidate inputs come from shared providers; never manufacture durations or evidence.
@@ -26,7 +28,7 @@ export function rankCandidates(candidates, input, now) {
   const results=[];
   for (const candidate of candidates) {
     if (candidate.expiresAt <= now) continue;
-    const evaluations=(candidate.evaluations ?? []).map(e=>({...e}));
+    const evaluations=(candidate.evaluations ?? []).filter(e=>e.key!=='timeBudget').map(e=>({...e}));
     if (evaluations.some(e=>e.hard && e.status==='unmatched')) continue;
     const stay=candidate.stay;
     const evidencedStay=stay && validNumber(stay.minutes) && validNumber(stay.checkedAt) && stay.checkedAt<=now && (stay.kind==='user'||(stay.kind==='source' && (stay.sourceRefs?.length || stay.sourceUrl)));
@@ -78,9 +80,9 @@ export function changeSuggestion(row, patch, now, visit = null) {
   const completedVisitId=status==='completed'?(patch.completedVisitId ?? row.completedVisitId):null;
   if (status==='completed' && (!visit || visit.id!==completedVisitId || visit.personId!==row.personId || visit.placeId!==row.placeId || visit.status!=='confirmed')) fail('VALIDATION_FAILED','Completion requires a confirmed visit to this place by this person');
   if (patch.completedVisitId!=null && status!=='completed') fail('VALIDATION_FAILED','Visit can only be attached to completion');
-  if (patch.presented!==undefined && patch.presented!==true) fail('VALIDATION_FAILED','presented must be true');
+  for (const field of ['presented','viewed']) if (patch[field]!==undefined && patch[field]!==true) fail('VALIDATION_FAILED',field+' must be true');
   for (const field of ['feedback','memo']) if (patch[field]!==undefined && (typeof patch[field]!=='string'||patch[field].length>10000)) fail('VALIDATION_FAILED',`Invalid ${field}`);
-  const next={...row,status,completedVisitId,presentedAt:row.presentedAt??(patch.presented?now:null),selectedAt:row.selectedAt??(status==='selected'?now:null),feedback:patch.feedback??row.feedback,memo:patch.memo??row.memo,routeId:patch.routeId===undefined?row.routeId:patch.routeId};
+  const next={...row,status,completedVisitId,presentedAt:row.presentedAt??(patch.presented?now:null),viewedAt:row.viewedAt??(patch.viewed?now:null),selectedAt:row.selectedAt??(status==='selected'?now:null),feedback:patch.feedback??row.feedback,memo:patch.memo??row.memo,routeId:patch.routeId===undefined?row.routeId:patch.routeId};
   const changed=Object.keys(next).some(key=>next[key]!==row[key]);
   return changed?{...next,version:row.version+1,updatedAt:now}:next;
 }

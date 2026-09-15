@@ -37,7 +37,7 @@ test('local midnight includes timezone DST and limits use the earliest expiry', 
 });
 test('expired selection fails while completion cancellation and first timestamps survive', () => {
   assert.equal(typeof domain.changeSuggestion,'function');
-  const row={status:'offered',version:1,presentedAt:null,selectedAt:null,completedVisitId:null,expiresAt:now+1000,personId:'me',placeId:'a',feedback:'',memo:'',routeId:null};
+  const row={status:'offered',version:1,presentedAt:null,viewedAt:null,selectedAt:null,completedVisitId:null,expiresAt:now+1000,personId:'me',placeId:'a',feedback:'',memo:'',routeId:null};
   const selected=domain.changeSuggestion(row,{status:'selected',presented:true},now);
   assert.equal(selected.selectedAt,now);
   assert.equal(domain.changeSuggestion(selected,{status:'selected',presented:true},now+500).version,2);
@@ -45,4 +45,14 @@ test('expired selection fails while completion cancellation and first timestamps
   const complete=domain.changeSuggestion(selected,{status:'completed',completedVisitId:'v'},now+500,{id:'v',personId:'me',placeId:'a',status:'confirmed'});
   assert.equal(domain.changeSuggestion(complete,{status:'selected'},now+2000).completedVisitId,null);
   assert.throws(()=>domain.changeSuggestion(selected,{status:'completed',completedVisitId:'v'},now+500,{id:'v',personId:'other',placeId:'a',status:'confirmed'}),{code:'VALIDATION_FAILED'});
+});
+test('detail viewing is independent of presentation and selection and retains its first timestamp',()=>{
+  const row={status:'offered',version:1,presentedAt:null,viewedAt:null,selectedAt:null,completedVisitId:null,expiresAt:now+1000,personId:'me',placeId:'a',feedback:'',memo:'',routeId:null};
+  const viewed=domain.changeSuggestion(row,{viewed:true},now);
+  assert.equal(viewed.viewedAt,now);
+  assert.equal(viewed.presentedAt,null);
+  assert.equal(viewed.selectedAt,null);
+  assert.equal(viewed.status,'offered');
+  assert.equal(domain.changeSuggestion(viewed,{viewed:true},now+1).version,2);
+  assert.throws(()=>domain.changeSuggestion(row,{viewed:false},now),{code:'VALIDATION_FAILED'});
 });
