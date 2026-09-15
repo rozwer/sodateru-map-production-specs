@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 193,
+  "revision": 194,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34418,7 +34418,7 @@
       "generation": 1,
       "issue_number": 172,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/VISUAL-SHELL/screens.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -34426,8 +34426,8 @@
         "src/messages.ts",
         "docs/evidence/VISUAL-SHELL/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "bea2b70eec48a2c7f8339391436d04c6bb8510eb",
       "token": "3e9057fe567a4c0b83bfe17ee50f9593"
     },
     "VISUAL-SOCIAL": {
