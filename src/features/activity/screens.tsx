@@ -146,7 +146,7 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
 }
 
 export const screens:ScreenDefinition[]=[
- {id:'visit-confirm',title:'訪問の確認',component:withRecordMediaScope(VisitScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
- {id:'growth-result',title:'体験で地図が育った',component:withRecordMediaScope(GrowthScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
- {id:'daily-track',title:'今日の軌跡',component:withRecordMediaScope(DailyScreen),layout:{header:'none',contentPadding:'none',bottomNav:true}},
+ {id:'visit-confirm',title:'訪問の確認',component:withRecordMediaScope(VisitScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'growth-result',title:'体験で地図が育った',component:withRecordMediaScope(GrowthScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'daily-track',title:'今日の軌跡',component:withRecordMediaScope(DailyScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:true}},
 ];

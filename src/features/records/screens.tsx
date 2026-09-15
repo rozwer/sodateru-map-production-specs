@@ -53,8 +53,8 @@ function DeleteScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {
 }
 
 export const screens:ScreenDefinition[]=[
- {id:'record-create',title:'体験を残す',component:withRecordMediaScope(CreateRecordScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
- {id:'record-edit',title:'体験を編集',component:withRecordMediaScope(EditRecordScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
- {id:'interpretation-correction',title:'解釈を訂正',component:withRecordMediaScope(CorrectionScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
- {id:'record-delete',title:'記録を削除',component:withRecordMediaScope(DeleteScreen),layout:{header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'record-create',title:'体験を残す',component:withRecordMediaScope(CreateRecordScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'record-edit',title:'体験を編集',component:withRecordMediaScope(EditRecordScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'interpretation-correction',title:'解釈を訂正',component:withRecordMediaScope(CorrectionScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'record-delete',title:'記録を削除',component:withRecordMediaScope(DeleteScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
 ];

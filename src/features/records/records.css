@@ -143,6 +143,7 @@
 
 .records-correction, .records-delete { background: #fbfefe; }
 .records-correction .records-body { gap: 22px; padding-top: 14px; }
+.records-correction .records-section-title { text-wrap: balance; }
 .records-section-title { color: #073b43; font-size: 24px; font-weight: 700; line-height: 1.45; }
 .records-section-lead { color: #57758b; font-size: 13px; margin-top: 5px !important; }
 .records-original-card { background: white; border: 1px solid #eef4f5; border-radius: 20px; box-shadow: 0 3px 12px #1d4b5610; padding: 14px; }
