@@ -1,3 +1,4 @@
+import { ToeiDirectBusProvider, type ToeiOptions } from './toei.ts';
 import { ValhallaMotorbikeProvider, type MotorbikeOptions } from './motorbike.ts';
 import type { DatabaseSync } from 'node:sqlite';
 import { transaction } from '../../db/migrate.ts';
@@ -21,3 +22,9 @@ export function createMotorbikeRoutesService(db: DatabaseSync, options: Motorbik
   return new RoutesService(db, run => transaction(db, run), new ValhallaMotorbikeProvider(process.env.ROUTES_VALHALLA_URL ?? 'https://valhalla1.openstreetmap.de/route', options), placesBoundary(db));
 }
 export type { MotorbikeOptions } from './motorbike.ts';
+
+export function createDirectBusRoutesService(db: DatabaseSync, options: ToeiOptions): RoutesService {
+  return new RoutesService(db, run => transaction(db, run), new ToeiDirectBusProvider(options), placesBoundary(db));
+}
+export { searchToeiBusStops } from './toei.ts';
+export type { ToeiOptions, TransitEvidence } from './toei.ts';

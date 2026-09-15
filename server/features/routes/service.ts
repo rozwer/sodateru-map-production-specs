@@ -59,8 +59,8 @@ export class RoutesService {
     return this.calculate(context, input, true);
   }
   private async calculate(context: RequestContext, input: RouteInput, compare: boolean): Promise<RoutePreview[]> {
-    validateRouteInput(input, this.provider.drivingTimeConditions); cancelled(context);
-    if (input.mode !== 'walking' && input.mode !== 'driving' && input.mode !== 'cycling') throw new RouteFault('MODE_UNSUPPORTED', 'この道路契約で未対応の移動手段です', 501);
+    validateRouteInput(input, this.provider.drivingTimeConditions || this.provider.supportsTransit); cancelled(context);
+    if (input.mode !== 'walking' && input.mode !== 'driving' && input.mode !== 'cycling' && !(input.mode === 'transit' && this.provider.supportsTransit)) throw new RouteFault('MODE_UNSUPPORTED', 'この道路契約で未対応の移動手段です', 501);
     const references: unknown[] = [];
     let retention: 'storable' | 'temporary' = 'storable';
     const waypoints = input.waypoints.map(w => {
@@ -115,7 +115,7 @@ export class RoutesService {
   }
   private storedValues(p: RoutePreview) {
     const points = p.waypoints.map(w => ({ lng: w.coordinates[0], lat: w.coordinates[1], name: w.name, ...(w.placeId ? { placeId: w.placeId } : {}) }));
-    const route = { ...(p.segmentEvidence ? {segmentEvidence:p.segmentEvidence} : {}), ...(p.timing ? {timing:p.timing} : {}), ...(p.providerEvidence ? {providerEvidence:p.providerEvidence} : {}), ...(p.requestedConditions ? { requestedConditions: p.requestedConditions, conditionEvaluations: p.conditionEvaluations } : {}), mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
+    const route = { ...(p.transitEvidence ? {transitEvidence:p.transitEvidence} : {}), ...(p.segmentEvidence ? {segmentEvidence:p.segmentEvidence} : {}), ...(p.timing ? {timing:p.timing} : {}), ...(p.providerEvidence ? {providerEvidence:p.providerEvidence} : {}), ...(p.requestedConditions ? { requestedConditions: p.requestedConditions, conditionEvaluations: p.conditionEvaluations } : {}), mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
     return [JSON.stringify(points), JSON.stringify(route), p.distanceM, p.durationSec, p.provider, p.sourceUrl ?? sourceUrl, p.fetchedAt] as const;
   }
   getSavedRoute(context: RequestContext, id: string, own = false): SavedRoute {
