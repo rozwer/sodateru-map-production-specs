@@ -36,3 +36,13 @@ test('stopping during AI execution and provider errors do not become persisted e
     assert.throws(()=>store.getBatch('batch'),{code:'NOT_FOUND'});
   }finally{f.cleanup();}
 });
+test('current time condition overrides inherited legacy checkin minutes without changing its snapshot',async()=>{
+  const f=fixture();try {
+    const store=new SuggestionsRepository(f.db,'me',f.transaction);
+    store.createCheckin({id:'answer',localDate:input.localDate,timezone:input.timezone,validUntil:input.expiresAt,answers:{state:'calm',note:'',minutes:60}},now);
+    const result=await service.generateBatch(context,{...input,checkin:{type:'checkin',id:'answer',version:1},conditions:{...input.conditions,timeBudget:{kind:'atLeast',minutes:120}}},dependencies(store));
+    assert.deepEqual(result.conditions.timeBudget,{kind:'atLeast',minutes:120});
+    assert.equal(result.conditions.minutes,undefined);
+    assert.equal(result.items[0].checkinSnapshot.answers.minutes,60);
+  }finally{f.cleanup();}
+});

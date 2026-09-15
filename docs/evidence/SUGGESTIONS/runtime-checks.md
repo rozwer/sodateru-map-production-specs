@@ -18,7 +18,7 @@
 
 `node --test server/features/suggestions/domain.test.mjs server/features/suggestions/repository.test.mjs server/features/suggestions/generation.test.mjs server/features/suggestions/service.test.mjs`
 
-13件成功。60分条件の45分採用/75分除外、120分以上で150分保持、未知時間、希望優先、DST期限、独立閲覧時刻、回答訂正版、SQLite再open、本人分離、生成中停止、外部失敗を確認。serviceテストの外部API/AIは明示的なテストダブルであり、実provider証拠ではない。
+14件成功。60分条件の45分採用/75分除外、120分以上で150分保持、未知時間、希望優先、DST期限、独立閲覧時刻、回答訂正版、SQLite再open、本人分離、生成中停止、外部失敗を確認。旧60分回答から現在atLeast120条件への上書きは元snapshotを保ち互換minutesを除去する。serviceテストの外部API/AIは明示的なテストダブルであり、実provider証拠ではない。
 
 `node --experimental-transform-types --test server/features/suggestions/http.test.mjs`
 

@@ -19,7 +19,12 @@ export async function generateBatch(context,input,deps) {
   context.signal.throwIfAborted();
   const now=deps.now??Date.now;
   const checkin=deps.store.resolveCheckin(input.checkin,now());
-  const conditions=normalizeConditions({...checkin?.answers,...input.conditions});
+  const inherited={...checkin?.answers};
+  // Either current representation replaces the inherited time choice as a whole.
+  if(input.conditions?.timeBudget!==undefined||input.conditions?.minutes!==undefined) {
+    delete inherited.timeBudget;delete inherited.minutes;
+  }
+  const conditions=normalizeConditions({...inherited,...input.conditions});
   const timezone=input.timezone??checkin?.timezone;
   if(!timezone)fail('VALIDATION_FAILED','timezone is required for an unanswered request');
   const localDate=input.localDate??checkin?.localDate??localDateAt(now(),timezone);

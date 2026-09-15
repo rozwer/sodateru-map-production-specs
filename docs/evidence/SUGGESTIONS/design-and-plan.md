@@ -13,10 +13,10 @@ hard違反除外→現在希望一致数→確認適合数→合計時間→plac
 
 ## 実行順
 
-- [ ] domain.test.mjsを先に追加し60分45/75分判定、120以上、未知、順位、期限、遷移を確認。domain.mjs実装。
+- [x] domain.test.mjsを先に追加し60分45/75分判定、120以上、未知、順位、期限、遷移を確認。domain.mjs実装。
 - [ ] 固有migration/repositoryで回答版履歴・batch・候補・memo/操作状態保存。実SQLite再open、本人分離、再送/競合/訪問取消を検証。
 - [ ] CORE登録口・共通再送を使い既存9operationIdの実APIを登録。固有fragmentを#3へ提供。
 - [ ] AI/PLACES/ROUTES/INFORMATION/ACTIVITY/SETTINGSへ実接続。未提供を成功0件にしない。
 - [ ] 実HTTP→保存→再起動GET証拠と#15 UI受入、PR、独立レビュー、統合、board/lock/Issue終了。
 
-CORE/外部提供の統合commit・公開口は未着。共通処理を複製せず、固有処理とSQLを先行する。
+CORE runtimeはdevelop413598bから接続。実HTTP回答保存・再起動確認済。外部提供adapterは公開署名に接続し、実provider/UI/訪問取消結合は依存統合待ち。詳細はruntime-checks.md。
