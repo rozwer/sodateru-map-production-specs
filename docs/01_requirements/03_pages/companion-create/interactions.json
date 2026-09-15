@@ -1,0 +1,114 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--name",
+    "component": "main--name",
+    "from": "main",
+    "event": "change",
+    "effect": "名前（20文字）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--appearance",
+    "component": "main--appearance",
+    "from": "main",
+    "event": "change",
+    "effect": "外見の希望（200文字）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--image",
+    "component": "main--image",
+    "from": "main",
+    "event": "change",
+    "effect": "端末の選択/撮影UIを開き、選んだ媒体を下書きに追加してプレビューする。取消では既存媒体を保持。保存確定前に別の記録へ紐付けない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--provider",
+    "component": "main--provider",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$image-provider-settings",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--draft",
+    "component": "main--draft",
+    "from": "main",
+    "event": "activate",
+    "effect": "名前・希望・参考画像の下書きを保存する。生成はしない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "pet"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--export",
+    "component": "main--export",
+    "from": "main",
+    "event": "activate",
+    "effect": "現在入力の制作指示をファイルとして持ち出す。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "pet"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--generate",
+    "component": "main--generate",
+    "from": "main",
+    "event": "activate",
+    "effect": "接続済みproviderへ生成要求し進捗・失敗・候補の動作確認を表示する。未接続では操作不可。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "pet"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

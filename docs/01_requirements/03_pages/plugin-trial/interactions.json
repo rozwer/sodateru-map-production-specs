@@ -1,0 +1,72 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--region",
+    "component": "main--region",
+    "from": "main",
+    "event": "change",
+    "effect": "地域を選ぶの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--vehicle",
+    "component": "main--vehicle",
+    "from": "main",
+    "event": "change",
+    "effect": "原付・普通二輪・大型二輪の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--highway",
+    "component": "main--highway",
+    "from": "main",
+    "event": "change",
+    "effect": "高速道路を使うの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--preview",
+    "component": "main--preview",
+    "from": "main",
+    "event": "activate",
+    "effect": "地域・車種・高速道路条件を使った模擬プレビューを表示する。実データと混ぜず、未確認道路を走行可能としない。導入前後の変化を同じ地図範囲で自動表示する。",
+    "destination": "plugin-install",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

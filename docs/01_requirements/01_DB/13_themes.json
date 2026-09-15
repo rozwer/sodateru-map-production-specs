@@ -1,0 +1,18 @@
+{
+  "table": "themes",
+  "title": "テーマ",
+  "description": ["複数の記録をテーマとしてまとめ、名前の変更・記録の追加解除を行う。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "テーマを作った人物"},
+    "name": {"type": "TEXT", "nullable": false, "description": "テーマ名"},
+    "description": {"type": "TEXT", "nullable": false, "description": "説明"},
+    "record_ids_json": {"type": "TEXT", "nullable": false, "description": "テーマに含める記録ID", "encoding": "json"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["含める記録IDは同じ人物の記録から選び、重複を除く。"],
+  "indexes": [{"columns": ["person_id"]}],
+  "operations": ["名前の変更でも同じテーマIDを維持する。record_ids_jsonは一回の編集で保存する。一つの記録を複数テーマに含められる。記録削除時は各テーマの配列からそのIDを除く。"],
+  "json_fields": {"record_ids_json": {"$ref": "common.json#/json_definitions/id_array"}},
+  "related_files": ["00_people.json"]
+}

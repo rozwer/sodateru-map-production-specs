@@ -1,0 +1,101 @@
+[
+  {
+    "id": "candidates--menu",
+    "component": "candidates--menu",
+    "from": "candidates",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "navigation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "candidates--back-map",
+    "component": "candidates--back-map",
+    "from": "candidates",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "candidates--show-map",
+    "component": "candidates--show-map",
+    "from": "candidates",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "candidates--input",
+    "component": "candidates--input",
+    "from": "candidates",
+    "event": "change",
+    "effect": "Codexに話しかけるの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "candidates--microphone",
+    "component": "candidates--microphone",
+    "from": "candidates",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "voice-consultation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "candidates--send",
+    "component": "candidates--send",
+    "from": "candidates",
+    "event": "activate",
+    "effect": "確認したtextとoriginを送る。AI無効ならai-consentで送信確認する。返却resultIdと候補IDを保持し、地図へ渡す。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postMapDialogues"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

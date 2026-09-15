@@ -1,0 +1,146 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--origin",
+    "component": "main--origin",
+    "from": "main",
+    "event": "change",
+    "effect": "出発地の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--destination",
+    "component": "main--destination",
+    "from": "main",
+    "event": "change",
+    "effect": "目的地の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--clear",
+    "component": "main--clear",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--waypoint",
+    "component": "main--waypoint",
+    "from": "main",
+    "event": "change",
+    "effect": "経由地を追加の下書き値を更新する。保存/適用まで確定データを変更しない。未選択と不明を0やfalseで補わない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--departure",
+    "component": "main--departure",
+    "from": "main",
+    "event": "change",
+    "effect": "出発時刻の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--mode",
+    "component": "main--mode",
+    "from": "main",
+    "event": "change",
+    "effect": "徒歩・自転車・公共交通の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--return",
+    "component": "main--return",
+    "from": "main",
+    "event": "change",
+    "effect": "帰りたい時刻の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--stairs",
+    "component": "main--stairs",
+    "from": "main",
+    "event": "change",
+    "effect": "階段を避けるの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--covered",
+    "component": "main--covered",
+    "from": "main",
+    "event": "change",
+    "effect": "屋根を優先の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--search",
+    "component": "main--search",
+    "from": "main",
+    "event": "activate",
+    "effect": "順番付きwaypoints(stored/candidate/point)、mode、titleを送る。追加制約が契約にない間は満たした経路として表示しない。",
+    "destination": "route-results",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postRouteSearches"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

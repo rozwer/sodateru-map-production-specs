@@ -1,0 +1,29 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--layers",
+      "main--locate",
+      "main--zoom-in",
+      "main--zoom-out",
+      "main--drag",
+      "main--cancel",
+      "main--place",
+      "main--content",
+      "main--content--map",
+      "main--content--address",
+      "main--content--coordinates",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--layers",
+      "main--locate",
+      "main--zoom-in",
+      "main--zoom-out",
+      "main--drag",
+      "main--cancel",
+      "main--place"
+    ]
+  }
+]

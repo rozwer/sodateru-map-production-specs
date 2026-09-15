@@ -1,0 +1,289 @@
+[
+  {
+    "id": "main--close",
+    "testId": "map-layers--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--themes",
+    "testId": "map-layers--themes",
+    "kind": "control",
+    "purpose": "自分のテーマを表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.themes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分のテーマを表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "自分のテーマを表示",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--suggestions",
+    "testId": "map-layers--suggestions",
+    "kind": "control",
+    "purpose": "探索候補を表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.suggestions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "探索候補を表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "探索候補を表示",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--friends",
+    "testId": "map-layers--friends",
+    "kind": "control",
+    "purpose": "友達を表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.friends",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達を表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "友達を表示",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--cycling",
+    "testId": "map-layers--cycling",
+    "kind": "control",
+    "purpose": "バイクマップを表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.motorcycleLayerVisible",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "バイクマップを表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "バイクマップ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--map",
+    "testId": "map-layers--map",
+    "kind": "control",
+    "purpose": "地図に戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図に戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "map-layers--content",
+    "kind": "content",
+    "purpose": "地図に重ねる情報のON/OFF",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--layer-help"
+      ]
+    }
+  },
+  {
+    "id": "main--content--layer-help",
+    "testId": "map-layers--main--content--layer-help",
+    "kind": "content",
+    "purpose": "表示ON/OFFの説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.layer-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "map-layers--page-title",
+    "kind": "content",
+    "purpose": "地図の表示設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "main--background-map",
+    "testId": "map-layers--main--background-map",
+    "kind": "content",
+    "purpose": "背景の実地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.backgroundMap",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "attribution": true,
+      "interaction": "周囲の操作面を遮らない。地図を表示する領域だけでcamera操作する。",
+      "fallback": "地図未取得を表示。画面全体の画像へ置換しない。",
+      "accessibleSummary": "対象地域名をDOMでも表示"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "map-layers--main--search",
+    "kind": "control",
+    "purpose": "場所検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.search",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所検索"
+    }
+  },
+  {
+    "id": "main--locate",
+    "testId": "map-layers--main--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地"
+    }
+  },
+  {
+    "id": "main--nav-self",
+    "testId": "map-layers--main--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る"
+    }
+  },
+  {
+    "id": "main--nav-map",
+    "testId": "map-layers--main--nav-map",
+    "kind": "control",
+    "purpose": "地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図"
+    }
+  },
+  {
+    "id": "main--nav-community",
+    "testId": "map-layers--main--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図"
+    }
+  }
+]

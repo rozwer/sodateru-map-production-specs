@@ -1,0 +1,60 @@
+[
+  {
+    "id": "route-navigation-R1",
+    "text": "曲がる方向と地点、残り距離・時間、測位精度を実経路から表示する。地図に戻ることと案内終了を区別し、画面を閉じただけで終了しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-navigation-C1"
+    ]
+  },
+  {
+    "id": "route-navigation-F01",
+    "kind": "capability",
+    "title": "進む方向を知る",
+    "text": "曲がる地点・方向・距離を見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-navigation-FC01"
+    ]
+  },
+  {
+    "id": "route-navigation-F02",
+    "kind": "capability",
+    "title": "残りを確認する",
+    "text": "残距離・残時間・測位精度を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-navigation-FC02"
+    ]
+  },
+  {
+    "id": "route-navigation-F03",
+    "kind": "capability",
+    "title": "全体を見返す",
+    "text": "案内を継続したまま地図や経路一覧を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-navigation-FC03"
+    ]
+  },
+  {
+    "id": "route-navigation-F04",
+    "kind": "capability",
+    "title": "案内を終える",
+    "text": "明示的な終了で案内を止められる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-navigation-FC04"
+    ]
+  }
+]

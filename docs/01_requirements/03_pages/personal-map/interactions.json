@@ -1,0 +1,182 @@
+[
+  {
+    "id": "place-selected--menu",
+    "component": "place-selected--menu",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "navigation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--filter-all",
+    "component": "place-selected--filter-all",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "place-selected--locate",
+    "component": "place-selected--locate",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "位置取得に成功したら現在地へ移動して追従を再開。拒否/取得失敗では現在の地図を保ち手動操作できる。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--place-detail",
+    "component": "place-selected--place-detail",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--view-records",
+    "component": "place-selected--view-records",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "daily-track",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--edit-theme",
+    "component": "place-selected--edit-theme",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "theme-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-self",
+    "component": "place-selected--nav-self",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-map",
+    "component": "place-selected--nav-map",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-community",
+    "component": "place-selected--nav-community",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--filter-theme",
+    "component": "place-selected--filter-theme",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "テーマで絞る。押した項目のIDを使い、別の行は変更しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "place-selected--place",
+    "component": "place-selected--place",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "場所を選ぶ。押した項目のIDを使い、別の行は変更しない。",
+    "destination": "$inline-detail",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

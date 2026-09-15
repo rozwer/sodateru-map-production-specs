@@ -1,0 +1,184 @@
+[
+  {
+    "id": "main--back",
+    "testId": "voice-consultation--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--stop",
+    "testId": "voice-consultation--stop",
+    "kind": "control",
+    "purpose": "録音を止める",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.stop",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "録音を止める",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--transcript",
+    "testId": "voice-consultation--transcript",
+    "kind": "control",
+    "purpose": "文字起こしを編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.transcript",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "文字起こしを編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "文字起こしを編集",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": null,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--clear",
+    "testId": "voice-consultation--clear",
+    "kind": "control",
+    "purpose": "文字起こしを消す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.clear",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "文字起こしを消す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--send",
+    "testId": "voice-consultation--send",
+    "kind": "control",
+    "purpose": "この内容を送る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.send",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この内容を送る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "voice-consultation--content",
+    "kind": "content",
+    "purpose": "録音時間・波形・文字起こし",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--recording-time",
+        "main--content--waveform",
+        "main--content--recording-state"
+      ]
+    }
+  },
+  {
+    "id": "main--content--recording-time",
+    "testId": "voice-consultation--main--content--recording-time",
+    "kind": "content",
+    "purpose": "録音時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.recording-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--waveform",
+    "testId": "voice-consultation--main--content--waveform",
+    "kind": "content",
+    "purpose": "録音波形",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "waveform",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.audioSamples",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "fixedShapeAllowed": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--recording-state",
+    "testId": "voice-consultation--main--content--recording-state",
+    "kind": "content",
+    "purpose": "録音と文字起こしの状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.recording-state",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "voice-consultation--page-title",
+    "kind": "content",
+    "purpose": "音声で相談",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

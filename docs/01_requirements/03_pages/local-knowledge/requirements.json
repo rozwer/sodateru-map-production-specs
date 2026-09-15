@@ -1,0 +1,48 @@
+[
+  {
+    "id": "local-knowledge-R1",
+    "text": "選択地点の声を同じplaceIdで読む。投稿者・元の言葉・投稿日と、店舗の現在の提供情報を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "local-knowledge-C1"
+    ]
+  },
+  {
+    "id": "local-knowledge-F01",
+    "kind": "capability",
+    "title": "場所を選ぶ",
+    "text": "選択地点と対応する共有情報を表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "local-knowledge-FC01"
+    ]
+  },
+  {
+    "id": "local-knowledge-F02",
+    "kind": "capability",
+    "title": "その場所の声を見る",
+    "text": "同じ場所に寄せられた体験の一覧へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "local-knowledge-FC02"
+    ]
+  },
+  {
+    "id": "local-knowledge-F03",
+    "kind": "capability",
+    "title": "現在地から探す",
+    "text": "現在地取得に成功した場合に周辺へ移動できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "local-knowledge-FC03"
+    ]
+  }
+]

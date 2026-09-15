@@ -1,0 +1,60 @@
+[
+  {
+    "id": "profile-settings-R1",
+    "text": "表示名20文字・自己紹介200文字、写真、文字サイズ、動きを減らす、通知を保存する。大きな文字でもフォーム・地図・下部操作が重ならない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "profile-settings-C1"
+    ]
+  },
+  {
+    "id": "profile-settings-F01",
+    "kind": "capability",
+    "title": "自己紹介を変える",
+    "text": "写真・表示名20文字・紹介200文字を変更できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "profile-settings-FC01"
+    ]
+  },
+  {
+    "id": "profile-settings-F02",
+    "kind": "capability",
+    "title": "表示を変える",
+    "text": "文字サイズと動きを減らす設定を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "profile-settings-FC02"
+    ]
+  },
+  {
+    "id": "profile-settings-F03",
+    "kind": "capability",
+    "title": "通知を選ぶ",
+    "text": "通知タイミングを指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "profile-settings-FC03"
+    ]
+  },
+  {
+    "id": "profile-settings-F04",
+    "kind": "capability",
+    "title": "保存する",
+    "text": "次回起動でも同じプロフィールと表示設定を使える。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "profile-settings-FC04"
+    ]
+  }
+]

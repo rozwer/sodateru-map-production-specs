@@ -1,0 +1,143 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--name",
+    "component": "main--name",
+    "from": "main",
+    "event": "change",
+    "effect": "名前（20文字）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--body",
+    "component": "main--body",
+    "from": "main",
+    "event": "change",
+    "effect": "メモ（200文字）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--color",
+    "component": "main--color",
+    "from": "main",
+    "event": "change",
+    "effect": "6色から選ぶの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--size",
+    "component": "main--size",
+    "from": "main",
+    "event": "change",
+    "effect": "小・中・大の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--place",
+    "component": "main--place",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "object-place",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--preview",
+    "component": "main--preview",
+    "from": "main",
+    "event": "activate",
+    "effect": "同じ地図で下書きの姿を表示。確定保存はしない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "object"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--delete",
+    "component": "main--delete",
+    "from": "main",
+    "event": "activate",
+    "effect": "このオブジェクトの削除を確認して実行する。場所や体験は削除しない。API追加が必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "object"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--cancel",
+    "component": "main--cancel",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--save",
+    "component": "main--save",
+    "from": "main",
+    "event": "activate",
+    "effect": "名前・メモ・色・表示サイズ・位置を同じobjectIdへ保存する。保存APIを追加する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "object"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

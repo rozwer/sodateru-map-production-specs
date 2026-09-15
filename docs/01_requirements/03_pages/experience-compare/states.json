@@ -1,0 +1,25 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--common",
+      "main--difference",
+      "main--original",
+      "main--save",
+      "main--content",
+      "main--content--records",
+      "main--content--common-count",
+      "main--content--difference-count",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--common",
+      "main--difference",
+      "main--original",
+      "main--save"
+    ]
+  }
+]

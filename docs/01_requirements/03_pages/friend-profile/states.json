@@ -1,0 +1,35 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--more",
+      "main--follow",
+      "main--themes",
+      "main--records",
+      "main--map",
+      "main--compare",
+      "main--share",
+      "main--content",
+      "main--content--avatar",
+      "main--content--name",
+      "main--content--bio",
+      "main--content--relationship",
+      "main--content--shared-only",
+      "main--content--themes",
+      "main--content--records",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--more",
+      "main--follow",
+      "main--themes",
+      "main--records",
+      "main--map",
+      "main--compare",
+      "main--share"
+    ]
+  }
+]

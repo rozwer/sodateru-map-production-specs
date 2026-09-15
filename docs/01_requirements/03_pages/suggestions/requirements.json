@@ -1,0 +1,58 @@
+[
+  {
+    "id": "suggestions-R1",
+    "text": "現在希望を過去の習慣より優先し、候補の理由・移動時間・滞在時間・合計を表示する。未評価と低評価を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestions-C1"
+    ]
+  },
+  {
+    "id": "suggestions-R2",
+    "text": "0件は理由と条件変更入口を示す。候補表示・詳細閲覧・選択・訪問は別の状態として保存する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestions-C2"
+    ]
+  },
+  {
+    "id": "suggestions-F01",
+    "kind": "capability",
+    "title": "候補を比べる",
+    "text": "理由・移動時間・滞在時間・合計・評価状態を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestions-FC01"
+    ]
+  },
+  {
+    "id": "suggestions-F02",
+    "kind": "capability",
+    "title": "条件を変える",
+    "text": "希望や制約を直して候補を探し直せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestions-FC02"
+    ]
+  },
+  {
+    "id": "suggestions-F03",
+    "kind": "capability",
+    "title": "詳しく見る",
+    "text": "選んだ候補の確認済み情報と不明点へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestions-FC03"
+    ]
+  }
+]

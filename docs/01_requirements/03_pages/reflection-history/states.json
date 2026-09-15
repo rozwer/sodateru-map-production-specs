@@ -1,0 +1,33 @@
+[
+  {
+    "id": "answer-expanded",
+    "visible": [
+      "answer-expanded--back",
+      "answer-expanded--heading",
+      "answer-expanded--records",
+      "answer-expanded--expanded-answer",
+      "answer-expanded--more",
+      "answer-expanded--filter-all",
+      "answer-expanded--filter-answered",
+      "answer-expanded--filter-later",
+      "answer-expanded--filter-skipped",
+      "answer-expanded--toggle-answer",
+      "answer-expanded--original",
+      "answer-expanded--update-interpretation",
+      "answer-expanded--expanded-answer--question",
+      "answer-expanded--expanded-answer--answer"
+    ],
+    "hidden": [],
+    "interactive": [
+      "answer-expanded--back",
+      "answer-expanded--more",
+      "answer-expanded--filter-all",
+      "answer-expanded--filter-answered",
+      "answer-expanded--filter-later",
+      "answer-expanded--filter-skipped",
+      "answer-expanded--toggle-answer",
+      "answer-expanded--original",
+      "answer-expanded--update-interpretation"
+    ]
+  }
+]

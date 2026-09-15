@@ -1,0 +1,58 @@
+[
+  {
+    "id": "navigation-R1",
+    "text": "添付の最新メニュー・下部ナビを正本にする。旧リポの4タブ順は移植しない。メニューを閉じると元画面とフォーカスへ戻す。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "navigation-C1"
+    ]
+  },
+  {
+    "id": "navigation-R2",
+    "text": "地図範囲・選択場所・日付・編集中入力を遷移で引き継ぎ、記録中・案内中の状態は画面を離れただけで停止しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "navigation-C2"
+    ]
+  },
+  {
+    "id": "navigation-F01",
+    "kind": "capability",
+    "title": "機能を選ぶ",
+    "text": "地図・自分・みんな・拡張機能・設定へ移動できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "navigation-FC01"
+    ]
+  },
+  {
+    "id": "navigation-F02",
+    "kind": "capability",
+    "title": "モードを変える",
+    "text": "自分側とみんな側の表示を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "navigation-FC02"
+    ]
+  },
+  {
+    "id": "navigation-F03",
+    "kind": "capability",
+    "title": "元の作業へ戻る",
+    "text": "選択場所・日付・編集中内容を保ってメニューを閉じられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "navigation-FC03"
+    ]
+  }
+]

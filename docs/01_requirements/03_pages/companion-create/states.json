@@ -1,0 +1,34 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--name",
+      "main--appearance",
+      "main--image",
+      "main--provider",
+      "main--draft",
+      "main--export",
+      "main--generate",
+      "main--content",
+      "main--content--name-count",
+      "main--content--appearance-count",
+      "main--content--reference",
+      "main--content--provider",
+      "main--content--generation",
+      "main--content--candidate",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--name",
+      "main--appearance",
+      "main--image",
+      "main--provider",
+      "main--draft",
+      "main--export",
+      "main--generate"
+    ]
+  }
+]

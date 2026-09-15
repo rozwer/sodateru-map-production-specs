@@ -1,0 +1,1058 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sodateru.local/spec/common/places",
+  "definitions": {
+    "ID": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "\\S"
+    },
+    "Coordinates": {
+      "type": "array",
+      "items": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "record",
+            "visit",
+            "place",
+            "checkin",
+            "route"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ]
+    },
+    "Geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "LineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 100000
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ]
+    },
+    "Place": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "uniqueItems": true
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "externalId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "buildingKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "address",
+        "coordinates",
+        "categories",
+        "provider",
+        "externalId",
+        "buildingKey",
+        "sourceUrl",
+        "attribution",
+        "fetchedAt",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PlaceCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "candidateId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "placeId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "uniqueItems": true
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "externalId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "buildingKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retention": {
+          "enum": [
+            "storable",
+            "temporary"
+          ]
+        }
+      },
+      "required": [
+        "candidateId",
+        "placeId",
+        "name",
+        "address",
+        "coordinates",
+        "categories",
+        "provider",
+        "externalId",
+        "buildingKey",
+        "sourceUrl",
+        "attribution",
+        "fetchedAt",
+        "retention"
+      ]
+    },
+    "SearchRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "query": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 10
+        }
+      },
+      "required": [
+        "query"
+      ]
+    },
+    "NearbyRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "enum": [
+            "coffee",
+            "restaurant",
+            "bakery",
+            "park"
+          ]
+        },
+        "origin": {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "category",
+        "origin"
+      ]
+    },
+    "SearchResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PlaceCandidate"
+          },
+          "minItems": 0,
+          "maxItems": 10
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "resultId",
+        "items",
+        "expiresAt"
+      ]
+    },
+    "AdoptRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "resultId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "candidateId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "id",
+        "resultId",
+        "candidateId"
+      ]
+    },
+    "RouteRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "stored"
+                  },
+                  "placeId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "placeId"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "candidate"
+                  },
+                  "resultId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "candidateId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "resultId",
+                  "candidateId"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "point"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "items": [
+                      {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      {
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      }
+                    ],
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "kind",
+                  "coordinates",
+                  "label"
+                ]
+              }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "waypoints",
+        "mode",
+        "title"
+      ]
+    },
+    "RoutePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "geometry": {
+                "$ref": "#/definitions/Geometry"
+              },
+              "distanceM": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 9
+        },
+        "geometry": {
+          "$ref": "#/definitions/Geometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention": {
+          "enum": [
+            "storable",
+            "temporary"
+          ]
+        }
+      },
+      "required": [
+        "previewId",
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "fetchedAt",
+        "expiresAt",
+        "retention"
+      ]
+    },
+    "RouteSave": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "id",
+        "previewId",
+        "title"
+      ]
+    },
+    "RouteUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "previewId",
+        "title",
+        "expectedVersion"
+      ]
+    },
+    "SavedRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "items": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "geometry": {
+                "$ref": "#/definitions/Geometry"
+              },
+              "distanceM": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 9
+        },
+        "geometry": {
+          "$ref": "#/definitions/Geometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "minimum": 0
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "saved",
+            "navigating",
+            "finished"
+          ]
+        },
+        "currentLeg": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visibility": {
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ]
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "personId",
+        "title",
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "sourceUrl",
+        "fetchedAt",
+        "status",
+        "currentLeg",
+        "visibility",
+        "sharedWith",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  }
+}

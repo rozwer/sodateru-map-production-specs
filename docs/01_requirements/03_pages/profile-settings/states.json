@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--avatar",
+      "main--name",
+      "main--bio",
+      "main--font",
+      "main--motion",
+      "main--notifications",
+      "main--save",
+      "main--content",
+      "main--content--avatar",
+      "main--content--name-count",
+      "main--content--bio-count",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--avatar",
+      "main--name",
+      "main--bio",
+      "main--font",
+      "main--motion",
+      "main--notifications",
+      "main--save"
+    ]
+  }
+]

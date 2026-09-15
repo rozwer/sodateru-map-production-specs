@@ -1,0 +1,70 @@
+[
+  {
+    "id": "type-diagnosis-R1",
+    "text": "今日・今週・今月・これまでの対象期間を表示し、期間内の記録に基づく仮の呼び名とグラフを出す。固定的人格・偉人比較・根拠なしの点数を出さない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-C1"
+    ]
+  },
+  {
+    "id": "type-diagnosis-R2",
+    "text": "根拠・別の説明・欠測・本人の確認状態へ進める。2体験からの仮説生成を検証済みの傾向と呼ばない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-C2"
+    ]
+  },
+  {
+    "id": "type-diagnosis-F01",
+    "kind": "capability",
+    "title": "期間を切り替える",
+    "text": "今日・今週・今月・これまでの結果を見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-FC01"
+    ]
+  },
+  {
+    "id": "type-diagnosis-F02",
+    "kind": "capability",
+    "title": "傾向を見る",
+    "text": "対象期間の仮の呼び名・グラフ・変化を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-FC02"
+    ]
+  },
+  {
+    "id": "type-diagnosis-F03",
+    "kind": "capability",
+    "title": "根拠を確認する",
+    "text": "元体験と反例・情報不足へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-FC03"
+    ]
+  },
+  {
+    "id": "type-diagnosis-F04",
+    "kind": "capability",
+    "title": "本人の判断を残す",
+    "text": "合う・違う・不明を伝えて今の希望から探索へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "type-diagnosis-FC04"
+    ]
+  }
+]

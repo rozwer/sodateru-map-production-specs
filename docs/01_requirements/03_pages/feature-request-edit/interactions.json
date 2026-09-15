@@ -1,0 +1,99 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--name",
+    "component": "main--name",
+    "from": "main",
+    "event": "change",
+    "effect": "表示名の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--body",
+    "component": "main--body",
+    "from": "main",
+    "event": "change",
+    "effect": "本文（200文字）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--visibility",
+    "component": "main--visibility",
+    "from": "main",
+    "event": "change",
+    "effect": "自分だけ・公開の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--draft",
+    "component": "main--draft",
+    "from": "main",
+    "event": "activate",
+    "effect": "visibility=privateで本文を保存。新規/更新は排他的。titleと投稿名は契約不足の解決が必要。",
+    "destination": "feature-requests",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postFeatureRequests",
+      "patchFeatureRequestsRequestId"
+    ],
+    "apiGaps": [
+      "feature-request"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--submit",
+    "component": "main--submit",
+    "from": "main",
+    "event": "activate",
+    "effect": "選んだvisibilityとbodyを保存。成功後に本人の一覧へ戻る。表示名の固定保存は契約不足。",
+    "destination": "feature-requests#submitted",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postFeatureRequests",
+      "patchFeatureRequestsRequestId"
+    ],
+    "apiGaps": [
+      "feature-request"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

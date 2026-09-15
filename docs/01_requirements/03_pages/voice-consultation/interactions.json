@@ -1,0 +1,76 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--stop",
+    "component": "main--stop",
+    "from": "main",
+    "event": "activate",
+    "effect": "録音を終了し、音声を文字起こし処理へ渡して編集可能な本文を表示する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "voice"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--transcript",
+    "component": "main--transcript",
+    "from": "main",
+    "event": "change",
+    "effect": "文字起こしを編集の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--clear",
+    "component": "main--clear",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--send",
+    "component": "main--send",
+    "from": "main",
+    "event": "activate",
+    "effect": "確認した文字起こしをai-exploreの送信内容として渡す。AI利用が無効なら確認画面へ。",
+    "destination": "ai-explore",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [
+      "voice"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

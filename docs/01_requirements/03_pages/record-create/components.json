@@ -1,0 +1,962 @@
+[
+  {
+    "id": "editor--heading",
+    "testId": "record-create--editor--heading",
+    "kind": "content",
+    "purpose": "体験を残す／写真・動画と一緒に、今日の体験を記録しましょう。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.editor.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "editor--media",
+    "testId": "record-create--editor--media",
+    "kind": "content",
+    "purpose": "写真・動画のプレビューと動画時間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "itemControls": [
+        "editor--remove-photo",
+        "editor--remove-video",
+        "editor--play-video"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--counter",
+    "testId": "record-create--editor--counter",
+    "kind": "content",
+    "purpose": "本文の文字数8/300",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(editor--body)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "editor--body",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--close",
+    "testId": "record-create--editor--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--remove-photo",
+    "testId": "record-create--editor--remove-photo",
+    "kind": "control",
+    "purpose": "写真を外す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.remove-photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を外す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "editor--media",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-create--editor--remove-photo--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith image/"
+    }
+  },
+  {
+    "id": "editor--remove-video",
+    "testId": "record-create--editor--remove-video",
+    "kind": "control",
+    "purpose": "動画を外す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.remove-video",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動画を外す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "editor--media",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-create--editor--remove-video--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith video/"
+    }
+  },
+  {
+    "id": "editor--play-video",
+    "testId": "record-create--editor--play-video",
+    "kind": "control",
+    "purpose": "動画を再生",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.play-video",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動画を再生",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "editor--media",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-create--editor--play-video--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith video/"
+    }
+  },
+  {
+    "id": "editor--capture",
+    "testId": "record-create--editor--capture",
+    "kind": "control",
+    "purpose": "写真・動画を撮る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.capture",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真・動画を撮る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--choose-media",
+    "testId": "record-create--editor--choose-media",
+    "kind": "control",
+    "purpose": "端末から選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.choose-media",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "端末から選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--body",
+    "testId": "record-create--editor--body",
+    "kind": "control",
+    "purpose": "どんな体験でしたか？（任意）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "どんな体験でしたか？（任意）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "どんな体験でしたか？（任意）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 300,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "editor--choose-place",
+    "testId": "record-create--editor--choose-place",
+    "kind": "control",
+    "purpose": "場所を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.choose-place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--date",
+    "testId": "record-create--editor--date",
+    "kind": "control",
+    "purpose": "日付",
+    "imageRegion": null,
+    "implementation": {
+      "type": "date-picker",
+      "renderer": "dom",
+      "element": "div",
+      "valueFrom": "form.localDate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "日付",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "日付",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "cellsFrom": "viewModel.calendarDays",
+      "cellElement": "button",
+      "cellKey": "localDate",
+      "selection": "single",
+      "keyboard": "矢印で日を移動、Enterで選択。月移動は別button。"
+    }
+  },
+  {
+    "id": "editor--confirm",
+    "testId": "record-create--editor--confirm",
+    "kind": "control",
+    "purpose": "確認へ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.confirm",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "確認へ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--back",
+    "testId": "record-create--place-picker--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--heading",
+    "testId": "record-create--place-picker--heading",
+    "kind": "content",
+    "purpose": "場所を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.place-picker.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "place-picker--map",
+    "testId": "record-create--place-picker--map",
+    "kind": "content",
+    "purpose": "検索地点を示す地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-picker--results",
+    "testId": "record-create--place-picker--results",
+    "kind": "content",
+    "purpose": "検索結果3件・写真・住所・距離・徒歩時間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.place-picker.results",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "place",
+      "itemsFrom": "viewModel.results",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "record-create--place-picker--results--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "place-picker--candidate"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-picker--selection",
+    "testId": "record-create--place-picker--selection",
+    "kind": "content",
+    "purpose": "選択した場所のカード",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "place-picker--selection--photo",
+        "place-picker--selection--name",
+        "place-picker--selection--address"
+      ]
+    }
+  },
+  {
+    "id": "place-picker--map-tab",
+    "testId": "record-create--place-picker--map-tab",
+    "kind": "control",
+    "purpose": "地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.map-tab",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "place-picker--search-tab",
+    "testId": "record-create--place-picker--search-tab",
+    "kind": "control",
+    "purpose": "検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.search-tab",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "place-picker--history-tab",
+    "testId": "record-create--place-picker--history-tab",
+    "kind": "control",
+    "purpose": "訪問履歴",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.history-tab",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "訪問履歴",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "place-picker--search",
+    "testId": "record-create--place-picker--search",
+    "kind": "control",
+    "purpose": "場所検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "search-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.query",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "場所検索",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "search",
+      "events": [
+        "input",
+        "submit"
+      ],
+      "clearable": true
+    }
+  },
+  {
+    "id": "place-picker--clear-search",
+    "testId": "record-create--place-picker--clear-search",
+    "kind": "control",
+    "purpose": "検索を消す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.clear-search",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "検索を消す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--locate",
+    "testId": "record-create--place-picker--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--clear-place",
+    "testId": "record-create--place-picker--clear-place",
+    "kind": "control",
+    "purpose": "選択を解除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.clear-place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "選択を解除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--use-place",
+    "testId": "record-create--place-picker--use-place",
+    "kind": "control",
+    "purpose": "この場所にする",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.use-place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この場所にする",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--back",
+    "testId": "record-create--confirmation--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--heading",
+    "testId": "record-create--confirmation--heading",
+    "kind": "content",
+    "purpose": "記録の確認",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.confirmation.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "confirmation--media",
+    "testId": "record-create--confirmation--media",
+    "kind": "content",
+    "purpose": "写真・動画のプレビュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "itemControls": [
+        "confirmation--play-video"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "confirmation--body-preview",
+    "testId": "record-create--confirmation--body-preview",
+    "kind": "content",
+    "purpose": "本文",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.confirmation.body-preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "confirmation--place-preview",
+    "testId": "record-create--confirmation--place-preview",
+    "kind": "content",
+    "purpose": "場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.confirmation.place-preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "confirmation--date-preview",
+    "testId": "record-create--confirmation--date-preview",
+    "kind": "content",
+    "purpose": "日付",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.confirmation.date-preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "confirmation--visit-help",
+    "testId": "record-create--confirmation--visit-help",
+    "kind": "content",
+    "purpose": "チェックすると地図上に訪問マークが付きます。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.confirmation.visit-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "confirmation--play-video",
+    "testId": "record-create--confirmation--play-video",
+    "kind": "control",
+    "purpose": "動画を再生",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.play-video",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動画を再生",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "confirmation--media",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-create--confirmation--play-video--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith video/"
+    }
+  },
+  {
+    "id": "confirmation--edit-body",
+    "testId": "record-create--confirmation--edit-body",
+    "kind": "control",
+    "purpose": "本文を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.edit-body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "本文を編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--edit-place",
+    "testId": "record-create--confirmation--edit-place",
+    "kind": "control",
+    "purpose": "場所を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.edit-place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所を編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--edit-date",
+    "testId": "record-create--confirmation--edit-date",
+    "kind": "control",
+    "purpose": "日付を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.edit-date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "日付を編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--visit-info",
+    "testId": "record-create--confirmation--visit-info",
+    "kind": "control",
+    "purpose": "訪問の確認の説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.visit-info",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "訪問の確認の説明",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--visited",
+    "testId": "record-create--confirmation--visited",
+    "kind": "control",
+    "purpose": "この場所に行きました",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.visited",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この場所に行きました",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "この場所に行きました",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "confirmation--sharing-info",
+    "testId": "record-create--confirmation--sharing-info",
+    "kind": "control",
+    "purpose": "公開範囲の説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.sharing-info",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "公開範囲の説明",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--edit-sharing",
+    "testId": "record-create--confirmation--edit-sharing",
+    "kind": "control",
+    "purpose": "公開範囲を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.edit-sharing",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "公開範囲を編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--visibility",
+    "testId": "record-create--confirmation--visibility",
+    "kind": "control",
+    "purpose": "自分だけの公開範囲選択",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.visibility",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分だけの公開範囲選択",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "自分だけの公開範囲選択",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "自分だけ"
+        },
+        {
+          "id": "2",
+          "label": "選んだ友達"
+        },
+        {
+          "id": "3",
+          "label": "公開"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.visibility"
+    }
+  },
+  {
+    "id": "confirmation--back-edit",
+    "testId": "record-create--confirmation--back-edit",
+    "kind": "control",
+    "purpose": "戻って編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.back-edit",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻って編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "confirmation--save",
+    "testId": "record-create--confirmation--save",
+    "kind": "control",
+    "purpose": "記録を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.confirmation.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "記録を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-picker--candidate",
+    "testId": "record-create--place-picker--candidate",
+    "kind": "control",
+    "purpose": "検索候補を選ぶ",
+    "imageRegion": null,
+    "exampleAliases": [
+      "place-picker--candidate-1",
+      "place-picker--candidate-2",
+      "place-picker--candidate-3"
+    ],
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-picker.candidate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "検索候補を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "place-picker--results",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-create--place-picker--candidate--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "place-picker--selection--photo",
+    "testId": "record-create--place-picker--selection--photo",
+    "kind": "content",
+    "purpose": "選択場所の写真",
+    "imageRegion": null,
+    "parent": "place-picker--selection",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-picker--selection--name",
+    "testId": "record-create--place-picker--selection--name",
+    "kind": "content",
+    "purpose": "選択場所名",
+    "imageRegion": null,
+    "parent": "place-picker--selection",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.place-picker.selection.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-picker--selection--address",
+    "testId": "record-create--place-picker--selection--address",
+    "kind": "content",
+    "purpose": "住所",
+    "imageRegion": null,
+    "parent": "place-picker--selection",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.place-picker.selection.address",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

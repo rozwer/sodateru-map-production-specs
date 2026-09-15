@@ -1,0 +1,134 @@
+{
+  "bindings": [
+    {
+      "id": "getSuggestions",
+      "method": "GET",
+      "path": "/suggestions",
+      "contract": "../../04_api/openapi.json#/paths/~1suggestions/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "batchId",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "status",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.batchId": "作成済み候補batchのID",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "query.status": "選択フィルターの状態",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getSuggestionsSuggestionId",
+      "method": "GET",
+      "path": "/suggestions/{suggestionId}",
+      "contract": "../../04_api/openapi.json#/paths/~1suggestions~1{suggestionId}/get",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "suggestionId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "path.suggestionId": "選択対象のsuggestionId",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "patchSuggestionsSuggestionId",
+      "method": "PATCH",
+      "path": "/suggestions/{suggestionId}",
+      "contract": "../../04_api/openapi.json#/paths/~1suggestions~1{suggestionId}/patch",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "suggestionId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SuggestionPatch",
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "422",
+        "409",
+        "412",
+        "428"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "path.suggestionId": "選択対象のsuggestionId",
+        "header.If-Match": "対象の取得versionを引用符付きで送信",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [
+    "checkin"
+  ],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

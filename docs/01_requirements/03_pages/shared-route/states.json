@@ -1,0 +1,26 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--conditions",
+      "main--original",
+      "main--more",
+      "main--content",
+      "main--content--author",
+      "main--content--photo",
+      "main--content--quote",
+      "main--content--total-time",
+      "main--content--map",
+      "main--content--stops",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--conditions",
+      "main--original",
+      "main--more"
+    ]
+  }
+]

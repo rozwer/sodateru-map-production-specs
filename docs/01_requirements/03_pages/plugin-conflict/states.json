@@ -1,0 +1,23 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--keep",
+      "main--disable",
+      "main--back",
+      "main--content",
+      "main--content--first-map",
+      "main--content--first-legend",
+      "main--content--second-map",
+      "main--content--second-legend",
+      "main--content--conflict",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--keep",
+      "main--disable",
+      "main--back"
+    ]
+  }
+]

@@ -1,0 +1,287 @@
+[
+  {
+    "id": "place-selected--back",
+    "testId": "local-knowledge--place-selected--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--menu",
+    "testId": "local-knowledge--place-selected--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--heading",
+    "testId": "local-knowledge--place-selected--heading",
+    "kind": "content",
+    "purpose": "地域の知",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.place-selected.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "place-selected--map",
+    "testId": "local-knowledge--place-selected--map",
+    "kind": "content",
+    "purpose": "地図上の立方体と選択枠",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-selected--place-sheet",
+    "testId": "local-knowledge--place-selected--place-sheet",
+    "kind": "content",
+    "purpose": "本山の小さな公園／地域の声6件",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "place-selected--place-sheet--name",
+        "place-selected--place-sheet--voice-count"
+      ]
+    }
+  },
+  {
+    "id": "place-selected--photo",
+    "testId": "local-knowledge--place-selected--photo",
+    "kind": "content",
+    "purpose": "公園の写真",
+    "imageRegion": null,
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-selected--voices",
+    "testId": "local-knowledge--place-selected--voices",
+    "kind": "content",
+    "purpose": "投稿者・経過日数・地域の声",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.place-selected.voices",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "post",
+      "itemsFrom": "viewModel.voices",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "local-knowledge--place-selected--voices--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-selected--example-label",
+    "testId": "local-knowledge--place-selected--example-label",
+    "kind": "content",
+    "purpose": "地域の投稿・表示例",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.isMock",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "condition": "mockのときだけ表示。実データへ表示例の固定文字を残さない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-selected--locate",
+    "testId": "local-knowledge--place-selected--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--close-place",
+    "testId": "local-knowledge--place-selected--close-place",
+    "kind": "control",
+    "purpose": "場所シートを閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.close-place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所シートを閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--voices-open",
+    "testId": "local-knowledge--place-selected--voices-open",
+    "kind": "control",
+    "purpose": "この場所の声を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.voices-open",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この場所の声を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--nav-self",
+    "testId": "local-knowledge--place-selected--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--nav-map",
+    "testId": "local-knowledge--place-selected--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--nav-community",
+    "testId": "local-knowledge--place-selected--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.place-selected.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "place-selected--place-sheet--name",
+    "testId": "local-knowledge--place-selected--place-sheet--name",
+    "kind": "content",
+    "purpose": "場所名",
+    "imageRegion": null,
+    "parent": "place-selected--place-sheet",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.place-selected.place-sheet.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "place-selected--place-sheet--voice-count",
+    "testId": "local-knowledge--place-selected--place-sheet--voice-count",
+    "kind": "content",
+    "purpose": "地域の声の件数",
+    "imageRegion": null,
+    "parent": "place-selected--place-sheet",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.place-selected.place-sheet.voice-count",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

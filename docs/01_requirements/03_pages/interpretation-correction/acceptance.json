@@ -1,0 +1,107 @@
+[
+  {
+    "id": "interpretation-correction-C1",
+    "requirement": "interpretation-correction-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "用途と理由を別々に訂正する。アプリの推定と本人の原文を並べ、どちらを直すか示す。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "editor--back",
+      "editor--info",
+      "editor--purpose",
+      "editor--save-purpose",
+      "editor--reason",
+      "editor--save-reason"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "interpretation-correction-C2",
+    "requirement": "interpretation-correction-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "用途の保存は記録のpurposes更新、推定理由への異議はinsightのreviewNoteに保存する。本人原文へAI文章を上書きしない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "editor--back",
+      "editor--info",
+      "editor--purpose",
+      "editor--save-purpose",
+      "editor--reason",
+      "editor--save-reason"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "interpretation-correction-FC01",
+    "requirement": "interpretation-correction-F01",
+    "mode": "live",
+    "precondition": "本人の説明と違う解釈を直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「推定を確認する」に対応する操作を行う。",
+      "アプリの解釈と本人の原文を見比べられることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "アプリの解釈と本人の原文を見比べられる。",
+      "本人が訂正した用途、解釈への判断と理由、訂正対象との対応。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "interpretation-correction-FC02",
+    "requirement": "interpretation-correction-F02",
+    "mode": "live",
+    "precondition": "本人の説明と違う解釈を直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「用途を訂正する」に対応する操作を行う。",
+      "その体験で実際にした用途を変更できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "その体験で実際にした用途を変更できる。",
+      "本人が訂正した用途、解釈への判断と理由、訂正対象との対応。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "interpretation-correction-FC03",
+    "requirement": "interpretation-correction-F03",
+    "mode": "live",
+    "precondition": "本人の説明と違う解釈を直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「理由を訂正する」に対応する操作を行う。",
+      "その場面の理由を原文として残し、同じ誤解の再利用を防げることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "その場面の理由を原文として残し、同じ誤解の再利用を防げる。",
+      "本人が訂正した用途、解釈への判断と理由、訂正対象との対応。"
+    ],
+    "status": "not-run"
+  }
+]

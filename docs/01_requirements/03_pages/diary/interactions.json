@@ -1,0 +1,123 @@
+[
+  {
+    "id": "editor--back",
+    "component": "editor--back",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--previous-day",
+    "component": "editor--previous-day",
+    "from": "editor",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--next-day",
+    "component": "editor--next-day",
+    "from": "editor",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--date",
+    "component": "editor--date",
+    "from": "editor",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--add-photo",
+    "component": "editor--add-photo",
+    "from": "editor",
+    "event": "activate",
+    "effect": "端末の選択/撮影UIを開き、選んだ媒体を下書きに追加してプレビューする。取消では既存媒体を保持。保存確定前に別の記録へ紐付けない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--body",
+    "component": "editor--body",
+    "from": "editor",
+    "event": "change",
+    "effect": "日記本文の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--save",
+    "component": "editor--save",
+    "from": "editor",
+    "event": "activate",
+    "effect": "初回はkind=diaryで対象日・本文、既存は同じrecordIdを更新する。新規作成と更新は排他的。媒体差分も反映。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postRecords",
+      "patchRecordsRecordId",
+      "postRecordsRecordIdMedia",
+      "deleteMediaMediaId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--remove-photo",
+    "component": "editor--remove-photo",
+    "from": "editor",
+    "event": "activate",
+    "effect": "選んだ写真を外す。押した項目のIDを使い、別の行は変更しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  }
+]

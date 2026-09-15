@@ -1,0 +1,27 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--visibility",
+      "main--draft",
+      "main--submit",
+      "main--content",
+      "main--content--form-help",
+      "main--content--name-help",
+      "main--content--body-count",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--visibility",
+      "main--draft",
+      "main--submit"
+    ]
+  }
+]

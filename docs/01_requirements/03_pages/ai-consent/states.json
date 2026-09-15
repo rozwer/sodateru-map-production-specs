@@ -1,0 +1,25 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--enabled",
+      "main--place",
+      "main--cancel",
+      "main--send",
+      "main--content",
+      "main--content--body-preview",
+      "main--content--place-preview",
+      "main--content--provider-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--enabled",
+      "main--place",
+      "main--cancel",
+      "main--send"
+    ]
+  }
+]

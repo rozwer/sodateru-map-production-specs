@@ -1,0 +1,130 @@
+[
+  {
+    "id": "main--search",
+    "component": "main--search",
+    "from": "main",
+    "event": "submit",
+    "effect": "取得したカタログを入力条件で絞り込む。",
+    "destination": null,
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--category",
+    "component": "main--category",
+    "from": "main",
+    "event": "change",
+    "effect": "分類で絞るの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--plugin",
+    "component": "main--plugin",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択pluginIdと呼出元を保持して指定画面を開く。",
+    "destination": "plugin-detail",
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--manage",
+    "component": "main--manage",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択pluginIdと呼出元を保持して指定画面を開く。",
+    "destination": "plugin-manage",
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--requests",
+    "component": "main--requests",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択pluginIdと呼出元を保持して指定画面を開く。",
+    "destination": "feature-requests",
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--github",
+    "component": "main--github",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択pluginIdと呼出元を保持して指定画面を開く。",
+    "destination": "$github-guide",
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択pluginIdと呼出元を保持して指定画面を開く。",
+    "destination": "$return",
+    "carry": [
+      "pluginId",
+      "検索条件",
+      "呼出元"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "0件・読取失敗を区別する。"
+  },
+  {
+    "id": "main--search--input",
+    "component": "main--search",
+    "from": "main",
+    "event": "input",
+    "effect": "検索文字を下書きへ入力し表示を更新する。確定検索はsubmitで実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "入力値とクリア操作を更新する。"
+  }
+]

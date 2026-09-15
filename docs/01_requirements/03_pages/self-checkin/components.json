@@ -1,0 +1,395 @@
+[
+  {
+    "id": "main--back",
+    "testId": "self-checkin--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--state",
+    "testId": "self-checkin--state",
+    "kind": "control",
+    "purpose": "今の状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.state",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今の状態",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "今の状態",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": null,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--wishes",
+    "testId": "self-checkin--wishes",
+    "kind": "control",
+    "purpose": "今日の希望",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.wishes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今日の希望",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "今日の希望",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": null,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--clear",
+    "testId": "self-checkin--clear",
+    "kind": "control",
+    "purpose": "入力を消す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.clear",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "入力を消す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--minutes",
+    "testId": "self-checkin--minutes",
+    "kind": "control",
+    "purpose": "15・30・60・120分以上",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.minutes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "15・30・60・120分以上",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "15・30・60・120分以上",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "15分"
+        },
+        {
+          "id": "2",
+          "label": "30分"
+        },
+        {
+          "id": "3",
+          "label": "1時間"
+        },
+        {
+          "id": "4",
+          "label": "2時間以上"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.minutes"
+    }
+  },
+  {
+    "id": "main--mode",
+    "testId": "self-checkin--mode",
+    "kind": "control",
+    "purpose": "徒歩・自転車・公共交通・こだわらない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.mode",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "徒歩・自転車・公共交通・こだわらない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "徒歩・自転車・公共交通・こだわらない",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "徒歩"
+        },
+        {
+          "id": "2",
+          "label": "自転車"
+        },
+        {
+          "id": "3",
+          "label": "電車・バス"
+        },
+        {
+          "id": "4",
+          "label": "どれでも"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.mode"
+    }
+  },
+  {
+    "id": "main--companion",
+    "testId": "self-checkin--companion",
+    "kind": "control",
+    "purpose": "ひとり・友達家族・子ども・ペット",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.companion",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "ひとり・友達家族・子ども・ペット",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "ひとり・友達家族・子ども・ペット",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "ひとり"
+        },
+        {
+          "id": "2",
+          "label": "友人・家族"
+        },
+        {
+          "id": "3",
+          "label": "子どもと"
+        },
+        {
+          "id": "4",
+          "label": "ペットと"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.companion"
+    }
+  },
+  {
+    "id": "main--effort",
+    "testId": "self-checkin--effort",
+    "kind": "control",
+    "purpose": "無理しない・少し歩ける・こだわらない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.effort",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "無理しない・少し歩ける・こだわらない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "無理しない・少し歩ける・こだわらない",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "無理しない距離"
+        },
+        {
+          "id": "2",
+          "label": "少し歩いてもよい"
+        },
+        {
+          "id": "3",
+          "label": "どこでもよい"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.effort"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "self-checkin--search",
+    "kind": "control",
+    "purpose": "この条件で探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.search",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この条件で探す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "self-checkin--save",
+    "kind": "control",
+    "purpose": "回答だけ残す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "回答だけ残す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--skip",
+    "testId": "self-checkin--skip",
+    "kind": "control",
+    "purpose": "今は答えず地図へ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.skip",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今は答えず地図へ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "self-checkin--content",
+    "kind": "content",
+    "purpose": "希望と条件は任意",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--optional-note",
+        "main--content--current-date"
+      ]
+    }
+  },
+  {
+    "id": "main--content--optional-note",
+    "testId": "self-checkin--main--content--optional-note",
+    "kind": "content",
+    "purpose": "希望と条件は任意入力",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.optional-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--current-date",
+    "testId": "self-checkin--main--content--current-date",
+    "kind": "content",
+    "purpose": "対象日",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.current-date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "self-checkin--page-title",
+    "kind": "content",
+    "purpose": "今日はどう過ごしたい？",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

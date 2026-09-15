@@ -1,0 +1,60 @@
+[
+  {
+    "id": "memo-edit-R1",
+    "text": "名前20文字・本文200文字・由来・キーワード・提案利用ON/OFFを保存する。由来の削除と独立したメモ本文の削除は分ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "memo-edit-C1"
+    ]
+  },
+  {
+    "id": "memo-edit-F01",
+    "kind": "capability",
+    "title": "内容を編集する",
+    "text": "名前20文字・本文200文字とキーワードを書ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "memo-edit-FC01"
+    ]
+  },
+  {
+    "id": "memo-edit-F02",
+    "kind": "capability",
+    "title": "由来を残す",
+    "text": "体験や候補とのつながりを記録できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "memo-edit-FC02"
+    ]
+  },
+  {
+    "id": "memo-edit-F03",
+    "kind": "capability",
+    "title": "提案への利用を選ぶ",
+    "text": "メモを今後の提案に使うか切り替えられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "memo-edit-FC03"
+    ]
+  },
+  {
+    "id": "memo-edit-F04",
+    "kind": "capability",
+    "title": "整理する",
+    "text": "保存・取消・削除を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "memo-edit-FC04"
+    ]
+  }
+]

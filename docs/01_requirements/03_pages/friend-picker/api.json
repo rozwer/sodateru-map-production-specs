@@ -1,0 +1,96 @@
+{
+  "bindings": [
+    {
+      "id": "getFriendships",
+      "method": "GET",
+      "path": "/friendships",
+      "contract": "../../04_api/openapi.json#/paths/~1friendships/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "status",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "query.status": "選択フィルターの状態",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getPeople",
+      "method": "GET",
+      "path": "/people",
+      "contract": "../../04_api/openapi.json#/paths/~1people/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "q",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.q": "入力された検索文字",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

@@ -1,0 +1,293 @@
+[
+  {
+    "id": "sources--back",
+    "testId": "data-sources--sources--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.sources.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "sources--heading",
+    "testId": "data-sources--sources--heading",
+    "kind": "content",
+    "purpose": "データの取得元",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.sources.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "sources--healthcare",
+    "testId": "data-sources--sources--healthcare",
+    "kind": "content",
+    "purpose": "歩数：ヘルスケア／iPhoneのヘルスケアから取得／表示例",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "sources--healthcare--source",
+        "sources--healthcare--method",
+        "sources--healthcare--connection"
+      ]
+    }
+  },
+  {
+    "id": "sources--visits",
+    "testId": "data-sources--sources--visits",
+    "kind": "content",
+    "purpose": "訪問場所：本人が確認した記録",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.visits",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--settings",
+    "testId": "data-sources--sources--settings",
+    "kind": "content",
+    "purpose": "集計期間・最終更新・歩数の欠測日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "sources--settings--period",
+        "sources--settings--updated",
+        "sources--settings--missing"
+      ]
+    }
+  },
+  {
+    "id": "sources--missing-rule",
+    "testId": "data-sources--sources--missing-rule",
+    "kind": "content",
+    "purpose": "未取得の日は0として数えません。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.missing-rule",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--example-label",
+    "testId": "data-sources--sources--example-label",
+    "kind": "content",
+    "purpose": "この画面の内容は表示例です。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.isMock",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "condition": "mockのときだけ表示。実データへ表示例の固定文字を残さない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--steps",
+    "testId": "data-sources--sources--steps",
+    "kind": "control",
+    "purpose": "歩数",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.sources.steps",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "歩数",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "sources--places",
+    "testId": "data-sources--sources--places",
+    "kind": "control",
+    "purpose": "訪問場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.sources.places",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "訪問場所",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "sources--integrations",
+    "testId": "data-sources--sources--integrations",
+    "kind": "control",
+    "purpose": "連携を管理する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.sources.integrations",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "連携を管理する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "sources--history",
+    "testId": "data-sources--sources--history",
+    "kind": "control",
+    "purpose": "訪問履歴を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.sources.history",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "訪問履歴を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "sources--healthcare--source",
+    "testId": "data-sources--sources--healthcare--source",
+    "kind": "content",
+    "purpose": "歩数の取得元",
+    "imageRegion": null,
+    "parent": "sources--healthcare",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.healthcare.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--healthcare--method",
+    "testId": "data-sources--sources--healthcare--method",
+    "kind": "content",
+    "purpose": "取得方法",
+    "imageRegion": null,
+    "parent": "sources--healthcare",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.healthcare.method",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--healthcare--connection",
+    "testId": "data-sources--sources--healthcare--connection",
+    "kind": "content",
+    "purpose": "連携状態",
+    "imageRegion": null,
+    "parent": "sources--healthcare",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.sources.healthcare.connection",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--settings--period",
+    "testId": "data-sources--sources--settings--period",
+    "kind": "content",
+    "purpose": "集計期間",
+    "imageRegion": null,
+    "parent": "sources--settings",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.settings.period",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--settings--updated",
+    "testId": "data-sources--sources--settings--updated",
+    "kind": "content",
+    "purpose": "最終更新",
+    "imageRegion": null,
+    "parent": "sources--settings",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.settings.updated",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "sources--settings--missing",
+    "testId": "data-sources--sources--settings--missing",
+    "kind": "content",
+    "purpose": "欠測日",
+    "imageRegion": null,
+    "parent": "sources--settings",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.sources.settings.missing",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

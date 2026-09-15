@@ -1,0 +1,332 @@
+[
+  {
+    "id": "main--back",
+    "testId": "companion-settings--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--appearance",
+    "testId": "companion-settings--appearance",
+    "kind": "control",
+    "purpose": "見た目を変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.appearance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "見た目を変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--select",
+    "testId": "companion-settings--select",
+    "kind": "control",
+    "purpose": "相棒を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.select",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "相棒を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "相棒を選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [],
+      "optionsFrom": "viewModel.pets",
+      "optionKey": "item.id",
+      "checkedFrom": "form.select",
+      "placement": {
+        "in": "main--content--pets",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "companion-settings--select--{item.id}"
+      },
+      "renderOptionsWithin": "main--content--pets"
+    }
+  },
+  {
+    "id": "main--visible",
+    "testId": "companion-settings--visible",
+    "kind": "control",
+    "purpose": "地図上に表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.visible",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図上に表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "地図上に表示",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--size",
+    "testId": "companion-settings--size",
+    "kind": "control",
+    "purpose": "小・中",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.size",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "小・中",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "小・中",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "小"
+        },
+        {
+          "id": "2",
+          "label": "中"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.size"
+    }
+  },
+  {
+    "id": "main--motion",
+    "testId": "companion-settings--motion",
+    "kind": "control",
+    "purpose": "動きを減らす",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.motion",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動きを減らす",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "動きを減らす",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--import",
+    "testId": "companion-settings--import",
+    "kind": "control",
+    "purpose": "ファイルから追加",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.import",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "ファイルから追加",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--create",
+    "testId": "companion-settings--create",
+    "kind": "control",
+    "purpose": "相棒を作る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.create",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "相棒を作る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "companion-settings--save",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "companion-settings--content",
+    "kind": "content",
+    "purpose": "現在の相棒・登録済み相棒・表示状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--current",
+        "main--content--current-name",
+        "main--content--current-description",
+        "main--content--pets"
+      ]
+    }
+  },
+  {
+    "id": "main--content--current",
+    "testId": "companion-settings--main--content--current",
+    "kind": "content",
+    "purpose": "現在の相棒",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "pet-preview",
+      "renderer": "pet-atlas",
+      "element": "canvas",
+      "valueFrom": "viewModel.petPackageAndAnimation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "検査済みv2ペットatlas。UI画面画像を使用しない。",
+      "labels": "名前・状態・検査結果は別DOM",
+      "reducedMotion": "状態に対応する静止コマ",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--current-name",
+    "testId": "companion-settings--main--content--current-name",
+    "kind": "content",
+    "purpose": "相棒の名前",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.current-name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--current-description",
+    "testId": "companion-settings--main--content--current-description",
+    "kind": "content",
+    "purpose": "相棒の紹介",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.current-description",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--pets",
+    "testId": "companion-settings--main--content--pets",
+    "kind": "content",
+    "purpose": "登録済み相棒",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.pets",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "pet",
+      "itemsFrom": "viewModel.pets",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "companion-settings--main--content--pets--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--select"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "companion-settings--page-title",
+    "kind": "content",
+    "purpose": "相棒の管理",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

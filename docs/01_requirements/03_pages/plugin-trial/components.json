@@ -1,0 +1,181 @@
+[
+  {
+    "id": "main--back",
+    "testId": "plugin-trial--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--region",
+    "testId": "plugin-trial--region",
+    "kind": "control",
+    "purpose": "地域を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.region",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地域を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "地域を選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.regionOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "main--vehicle",
+    "testId": "plugin-trial--vehicle",
+    "kind": "control",
+    "purpose": "原付・普通二輪・大型二輪",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.vehicle",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "原付・普通二輪・大型二輪",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "原付・普通二輪・大型二輪",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "原付"
+        },
+        {
+          "id": "2",
+          "label": "普通二輪"
+        },
+        {
+          "id": "3",
+          "label": "大型二輪"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.vehicle"
+    }
+  },
+  {
+    "id": "main--highway",
+    "testId": "plugin-trial--highway",
+    "kind": "control",
+    "purpose": "高速道路を使う",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.highway",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "高速道路を使う",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "高速道路を使う",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--preview",
+    "testId": "plugin-trial--preview",
+    "kind": "control",
+    "purpose": "プレビューを表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "プレビューを表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "plugin-trial--content",
+    "kind": "content",
+    "purpose": "模擬データを使う説明と試用条件",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--mock-note"
+      ]
+    }
+  },
+  {
+    "id": "main--content--mock-note",
+    "testId": "plugin-trial--main--content--mock-note",
+    "kind": "content",
+    "purpose": "模擬データでの試用という説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.mock-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "plugin-trial--page-title",
+    "kind": "content",
+    "purpose": "拡張機能を試す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

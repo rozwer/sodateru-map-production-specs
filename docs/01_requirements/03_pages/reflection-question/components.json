@@ -1,0 +1,271 @@
+[
+  {
+    "id": "answering--back",
+    "testId": "reflection-question--answering--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answering.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answering--heading",
+    "testId": "reflection-question--answering--heading",
+    "kind": "content",
+    "purpose": "今日の軌跡／1つの体験から、少しだけ振り返ってみましょう。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.answering.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "answering--progress",
+    "testId": "reflection-question--answering--progress",
+    "kind": "content",
+    "purpose": "質問の進捗と1/1",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.answering.progress",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--record",
+    "testId": "reflection-question--answering--record",
+    "kind": "content",
+    "purpose": "記録の写真・名前・日時・場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "answering--record--photo",
+        "answering--record--name",
+        "answering--record--date",
+        "answering--record--place"
+      ]
+    }
+  },
+  {
+    "id": "answering--question",
+    "testId": "reflection-question--answering--question",
+    "kind": "content",
+    "purpose": "どんな時間が心地よかった？",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answering.question",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--counter",
+    "testId": "reflection-question--answering--counter",
+    "kind": "content",
+    "purpose": "14/500",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(answering--answer)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "answering--answer",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--view-record",
+    "testId": "reflection-question--answering--view-record",
+    "kind": "control",
+    "purpose": "この記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answering.view-record",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answering--answer",
+    "testId": "reflection-question--answering--answer",
+    "kind": "control",
+    "purpose": "自由記述の回答",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.answer",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自由記述の回答",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "自由記述の回答",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 500,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "answering--save",
+    "testId": "reflection-question--answering--save",
+    "kind": "control",
+    "purpose": "回答を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answering.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "回答を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answering--later",
+    "testId": "reflection-question--answering--later",
+    "kind": "control",
+    "purpose": "あとで",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answering.later",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "あとで",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answering--skip",
+    "testId": "reflection-question--answering--skip",
+    "kind": "control",
+    "purpose": "スキップ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answering.skip",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "スキップ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answering--record--photo",
+    "testId": "reflection-question--answering--record--photo",
+    "kind": "content",
+    "purpose": "記録写真",
+    "imageRegion": null,
+    "parent": "answering--record",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--record--name",
+    "testId": "reflection-question--answering--record--name",
+    "kind": "content",
+    "purpose": "記録名",
+    "imageRegion": null,
+    "parent": "answering--record",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answering.record.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--record--date",
+    "testId": "reflection-question--answering--record--date",
+    "kind": "content",
+    "purpose": "日時",
+    "imageRegion": null,
+    "parent": "answering--record",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answering.record.date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answering--record--place",
+    "testId": "reflection-question--answering--record--place",
+    "kind": "content",
+    "purpose": "場所名",
+    "imageRegion": null,
+    "parent": "answering--record",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answering.record.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

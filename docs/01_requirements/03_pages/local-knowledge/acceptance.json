@@ -1,0 +1,79 @@
+[
+  {
+    "id": "local-knowledge-C1",
+    "requirement": "local-knowledge-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "選択地点の声を同じplaceIdで読む。投稿者・元の言葉・投稿日と、店舗の現在の提供情報を区別する。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "place-selected--back",
+      "place-selected--menu",
+      "place-selected--locate",
+      "place-selected--close-place",
+      "place-selected--voices-open",
+      "place-selected--nav-self",
+      "place-selected--nav-map",
+      "place-selected--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "local-knowledge-FC01",
+    "requirement": "local-knowledge-F01",
+    "mode": "live",
+    "precondition": "地図上で地域の声を読むための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「場所を選ぶ」に対応する操作を行う。",
+      "選択地点と対応する共有情報を表示できることを画面で確認する。"
+    ],
+    "expect": [
+      "選択地点と対応する共有情報を表示できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "local-knowledge-FC02",
+    "requirement": "local-knowledge-F02",
+    "mode": "live",
+    "precondition": "地図上で地域の声を読むための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「その場所の声を見る」に対応する操作を行う。",
+      "同じ場所に寄せられた体験の一覧へ進めることを画面で確認する。"
+    ],
+    "expect": [
+      "同じ場所に寄せられた体験の一覧へ進める。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "local-knowledge-FC03",
+    "requirement": "local-knowledge-F03",
+    "mode": "live",
+    "precondition": "地図上で地域の声を読むための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「現在地から探す」に対応する操作を行う。",
+      "現在地取得に成功した場合に周辺へ移動できることを画面で確認する。"
+    ],
+    "expect": [
+      "現在地取得に成功した場合に周辺へ移動できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

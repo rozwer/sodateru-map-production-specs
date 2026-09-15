@@ -1,0 +1,34 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--appearance",
+      "main--select",
+      "main--visible",
+      "main--size",
+      "main--motion",
+      "main--import",
+      "main--create",
+      "main--save",
+      "main--content",
+      "main--content--current",
+      "main--content--current-name",
+      "main--content--current-description",
+      "main--content--pets",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--appearance",
+      "main--select",
+      "main--visible",
+      "main--size",
+      "main--motion",
+      "main--import",
+      "main--create",
+      "main--save"
+    ]
+  }
+]

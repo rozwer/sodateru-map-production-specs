@@ -1,0 +1,9 @@
+{
+  "name": "codex-issue-router",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "bin": { "codex-issue-router": "bin/router.mjs" },
+  "scripts": { "test": "node --test", "check": "node --check bin/router.mjs" }
+}

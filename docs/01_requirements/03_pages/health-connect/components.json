@@ -1,0 +1,207 @@
+[
+  {
+    "id": "main--back",
+    "testId": "health-connect--back",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--detail",
+    "testId": "health-connect--detail",
+    "kind": "control",
+    "purpose": "現在の連携を詳しく見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.detail",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在の連携を詳しく見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--app",
+    "testId": "health-connect--app",
+    "kind": "control",
+    "purpose": "対応するiPhoneアプリ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.app",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "対応するiPhoneアプリ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--file",
+    "testId": "health-connect--file",
+    "kind": "control",
+    "purpose": "書き出したファイル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.file",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "書き出したファイル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--nav-self",
+    "testId": "health-connect--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--nav-map",
+    "testId": "health-connect--nav-map",
+    "kind": "control",
+    "purpose": "地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--nav-community",
+    "testId": "health-connect--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "health-connect--content",
+    "kind": "content",
+    "purpose": "未連携状態・読込方法・ブラウザから直接アクセスできない説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--connection",
+        "main--content--methods",
+        "main--content--browser-note"
+      ]
+    }
+  },
+  {
+    "id": "main--content--connection",
+    "testId": "health-connect--main--content--connection",
+    "kind": "content",
+    "purpose": "連携状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.connection",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--methods",
+    "testId": "health-connect--main--content--methods",
+    "kind": "content",
+    "purpose": "対応する読込方法の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.methods",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--browser-note",
+    "testId": "health-connect--main--content--browser-note",
+    "kind": "content",
+    "purpose": "ブラウザからの直接取得不可の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.browser-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "health-connect--page-title",
+    "kind": "content",
+    "purpose": "健康データの連携",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

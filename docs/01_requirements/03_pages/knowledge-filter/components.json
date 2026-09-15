@@ -1,0 +1,330 @@
+[
+  {
+    "id": "main--close",
+    "testId": "knowledge-filter--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--clear",
+    "testId": "knowledge-filter--clear",
+    "kind": "control",
+    "purpose": "条件をクリア",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.clear",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "条件をクリア",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--radius",
+    "testId": "knowledge-filter--radius",
+    "kind": "control",
+    "purpose": "500m・1km・3km",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.radius",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "500m・1km・3km",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "500m・1km・3km",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "500m"
+        },
+        {
+          "id": "2",
+          "label": "1km"
+        },
+        {
+          "id": "3",
+          "label": "3km"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.radius"
+    }
+  },
+  {
+    "id": "main--area",
+    "testId": "knowledge-filter--area",
+    "kind": "control",
+    "purpose": "地図の範囲で探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.area",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図の範囲で探す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--purpose",
+    "testId": "knowledge-filter--purpose",
+    "kind": "control",
+    "purpose": "食事・休憩・散歩",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.purpose",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "食事・休憩・散歩",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "食事・休憩・散歩",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "食事"
+        },
+        {
+          "id": "2",
+          "label": "休憩"
+        },
+        {
+          "id": "3",
+          "label": "散歩"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.purpose"
+    }
+  },
+  {
+    "id": "main--period",
+    "testId": "knowledge-filter--period",
+    "kind": "control",
+    "purpose": "今週・今月",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.period",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今週・今月",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "今週・今月",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "今週"
+        },
+        {
+          "id": "2",
+          "label": "今月"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.period"
+    }
+  },
+  {
+    "id": "main--audience",
+    "testId": "knowledge-filter--audience",
+    "kind": "control",
+    "purpose": "すべて・友達・公開",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.audience",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "すべて・友達・公開",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "すべて・友達・公開",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "すべて"
+        },
+        {
+          "id": "2",
+          "label": "友達"
+        },
+        {
+          "id": "3",
+          "label": "公開"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.audience"
+    }
+  },
+  {
+    "id": "main--apply",
+    "testId": "knowledge-filter--apply",
+    "kind": "control",
+    "purpose": "この条件で表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.apply",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この条件で表示",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "knowledge-filter--content",
+    "kind": "content",
+    "purpose": "範囲・目的・期間・公開範囲の選択",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--center",
+        "main--content--map",
+        "main--content--filter-help"
+      ]
+    }
+  },
+  {
+    "id": "main--content--center",
+    "testId": "knowledge-filter--main--content--center",
+    "kind": "content",
+    "purpose": "検索中心の地域名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.center",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--map",
+    "testId": "knowledge-filter--main--content--map",
+    "kind": "content",
+    "purpose": "選択中心と検索半径",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--filter-help",
+    "testId": "knowledge-filter--main--content--filter-help",
+    "kind": "content",
+    "purpose": "検索条件の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.filter-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "knowledge-filter--page-title",
+    "kind": "content",
+    "purpose": "地域の知の絞り込み",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

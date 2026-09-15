@@ -1,0 +1,226 @@
+[
+  {
+    "id": "main--back",
+    "testId": "shared-route--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--conditions",
+    "testId": "shared-route--conditions",
+    "kind": "control",
+    "purpose": "自分の条件で見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.conditions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分の条件で見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--original",
+    "testId": "shared-route--original",
+    "kind": "control",
+    "purpose": "元の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.original",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--more",
+    "testId": "shared-route--more",
+    "kind": "control",
+    "purpose": "三点メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.more",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "三点メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "shared-route--content",
+    "kind": "content",
+    "purpose": "作成者・写真・言葉・移動と滞在の合計・順番付き立ち寄り先",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--author",
+        "main--content--photo",
+        "main--content--quote",
+        "main--content--total-time",
+        "main--content--map",
+        "main--content--stops"
+      ]
+    }
+  },
+  {
+    "id": "main--content--author",
+    "testId": "shared-route--main--content--author",
+    "kind": "content",
+    "purpose": "作成者",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.author",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--photo",
+    "testId": "shared-route--main--content--photo",
+    "kind": "content",
+    "purpose": "ルートの代表写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--quote",
+    "testId": "shared-route--main--content--quote",
+    "kind": "content",
+    "purpose": "本人の言葉",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.quote",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--total-time",
+    "testId": "shared-route--main--content--total-time",
+    "kind": "content",
+    "purpose": "移動と滞在の合計時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.total-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--map",
+    "testId": "shared-route--main--content--map",
+    "kind": "content",
+    "purpose": "立ち寄り順の地図",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--stops",
+    "testId": "shared-route--main--content--stops",
+    "kind": "content",
+    "purpose": "立ち寄り先の順序と説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.stops",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "stop",
+      "itemsFrom": "viewModel.stops",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "shared-route--main--content--stops--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "shared-route--page-title",
+    "kind": "content",
+    "purpose": "友達のおすすめルート",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

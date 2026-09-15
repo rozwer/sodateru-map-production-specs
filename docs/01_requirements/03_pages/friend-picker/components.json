@@ -1,0 +1,231 @@
+[
+  {
+    "id": "main--back",
+    "testId": "friend-picker--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "friend-picker--search",
+    "kind": "control",
+    "purpose": "友達を検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "search-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.query",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達を検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "友達を検索",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "search",
+      "events": [
+        "input",
+        "submit"
+      ],
+      "clearable": true
+    }
+  },
+  {
+    "id": "main--select",
+    "testId": "friend-picker--select",
+    "kind": "control",
+    "purpose": "友達を複数選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.select",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達を複数選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "友達を複数選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "multiple",
+      "optionElement": "input[type=checkbox]",
+      "options": [],
+      "optionsFrom": "viewModel.friends",
+      "optionKey": "item.id",
+      "checkedFrom": "form.select",
+      "placement": {
+        "in": "main--content--friends",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "friend-picker--select--{item.id}"
+      },
+      "renderOptionsWithin": "main--content--friends"
+    }
+  },
+  {
+    "id": "main--profile",
+    "testId": "friend-picker--profile",
+    "kind": "control",
+    "purpose": "プロフィールを見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.profile",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "プロフィールを見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--friends",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "friend-picker--profile--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--done",
+    "testId": "friend-picker--done",
+    "kind": "control",
+    "purpose": "完了",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.done",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "完了",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "friend-picker--content",
+    "kind": "content",
+    "purpose": "選択人数・友達一覧・選択済みの人",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--selected-count",
+        "main--content--friends",
+        "main--content--selected"
+      ]
+    }
+  },
+  {
+    "id": "main--content--selected-count",
+    "testId": "friend-picker--main--content--selected-count",
+    "kind": "content",
+    "purpose": "選択人数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.selected-count",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値と上限から計算する。例示の分子をハードコードしない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--friends",
+    "testId": "friend-picker--main--content--friends",
+    "kind": "content",
+    "purpose": "共有可能な友達",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.friends",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "person",
+      "itemsFrom": "viewModel.friends",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-picker--main--content--friends--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--select",
+        "main--profile"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--selected",
+    "testId": "friend-picker--main--content--selected",
+    "kind": "content",
+    "purpose": "選択した友達",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.selected",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "person",
+      "itemsFrom": "viewModel.selected",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-picker--main--content--selected--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "friend-picker--page-title",
+    "kind": "content",
+    "purpose": "共有する友達",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

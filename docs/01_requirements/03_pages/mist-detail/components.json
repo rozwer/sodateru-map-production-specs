@@ -1,0 +1,221 @@
+[
+  {
+    "id": "main--back",
+    "testId": "mist-detail--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--gallery",
+    "testId": "mist-detail--gallery",
+    "kind": "control",
+    "purpose": "写真を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.gallery",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--source",
+    "testId": "mist-detail--source",
+    "kind": "control",
+    "purpose": "情報源を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "情報源を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--bookmark",
+    "testId": "mist-detail--bookmark",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.bookmark",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--route",
+    "testId": "mist-detail--route",
+    "kind": "control",
+    "purpose": "歩いて行く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.route",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "歩いて行く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--compass",
+    "testId": "mist-detail--compass",
+    "kind": "control",
+    "purpose": "コンパスで向かう",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.compass",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "コンパスで向かう",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "mist-detail--content",
+    "kind": "content",
+    "purpose": "候補の理由・入口・写真・未確認情報",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--media",
+        "main--content--reason",
+        "main--content--entrance",
+        "main--content--facts"
+      ]
+    }
+  },
+  {
+    "id": "main--content--media",
+    "testId": "mist-detail--main--content--media",
+    "kind": "content",
+    "purpose": "場所写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--reason",
+    "testId": "mist-detail--main--content--reason",
+    "kind": "content",
+    "purpose": "候補の理由",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.reason",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--entrance",
+    "testId": "mist-detail--main--content--entrance",
+    "kind": "content",
+    "purpose": "入口情報",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.entrance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--facts",
+    "testId": "mist-detail--main--content--facts",
+    "kind": "content",
+    "purpose": "確認済み情報と不明点",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.facts",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "fact",
+      "itemsFrom": "viewModel.facts",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "mist-detail--main--content--facts--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "mist-detail--page-title",
+    "kind": "content",
+    "purpose": "もやの探索候補",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "plugin-update-R1",
+    "text": "現在版と更新版を比較・試用してから更新する。設定と保存済みスポットを保持し、前の版に戻す操作と削除を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-update-C1"
+    ]
+  },
+  {
+    "id": "plugin-update-F01",
+    "kind": "capability",
+    "title": "変更点を読む",
+    "text": "現在版と次版の内容や地図表示を比較できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-update-FC01"
+    ]
+  },
+  {
+    "id": "plugin-update-F02",
+    "kind": "capability",
+    "title": "先に試す",
+    "text": "更新前にプレビューできる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-update-FC02"
+    ]
+  },
+  {
+    "id": "plugin-update-F03",
+    "kind": "capability",
+    "title": "更新する",
+    "text": "保存済みスポットと設定を保って新しい版へ移れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-update-FC03"
+    ]
+  },
+  {
+    "id": "plugin-update-F04",
+    "kind": "capability",
+    "title": "元へ戻す・削除する",
+    "text": "前版への復帰と機能の削除を選び分けられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-update-FC04"
+    ]
+  }
+]

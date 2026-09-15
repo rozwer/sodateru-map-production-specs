@@ -1,0 +1,48 @@
+[
+  {
+    "id": "map-layers-R1",
+    "text": "テーマ・候補・友達・バイクマップの表示を個別に切り替える。非表示操作で記録やプラグインを削除せず、再表示で同じ対象を戻す。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-layers-C1"
+    ]
+  },
+  {
+    "id": "map-layers-F01",
+    "kind": "capability",
+    "title": "表示を切り替える",
+    "text": "テーマ・探索候補・友達・バイクの情報を個別に表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-layers-FC01"
+    ]
+  },
+  {
+    "id": "map-layers-F02",
+    "kind": "capability",
+    "title": "地図で確認する",
+    "text": "表示変更を地図ですぐ確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-layers-FC02"
+    ]
+  },
+  {
+    "id": "map-layers-F03",
+    "kind": "capability",
+    "title": "表示を戻す",
+    "text": "非表示にしても元データを消さず再表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-layers-FC03"
+    ]
+  }
+]

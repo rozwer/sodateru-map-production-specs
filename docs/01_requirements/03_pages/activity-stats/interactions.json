@@ -1,0 +1,130 @@
+[
+  {
+    "id": "week--back",
+    "component": "week--back",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--period-today",
+    "component": "week--period-today",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-week",
+    "component": "week--period-week",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-month",
+    "component": "week--period-month",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-year",
+    "component": "week--period-year",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--steps-detail",
+    "component": "week--steps-detail",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "data-sources",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--activity-open",
+    "component": "week--activity-open",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "daily-track",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--activity-detail",
+    "component": "week--activity-detail",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "daily-track",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

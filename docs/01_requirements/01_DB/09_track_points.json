@@ -1,0 +1,20 @@
+{
+  "table": "track_points",
+  "title": "移動軌跡",
+  "description": ["移動中の位置観測を時系列に復元する。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "記録対象の人物"},
+    "segment_id": {"type": "TEXT", "nullable": false, "description": "連続して取得できた軌跡の区間ID"},
+    "source_point_id": {"type": "TEXT", "nullable": false, "description": "端末で発行した観測ID。再送時に維持"},
+    "observed_at": {"type": "INTEGER", "nullable": false, "description": "観測時刻"},
+    "longitude": {"type": "REAL", "nullable": false, "description": "経度"},
+    "latitude": {"type": "REAL", "nullable": false, "description": "緯度"},
+    "accuracy_m": {"type": "REAL", "nullable": false, "description": "測位精度m"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["人物IDと端末側観測IDの組を一意にする。", "経度は−180〜180、緯度は−90〜90、精度は0以上。"],
+  "indexes": [{"columns": ["person_id", "observed_at"]}],
+  "operations": ["観測を追加し、同じsource_point_idの再送は同じ点へ収束させる。描画は同じsegment_id内を観測順に結ぶ。測位が途切れた後は新しいsegment_idにする。日時・区間を指定して削除する。"],
+  "related_files": ["00_people.json"]
+}

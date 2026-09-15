@@ -1,0 +1,218 @@
+[
+  {
+    "id": "editor--back",
+    "component": "editor--back",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--body",
+    "component": "editor--body",
+    "from": "editor",
+    "event": "change",
+    "effect": "わたしの言葉の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--reading",
+    "component": "editor--reading",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--rest",
+    "component": "editor--rest",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--meal",
+    "component": "editor--meal",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--work",
+    "component": "editor--work",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--walk",
+    "component": "editor--walk",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--other",
+    "component": "editor--other",
+    "from": "editor",
+    "event": "change",
+    "effect": "この用途の選択を切り替える。他の選択用途は保持し、変更を保存までサーバーは更新しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--impression",
+    "component": "editor--impression",
+    "from": "editor",
+    "event": "change",
+    "effect": "どうだった？の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--mood",
+    "component": "editor--mood",
+    "from": "editor",
+    "event": "change",
+    "effect": "気分の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--time",
+    "component": "editor--time",
+    "from": "editor",
+    "event": "change",
+    "effect": "滞在時刻の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--remove-photo",
+    "component": "editor--remove-photo",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "editor--add-photo",
+    "component": "editor--add-photo",
+    "from": "editor",
+    "event": "activate",
+    "effect": "端末の選択/撮影UIを開き、選んだ媒体を下書きに追加してプレビューする。取消では既存媒体を保持。保存確定前に別の記録へ紐付けない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--bookmark",
+    "component": "editor--bookmark",
+    "from": "editor",
+    "event": "change",
+    "effect": "しおり（任意）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--save",
+    "component": "editor--save",
+    "from": "editor",
+    "event": "activate",
+    "effect": "変更したbody/purposes/impression/occurredAt/endedAt/bookmarkedを現在のrecordIdへ保存。媒体差分は各mediaIdとversionを使い、最後に並び順を保存。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "patchRecordsRecordId",
+      "postRecordsRecordIdMedia",
+      "deleteMediaMediaId",
+      "postRecordsRecordIdMediaReorder"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--return-list",
+    "component": "editor--return-list",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

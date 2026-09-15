@@ -1,0 +1,100 @@
+[
+  {
+    "id": "main--layers",
+    "component": "main--layers",
+    "from": "main",
+    "event": "change",
+    "effect": "表示切替の下書き値を更新する。保存/適用まで確定データを変更しない。未選択と不明を0やfalseで補わない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--locate",
+    "component": "main--locate",
+    "from": "main",
+    "event": "activate",
+    "effect": "位置取得に成功したら現在地へ移動して追従を再開。拒否/取得失敗では現在の地図を保ち手動操作できる。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--zoom-in",
+    "component": "main--zoom-in",
+    "from": "main",
+    "event": "activate",
+    "effect": "地図を拡大する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--zoom-out",
+    "component": "main--zoom-out",
+    "from": "main",
+    "event": "activate",
+    "effect": "地図を縮小する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--drag",
+    "component": "main--drag",
+    "from": "main",
+    "event": "activate",
+    "effect": "地図中心を動かし中央マーカーの配置候補を更新する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "object"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--cancel",
+    "component": "main--cancel",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--place",
+    "component": "main--place",
+    "from": "main",
+    "event": "activate",
+    "effect": "中央マーカーの緯度経度をobject-editの下書きに返す。",
+    "destination": "object-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [
+      "object"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

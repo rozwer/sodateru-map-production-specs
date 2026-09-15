@@ -1,0 +1,292 @@
+[
+  {
+    "id": "main--back",
+    "testId": "profile-settings--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--avatar",
+    "testId": "profile-settings--avatar",
+    "kind": "control",
+    "purpose": "写真を変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.avatar",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--name",
+    "testId": "profile-settings--name",
+    "kind": "control",
+    "purpose": "表示名（20文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "表示名（20文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "表示名（20文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 20,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--bio",
+    "testId": "profile-settings--bio",
+    "kind": "control",
+    "purpose": "自分の紹介（200文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.bio",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分の紹介（200文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "自分の紹介（200文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 200,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--font",
+    "testId": "profile-settings--font",
+    "kind": "control",
+    "purpose": "文字サイズ標準・大",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.font",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "文字サイズ標準・大",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "文字サイズ標準・大",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "標準"
+        },
+        {
+          "id": "2",
+          "label": "大"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.font"
+    }
+  },
+  {
+    "id": "main--motion",
+    "testId": "profile-settings--motion",
+    "kind": "control",
+    "purpose": "動きを減らす",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.motion",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動きを減らす",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "動きを減らす",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--notifications",
+    "testId": "profile-settings--notifications",
+    "kind": "control",
+    "purpose": "通知のタイミング",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.notifications",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "通知のタイミング",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "通知のタイミング",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.notificationsOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "profile-settings--save",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "profile-settings--content",
+    "kind": "content",
+    "purpose": "プロフィールと表示設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--avatar",
+        "main--content--name-count",
+        "main--content--bio-count"
+      ]
+    }
+  },
+  {
+    "id": "main--content--avatar",
+    "testId": "profile-settings--main--content--avatar",
+    "kind": "content",
+    "purpose": "人物写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--name-count",
+    "testId": "profile-settings--main--content--name-count",
+    "kind": "content",
+    "purpose": "表示名の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--name)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--name",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--bio-count",
+    "testId": "profile-settings--main--content--bio-count",
+    "kind": "content",
+    "purpose": "紹介文の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--bio)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--bio",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "profile-settings--page-title",
+    "kind": "content",
+    "purpose": "プロフィールと表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

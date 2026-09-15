@@ -1,0 +1,549 @@
+[
+  {
+    "id": "place-selected--search",
+    "component": "place-selected--search",
+    "from": "place-selected",
+    "event": "submit",
+    "effect": "入力値で一覧を絞り、入力・選択対象を保持する。未対応の全文検索は取得済み範囲だけの検索と明記する。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getPlaceCandidates"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "place-selected--ai",
+    "component": "place-selected--ai",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "ai-explore",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--dimension",
+    "component": "place-selected--dimension",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "2D/3Dを切り替え、対象・レンズ・経路を保持する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--compass",
+    "component": "place-selected--compass",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "地図の方角を北へ戻す。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--save-place",
+    "component": "place-selected--save-place",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "場所保存はpostPlaces。しおり機能は別契約が必要。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "postPlaces"
+    ],
+    "apiGaps": [
+      "bookmark"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "place-selected--share",
+    "component": "place-selected--share",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "sharing",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--more",
+    "component": "place-selected--more",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "同じ詳細面に対象の説明または操作メニューを開く。閉じる/Escapeで元の要素へフォーカスを戻す。表示項目は同じ画面の機能要件に従う。",
+    "destination": "$inline-menu",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nearby",
+    "component": "place-selected--nearby",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map#search-place-selected",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-self",
+    "component": "place-selected--nav-self",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-camera",
+    "component": "place-selected--nav-camera",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--nav-community",
+    "component": "place-selected--nav-community",
+    "from": "place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--search",
+    "component": "area-info--search",
+    "from": "area-info",
+    "event": "submit",
+    "effect": "入力値で一覧を絞り、入力・選択対象を保持する。未対応の全文検索は取得済み範囲だけの検索と明記する。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getPlaceCandidates"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "area-info--ai",
+    "component": "area-info--ai",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "ai-explore",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--dimension",
+    "component": "area-info--dimension",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "2D/3Dを切り替え、対象・レンズ・経路を保持する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--compass",
+    "component": "area-info--compass",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "地図の方角を北へ戻す。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--menu",
+    "component": "area-info--menu",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "navigation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--area-open",
+    "component": "area-info--area-open",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map#area-info",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--nearby",
+    "component": "area-info--nearby",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map#search-place-selected",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--nav-self",
+    "component": "area-info--nav-self",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--nav-camera",
+    "component": "area-info--nav-camera",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "area-info--nav-community",
+    "component": "area-info--nav-community",
+    "from": "area-info",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--search",
+    "component": "search-place-selected--search",
+    "from": "search-place-selected",
+    "event": "submit",
+    "effect": "入力値で一覧を絞り、入力・選択対象を保持する。未対応の全文検索は取得済み範囲だけの検索と明記する。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getPlaceCandidates"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "search-place-selected--ai",
+    "component": "search-place-selected--ai",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "ai-explore",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--dimension",
+    "component": "search-place-selected--dimension",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "2D/3Dを切り替え、対象・レンズ・経路を保持する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--compass",
+    "component": "search-place-selected--compass",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "地図の方角を北へ戻す。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--search-submit",
+    "component": "search-place-selected--search-submit",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "入力したqと検索中心で候補検索する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "bookmark"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "search-place-selected--results-tab",
+    "component": "search-place-selected--results-tab",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "同じ検索結果を一覧モードへ切替。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "bookmark"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "search-place-selected--place-tab",
+    "component": "search-place-selected--place-tab",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "選択した候補の詳細モードへ切替。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "bookmark"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "search-place-selected--save",
+    "component": "search-place-selected--save",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "候補を場所として保存する。しおりとは別。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "postPlaces"
+    ],
+    "apiGaps": [
+      "bookmark"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "search-place-selected--route",
+    "component": "search-place-selected--route",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "route-conditions",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--nav-self",
+    "component": "search-place-selected--nav-self",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--nav-camera",
+    "component": "search-place-selected--nav-camera",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "search-place-selected--nav-community",
+    "component": "search-place-selected--nav-community",
+    "from": "search-place-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-selected--search--input",
+    "component": "place-selected--search",
+    "from": "place-selected",
+    "event": "input",
+    "effect": "検索文字を下書きへ入力し表示を更新する。確定検索はsubmitで実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "入力値とクリア操作を更新する。"
+  },
+  {
+    "id": "area-info--search--input",
+    "component": "area-info--search",
+    "from": "area-info",
+    "event": "input",
+    "effect": "検索文字を下書きへ入力し表示を更新する。確定検索はsubmitで実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "入力値とクリア操作を更新する。"
+  },
+  {
+    "id": "search-place-selected--search--input",
+    "component": "search-place-selected--search",
+    "from": "search-place-selected",
+    "event": "input",
+    "effect": "検索文字を下書きへ入力し表示を更新する。確定検索はsubmitで実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "入力値とクリア操作を更新する。"
+  }
+]

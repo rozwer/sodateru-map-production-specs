@@ -1,0 +1,230 @@
+[
+  {
+    "id": "INFO-01",
+    "title": "空入力の検索は既定条件",
+    "schema": "RecordQuery",
+    "data": {},
+    "valid": true
+  },
+  {
+    "id": "INFO-02",
+    "title": "検索件数の上限",
+    "schema": "RecordQuery",
+    "data": {
+      "limit": 101
+    },
+    "valid": false
+  },
+  {
+    "id": "INFO-03",
+    "title": "媒体準備中",
+    "schema": "MediaView",
+    "data": {
+      "id": "m1",
+      "kind": "photo",
+      "mimeType": "image/jpeg",
+      "byteSize": 1024,
+      "position": 0,
+      "status": "pending",
+      "contentUrl": null
+    },
+    "valid": true
+  },
+  {
+    "id": "INFO-04",
+    "title": "削除・共有取消の根拠",
+    "schema": "SourceCheck",
+    "data": {
+      "ref": {
+        "type": "record",
+        "id": "r1",
+        "version": 2
+      },
+      "state": "unavailable",
+      "currentVersion": null
+    },
+    "valid": true
+  },
+  {
+    "id": "INFO-05",
+    "title": "本人は非公開記録を読める",
+    "rule": "access",
+    "input": {
+      "viewer": "me",
+      "owner": "me",
+      "visibility": "private",
+      "sharedWith": []
+    },
+    "expected": true
+  },
+  {
+    "id": "INFO-06",
+    "title": "他者は非公開記録を読めない",
+    "rule": "access",
+    "input": {
+      "viewer": "other",
+      "owner": "me",
+      "visibility": "private",
+      "sharedWith": []
+    },
+    "expected": false
+  },
+  {
+    "id": "INFO-07",
+    "title": "指定共有は友人状態と独立",
+    "rule": "access",
+    "input": {
+      "viewer": "other",
+      "owner": "me",
+      "visibility": "selected",
+      "sharedWith": [
+        "other"
+      ],
+      "friend": false
+    },
+    "expected": true
+  },
+  {
+    "id": "INFO-08",
+    "title": "共有先解除後は読めない",
+    "rule": "access",
+    "input": {
+      "viewer": "other",
+      "owner": "me",
+      "visibility": "selected",
+      "sharedWith": []
+    },
+    "expected": false
+  },
+  {
+    "id": "INFO-09",
+    "title": "訪問経由の場所・日時を使用",
+    "rule": "effective",
+    "input": {
+      "record": {
+        "placeId": null,
+        "occurredAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "visitId": "v1"
+      },
+      "visit": {
+        "placeId": "p1",
+        "startedAt": 1000,
+        "endedAt": 2000,
+        "timePrecision": "exact",
+        "status": "confirmed"
+      }
+    },
+    "expected": {
+      "placeId": "p1",
+      "effectiveAt": 1000,
+      "endedAt": 2000,
+      "timePrecision": "exact",
+      "visitStatus": "confirmed"
+    }
+  },
+  {
+    "id": "INFO-10",
+    "title": "検索開始ちょうどの終了は期間外",
+    "rule": "overlap",
+    "input": {
+      "start": 100,
+      "end": 200,
+      "from": 200,
+      "to": 300
+    },
+    "expected": false
+  },
+  {
+    "id": "INFO-11",
+    "title": "開始と同時刻の点は期間内",
+    "rule": "overlap",
+    "input": {
+      "start": 200,
+      "end": 200,
+      "from": 200,
+      "to": 300
+    },
+    "expected": true
+  },
+  {
+    "id": "INFO-12",
+    "title": "同時刻をID順・不明日時を末尾へ",
+    "rule": "sort",
+    "input": [
+      {
+        "id": "b",
+        "time": 200
+      },
+      {
+        "id": "c",
+        "time": null
+      },
+      {
+        "id": "a",
+        "time": 200
+      },
+      {
+        "id": "d",
+        "time": 300
+      }
+    ],
+    "expected": [
+      "d",
+      "a",
+      "b",
+      "c"
+    ]
+  },
+  {
+    "id": "INFO-13",
+    "title": "未知の日を分母へ足さない",
+    "rule": "axis",
+    "input": {
+      "numerator": 1,
+      "denominator": 2,
+      "unknownDays": 1
+    },
+    "expected": 0.5
+  },
+  {
+    "id": "INFO-14",
+    "title": "分母0はNULL",
+    "rule": "axis",
+    "input": {
+      "numerator": 0,
+      "denominator": 0,
+      "unknownDays": 3
+    },
+    "expected": null
+  },
+  {
+    "id": "INFO-15",
+    "title": "版更新を根拠変更として返す",
+    "rule": "source",
+    "input": {
+      "readable": true,
+      "expected": 2,
+      "current": 3
+    },
+    "expected": {
+      "state": "changed",
+      "currentVersion": 3
+    }
+  },
+  {
+    "id": "INFO-16",
+    "title": "読めない根拠の現在版を漏らさない",
+    "rule": "source",
+    "input": {
+      "readable": false,
+      "expected": 2,
+      "current": 3
+    },
+    "expected": {
+      "state": "unavailable",
+      "currentVersion": null
+    }
+  }
+]

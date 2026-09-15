@@ -1,0 +1,444 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--create",
+    "component": "main--create",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--public",
+    "component": "main--public",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getFeatureRequests"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--drafts",
+    "component": "main--drafts",
+    "from": "main",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getFeatureRequests"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--like",
+    "component": "main--like",
+    "from": "main",
+    "event": "activate",
+    "effect": "本人の共感を切り替え件数を更新する。共感APIが必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "feature-request"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--request",
+    "component": "main--request",
+    "from": "main",
+    "event": "activate",
+    "effect": "アプリ内のお願いを書くフォームを開く。依頼相手は選ばず、本人が本文と公開範囲を確認して投稿する。フォームを開くだけでは送信しない。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "呼出元",
+      "入力中の下書き"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--github",
+    "component": "main--github",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$github-guide",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--edit",
+    "component": "main--edit",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--delete",
+    "component": "main--delete",
+    "from": "main",
+    "event": "activate",
+    "effect": "本人のrequestIdについて削除確認後に送る。他者投稿には操作を出さない。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "deleteFeatureRequestsRequestId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "main--nav-self",
+    "component": "main--nav-self",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--nav-map",
+    "component": "main--nav-map",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--nav-community",
+    "component": "main--nav-community",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--main--back",
+    "component": "main--back",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--main--create",
+    "component": "main--create",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--main--public",
+    "component": "main--public",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getFeatureRequests"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "submitted--main--drafts",
+    "component": "main--drafts",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getFeatureRequests"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "submitted--main--like",
+    "component": "main--like",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "本人の共感を切り替え件数を更新する。共感APIが必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "feature-request"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "submitted--main--request",
+    "component": "main--request",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "アプリ内のお願いを書くフォームを開く。依頼相手は選ばず、本人が本文と公開範囲を確認して投稿する。フォームを開くだけでは送信しない。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "呼出元",
+      "入力中の下書き"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "submitted--main--github",
+    "component": "main--github",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$github-guide",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "submitted--main--edit",
+    "component": "main--edit",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "feature-request-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "submitted--main--delete",
+    "component": "main--delete",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "本人のrequestIdについて削除確認後に送る。他者投稿には操作を出さない。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "deleteFeatureRequestsRequestId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "submitted--main--nav-self",
+    "component": "main--nav-self",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--main--nav-map",
+    "component": "main--nav-map",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--main--nav-community",
+    "component": "main--nav-community",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "submitted--dismiss",
+    "component": "submitted--dismiss",
+    "from": "submitted",
+    "event": "activate",
+    "effect": "完了通知だけを閉じる。保存済みの投稿は一覧へ残す。",
+    "destination": "feature-requests#main",
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "一覧と保存結果を保持する。"
+  }
+]

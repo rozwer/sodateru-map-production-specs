@@ -1,0 +1,236 @@
+{
+  "bindings": [
+    {
+      "id": "getThemes",
+      "method": "GET",
+      "path": "/themes",
+      "contract": "../../04_api/openapi.json#/paths/~1themes/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getRecords",
+      "method": "GET",
+      "path": "/records",
+      "contract": "../../04_api/openapi.json#/paths/~1records/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "placeId",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "themeId",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "from",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "to",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "kind",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "timeZone",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "includeUndated",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.placeId": "選択対象のplaceId",
+        "query.themeId": "選択テーマID",
+        "query.from": "選択期間の開始日時",
+        "query.to": "選択期間の終了日時",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "query.kind": "画面の記録種別/解釈種別",
+        "query.timeZone": "選択日付のIANA timeZone",
+        "query.includeUndated": "日付不明の記録を含めるか明示",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getPlaces",
+      "method": "GET",
+      "path": "/places",
+      "contract": "../../04_api/openapi.json#/paths/~1places/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "q",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "buildingKey",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.q": "入力された検索文字",
+        "query.bbox": "表示範囲の西・南・東・北",
+        "query.buildingKey": "選択地物の安定キー",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getMapGrowth",
+      "method": "GET",
+      "path": "/map/growth",
+      "contract": "../../04_api/openapi.json#/paths/~1map~1growth/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.bbox": "表示範囲の西・南・東・北",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

@@ -1,0 +1,348 @@
+[
+  {
+    "id": "main--back",
+    "testId": "route-conditions--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--origin",
+    "testId": "route-conditions--origin",
+    "kind": "control",
+    "purpose": "出発地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "combobox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.origin",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "出発地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "出発地",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "text",
+      "optionsFrom": "viewModel.placeCandidates",
+      "optionKey": "option.id",
+      "keyboard": "矢印で移動、Enterで選択、Escapeで候補だけ閉じる"
+    }
+  },
+  {
+    "id": "main--destination",
+    "testId": "route-conditions--destination",
+    "kind": "control",
+    "purpose": "目的地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "combobox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.destination",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "目的地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "目的地",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "text",
+      "optionsFrom": "viewModel.placeCandidates",
+      "optionKey": "option.id",
+      "keyboard": "矢印で移動、Enterで選択、Escapeで候補だけ閉じる"
+    }
+  },
+  {
+    "id": "main--clear",
+    "testId": "route-conditions--clear",
+    "kind": "control",
+    "purpose": "入力を消す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.clear",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "入力を消す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--waypoint",
+    "testId": "route-conditions--waypoint",
+    "kind": "control",
+    "purpose": "経由地を追加",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.waypoint",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "経由地を追加",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--departure",
+    "testId": "route-conditions--departure",
+    "kind": "control",
+    "purpose": "出発時刻",
+    "imageRegion": null,
+    "implementation": {
+      "type": "time-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.departure",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "出発時刻",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "出発時刻",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "time",
+      "allowsUnspecified": true
+    }
+  },
+  {
+    "id": "main--mode",
+    "testId": "route-conditions--mode",
+    "kind": "control",
+    "purpose": "徒歩・自転車・公共交通",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.mode",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "徒歩・自転車・公共交通",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "徒歩・自転車・公共交通",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "徒歩"
+        },
+        {
+          "id": "2",
+          "label": "自転車"
+        },
+        {
+          "id": "3",
+          "label": "公共交通"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.mode"
+    }
+  },
+  {
+    "id": "main--return",
+    "testId": "route-conditions--return",
+    "kind": "control",
+    "purpose": "帰りたい時刻",
+    "imageRegion": null,
+    "implementation": {
+      "type": "time-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.return",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "帰りたい時刻",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "帰りたい時刻",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "time",
+      "allowsUnspecified": true
+    }
+  },
+  {
+    "id": "main--stairs",
+    "testId": "route-conditions--stairs",
+    "kind": "control",
+    "purpose": "階段を避ける",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.stairs",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "階段を避ける",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "階段を避ける",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--covered",
+    "testId": "route-conditions--covered",
+    "kind": "control",
+    "purpose": "屋根を優先",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.covered",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "屋根を優先",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "屋根を優先",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "route-conditions--search",
+    "kind": "control",
+    "purpose": "経路を探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.search",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "経路を探す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "route-conditions--content",
+    "kind": "content",
+    "purpose": "出発地・目的地・経由順・移動制約",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--conditions-help",
+        "main--content--waypoints"
+      ]
+    }
+  },
+  {
+    "id": "main--content--conditions-help",
+    "testId": "route-conditions--main--content--conditions-help",
+    "kind": "content",
+    "purpose": "経路条件の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.conditions-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--waypoints",
+    "testId": "route-conditions--main--content--waypoints",
+    "kind": "content",
+    "purpose": "追加した経由地",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.waypoints",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "place",
+      "itemsFrom": "viewModel.waypoints",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "route-conditions--main--content--waypoints--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "route-conditions--page-title",
+    "kind": "content",
+    "purpose": "経路の条件",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

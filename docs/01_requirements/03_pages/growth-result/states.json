@@ -1,0 +1,22 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--original",
+      "main--next",
+      "main--map",
+      "main--content",
+      "main--content--map",
+      "main--content--quote",
+      "main--content--place",
+      "main--content--purpose",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--original",
+      "main--next",
+      "main--map"
+    ]
+  }
+]

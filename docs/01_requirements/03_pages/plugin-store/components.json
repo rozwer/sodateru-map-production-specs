@@ -1,0 +1,194 @@
+[
+  {
+    "id": "main--search",
+    "testId": "plugin-store--search",
+    "kind": "control",
+    "purpose": "名前や実現したいことから検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "search-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.query",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "名前や実現したいことから検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "名前や実現したいことから検索",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "search",
+      "events": [
+        "input",
+        "submit"
+      ],
+      "clearable": true
+    }
+  },
+  {
+    "id": "main--category",
+    "testId": "plugin-store--category",
+    "kind": "control",
+    "purpose": "分類で絞る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.category",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "分類で絞る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "分類で絞る",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [],
+      "optionsFrom": "viewModel.categoryOptions",
+      "optionKey": "option.id",
+      "checkedFrom": "form.category"
+    }
+  },
+  {
+    "id": "main--plugin",
+    "testId": "plugin-store--plugin",
+    "kind": "control",
+    "purpose": "拡張機能を開く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.plugin",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "拡張機能を開く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--cards",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-store--plugin--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--manage",
+    "testId": "plugin-store--manage",
+    "kind": "control",
+    "purpose": "導入済みを管理",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.manage",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "導入済みを管理",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--requests",
+    "testId": "plugin-store--requests",
+    "kind": "control",
+    "purpose": "欲しい機能",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.requests",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "欲しい機能",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--github",
+    "testId": "plugin-store--github",
+    "kind": "control",
+    "purpose": "開発ガイド",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.github",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "開発ガイド",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--back",
+    "testId": "plugin-store--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--cards",
+    "testId": "plugin-store--cards",
+    "kind": "content",
+    "purpose": "機能名・説明・作者・追加表示・導入状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.cards",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "plugin",
+      "itemsFrom": "viewModel.cards",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "plugin-store--cards--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--plugin"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "plugin-store--page-title",
+    "kind": "content",
+    "purpose": "拡張機能を探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

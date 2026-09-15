@@ -1,0 +1,204 @@
+[
+  {
+    "id": "main--back",
+    "testId": "experience-compare--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--common",
+    "testId": "experience-compare--common",
+    "kind": "control",
+    "purpose": "共通点（100文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.common",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共通点（100文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "共通点（100文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 100,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--difference",
+    "testId": "experience-compare--difference",
+    "kind": "control",
+    "purpose": "違い（100文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.difference",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "違い（100文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "違い（100文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 100,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--original",
+    "testId": "experience-compare--original",
+    "kind": "control",
+    "purpose": "元の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.original",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "experience-compare--save",
+    "kind": "control",
+    "purpose": "比較を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "比較を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "experience-compare--content",
+    "kind": "content",
+    "purpose": "選択した二つの体験の場所・日時・本文",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--records",
+        "main--content--common-count",
+        "main--content--difference-count"
+      ]
+    }
+  },
+  {
+    "id": "main--content--records",
+    "testId": "experience-compare--main--content--records",
+    "kind": "content",
+    "purpose": "比較する二つの体験",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "experience-compare--main--content--records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--common-count",
+    "testId": "experience-compare--main--content--common-count",
+    "kind": "content",
+    "purpose": "共通点の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--common)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--common",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--difference-count",
+    "testId": "experience-compare--main--content--difference-count",
+    "kind": "content",
+    "purpose": "違いの文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--difference)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--difference",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "experience-compare--page-title",
+    "kind": "content",
+    "purpose": "二つの体験を比較",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

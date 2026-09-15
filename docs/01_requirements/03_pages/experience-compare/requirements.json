@@ -1,0 +1,48 @@
+[
+  {
+    "id": "experience-compare-R1",
+    "text": "異なる2件の記録をIDで選び、共通点と違いを別々に100文字まで入力して保存・再表示する。共通の用途を場所全体の同一性や同じ好みと断定しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "experience-compare-C1"
+    ]
+  },
+  {
+    "id": "experience-compare-F01",
+    "kind": "capability",
+    "title": "体験を並べる",
+    "text": "選んだ2件の場所・日時・言葉を見比べられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "experience-compare-FC01"
+    ]
+  },
+  {
+    "id": "experience-compare-F02",
+    "kind": "capability",
+    "title": "比較を書く",
+    "text": "共通点と違いをそれぞれ100文字以内で書ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "experience-compare-FC02"
+    ]
+  },
+  {
+    "id": "experience-compare-F03",
+    "kind": "capability",
+    "title": "比較を残す",
+    "text": "対象2件と比較文を保存し元記録と共に再表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "experience-compare-FC03"
+    ]
+  }
+]

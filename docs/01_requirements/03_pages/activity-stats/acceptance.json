@@ -1,0 +1,108 @@
+[
+  {
+    "id": "activity-stats-C1",
+    "requirement": "activity-stats-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "集計期間・単位・取得元・欠測を示す。歩数とGPS距離を混算しない。0と未取得を区別する。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-year",
+      "week--steps-detail",
+      "week--activity-open",
+      "week--activity-detail"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "activity-stats-C2",
+    "requirement": "activity-stats-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "活動別の内訳から対象記録を確認する。期間変更でグラフと合計を同時に更新する。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-year",
+      "week--steps-detail",
+      "week--activity-open",
+      "week--activity-detail"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "activity-stats-FC01",
+    "requirement": "activity-stats-F01",
+    "mode": "live",
+    "precondition": "活動の量と内訳を期間ごとに確かめるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「期間を選ぶ」に対応する操作を行う。",
+      "今日・週・月・年の集計を切り替えられることを画面で確認する。"
+    ],
+    "expect": [
+      "今日・週・月・年の集計を切り替えられる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "activity-stats-FC02",
+    "requirement": "activity-stats-F02",
+    "mode": "live",
+    "precondition": "活動の量と内訳を期間ごとに確かめるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「活動を比べる」に対応する操作を行う。",
+      "歩数・移動距離・訪問と活動の内訳を確認できることを画面で確認する。"
+    ],
+    "expect": [
+      "歩数・移動距離・訪問と活動の内訳を確認できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "activity-stats-FC03",
+    "requirement": "activity-stats-F03",
+    "mode": "live",
+    "precondition": "活動の量と内訳を期間ごとに確かめるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「数値の出所を見る」に対応する操作を行う。",
+      "取得元・欠測を確認し対応する記録へ戻れることを画面で確認する。"
+    ],
+    "expect": [
+      "取得元・欠測を確認し対応する記録へ戻れる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

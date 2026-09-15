@@ -1,0 +1,194 @@
+[
+  {
+    "id": "main--back",
+    "testId": "quest-compass--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--route",
+    "testId": "quest-compass--route",
+    "kind": "control",
+    "purpose": "地図で経路を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.route",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図で経路を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--end",
+    "testId": "quest-compass--end",
+    "kind": "control",
+    "purpose": "終了",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.end",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "終了",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "quest-compass--content",
+    "kind": "content",
+    "purpose": "目的地への方角・直線距離・測位更新・道路経路ではない説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--destination-name",
+        "main--content--direction",
+        "main--content--distance",
+        "main--content--position-updated",
+        "main--content--position-state",
+        "main--content--straight-line-note"
+      ]
+    }
+  },
+  {
+    "id": "main--content--destination-name",
+    "testId": "quest-compass--main--content--destination-name",
+    "kind": "content",
+    "purpose": "目的地",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.destination-name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--direction",
+    "testId": "quest-compass--main--content--direction",
+    "kind": "content",
+    "purpose": "目的地方角",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "compass",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.bearingAndDistance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "fixedShapeAllowed": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--distance",
+    "testId": "quest-compass--main--content--distance",
+    "kind": "content",
+    "purpose": "直線距離",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.distance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--position-updated",
+    "testId": "quest-compass--main--content--position-updated",
+    "kind": "content",
+    "purpose": "測位更新日時",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.position-updated",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--position-state",
+    "testId": "quest-compass--main--content--position-state",
+    "kind": "content",
+    "purpose": "測位状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.position-state",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--straight-line-note",
+    "testId": "quest-compass--main--content--straight-line-note",
+    "kind": "content",
+    "purpose": "道路経路とは異なる説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.straight-line-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "quest-compass--page-title",
+    "kind": "content",
+    "purpose": "探索コンパス",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

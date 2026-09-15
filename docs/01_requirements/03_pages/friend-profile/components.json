@@ -1,0 +1,319 @@
+[
+  {
+    "id": "main--back",
+    "testId": "friend-profile--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--more",
+    "testId": "friend-profile--more",
+    "kind": "control",
+    "purpose": "三点メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.more",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "三点メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--follow",
+    "testId": "friend-profile--follow",
+    "kind": "control",
+    "purpose": "友達申請・申請中・受信申請の承認・友達状態（関係に応じて表示）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "viewModel.friendshipState",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達申請・申請中・受信申請の承認・友達状態（関係に応じて表示）",
+      "disabledWhen": "outgoingの申請中表示は再送しない。取消はメニューの明示操作。",
+      "textByState": {
+        "none": "友達申請",
+        "outgoing": "申請中",
+        "incoming": "申請を承認",
+        "accepted": "友達"
+      }
+    }
+  },
+  {
+    "id": "main--themes",
+    "testId": "friend-profile--themes",
+    "kind": "control",
+    "purpose": "テーマをすべて見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.themes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "テーマをすべて見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--records",
+    "testId": "friend-profile--records",
+    "kind": "control",
+    "purpose": "最近の記録をすべて見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "最近の記録をすべて見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--map",
+    "testId": "friend-profile--map",
+    "kind": "control",
+    "purpose": "この人の地図を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この人の地図を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--compare",
+    "testId": "friend-profile--compare",
+    "kind": "control",
+    "purpose": "共通点を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.compare",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共通点を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--share",
+    "testId": "friend-profile--share",
+    "kind": "control",
+    "purpose": "共有する記録を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.share",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共有する記録を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "friend-profile--content",
+    "kind": "content",
+    "purpose": "プロフィール・共有された情報だけの表示・テーマ・最近の記録",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--avatar",
+        "main--content--name",
+        "main--content--bio",
+        "main--content--relationship",
+        "main--content--shared-only",
+        "main--content--themes",
+        "main--content--records"
+      ]
+    }
+  },
+  {
+    "id": "main--content--avatar",
+    "testId": "friend-profile--main--content--avatar",
+    "kind": "content",
+    "purpose": "相手の写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--name",
+    "testId": "friend-profile--main--content--name",
+    "kind": "content",
+    "purpose": "表示名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--bio",
+    "testId": "friend-profile--main--content--bio",
+    "kind": "content",
+    "purpose": "紹介文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.bio",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--relationship",
+    "testId": "friend-profile--main--content--relationship",
+    "kind": "content",
+    "purpose": "友達関係",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.relationship",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--shared-only",
+    "testId": "friend-profile--main--content--shared-only",
+    "kind": "content",
+    "purpose": "共有された情報のみの説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.shared-only",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--themes",
+    "testId": "friend-profile--main--content--themes",
+    "kind": "content",
+    "purpose": "相手の共有テーマ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.themes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "theme",
+      "itemsFrom": "viewModel.themes",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-profile--main--content--themes--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--records",
+    "testId": "friend-profile--main--content--records",
+    "kind": "content",
+    "purpose": "最近の共有記録",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-profile--main--content--records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "friend-profile--page-title",
+    "kind": "content",
+    "purpose": "友達のプロフィール",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

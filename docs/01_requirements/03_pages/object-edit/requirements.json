@@ -1,0 +1,70 @@
+[
+  {
+    "id": "object-edit-R1",
+    "text": "名前20文字・メモ200文字・6色・小中大の表示サイズと配置場所を編集する。サイズは地図上の表現であり実建物の高さを書き換えない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-edit-C1"
+    ]
+  },
+  {
+    "id": "object-edit-F01",
+    "kind": "capability",
+    "title": "内容を変える",
+    "text": "名前20文字・メモ200文字を編集できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-edit-FC01"
+    ]
+  },
+  {
+    "id": "object-edit-F02",
+    "kind": "capability",
+    "title": "見た目を変える",
+    "text": "6色と小中大の表示サイズを選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-edit-FC02"
+    ]
+  },
+  {
+    "id": "object-edit-F03",
+    "kind": "capability",
+    "title": "配置を変える",
+    "text": "場所を選び直してプレビューできる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-edit-FC03"
+    ]
+  },
+  {
+    "id": "object-edit-F04",
+    "kind": "capability",
+    "title": "確定する",
+    "text": "自分で追加した飾り・目印の保存・取消・削除を選べる。体験で育つ建物は記録と用途の訂正で変更する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-edit-FC04"
+    ]
+  },
+  {
+    "id": "object-edit-SCOPE",
+    "text": "手動編集の対象は本人が追加した飾り・目印。体験で育つ建物を変更したい場合は元の記録・用途を訂正する。手動オブジェクトを消しても訪問記録を消さない。",
+    "sources": [
+      "../questions.json"
+    ],
+    "acceptance": [
+      "object-edit-SCOPE-C"
+    ]
+  }
+]

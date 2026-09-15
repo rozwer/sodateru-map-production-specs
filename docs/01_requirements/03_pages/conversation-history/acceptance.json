@@ -1,0 +1,75 @@
+[
+  {
+    "id": "conversation-history-C1",
+    "requirement": "conversation-history-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "相談を日付別に再表示し、同じconversationIdの発言を開く。新規相談は既存会話を上書きしない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "main--back",
+      "main--search",
+      "main--conversation",
+      "main--new"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "conversation-history-FC01",
+    "requirement": "conversation-history-F01",
+    "mode": "live",
+    "precondition": "過去の相談を読み直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「相談を探す」に対応する操作を行う。",
+      "日付と検索文字から保存した会話を見つけられることを画面で確認する。"
+    ],
+    "expect": [
+      "日付と検索文字から保存した会話を見つけられる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "conversation-history-FC02",
+    "requirement": "conversation-history-F02",
+    "mode": "live",
+    "precondition": "過去の相談を読み直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「会話を開く」に対応する操作を行う。",
+      "同じ相談の発言と結果を再表示できることを画面で確認する。"
+    ],
+    "expect": [
+      "同じ相談の発言と結果を再表示できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "conversation-history-FC03",
+    "requirement": "conversation-history-F03",
+    "mode": "live",
+    "precondition": "過去の相談を読み直すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「新しく始める」に対応する操作を行う。",
+      "既存会話を上書きせず別の相談を始められることを画面で確認する。"
+    ],
+    "expect": [
+      "既存会話を上書きせず別の相談を始められる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

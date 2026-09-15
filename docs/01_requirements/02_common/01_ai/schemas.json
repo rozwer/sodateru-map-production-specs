@@ -1,0 +1,3811 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://sodateru.local/spec/common/ai",
+  "definitions": {
+    "ID": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "\\S"
+    },
+    "Coordinates": {
+      "type": "array",
+      "items": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "SourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "record",
+            "visit",
+            "place",
+            "checkin",
+            "route"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ]
+    },
+    "Geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "LineString"
+        },
+        "coordinates": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              }
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "minItems": 2,
+          "maxItems": 100000
+        }
+      },
+      "required": [
+        "type",
+        "coordinates"
+      ]
+    },
+    "ConversationCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "purpose": {
+          "enum": [
+            "consult",
+            "reflection",
+            "analysis",
+            "comparison"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "recordId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "purpose",
+        "title",
+        "recordId"
+      ]
+    },
+    "Conversation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "purpose": {
+          "enum": [
+            "consult",
+            "reflection",
+            "analysis",
+            "comparison"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "recordId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "purpose",
+        "title",
+        "recordId",
+        "personId",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "RunRequest": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "extract"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "recordId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                "answers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "question": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 500
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "question",
+                      "text"
+                    ]
+                  },
+                  "minItems": 0,
+                  "maxItems": 10
+                }
+              },
+              "required": [
+                "recordId",
+                "answers"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "diary"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "timezone": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "recordIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "date",
+                "timezone",
+                "recordIds"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "consult"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "placeIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "maxItems": 20,
+                  "uniqueItems": true
+                },
+                "recordIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 0,
+                  "maxItems": 100,
+                  "uniqueItems": true
+                },
+                "conditions": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "placeIds",
+                "recordIds",
+                "conditions"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "compare"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "fromRecordIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "maxItems": 20,
+                  "uniqueItems": true
+                },
+                "toRecordIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "maxItems": 20,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "fromRecordIds",
+                "toRecordIds"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "analysis"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "insightId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "insightId"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "theme"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "recordIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 1,
+                  "maxItems": 100,
+                  "uniqueItems": true
+                },
+                "currentName": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 100
+                }
+              },
+              "required": [
+                "recordIds",
+                "currentName"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "mapstyle"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "current": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "theme": {
+                      "enum": [
+                        "default",
+                        "faded",
+                        "monochrome"
+                      ]
+                    },
+                    "lightPreset": {
+                      "enum": [
+                        "dawn",
+                        "day",
+                        "dusk",
+                        "night"
+                      ]
+                    },
+                    "showPedestrianRoads": {
+                      "type": "boolean"
+                    },
+                    "showAdminBoundaries": {
+                      "type": "boolean"
+                    },
+                    "showIndoor": {
+                      "type": "boolean"
+                    },
+                    "colors": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "water": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}$"
+                            },
+                            "greenspace": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}$"
+                            },
+                            "roads": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}$"
+                            },
+                            "buildings": {
+                              "type": "string",
+                              "pattern": "^#[0-9A-Fa-f]{6}$"
+                            }
+                          },
+                          "required": [
+                            "water",
+                            "greenspace",
+                            "roads",
+                            "buildings"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "theme",
+                    "lightPreset",
+                    "showPedestrianRoads",
+                    "showAdminBoundaries",
+                    "showIndoor",
+                    "colors"
+                  ]
+                }
+              },
+              "required": [
+                "current"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "assistantMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 20000
+            },
+            "task": {
+              "const": "discover"
+            },
+            "input": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "anchor": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "place",
+                        "building",
+                        "photo"
+                      ]
+                    },
+                    "targetId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80,
+                      "pattern": "\\S"
+                    },
+                    "features": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 300
+                      },
+                      "minItems": 1,
+                      "maxItems": 10
+                    }
+                  },
+                  "required": [
+                    "kind",
+                    "targetId",
+                    "features"
+                  ]
+                },
+                "factKeys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "minItems": 0,
+                  "maxItems": 50,
+                  "uniqueItems": true
+                }
+              },
+              "required": [
+                "anchor",
+                "factKeys"
+              ]
+            },
+            "expectedRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "conversationId",
+            "userMessageId",
+            "assistantMessageId",
+            "text",
+            "task",
+            "input",
+            "expectedRefs"
+          ]
+        }
+      ]
+    },
+    "Run": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "extract"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "purpose": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 0,
+                          "maxLength": 500
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 0,
+                          "maxLength": 2000
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "context": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "weather": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "clear",
+                                "rain",
+                                "snow",
+                                "other"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "companion": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "alone",
+                                "friend",
+                                "family",
+                                "colleague",
+                                "other"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "timeBudgetMinutes": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "timeBand": {
+                          "anyOf": [
+                            {
+                              "enum": [
+                                "morning",
+                                "day",
+                                "evening",
+                                "night"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "notes": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 4000
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "weather",
+                        "companion",
+                        "timeBudgetMinutes",
+                        "timeBand",
+                        "notes"
+                      ]
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "\\S"
+                      },
+                      "minItems": 0,
+                      "maxItems": 1000,
+                      "uniqueItems": true
+                    },
+                    "question": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "topic": {
+                              "enum": [
+                                "purpose",
+                                "reason",
+                                "context",
+                                "alternative"
+                              ]
+                            },
+                            "text": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 500
+                            }
+                          },
+                          "required": [
+                            "topic",
+                            "text"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "purpose",
+                    "reason",
+                    "context",
+                    "evidenceIds",
+                    "question"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "diary"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "text": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 20000
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "\\S"
+                      },
+                      "minItems": 1,
+                      "maxItems": 1000,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "evidenceIds"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "consult"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "summary": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 2000
+                    },
+                    "candidates": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "placeId": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80,
+                            "pattern": "\\S"
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 2000
+                          },
+                          "evidenceIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80,
+                              "pattern": "\\S"
+                            },
+                            "minItems": 0,
+                            "maxItems": 1000,
+                            "uniqueItems": true
+                          },
+                          "unknowns": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 1000
+                            },
+                            "minItems": 0,
+                            "maxItems": 100
+                          }
+                        },
+                        "required": [
+                          "placeId",
+                          "reason",
+                          "evidenceIds",
+                          "unknowns"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 20
+                    },
+                    "unknowns": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 1000
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "required": [
+                    "summary",
+                    "candidates",
+                    "unknowns"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "compare"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "mappings": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "fromRecordId": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80,
+                            "pattern": "\\S"
+                          },
+                          "toRecordId": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 80,
+                            "pattern": "\\S"
+                          },
+                          "relation": {
+                            "enum": [
+                              "same-place-same-purpose",
+                              "same-place-different-purpose",
+                              "different-place-same-role",
+                              "practical-tip",
+                              "similar-but-different-reason"
+                            ]
+                          },
+                          "explanation": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1500
+                          },
+                          "evidenceIds": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 80,
+                              "pattern": "\\S"
+                            },
+                            "minItems": 0,
+                            "maxItems": 1000,
+                            "uniqueItems": true
+                          },
+                          "rejected": {
+                            "const": false
+                          }
+                        },
+                        "required": [
+                          "fromRecordId",
+                          "toRecordId",
+                          "relation",
+                          "explanation",
+                          "evidenceIds",
+                          "rejected"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 400
+                    }
+                  },
+                  "required": [
+                    "mappings"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "analysis"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "summary": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "\\S"
+                      },
+                      "minItems": 0,
+                      "maxItems": 1000,
+                      "uniqueItems": true
+                    },
+                    "unknowns": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 1000
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "required": [
+                    "summary",
+                    "evidenceIds",
+                    "unknowns"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "theme"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "description": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 1000
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "\\S"
+                      },
+                      "minItems": 0,
+                      "maxItems": 1000,
+                      "uniqueItems": true
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "description",
+                    "evidenceIds"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "mapstyle"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "proposal": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "theme": {
+                          "enum": [
+                            "default",
+                            "faded",
+                            "monochrome"
+                          ]
+                        },
+                        "lightPreset": {
+                          "enum": [
+                            "dawn",
+                            "day",
+                            "dusk",
+                            "night"
+                          ]
+                        },
+                        "showPedestrianRoads": {
+                          "type": "boolean"
+                        },
+                        "showAdminBoundaries": {
+                          "type": "boolean"
+                        },
+                        "showIndoor": {
+                          "type": "boolean"
+                        },
+                        "colors": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "water": {
+                                  "type": "string",
+                                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                                },
+                                "greenspace": {
+                                  "type": "string",
+                                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                                },
+                                "roads": {
+                                  "type": "string",
+                                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                                },
+                                "buildings": {
+                                  "type": "string",
+                                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                                }
+                              },
+                              "required": [
+                                "water",
+                                "greenspace",
+                                "roads",
+                                "buildings"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "theme",
+                        "lightPreset",
+                        "showPedestrianRoads",
+                        "showAdminBoundaries",
+                        "showIndoor",
+                        "colors"
+                      ]
+                    },
+                    "explanation": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1000
+                    }
+                  },
+                  "required": [
+                    "proposal",
+                    "explanation"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "conversationId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "userMessageId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "status": {
+              "enum": [
+                "pending",
+                "running",
+                "complete",
+                "failed",
+                "cancelled"
+              ]
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "model": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "promptVersion": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/Error"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sourceRefs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SourceRef"
+              },
+              "minItems": 0,
+              "maxItems": 1000,
+              "uniqueItems": true
+            },
+            "insightId": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "createdAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "updatedAt": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "task": {
+              "const": "discover"
+            },
+            "result": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "anchor": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "kind": {
+                          "enum": [
+                            "place",
+                            "building",
+                            "photo"
+                          ]
+                        },
+                        "targetId": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 80,
+                          "pattern": "\\S"
+                        },
+                        "features": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 300
+                          },
+                          "minItems": 1,
+                          "maxItems": 10
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "targetId",
+                        "features"
+                      ]
+                    },
+                    "bridge": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 1500
+                    },
+                    "knowledge": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 2500
+                    },
+                    "observationPrompt": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 1000
+                    },
+                    "conceptIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 80,
+                        "pattern": "\\S"
+                      },
+                      "minItems": 0,
+                      "maxItems": 100,
+                      "uniqueItems": true
+                    },
+                    "sources": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "url": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 2048,
+                                "format": "uri",
+                                "pattern": "^https?://"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 300
+                          },
+                          "claimScope": {
+                            "enum": [
+                              "general",
+                              "place-specific"
+                            ]
+                          },
+                          "sourceId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 80,
+                                "pattern": "\\S"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "url",
+                          "title",
+                          "claimScope",
+                          "sourceId"
+                        ]
+                      },
+                      "minItems": 0,
+                      "maxItems": 50
+                    }
+                  },
+                  "required": [
+                    "anchor",
+                    "bridge",
+                    "knowledge",
+                    "observationPrompt",
+                    "conceptIds",
+                    "sources"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "conversationId",
+            "userMessageId",
+            "status",
+            "attempt",
+            "version",
+            "model",
+            "promptVersion",
+            "error",
+            "sourceRefs",
+            "insightId",
+            "createdAt",
+            "updatedAt",
+            "task",
+            "result"
+          ]
+        }
+      ]
+    },
+    "AttemptAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expectedVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expectedAttempt": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "expectedVersion",
+        "expectedAttempt"
+      ]
+    },
+    "Message": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "conversationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "running",
+            "complete",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "insightId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SourceRef"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "conversationId",
+        "position",
+        "role",
+        "body",
+        "status",
+        "attempt",
+        "model",
+        "insightId",
+        "sourceRefs",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MessagePage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Message"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ]
+    },
+    "Origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coordinates": {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "kind": {
+          "enum": [
+            "current-location",
+            "map-center",
+            "selected",
+            "demo"
+          ]
+        }
+      },
+      "required": [
+        "coordinates",
+        "label",
+        "kind"
+      ]
+    },
+    "DialogueRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        }
+      },
+      "required": [
+        "text",
+        "origin"
+      ]
+    },
+    "DialogueSelect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "candidateId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "resultId",
+        "candidateId"
+      ]
+    },
+    "DialogueCancel": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "requestId"
+      ]
+    },
+    "DialogueAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "enum": [
+            "search_nearby",
+            "walking_route",
+            "finish"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 30
+        },
+        "destinationId": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 80
+        },
+        "text": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "action",
+        "category",
+        "destinationId",
+        "text"
+      ]
+    },
+    "DialogueResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "places": {
+          "type": "array",
+          "items": {
+            "$ref": "https://sodateru.local/spec/common/places#/definitions/PlaceCandidate"
+          },
+          "minItems": 0,
+          "maxItems": 5
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "https://sodateru.local/spec/common/places#/definitions/RoutePreview"
+          },
+          "minItems": 0,
+          "maxItems": 3
+        },
+        "origin": {
+          "$ref": "#/definitions/Origin"
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "resultId",
+        "text",
+        "places",
+        "routes",
+        "origin",
+        "expiresAt"
+      ]
+    },
+    "extractInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recordId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "question": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": [
+              "question",
+              "text"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 10
+        }
+      },
+      "required": [
+        "recordId",
+        "answers"
+      ]
+    },
+    "extractResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "purpose": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "weather": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "clear",
+                    "rain",
+                    "snow",
+                    "other"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "companion": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "alone",
+                    "friend",
+                    "family",
+                    "colleague",
+                    "other"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timeBudgetMinutes": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "timeBand": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "morning",
+                    "day",
+                    "evening",
+                    "night"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "notes": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 4000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "weather",
+            "companion",
+            "timeBudgetMinutes",
+            "timeBand",
+            "notes"
+          ]
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "question": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "topic": {
+                  "enum": [
+                    "purpose",
+                    "reason",
+                    "context",
+                    "alternative"
+                  ]
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500
+                }
+              },
+              "required": [
+                "topic",
+                "text"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "purpose",
+        "reason",
+        "context",
+        "evidenceIds",
+        "question"
+      ]
+    },
+    "diaryInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "date",
+        "timezone",
+        "recordIds"
+      ]
+    },
+    "diaryResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20000
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "text",
+        "evidenceIds"
+      ]
+    },
+    "consultInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "placeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 20,
+          "uniqueItems": true
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "placeIds",
+        "recordIds",
+        "conditions"
+      ]
+    },
+    "consultResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2000
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "placeId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "\\S"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              },
+              "evidenceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                "minItems": 0,
+                "maxItems": 1000,
+                "uniqueItems": true
+              },
+              "unknowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 1000
+                },
+                "minItems": 0,
+                "maxItems": 100
+              }
+            },
+            "required": [
+              "placeId",
+              "reason",
+              "evidenceIds",
+              "unknowns"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 20
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 1000
+          },
+          "minItems": 0,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "summary",
+        "candidates",
+        "unknowns"
+      ]
+    },
+    "compareInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fromRecordIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 20,
+          "uniqueItems": true
+        },
+        "toRecordIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 20,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "fromRecordIds",
+        "toRecordIds"
+      ]
+    },
+    "compareResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mappings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromRecordId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "\\S"
+              },
+              "toRecordId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "\\S"
+              },
+              "relation": {
+                "enum": [
+                  "same-place-same-purpose",
+                  "same-place-different-purpose",
+                  "different-place-same-role",
+                  "practical-tip",
+                  "similar-but-different-reason"
+                ]
+              },
+              "explanation": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1500
+              },
+              "evidenceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "pattern": "\\S"
+                },
+                "minItems": 0,
+                "maxItems": 1000,
+                "uniqueItems": true
+              },
+              "rejected": {
+                "const": false
+              }
+            },
+            "required": [
+              "fromRecordId",
+              "toRecordId",
+              "relation",
+              "explanation",
+              "evidenceIds",
+              "rejected"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 400
+        }
+      },
+      "required": [
+        "mappings"
+      ]
+    },
+    "analysisInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "insightId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        }
+      },
+      "required": [
+        "insightId"
+      ]
+    },
+    "analysisResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 1000
+          },
+          "minItems": 0,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "summary",
+        "evidenceIds",
+        "unknowns"
+      ]
+    },
+    "themeInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "currentName": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "recordIds",
+        "currentName"
+      ]
+    },
+    "themeResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "evidenceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "evidenceIds"
+      ]
+    },
+    "mapstyleInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "current": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "theme": {
+              "enum": [
+                "default",
+                "faded",
+                "monochrome"
+              ]
+            },
+            "lightPreset": {
+              "enum": [
+                "dawn",
+                "day",
+                "dusk",
+                "night"
+              ]
+            },
+            "showPedestrianRoads": {
+              "type": "boolean"
+            },
+            "showAdminBoundaries": {
+              "type": "boolean"
+            },
+            "showIndoor": {
+              "type": "boolean"
+            },
+            "colors": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "water": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "greenspace": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "roads": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "buildings": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    }
+                  },
+                  "required": [
+                    "water",
+                    "greenspace",
+                    "roads",
+                    "buildings"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "theme",
+            "lightPreset",
+            "showPedestrianRoads",
+            "showAdminBoundaries",
+            "showIndoor",
+            "colors"
+          ]
+        }
+      },
+      "required": [
+        "current"
+      ]
+    },
+    "mapstyleResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proposal": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "theme": {
+              "enum": [
+                "default",
+                "faded",
+                "monochrome"
+              ]
+            },
+            "lightPreset": {
+              "enum": [
+                "dawn",
+                "day",
+                "dusk",
+                "night"
+              ]
+            },
+            "showPedestrianRoads": {
+              "type": "boolean"
+            },
+            "showAdminBoundaries": {
+              "type": "boolean"
+            },
+            "showIndoor": {
+              "type": "boolean"
+            },
+            "colors": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "water": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "greenspace": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "roads": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "buildings": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    }
+                  },
+                  "required": [
+                    "water",
+                    "greenspace",
+                    "roads",
+                    "buildings"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "theme",
+            "lightPreset",
+            "showPedestrianRoads",
+            "showAdminBoundaries",
+            "showIndoor",
+            "colors"
+          ]
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      },
+      "required": [
+        "proposal",
+        "explanation"
+      ]
+    },
+    "discoverInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "place",
+                "building",
+                "photo"
+              ]
+            },
+            "targetId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              "minItems": 1,
+              "maxItems": 10
+            }
+          },
+          "required": [
+            "kind",
+            "targetId",
+            "features"
+          ]
+        },
+        "factKeys": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 50,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "anchor",
+        "factKeys"
+      ]
+    },
+    "discoverResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "place",
+                "building",
+                "photo"
+              ]
+            },
+            "targetId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              "minItems": 1,
+              "maxItems": 10
+            }
+          },
+          "required": [
+            "kind",
+            "targetId",
+            "features"
+          ]
+        },
+        "bridge": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1500
+        },
+        "knowledge": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 2500
+        },
+        "observationPrompt": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 1000
+        },
+        "conceptIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "url": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048,
+                    "format": "uri",
+                    "pattern": "^https?://"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              "claimScope": {
+                "enum": [
+                  "general",
+                  "place-specific"
+                ]
+              },
+              "sourceId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "url",
+              "title",
+              "claimScope",
+              "sourceId"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 50
+        }
+      },
+      "required": [
+        "anchor",
+        "bridge",
+        "knowledge",
+        "observationPrompt",
+        "conceptIds",
+        "sources"
+      ]
+    }
+  }
+}

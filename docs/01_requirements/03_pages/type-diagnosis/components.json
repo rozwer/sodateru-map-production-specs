@@ -1,0 +1,379 @@
+[
+  {
+    "id": "week--back",
+    "testId": "type-diagnosis--week--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--heading",
+    "testId": "type-diagnosis--week--heading",
+    "kind": "content",
+    "purpose": "タイプ診断／記録から見える、最近の自分",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.week.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "week--provisional",
+    "testId": "type-diagnosis--week--provisional",
+    "kind": "content",
+    "purpose": "今週の仮の呼び名／記録に基づく暫定的な傾向",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.week.provisional",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--type-name",
+    "testId": "type-diagnosis--week--type-name",
+    "kind": "content",
+    "purpose": "穏やかな寄り道探検家",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.week.type-name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--description",
+    "testId": "type-diagnosis--week--description",
+    "kind": "content",
+    "purpose": "新しい場所と、落ち着ける時間を大切にした一週間。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.week.description",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--radar",
+    "testId": "type-diagnosis--week--radar",
+    "kind": "content",
+    "purpose": "自然・本・カフェ・散歩・人との時間のレーダー図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "chart",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.series",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "labelsFrom": "viewModel.axisLabels",
+      "missingValues": "未取得を0にせず欠測表示",
+      "accessibleSummary": "同じ値のDOM一覧/説明を添える",
+      "fixedShapeAllowed": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--evidence-cards",
+    "testId": "type-diagnosis--week--evidence-cards",
+    "kind": "content",
+    "purpose": "根拠になった記録：写真・日付・場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.week.evidence-cards",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.evidence_cards",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "type-diagnosis--week--evidence-cards--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--period-today",
+    "testId": "type-diagnosis--week--period-today",
+    "kind": "control",
+    "purpose": "今日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-today",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-week",
+    "testId": "type-diagnosis--week--period-week",
+    "kind": "control",
+    "purpose": "今週",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-week",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今週",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-month",
+    "testId": "type-diagnosis--week--period-month",
+    "kind": "control",
+    "purpose": "今月",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-month",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今月",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-all",
+    "testId": "type-diagnosis--week--period-all",
+    "kind": "control",
+    "purpose": "これまで",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-all",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "これまで",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--info",
+    "testId": "type-diagnosis--week--info",
+    "kind": "control",
+    "purpose": "傾向の説明アイコン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.info",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "傾向の説明アイコン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--evidence",
+    "testId": "type-diagnosis--week--evidence",
+    "kind": "control",
+    "purpose": "根拠を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.evidence",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "根拠を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--agree",
+    "testId": "type-diagnosis--week--agree",
+    "kind": "control",
+    "purpose": "合っている",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.agree",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "合っている",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--disagree",
+    "testId": "type-diagnosis--week--disagree",
+    "kind": "control",
+    "purpose": "違う",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.disagree",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "違う",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--unsure",
+    "testId": "type-diagnosis--week--unsure",
+    "kind": "control",
+    "purpose": "まだ分からない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.unsure",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "まだ分からない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--find",
+    "testId": "type-diagnosis--week--find",
+    "kind": "control",
+    "purpose": "今の希望から探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.find",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今の希望から探す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--nav-self",
+    "testId": "type-diagnosis--week--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--nav-map",
+    "testId": "type-diagnosis--week--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--nav-community",
+    "testId": "type-diagnosis--week--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--background-map",
+    "testId": "type-diagnosis--week--background-map",
+    "kind": "content",
+    "purpose": "背景の実地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.backgroundMap",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "attribution": true,
+      "interaction": "周囲の操作面を遮らない。地図を表示する領域だけでcamera操作する。",
+      "fallback": "地図未取得を表示。画面全体の画像へ置換しない。",
+      "accessibleSummary": "対象地域名をDOMでも表示"
+    }
+  }
+]

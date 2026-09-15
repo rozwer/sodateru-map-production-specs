@@ -1,0 +1,339 @@
+[
+  {
+    "id": "main--back",
+    "testId": "feature-requests--back",
+    "kind": "control",
+    "purpose": "育てる地図へ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "育てる地図へ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--create",
+    "testId": "feature-requests--create",
+    "kind": "control",
+    "purpose": "お願いを書く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.create",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "お願いを書く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--public",
+    "testId": "feature-requests--public",
+    "kind": "control",
+    "purpose": "みんなの投稿",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.public",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの投稿",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "main--drafts",
+    "testId": "feature-requests--drafts",
+    "kind": "control",
+    "purpose": "自分の下書き",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.drafts",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分の下書き",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "main--like",
+    "testId": "feature-requests--like",
+    "kind": "control",
+    "purpose": "共感する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.like",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共感する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "feature-requests--like--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--request",
+    "testId": "feature-requests--request",
+    "kind": "control",
+    "purpose": "人に頼む",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.request",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "人に頼む",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "feature-requests--request--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--github",
+    "testId": "feature-requests--github",
+    "kind": "control",
+    "purpose": "自分で開発・GitHub",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.github",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分で開発・GitHub",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "feature-requests--github--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--edit",
+    "testId": "feature-requests--edit",
+    "kind": "control",
+    "purpose": "編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.edit",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "feature-requests--edit--{item.id}"
+      },
+      "visibleWhen": "item.isOwnedByCurrentUser"
+    }
+  },
+  {
+    "id": "main--delete",
+    "testId": "feature-requests--delete",
+    "kind": "control",
+    "purpose": "削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.delete",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "削除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "feature-requests--delete--{item.id}"
+      },
+      "visibleWhen": "item.isOwnedByCurrentUser"
+    }
+  },
+  {
+    "id": "main--nav-self",
+    "testId": "feature-requests--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--nav-map",
+    "testId": "feature-requests--nav-map",
+    "kind": "control",
+    "purpose": "地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--nav-community",
+    "testId": "feature-requests--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "feature-requests--content",
+    "kind": "content",
+    "purpose": "投稿者・本文・地域と目的タグ・共感数・本人の下書き",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--posts"
+      ]
+    }
+  },
+  {
+    "id": "submitted--notice",
+    "testId": "feature-requests--submitted-notice",
+    "kind": "content",
+    "purpose": "投稿しましたの通知",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.submitted.notice",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "submitted--dismiss",
+    "testId": "feature-requests--dismiss",
+    "kind": "control",
+    "purpose": "投稿完了通知を閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.submitted.dismiss",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "投稿完了通知を閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content--posts",
+    "testId": "feature-requests--main--content--posts",
+    "kind": "content",
+    "purpose": "公開投稿と本人の下書き",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.posts",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "post",
+      "itemsFrom": "viewModel.posts",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "feature-requests--main--content--posts--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--like",
+        "main--request",
+        "main--github",
+        "main--edit",
+        "main--delete"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "feature-requests--page-title",
+    "kind": "content",
+    "purpose": "みんなの欲しい機能",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

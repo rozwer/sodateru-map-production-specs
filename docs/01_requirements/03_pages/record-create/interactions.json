@@ -1,0 +1,492 @@
+[
+  {
+    "id": "editor--close",
+    "component": "editor--close",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--remove-photo",
+    "component": "editor--remove-photo",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "editor--remove-video",
+    "component": "editor--remove-video",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "editor--play-video",
+    "component": "editor--play-video",
+    "from": "editor",
+    "event": "activate",
+    "effect": "選択した媒体を表示/再生する。閉じる・画面離脱で再生を停止する。新しい記録は保存しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "editor--capture",
+    "component": "editor--capture",
+    "from": "editor",
+    "event": "activate",
+    "effect": "端末の選択/撮影UIを開き、選んだ媒体を下書きに追加してプレビューする。取消では既存媒体を保持。保存確定前に別の記録へ紐付けない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--choose-media",
+    "component": "editor--choose-media",
+    "from": "editor",
+    "event": "activate",
+    "effect": "端末の選択/撮影UIを開き、選んだ媒体を下書きに追加してプレビューする。取消では既存媒体を保持。保存確定前に別の記録へ紐付けない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--body",
+    "component": "editor--body",
+    "from": "editor",
+    "event": "change",
+    "effect": "どんな体験でしたか？（任意）の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--choose-place",
+    "component": "editor--choose-place",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create#place-picker",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--date",
+    "component": "editor--date",
+    "from": "editor",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--confirm",
+    "component": "editor--confirm",
+    "from": "editor",
+    "event": "activate",
+    "effect": "入力と選択媒体のプレビューを表示する。保存APIはまだ呼ばない。",
+    "destination": "record-create#confirmation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--back",
+    "component": "place-picker--back",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--map-tab",
+    "component": "place-picker--map-tab",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "場所選択を地図モードへ切り替え、現在の候補と選択を保持。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--search-tab",
+    "component": "place-picker--search-tab",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "場所選択を検索モードへ切り替え、検索入力欄へフォーカス。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--history-tab",
+    "component": "place-picker--history-tab",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "訪問履歴を取得して同じplaceIdを選べる一覧へ切り替える。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getVisits"
+    ],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--search",
+    "component": "place-picker--search",
+    "from": "place-picker",
+    "event": "submit",
+    "effect": "入力値で一覧を絞り、入力・選択対象を保持する。未対応の全文検索は取得済み範囲だけの検索と明記する。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getPlaceCandidates"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "place-picker--clear-search",
+    "component": "place-picker--clear-search",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--locate",
+    "component": "place-picker--locate",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "位置取得に成功したら現在地へ移動して追従を再開。拒否/取得失敗では現在の地図を保ち手動操作できる。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--clear-place",
+    "component": "place-picker--clear-place",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "place-picker--use-place",
+    "component": "place-picker--use-place",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "選択した場所参照を下書きへ返す。訪問確定はしない。",
+    "destination": "record-create#editor",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--back",
+    "component": "confirmation--back",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--play-video",
+    "component": "confirmation--play-video",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "選択した媒体を表示/再生する。閉じる・画面離脱で再生を停止する。新しい記録は保存しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "confirmation--edit-body",
+    "component": "confirmation--edit-body",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create#editor",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--edit-place",
+    "component": "confirmation--edit-place",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create#place-picker",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--edit-date",
+    "component": "confirmation--edit-date",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create#editor",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--visit-info",
+    "component": "confirmation--visit-info",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "訪問の確認は記録保存と別である説明を同じ詳細面に表示。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--visited",
+    "component": "confirmation--visited",
+    "from": "confirmation",
+    "event": "change",
+    "effect": "この場所に行きましたの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--sharing-info",
+    "component": "confirmation--sharing-info",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "選んだ範囲に公開する説明を同じ詳細面に表示。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--edit-sharing",
+    "component": "confirmation--edit-sharing",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "sharing",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--visibility",
+    "component": "confirmation--visibility",
+    "from": "confirmation",
+    "event": "change",
+    "effect": "自分だけの公開範囲選択の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--back-edit",
+    "component": "confirmation--back-edit",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-create",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "confirmation--save",
+    "component": "confirmation--save",
+    "from": "confirmation",
+    "event": "activate",
+    "effect": "保存済みplaceIdを再利用する。未保存候補はmode=candidate,resultId,candidateIdで場所作成。本人が行ったと確認した時だけ訪問を作成する。kind=experienceの記録を作成し、媒体を順番に送る。媒体失敗は成功済みrecordIdと媒体IDを保持して再試行。",
+    "destination": "daily-track",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postPlaces",
+      "postVisits",
+      "postRecords",
+      "postRecordsRecordIdMedia"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "place-picker--candidate",
+    "component": "place-picker--candidate",
+    "from": "place-picker",
+    "event": "activate",
+    "effect": "検索候補を選ぶ。押した項目のIDを使い、別の行は変更しない。",
+    "destination": "$inline-detail",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "place-picker--search--input",
+    "component": "place-picker--search",
+    "from": "place-picker",
+    "event": "input",
+    "effect": "検索文字を下書きへ入力し表示を更新する。確定検索はsubmitで実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "入力値とクリア操作を更新する。"
+  }
+]

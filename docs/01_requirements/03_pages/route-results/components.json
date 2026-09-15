@@ -1,0 +1,174 @@
+[
+  {
+    "id": "main--back",
+    "testId": "route-results--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--candidate",
+    "testId": "route-results--candidate",
+    "kind": "control",
+    "purpose": "経路A・Bを選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.candidate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "経路A・Bを選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "経路A・Bを選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [],
+      "optionsFrom": "viewModel.candidates",
+      "optionKey": "item.id",
+      "checkedFrom": "form.candidate",
+      "placement": {
+        "in": "main--content--candidates",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "route-results--candidate--{item.id}"
+      },
+      "renderOptionsWithin": "main--content--candidates"
+    }
+  },
+  {
+    "id": "main--conditions",
+    "testId": "route-results--conditions",
+    "kind": "control",
+    "purpose": "条件を変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.conditions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "条件を変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--select",
+    "testId": "route-results--select",
+    "kind": "control",
+    "purpose": "この経路で行く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.select",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この経路で行く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "route-results--content",
+    "kind": "content",
+    "purpose": "地図上の候補線・時間・距離・条件の不明表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--map",
+        "main--content--candidates"
+      ]
+    }
+  },
+  {
+    "id": "main--content--map",
+    "testId": "route-results--main--content--map",
+    "kind": "content",
+    "purpose": "経路候補線",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--candidates",
+    "testId": "route-results--main--content--candidates",
+    "kind": "content",
+    "purpose": "経路候補カード",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.candidates",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "route",
+      "itemsFrom": "viewModel.candidates",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "route-results--main--content--candidates--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--candidate"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "route-results--page-title",
+    "kind": "content",
+    "purpose": "経路の候補",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--items",
+      "main--period",
+      "main--store",
+      "main--ai",
+      "main--cancel",
+      "main--allow",
+      "main--content",
+      "main--content--permission-help",
+      "main--content--ai-help",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--items",
+      "main--period",
+      "main--store",
+      "main--ai",
+      "main--cancel",
+      "main--allow"
+    ]
+  }
+]

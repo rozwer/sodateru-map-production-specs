@@ -1,0 +1,36 @@
+[
+  {
+    "id": "candidates",
+    "visible": [
+      "candidates--menu",
+      "candidates--heading",
+      "candidates--conversation",
+      "candidates--candidate",
+      "candidates--route-map",
+      "candidates--total-time",
+      "candidates--next-card",
+      "candidates--example-label",
+      "candidates--back-map",
+      "candidates--show-map",
+      "candidates--input",
+      "candidates--microphone",
+      "candidates--send",
+      "candidates--candidate--photo",
+      "candidates--candidate--name",
+      "candidates--candidate--description",
+      "candidates--candidate--travel-time",
+      "candidates--candidate--stay-time",
+      "candidates--next-card--photo",
+      "candidates--next-card--name"
+    ],
+    "hidden": [],
+    "interactive": [
+      "candidates--menu",
+      "candidates--back-map",
+      "candidates--show-map",
+      "candidates--input",
+      "candidates--microphone",
+      "candidates--send"
+    ]
+  }
+]

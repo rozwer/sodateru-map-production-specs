@@ -1,0 +1,36 @@
+[
+  {
+    "id": "settings-R1",
+    "text": "設定の各入口から現在値を確認・変更できる。未連携・権限なし・利用OFFを同じ状態とせず概要を更新する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "settings-C1"
+    ]
+  },
+  {
+    "id": "settings-F01",
+    "kind": "capability",
+    "title": "設定を開く",
+    "text": "プロフィール・位置・写真マイク・AI・提案・健康・データ・表示を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "settings-FC01"
+    ]
+  },
+  {
+    "id": "settings-F02",
+    "kind": "capability",
+    "title": "現在値を知る",
+    "text": "各機能の有効状態と連携状態を概要で確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "settings-FC02"
+    ]
+  }
+]

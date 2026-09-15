@@ -1,0 +1,48 @@
+[
+  {
+    "id": "reflection-history-R1",
+    "text": "回答済み・あとで・スキップを保持し、フィルターと展開を変えても状態が戻らない。元記録と回答から解釈の更新へ進む。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-history-C1"
+    ]
+  },
+  {
+    "id": "reflection-history-F01",
+    "kind": "capability",
+    "title": "状態で絞る",
+    "text": "すべて・回答済み・あとで・スキップを切り替えられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-history-FC01"
+    ]
+  },
+  {
+    "id": "reflection-history-F02",
+    "kind": "capability",
+    "title": "回答を読む",
+    "text": "質問と回答を展開して元記録を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-history-FC02"
+    ]
+  },
+  {
+    "id": "reflection-history-F03",
+    "kind": "capability",
+    "title": "解釈に反映する",
+    "text": "保存した回答を根拠として解釈を更新できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-history-FC03"
+    ]
+  }
+]

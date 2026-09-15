@@ -1,0 +1,92 @@
+[
+  {
+    "id": "map-R1",
+    "text": "場所検索→候補詳細→場所保存または経路へ接続する。検索結果IDと候補IDを引き継ぎ、候補を既保存placeIdとして送らない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-C1"
+    ]
+  },
+  {
+    "id": "map-R2",
+    "text": "2D/3D・レンズ・時間・現在地追従は独立して保持する。方角リセットや現在地操作は記録を作らない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-C2"
+    ]
+  },
+  {
+    "id": "map-R3",
+    "text": "地図の帰属表示を残し、情報源の未確認事項を確定事実として表示しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-C3"
+    ]
+  },
+  {
+    "id": "map-F01",
+    "kind": "capability",
+    "title": "場所を探す",
+    "text": "場所名や店名から候補を一覧と地図で確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-FC01"
+    ]
+  },
+  {
+    "id": "map-F02",
+    "kind": "capability",
+    "title": "場所を調べる",
+    "text": "写真・住所・説明・周辺候補を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-FC02"
+    ]
+  },
+  {
+    "id": "map-F03",
+    "kind": "capability",
+    "title": "場所を保存する",
+    "text": "同じ候補を重複作成せず自分の保存対象へ追加できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-FC03"
+    ]
+  },
+  {
+    "id": "map-F04",
+    "kind": "capability",
+    "title": "経路を調べる",
+    "text": "選んだ場所を目的地として案内へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-FC04"
+    ]
+  },
+  {
+    "id": "map-F05",
+    "kind": "capability",
+    "title": "表示を変える",
+    "text": "2D・3Dや方角を変えても選択場所を維持できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "map-FC05"
+    ]
+  }
+]

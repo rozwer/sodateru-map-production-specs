@@ -1,0 +1,48 @@
+[
+  {
+    "id": "health-connect-R1",
+    "text": "対応アプリ経由または本人が書き出したXMLファイルを取り込む。ブラウザからiPhoneのヘルスケアを直接読めると表示しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-connect-C1"
+    ]
+  },
+  {
+    "id": "health-connect-F01",
+    "kind": "capability",
+    "title": "接続状況を見る",
+    "text": "未連携か連携中かを確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-connect-FC01"
+    ]
+  },
+  {
+    "id": "health-connect-F02",
+    "kind": "capability",
+    "title": "アプリ経由でつなぐ",
+    "text": "対応iPhoneアプリの接続へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-connect-FC02"
+    ]
+  },
+  {
+    "id": "health-connect-F03",
+    "kind": "capability",
+    "title": "ファイルを持ち込む",
+    "text": "書き出したXMLを選択して取り込み範囲へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-connect-FC03"
+    ]
+  }
+]

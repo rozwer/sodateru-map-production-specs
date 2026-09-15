@@ -1,0 +1,60 @@
+[
+  {
+    "id": "friend-profile-R1",
+    "text": "相手が共有したプロフィール・テーマ・最近の記録を表示し、地図・比較・共有する記録の選択へつなぐ。友達は申請と承認で成立する。片方向フォローは設けない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-profile-C1"
+    ]
+  },
+  {
+    "id": "friend-profile-F01",
+    "kind": "capability",
+    "title": "プロフィールを見る",
+    "text": "相手の紹介と共有されたテーマ・最近の記録を読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-profile-FC01"
+    ]
+  },
+  {
+    "id": "friend-profile-F02",
+    "kind": "capability",
+    "title": "友達関係を管理する",
+    "text": "申請を送り、受信した申請を承認して友達になれる。相互承認済みの関係だけを友達として表示する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-profile-FC02"
+    ]
+  },
+  {
+    "id": "friend-profile-F03",
+    "kind": "capability",
+    "title": "街の見方を試す",
+    "text": "相手の地図・共通点・ルートへ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-profile-FC03"
+    ]
+  },
+  {
+    "id": "friend-profile-F04",
+    "kind": "capability",
+    "title": "自分の記録を渡す",
+    "text": "共有する記録を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-profile-FC04"
+    ]
+  }
+]

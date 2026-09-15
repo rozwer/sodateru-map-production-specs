@@ -1,0 +1,35 @@
+[
+  {
+    "id": "friend-selected",
+    "visible": [
+      "friend-selected--menu",
+      "friend-selected--heading",
+      "friend-selected--map",
+      "friend-selected--friend-sheet",
+      "friend-selected--record-cards",
+      "friend-selected--search",
+      "friend-selected--friend",
+      "friend-selected--record-menu",
+      "friend-selected--commonality",
+      "friend-selected--route",
+      "friend-selected--nav-self",
+      "friend-selected--nav-map",
+      "friend-selected--nav-community",
+      "friend-selected--friend-sheet--name",
+      "friend-selected--friend-sheet--shared-note",
+      "friend-selected--friend-options"
+    ],
+    "hidden": [],
+    "interactive": [
+      "friend-selected--menu",
+      "friend-selected--search",
+      "friend-selected--friend",
+      "friend-selected--record-menu",
+      "friend-selected--commonality",
+      "friend-selected--route",
+      "friend-selected--nav-self",
+      "friend-selected--nav-map",
+      "friend-selected--nav-community"
+    ]
+  }
+]

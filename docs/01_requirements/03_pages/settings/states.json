@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--profile",
+      "main--location",
+      "main--media",
+      "main--ai",
+      "main--suggestions",
+      "main--health",
+      "main--data",
+      "main--display",
+      "main--content",
+      "main--content--summary",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--profile",
+      "main--location",
+      "main--media",
+      "main--ai",
+      "main--suggestions",
+      "main--health",
+      "main--data",
+      "main--display"
+    ]
+  }
+]

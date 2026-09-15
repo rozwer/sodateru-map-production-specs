@@ -1,0 +1,48 @@
+[
+  {
+    "id": "growth-result-R1",
+    "text": "本人が確認した訪問と用途に基づき建物の成長を表示する。元記録へ戻れ、削除・用途訂正後は現在の有効情報で再集計する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "growth-result-C1"
+    ]
+  },
+  {
+    "id": "growth-result-F01",
+    "kind": "capability",
+    "title": "成長を見る",
+    "text": "確認済みの訪問と用途による建物の変化を見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "growth-result-FC01"
+    ]
+  },
+  {
+    "id": "growth-result-F02",
+    "kind": "capability",
+    "title": "根拠を見返す",
+    "text": "成長に結び付いた元の体験を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "growth-result-FC02"
+    ]
+  },
+  {
+    "id": "growth-result-F03",
+    "kind": "capability",
+    "title": "次へ進む",
+    "text": "次の候補を探すか地図へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "growth-result-FC03"
+    ]
+  }
+]

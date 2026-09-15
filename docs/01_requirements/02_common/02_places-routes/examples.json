@@ -1,0 +1,313 @@
+[
+  {
+    "id": "PLACE-01",
+    "title": "名前検索の入力",
+    "schema": "SearchRequest",
+    "data": {
+      "query": "本山",
+      "limit": 10
+    },
+    "valid": true
+  },
+  {
+    "id": "PLACE-02",
+    "title": "検索0件",
+    "schema": "SearchResult",
+    "data": {
+      "resultId": "s0",
+      "items": [],
+      "expiresAt": 901000
+    },
+    "valid": true
+  },
+  {
+    "id": "PLACE-03",
+    "title": "外部候補を採用前に返す",
+    "schema": "SearchResult",
+    "data": {
+      "resultId": "s1",
+      "items": [
+        {
+          "candidateId": "candidate-1",
+          "placeId": null,
+          "name": "本山の本屋",
+          "address": "名古屋市",
+          "coordinates": [
+            136.96,
+            35.16
+          ],
+          "categories": [
+            "shop"
+          ],
+          "provider": "nominatim",
+          "externalId": "N123",
+          "buildingKey": null,
+          "sourceUrl": "https://www.openstreetmap.org/node/123",
+          "attribution": "© OpenStreetMap contributors (ODbL)",
+          "fetchedAt": 1000,
+          "retention": "storable"
+        }
+      ],
+      "expiresAt": 901000
+    },
+    "valid": true
+  },
+  {
+    "id": "PLACE-04",
+    "title": "緯度の範囲外を拒否",
+    "schema": "NearbyRequest",
+    "data": {
+      "category": "coffee",
+      "origin": [
+        136,
+        91
+      ]
+    },
+    "valid": false
+  },
+  {
+    "id": "ROUTE-01",
+    "title": "出発点と保存場所の経路",
+    "schema": "RouteRequest",
+    "data": {
+      "waypoints": [
+        {
+          "kind": "point",
+          "coordinates": [
+            136.96,
+            35.16
+          ],
+          "label": "出発点"
+        },
+        {
+          "kind": "stored",
+          "placeId": "p1"
+        }
+      ],
+      "mode": "walking",
+      "title": "本屋へ"
+    },
+    "valid": true
+  },
+  {
+    "id": "ROUTE-02",
+    "title": "道路形状と所要時間の結果",
+    "schema": "RoutePreview",
+    "data": {
+      "previewId": "rp1",
+      "waypoints": [
+        {
+          "coordinates": [
+            136.96,
+            35.16
+          ],
+          "name": "出発点",
+          "placeId": null
+        },
+        {
+          "coordinates": [
+            136.965,
+            35.165
+          ],
+          "name": "本屋",
+          "placeId": "p1"
+        }
+      ],
+      "mode": "walking",
+      "legs": [
+        {
+          "fromIndex": 0,
+          "toIndex": 1,
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                136.96,
+                35.16
+              ],
+              [
+                136.965,
+                35.165
+              ]
+            ]
+          },
+          "distanceM": 710,
+          "durationSec": 540
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            136.96,
+            35.16
+          ],
+          [
+            136.965,
+            35.165
+          ]
+        ]
+      },
+      "distanceM": 710,
+      "durationSec": 540,
+      "provider": "mapbox-directions",
+      "fetchedAt": 1000,
+      "expiresAt": 901000,
+      "retention": "storable"
+    },
+    "valid": true
+  },
+  {
+    "id": "ROUTE-03",
+    "title": "座標一つの経路を拒否",
+    "schema": "Geometry",
+    "data": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          136,
+          35
+        ]
+      ]
+    },
+    "valid": false
+  },
+  {
+    "id": "PLACE-05",
+    "title": "期限と同時刻は期限切れ",
+    "rule": "expiry",
+    "input": {
+      "now": 901000,
+      "expiresAt": 901000
+    },
+    "expected": false
+  },
+  {
+    "id": "PLACE-06",
+    "title": "期限前の候補は有効",
+    "rule": "expiry",
+    "input": {
+      "now": 900999,
+      "expiresAt": 901000
+    },
+    "expected": true
+  },
+  {
+    "id": "PLACE-07",
+    "title": "期限後でも保存成功済みの同一再送を返す",
+    "rule": "receipt",
+    "input": {
+      "receiptHash": "abc",
+      "requestHash": "abc",
+      "targetExists": true,
+      "now": 901000,
+      "expiresAt": 901000
+    },
+    "expected": "existing"
+  },
+  {
+    "id": "PLACE-08",
+    "title": "保存IDの別内容再送を拒否",
+    "rule": "receipt",
+    "input": {
+      "receiptHash": "abc",
+      "requestHash": "def",
+      "targetExists": true,
+      "now": 1000,
+      "expiresAt": 901000
+    },
+    "expected": "REQUEST_CONFLICT"
+  },
+  {
+    "id": "PLACE-09",
+    "title": "保存先削除後の再送で復元しない",
+    "rule": "receipt",
+    "input": {
+      "receiptHash": "abc",
+      "requestHash": "abc",
+      "targetExists": false,
+      "now": 1000,
+      "expiresAt": 901000
+    },
+    "expected": "NOT_FOUND"
+  },
+  {
+    "id": "ROUTE-04",
+    "title": "一時候補を含む経路は一時表示",
+    "rule": "retention",
+    "input": [
+      "storable",
+      "temporary"
+    ],
+    "expected": "temporary"
+  },
+  {
+    "id": "ROUTE-05",
+    "title": "隣接区間の共通境界だけを結合",
+    "rule": "join",
+    "input": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    ],
+    "expected": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  {
+    "id": "ROUTE-06",
+    "title": "道路の非一致端点を勝手に追加しない",
+    "rule": "join",
+    "input": [
+      [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      [
+        [
+          1.1,
+          1.1
+        ],
+        [
+          2,
+          2
+        ]
+      ]
+    ],
+    "expected": "OUTPUT_INVALID"
+  }
+]

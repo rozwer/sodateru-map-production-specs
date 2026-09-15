@@ -1,0 +1,80 @@
+[
+  {
+    "id": "record-create-R1",
+    "text": "写真・動画だけ、本文だけ、日時や場所が不明な体験も保存できる。撮影時刻や現在地を無断で体験日時・訪問場所に確定しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-C1"
+    ]
+  },
+  {
+    "id": "record-create-R2",
+    "text": "確認画面で媒体・本文・場所・日時・公開範囲を見直す。行きましたの本人確認と記録保存を区別し、閲覧や場所選択だけで訪問を作らない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-C2"
+    ]
+  },
+  {
+    "id": "record-create-R3",
+    "text": "媒体の順番と失敗した項目を保持し、本文保存済み・媒体処理中・一部失敗を区別する。既定は自分だけ。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-C3"
+    ]
+  },
+  {
+    "id": "record-create-F01",
+    "kind": "capability",
+    "title": "体験を入力する",
+    "text": "本文だけ・媒体だけでも下書きを作れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-FC01"
+    ]
+  },
+  {
+    "id": "record-create-F02",
+    "kind": "capability",
+    "title": "場所と日時を付ける",
+    "text": "地図・検索・訪問履歴から場所を選び、不明なら未指定で残せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-FC02"
+    ]
+  },
+  {
+    "id": "record-create-F03",
+    "kind": "capability",
+    "title": "保存前に確認する",
+    "text": "媒体・本文・訪問確認・公開範囲を見直せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-FC03"
+    ]
+  },
+  {
+    "id": "record-create-F04",
+    "kind": "capability",
+    "title": "記録を保存する",
+    "text": "確定した内容を保存し一覧と詳細から再表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-create-FC04"
+    ]
+  }
+]

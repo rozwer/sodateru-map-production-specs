@@ -1,0 +1,58 @@
+[
+  {
+    "id": "reflection-question-R1",
+    "text": "質問は一度に1問。回答・あとで・スキップを区別し、既に話した理由を新しい根拠なしに繰り返さない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-question-C1"
+    ]
+  },
+  {
+    "id": "reflection-question-R2",
+    "text": "原文保存とAIによる整理の成功を別に示し、AI失敗でも回答を失わない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-question-C2"
+    ]
+  },
+  {
+    "id": "reflection-question-F01",
+    "kind": "capability",
+    "title": "対象を確認する",
+    "text": "質問の元となった記録を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-question-FC01"
+    ]
+  },
+  {
+    "id": "reflection-question-F02",
+    "kind": "capability",
+    "title": "答える",
+    "text": "自由文で回答を保存できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-question-FC02"
+    ]
+  },
+  {
+    "id": "reflection-question-F03",
+    "kind": "capability",
+    "title": "後回しにする",
+    "text": "あとでとスキップを別々に記録できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "reflection-question-FC03"
+    ]
+  }
+]

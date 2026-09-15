@@ -1,0 +1,60 @@
+[
+  {
+    "id": "companion-settings-R1",
+    "text": "登録済み相棒の選択・表示ON/OFF・サイズ・動きを減らすを保存する。相棒を非表示にしてもAI入口を残し、主要操作を塞がない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-settings-C1"
+    ]
+  },
+  {
+    "id": "companion-settings-F01",
+    "kind": "capability",
+    "title": "相棒を選ぶ",
+    "text": "登録済みの相棒から現在の相棒を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-settings-FC01"
+    ]
+  },
+  {
+    "id": "companion-settings-F02",
+    "kind": "capability",
+    "title": "表示を整える",
+    "text": "表示ON/OFF・大きさ・動きを減らす設定を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-settings-FC02"
+    ]
+  },
+  {
+    "id": "companion-settings-F03",
+    "kind": "capability",
+    "title": "追加へ進む",
+    "text": "ファイルを持ち込むか新しい相棒を制作できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-settings-FC03"
+    ]
+  },
+  {
+    "id": "companion-settings-F04",
+    "kind": "capability",
+    "title": "選択を残す",
+    "text": "保存後も同じ相棒と表示設定を使える。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-settings-FC04"
+    ]
+  }
+]

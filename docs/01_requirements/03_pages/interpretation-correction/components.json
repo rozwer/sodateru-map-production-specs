@@ -1,0 +1,190 @@
+[
+  {
+    "id": "editor--back",
+    "testId": "interpretation-correction--editor--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--heading",
+    "testId": "interpretation-correction--editor--heading",
+    "kind": "content",
+    "purpose": "この場所の解釈を見直しましょう",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.editor.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "editor--original",
+    "testId": "interpretation-correction--editor--original",
+    "kind": "content",
+    "purpose": "わたしの原文：静かな席で読書しました",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.original",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--interpretation",
+    "testId": "interpretation-correction--editor--interpretation",
+    "kind": "content",
+    "purpose": "アプリの解釈：にぎやかな交流の場",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.interpretation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--preservation",
+    "testId": "interpretation-correction--editor--preservation",
+    "kind": "content",
+    "purpose": "原文はそのまま残ります。アプリの解釈のみ更新されます。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.preservation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--info",
+    "testId": "interpretation-correction--editor--info",
+    "kind": "control",
+    "purpose": "アプリの解釈の説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.info",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "アプリの解釈の説明",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--purpose",
+    "testId": "interpretation-correction--editor--purpose",
+    "kind": "control",
+    "purpose": "用途の選択",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.purpose",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "用途の選択",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "用途の選択",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "multiple",
+      "optionElement": "input[type=checkbox]",
+      "options": [],
+      "optionsFrom": "viewModel.purposeOptions",
+      "optionKey": "option.id",
+      "checkedFrom": "form.purpose"
+    }
+  },
+  {
+    "id": "editor--save-purpose",
+    "testId": "interpretation-correction--editor--save-purpose",
+    "kind": "control",
+    "purpose": "用途を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.save-purpose",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "用途を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--reason",
+    "testId": "interpretation-correction--editor--reason",
+    "kind": "control",
+    "purpose": "理由",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.reason",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "理由",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "理由",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": null,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "editor--save-reason",
+    "testId": "interpretation-correction--editor--save-reason",
+    "kind": "control",
+    "purpose": "理由を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.save-reason",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "理由を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  }
+]

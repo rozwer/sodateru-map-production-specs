@@ -1,0 +1,48 @@
+[
+  {
+    "id": "knowledge-filter-R1",
+    "text": "編集中条件は適用まで一覧へ反映しない。閉じるで適用済み条件へ戻し、クリア後の適用で条件を解除する。距離の中心と地図範囲を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-filter-C1"
+    ]
+  },
+  {
+    "id": "knowledge-filter-F01",
+    "kind": "capability",
+    "title": "範囲を選ぶ",
+    "text": "検索地域と半径または地図範囲を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-filter-FC01"
+    ]
+  },
+  {
+    "id": "knowledge-filter-F02",
+    "kind": "capability",
+    "title": "内容を絞る",
+    "text": "目的・期間・共有範囲を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-filter-FC02"
+    ]
+  },
+  {
+    "id": "knowledge-filter-F03",
+    "kind": "capability",
+    "title": "条件を適用する",
+    "text": "適用時に一覧へ反映し取消では以前の条件を維持できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-filter-FC03"
+    ]
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "id": "friends-map-C1",
+    "requirement": "friends-map-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "友達の選択と共有された投稿・地図・比較対象を同期する。記録0件は共有情報がない状態とし、相手の活動がないとは断定しない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "friend-selected--menu",
+      "friend-selected--search",
+      "friend-selected--friend",
+      "friend-selected--record-menu",
+      "friend-selected--commonality",
+      "friend-selected--route",
+      "friend-selected--nav-self",
+      "friend-selected--nav-map",
+      "friend-selected--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "friends-map-C2",
+    "requirement": "friends-map-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "相手の用途表示は自分の成長や用途を上書きしない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "friend-selected--menu",
+      "friend-selected--search",
+      "friend-selected--friend",
+      "friend-selected--record-menu",
+      "friend-selected--commonality",
+      "friend-selected--route",
+      "friend-selected--nav-self",
+      "friend-selected--nav-map",
+      "friend-selected--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "friends-map-FC01",
+    "requirement": "friends-map-F01",
+    "mode": "live",
+    "precondition": "友達の共有した街の見方を試すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「相手を探す」に対応する操作を行う。",
+      "名前で相手を検索して共有地図を切り替えられることを画面で確認する。"
+    ],
+    "expect": [
+      "名前で相手を検索して共有地図を切り替えられる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "friends-map-FC02",
+    "requirement": "friends-map-F02",
+    "mode": "live",
+    "precondition": "友達の共有した街の見方を試すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「共有記録を見る」に対応する操作を行う。",
+      "相手の場所・用途・原文を確認できることを画面で確認する。"
+    ],
+    "expect": [
+      "相手の場所・用途・原文を確認できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "friends-map-FC03",
+    "requirement": "friends-map-F03",
+    "mode": "live",
+    "precondition": "友達の共有した街の見方を試すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「共通点を探す」に対応する操作を行う。",
+      "自分と相手の共有可能な体験を比較できることを画面で確認する。"
+    ],
+    "expect": [
+      "自分と相手の共有可能な体験を比較できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "friends-map-FC04",
+    "requirement": "friends-map-F04",
+    "mode": "live",
+    "precondition": "友達の共有した街の見方を試すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「おすすめを歩く」に対応する操作を行う。",
+      "相手のルートを開いて自分の条件で経路を確認できることを画面で確認する。"
+    ],
+    "expect": [
+      "相手のルートを開いて自分の条件で経路を確認できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

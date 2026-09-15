@@ -1,0 +1,24 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--timing",
+      "main--period",
+      "main--resume",
+      "main--save",
+      "main--content",
+      "main--content--stopped",
+      "main--content--rating-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--timing",
+      "main--period",
+      "main--resume",
+      "main--save"
+    ]
+  }
+]

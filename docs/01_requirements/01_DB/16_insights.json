@@ -1,0 +1,66 @@
+{
+  "table": "insights",
+  "title": "分析・比較結果",
+  "description": ["記録を材料に作った分析・比較と、その内容への判断・訂正を保存する。", "傾向画面・比較画面・会話から同じ結果を参照する。"],
+  "common": "common.json",
+  "columns": {
+    "id": {"type": "TEXT", "nullable": false, "description": "結果のID。1〜80文字"},
+    "person_id": {"type": "TEXT", "nullable": false, "description": "この分析・比較を開く人物"},
+    "kind": {"type": "TEXT", "nullable": false, "enum": ["analysis", "comparison"]},
+    "input_key": {"type": "TEXT", "nullable": false, "description": "対象ID・版・期間・計算条件・生成定義版から作る識別子"},
+    "source_refs_json": {"type": "TEXT", "nullable": false, "description": "入力に使った記録・訪問・場所・回答・ルートのIDと版", "encoding": "json"},
+    "range_start": {"type": "INTEGER", "nullable": true, "description": "分析対象期間の開始"},
+    "range_end": {"type": "INTEGER", "nullable": true, "description": "分析対象期間の終端"},
+    "timezone": {"type": "TEXT", "nullable": false, "description": "集計に使ったIANA timezone"},
+    "generator_version": {"type": "TEXT", "nullable": false, "description": "集計・説明生成の定義版"},
+    "model": {"type": "TEXT", "nullable": true, "description": "AIによる説明生成で指定したモデル"},
+    "summary": {"type": "TEXT", "nullable": false, "description": "説明文"},
+    "result_json": {"type": "TEXT", "nullable": false, "description": "下記の分析・比較の構造化結果", "encoding": "json"},
+    "review": {"type": "TEXT", "nullable": true, "enum": ["agree", "disagree", "unsure", "edit"]},
+    "review_note": {"type": "TEXT", "nullable": true, "description": "判断・訂正の原文"},
+    "reviewed_at": {"type": "INTEGER", "nullable": true, "description": "判断した日時"},
+    "version": {"type": "INTEGER", "nullable": false, "description": "初期値1。判断・訂正の保存時に1増やす"},
+    "created_at": {"type": "INTEGER", "nullable": false, "description": "結果の保存日時"},
+    "updated_at": {"type": "INTEGER", "nullable": false, "description": "更新日時"}
+  },
+  "relations": ["person_idは people.id を参照する。", "source_refs_jsonは records、visits、places、self_checkins、saved_routes を参照する。", "messagesからこの結果をカードとして参照できる。"],
+  "constraints": [
+    "主キーはid。人物ID・kind・input_keyの組を一意にする。",
+    "analysisは対象期間の開始・終端を必須とし、終端＞開始にする。期間は半開区間。",
+    "comparisonは期間を省略できる。指定する場合は開始・終端を揃える。",
+    "reviewを保存する場合はreviewed_atも保存する。",
+    "同じ入力と生成定義の結果は同じIDを参照し、保存済みの判断を引き継ぐ。",
+    "元のデータ・期間・計算条件・生成定義が変わった場合は、新しいinput_keyで結果を作る。"
+  ],
+  "json_fields": {
+    "source_refs_json": {"$ref": "common.json#/json_definitions/source_refs", "rules": ["同じ対象を重複して含めない。"]},
+    "result_json": {
+      "discriminator": "kind",
+      "variants": {
+        "analysis": {
+          "fields": {
+            "$.axes": {"type": "array", "description": "集計軸ごとの値"},
+            "$.axes[].key": {"type": "string", "description": "軸の識別子"},
+            "$.axes[].numerator": {"type": "integer", "minimum": 0, "description": "条件に当てはまる日数"},
+            "$.axes[].denominator": {"type": "integer", "minimum": 0, "description": "判断できる日数"},
+            "$.axes[].value": {"type": "number", "nullable": true, "description": "分子÷分母。分母0ならNULL"},
+            "$.axes[].unknownDays": {"type": "integer", "minimum": 0, "description": "判断できない日数"},
+            "$.unknown": {"type": "array", "items": {"type": "string"}, "description": "説明に必要な不足情報"}
+          },
+          "rules": ["分子≦分母、割合は0〜1とする。"]
+        },
+        "comparison": {
+          "fields": {
+            "$.common": {"type": "array", "items": {"type": "string"}, "description": "共通点"},
+            "$.differences": {"type": "array", "items": {"type": "string"}, "description": "相違点"},
+            "$.unknown": {"type": "array", "items": {"type": "string"}, "description": "比較に必要な不足情報"}
+          }
+        }
+      }
+    }
+  },
+  "indexes": [{"columns": ["person_id", "kind", "input_key"], "unique": true}, {"columns": ["person_id", "created_at"]}],
+  "operations": ["生成が完了した結果を保存する。", "元データのID・版・共有範囲を読取時に照合し、現行の入力に対する結果を表示する。", "内容への判断と訂正は、この結果IDに対して保存する。", "会話の削除後も傾向画面・比較画面から結果を開ける。", "結果を削除するときは、会話のinsight_idを解除する。", "元記録の削除や共有取消時は、参照している結果を無効にして表示対象から外す。"],
+  "related_files": ["00_people.json", "02_records.json", "15_visits.json", "01_places.json", "11_self_checkins.json", "06_saved_routes.json", "05_messages.json"],
+  "references": {"person_id": {"target": "people.id"}}
+}

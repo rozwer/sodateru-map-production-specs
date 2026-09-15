@@ -1,0 +1,236 @@
+[
+  {
+    "id": "main--close",
+    "testId": "route-navigation--close",
+    "kind": "control",
+    "purpose": "地図へ戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図へ戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--locate",
+    "testId": "route-navigation--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--list",
+    "testId": "route-navigation--list",
+    "kind": "control",
+    "purpose": "経路の一覧",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.list",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "経路の一覧",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--end",
+    "testId": "route-navigation--end",
+    "kind": "control",
+    "purpose": "案内を終了",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.end",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "案内を終了",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "route-navigation--content",
+    "kind": "content",
+    "purpose": "曲がる方向と距離・残り時間・残距離・現在地精度・経路線",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--turn-arrow",
+        "main--content--instruction",
+        "main--content--turn-distance",
+        "main--content--remaining-time",
+        "main--content--remaining-distance",
+        "main--content--map",
+        "main--content--accuracy"
+      ]
+    }
+  },
+  {
+    "id": "main--content--turn-arrow",
+    "testId": "route-navigation--main--content--turn-arrow",
+    "kind": "content",
+    "purpose": "次の曲がる方向",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "icon",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.turn-arrow",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "iconSource": "独立したSVG/icon部品。画像から文字ごと切り出さない。",
+      "accessibleText": "近接するDOMラベルで説明",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--instruction",
+    "testId": "route-navigation--main--content--instruction",
+    "kind": "content",
+    "purpose": "次の案内文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.instruction",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--turn-distance",
+    "testId": "route-navigation--main--content--turn-distance",
+    "kind": "content",
+    "purpose": "曲がる地点までの距離",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.turn-distance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--remaining-time",
+    "testId": "route-navigation--main--content--remaining-time",
+    "kind": "content",
+    "purpose": "残り時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.remaining-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--remaining-distance",
+    "testId": "route-navigation--main--content--remaining-distance",
+    "kind": "content",
+    "purpose": "残り距離",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.remaining-distance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--map",
+    "testId": "route-navigation--main--content--map",
+    "kind": "content",
+    "purpose": "案内経路と現在地",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--accuracy",
+    "testId": "route-navigation--main--content--accuracy",
+    "kind": "content",
+    "purpose": "現在地精度",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.accuracy",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "route-navigation--page-title",
+    "kind": "content",
+    "purpose": "徒歩ナビゲーション",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "object-place-R1",
+    "text": "地図中央のマーカーを配置点として選び、地図移動・ズーム・現在地で候補を変える。確定で編集画面へ座標を返し、取消で元の配置を保つ。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-place-C1"
+    ]
+  },
+  {
+    "id": "object-place-F01",
+    "kind": "capability",
+    "title": "場所を動かす",
+    "text": "地図を動かして中央マーカーで配置候補を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-place-FC01"
+    ]
+  },
+  {
+    "id": "object-place-F02",
+    "kind": "capability",
+    "title": "周囲を見る",
+    "text": "現在地移動・拡大縮小・レイヤー切替で位置を確かめられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-place-FC02"
+    ]
+  },
+  {
+    "id": "object-place-F03",
+    "kind": "capability",
+    "title": "位置を返す",
+    "text": "確定で編集下書きへ座標を返し、取消で以前の位置を保てる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "object-place-FC03"
+    ]
+  },
+  {
+    "id": "object-place-SCOPE",
+    "text": "手動編集の対象は本人が追加した飾り・目印。体験で育つ建物を変更したい場合は元の記録・用途を訂正する。手動オブジェクトを消しても訪問記録を消さない。",
+    "sources": [
+      "../questions.json"
+    ],
+    "acceptance": [
+      "object-place-SCOPE-C"
+    ]
+  }
+]

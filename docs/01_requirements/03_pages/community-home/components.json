@@ -1,0 +1,223 @@
+[
+  {
+    "id": "home--menu",
+    "testId": "community-home--home--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--heading",
+    "testId": "community-home--home--heading",
+    "kind": "content",
+    "purpose": "みんなを知る／誰かの体験から、街の新しい一面へ。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.home.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "home--map",
+    "testId": "community-home--home--map",
+    "kind": "content",
+    "purpose": "人物ピン・地図上の立方体",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--local-preview",
+    "testId": "community-home--home--local-preview",
+    "kind": "content",
+    "purpose": "地域の知：写真3枚",
+    "imageRegion": null,
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--friends-preview",
+    "testId": "community-home--home--friends-preview",
+    "kind": "content",
+    "purpose": "友達の地図：人物とコメント",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "home--friends-preview--people",
+        "home--friends-preview--comment"
+      ]
+    }
+  },
+  {
+    "id": "home--local",
+    "testId": "community-home--home--local",
+    "kind": "control",
+    "purpose": "地域の知",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.local",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地域の知",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--friends",
+    "testId": "community-home--home--friends",
+    "kind": "control",
+    "purpose": "友達の地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.friends",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達の地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-self",
+    "testId": "community-home--home--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-map",
+    "testId": "community-home--home--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-community",
+    "testId": "community-home--home--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--friends-preview--people",
+    "testId": "community-home--home--friends-preview--people",
+    "kind": "content",
+    "purpose": "友達の写真と紹介",
+    "imageRegion": null,
+    "parent": "home--friends-preview",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.home.friends-preview.people",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "person",
+      "itemsFrom": "viewModel.people",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "community-home--home--friends-preview--people--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--friends-preview--comment",
+    "testId": "community-home--home--friends-preview--comment",
+    "kind": "content",
+    "purpose": "共有コメント",
+    "imageRegion": null,
+    "parent": "home--friends-preview",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.home.friends-preview.comment",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

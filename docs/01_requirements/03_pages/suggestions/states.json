@@ -1,0 +1,23 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--conditions",
+      "main--sort",
+      "main--candidate",
+      "main--content",
+      "main--content--conditions",
+      "main--content--result-count",
+      "main--content--candidates",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--conditions",
+      "main--sort",
+      "main--candidate"
+    ]
+  }
+]

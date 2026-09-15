@@ -1,0 +1,23 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--region",
+      "main--vehicle",
+      "main--highway",
+      "main--preview",
+      "main--content",
+      "main--content--mock-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--region",
+      "main--vehicle",
+      "main--highway",
+      "main--preview"
+    ]
+  }
+]

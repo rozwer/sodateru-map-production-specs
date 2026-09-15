@@ -1,0 +1,35 @@
+[
+  {
+    "id": "home",
+    "visible": [
+      "home--heading",
+      "home--map",
+      "home--today-preview",
+      "home--type-preview",
+      "home--my-map-preview",
+      "home--menu",
+      "home--today",
+      "home--type",
+      "home--my-map",
+      "home--nav-self",
+      "home--nav-map",
+      "home--nav-community",
+      "home--today-preview--photo",
+      "home--today-preview--name",
+      "home--today-preview--time",
+      "home--today-preview--place",
+      "home--type-preview--radar",
+      "home--my-map-preview--map"
+    ],
+    "hidden": [],
+    "interactive": [
+      "home--menu",
+      "home--today",
+      "home--type",
+      "home--my-map",
+      "home--nav-self",
+      "home--nav-map",
+      "home--nav-community"
+    ]
+  }
+]

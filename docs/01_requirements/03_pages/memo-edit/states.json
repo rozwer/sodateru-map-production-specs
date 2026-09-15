@@ -1,0 +1,34 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--origin",
+      "main--keywords",
+      "main--use",
+      "main--delete",
+      "main--cancel",
+      "main--save",
+      "main--content",
+      "main--content--origin-description",
+      "main--content--name-count",
+      "main--content--body-count",
+      "main--content--suggestion-help",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--origin",
+      "main--keywords",
+      "main--use",
+      "main--delete",
+      "main--cancel",
+      "main--save"
+    ]
+  }
+]

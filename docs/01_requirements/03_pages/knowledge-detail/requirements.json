@@ -1,0 +1,48 @@
+[
+  {
+    "id": "knowledge-detail-R1",
+    "text": "動画は利用者の再生操作で開始し、作者・日付・場所・原文を表示する。場所地図・作者地図へ同じ対象を渡す。共有取消後の本文をキャッシュから復活させない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-detail-C1"
+    ]
+  },
+  {
+    "id": "knowledge-detail-F01",
+    "kind": "capability",
+    "title": "体験を読む",
+    "text": "原文・写真動画・作者・日付・場所を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-detail-FC01"
+    ]
+  },
+  {
+    "id": "knowledge-detail-F02",
+    "kind": "capability",
+    "title": "動画を見る",
+    "text": "再生・停止・音量・シークを操作できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-detail-FC02"
+    ]
+  },
+  {
+    "id": "knowledge-detail-F03",
+    "kind": "capability",
+    "title": "関連情報へ進む",
+    "text": "場所地図・作者の共有地図・出典を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-detail-FC03"
+    ]
+  }
+]

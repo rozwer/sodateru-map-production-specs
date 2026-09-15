@@ -1,0 +1,378 @@
+{
+  "bindings": [
+    {
+      "id": "getPeoplePersonId",
+      "method": "GET",
+      "path": "/people/{personId}",
+      "contract": "../../04_api/openapi.json#/paths/~1people~1{personId}/get",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "personId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "path.personId": "選択対象のpersonId",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getSharedRecords",
+      "method": "GET",
+      "path": "/shared-records",
+      "contract": "../../04_api/openapi.json#/paths/~1shared-records/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "q",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "placeId",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "longitude",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "latitude",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "radiusM",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "from",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "to",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "timeZone",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "audience",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "personIds",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "purposes",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "topicKey",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "includeUndated",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.q": "入力された検索文字",
+        "query.placeId": "選択対象のplaceId",
+        "query.longitude": "検索中心の経度",
+        "query.latitude": "検索中心の緯度",
+        "query.radiusM": "選択半径をメートルへ変換",
+        "query.from": "選択期間の開始日時",
+        "query.to": "選択期間の終了日時",
+        "query.timeZone": "選択日付のIANA timeZone",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "query.audience": "共有範囲の選択",
+        "query.personIds": "選択した相手のID一覧",
+        "query.purposes": "選択した用途",
+        "query.topicKey": "選択話題キー",
+        "query.includeUndated": "日付不明の記録を含めるか明示",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getSharedRoutes",
+      "method": "GET",
+      "path": "/shared-routes",
+      "contract": "../../04_api/openapi.json#/paths/~1shared-routes/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "personId",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "visibility",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.personId": "選択対象のpersonId",
+        "query.visibility": "選択対象のvisibility",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getFriendships",
+      "method": "GET",
+      "path": "/friendships",
+      "contract": "../../04_api/openapi.json#/paths/~1friendships/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "status",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "未申請なら作成、受信申請なら承認、取消/関係解除なら削除。状態ごとの操作は排他的。",
+      "inputFrom": {
+        "recipientId": "対象personId",
+        "friendshipId": "取得した関係のID",
+        "status": "承認時はaccepted",
+        "If-Match": "対象関係の取得version"
+      }
+    },
+    {
+      "id": "postFriendships",
+      "method": "POST",
+      "path": "/friendships",
+      "contract": "../../04_api/openapi.json#/paths/~1friendships/post",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/FriendshipCreate",
+      "responses": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "422",
+        "409"
+      ],
+      "usage": "未申請なら作成、受信申請なら承認、取消/関係解除なら削除。状態ごとの操作は排他的。",
+      "inputFrom": {
+        "recipientId": "対象personId",
+        "friendshipId": "取得した関係のID",
+        "status": "承認時はaccepted",
+        "If-Match": "対象関係の取得version"
+      }
+    },
+    {
+      "id": "patchFriendshipsFriendshipId",
+      "method": "PATCH",
+      "path": "/friendships/{friendshipId}",
+      "contract": "../../04_api/openapi.json#/paths/~1friendships~1{friendshipId}/patch",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "friendshipId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "operation.requestBody",
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "422",
+        "409",
+        "412",
+        "428"
+      ],
+      "usage": "未申請なら作成、受信申請なら承認、取消/関係解除なら削除。状態ごとの操作は排他的。",
+      "inputFrom": {
+        "recipientId": "対象personId",
+        "friendshipId": "取得した関係のID",
+        "status": "承認時はaccepted",
+        "If-Match": "対象関係の取得version"
+      }
+    },
+    {
+      "id": "deleteFriendshipsFriendshipId",
+      "method": "DELETE",
+      "path": "/friendships/{friendshipId}",
+      "contract": "../../04_api/openapi.json#/paths/~1friendships~1{friendshipId}/delete",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "friendshipId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "204",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "412",
+        "428"
+      ],
+      "usage": "未申請なら作成、受信申請なら承認、取消/関係解除なら削除。状態ごとの操作は排他的。",
+      "inputFrom": {
+        "recipientId": "対象personId",
+        "friendshipId": "取得した関係のID",
+        "status": "承認時はaccepted",
+        "If-Match": "対象関係の取得version"
+      }
+    }
+  ],
+  "gaps": [
+    "follow"
+  ],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

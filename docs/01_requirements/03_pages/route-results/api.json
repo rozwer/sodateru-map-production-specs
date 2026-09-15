@@ -1,0 +1,95 @@
+{
+  "bindings": [
+    {
+      "id": "postSavedRoutes",
+      "method": "POST",
+      "path": "/saved-routes",
+      "contract": "../../04_api/openapi.json#/paths/~1saved-routes/post",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SavedRouteCreate",
+      "responses": [
+        "201",
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "410",
+        "422",
+        "409",
+        "413",
+        "503",
+        "504"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "header.Idempotency-Key": "選択対象のIdempotency-Key",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "patchSavedRoutesRouteId",
+      "method": "PATCH",
+      "path": "/saved-routes/{routeId}",
+      "contract": "../../04_api/openapi.json#/paths/~1saved-routes~1{routeId}/patch",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "routeId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SavedRoutePatch",
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "410",
+        "422",
+        "409",
+        "412",
+        "428",
+        "413",
+        "503",
+        "504"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "path.routeId": "選択対象のrouteId",
+        "header.If-Match": "対象の取得versionを引用符付きで送信",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [
+    "route"
+  ],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

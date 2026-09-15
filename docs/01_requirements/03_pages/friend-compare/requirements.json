@@ -1,0 +1,48 @@
+[
+  {
+    "id": "friend-compare-R1",
+    "text": "共有された記録の範囲で双方の用途・理由・共通点と違いを並べる。情報不足を共通点なしと断定しない。地図重ね合わせで持ち主を識別できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-compare-C1"
+    ]
+  },
+  {
+    "id": "friend-compare-F01",
+    "kind": "capability",
+    "title": "意味を比べる",
+    "text": "双方の用途・理由・共通点と違いを並べて読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-compare-FC01"
+    ]
+  },
+  {
+    "id": "friend-compare-F02",
+    "kind": "capability",
+    "title": "根拠を確かめる",
+    "text": "比較に使った共有記録を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-compare-FC02"
+    ]
+  },
+  {
+    "id": "friend-compare-F03",
+    "kind": "capability",
+    "title": "地図を重ねる",
+    "text": "持ち主を区別して双方の場所を表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-compare-FC03"
+    ]
+  }
+]

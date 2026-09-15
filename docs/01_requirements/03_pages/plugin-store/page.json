@@ -1,0 +1,53 @@
+{
+  "id": "plugin-store",
+  "title": "拡張機能を探す",
+  "status": "draft",
+  "route": null,
+  "references": [],
+  "viewports": [
+    {
+      "id": "reference-1536x1024",
+      "width": 1536,
+      "height": 1024,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "mobile-390",
+      "width": 390,
+      "height": 844,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "mobile-320",
+      "width": 320,
+      "height": 740,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "basis": "css-pixels"
+    }
+  ],
+  "layout": {
+    "checkAllStatesAndViewports": true,
+    "allowedOverlaps": []
+  },
+  "formatVersion": 2,
+  "files": {
+    "components": "components.json",
+    "states": "states.json",
+    "interactions": "interactions.json",
+    "api": "api.json",
+    "requirements": "requirements.json",
+    "acceptance": "acceptance.json"
+  },
+  "common": "../common.json",
+  "sources": "../sources.json",
+  "apiGaps": [],
+  "unresolved": [
+    "ストア一覧の専用画像は未提供。元仕様の検索・分類・機能カードを維持し、既存画像の部品で実装する。",
+    "論理画面と実URL/ルーターの接続はUI実装時に確定。"
+  ]
+}

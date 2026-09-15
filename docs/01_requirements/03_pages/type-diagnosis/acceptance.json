@@ -1,0 +1,136 @@
+[
+  {
+    "id": "type-diagnosis-C1",
+    "requirement": "type-diagnosis-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "今日・今週・今月・これまでの対象期間を表示し、期間内の記録に基づく仮の呼び名とグラフを出す。固定的人格・偉人比較・根拠なしの点数を出さない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-all",
+      "week--info",
+      "week--evidence",
+      "week--agree",
+      "week--disagree",
+      "week--unsure",
+      "week--find",
+      "week--nav-self",
+      "week--nav-map",
+      "week--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "type-diagnosis-C2",
+    "requirement": "type-diagnosis-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "根拠・別の説明・欠測・本人の確認状態へ進める。2体験からの仮説生成を検証済みの傾向と呼ばない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-all",
+      "week--info",
+      "week--evidence",
+      "week--agree",
+      "week--disagree",
+      "week--unsure",
+      "week--find",
+      "week--nav-self",
+      "week--nav-map",
+      "week--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "type-diagnosis-FC01",
+    "requirement": "type-diagnosis-F01",
+    "mode": "live",
+    "precondition": "最近の行動傾向を根拠付きで知るための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「期間を切り替える」に対応する操作を行う。",
+      "今日・今週・今月・これまでの結果を見られることを画面で確認する。"
+    ],
+    "expect": [
+      "今日・今週・今月・これまでの結果を見られる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "type-diagnosis-FC02",
+    "requirement": "type-diagnosis-F02",
+    "mode": "live",
+    "precondition": "最近の行動傾向を根拠付きで知るための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「傾向を見る」に対応する操作を行う。",
+      "対象期間の仮の呼び名・グラフ・変化を確認できることを画面で確認する。"
+    ],
+    "expect": [
+      "対象期間の仮の呼び名・グラフ・変化を確認できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "type-diagnosis-FC03",
+    "requirement": "type-diagnosis-F03",
+    "mode": "live",
+    "precondition": "最近の行動傾向を根拠付きで知るための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「根拠を確認する」に対応する操作を行う。",
+      "元体験と反例・情報不足へ戻れることを画面で確認する。"
+    ],
+    "expect": [
+      "元体験と反例・情報不足へ戻れる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "type-diagnosis-FC04",
+    "requirement": "type-diagnosis-F04",
+    "mode": "live",
+    "precondition": "最近の行動傾向を根拠付きで知るための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「本人の判断を残す」に対応する操作を行う。",
+      "合う・違う・不明を伝えて今の希望から探索へ進めることを画面で確認する。"
+    ],
+    "expect": [
+      "合う・違う・不明を伝えて今の希望から探索へ進める。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

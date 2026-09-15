@@ -1,0 +1,218 @@
+[
+  {
+    "id": "main--layers",
+    "testId": "object-place--layers",
+    "kind": "control",
+    "purpose": "表示切替",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.layers",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "表示切替",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--locate",
+    "testId": "object-place--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--zoom-in",
+    "testId": "object-place--zoom-in",
+    "kind": "control",
+    "purpose": "拡大",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.zoom-in",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "拡大",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--zoom-out",
+    "testId": "object-place--zoom-out",
+    "kind": "control",
+    "purpose": "縮小",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.zoom-out",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "縮小",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--drag",
+    "testId": "object-place--drag",
+    "kind": "control",
+    "purpose": "地図を動かす",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map-gesture",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "copy.moveMap",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "配置点を動かす",
+      "placement": {
+        "in": "main--content--map",
+        "slot": "map-gesture",
+        "repeatKey": null
+      },
+      "note": "別のボタンや第二の地図を描画しない。地図のdrag操作を表す仕様上の操作元。キーボードでも同じcameraを動かせる。"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "object-place--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--place",
+    "testId": "object-place--place",
+    "kind": "control",
+    "purpose": "この場所に置く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この場所に置く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "object-place--content",
+    "kind": "content",
+    "purpose": "地図中央の配置マーカー・住所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--map",
+        "main--content--address",
+        "main--content--coordinates"
+      ]
+    }
+  },
+  {
+    "id": "main--content--map",
+    "testId": "object-place--main--content--map",
+    "kind": "content",
+    "purpose": "配置用地図",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--address",
+    "testId": "object-place--main--content--address",
+    "kind": "content",
+    "purpose": "選択位置の住所",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.address",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--coordinates",
+    "testId": "object-place--main--content--coordinates",
+    "kind": "content",
+    "purpose": "選択位置の座標",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.coordinates",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "object-place--page-title",
+    "kind": "content",
+    "purpose": "地図に配置",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

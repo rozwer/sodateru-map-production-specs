@@ -1,0 +1,32 @@
+{
+  "table": "visits",
+  "title": "訪問",
+  "description": ["誰が、いつ、どこを訪れたかと、その確認状態を保存する。", "地図の訪問回数と成長段階は、この表の確認済み訪問から求める。"],
+  "common": "common.json",
+  "columns": {
+    "id": {"type": "TEXT", "nullable": false, "description": "訪問のID。1〜80文字。同じ訪問の訂正・再送で維持"},
+    "person_id": {"type": "TEXT", "nullable": false, "description": "訪問した人物"},
+    "place_id": {"type": "TEXT", "nullable": false, "description": "訪問した場所"},
+    "started_at": {"type": "INTEGER", "nullable": true, "description": "訪問の開始日時"},
+    "ended_at": {"type": "INTEGER", "nullable": true, "description": "終了日時"},
+    "time_precision": {"type": "TEXT", "nullable": false, "enum": ["exact", "approximate", "unknown"]},
+    "origin": {"type": "TEXT", "nullable": false, "description": "訪問の入力元", "enum": ["manual", "gps"]},
+    "status": {"type": "TEXT", "nullable": false, "enum": ["candidate", "confirmed", "rejected"]},
+    "version": {"type": "INTEGER", "nullable": false, "description": "初期値1。訂正時に1増やす"},
+    "created_at": {"type": "INTEGER", "nullable": false, "description": "作成日時"},
+    "updated_at": {"type": "INTEGER", "nullable": false, "description": "更新日時"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "関連する訪問を確認して処理"}, "place_id": {"target": "places.id", "on_delete": "関連する訪問を確認して処理"}},
+  "relations": ["recordsは訪問IDを参照する。", "suggestionsは達成した訪問IDを参照する。"],
+  "constraints": ["主キーはid。人物・場所は存在するIDを指定する。", "終了日時がある場合は開始日時も必須とし、終了≧開始にする。", "time_precisionがunknownの場合は両日時をNULLにする。", "同じ訪問候補の再送・確認・訂正では同じIDを使う。"],
+  "indexes": [{"columns": ["person_id", "place_id", "status"]}, {"columns": ["person_id", "started_at"]}],
+  "operations": [
+    "手動登録または測位から訪問候補を作り、確認でconfirmed、訪問の否定でrejectedへ更新する。",
+    "confirmedな訪問IDを場所ごとに数えて成長段階を求める。",
+    "文章や写真の追加は、この訪問に関連付いたrecordsとmediaへ保存する。",
+    "訪問先・確認状態の変更時は、達成を参照している提案も同じ変更処理で見直す。",
+    "訪問を削除する場合は、関連する記録のvisit_idを解除して本文を保持する。",
+    "その記録の場所・日時は未指定の状態になる。"
+  ],
+  "related_files": ["00_people.json", "01_places.json", "02_records.json", "12_suggestions.json"]
+}

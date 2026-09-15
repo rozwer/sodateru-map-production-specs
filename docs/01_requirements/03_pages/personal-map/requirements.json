@@ -1,0 +1,58 @@
+[
+  {
+    "id": "personal-map-R1",
+    "text": "テーマIDで記録を絞り、場所・記録・用途の対応を地図と詳細で一致させる。テーマの件数や名称だけで同じテーマと判断しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "personal-map-C1"
+    ]
+  },
+  {
+    "id": "personal-map-R2",
+    "text": "テーマ変更後も次元・カメラ・選択場所を保ち、訪れた記録とテーマ編集を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "personal-map-C2"
+    ]
+  },
+  {
+    "id": "personal-map-F01",
+    "kind": "capability",
+    "title": "テーマで絞る",
+    "text": "すべて・選択テーマの記録を地図に表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "personal-map-FC01"
+    ]
+  },
+  {
+    "id": "personal-map-F02",
+    "kind": "capability",
+    "title": "場所の記憶を見る",
+    "text": "地点から訪れた記録と本人の言葉へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "personal-map-FC02"
+    ]
+  },
+  {
+    "id": "personal-map-F03",
+    "kind": "capability",
+    "title": "テーマを整える",
+    "text": "名前や所属する記録を編集できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "personal-map-FC03"
+    ]
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "self-home-R1",
+    "text": "画像の今日の軌跡・タイプ診断・わたしの地図の3入口を実際の画面へ接続する。旧リポの静的入口だけの制限は引き継がない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-home-C1"
+    ]
+  },
+  {
+    "id": "self-home-R2",
+    "text": "位置情報未許可・記録0件でも入口を表示し、最近の記録を架空データで埋めない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-home-C2"
+    ]
+  },
+  {
+    "id": "self-home-F01",
+    "kind": "capability",
+    "title": "今日の軌跡を見る",
+    "text": "今日の訪問・移動・体験を日付付きで開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-home-FC01"
+    ]
+  },
+  {
+    "id": "self-home-F02",
+    "kind": "capability",
+    "title": "自分の傾向を知る",
+    "text": "期間内の傾向と根拠を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-home-FC02"
+    ]
+  },
+  {
+    "id": "self-home-F03",
+    "kind": "capability",
+    "title": "自分の地図を見る",
+    "text": "記録やテーマから場所を見返せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-home-FC03"
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--record",
+      "main--overlay",
+      "main--content",
+      "main--content--comparisons",
+      "main--content--evidence",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--record",
+      "main--overlay"
+    ]
+  }
+]

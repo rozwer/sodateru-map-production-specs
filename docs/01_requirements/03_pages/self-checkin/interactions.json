@@ -1,0 +1,165 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--state",
+    "component": "main--state",
+    "from": "main",
+    "event": "change",
+    "effect": "今の状態の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--wishes",
+    "component": "main--wishes",
+    "from": "main",
+    "event": "change",
+    "effect": "今日の希望の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--clear",
+    "component": "main--clear",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定した下書き項目だけを解除し表示を更新する。媒体/記録のサーバー削除は保存確定時に行う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--minutes",
+    "component": "main--minutes",
+    "from": "main",
+    "event": "change",
+    "effect": "15・30・60・120分以上の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--mode",
+    "component": "main--mode",
+    "from": "main",
+    "event": "change",
+    "effect": "徒歩・自転車・公共交通・こだわらないの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--companion",
+    "component": "main--companion",
+    "from": "main",
+    "event": "change",
+    "effect": "ひとり・友達家族・子ども・ペットの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--effort",
+    "component": "main--effort",
+    "from": "main",
+    "event": "change",
+    "effect": "無理しない・少し歩ける・こだわらないの入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--search",
+    "component": "main--search",
+    "from": "main",
+    "event": "activate",
+    "effect": "回答保存後のIDとversionをcheckinに参照し、originと指定conditionsで候補batchを作成する。保存なしを選んだ入力の扱いは共通要件に従う。",
+    "destination": "suggestions",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postSelfCheckins",
+      "patchSelfCheckinsCheckinId",
+      "postSuggestionBatches"
+    ],
+    "apiGaps": [
+      "checkin"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--save",
+    "component": "main--save",
+    "from": "main",
+    "event": "activate",
+    "effect": "初回作成/既存更新は排他的。対象localDate、answers(state,wishes,minutes,note)、validUntilを保存。候補生成はしない。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "postSelfCheckins",
+      "patchSelfCheckinsCheckinId"
+    ],
+    "apiGaps": [
+      "checkin"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--skip",
+    "component": "main--skip",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

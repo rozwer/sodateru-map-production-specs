@@ -1,0 +1,101 @@
+[
+  {
+    "id": "expanded-record",
+    "visible": [
+      "expanded-record--back",
+      "expanded-record--menu",
+      "expanded-record--heading",
+      "expanded-record--track-map",
+      "expanded-record--sheet",
+      "expanded-record--timeline",
+      "expanded-record--expanded-record",
+      "expanded-record--previous-day",
+      "expanded-record--next-day",
+      "expanded-record--record",
+      "expanded-record--edit",
+      "expanded-record--reflect",
+      "expanded-record--nav-self",
+      "expanded-record--nav-map",
+      "expanded-record--nav-community",
+      "expanded-record--sheet--date",
+      "expanded-record--sheet--places",
+      "expanded-record--sheet--duration",
+      "expanded-record--sheet--legend",
+      "expanded-record--expanded-record--photo",
+      "expanded-record--expanded-record--body",
+      "expanded-record--expanded-record--mood"
+    ],
+    "hidden": [
+      "calendar--back",
+      "calendar--more",
+      "calendar--previous-month",
+      "calendar--next-month",
+      "calendar--select-date",
+      "calendar--record",
+      "calendar--show-track",
+      "calendar--heading",
+      "calendar--calendar",
+      "calendar--daily-records"
+    ],
+    "interactive": [
+      "expanded-record--back",
+      "expanded-record--menu",
+      "expanded-record--previous-day",
+      "expanded-record--next-day",
+      "expanded-record--record",
+      "expanded-record--edit",
+      "expanded-record--reflect",
+      "expanded-record--nav-self",
+      "expanded-record--nav-map",
+      "expanded-record--nav-community"
+    ]
+  },
+  {
+    "id": "calendar",
+    "visible": [
+      "calendar--back",
+      "calendar--more",
+      "calendar--previous-month",
+      "calendar--next-month",
+      "calendar--select-date",
+      "calendar--record",
+      "calendar--show-track",
+      "calendar--heading",
+      "calendar--calendar",
+      "calendar--daily-records"
+    ],
+    "hidden": [
+      "expanded-record--back",
+      "expanded-record--menu",
+      "expanded-record--heading",
+      "expanded-record--track-map",
+      "expanded-record--sheet",
+      "expanded-record--timeline",
+      "expanded-record--expanded-record",
+      "expanded-record--previous-day",
+      "expanded-record--next-day",
+      "expanded-record--record",
+      "expanded-record--edit",
+      "expanded-record--reflect",
+      "expanded-record--nav-self",
+      "expanded-record--nav-map",
+      "expanded-record--nav-community",
+      "expanded-record--sheet--date",
+      "expanded-record--sheet--places",
+      "expanded-record--sheet--duration",
+      "expanded-record--sheet--legend",
+      "expanded-record--expanded-record--photo",
+      "expanded-record--expanded-record--body",
+      "expanded-record--expanded-record--mood"
+    ],
+    "interactive": [
+      "calendar--back",
+      "calendar--more",
+      "calendar--previous-month",
+      "calendar--next-month",
+      "calendar--select-date",
+      "calendar--record",
+      "calendar--show-track"
+    ]
+  }
+]

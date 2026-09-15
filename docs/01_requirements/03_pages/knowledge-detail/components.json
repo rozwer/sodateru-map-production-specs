@@ -1,0 +1,289 @@
+[
+  {
+    "id": "main--back",
+    "testId": "knowledge-detail--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--play",
+    "testId": "knowledge-detail--play",
+    "kind": "control",
+    "purpose": "動画を再生",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.play",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "動画を再生",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--more",
+    "testId": "knowledge-detail--more",
+    "kind": "control",
+    "purpose": "三点メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.more",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "三点メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--place",
+    "testId": "knowledge-detail--place",
+    "kind": "control",
+    "purpose": "この場所を地図で見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この場所を地図で見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--author",
+    "testId": "knowledge-detail--author",
+    "kind": "control",
+    "purpose": "この人の地図を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.author",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この人の地図を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--source",
+    "testId": "knowledge-detail--source",
+    "kind": "control",
+    "purpose": "元の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "knowledge-detail--content",
+    "kind": "content",
+    "purpose": "写真動画・本文・作者・日付・場所・タグ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--media",
+        "main--content--title",
+        "main--content--body",
+        "main--content--author-avatar",
+        "main--content--author",
+        "main--content--date",
+        "main--content--place",
+        "main--content--tags"
+      ]
+    }
+  },
+  {
+    "id": "main--content--media",
+    "testId": "knowledge-detail--main--content--media",
+    "kind": "content",
+    "purpose": "投稿の写真動画",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--title",
+    "testId": "knowledge-detail--main--content--title",
+    "kind": "content",
+    "purpose": "投稿名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--body",
+    "testId": "knowledge-detail--main--content--body",
+    "kind": "content",
+    "purpose": "投稿本文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--author-avatar",
+    "testId": "knowledge-detail--main--content--author-avatar",
+    "kind": "content",
+    "purpose": "作者写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--author",
+    "testId": "knowledge-detail--main--content--author",
+    "kind": "content",
+    "purpose": "作者名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.author",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--date",
+    "testId": "knowledge-detail--main--content--date",
+    "kind": "content",
+    "purpose": "投稿日",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--place",
+    "testId": "knowledge-detail--main--content--place",
+    "kind": "content",
+    "purpose": "場所名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--tags",
+    "testId": "knowledge-detail--main--content--tags",
+    "kind": "content",
+    "purpose": "タグ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.tags",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "knowledge-detail--page-title",
+    "kind": "content",
+    "purpose": "地域投稿の詳細",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "editor",
+    "visible": [
+      "editor--back",
+      "editor--heading",
+      "editor--original",
+      "editor--interpretation",
+      "editor--preservation",
+      "editor--info",
+      "editor--purpose",
+      "editor--save-purpose",
+      "editor--reason",
+      "editor--save-reason"
+    ],
+    "hidden": [],
+    "interactive": [
+      "editor--back",
+      "editor--info",
+      "editor--purpose",
+      "editor--save-purpose",
+      "editor--reason",
+      "editor--save-reason"
+    ]
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "suggestion-detail-R1",
+    "text": "確認済みの情報と不明な情報、元の希望と提案理由を分ける。これにするで選択を保存して地図へ渡し、あとでは保留として保持する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-detail-C1"
+    ]
+  },
+  {
+    "id": "suggestion-detail-F01",
+    "kind": "capability",
+    "title": "提案理由を読む",
+    "text": "自分の希望と候補が結び付いた根拠を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-detail-FC01"
+    ]
+  },
+  {
+    "id": "suggestion-detail-F02",
+    "kind": "capability",
+    "title": "現在の情報を確かめる",
+    "text": "公式情報と未確認事項を区別して読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-detail-FC02"
+    ]
+  },
+  {
+    "id": "suggestion-detail-F03",
+    "kind": "capability",
+    "title": "行き先にする",
+    "text": "選択を保存して同じ場所を地図で開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-detail-FC03"
+    ]
+  },
+  {
+    "id": "suggestion-detail-F04",
+    "kind": "capability",
+    "title": "あとに回す",
+    "text": "保留やメモを残して候補一覧へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-detail-FC04"
+    ]
+  }
+]

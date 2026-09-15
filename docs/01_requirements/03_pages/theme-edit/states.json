@@ -1,0 +1,32 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--name",
+      "main--description",
+      "main--color",
+      "main--records",
+      "main--photo",
+      "main--cancel",
+      "main--save",
+      "main--content",
+      "main--content--records",
+      "main--content--cover",
+      "main--content--name-count",
+      "main--content--description-count",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--name",
+      "main--description",
+      "main--color",
+      "main--records",
+      "main--photo",
+      "main--cancel",
+      "main--save"
+    ]
+  }
+]

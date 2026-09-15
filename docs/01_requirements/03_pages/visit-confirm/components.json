@@ -1,0 +1,272 @@
+[
+  {
+    "id": "not-visited-selected--back",
+    "testId": "visit-confirm--not-visited-selected--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "not-visited-selected--heading",
+    "testId": "visit-confirm--not-visited-selected--heading",
+    "kind": "content",
+    "purpose": "この場所に行きましたか？",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.not-visited-selected.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "not-visited-selected--source",
+    "testId": "visit-confirm--not-visited-selected--source",
+    "kind": "content",
+    "purpose": "位置の記録から見つかった候補です。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.not-visited-selected.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place",
+    "testId": "visit-confirm--not-visited-selected--place",
+    "kind": "content",
+    "purpose": "カフェひと息：写真・場所・日時・約1時間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "not-visited-selected--place--photo",
+        "not-visited-selected--place--name",
+        "not-visited-selected--place--date",
+        "not-visited-selected--place--duration"
+      ]
+    }
+  },
+  {
+    "id": "not-visited-selected--map",
+    "testId": "visit-confirm--not-visited-selected--map",
+    "kind": "content",
+    "purpose": "滞在位置の地図と説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place-open",
+    "testId": "visit-confirm--not-visited-selected--place-open",
+    "kind": "control",
+    "purpose": "場所カード",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.place-open",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "場所カード",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "not-visited-selected--map-expand",
+    "testId": "visit-confirm--not-visited-selected--map-expand",
+    "kind": "control",
+    "purpose": "地図を拡大",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.map-expand",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図を拡大",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "not-visited-selected--visited",
+    "testId": "visit-confirm--not-visited-selected--visited",
+    "kind": "control",
+    "purpose": "行った",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.visited",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "行った",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "not-visited-selected--not-visited",
+    "testId": "visit-confirm--not-visited-selected--not-visited",
+    "kind": "control",
+    "purpose": "行っていない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.not-visited",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "行っていない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "not-visited-selected--unsure",
+    "testId": "visit-confirm--not-visited-selected--unsure",
+    "kind": "control",
+    "purpose": "まだ分からない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.unsure",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "まだ分からない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "not-visited-selected--save",
+    "testId": "visit-confirm--not-visited-selected--save",
+    "kind": "control",
+    "purpose": "確認を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.not-visited-selected.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "確認を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place--photo",
+    "testId": "visit-confirm--not-visited-selected--place--photo",
+    "kind": "content",
+    "purpose": "場所写真",
+    "imageRegion": null,
+    "parent": "not-visited-selected--place",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place--name",
+    "testId": "visit-confirm--not-visited-selected--place--name",
+    "kind": "content",
+    "purpose": "場所名",
+    "imageRegion": null,
+    "parent": "not-visited-selected--place",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.not-visited-selected.place.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place--date",
+    "testId": "visit-confirm--not-visited-selected--place--date",
+    "kind": "content",
+    "purpose": "訪問日時",
+    "imageRegion": null,
+    "parent": "not-visited-selected--place",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.not-visited-selected.place.date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "not-visited-selected--place--duration",
+    "testId": "visit-confirm--not-visited-selected--place--duration",
+    "kind": "content",
+    "purpose": "滞在時間",
+    "imageRegion": null,
+    "parent": "not-visited-selected--place",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.not-visited-selected.place.duration",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

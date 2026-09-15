@@ -1,0 +1,58 @@
+[
+  {
+    "id": "diary-R1",
+    "text": "対象日の日記を保存・編集・再表示する。AI下書きは本人が確認して保存し、自動公開しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "diary-C1"
+    ]
+  },
+  {
+    "id": "diary-R2",
+    "text": "写真の追加・削除、前後の日と日付選択を扱い、未保存本文を別の日記へ混ぜない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "diary-C2"
+    ]
+  },
+  {
+    "id": "diary-F01",
+    "kind": "capability",
+    "title": "日を選ぶ",
+    "text": "対象日の日記を前後移動や日付選択で開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "diary-FC01"
+    ]
+  },
+  {
+    "id": "diary-F02",
+    "kind": "capability",
+    "title": "日記を書く",
+    "text": "本文と写真を追加・編集・削除できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "diary-FC02"
+    ]
+  },
+  {
+    "id": "diary-F03",
+    "kind": "capability",
+    "title": "日記を残す",
+    "text": "本人が確認した内容を保存し別の日と混ざらず再表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "diary-FC03"
+    ]
+  }
+]

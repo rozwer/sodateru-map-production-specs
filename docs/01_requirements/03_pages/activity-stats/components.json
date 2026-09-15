@@ -1,0 +1,303 @@
+[
+  {
+    "id": "week--back",
+    "testId": "activity-stats--week--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--heading",
+    "testId": "activity-stats--week--heading",
+    "kind": "content",
+    "purpose": "活動の統計",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.week.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "week--steps",
+    "testId": "activity-stats--week--steps",
+    "kind": "content",
+    "purpose": "歩数の推移：棒グラフ・未取得の日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "chart",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.series",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "labelsFrom": "viewModel.axisLabels",
+      "missingValues": "未取得を0にせず欠測表示",
+      "accessibleSummary": "同じ値のDOM一覧/説明を添える",
+      "fixedShapeAllowed": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--average",
+    "testId": "activity-stats--week--average",
+    "kind": "content",
+    "purpose": "平均歩数6,384歩／取得できた5日から",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "week--average--average",
+        "week--average--coverage"
+      ]
+    }
+  },
+  {
+    "id": "week--activity",
+    "testId": "activity-stats--week--activity",
+    "kind": "content",
+    "purpose": "確認した訪問4か所・新しい場所2か所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "week--activity--confirmed",
+        "week--activity--new"
+      ]
+    }
+  },
+  {
+    "id": "week--source",
+    "testId": "activity-stats--week--source",
+    "kind": "content",
+    "purpose": "歩数はヘルスケア、訪問場所は確認した記録から集計",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.week.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--period-today",
+    "testId": "activity-stats--week--period-today",
+    "kind": "control",
+    "purpose": "今日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-today",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-week",
+    "testId": "activity-stats--week--period-week",
+    "kind": "control",
+    "purpose": "週",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-week",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "週",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-month",
+    "testId": "activity-stats--week--period-month",
+    "kind": "control",
+    "purpose": "月",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-month",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "月",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--period-year",
+    "testId": "activity-stats--week--period-year",
+    "kind": "control",
+    "purpose": "年",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.period-year",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "年",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "week--steps-detail",
+    "testId": "activity-stats--week--steps-detail",
+    "kind": "control",
+    "purpose": "歩数の推移の詳細",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.steps-detail",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "歩数の推移の詳細",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--activity-open",
+    "testId": "activity-stats--week--activity-open",
+    "kind": "control",
+    "purpose": "街での活動",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.activity-open",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "街での活動",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--activity-detail",
+    "testId": "activity-stats--week--activity-detail",
+    "kind": "control",
+    "purpose": "活動の詳細を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.week.activity-detail",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "活動の詳細を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "week--average--average",
+    "testId": "activity-stats--week--average--average",
+    "kind": "content",
+    "purpose": "取得済み日の平均歩数",
+    "imageRegion": null,
+    "parent": "week--average",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.week.average.average",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--average--coverage",
+    "testId": "activity-stats--week--average--coverage",
+    "kind": "content",
+    "purpose": "取得できた日数",
+    "imageRegion": null,
+    "parent": "week--average",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.week.average.coverage",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--activity--confirmed",
+    "testId": "activity-stats--week--activity--confirmed",
+    "kind": "content",
+    "purpose": "確認した訪問数",
+    "imageRegion": null,
+    "parent": "week--activity",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.week.activity.confirmed",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "week--activity--new",
+    "testId": "activity-stats--week--activity--new",
+    "kind": "content",
+    "purpose": "新しい場所の数",
+    "imageRegion": null,
+    "parent": "week--activity",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.week.activity.new",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

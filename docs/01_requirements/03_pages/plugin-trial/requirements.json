@@ -1,0 +1,48 @@
+[
+  {
+    "id": "plugin-trial-R1",
+    "text": "地域・車種・高速道路条件を使った模擬プレビューを表示する。実データと混ぜず、未確認道路を走行可能としない。導入前後の変化を同じ地図範囲で自動表示する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-trial-C1"
+    ]
+  },
+  {
+    "id": "plugin-trial-F01",
+    "kind": "capability",
+    "title": "条件を選ぶ",
+    "text": "地域・車種・高速道路利用を指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-trial-FC01"
+    ]
+  },
+  {
+    "id": "plugin-trial-F02",
+    "kind": "capability",
+    "title": "模擬表示を見る",
+    "text": "模擬データと分かる状態で導入前後を同じ地図上で見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-trial-FC02"
+    ]
+  },
+  {
+    "id": "plugin-trial-F03",
+    "kind": "capability",
+    "title": "導入へ進む",
+    "text": "試した条件を保って確認画面へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-trial-FC03"
+    ]
+  }
+]

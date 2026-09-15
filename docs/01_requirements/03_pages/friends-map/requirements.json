@@ -1,0 +1,70 @@
+[
+  {
+    "id": "friends-map-R1",
+    "text": "友達の選択と共有された投稿・地図・比較対象を同期する。記録0件は共有情報がない状態とし、相手の活動がないとは断定しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-C1"
+    ]
+  },
+  {
+    "id": "friends-map-R2",
+    "text": "相手の用途表示は自分の成長や用途を上書きしない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-C2"
+    ]
+  },
+  {
+    "id": "friends-map-F01",
+    "kind": "capability",
+    "title": "相手を探す",
+    "text": "名前で相手を検索して共有地図を切り替えられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-FC01"
+    ]
+  },
+  {
+    "id": "friends-map-F02",
+    "kind": "capability",
+    "title": "共有記録を見る",
+    "text": "相手の場所・用途・原文を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-FC02"
+    ]
+  },
+  {
+    "id": "friends-map-F03",
+    "kind": "capability",
+    "title": "共通点を探す",
+    "text": "自分と相手の共有可能な体験を比較できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-FC03"
+    ]
+  },
+  {
+    "id": "friends-map-F04",
+    "kind": "capability",
+    "title": "おすすめを歩く",
+    "text": "相手のルートを開いて自分の条件で経路を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friends-map-FC04"
+    ]
+  }
+]

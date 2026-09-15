@@ -1,0 +1,32 @@
+[
+  {
+    "id": "sources",
+    "visible": [
+      "sources--back",
+      "sources--heading",
+      "sources--healthcare",
+      "sources--visits",
+      "sources--settings",
+      "sources--missing-rule",
+      "sources--example-label",
+      "sources--steps",
+      "sources--places",
+      "sources--integrations",
+      "sources--history",
+      "sources--healthcare--source",
+      "sources--healthcare--method",
+      "sources--healthcare--connection",
+      "sources--settings--period",
+      "sources--settings--updated",
+      "sources--settings--missing"
+    ],
+    "hidden": [],
+    "interactive": [
+      "sources--back",
+      "sources--steps",
+      "sources--places",
+      "sources--integrations",
+      "sources--history"
+    ]
+  }
+]

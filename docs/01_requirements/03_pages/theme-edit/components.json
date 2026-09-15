@@ -1,0 +1,342 @@
+[
+  {
+    "id": "main--back",
+    "testId": "theme-edit--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--name",
+    "testId": "theme-edit--name",
+    "kind": "control",
+    "purpose": "テーマ名（20文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "テーマ名（20文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "テーマ名（20文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 20,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--description",
+    "testId": "theme-edit--description",
+    "kind": "control",
+    "purpose": "説明（100文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.description",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "説明（100文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "説明（100文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 100,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--color",
+    "testId": "theme-edit--color",
+    "kind": "control",
+    "purpose": "色を選ぶ（7色）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.color",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "色を選ぶ（7色）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "色を選ぶ（7色）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "青緑"
+        },
+        {
+          "id": "2",
+          "label": "ピンク"
+        },
+        {
+          "id": "3",
+          "label": "オレンジ"
+        },
+        {
+          "id": "4",
+          "label": "黄"
+        },
+        {
+          "id": "5",
+          "label": "緑"
+        },
+        {
+          "id": "6",
+          "label": "青"
+        },
+        {
+          "id": "7",
+          "label": "紫"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.color"
+    }
+  },
+  {
+    "id": "main--records",
+    "testId": "theme-edit--records",
+    "kind": "control",
+    "purpose": "記録を複数選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "記録を複数選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "記録を複数選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "multiple",
+      "optionElement": "input[type=checkbox]",
+      "options": [],
+      "optionsFrom": "viewModel.records",
+      "optionKey": "item.id",
+      "checkedFrom": "form.records",
+      "placement": {
+        "in": "main--content--records",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "theme-edit--records--{item.id}"
+      },
+      "renderOptionsWithin": "main--content--records"
+    }
+  },
+  {
+    "id": "main--photo",
+    "testId": "theme-edit--photo",
+    "kind": "control",
+    "purpose": "写真を変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "theme-edit--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "theme-edit--save",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "theme-edit--content",
+    "kind": "content",
+    "purpose": "テーマの設定と所属する記録",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--records",
+        "main--content--cover",
+        "main--content--name-count",
+        "main--content--description-count"
+      ]
+    }
+  },
+  {
+    "id": "main--content--records",
+    "testId": "theme-edit--main--content--records",
+    "kind": "content",
+    "purpose": "選択対象の記録",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "theme-edit--main--content--records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--records"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--cover",
+    "testId": "theme-edit--main--content--cover",
+    "kind": "content",
+    "purpose": "代表写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--name-count",
+    "testId": "theme-edit--main--content--name-count",
+    "kind": "content",
+    "purpose": "テーマ名の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--name)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--name",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--description-count",
+    "testId": "theme-edit--main--content--description-count",
+    "kind": "content",
+    "purpose": "説明の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--description)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--description",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "theme-edit--page-title",
+    "kind": "content",
+    "purpose": "テーマを編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

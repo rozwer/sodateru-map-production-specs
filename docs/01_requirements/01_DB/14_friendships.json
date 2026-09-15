@@ -1,0 +1,16 @@
+{
+  "table": "friendships",
+  "title": "友人関係",
+  "description": ["申請・承認・解除と、友人に絞った表示に使う。"],
+  "common": "common.json",
+  "columns": {
+    "requester_id": {"type": "TEXT", "nullable": false, "description": "申請した人物"},
+    "recipient_id": {"type": "TEXT", "nullable": false, "description": "申請先"},
+    "status": {"type": "TEXT", "nullable": false, "description": "関係の状態", "enum": ["pending", "accepted"]}
+  },
+  "references": {"requester_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}, "recipient_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["申請者と申請先は異なる人物にする。", "同じ二人の組は申請方向にかかわらず一意にする。"],
+  "indexes": [{"columns": ["requester_id", "recipient_id"], "unique": true, "order_independent": true}, {"columns": ["recipient_id", "status"]}],
+  "operations": ["申請でpendingを作り、承認でacceptedに更新する。解除は行を削除する。選択相手への共有は記録・ルートのshared_with_jsonに保存し、友人一覧はacceptedの組を両方向から読む。"],
+  "related_files": ["00_people.json"]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "reflection-history",
+  "title": "振り返りの記録",
+  "status": "draft",
+  "route": null,
+  "references": [
+    {
+      "image": "../references/Codex 画像 2026年9月15日 08_08_05.png",
+      "state": "answer-expanded",
+      "viewport": "reference-463x913",
+      "region": {
+        "x": 537,
+        "y": 60,
+        "width": 463,
+        "height": 913
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "id": "reference-463x913",
+      "width": 463,
+      "height": 913,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "mobile-390",
+      "width": 390,
+      "height": 844,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "mobile-320",
+      "width": 320,
+      "height": 740,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "basis": "css-pixels"
+    }
+  ],
+  "layout": {
+    "checkAllStatesAndViewports": true,
+    "allowedOverlaps": []
+  },
+  "formatVersion": 2,
+  "files": {
+    "components": "components.json",
+    "states": "states.json",
+    "interactions": "interactions.json",
+    "api": "api.json",
+    "requirements": "requirements.json",
+    "acceptance": "acceptance.json"
+  },
+  "common": "../common.json",
+  "sources": "../sources.json",
+  "apiGaps": [
+    "question-state"
+  ],
+  "unresolved": [
+    "論理画面と実URL/ルーターの接続はUI実装時に確定。",
+    "参照画像の個別要素矩形はUI実装と画像照合時に確定。"
+  ]
+}

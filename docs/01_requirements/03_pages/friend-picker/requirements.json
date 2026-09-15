@@ -1,0 +1,48 @@
+[
+  {
+    "id": "friend-picker-R1",
+    "text": "共有可能な友達を検索・複数選択し、完了で選択ID一覧を共有確認へ返す。この画面だけで共有を実行しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-picker-C1"
+    ]
+  },
+  {
+    "id": "friend-picker-F01",
+    "kind": "capability",
+    "title": "友達を探す",
+    "text": "名前から共有可能な友達を探せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-picker-FC01"
+    ]
+  },
+  {
+    "id": "friend-picker-F02",
+    "kind": "capability",
+    "title": "相手を確認する",
+    "text": "プロフィールを見て複数人を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-picker-FC02"
+    ]
+  },
+  {
+    "id": "friend-picker-F03",
+    "kind": "capability",
+    "title": "選択を返す",
+    "text": "完了で共有確認へ選択一覧を返せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "friend-picker-FC03"
+    ]
+  }
+]

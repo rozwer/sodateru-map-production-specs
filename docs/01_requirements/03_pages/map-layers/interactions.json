@@ -1,0 +1,172 @@
+[
+  {
+    "id": "main--close",
+    "component": "main--close",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--themes",
+    "component": "main--themes",
+    "from": "main",
+    "event": "change",
+    "effect": "自分のテーマを表示の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "layers"
+    ],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--suggestions",
+    "component": "main--suggestions",
+    "from": "main",
+    "event": "change",
+    "effect": "探索候補を表示の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "layers"
+    ],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--friends",
+    "component": "main--friends",
+    "from": "main",
+    "event": "change",
+    "effect": "友達を表示の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [
+      "layers"
+    ],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--cycling",
+    "component": "main--cycling",
+    "from": "main",
+    "event": "change",
+    "effect": "バイクマップのレイヤー表示を切り替える。自転車ルートへの切替や保存データの削除はしない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "layers"
+    ],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--map",
+    "component": "main--map",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--search",
+    "component": "main--search",
+    "from": "main",
+    "event": "activate",
+    "effect": "場所検索を開く。現在の表示設定を保持する。",
+    "destination": "map",
+    "carry": [
+      "地図範囲",
+      "表示レイヤー"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "同じ地図の文脈を保持。"
+  },
+  {
+    "id": "main--locate",
+    "component": "main--locate",
+    "from": "main",
+    "event": "activate",
+    "effect": "同じ地図の現在地へcameraを移動する。",
+    "destination": null,
+    "carry": [
+      "地図範囲",
+      "表示レイヤー"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "同じ地図の文脈を保持。"
+  },
+  {
+    "id": "main--nav-self",
+    "component": "main--nav-self",
+    "from": "main",
+    "event": "activate",
+    "effect": "自分を知るを開く。現在の表示設定を保持する。",
+    "destination": "self-home",
+    "carry": [
+      "地図範囲",
+      "表示レイヤー"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "同じ地図の文脈を保持。"
+  },
+  {
+    "id": "main--nav-map",
+    "component": "main--nav-map",
+    "from": "main",
+    "event": "activate",
+    "effect": "地図を開く。現在の表示設定を保持する。",
+    "destination": "map",
+    "carry": [
+      "地図範囲",
+      "表示レイヤー"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "同じ地図の文脈を保持。"
+  },
+  {
+    "id": "main--nav-community",
+    "component": "main--nav-community",
+    "from": "main",
+    "event": "activate",
+    "effect": "みんなの地図を開く。現在の表示設定を保持する。",
+    "destination": "community-home",
+    "carry": [
+      "地図範囲",
+      "表示レイヤー"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "同じ地図の文脈を保持。"
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "theme-edit-R1",
+    "text": "名前20文字・説明100文字、7色、写真、複数記録の選択を編集し、保存後に一覧と地図へ反映する。取消で保存済み値を変えない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "theme-edit-C1"
+    ]
+  },
+  {
+    "id": "theme-edit-F01",
+    "kind": "capability",
+    "title": "名前と説明を付ける",
+    "text": "名前20文字・説明100文字まで書ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "theme-edit-FC01"
+    ]
+  },
+  {
+    "id": "theme-edit-F02",
+    "kind": "capability",
+    "title": "見た目を選ぶ",
+    "text": "7色と代表写真を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "theme-edit-FC02"
+    ]
+  },
+  {
+    "id": "theme-edit-F03",
+    "kind": "capability",
+    "title": "体験をまとめる",
+    "text": "複数の記録をテーマに含められる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "theme-edit-FC03"
+    ]
+  },
+  {
+    "id": "theme-edit-F04",
+    "kind": "capability",
+    "title": "変更を残す",
+    "text": "保存後に一覧と地図へ反映し取消で元の値を保てる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "theme-edit-FC04"
+    ]
+  }
+]

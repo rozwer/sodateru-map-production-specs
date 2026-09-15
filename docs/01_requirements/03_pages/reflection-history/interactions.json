@@ -1,0 +1,136 @@
+[
+  {
+    "id": "answer-expanded--back",
+    "component": "answer-expanded--back",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--more",
+    "component": "answer-expanded--more",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "同じ詳細面に対象の説明または操作メニューを開く。閉じる/Escapeで元の要素へフォーカスを戻す。表示項目は同じ画面の機能要件に従う。",
+    "destination": "$inline-menu",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--filter-all",
+    "component": "answer-expanded--filter-all",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--filter-answered",
+    "component": "answer-expanded--filter-answered",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--filter-later",
+    "component": "answer-expanded--filter-later",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--filter-skipped",
+    "component": "answer-expanded--filter-skipped",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "選択条件を更新して対象一覧を再表示する。条件を外しても元データは削除しない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--original",
+    "component": "answer-expanded--original",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answer-expanded--update-interpretation",
+    "component": "answer-expanded--update-interpretation",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "選択回答の原文と版を根拠に解釈更新する。回答状態の契約を先に補う。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "question-state"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "answer-expanded--toggle-answer",
+    "component": "answer-expanded--toggle-answer",
+    "from": "answer-expanded",
+    "event": "activate",
+    "effect": "質問と回答を開閉する。押した項目のIDを使い、別の行は変更しない。",
+    "destination": "$inline-detail",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  }
+]

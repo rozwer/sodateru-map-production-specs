@@ -1,0 +1,48 @@
+[
+  {
+    "id": "plugin-install-R1",
+    "text": "使う情報と追加表示を確認し、導入で設定を保存する。成功後に地図で開け、再読込しても導入状態を保持する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-install-C1"
+    ]
+  },
+  {
+    "id": "plugin-install-F01",
+    "kind": "capability",
+    "title": "変更を確認する",
+    "text": "利用する地域・車種・追加レイヤーと未確認情報を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-install-FC01"
+    ]
+  },
+  {
+    "id": "plugin-install-F02",
+    "kind": "capability",
+    "title": "導入する",
+    "text": "設定を保存して地図で使い始められる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-install-FC02"
+    ]
+  },
+  {
+    "id": "plugin-install-F03",
+    "kind": "capability",
+    "title": "見送る",
+    "text": "取消では導入状態を変更しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-install-FC03"
+    ]
+  }
+]

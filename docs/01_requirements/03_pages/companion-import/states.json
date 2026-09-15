@@ -1,0 +1,30 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--file",
+      "main--remove",
+      "main--register",
+      "main--current",
+      "main--cancel",
+      "main--save",
+      "main--content",
+      "main--content--filename",
+      "main--content--file-size",
+      "main--content--preview",
+      "main--content--validation",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--file",
+      "main--remove",
+      "main--register",
+      "main--current",
+      "main--cancel",
+      "main--save"
+    ]
+  }
+]

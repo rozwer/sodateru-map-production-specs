@@ -1,0 +1,38 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--color",
+      "main--size",
+      "main--place",
+      "main--preview",
+      "main--delete",
+      "main--cancel",
+      "main--save",
+      "main--content",
+      "main--content--edit-help",
+      "main--content--name-count",
+      "main--content--body-count",
+      "main--content--preview-map",
+      "shared--page-title",
+      "main--preview-photo",
+      "main--address"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--name",
+      "main--body",
+      "main--color",
+      "main--size",
+      "main--place",
+      "main--preview",
+      "main--delete",
+      "main--cancel",
+      "main--save"
+    ]
+  }
+]

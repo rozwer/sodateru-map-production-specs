@@ -1,0 +1,328 @@
+[
+  {
+    "id": "main--back",
+    "testId": "suggestion-detail--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--share",
+    "testId": "suggestion-detail--share",
+    "kind": "control",
+    "purpose": "共有",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.share",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共有",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--bookmark",
+    "testId": "suggestion-detail--bookmark",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.bookmark",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--source",
+    "testId": "suggestion-detail--source",
+    "kind": "control",
+    "purpose": "公式情報を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "公式情報を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--select",
+    "testId": "suggestion-detail--select",
+    "kind": "control",
+    "purpose": "これにする",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.select",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "これにする",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--later",
+    "testId": "suggestion-detail--later",
+    "kind": "control",
+    "purpose": "あとで",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.later",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "あとで",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--memo",
+    "testId": "suggestion-detail--memo",
+    "kind": "control",
+    "purpose": "メモに残す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.memo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メモに残す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "suggestion-detail--content",
+    "kind": "content",
+    "purpose": "写真・提案理由・希望の原文・確認済みと未確認の情報",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--media",
+        "main--content--name",
+        "main--content--reason",
+        "main--content--wishes",
+        "main--content--travel-time",
+        "main--content--stay-time",
+        "main--content--total-time",
+        "main--content--evaluation",
+        "main--content--facts"
+      ]
+    }
+  },
+  {
+    "id": "main--content--media",
+    "testId": "suggestion-detail--main--content--media",
+    "kind": "content",
+    "purpose": "場所写真",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--name",
+    "testId": "suggestion-detail--main--content--name",
+    "kind": "content",
+    "purpose": "候補名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--reason",
+    "testId": "suggestion-detail--main--content--reason",
+    "kind": "content",
+    "purpose": "提案理由",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.reason",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--wishes",
+    "testId": "suggestion-detail--main--content--wishes",
+    "kind": "content",
+    "purpose": "本人の希望原文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.wishes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--travel-time",
+    "testId": "suggestion-detail--main--content--travel-time",
+    "kind": "content",
+    "purpose": "移動時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.travel-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--stay-time",
+    "testId": "suggestion-detail--main--content--stay-time",
+    "kind": "content",
+    "purpose": "滞在時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.stay-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--total-time",
+    "testId": "suggestion-detail--main--content--total-time",
+    "kind": "content",
+    "purpose": "合計時間",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.total-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--evaluation",
+    "testId": "suggestion-detail--main--content--evaluation",
+    "kind": "content",
+    "purpose": "評価状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.evaluation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--facts",
+    "testId": "suggestion-detail--main--content--facts",
+    "kind": "content",
+    "purpose": "確認済みと未確認の情報",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.facts",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "fact",
+      "itemsFrom": "viewModel.facts",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "suggestion-detail--main--content--facts--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "suggestion-detail--page-title",
+    "kind": "content",
+    "purpose": "提案候補の詳細",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

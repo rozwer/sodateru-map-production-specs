@@ -1,0 +1,60 @@
+[
+  {
+    "id": "health-permissions-R1",
+    "text": "項目と期間、保存、AI利用を別に選択する。健康値を場所の訪問や性格へ推定変換しない。AI利用は同意した範囲だけにする。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-permissions-C1"
+    ]
+  },
+  {
+    "id": "health-permissions-F01",
+    "kind": "capability",
+    "title": "項目を選ぶ",
+    "text": "歩数・歩行距離・活動時間を選択できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-permissions-FC01"
+    ]
+  },
+  {
+    "id": "health-permissions-F02",
+    "kind": "capability",
+    "title": "期間を選ぶ",
+    "text": "取り込む対象期間を指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-permissions-FC02"
+    ]
+  },
+  {
+    "id": "health-permissions-F03",
+    "kind": "capability",
+    "title": "用途を選ぶ",
+    "text": "アプリ内保存とAI利用を別々に選択できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-permissions-FC03"
+    ]
+  },
+  {
+    "id": "health-permissions-F04",
+    "kind": "capability",
+    "title": "開始を決める",
+    "text": "許可して続けるか何も取り込まず戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-permissions-FC04"
+    ]
+  }
+]

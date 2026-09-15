@@ -1,0 +1,28 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--gallery",
+      "main--source",
+      "main--bookmark",
+      "main--route",
+      "main--compass",
+      "main--content",
+      "main--content--media",
+      "main--content--reason",
+      "main--content--entrance",
+      "main--content--facts",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--gallery",
+      "main--source",
+      "main--bookmark",
+      "main--route",
+      "main--compass"
+    ]
+  }
+]

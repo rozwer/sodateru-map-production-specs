@@ -1,0 +1,91 @@
+[
+  {
+    "id": "plugin-store-C1",
+    "requirement": "plugin-store-R1",
+    "mode": "live",
+    "precondition": "未導入と導入済みを含むカタログ。",
+    "checkActions": [
+      "main--search",
+      "main--category",
+      "main--plugin",
+      "main--manage",
+      "main--requests",
+      "main--github",
+      "main--back"
+    ],
+    "steps": [
+      "検索/分類で候補を絞る。",
+      "詳細→試用→導入→地図で追加表示を確認する。",
+      "導入済み一覧で無効化し、地図から表示が消え、再有効化で戻ることを確認する。"
+    ],
+    "expect": [
+      "カタログと導入状態が一致する。",
+      "再読込後も導入設定と保存スポットが保持される。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "plugin-store-FC01",
+    "requirement": "plugin-store-F01",
+    "mode": "live",
+    "precondition": "使いたい拡張機能を探すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「機能を探す」に対応する操作を行う。",
+      "名前・実現したいこと・分類から候補を絞れることを画面で確認する。"
+    ],
+    "expect": [
+      "名前・実現したいこと・分類から候補を絞れる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "plugin-store-FC02",
+    "requirement": "plugin-store-F02",
+    "mode": "live",
+    "precondition": "使いたい拡張機能を探すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「詳細を確認する」に対応する操作を行う。",
+      "内容と追加表示を見て試用へ進めることを画面で確認する。"
+    ],
+    "expect": [
+      "内容と追加表示を見て試用へ進める。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "plugin-store-FC03",
+    "requirement": "plugin-store-F03",
+    "mode": "live",
+    "precondition": "使いたい拡張機能を探すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「導入済みを管理する」に対応する操作を行う。",
+      "使用中の機能へすぐ戻れることを画面で確認する。"
+    ],
+    "expect": [
+      "使用中の機能へすぐ戻れる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "plugin-store-FC04",
+    "requirement": "plugin-store-F04",
+    "mode": "live",
+    "precondition": "使いたい拡張機能を探すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「開発へ参加する」に対応する操作を行う。",
+      "要望を書くか開発ガイドを開けることを画面で確認する。"
+    ],
+    "expect": [
+      "要望を書くか開発ガイドを開ける。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

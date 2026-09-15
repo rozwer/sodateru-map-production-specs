@@ -1,0 +1,140 @@
+[
+  {
+    "id": "main--back",
+    "testId": "conversation-history--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "conversation-history--search",
+    "kind": "control",
+    "purpose": "履歴を検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "search-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.query",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "履歴を検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "履歴を検索",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "search",
+      "events": [
+        "input",
+        "submit"
+      ],
+      "clearable": true
+    }
+  },
+  {
+    "id": "main--conversation",
+    "testId": "conversation-history--conversation",
+    "kind": "control",
+    "purpose": "相談を開く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.conversation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "相談を開く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--new",
+    "testId": "conversation-history--new",
+    "kind": "control",
+    "purpose": "新しく相談する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.new",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "新しく相談する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "conversation-history--content",
+    "kind": "content",
+    "purpose": "日付別の相談一覧",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--conversations"
+      ]
+    }
+  },
+  {
+    "id": "main--content--conversations",
+    "testId": "conversation-history--main--content--conversations",
+    "kind": "content",
+    "purpose": "日付別の相談履歴",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.conversations",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "conversation",
+      "itemsFrom": "viewModel.conversations",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "conversation-history--main--content--conversations--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "conversation-history--page-title",
+    "kind": "content",
+    "purpose": "相談履歴",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

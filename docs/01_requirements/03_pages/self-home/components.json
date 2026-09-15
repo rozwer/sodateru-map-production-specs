@@ -1,0 +1,330 @@
+[
+  {
+    "id": "home--heading",
+    "testId": "self-home--home--heading",
+    "kind": "content",
+    "purpose": "自分を知る／日々の体験から、いまの自分へ。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.home.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "home--map",
+    "testId": "self-home--home--map",
+    "kind": "content",
+    "purpose": "背景地図・軌跡・地点ピン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--today-preview",
+    "testId": "self-home--home--today-preview",
+    "kind": "content",
+    "purpose": "今日の軌跡：写真・名称・時刻・場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "home--today-preview--photo",
+        "home--today-preview--name",
+        "home--today-preview--time",
+        "home--today-preview--place"
+      ]
+    }
+  },
+  {
+    "id": "home--type-preview",
+    "testId": "self-home--home--type-preview",
+    "kind": "content",
+    "purpose": "タイプ診断：レーダー図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "home--type-preview--radar"
+      ]
+    }
+  },
+  {
+    "id": "home--my-map-preview",
+    "testId": "self-home--home--my-map-preview",
+    "kind": "content",
+    "purpose": "わたしの地図：建物のイメージ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "home--my-map-preview--map"
+      ]
+    }
+  },
+  {
+    "id": "home--menu",
+    "testId": "self-home--home--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--today",
+    "testId": "self-home--home--today",
+    "kind": "control",
+    "purpose": "今日の軌跡",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.today",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今日の軌跡",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--type",
+    "testId": "self-home--home--type",
+    "kind": "control",
+    "purpose": "タイプ診断",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.type",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "タイプ診断",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--my-map",
+    "testId": "self-home--home--my-map",
+    "kind": "control",
+    "purpose": "わたしの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.my-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "わたしの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-self",
+    "testId": "self-home--home--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-map",
+    "testId": "self-home--home--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--nav-community",
+    "testId": "self-home--home--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.home.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "home--today-preview--photo",
+    "testId": "self-home--home--today-preview--photo",
+    "kind": "content",
+    "purpose": "最近の記録写真",
+    "imageRegion": null,
+    "parent": "home--today-preview",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--today-preview--name",
+    "testId": "self-home--home--today-preview--name",
+    "kind": "content",
+    "purpose": "記録名",
+    "imageRegion": null,
+    "parent": "home--today-preview",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.home.today-preview.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--today-preview--time",
+    "testId": "self-home--home--today-preview--time",
+    "kind": "content",
+    "purpose": "時刻",
+    "imageRegion": null,
+    "parent": "home--today-preview",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.home.today-preview.time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--today-preview--place",
+    "testId": "self-home--home--today-preview--place",
+    "kind": "content",
+    "purpose": "場所",
+    "imageRegion": null,
+    "parent": "home--today-preview",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.home.today-preview.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--type-preview--radar",
+    "testId": "self-home--home--type-preview--radar",
+    "kind": "content",
+    "purpose": "期間の傾向プレビュー",
+    "imageRegion": null,
+    "parent": "home--type-preview",
+    "implementation": {
+      "type": "chart",
+      "renderer": "svg",
+      "element": "svg",
+      "valueFrom": "viewModel.series",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "labelsFrom": "viewModel.axisLabels",
+      "missingValues": "未取得を0にせず欠測表示",
+      "accessibleSummary": "同じ値のDOM一覧/説明を添える",
+      "fixedShapeAllowed": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "home--my-map-preview--map",
+    "testId": "self-home--home--my-map-preview--map",
+    "kind": "content",
+    "purpose": "自分の建物プレビュー",
+    "imageRegion": null,
+    "parent": "home--my-map-preview",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

@@ -1,0 +1,60 @@
+[
+  {
+    "id": "knowledge-list-R1",
+    "text": "検索文字・種類・地域・目的・期間・公開範囲で投稿を探し、件数・一覧・地図の条件を一致させる。写真動画と投稿者の体験を中心に表示する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-list-C1"
+    ]
+  },
+  {
+    "id": "knowledge-list-F01",
+    "kind": "capability",
+    "title": "声を検索する",
+    "text": "検索文字と種類から投稿や人を探せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-list-FC01"
+    ]
+  },
+  {
+    "id": "knowledge-list-F02",
+    "kind": "capability",
+    "title": "条件を絞る",
+    "text": "地域・目的・期間・共有範囲を指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-list-FC02"
+    ]
+  },
+  {
+    "id": "knowledge-list-F03",
+    "kind": "capability",
+    "title": "投稿を読む",
+    "text": "本文・写真動画・作者・場所を詳細で読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-list-FC03"
+    ]
+  },
+  {
+    "id": "knowledge-list-F04",
+    "kind": "capability",
+    "title": "地図で見返す",
+    "text": "同じ検索条件の投稿を地図で開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "knowledge-list-FC04"
+    ]
+  }
+]

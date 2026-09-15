@@ -1,0 +1,48 @@
+[
+  {
+    "id": "suggestion-settings-R1",
+    "text": "感想の低評価と、特定の場所＋活動に対する明示的な停止を別扱いにする。停止は本人が解除するまで維持し、全体の提案タイミングを守る。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-settings-C1"
+    ]
+  },
+  {
+    "id": "suggestion-settings-F01",
+    "kind": "capability",
+    "title": "提案のタイミングを選ぶ",
+    "text": "自分で開いたときか継続受取かを選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-settings-FC01"
+    ]
+  },
+  {
+    "id": "suggestion-settings-F02",
+    "kind": "capability",
+    "title": "集計期間を決める",
+    "text": "まとめに使う記録の範囲を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-settings-FC02"
+    ]
+  },
+  {
+    "id": "suggestion-settings-F03",
+    "kind": "capability",
+    "title": "停止対象を管理する",
+    "text": "場所と活動ごとの提案停止を確認して解除できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "suggestion-settings-FC03"
+    ]
+  }
+]

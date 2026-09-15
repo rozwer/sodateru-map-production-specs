@@ -1,0 +1,182 @@
+[
+  {
+    "id": "main--back",
+    "testId": "ai-consent--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--enabled",
+    "testId": "ai-consent--enabled",
+    "kind": "control",
+    "purpose": "AIを有効にする",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.enabled",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "AIを有効にする",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "AIを有効にする",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--place",
+    "testId": "ai-consent--place",
+    "kind": "control",
+    "purpose": "対象場所を変更・解除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.place",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "対象場所を変更・解除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "ai-consent--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--send",
+    "testId": "ai-consent--send",
+    "kind": "control",
+    "purpose": "有効にして送信",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.send",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "有効にして送信",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "ai-consent--content",
+    "kind": "content",
+    "purpose": "入力と参照場所のプレビュー・Codex利用の説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--body-preview",
+        "main--content--place-preview",
+        "main--content--provider-note"
+      ]
+    }
+  },
+  {
+    "id": "main--content--body-preview",
+    "testId": "ai-consent--main--content--body-preview",
+    "kind": "content",
+    "purpose": "送る本文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.body-preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--place-preview",
+    "testId": "ai-consent--main--content--place-preview",
+    "kind": "content",
+    "purpose": "参照する場所",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.place-preview",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--provider-note",
+    "testId": "ai-consent--main--content--provider-note",
+    "kind": "content",
+    "purpose": "Codex利用の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.provider-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "ai-consent--page-title",
+    "kind": "content",
+    "purpose": "AIへ送る内容の確認",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

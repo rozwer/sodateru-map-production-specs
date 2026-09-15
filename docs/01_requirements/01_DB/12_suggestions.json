@@ -1,0 +1,49 @@
+{
+  "table": "suggestions",
+  "title": "提案・クエスト",
+  "description": ["提案の条件と、あとで・見送り・選択・達成を再表示する。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "提案を見る人物"},
+    "place_id": {"type": "TEXT", "nullable": false, "description": "提案先"},
+    "batch_id": {"type": "TEXT", "nullable": false, "description": "同じ検索条件で作った候補集合ID"},
+    "position": {"type": "INTEGER", "nullable": false, "description": "集合内の提示順"},
+    "title": {"type": "TEXT", "nullable": false, "description": "提案名"},
+    "activity": {"type": "TEXT", "nullable": false, "description": "提案する活動"},
+    "reason": {"type": "TEXT", "nullable": false, "description": "候補理由"},
+    "conditions_json": {"type": "TEXT", "nullable": false, "description": "検索・提案時の条件", "encoding": "json"},
+    "checkin_id": {"type": "TEXT", "nullable": true, "description": "条件として参照した回答。任意"},
+    "source_refs_json": {"type": "TEXT", "nullable": false, "description": "提案根拠のIDと版", "encoding": "json"},
+    "status": {"type": "TEXT", "nullable": false, "description": "操作状態", "enum": ["offered", "later", "dismissed", "selected", "completed", "not_done"]},
+    "presented_at": {"type": "INTEGER", "nullable": true, "description": "実際に提示した時刻。未提示はNULL"},
+    "selected_at": {"type": "INTEGER", "nullable": true, "description": "選んだ時刻。未選択はNULL"},
+    "expires_at": {"type": "INTEGER", "nullable": false, "description": "提案の有効期限"},
+    "route_id": {"type": "TEXT", "nullable": true, "description": "案内に使う保存ルート。任意"},
+    "completed_visit_id": {"type": "TEXT", "nullable": true, "description": "達成に対応する訪問。未達成はNULL"},
+    "feedback": {"type": "TEXT", "nullable": false, "description": "見送り・選び直し等の任意の原文"}
+  },
+  "references": {
+    "person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"},
+    "place_id": {"target": "places.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"},
+    "checkin_id": {"target": "self_checkins.id", "on_delete": "参照先の削除に合わせてこの列をNULLにする"},
+    "route_id": {"target": "saved_routes.id", "on_delete": "参照先の削除に合わせてこの列をNULLにする"},
+    "completed_visit_id": {"target": "visits.id", "on_delete": "参照中の訪問を削除するときは、この提案をselectedへ戻して達成訪問IDをNULLにする"}
+  },
+  "constraints": ["人物ID・候補集合ID・提示順の組を一意にする。", "有効期限は作成日時より後にする。", "completedでは達成訪問IDを必須にし、それ以外ではNULLにする。", "達成訪問は同じ人物・場所のstatus=confirmedの訪問を指定する。", "条件に用いた回答と記録は参照時の版を保持し、訂正後は条件と理由を再評価する。"],
+  "indexes": [{"columns": ["person_id", "status"]}, {"columns": ["place_id"]}, {"columns": ["checkin_id"]}, {"columns": ["route_id"]}, {"columns": ["completed_visit_id"]}],
+  "operations": ["提示・選択の時刻は実際の操作時に保存する。completedへの変更は、同じ人物・場所のconfirmedな訪問を照合する。訪問の確認を取り消した場合は提案もselectedへ戻し、達成訪問IDをNULLにする。選択した回答・根拠が変更されたら条件と理由を再評価する。"],
+  "json_fields": {
+    "conditions_json": {
+      "fields": {
+        "$": {"type": "object", "required": true},
+        "$.minutes": {"type": "integer", "required": false, "minimum": 0},
+        "$.budget": {"type": "integer", "required": false, "minimum": 0},
+        "$.mode": {"type": "string", "enum": ["walking", "cycling", "driving", "transit"], "required": false},
+        "$.activity": {"type": "string", "required": false, "minLength": 1},
+        "$.note": {"type": "string", "required": false}
+      }
+    },
+    "source_refs_json": {"$ref": "common.json#/json_definitions/source_refs"}
+  },
+  "related_files": ["00_people.json", "01_places.json", "11_self_checkins.json", "06_saved_routes.json", "15_visits.json"]
+}

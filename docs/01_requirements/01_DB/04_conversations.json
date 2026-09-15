@@ -1,0 +1,16 @@
+{
+  "table": "conversations",
+  "title": "会話",
+  "description": ["相談や分析をまとめ、以前の会話を開く。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "会話を開いた人物"},
+    "purpose": {"type": "TEXT", "nullable": false, "description": "会話の利用目的", "enum": ["consult", "reflection", "analysis", "comparison"]},
+    "title": {"type": "TEXT", "nullable": false, "description": "会話のタイトル"},
+    "record_id": {"type": "TEXT", "nullable": true, "description": "主な対象記録。記録削除時はNULL"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}, "record_id": {"target": "records.id", "on_delete": "参照先の削除に合わせてこの列をNULLにする"}},
+  "indexes": [{"columns": ["person_id", "updated_at"]}, {"columns": ["record_id"]}],
+  "operations": ["会話作成後は同じIDに発言を追加する。会話削除でその発言も削除する。発言が引用する情報はmessages.source_refs_json、保存した分析結果はmessages.insight_idから参照する。"],
+  "related_files": ["00_people.json", "02_records.json"]
+}

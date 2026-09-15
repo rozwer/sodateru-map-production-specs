@@ -1,0 +1,28 @@
+{
+  "table": "messages",
+  "title": "発言",
+  "description": ["会話中の発言と送受信状態を保存する。"],
+  "common": "common.json",
+  "columns": {
+    "conversation_id": {"type": "TEXT", "nullable": false, "description": "会話ID"},
+    "position": {"type": "INTEGER", "nullable": false, "description": "会話内の順序"},
+    "role": {"type": "TEXT", "nullable": false, "description": "発言者", "enum": ["user", "assistant"]},
+    "body": {"type": "TEXT", "nullable": false, "description": "発言本文"},
+    "status": {"type": "TEXT", "nullable": false, "description": "送受信状態", "enum": ["pending", "running", "complete", "failed", "cancelled"]},
+    "attempt": {"type": "INTEGER", "nullable": false, "description": "AI実行の試行番号"},
+    "model": {"type": "TEXT", "nullable": true, "description": "指定したモデル。userの発言はNULL"},
+    "error_code": {"type": "TEXT", "nullable": true, "description": "失敗の識別子。通常はNULL"},
+    "insight_id": {"type": "TEXT", "nullable": true, "description": "発言に添える分析・比較結果のID"},
+    "source_refs_json": {"type": "TEXT", "nullable": false, "description": "参照した記録・場所・回答・ルートとその版", "encoding": "json"}
+  },
+  "references": {"conversation_id": {"target": "conversations.id", "on_delete": "参照先の削除に合わせてこの行も削除"}, "insight_id": {"target": "insights.id", "on_delete": "分析の削除時にNULLへ変更"}},
+  "constraints": ["会話IDと表示順の組を一意にする。", "userの発言はstatus=complete、modelはNULL。pending/runningはassistantの発言に使う。", "source_refs_jsonの参照先と版を読取時にも照合する。"],
+  "indexes": [{"columns": ["conversation_id", "position"], "unique": true}],
+  "operations": [
+    "送信時に発言IDを固定し、再送は同じIDを使う。AI応答には別の固定IDを用意し、再試行はattemptを増やす。応答保存はid・attempt・runningを条件に行う。分析・比較のカードはinsight_idで参照する。",
+    "会話の削除は会話と発言に適用し、保存した分析・比較はinsightsに残る。",
+    "発言本文が参照する情報の変更・削除・共有取消は、source_refs_jsonから確認して表示へ反映する。"
+  ],
+  "json_fields": {"source_refs_json": {"$ref": "common.json#/json_definitions/source_refs"}},
+  "related_files": ["04_conversations.json", "16_insights.json"]
+}

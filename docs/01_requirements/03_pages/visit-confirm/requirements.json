@@ -1,0 +1,58 @@
+[
+  {
+    "id": "visit-confirm-R1",
+    "text": "行ったはconfirmed、行っていないはrejected、まだ分からないはcandidateとして保存する。候補の表示だけでconfirmedにしない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "visit-confirm-C1"
+    ]
+  },
+  {
+    "id": "visit-confirm-R2",
+    "text": "否定・場所訂正後は軌跡の事実を捏造せず、訪問数と建物の成長を再集計する。記録本文は消さない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "visit-confirm-C2"
+    ]
+  },
+  {
+    "id": "visit-confirm-F01",
+    "kind": "capability",
+    "title": "場所を確かめる",
+    "text": "候補地点の地図と詳細を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "visit-confirm-FC01"
+    ]
+  },
+  {
+    "id": "visit-confirm-F02",
+    "kind": "capability",
+    "title": "訪問状態を選ぶ",
+    "text": "行った・行っていない・まだ分からないを選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "visit-confirm-FC02"
+    ]
+  },
+  {
+    "id": "visit-confirm-F03",
+    "kind": "capability",
+    "title": "確認を保存する",
+    "text": "状態を保存し訪問数と地図の成長に反映できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "visit-confirm-FC03"
+    ]
+  }
+]

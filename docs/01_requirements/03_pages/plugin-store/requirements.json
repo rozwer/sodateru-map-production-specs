@@ -1,0 +1,60 @@
+[
+  {
+    "id": "plugin-store-R1",
+    "text": "名前・実現したいこと・分類から拡張機能を探し、詳細と導入済み管理へ進む。作る人はGitHubガイド、使う人はアプリ内の試用・導入へ進む。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-store-C1"
+    ]
+  },
+  {
+    "id": "plugin-store-F01",
+    "kind": "capability",
+    "title": "機能を探す",
+    "text": "名前・実現したいこと・分類から候補を絞れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-store-FC01"
+    ]
+  },
+  {
+    "id": "plugin-store-F02",
+    "kind": "capability",
+    "title": "詳細を確認する",
+    "text": "内容と追加表示を見て試用へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-store-FC02"
+    ]
+  },
+  {
+    "id": "plugin-store-F03",
+    "kind": "capability",
+    "title": "導入済みを管理する",
+    "text": "使用中の機能へすぐ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-store-FC03"
+    ]
+  },
+  {
+    "id": "plugin-store-F04",
+    "kind": "capability",
+    "title": "開発へ参加する",
+    "text": "要望を書くか開発ガイドを開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-store-FC04"
+    ]
+  }
+]

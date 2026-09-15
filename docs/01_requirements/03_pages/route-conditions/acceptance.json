@@ -1,0 +1,82 @@
+[
+  {
+    "id": "route-conditions-C1",
+    "requirement": "route-conditions-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "出発地・目的地・経由順・出発時刻・帰着時刻・移動手段・階段回避・屋根優先を入力して検索する。目的地の屋根だけで道中の屋根条件を判断しない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "main--back",
+      "main--origin",
+      "main--destination",
+      "main--clear",
+      "main--waypoint",
+      "main--departure",
+      "main--mode",
+      "main--return",
+      "main--stairs",
+      "main--covered",
+      "main--search"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "route-conditions-FC01",
+    "requirement": "route-conditions-F01",
+    "mode": "live",
+    "precondition": "目的地までの移動条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「場所と順番を決める」に対応する操作を行う。",
+      "出発地・目的地・経由地を選べることを画面で確認する。"
+    ],
+    "expect": [
+      "出発地・目的地・経由地を選べる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "route-conditions-FC02",
+    "requirement": "route-conditions-F02",
+    "mode": "live",
+    "precondition": "目的地までの移動条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「条件を決める」に対応する操作を行う。",
+      "移動手段・出発と帰着の時刻・階段・屋根の条件を指定できることを画面で確認する。"
+    ],
+    "expect": [
+      "移動手段・出発と帰着の時刻・階段・屋根の条件を指定できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "route-conditions-FC03",
+    "requirement": "route-conditions-F03",
+    "mode": "live",
+    "precondition": "目的地までの移動条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「経路を検索する」に対応する操作を行う。",
+      "条件を引き継いだ経路候補を受け取れることを画面で確認する。"
+    ],
+    "expect": [
+      "条件を引き継いだ経路候補を受け取れる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

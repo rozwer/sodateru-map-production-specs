@@ -1,0 +1,28 @@
+[
+  {
+    "id": "home",
+    "visible": [
+      "home--menu",
+      "home--heading",
+      "home--map",
+      "home--local-preview",
+      "home--friends-preview",
+      "home--local",
+      "home--friends",
+      "home--nav-self",
+      "home--nav-map",
+      "home--nav-community",
+      "home--friends-preview--people",
+      "home--friends-preview--comment"
+    ],
+    "hidden": [],
+    "interactive": [
+      "home--menu",
+      "home--local",
+      "home--friends",
+      "home--nav-self",
+      "home--nav-map",
+      "home--nav-community"
+    ]
+  }
+]

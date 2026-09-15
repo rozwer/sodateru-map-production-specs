@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "id": "Q-FRIEND",
+      "question": "フォローと友達関係の扱い",
+      "status": "resolved",
+      "answer": "申請・承認で友達になる機能に統一",
+      "pages": [
+        "friend-profile",
+        "friends-map",
+        "friend-picker"
+      ],
+      "basis": "利用者回答"
+    },
+    {
+      "id": "Q-REQUEST",
+      "question": "人に頼むの接続先",
+      "status": "resolved",
+      "answer": "依頼相手を指定しないアプリ内フォーム。既存のお願いを書く画面を共用する。外部URLは不要。",
+      "pages": [
+        "feature-requests"
+      ],
+      "basis": "利用者回答"
+    },
+    {
+      "id": "Q-OBJECT",
+      "question": "手動編集する地図オブジェクトの対象",
+      "status": "resolved",
+      "answer": "本人が追加した飾り・目印を対象とする。体験で育つ建物は記録と用途の訂正で変える。",
+      "pages": [
+        "object-edit",
+        "object-place"
+      ],
+      "basis": "利用者から判断を委任されたため、訪問事実と手動装飾を分離する設計を採用"
+    },
+    {
+      "id": "Q-FORM-URL",
+      "question": "依頼窓口フォームのURL",
+      "status": "resolved",
+      "answer": "アプリ内フォームのためURLの指定は不要。人に頼むはfeature-request-editへ移動する。",
+      "pages": [
+        "feature-requests"
+      ],
+      "basis": "利用者へ質問中"
+    }
+  ]
+}

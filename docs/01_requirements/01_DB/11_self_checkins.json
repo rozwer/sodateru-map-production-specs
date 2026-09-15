@@ -1,0 +1,29 @@
+{
+  "table": "self_checkins",
+  "title": "今日の回答",
+  "description": ["その時点の状態・希望を残し、過去の回答と提案時の条件を再表示する。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "回答した人物"},
+    "local_date": {"type": "TEXT", "nullable": false, "description": "対象日。YYYY-MM-DD"},
+    "answers_json": {"type": "TEXT", "nullable": false, "description": "任意の状態・希望・時間・補足", "encoding": "json"},
+    "valid_until": {"type": "INTEGER", "nullable": false, "description": "提案条件に使える期限"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["対象日は実在するYYYY-MM-DD。回答の有効期限は作成日時より後にする。"],
+  "indexes": [{"columns": ["person_id", "local_date", "created_at"]}],
+  "operations": ["新しい時点の回答は新しいIDで追加し、入力の訂正は同じIDを更新する。提案には参照した回答IDとversionを残す。回答だけの日もこの表から再表示できる。"],
+  "json_fields": {
+    "answers_json": {
+      "fields": {
+        "$": {"type": "object", "required": true},
+        "$.state": {"type": "string", "required": true},
+        "$.wishes": {"type": "array", "required": true, "uniqueItems": true},
+        "$.wishes[]": {"type": "string", "required": true, "minLength": 1},
+        "$.minutes": {"type": "integer", "nullable": true, "required": true},
+        "$.note": {"type": "string", "required": true}
+      }
+    }
+  },
+  "related_files": ["00_people.json"]
+}

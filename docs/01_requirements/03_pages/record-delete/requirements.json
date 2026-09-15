@@ -1,0 +1,58 @@
+[
+  {
+    "id": "record-delete-R1",
+    "text": "対象記録・媒体・派生情報・共有の削除範囲と、残る独立記録・メモ・設定を事前表示する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-delete-C1"
+    ]
+  },
+  {
+    "id": "record-delete-R2",
+    "text": "削除完了後は一覧・詳細・地図・共有から消えたことを確認する。処理中・失敗を完了表示しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-delete-C2"
+    ]
+  },
+  {
+    "id": "record-delete-F01",
+    "kind": "capability",
+    "title": "消える範囲を確認する",
+    "text": "記録・媒体・関連解釈・共有と残る独立情報を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-delete-FC01"
+    ]
+  },
+  {
+    "id": "record-delete-F02",
+    "kind": "capability",
+    "title": "控えを残す",
+    "text": "削除前に対象データを書き出せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-delete-FC02"
+    ]
+  },
+  {
+    "id": "record-delete-F03",
+    "kind": "capability",
+    "title": "削除を確定する",
+    "text": "削除後は一覧・地図・共有から対象が消え、取消では維持できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "record-delete-FC03"
+    ]
+  }
+]

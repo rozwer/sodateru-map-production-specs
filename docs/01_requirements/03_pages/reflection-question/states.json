@@ -1,0 +1,31 @@
+[
+  {
+    "id": "answering",
+    "visible": [
+      "answering--back",
+      "answering--heading",
+      "answering--progress",
+      "answering--record",
+      "answering--question",
+      "answering--counter",
+      "answering--view-record",
+      "answering--answer",
+      "answering--save",
+      "answering--later",
+      "answering--skip",
+      "answering--record--photo",
+      "answering--record--name",
+      "answering--record--date",
+      "answering--record--place"
+    ],
+    "hidden": [],
+    "interactive": [
+      "answering--back",
+      "answering--view-record",
+      "answering--answer",
+      "answering--save",
+      "answering--later",
+      "answering--skip"
+    ]
+  }
+]

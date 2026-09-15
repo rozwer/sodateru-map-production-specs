@@ -1,0 +1,622 @@
+[
+  {
+    "id": "expanded-record--back",
+    "testId": "daily-track--expanded-record--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--menu",
+    "testId": "daily-track--expanded-record--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--heading",
+    "testId": "daily-track--expanded-record--heading",
+    "kind": "content",
+    "purpose": "今日の軌跡",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.expanded-record.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "expanded-record--track-map",
+    "testId": "daily-track--expanded-record--track-map",
+    "kind": "content",
+    "purpose": "軌跡・滞在地点・時刻・選択地点の写真",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--sheet",
+    "testId": "daily-track--expanded-record--sheet",
+    "kind": "content",
+    "purpose": "日付・5か所・4時間・凡例のシート",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "expanded-record--sheet--date",
+        "expanded-record--sheet--places",
+        "expanded-record--sheet--duration",
+        "expanded-record--sheet--legend"
+      ]
+    }
+  },
+  {
+    "id": "expanded-record--timeline",
+    "testId": "daily-track--expanded-record--timeline",
+    "kind": "content",
+    "purpose": "時刻・滞在時間・地点ごとの時系列",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.expanded-record.timeline",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.timeline",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "daily-track--expanded-record--timeline--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "expanded-record--record"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--expanded-record",
+    "testId": "daily-track--expanded-record--expanded-record",
+    "kind": "content",
+    "purpose": "カフェの写真・本文・気分おだやか",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "expanded-record--expanded-record--photo",
+        "expanded-record--expanded-record--body",
+        "expanded-record--expanded-record--mood"
+      ]
+    }
+  },
+  {
+    "id": "expanded-record--previous-day",
+    "testId": "daily-track--expanded-record--previous-day",
+    "kind": "control",
+    "purpose": "前の日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.previous-day",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "前の日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--next-day",
+    "testId": "daily-track--expanded-record--next-day",
+    "kind": "control",
+    "purpose": "次の日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.next-day",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "次の日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--edit",
+    "testId": "daily-track--expanded-record--edit",
+    "kind": "control",
+    "purpose": "記録を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.edit",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "記録を編集",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--reflect",
+    "testId": "daily-track--expanded-record--reflect",
+    "kind": "control",
+    "purpose": "振り返る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.reflect",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "振り返る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--nav-self",
+    "testId": "daily-track--expanded-record--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--nav-map",
+    "testId": "daily-track--expanded-record--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "expanded-record--nav-community",
+    "testId": "daily-track--expanded-record--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "calendar--back",
+    "testId": "daily-track--calendar--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "calendar--more",
+    "testId": "daily-track--calendar--more",
+    "kind": "control",
+    "purpose": "三点メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.more",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "三点メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "calendar--previous-month",
+    "testId": "daily-track--calendar--previous-month",
+    "kind": "control",
+    "purpose": "前の月",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.previous-month",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "前の月",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    },
+    "parent": "calendar--calendar"
+  },
+  {
+    "id": "calendar--next-month",
+    "testId": "daily-track--calendar--next-month",
+    "kind": "control",
+    "purpose": "次の月",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.next-month",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "次の月",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    },
+    "parent": "calendar--calendar"
+  },
+  {
+    "id": "calendar--select-date",
+    "testId": "daily-track--calendar--select-date",
+    "kind": "control",
+    "purpose": "カレンダーの日付を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "date-picker",
+      "renderer": "dom",
+      "element": "div",
+      "valueFrom": "form.localDate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "カレンダーの日付を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "カレンダーの日付を選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "cellsFrom": "viewModel.calendarDays",
+      "cellElement": "button",
+      "cellKey": "localDate",
+      "selection": "single",
+      "keyboard": "矢印で日を移動、Enterで選択。月移動は別button。",
+      "recordDotsFrom": "viewModel.calendarDays[].hasRecords"
+    },
+    "parent": "calendar--calendar"
+  },
+  {
+    "id": "calendar--show-track",
+    "testId": "daily-track--calendar--show-track",
+    "kind": "control",
+    "purpose": "この日の軌跡を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.show-track",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この日の軌跡を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "calendar--heading",
+    "testId": "daily-track--calendar--heading",
+    "kind": "content",
+    "purpose": "今日の軌跡／日付で探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.calendar.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "calendar--calendar",
+    "testId": "daily-track--calendar--calendar",
+    "kind": "content",
+    "purpose": "9月・記録のある日のドット・選択日15日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "calendar--previous-month",
+        "calendar--next-month",
+        "calendar--select-date"
+      ]
+    }
+  },
+  {
+    "id": "calendar--daily-records",
+    "testId": "daily-track--calendar--daily-records",
+    "kind": "content",
+    "purpose": "9月15日の記録2件：写真・名前・時刻・場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.calendar.daily-records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.daily_records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "daily-track--calendar--daily-records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "calendar--record"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--record",
+    "testId": "daily-track--expanded-record--record",
+    "kind": "control",
+    "purpose": "記録を開閉する",
+    "imageRegion": null,
+    "exampleAliases": [
+      "expanded-record--record-station",
+      "expanded-record--record-cafe",
+      "expanded-record--record-bookstore"
+    ],
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.expanded-record.record",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "記録を開閉する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "expanded-record--timeline",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "daily-track--expanded-record--record--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "calendar--record",
+    "testId": "daily-track--calendar--record",
+    "kind": "control",
+    "purpose": "記録を開閉する",
+    "imageRegion": null,
+    "exampleAliases": [
+      "calendar--record-cafe",
+      "calendar--record-bookstore"
+    ],
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.calendar.record",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "記録を開閉する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "calendar--daily-records",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "daily-track--calendar--record--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "expanded-record--sheet--date",
+    "testId": "daily-track--expanded-record--sheet--date",
+    "kind": "content",
+    "purpose": "対象日",
+    "imageRegion": null,
+    "parent": "expanded-record--sheet",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.expanded-record.sheet.date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--sheet--places",
+    "testId": "daily-track--expanded-record--sheet--places",
+    "kind": "content",
+    "purpose": "訪問箇所数",
+    "imageRegion": null,
+    "parent": "expanded-record--sheet",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.expanded-record.sheet.places",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--sheet--duration",
+    "testId": "daily-track--expanded-record--sheet--duration",
+    "kind": "content",
+    "purpose": "記録時間",
+    "imageRegion": null,
+    "parent": "expanded-record--sheet",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.expanded-record.sheet.duration",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--sheet--legend",
+    "testId": "daily-track--expanded-record--sheet--legend",
+    "kind": "content",
+    "purpose": "訪問状態の凡例",
+    "imageRegion": null,
+    "parent": "expanded-record--sheet",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.expanded-record.sheet.legend",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "legend",
+      "itemsFrom": "viewModel.legend",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "daily-track--expanded-record--sheet--legend--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--expanded-record--photo",
+    "testId": "daily-track--expanded-record--expanded-record--photo",
+    "kind": "content",
+    "purpose": "記録写真",
+    "imageRegion": null,
+    "parent": "expanded-record--expanded-record",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--expanded-record--body",
+    "testId": "daily-track--expanded-record--expanded-record--body",
+    "kind": "content",
+    "purpose": "本人の本文",
+    "imageRegion": null,
+    "parent": "expanded-record--expanded-record",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.expanded-record.expanded-record.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "expanded-record--expanded-record--mood",
+    "testId": "daily-track--expanded-record--expanded-record--mood",
+    "kind": "content",
+    "purpose": "本人の気分",
+    "imageRegion": null,
+    "parent": "expanded-record--expanded-record",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.expanded-record.expanded-record.mood",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

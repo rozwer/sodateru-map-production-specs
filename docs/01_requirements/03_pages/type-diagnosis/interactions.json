@@ -1,0 +1,232 @@
+[
+  {
+    "id": "week--back",
+    "component": "week--back",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--period-today",
+    "component": "week--period-today",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getInsights"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-week",
+    "component": "week--period-week",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getInsights"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-month",
+    "component": "week--period-month",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getInsights"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--period-all",
+    "component": "week--period-all",
+    "from": "week",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionSummary",
+      "getInsights"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "week--info",
+    "component": "week--info",
+    "from": "week",
+    "event": "activate",
+    "effect": "同じ詳細面に対象の説明または操作メニューを開く。閉じる/Escapeで元の要素へフォーカスを戻す。表示項目は同じ画面の機能要件に従う。",
+    "destination": "$inline-menu",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--evidence",
+    "component": "week--evidence",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "trend-evidence",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--agree",
+    "component": "week--agree",
+    "from": "week",
+    "event": "activate",
+    "effect": "選んだ確認状態をtrend-reviewの下書きへ渡す。保存までAIの解釈を変更しない。",
+    "destination": "trend-review",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--disagree",
+    "component": "week--disagree",
+    "from": "week",
+    "event": "activate",
+    "effect": "選んだ確認状態をtrend-reviewの下書きへ渡す。保存までAIの解釈を変更しない。",
+    "destination": "trend-review",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--unsure",
+    "component": "week--unsure",
+    "from": "week",
+    "event": "activate",
+    "effect": "選んだ確認状態をtrend-reviewの下書きへ渡す。保存までAIの解釈を変更しない。",
+    "destination": "trend-review",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--find",
+    "component": "week--find",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-checkin",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--nav-self",
+    "component": "week--nav-self",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--nav-map",
+    "component": "week--nav-map",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "week--nav-community",
+    "component": "week--nav-community",
+    "from": "week",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

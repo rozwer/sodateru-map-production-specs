@@ -1,0 +1,60 @@
+[
+  {
+    "id": "companion-create-R1",
+    "text": "接続先を確認し、入力→生成→動作確認→採用→選択へ進む。未接続時は生成を無効にし、下書き保存と指示の持出しを使える。生成結果を自動採用しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-create-C1"
+    ]
+  },
+  {
+    "id": "companion-create-F01",
+    "kind": "capability",
+    "title": "希望を書く",
+    "text": "名前20文字・外見200文字と任意の参考画像を入力できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-create-FC01"
+    ]
+  },
+  {
+    "id": "companion-create-F02",
+    "kind": "capability",
+    "title": "作り方を選ぶ",
+    "text": "接続済みの生成先を使うか下書きや制作指示を持ち出せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-create-FC02"
+    ]
+  },
+  {
+    "id": "companion-create-F03",
+    "kind": "capability",
+    "title": "候補を確認する",
+    "text": "生成進捗と結果の動きを見て採用できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-create-FC03"
+    ]
+  },
+  {
+    "id": "companion-create-F04",
+    "kind": "capability",
+    "title": "後で再開する",
+    "text": "未接続や失敗でも入力を残せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-create-FC04"
+    ]
+  }
+]

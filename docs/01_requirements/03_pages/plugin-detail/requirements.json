@@ -1,0 +1,36 @@
+[
+  {
+    "id": "plugin-detail-R1",
+    "text": "機能・作者・更新日・利用情報を確認して試用へ進む。紹介を見るだけでは導入しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-detail-C1"
+    ]
+  },
+  {
+    "id": "plugin-detail-F01",
+    "kind": "capability",
+    "title": "機能を読む",
+    "text": "できること・作者・更新日・表示例を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-detail-FC01"
+    ]
+  },
+  {
+    "id": "plugin-detail-F02",
+    "kind": "capability",
+    "title": "試用へ進む",
+    "text": "導入せず試用条件を設定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-detail-FC02"
+    ]
+  }
+]

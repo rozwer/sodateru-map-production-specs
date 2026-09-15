@@ -1,0 +1,48 @@
+[
+  {
+    "id": "companion-import-R1",
+    "text": "v2ペット形式を読み、形式検査とプレビュー後に登録する。登録と現在の相棒への選択は別。画像指定のZIP上限50MBと元仕様6MiBは差分として解決する。壊れたファイルで現在の相棒を変更しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-import-C1"
+    ]
+  },
+  {
+    "id": "companion-import-F01",
+    "kind": "capability",
+    "title": "ファイルを選ぶ",
+    "text": "ZIPを読み込み形式と内容を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-import-FC01"
+    ]
+  },
+  {
+    "id": "companion-import-F02",
+    "kind": "capability",
+    "title": "動きを見る",
+    "text": "検査に成功した相棒の姿と動作をプレビューできる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-import-FC02"
+    ]
+  },
+  {
+    "id": "companion-import-F03",
+    "kind": "capability",
+    "title": "登録する",
+    "text": "一覧への登録と現在の相棒にする操作を分けられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "companion-import-FC03"
+    ]
+  }
+]

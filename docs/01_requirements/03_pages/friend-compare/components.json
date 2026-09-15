@@ -1,0 +1,135 @@
+[
+  {
+    "id": "main--back",
+    "testId": "friend-compare--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--record",
+    "testId": "friend-compare--record",
+    "kind": "control",
+    "purpose": "根拠の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.record",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "根拠の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--overlay",
+    "testId": "friend-compare--overlay",
+    "kind": "control",
+    "purpose": "地図を重ねて見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.overlay",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図を重ねて見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "friend-compare--content",
+    "kind": "content",
+    "purpose": "本人と友達のテーマ・用途・記録を並べる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--comparisons",
+        "main--content--evidence"
+      ]
+    }
+  },
+  {
+    "id": "main--content--comparisons",
+    "testId": "friend-compare--main--content--comparisons",
+    "kind": "content",
+    "purpose": "双方の用途と理由",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.comparisons",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "comparison",
+      "itemsFrom": "viewModel.comparisons",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-compare--main--content--comparisons--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--evidence",
+    "testId": "friend-compare--main--content--evidence",
+    "kind": "content",
+    "purpose": "根拠の共有記録",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.evidence",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.evidence",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "friend-compare--main--content--evidence--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "friend-compare--page-title",
+    "kind": "content",
+    "purpose": "友達との共通点",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

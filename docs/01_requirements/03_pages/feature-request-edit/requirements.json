@@ -1,0 +1,58 @@
+[
+  {
+    "id": "feature-request-edit-R1",
+    "text": "本文200文字までと投稿時の表示名を確認する。下書きはprivate、投稿は本人が選んだ公開範囲で保存し、結果を一覧へ反映する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-request-edit-C1"
+    ]
+  },
+  {
+    "id": "feature-request-edit-F01",
+    "kind": "capability",
+    "title": "お願いを書く",
+    "text": "表示名と200文字以内の本文を入力できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-request-edit-FC01"
+    ]
+  },
+  {
+    "id": "feature-request-edit-F02",
+    "kind": "capability",
+    "title": "公開範囲を選ぶ",
+    "text": "本人だけの下書きか公開投稿を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-request-edit-FC02"
+    ]
+  },
+  {
+    "id": "feature-request-edit-F03",
+    "kind": "capability",
+    "title": "保存する",
+    "text": "下書きと投稿を区別して一覧へ反映できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-request-edit-FC03"
+    ]
+  },
+  {
+    "id": "feature-request-edit-FORM",
+    "text": "依頼フォームはお願いを書く画面を共用し、本文と公開範囲を確認して保存する。依頼相手・API・技術情報・完成基準の入力を求めない。投稿だけでコード生成やGitHub Issue作成を始めない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-request-edit-FORM-C"
+    ]
+  }
+]

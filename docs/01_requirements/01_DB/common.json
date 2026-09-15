@@ -1,0 +1,73 @@
+{
+  "format": {
+    "common": "各テーブルはcommon.jsonの共通列・規約を適用する。columnsの同名定義は共通列を上書きする。",
+    "reference_syntax": "$refは相対JSONファイルとJSON Pointerで定義を参照する。",
+    "json_fields": "fieldsのキーはJSON内のパス。$は値全体、[]は配列要素。requiredは親が存在する場合の必須性。省略は未規定で、falseとは異なる。 variantsはdiscriminatorで指定した列の値に対応する。",
+    "dates": "文字列の日時は明記した日付形式、数値の日時はUTC Unixミリ秒。",
+    "rules": "自然言語のconstraints・rules・operations・on_deleteも契約の一部。"
+  },
+  "primary_key": ["id"],
+  "columns": {
+    "id": {"type": "TEXT", "nullable": false, "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"},
+    "version": {"type": "INTEGER", "nullable": false, "description": "保存内容の版。編集時に1増やす。初期値1"},
+    "created_at": {"type": "INTEGER", "nullable": false, "description": "作成日時。UTC Unixミリ秒"},
+    "updated_at": {"type": "INTEGER", "nullable": false, "description": "更新日時。UTC Unixミリ秒"}
+  },
+  "conventions": [
+    "IDは1〜80文字の不変文字列。新規保存時に発行し、同じ操作の再送では同じIDを使う。",
+    "versionは1から始め、編集時に1増やす。保存時に読み出した版を照合し、競合時は入力を保って再確認する。",
+    "created_atは作成日時、updated_atは更新日時。日時のINTEGERはUTC Unixミリ秒で、更新日時は作成日時以降とする。",
+    "日付だけのTEXTは実在するYYYY-MM-DD。期間は開始を含み終端を含まない。定期券の終了日を利用可能日に含める。",
+    "INTEGERの真偽値は0または1。不明な日時・数値・回答はNULLとし、任意項目として扱う。",
+    "JSONは各テーブルJSONの型・必須項目・値の範囲に従う。IDの配列は参照先の存在と重複を確認する。",
+    "source_refs_jsonには、計算・説明で実際に参照した対象のIDと版を保存する。記録に関連する訪問・場所も、入力に使用した場合は含める。",
+    "元データの訂正・削除で根拠が変わった分析・提案は、現行の入力で再評価する。内容への判断は対象結果のIDに結び付ける。"
+  ],
+  "json_definitions": {
+    "id_array": {"fields": {"$": {"type": "array", "required": true, "uniqueItems": true}, "$[]": {"type": "string", "required": true, "minLength": 1, "maxLength": 80}}},
+    "source_refs": {
+      "fields": {
+        "$": {"type": "array", "required": true, "uniqueItems": true},
+        "$[]": {"type": "object", "required": true},
+        "$[].type": {"type": "string", "enum": ["record", "visit", "place", "checkin", "route"], "required": true},
+        "$[].id": {"type": "string", "required": true, "minLength": 1, "maxLength": 80},
+        "$[].version": {"type": "integer", "required": true, "minimum": 1}
+      },
+      "targets": {"record": "records.id", "visit": "visits.id", "place": "places.id", "checkin": "self_checkins.id", "route": "saved_routes.id"}
+    }
+  },
+  "workflows": [
+    {"operation": "場所検索・地図との対応", "updates": "places", "reads": "—"},
+    {"operation": "訪問・文章・媒体の記録", "updates": "visits、track_points、records、media", "reads": "people、places"},
+    {"operation": "共通チャット", "updates": "conversations、messages", "reads": "people、対象の記録・分析結果"},
+    {"operation": "振り返り・分析・テーマ", "updates": "self_checkins、insights、themes", "reads": "records、visits、track_points"},
+    {"operation": "探索・案内", "updates": "suggestions、saved_routes、transit_passes", "reads": "places、records、self_checkins"},
+    {"operation": "共有・人物表示", "updates": "people、friendships、記録・ルートの共有項目", "reads": "records、saved_routes"},
+    {"operation": "拡張機能", "updates": "plugin_settings、feature_requests", "reads": "places、saved_routes"}
+  ],
+  "workflows_rules": ["一つの操作で関連表を変更するときは、その機能の処理としてまとめる。", "たとえば訪問への文章と写真の保存は、記録機能の処理がvisits・records・mediaを扱う。", "共有範囲の変更は、記録・ルートを保存する処理へ共有項目の変更として渡す。"],
+  "mutations": [
+    {"operation": "用途・感想の編集", "updates": "recordsの文章・用途・感想", "preserves": "visitsの訪問先・回数"},
+    {"operation": "文章の削除", "updates": "records、添付media、themesの所属", "preserves": "visitsの訪問"},
+    {"operation": "訪問の取消", "updates": "visitsの確認状態、関連suggestionsの達成状態", "preserves": "recordsの文章"},
+    {"operation": "会話の削除", "updates": "conversationsとそのmessages", "preserves": "保存したinsights"},
+    {"operation": "分析への「違う」の回答", "updates": "insightsのreview・review_note", "preserves": "元のrecords・visits"},
+    {"operation": "テーマ名の変更", "updates": "themesの名前", "preserves": "含まれるrecordsとテーマID"},
+    {"operation": "共有取消", "updates": "recordsまたはsaved_routesの公開範囲・共有先", "preserves": "元の記録・ルート"},
+    {"operation": "プラグインの無効化", "updates": "plugin_settingsのenabled", "preserves": "設定値・記録・場所"}
+  ],
+  "mutations_rules": ["媒体の実体はファイルに保存する。", "添付の削除後は、DBに残る保存先の一覧を基準に未参照ファイルを清掃する。", "共有情報を参照する画面と生成結果は、表示時にも現在の共有範囲を確認する。"],
+  "derived_and_external": [
+    {"content": "訪問回数・成長段階", "handling": "visitsのconfirmedな訪問IDを場所ごとに数える"},
+    {"content": "用途による外観", "handling": "訪問に関連するrecordsの用途から決める"},
+    {"content": "期間集計", "handling": "visits・recordsを対象期間で集計する"},
+    {"content": "保存する分析・比較", "handling": "insightsへ結果と根拠を保存する"},
+    {"content": "プラグインの名称・説明・実装・設定項目", "handling": "コードと定義ファイルで管理する"},
+    {"content": "Mapboxの背景・建物形状", "handling": "Mapboxから取得し、placesの建物識別子で対応させる"},
+    {"content": "言語・地図カメラ・選択中のタブ", "handling": "ブラウザに保存する"},
+    {"content": "提案・まとめの有効状態、停止した活動・場所", "handling": "アプリ設定としてブラウザに保存し、検索・分析の実行条件に渡す"},
+    {"content": "未保存の入力・AIが提案した記録内容", "handling": "確認画面の入力として保持し、保存操作でrecordsへ反映する"}
+  ],
+  "datasets": [{"kind": "テストデータ", "purpose": "動作の正しさを確認する", "content": "正常・空・失敗・境界条件に対応する入力"}, {"kind": "デモデータ", "purpose": "利用体験を画面と操作で見せる", "content": "人物・場所・訪問・記録など、場面に一貫性のある内容"}],
+  "datasets_rules": ["同じスキーマにそれぞれの目的に合うデータを用意する。", "検証用とデモ用のDBはファイルを分ける。", "共通用語と技術スタックを参照する。"]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--cancel",
+      "main--install",
+      "main--content",
+      "main--content--map",
+      "main--content--region",
+      "main--content--vehicle",
+      "main--content--layers",
+      "main--content--unknown-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--cancel",
+      "main--install"
+    ]
+  }
+]

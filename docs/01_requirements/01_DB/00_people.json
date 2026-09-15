@@ -1,0 +1,12 @@
+{
+  "table": "people",
+  "title": "人物",
+  "description": ["人物別の地図、投稿者、友人のプロフィールを表示する。"],
+  "common": "common.json",
+  "columns": {
+    "name": {"type": "TEXT", "nullable": false, "description": "表示名"},
+    "bio": {"type": "TEXT", "nullable": false, "description": "紹介文"},
+    "avatar_path": {"type": "TEXT", "nullable": true, "description": "アイコンのURLまたはアセットパス"}
+  },
+  "operations": ["プロフィール編集は同じIDを更新する。", "人物削除は関連する記録等を確認してから行う。"]
+}

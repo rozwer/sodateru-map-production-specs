@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--close",
+      "main--clear",
+      "main--radius",
+      "main--area",
+      "main--purpose",
+      "main--period",
+      "main--audience",
+      "main--apply",
+      "main--content",
+      "main--content--center",
+      "main--content--map",
+      "main--content--filter-help",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--close",
+      "main--clear",
+      "main--radius",
+      "main--area",
+      "main--purpose",
+      "main--period",
+      "main--audience",
+      "main--apply"
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "table": "feature_requests",
+  "title": "機能要望",
+  "description": ["要望の投稿・編集・公開範囲を保存する。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "投稿者"},
+    "title": {"type": "TEXT", "nullable": false, "description": "タイトル"},
+    "body": {"type": "TEXT", "nullable": false, "description": "要望本文"},
+    "visibility": {"type": "TEXT", "nullable": false, "description": "公開範囲", "enum": ["private", "public"]}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "indexes": [{"columns": ["visibility", "created_at"]}, {"columns": ["person_id"]}],
+  "operations": ["投稿で1行作成し、編集・公開範囲変更は同じIDを更新する。一覧は表示対象の公開範囲で絞る。"],
+  "related_files": ["00_people.json"]
+}

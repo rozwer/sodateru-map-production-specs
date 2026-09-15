@@ -1,0 +1,373 @@
+[
+  {
+    "id": "candidates--menu",
+    "testId": "ai-explore--candidates--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.candidates.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "candidates--heading",
+    "testId": "ai-explore--candidates--heading",
+    "kind": "content",
+    "purpose": "Codexと探索／街を自由に探索しましょう",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.candidates.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "candidates--conversation",
+    "testId": "ai-explore--candidates--conversation",
+    "kind": "content",
+    "purpose": "利用者の希望とCodexの候補説明",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.candidates.conversation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "message",
+      "itemsFrom": "viewModel.conversation",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "ai-explore--candidates--conversation--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--candidate",
+    "testId": "ai-explore--candidates--candidate",
+    "kind": "content",
+    "purpose": "カフェ候補の写真・名称・紹介・徒歩時間・滞在時間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "candidates--candidate--photo",
+        "candidates--candidate--name",
+        "candidates--candidate--description",
+        "candidates--candidate--travel-time",
+        "candidates--candidate--stay-time"
+      ]
+    }
+  },
+  {
+    "id": "candidates--route-map",
+    "testId": "ai-explore--candidates--route-map",
+    "kind": "content",
+    "purpose": "2地点の経路・縮尺・方角",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--total-time",
+    "testId": "ai-explore--candidates--total-time",
+    "kind": "content",
+    "purpose": "移動18分＋滞在12分＝約30分",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.candidates.total-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--next-card",
+    "testId": "ai-explore--candidates--next-card",
+    "kind": "content",
+    "purpose": "次の公園候補の一部",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "candidates--next-card--photo",
+        "candidates--next-card--name"
+      ]
+    }
+  },
+  {
+    "id": "candidates--example-label",
+    "testId": "ai-explore--candidates--example-label",
+    "kind": "content",
+    "purpose": "会話・候補は表示例",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.isMock",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "condition": "mockのときだけ表示。実データへ表示例の固定文字を残さない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--back-map",
+    "testId": "ai-explore--candidates--back-map",
+    "kind": "control",
+    "purpose": "地図に戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.candidates.back-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図に戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "candidates--show-map",
+    "testId": "ai-explore--candidates--show-map",
+    "kind": "control",
+    "purpose": "地図で見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.candidates.show-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図で見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "candidates--input",
+    "testId": "ai-explore--candidates--input",
+    "kind": "control",
+    "purpose": "Codexに話しかける",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.input",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "Codexに話しかける",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "Codexに話しかける",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 300,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "candidates--microphone",
+    "testId": "ai-explore--candidates--microphone",
+    "kind": "control",
+    "purpose": "音声入力",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.candidates.microphone",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "音声入力",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "candidates--send",
+    "testId": "ai-explore--candidates--send",
+    "kind": "control",
+    "purpose": "送信",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.candidates.send",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "送信",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "candidates--candidate--photo",
+    "testId": "ai-explore--candidates--candidate--photo",
+    "kind": "content",
+    "purpose": "候補写真",
+    "imageRegion": null,
+    "parent": "candidates--candidate",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--candidate--name",
+    "testId": "ai-explore--candidates--candidate--name",
+    "kind": "content",
+    "purpose": "候補名",
+    "imageRegion": null,
+    "parent": "candidates--candidate",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.candidates.candidate.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--candidate--description",
+    "testId": "ai-explore--candidates--candidate--description",
+    "kind": "content",
+    "purpose": "説明",
+    "imageRegion": null,
+    "parent": "candidates--candidate",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.candidates.candidate.description",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--candidate--travel-time",
+    "testId": "ai-explore--candidates--candidate--travel-time",
+    "kind": "content",
+    "purpose": "移動時間",
+    "imageRegion": null,
+    "parent": "candidates--candidate",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.candidates.candidate.travel-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--candidate--stay-time",
+    "testId": "ai-explore--candidates--candidate--stay-time",
+    "kind": "content",
+    "purpose": "滞在時間",
+    "imageRegion": null,
+    "parent": "candidates--candidate",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.candidates.candidate.stay-time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--next-card--photo",
+    "testId": "ai-explore--candidates--next-card--photo",
+    "kind": "content",
+    "purpose": "次の候補写真",
+    "imageRegion": null,
+    "parent": "candidates--next-card",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "candidates--next-card--name",
+    "testId": "ai-explore--candidates--next-card--name",
+    "kind": "content",
+    "purpose": "次の候補名",
+    "imageRegion": null,
+    "parent": "candidates--next-card",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.candidates.next-card.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

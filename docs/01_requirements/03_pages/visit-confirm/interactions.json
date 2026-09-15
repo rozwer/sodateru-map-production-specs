@@ -1,0 +1,104 @@
+[
+  {
+    "id": "not-visited-selected--back",
+    "component": "not-visited-selected--back",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--place-open",
+    "component": "not-visited-selected--place-open",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "同じplaceIdで場所の詳細を開く。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--map-expand",
+    "component": "not-visited-selected--map-expand",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "同じ地点と地図範囲で地図を拡大する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--visited",
+    "component": "not-visited-selected--visited",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "本人の判断を下書きで選択する。保存ボタンまでサーバーの状態は変えない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--not-visited",
+    "component": "not-visited-selected--not-visited",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "本人の判断を下書きで選択する。保存ボタンまでサーバーの状態は変えない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--unsure",
+    "component": "not-visited-selected--unsure",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "本人の判断を下書きで選択する。保存ボタンまでサーバーの状態は変えない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "not-visited-selected--save",
+    "component": "not-visited-selected--save",
+    "from": "not-visited-selected",
+    "event": "activate",
+    "effect": "visitIdへ選択状態を保存。行った=confirmed、否定=rejected、不明=candidate。保存成功後に成長を再取得。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "patchVisitsVisitId",
+      "getMapGrowth"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

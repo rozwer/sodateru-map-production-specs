@@ -1,0 +1,22 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--candidate",
+      "main--conditions",
+      "main--select",
+      "main--content",
+      "main--content--map",
+      "main--content--candidates",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--candidate",
+      "main--conditions",
+      "main--select"
+    ]
+  }
+]

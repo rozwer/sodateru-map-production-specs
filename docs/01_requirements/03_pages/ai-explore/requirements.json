@@ -1,0 +1,70 @@
+[
+  {
+    "id": "ai-explore-R1",
+    "text": "相談文と現在地または選択場所を渡し、候補・不成立・確認事項を表示する。候補選択は本人の操作で確定する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-C1"
+    ]
+  },
+  {
+    "id": "ai-explore-R2",
+    "text": "送信中・キャンセル・失敗・再試行を表示し、生成失敗でも入力を保持する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-C2"
+    ]
+  },
+  {
+    "id": "ai-explore-F01",
+    "kind": "capability",
+    "title": "文章で相談する",
+    "text": "希望と対象場所を送って候補や確認事項を受け取れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-FC01"
+    ]
+  },
+  {
+    "id": "ai-explore-F02",
+    "kind": "capability",
+    "title": "音声で入力する",
+    "text": "文字起こしを確認してから送れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-FC02"
+    ]
+  },
+  {
+    "id": "ai-explore-F03",
+    "kind": "capability",
+    "title": "候補を地図で見る",
+    "text": "相談で示された候補の位置と詳細を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-FC03"
+    ]
+  },
+  {
+    "id": "ai-explore-F04",
+    "kind": "capability",
+    "title": "処理を中止・再試行する",
+    "text": "入力を残して失敗や取消から再開できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-explore-FC04"
+    ]
+  }
+]

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--create",
+      "main--public",
+      "main--drafts",
+      "main--like",
+      "main--request",
+      "main--github",
+      "main--edit",
+      "main--delete",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community",
+      "main--content",
+      "main--content--posts",
+      "shared--page-title"
+    ],
+    "hidden": [
+      "submitted--notice",
+      "submitted--dismiss"
+    ],
+    "interactive": [
+      "main--back",
+      "main--create",
+      "main--public",
+      "main--drafts",
+      "main--like",
+      "main--request",
+      "main--github",
+      "main--edit",
+      "main--delete",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community"
+    ]
+  },
+  {
+    "id": "submitted",
+    "visible": [
+      "main--back",
+      "main--create",
+      "main--public",
+      "main--drafts",
+      "main--like",
+      "main--request",
+      "main--github",
+      "main--edit",
+      "main--delete",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community",
+      "main--content",
+      "submitted--notice",
+      "submitted--dismiss",
+      "main--content--posts",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--create",
+      "main--public",
+      "main--drafts",
+      "main--like",
+      "main--request",
+      "main--github",
+      "main--edit",
+      "main--delete",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community",
+      "submitted--dismiss"
+    ]
+  }
+]

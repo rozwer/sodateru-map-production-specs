@@ -1,0 +1,70 @@
+[
+  {
+    "id": "feature-requests-R1",
+    "text": "公開投稿と本人の下書きを分け、本人の投稿は編集・削除できる。人に頼むとGitHubの開発入口を用意し、非公開下書きを他者へ表示しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-C1"
+    ]
+  },
+  {
+    "id": "feature-requests-F01",
+    "kind": "capability",
+    "title": "投稿を読む",
+    "text": "みんなの公開投稿と本人の下書きを切り替えられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-FC01"
+    ]
+  },
+  {
+    "id": "feature-requests-F02",
+    "kind": "capability",
+    "title": "共感を残す",
+    "text": "投稿に共感し件数を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-FC02"
+    ]
+  },
+  {
+    "id": "feature-requests-F03",
+    "kind": "capability",
+    "title": "要望を書く",
+    "text": "本文を投稿・下書き保存して本人が編集・削除できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-FC03"
+    ]
+  },
+  {
+    "id": "feature-requests-F04",
+    "kind": "capability",
+    "title": "実現へ進む",
+    "text": "自分で開発はGitHubガイド、人に頼むは依頼相手を指定しないアプリ内フォームを開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-FC04"
+    ]
+  },
+  {
+    "id": "feature-requests-FORM",
+    "text": "依頼フォームはお願いを書く画面を共用し、本文と公開範囲を確認して保存する。依頼相手・API・技術情報・完成基準の入力を求めない。投稿だけでコード生成やGitHub Issue作成を始めない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "feature-requests-FORM-C"
+    ]
+  }
+]

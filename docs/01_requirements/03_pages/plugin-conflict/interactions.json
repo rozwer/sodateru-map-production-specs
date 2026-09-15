@@ -1,0 +1,52 @@
+[
+  {
+    "id": "main--keep",
+    "component": "main--keep",
+    "from": "main",
+    "event": "activate",
+    "effect": "競合を認識した選択を保持して併用する。保存契約が必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "plugin-version"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--disable",
+    "component": "main--disable",
+    "from": "main",
+    "event": "activate",
+    "effect": "本人が選んだ片方のpluginIdだけenabled=false。どちらを無効化するか未選択では送らない。",
+    "destination": "plugin-manage",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "patchPluginSettingsPluginId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  }
+]

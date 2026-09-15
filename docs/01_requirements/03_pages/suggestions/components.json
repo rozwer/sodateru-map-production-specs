@@ -1,0 +1,182 @@
+[
+  {
+    "id": "main--back",
+    "testId": "suggestions--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--conditions",
+    "testId": "suggestions--conditions",
+    "kind": "control",
+    "purpose": "条件を変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.conditions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "条件を変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--sort",
+    "testId": "suggestions--sort",
+    "kind": "control",
+    "purpose": "おすすめ順",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.sort",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "おすすめ順",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "おすすめ順",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.sortOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "main--candidate",
+    "testId": "suggestions--candidate",
+    "kind": "control",
+    "purpose": "候補を開く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.candidate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "候補を開く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--candidates",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "suggestions--candidate--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "suggestions--content",
+    "kind": "content",
+    "purpose": "候補ごとの理由・徒歩時間・滞在時間・合計・未評価表示",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--conditions",
+        "main--content--result-count",
+        "main--content--candidates"
+      ]
+    }
+  },
+  {
+    "id": "main--content--conditions",
+    "testId": "suggestions--main--content--conditions",
+    "kind": "content",
+    "purpose": "現在の希望と条件",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.conditions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--result-count",
+    "testId": "suggestions--main--content--result-count",
+    "kind": "content",
+    "purpose": "候補件数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.result-count",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値と上限から計算する。例示の分子をハードコードしない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--candidates",
+    "testId": "suggestions--main--content--candidates",
+    "kind": "content",
+    "purpose": "提案候補",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.candidates",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "suggestion",
+      "itemsFrom": "viewModel.candidates",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "suggestions--main--content--candidates--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--candidate"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "suggestions--page-title",
+    "kind": "content",
+    "purpose": "提案候補一覧",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

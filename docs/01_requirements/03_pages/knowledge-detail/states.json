@@ -1,0 +1,32 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--play",
+      "main--more",
+      "main--place",
+      "main--author",
+      "main--source",
+      "main--content",
+      "main--content--media",
+      "main--content--title",
+      "main--content--body",
+      "main--content--author-avatar",
+      "main--content--author",
+      "main--content--date",
+      "main--content--place",
+      "main--content--tags",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--play",
+      "main--more",
+      "main--place",
+      "main--author",
+      "main--source"
+    ]
+  }
+]

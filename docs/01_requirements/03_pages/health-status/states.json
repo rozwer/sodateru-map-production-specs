@@ -1,0 +1,26 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--source",
+      "main--stop",
+      "main--delete",
+      "main--content",
+      "main--content--source",
+      "main--content--last-import",
+      "main--content--import-status",
+      "main--content--used-items",
+      "main--content--days",
+      "main--content--stop-help",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--source",
+      "main--stop",
+      "main--delete"
+    ]
+  }
+]

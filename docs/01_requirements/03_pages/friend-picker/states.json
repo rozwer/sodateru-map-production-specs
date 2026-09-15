@@ -1,0 +1,25 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--search",
+      "main--select",
+      "main--profile",
+      "main--done",
+      "main--content",
+      "main--content--selected-count",
+      "main--content--friends",
+      "main--content--selected",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--search",
+      "main--select",
+      "main--profile",
+      "main--done"
+    ]
+  }
+]

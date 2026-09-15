@@ -1,0 +1,70 @@
+[
+  {
+    "id": "sharing-R1",
+    "text": "共有する写真と本文を事前表示し、自分だけ・選んだ友達・公開を選べる。診断や非公開履歴を同時公開しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-C1"
+    ]
+  },
+  {
+    "id": "sharing-R2",
+    "text": "選んだ友達にはsharedWithの人物IDを使い、選択0人で意図せず公開へ変更しない。保存前の選択変更だけでは共有しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-C2"
+    ]
+  },
+  {
+    "id": "sharing-F01",
+    "kind": "capability",
+    "title": "内容を確認する",
+    "text": "共有される写真と本文をプレビューできる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-FC01"
+    ]
+  },
+  {
+    "id": "sharing-F02",
+    "kind": "capability",
+    "title": "範囲を選ぶ",
+    "text": "自分だけ・選んだ友達・公開を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-FC02"
+    ]
+  },
+  {
+    "id": "sharing-F03",
+    "kind": "capability",
+    "title": "相手を選ぶ",
+    "text": "共有する友達を複数指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-FC03"
+    ]
+  },
+  {
+    "id": "sharing-F04",
+    "kind": "capability",
+    "title": "共有を確定する",
+    "text": "保存操作で初めて選んだ範囲に反映できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "sharing-FC04"
+    ]
+  }
+]

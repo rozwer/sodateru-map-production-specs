@@ -1,0 +1,28 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--preview",
+      "main--update",
+      "main--rollback",
+      "main--delete",
+      "main--content",
+      "main--content--current-version",
+      "main--content--next-version",
+      "main--content--changes",
+      "main--content--current-map",
+      "main--content--next-map",
+      "main--content--preservation",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--preview",
+      "main--update",
+      "main--rollback",
+      "main--delete"
+    ]
+  }
+]

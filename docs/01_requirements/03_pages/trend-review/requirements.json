@@ -1,0 +1,48 @@
+[
+  {
+    "id": "trend-review-R1",
+    "text": "agree/disagree/unsureと任意理由を保存する。否定した解釈を同じ根拠だけで復活させず、訪問事実や確認済み用途は維持する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-review-C1"
+    ]
+  },
+  {
+    "id": "trend-review-F01",
+    "kind": "capability",
+    "title": "判断を選ぶ",
+    "text": "合っている・違う・まだ分からないを選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-review-FC01"
+    ]
+  },
+  {
+    "id": "trend-review-F02",
+    "kind": "capability",
+    "title": "理由を添える",
+    "text": "200文字以内の任意の説明を付けられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-review-FC02"
+    ]
+  },
+  {
+    "id": "trend-review-F03",
+    "kind": "capability",
+    "title": "判断を保存する",
+    "text": "次回表示にも判断を反映し、訪問事実を勝手に変更しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-review-FC03"
+    ]
+  }
+]

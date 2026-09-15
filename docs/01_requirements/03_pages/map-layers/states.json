@@ -1,0 +1,36 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--close",
+      "main--themes",
+      "main--suggestions",
+      "main--friends",
+      "main--cycling",
+      "main--map",
+      "main--content",
+      "main--content--layer-help",
+      "shared--page-title",
+      "main--background-map",
+      "main--search",
+      "main--locate",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--close",
+      "main--themes",
+      "main--suggestions",
+      "main--friends",
+      "main--cycling",
+      "main--map",
+      "main--search",
+      "main--locate",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community"
+    ]
+  }
+]

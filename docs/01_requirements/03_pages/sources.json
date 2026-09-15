@@ -1,0 +1,38 @@
+{
+  "repository": "/Users/roz/Desktop/sodateru-map-rehearsal",
+  "commit": "39638eacd5ccb7bfec3a11fc0c5e683d7c73999d",
+  "priority": [
+    "今回の添付画像と利用者指示（配置・要素）",
+    "本番リポジトリの共通仕様・OpenAPI（実契約）",
+    "元リポジトリの最新要件（操作・意味・受入）"
+  ],
+  "documents": [
+    "docs/requirements/navigation.md",
+    "docs/requirements/know-yourself.md",
+    "docs/requirements/know-yourself/15-shallow-ui-design.md",
+    "docs/requirements/know-yourself/10-contract-boundaries.md",
+    "docs/requirements/grow-together.md",
+    "docs/spec/MAP_GROWTH_AND_DISCOVERY.md",
+    "docs/spec/ROUTE_CONSTRAINT_FLOW.md",
+    "docs/requirements/grow-app.md",
+    "docs/spec/HEALTH_INTEGRATION.md",
+    "docs/spec/PET_COMPANION.md",
+    "docs/requirements/app-review-2026-09-10.md",
+    "src/features/development/Wishes.tsx",
+    "src/features/extensions/entry.tsx"
+  ],
+  "excludedLegacy": [
+    "静的入口のみ・APIを呼ばない旧Issueの限定",
+    "旧4タブ配置",
+    "旧UIの固定人格や偉人比較",
+    "旧v2 API名を本番APIとして流用",
+    "旧MapLibre指定を本番のMapboxからの変更根拠にする"
+  ],
+  "note": "元仕様で必須だが本番APIにない動作はapi-gaps.jsonへ保持する。画面数はURL数ではなく、同一詳細面のモードも含む。",
+  "verifiedForm": {
+    "component": "src/features/development/Wishes.tsx",
+    "mount": "src/features/extensions/entry.tsx:112",
+    "finding": "本文・公開範囲・作成・編集・削除のフォームが現行ローカルcheckoutに存在。アプリ内要望タブで利用。",
+    "limit": "コード接続を確認。今回ブラウザでの表示・保存は未検証。"
+  }
+}

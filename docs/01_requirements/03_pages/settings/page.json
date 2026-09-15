@@ -1,0 +1,67 @@
+{
+  "id": "settings",
+  "title": "設定",
+  "status": "draft",
+  "route": null,
+  "references": [
+    {
+      "image": "../references/Codex 画像 2026年9月15日 08_23_29.png",
+      "state": "main",
+      "viewport": "reference-1536x1024",
+      "region": {
+        "x": 0,
+        "y": 0,
+        "width": 512,
+        "height": 1024
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "id": "reference-1536x1024",
+      "width": 1536,
+      "height": 1024,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "mobile-390",
+      "width": 390,
+      "height": 844,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "mobile-320",
+      "width": 320,
+      "height": 740,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "basis": "css-pixels"
+    }
+  ],
+  "layout": {
+    "checkAllStatesAndViewports": true,
+    "allowedOverlaps": []
+  },
+  "formatVersion": 2,
+  "files": {
+    "components": "components.json",
+    "states": "states.json",
+    "interactions": "interactions.json",
+    "api": "api.json",
+    "requirements": "requirements.json",
+    "acceptance": "acceptance.json"
+  },
+  "common": "../common.json",
+  "sources": "../sources.json",
+  "apiGaps": [
+    "settings"
+  ],
+  "unresolved": [
+    "論理画面と実URL/ルーターの接続はUI実装時に確定。",
+    "参照画像の個別要素矩形はUI実装と画像照合時に確定。"
+  ]
+}

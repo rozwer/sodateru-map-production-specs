@@ -1,0 +1,29 @@
+{
+  "table": "transit_passes",
+  "title": "定期券",
+  "description": ["区間と有効期間を登録・編集し、経路の追加運賃の計算に使う。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "定期券を利用する人物"},
+    "operator": {"type": "TEXT", "nullable": false, "description": "交通事業者"},
+    "segments_json": {"type": "TEXT", "nullable": false, "description": "経由順の路線・乗降駅", "encoding": "json"},
+    "valid_from": {"type": "TEXT", "nullable": false, "description": "有効開始日。YYYY-MM-DD"},
+    "valid_to": {"type": "TEXT", "nullable": false, "description": "有効終了日。その日を含む"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["日付は実在するYYYY-MM-DD。有効終了日≧有効開始日。終了日を利用可能日に含める。", "区間は1つ以上。路線・乗降駅を提供元の交通データと照合する。"],
+  "indexes": [{"columns": ["person_id"]}],
+  "operations": ["区間は交通データの路線・駅IDで保存する。有効期間の編集は同じ行を更新する。経路検索の日付に有効な定期券を読み、取得できた運賃と適用結果を表示する。"],
+  "json_fields": {
+    "segments_json": {
+      "fields": {
+        "$": {"type": "array", "required": true, "minItems": 1},
+        "$[]": {"type": "object", "required": true},
+        "$[].lineId": {"type": "string", "required": true, "minLength": 1},
+        "$[].fromStopId": {"type": "string", "required": true, "minLength": 1},
+        "$[].toStopId": {"type": "string", "required": true, "minLength": 1}
+      }
+    }
+  },
+  "related_files": ["00_people.json"]
+}

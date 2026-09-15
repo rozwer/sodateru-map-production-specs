@@ -1,0 +1,872 @@
+{
+  "meaning": "実装する部品の意味。既存ライブラリのexport名を固定するものではない。",
+  "types": {
+    "text": {
+      "renderer": "dom",
+      "element": "p"
+    },
+    "heading": {
+      "renderer": "dom",
+      "element": "h2"
+    },
+    "status": {
+      "renderer": "dom",
+      "element": "output"
+    },
+    "metric": {
+      "renderer": "dom",
+      "element": "output"
+    },
+    "button": {
+      "renderer": "dom",
+      "element": "button"
+    },
+    "text-input": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "textarea": {
+      "renderer": "dom",
+      "element": "textarea"
+    },
+    "search-input": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "checkbox": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "switch": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "choice-group": {
+      "renderer": "dom",
+      "element": "fieldset"
+    },
+    "select": {
+      "renderer": "dom",
+      "element": "select"
+    },
+    "combobox": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "date-picker": {
+      "renderer": "dom",
+      "element": "div",
+      "note": "単一のgridをDOMで作り、各日を実buttonにする。日付ごとの記録ドットと選択状態もDOM/CSS。"
+    },
+    "time-input": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "tag-editor": {
+      "renderer": "dom",
+      "element": "fieldset"
+    },
+    "file-input": {
+      "renderer": "dom",
+      "element": "input"
+    },
+    "list": {
+      "renderer": "dom",
+      "element": "ul"
+    },
+    "group": {
+      "renderer": "dom",
+      "element": "section"
+    },
+    "map": {
+      "renderer": "mapbox-webgl",
+      "element": "div"
+    },
+    "chart": {
+      "renderer": "svg",
+      "element": "svg"
+    },
+    "compass": {
+      "renderer": "svg",
+      "element": "svg"
+    },
+    "waveform": {
+      "renderer": "svg",
+      "element": "svg"
+    },
+    "image": {
+      "renderer": "native-image",
+      "element": "img"
+    },
+    "video": {
+      "renderer": "native-media",
+      "element": "video"
+    },
+    "media-gallery": {
+      "renderer": "native-media",
+      "element": "div"
+    },
+    "illustration": {
+      "renderer": "asset",
+      "element": "img"
+    },
+    "pet-preview": {
+      "renderer": "pet-atlas",
+      "element": "canvas"
+    },
+    "backdrop": {
+      "renderer": "dom",
+      "element": "div"
+    },
+    "icon": {
+      "renderer": "svg",
+      "element": "svg"
+    },
+    "map-gesture": {
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "note": "mapの操作面を参照する。独立したDOMボタン/地図を追加しない。"
+    },
+    "object-preview": {
+      "renderer": "three-webgl",
+      "element": "canvas",
+      "note": "本人が追加したオブジェクトの色・形・表示サイズから描画する。ラベルと編集UIはDOM。"
+    }
+  },
+  "templates": {
+    "record": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "media",
+          "type": "image",
+          "label": "記録写真",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "title",
+          "type": "text",
+          "label": "記録名",
+          "valueFrom": "item.title"
+        },
+        {
+          "key": "occurredAt",
+          "type": "text",
+          "label": "日時",
+          "valueFrom": "item.occurredAt"
+        },
+        {
+          "key": "placeName",
+          "type": "text",
+          "label": "場所名",
+          "valueFrom": "item.placeName"
+        },
+        {
+          "key": "body",
+          "type": "text",
+          "label": "本人の言葉",
+          "valueFrom": "item.body"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "記録の状態",
+          "valueFrom": "item.status"
+        },
+        {
+          "key": "duration",
+          "type": "metric",
+          "label": "滞在時間",
+          "valueFrom": "item.duration"
+        }
+      ]
+    },
+    "place": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "media",
+          "type": "image",
+          "label": "場所写真",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "name",
+          "type": "text",
+          "label": "場所名",
+          "valueFrom": "item.name"
+        },
+        {
+          "key": "category",
+          "type": "text",
+          "label": "種別",
+          "valueFrom": "item.category"
+        },
+        {
+          "key": "address",
+          "type": "text",
+          "label": "住所",
+          "valueFrom": "item.address"
+        },
+        {
+          "key": "description",
+          "type": "text",
+          "label": "紹介",
+          "valueFrom": "item.description"
+        },
+        {
+          "key": "distance",
+          "type": "metric",
+          "label": "距離",
+          "valueFrom": "item.distance"
+        },
+        {
+          "key": "travelTime",
+          "type": "metric",
+          "label": "移動時間",
+          "valueFrom": "item.travelTime"
+        }
+      ]
+    },
+    "person": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "avatar",
+          "type": "image",
+          "label": "人物写真",
+          "valueFrom": "item.avatar"
+        },
+        {
+          "key": "displayName",
+          "type": "text",
+          "label": "表示名",
+          "valueFrom": "item.displayName"
+        },
+        {
+          "key": "bio",
+          "type": "text",
+          "label": "紹介",
+          "valueFrom": "item.bio"
+        },
+        {
+          "key": "relationship",
+          "type": "status",
+          "label": "友達関係",
+          "valueFrom": "item.relationship"
+        }
+      ]
+    },
+    "theme": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "media",
+          "type": "image",
+          "label": "代表写真",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "name",
+          "type": "text",
+          "label": "テーマ名",
+          "valueFrom": "item.name"
+        },
+        {
+          "key": "description",
+          "type": "text",
+          "label": "説明",
+          "valueFrom": "item.description"
+        },
+        {
+          "key": "recordCount",
+          "type": "metric",
+          "label": "記録件数",
+          "valueFrom": "item.recordCount"
+        },
+        {
+          "key": "color",
+          "type": "icon",
+          "label": "テーマ色",
+          "valueFrom": "item.color"
+        }
+      ]
+    },
+    "suggestion": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "media",
+          "type": "image",
+          "label": "候補写真",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "name",
+          "type": "text",
+          "label": "候補名",
+          "valueFrom": "item.name"
+        },
+        {
+          "key": "tags",
+          "type": "text",
+          "label": "特徴",
+          "valueFrom": "item.tags"
+        },
+        {
+          "key": "reason",
+          "type": "text",
+          "label": "提案理由",
+          "valueFrom": "item.reason"
+        },
+        {
+          "key": "travelTime",
+          "type": "metric",
+          "label": "移動時間",
+          "valueFrom": "item.travelTime"
+        },
+        {
+          "key": "stayTime",
+          "type": "metric",
+          "label": "滞在時間",
+          "valueFrom": "item.stayTime"
+        },
+        {
+          "key": "totalTime",
+          "type": "metric",
+          "label": "合計時間",
+          "valueFrom": "item.totalTime"
+        },
+        {
+          "key": "evaluation",
+          "type": "status",
+          "label": "評価状態",
+          "valueFrom": "item.evaluation"
+        }
+      ]
+    },
+    "post": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "media",
+          "type": "media-gallery",
+          "label": "投稿媒体",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "body",
+          "type": "text",
+          "label": "本文",
+          "valueFrom": "item.body"
+        },
+        {
+          "key": "authorAvatar",
+          "type": "image",
+          "label": "投稿者写真",
+          "valueFrom": "item.authorAvatar"
+        },
+        {
+          "key": "authorName",
+          "type": "text",
+          "label": "投稿者名",
+          "valueFrom": "item.authorName"
+        },
+        {
+          "key": "createdAt",
+          "type": "text",
+          "label": "投稿日",
+          "valueFrom": "item.createdAt"
+        },
+        {
+          "key": "placeName",
+          "type": "text",
+          "label": "場所",
+          "valueFrom": "item.placeName"
+        },
+        {
+          "key": "tags",
+          "type": "text",
+          "label": "タグ",
+          "valueFrom": "item.tags"
+        },
+        {
+          "key": "visibility",
+          "type": "status",
+          "label": "公開範囲",
+          "valueFrom": "item.visibility"
+        },
+        {
+          "key": "likeCount",
+          "type": "metric",
+          "label": "共感数",
+          "valueFrom": "item.likeCount"
+        }
+      ]
+    },
+    "route": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "label",
+          "type": "text",
+          "label": "候補名",
+          "valueFrom": "item.label"
+        },
+        {
+          "key": "media",
+          "type": "image",
+          "label": "目的地写真",
+          "valueFrom": "item.media"
+        },
+        {
+          "key": "travelTime",
+          "type": "metric",
+          "label": "移動時間",
+          "valueFrom": "item.travelTime"
+        },
+        {
+          "key": "stayTime",
+          "type": "metric",
+          "label": "滞在時間",
+          "valueFrom": "item.stayTime"
+        },
+        {
+          "key": "totalTime",
+          "type": "metric",
+          "label": "合計時間",
+          "valueFrom": "item.totalTime"
+        },
+        {
+          "key": "distance",
+          "type": "metric",
+          "label": "距離",
+          "valueFrom": "item.distance"
+        },
+        {
+          "key": "feasibility",
+          "type": "status",
+          "label": "条件の判定",
+          "valueFrom": "item.feasibility"
+        },
+        {
+          "key": "unknownFacts",
+          "type": "text",
+          "label": "未確認事項",
+          "valueFrom": "item.unknownFacts"
+        }
+      ]
+    },
+    "answer": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "localDate",
+          "type": "text",
+          "label": "対象日",
+          "valueFrom": "item.localDate"
+        },
+        {
+          "key": "question",
+          "type": "text",
+          "label": "質問",
+          "valueFrom": "item.question"
+        },
+        {
+          "key": "answer",
+          "type": "text",
+          "label": "回答原文",
+          "valueFrom": "item.answer"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "回答済み・あとで・スキップ",
+          "valueFrom": "item.status"
+        },
+        {
+          "key": "recordTitle",
+          "type": "text",
+          "label": "元記録",
+          "valueFrom": "item.recordTitle"
+        }
+      ]
+    },
+    "conversation": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "title",
+          "type": "text",
+          "label": "相談名",
+          "valueFrom": "item.title"
+        },
+        {
+          "key": "updatedAt",
+          "type": "text",
+          "label": "相談日時",
+          "valueFrom": "item.updatedAt"
+        },
+        {
+          "key": "preview",
+          "type": "text",
+          "label": "最後の発言",
+          "valueFrom": "item.preview"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "処理状態",
+          "valueFrom": "item.status"
+        }
+      ]
+    },
+    "message": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "speaker",
+          "type": "text",
+          "label": "発言者",
+          "valueFrom": "item.speaker"
+        },
+        {
+          "key": "body",
+          "type": "text",
+          "label": "発言本文",
+          "valueFrom": "item.body"
+        },
+        {
+          "key": "createdAt",
+          "type": "text",
+          "label": "発言日時",
+          "valueFrom": "item.createdAt"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "送信・生成状態",
+          "valueFrom": "item.status"
+        }
+      ]
+    },
+    "plugin": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "icon",
+          "type": "image",
+          "label": "機能アイコン",
+          "valueFrom": "item.icon"
+        },
+        {
+          "key": "name",
+          "type": "text",
+          "label": "機能名",
+          "valueFrom": "item.name"
+        },
+        {
+          "key": "description",
+          "type": "text",
+          "label": "説明",
+          "valueFrom": "item.description"
+        },
+        {
+          "key": "map",
+          "type": "map",
+          "label": "同じ地図での追加表示",
+          "valueFrom": "item.map"
+        }
+      ]
+    },
+    "pet": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "preview",
+          "type": "pet-preview",
+          "label": "相棒の動作",
+          "valueFrom": "item.preview"
+        },
+        {
+          "key": "name",
+          "type": "text",
+          "label": "相棒名",
+          "valueFrom": "item.name"
+        }
+      ]
+    },
+    "stop": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "order",
+          "type": "metric",
+          "label": "立ち寄り順",
+          "valueFrom": "item.order"
+        },
+        {
+          "key": "placeName",
+          "type": "text",
+          "label": "場所名",
+          "valueFrom": "item.placeName"
+        },
+        {
+          "key": "description",
+          "type": "text",
+          "label": "過ごし方",
+          "valueFrom": "item.description"
+        },
+        {
+          "key": "stayTime",
+          "type": "metric",
+          "label": "滞在時間",
+          "valueFrom": "item.stayTime"
+        }
+      ]
+    },
+    "fact": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "label",
+          "type": "text",
+          "label": "確認項目",
+          "valueFrom": "item.label"
+        },
+        {
+          "key": "value",
+          "type": "text",
+          "label": "内容",
+          "valueFrom": "item.value"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "確認済み・不明・期限切れ",
+          "valueFrom": "item.status"
+        },
+        {
+          "key": "source",
+          "type": "text",
+          "label": "出典",
+          "valueFrom": "item.source"
+        }
+      ]
+    },
+    "setting": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "label",
+          "type": "text",
+          "label": "設定名",
+          "valueFrom": "item.label"
+        },
+        {
+          "key": "value",
+          "type": "text",
+          "label": "現在値",
+          "valueFrom": "item.value"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "利用可能性",
+          "valueFrom": "item.status"
+        }
+      ]
+    },
+    "health-day": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "date",
+          "type": "text",
+          "label": "日付",
+          "valueFrom": "item.date"
+        },
+        {
+          "key": "status",
+          "type": "status",
+          "label": "取得・未取得",
+          "valueFrom": "item.status"
+        },
+        {
+          "key": "value",
+          "type": "metric",
+          "label": "値と単位",
+          "valueFrom": "item.value"
+        }
+      ]
+    },
+    "rule": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "placeName",
+          "type": "text",
+          "label": "停止した場所",
+          "valueFrom": "item.placeName"
+        },
+        {
+          "key": "activity",
+          "type": "text",
+          "label": "停止した活動",
+          "valueFrom": "item.activity"
+        },
+        {
+          "key": "updatedAt",
+          "type": "text",
+          "label": "設定日時",
+          "valueFrom": "item.updatedAt"
+        }
+      ]
+    },
+    "scope-item": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "label",
+          "type": "text",
+          "label": "対象データ",
+          "valueFrom": "item.label"
+        },
+        {
+          "key": "effect",
+          "type": "text",
+          "label": "消える・残る・更新される",
+          "valueFrom": "item.effect"
+        },
+        {
+          "key": "count",
+          "type": "metric",
+          "label": "対象数",
+          "valueFrom": "item.count"
+        }
+      ]
+    },
+    "comparison": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "selfPlace",
+          "type": "text",
+          "label": "自分の場所",
+          "valueFrom": "item.selfPlace"
+        },
+        {
+          "key": "selfPurpose",
+          "type": "text",
+          "label": "自分の用途",
+          "valueFrom": "item.selfPurpose"
+        },
+        {
+          "key": "selfReason",
+          "type": "text",
+          "label": "自分の理由",
+          "valueFrom": "item.selfReason"
+        },
+        {
+          "key": "peerPlace",
+          "type": "text",
+          "label": "相手の場所",
+          "valueFrom": "item.peerPlace"
+        },
+        {
+          "key": "peerPurpose",
+          "type": "text",
+          "label": "相手の用途",
+          "valueFrom": "item.peerPurpose"
+        },
+        {
+          "key": "peerReason",
+          "type": "text",
+          "label": "相手の理由",
+          "valueFrom": "item.peerReason"
+        },
+        {
+          "key": "common",
+          "type": "text",
+          "label": "共通点",
+          "valueFrom": "item.common"
+        },
+        {
+          "key": "difference",
+          "type": "text",
+          "label": "違い",
+          "valueFrom": "item.difference"
+        }
+      ]
+    },
+    "legend": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "symbol",
+          "type": "icon",
+          "label": "地図記号",
+          "valueFrom": "item.symbol"
+        },
+        {
+          "key": "label",
+          "type": "text",
+          "label": "凡例の説明",
+          "valueFrom": "item.label"
+        }
+      ]
+    },
+    "theme-option": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "name",
+          "type": "text",
+          "label": "テーマ名",
+          "valueFrom": "item.name"
+        }
+      ]
+    },
+    "person-option": {
+      "element": "li",
+      "key": "item.id",
+      "fields": [
+        {
+          "key": "avatar",
+          "type": "image",
+          "label": "人物写真",
+          "valueFrom": "item.avatar"
+        },
+        {
+          "key": "displayName",
+          "type": "text",
+          "label": "表示名",
+          "valueFrom": "item.displayName"
+        }
+      ]
+    }
+  },
+  "viewModel": "valueFromはUIが受け取る値の意味。API名/fieldの正本は各api.jsonとOpenAPI。adapterが整形し、画像中の例示値を実データにしない。",
+  "renderRule": "component IDの定義は一つ。placement/itemControls/childrenで挿入位置を指定する。参照された部品をルートでも再描画して二重表示しない。繰り返しはitem.idで実体化する。"
+}

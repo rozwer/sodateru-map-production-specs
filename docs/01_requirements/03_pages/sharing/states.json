@@ -1,0 +1,24 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--visibility",
+      "main--friends",
+      "main--share",
+      "main--content",
+      "main--content--media",
+      "main--content--body",
+      "main--content--recipients",
+      "main--content--excluded-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--visibility",
+      "main--friends",
+      "main--share"
+    ]
+  }
+]

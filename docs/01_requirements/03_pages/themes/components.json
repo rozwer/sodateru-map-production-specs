@@ -1,0 +1,136 @@
+[
+  {
+    "id": "main--back",
+    "testId": "themes--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--create",
+    "testId": "themes--create",
+    "kind": "control",
+    "purpose": "テーマをつくる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.create",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "テーマをつくる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--theme",
+    "testId": "themes--theme",
+    "kind": "control",
+    "purpose": "テーマを選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.theme",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "テーマを選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--themes",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "themes--theme--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--map",
+    "testId": "themes--map",
+    "kind": "control",
+    "purpose": "このテーマで地図を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "このテーマで地図を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "themes--content",
+    "kind": "content",
+    "purpose": "テーマ名・写真・記録件数・選択状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--themes"
+      ]
+    }
+  },
+  {
+    "id": "main--content--themes",
+    "testId": "themes--main--content--themes",
+    "kind": "content",
+    "purpose": "自分のテーマ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.themes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "theme",
+      "itemsFrom": "viewModel.themes",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "themes--main--content--themes--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--theme"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "themes--page-title",
+    "kind": "content",
+    "purpose": "自分のテーマ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

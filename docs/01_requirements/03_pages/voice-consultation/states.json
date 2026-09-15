@@ -1,0 +1,25 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--stop",
+      "main--transcript",
+      "main--clear",
+      "main--send",
+      "main--content",
+      "main--content--recording-time",
+      "main--content--waveform",
+      "main--content--recording-state",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--stop",
+      "main--transcript",
+      "main--clear",
+      "main--send"
+    ]
+  }
+]

@@ -1,0 +1,164 @@
+[
+  {
+    "id": "main--back",
+    "testId": "trend-evidence--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--original",
+    "testId": "trend-evidence--original",
+    "kind": "control",
+    "purpose": "元の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.original",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--correct",
+    "testId": "trend-evidence--correct",
+    "kind": "control",
+    "purpose": "解釈を訂正",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.correct",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "解釈を訂正",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "trend-evidence--content",
+    "kind": "content",
+    "purpose": "根拠となる体験・本人の言葉・別の説明・記録のない日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--insight",
+        "main--content--records",
+        "main--content--alternative",
+        "main--content--unknown"
+      ]
+    }
+  },
+  {
+    "id": "main--content--insight",
+    "testId": "trend-evidence--main--content--insight",
+    "kind": "content",
+    "purpose": "対象の傾向",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.insight",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--records",
+    "testId": "trend-evidence--main--content--records",
+    "kind": "content",
+    "purpose": "根拠の体験",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "record",
+      "itemsFrom": "viewModel.records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "trend-evidence--main--content--records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--alternative",
+    "testId": "trend-evidence--main--content--alternative",
+    "kind": "content",
+    "purpose": "別の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.alternative",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--unknown",
+    "testId": "trend-evidence--main--content--unknown",
+    "kind": "content",
+    "purpose": "記録のない期間と未確認点",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.unknown",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "trend-evidence--page-title",
+    "kind": "content",
+    "purpose": "傾向の根拠",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

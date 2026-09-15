@@ -1,0 +1,99 @@
+{
+  "id": "record-create",
+  "title": "体験を残す",
+  "status": "draft",
+  "route": null,
+  "references": [
+    {
+      "image": "../references/Codex 画像 2026年9月15日 08_07_53.png",
+      "state": "editor",
+      "viewport": "reference-446x903",
+      "region": {
+        "x": 71,
+        "y": 60,
+        "width": 446,
+        "height": 903
+      }
+    },
+    {
+      "image": "../references/Codex 画像 2026年9月15日 08_07_53.png",
+      "state": "place-picker",
+      "viewport": "reference-432x903",
+      "region": {
+        "x": 552,
+        "y": 60,
+        "width": 432,
+        "height": 903
+      }
+    },
+    {
+      "image": "../references/Codex 画像 2026年9月15日 08_07_53.png",
+      "state": "confirmation",
+      "viewport": "reference-445x903",
+      "region": {
+        "x": 1020,
+        "y": 60,
+        "width": 445,
+        "height": 903
+      }
+    }
+  ],
+  "viewports": [
+    {
+      "id": "reference-446x903",
+      "width": 446,
+      "height": 903,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "reference-432x903",
+      "width": 432,
+      "height": 903,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "reference-445x903",
+      "width": 445,
+      "height": 903,
+      "basis": "reference-pixels"
+    },
+    {
+      "id": "mobile-390",
+      "width": 390,
+      "height": 844,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "mobile-320",
+      "width": 320,
+      "height": 740,
+      "basis": "css-pixels"
+    },
+    {
+      "id": "desktop",
+      "width": 1440,
+      "height": 900,
+      "basis": "css-pixels"
+    }
+  ],
+  "layout": {
+    "checkAllStatesAndViewports": true,
+    "allowedOverlaps": []
+  },
+  "formatVersion": 2,
+  "files": {
+    "components": "components.json",
+    "states": "states.json",
+    "interactions": "interactions.json",
+    "api": "api.json",
+    "requirements": "requirements.json",
+    "acceptance": "acceptance.json"
+  },
+  "common": "../common.json",
+  "sources": "../sources.json",
+  "apiGaps": [],
+  "unresolved": [
+    "論理画面と実URL/ルーターの接続はUI実装時に確定。",
+    "参照画像の個別要素矩形はUI実装と画像照合時に確定。"
+  ]
+}

@@ -1,0 +1,144 @@
+[
+  {
+    "id": "record-edit-C1",
+    "requirement": "record-edit-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "同じrecordIdを編集し、用途は複数選択、本人の言葉・感想・時刻・媒体・しおりを個別に保持する。用途変更は成長へ反映し、感想や理由だけの変更で訪問事実を変えない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "editor--back",
+      "editor--body",
+      "editor--reading",
+      "editor--rest",
+      "editor--meal",
+      "editor--work",
+      "editor--walk",
+      "editor--other",
+      "editor--impression",
+      "editor--mood",
+      "editor--time",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--bookmark",
+      "editor--save",
+      "editor--return-list"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "record-edit-C2",
+    "requirement": "record-edit-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "媒体を外す操作の対象は選んだmediaIdのみ。保存後は一覧・詳細・再読込で更新結果を確認する。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "editor--back",
+      "editor--body",
+      "editor--reading",
+      "editor--rest",
+      "editor--meal",
+      "editor--work",
+      "editor--walk",
+      "editor--other",
+      "editor--impression",
+      "editor--mood",
+      "editor--time",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--bookmark",
+      "editor--save",
+      "editor--return-list"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "record-edit-FC01",
+    "requirement": "record-edit-F01",
+    "mode": "live",
+    "precondition": "保存した体験を修正するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「本人の言葉を直す」に対応する操作を行う。",
+      "本文・感想・気分・滞在時刻を変更できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "本文・感想・気分・滞在時刻を変更できる。",
+      "同じ記録の本文・用途・感想・時刻・媒体・しおり。媒体の変更と本文保存の成否を区別する。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "record-edit-FC02",
+    "requirement": "record-edit-F02",
+    "mode": "live",
+    "precondition": "保存した体験を修正するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「用途を直す」に対応する操作を行う。",
+      "読書・休憩など実際の用途を複数選べることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "読書・休憩など実際の用途を複数選べる。",
+      "同じ記録の本文・用途・感想・時刻・媒体・しおり。媒体の変更と本文保存の成否を区別する。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "record-edit-FC03",
+    "requirement": "record-edit-F03",
+    "mode": "live",
+    "precondition": "保存した体験を修正するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「媒体を整える」に対応する操作を行う。",
+      "写真の追加・削除と並び順を変更できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "写真の追加・削除と並び順を変更できる。",
+      "同じ記録の本文・用途・感想・時刻・媒体・しおり。媒体の変更と本文保存の成否を区別する。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "record-edit-FC04",
+    "requirement": "record-edit-F04",
+    "mode": "live",
+    "precondition": "保存した体験を修正するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「変更を保存する」に対応する操作を行う。",
+      "同じ記録を更新して一覧・地図の関連表示へ反映できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "同じ記録を更新して一覧・地図の関連表示へ反映できる。",
+      "同じ記録の本文・用途・感想・時刻・媒体・しおり。媒体の変更と本文保存の成否を区別する。"
+    ],
+    "status": "not-run"
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "community-home-R1",
+    "text": "地域の知と友達の地図の入口を設け、同じ共有情報から一覧・地図へつなぐ。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "community-home-C1"
+    ]
+  },
+  {
+    "id": "community-home-F01",
+    "kind": "capability",
+    "title": "地域の知を開く",
+    "text": "場所や目的から共有された体験を探せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "community-home-FC01"
+    ]
+  },
+  {
+    "id": "community-home-F02",
+    "kind": "capability",
+    "title": "友達の地図を開く",
+    "text": "相手の共有範囲で場所・記録・ルートを見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "community-home-FC02"
+    ]
+  }
+]

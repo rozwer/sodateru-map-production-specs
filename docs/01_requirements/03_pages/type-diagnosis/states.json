@@ -1,0 +1,45 @@
+[
+  {
+    "id": "week",
+    "visible": [
+      "week--back",
+      "week--heading",
+      "week--provisional",
+      "week--type-name",
+      "week--description",
+      "week--radar",
+      "week--evidence-cards",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-all",
+      "week--info",
+      "week--evidence",
+      "week--agree",
+      "week--disagree",
+      "week--unsure",
+      "week--find",
+      "week--nav-self",
+      "week--nav-map",
+      "week--nav-community",
+      "week--background-map"
+    ],
+    "hidden": [],
+    "interactive": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-all",
+      "week--info",
+      "week--evidence",
+      "week--agree",
+      "week--disagree",
+      "week--unsure",
+      "week--find",
+      "week--nav-self",
+      "week--nav-map",
+      "week--nav-community"
+    ]
+  }
+]

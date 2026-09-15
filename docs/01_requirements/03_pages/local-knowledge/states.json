@@ -1,0 +1,34 @@
+[
+  {
+    "id": "place-selected",
+    "visible": [
+      "place-selected--back",
+      "place-selected--menu",
+      "place-selected--heading",
+      "place-selected--map",
+      "place-selected--place-sheet",
+      "place-selected--photo",
+      "place-selected--voices",
+      "place-selected--example-label",
+      "place-selected--locate",
+      "place-selected--close-place",
+      "place-selected--voices-open",
+      "place-selected--nav-self",
+      "place-selected--nav-map",
+      "place-selected--nav-community",
+      "place-selected--place-sheet--name",
+      "place-selected--place-sheet--voice-count"
+    ],
+    "hidden": [],
+    "interactive": [
+      "place-selected--back",
+      "place-selected--menu",
+      "place-selected--locate",
+      "place-selected--close-place",
+      "place-selected--voices-open",
+      "place-selected--nav-self",
+      "place-selected--nav-map",
+      "place-selected--nav-community"
+    ]
+  }
+]

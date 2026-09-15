@@ -1,0 +1,916 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "実装可能なページコンポーネント",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "testId",
+      "kind",
+      "purpose",
+      "implementation"
+    ],
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "testId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "kind": {
+        "enum": [
+          "control",
+          "content",
+          "menu",
+          "popup"
+        ]
+      },
+      "purpose": {
+        "type": "string",
+        "minLength": 1
+      },
+      "parent": {
+        "type": "string"
+      },
+      "implementation": {
+        "type": "object",
+        "required": [
+          "type",
+          "renderer",
+          "element",
+          "valueFrom",
+          "referenceUse",
+          "screenRaster"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "text",
+              "heading",
+              "status",
+              "metric",
+              "button",
+              "text-input",
+              "textarea",
+              "search-input",
+              "checkbox",
+              "switch",
+              "choice-group",
+              "select",
+              "combobox",
+              "date-picker",
+              "time-input",
+              "tag-editor",
+              "file-input",
+              "list",
+              "group",
+              "map",
+              "chart",
+              "compass",
+              "waveform",
+              "image",
+              "video",
+              "media-gallery",
+              "illustration",
+              "pet-preview",
+              "backdrop",
+              "icon",
+              "map-gesture",
+              "object-preview"
+            ]
+          },
+          "renderer": {
+            "enum": [
+              "asset",
+              "dom",
+              "mapbox-webgl",
+              "native-image",
+              "native-media",
+              "pet-atlas",
+              "svg",
+              "three-webgl"
+            ]
+          },
+          "element": {
+            "type": "string",
+            "minLength": 1
+          },
+          "valueFrom": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "referenceUse": {
+            "const": "appearance-only"
+          },
+          "screenRaster": {
+            "const": false
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "template": {
+            "type": "string"
+          },
+          "itemsFrom": {
+            "type": "string"
+          },
+          "itemKey": {
+            "type": "string"
+          },
+          "counterFor": {
+            "type": "string"
+          },
+          "placement": {
+            "type": "object",
+            "required": [
+              "in",
+              "slot"
+            ],
+            "properties": {
+              "in": {
+                "type": "string"
+              },
+              "slot": {
+                "enum": [
+                  "item-control",
+                  "map-marker",
+                  "map-gesture"
+                ]
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "text"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "p"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "heading"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "h2"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "status"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "output"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "metric"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "output"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "button"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "button"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "text-input"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "textarea"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "textarea"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "search-input"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "checkbox"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "switch"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice-group"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "fieldset"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "select"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "select"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "combobox"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "date-picker"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "div"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "time-input"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "tag-editor"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "fieldset"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "file-input"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "input"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "list"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "ul"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "group"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "section"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "map"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "mapbox-webgl"
+                },
+                "element": {
+                  "const": "div"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "chart"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "svg"
+                },
+                "element": {
+                  "const": "svg"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "compass"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "svg"
+                },
+                "element": {
+                  "const": "svg"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "waveform"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "svg"
+                },
+                "element": {
+                  "const": "svg"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "image"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "native-image"
+                },
+                "element": {
+                  "const": "img"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "video"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "native-media"
+                },
+                "element": {
+                  "const": "video"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "media-gallery"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "native-media"
+                },
+                "element": {
+                  "const": "div"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "illustration"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "asset"
+                },
+                "element": {
+                  "const": "img"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "pet-preview"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "pet-atlas"
+                },
+                "element": {
+                  "const": "canvas"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "backdrop"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "dom"
+                },
+                "element": {
+                  "const": "div"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "icon"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "svg"
+                },
+                "element": {
+                  "const": "svg"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "map-gesture"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "mapbox-webgl"
+                },
+                "element": {
+                  "const": "div"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "object-preview"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "renderer": {
+                  "const": "three-webgl"
+                },
+                "element": {
+                  "const": "canvas"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "list"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "template",
+                "itemsFrom",
+                "itemKey",
+                "variableLength"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "group"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "children"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "choice-group"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "selection",
+                "optionElement",
+                "options",
+                "optionsFrom"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "text-input"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "label",
+                "inputType"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "textarea"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "label"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "search-input"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "inputType",
+                "events"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "image"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "assetPolicy",
+                "altFrom"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "illustration"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "assetPolicy"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "chart"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "labelsFrom",
+                "missingValues",
+                "fixedShapeAllowed"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "map"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "attribution",
+                "fallback"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

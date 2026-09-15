@@ -1,0 +1,24 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--route",
+      "main--end",
+      "main--content",
+      "main--content--destination-name",
+      "main--content--direction",
+      "main--content--distance",
+      "main--content--position-updated",
+      "main--content--position-state",
+      "main--content--straight-line-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--route",
+      "main--end"
+    ]
+  }
+]

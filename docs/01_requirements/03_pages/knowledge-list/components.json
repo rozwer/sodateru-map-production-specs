@@ -1,0 +1,294 @@
+[
+  {
+    "id": "main--back",
+    "testId": "knowledge-list--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--search",
+    "testId": "knowledge-list--search",
+    "kind": "control",
+    "purpose": "検索",
+    "imageRegion": null,
+    "implementation": {
+      "type": "search-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.query",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "検索",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "検索",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "search",
+      "events": [
+        "input",
+        "submit"
+      ],
+      "clearable": true
+    }
+  },
+  {
+    "id": "main--clear",
+    "testId": "knowledge-list--clear",
+    "kind": "control",
+    "purpose": "検索を消す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.clear",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "検索を消す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--filter",
+    "testId": "knowledge-list--filter",
+    "kind": "control",
+    "purpose": "絞り込み",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.filter",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "絞り込み",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--kind",
+    "testId": "knowledge-list--kind",
+    "kind": "control",
+    "purpose": "休憩チップ・体験・人",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.kind",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "休憩チップ・体験・人",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "休憩チップ・体験・人",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "休憩チップ"
+        },
+        {
+          "id": "2",
+          "label": "体験"
+        },
+        {
+          "id": "3",
+          "label": "人"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.kind"
+    }
+  },
+  {
+    "id": "main--post",
+    "testId": "knowledge-list--post",
+    "kind": "control",
+    "purpose": "投稿を開く",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.post",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "投稿を開く",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "knowledge-list--post--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--bookmark",
+    "testId": "knowledge-list--bookmark",
+    "kind": "control",
+    "purpose": "投稿を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.bookmark",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "投稿を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--posts",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "knowledge-list--bookmark--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--map",
+    "testId": "knowledge-list--map",
+    "kind": "control",
+    "purpose": "地図で見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図で見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "knowledge-list--content",
+    "kind": "content",
+    "purpose": "検索件数・投稿カード・写真・作者・場所",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--count",
+        "main--content--posts",
+        "main--content--people"
+      ]
+    }
+  },
+  {
+    "id": "main--content--count",
+    "testId": "knowledge-list--main--content--count",
+    "kind": "content",
+    "purpose": "検索件数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.count",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値と上限から計算する。例示の分子をハードコードしない。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--posts",
+    "testId": "knowledge-list--main--content--posts",
+    "kind": "content",
+    "purpose": "検索結果の投稿",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.posts",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "post",
+      "itemsFrom": "viewModel.posts",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "knowledge-list--main--content--posts--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--post",
+        "main--bookmark"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--people",
+    "testId": "knowledge-list--main--content--people",
+    "kind": "content",
+    "purpose": "人の検索結果",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.people",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "person",
+      "itemsFrom": "viewModel.people",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "knowledge-list--main--content--people--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "knowledge-list--page-title",
+    "kind": "content",
+    "purpose": "地域の知を探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

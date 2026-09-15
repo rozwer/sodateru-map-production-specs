@@ -1,0 +1,212 @@
+[
+  {
+    "id": "main--back",
+    "testId": "settings--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--profile",
+    "testId": "settings--profile",
+    "kind": "control",
+    "purpose": "プロフィール",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.profile",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "プロフィール",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--location",
+    "testId": "settings--location",
+    "kind": "control",
+    "purpose": "位置情報",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.location",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "位置情報",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--media",
+    "testId": "settings--media",
+    "kind": "control",
+    "purpose": "写真・マイク",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.media",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真・マイク",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--ai",
+    "testId": "settings--ai",
+    "kind": "control",
+    "purpose": "AIの利用",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.ai",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "AIの利用",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--suggestions",
+    "testId": "settings--suggestions",
+    "kind": "control",
+    "purpose": "提案とまとめ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.suggestions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "提案とまとめ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--health",
+    "testId": "settings--health",
+    "kind": "control",
+    "purpose": "健康データ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.health",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "健康データ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--data",
+    "testId": "settings--data",
+    "kind": "control",
+    "purpose": "データの管理",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.data",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "データの管理",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--display",
+    "testId": "settings--display",
+    "kind": "control",
+    "purpose": "表示と動き",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.display",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "表示と動き",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "settings--content",
+    "kind": "content",
+    "purpose": "現在の設定概要",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--summary"
+      ]
+    }
+  },
+  {
+    "id": "main--content--summary",
+    "testId": "settings--main--content--summary",
+    "kind": "content",
+    "purpose": "現在の設定概要",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.summary",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "setting",
+      "itemsFrom": "viewModel.summary",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "settings--main--content--summary--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "settings--page-title",
+    "kind": "content",
+    "purpose": "設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

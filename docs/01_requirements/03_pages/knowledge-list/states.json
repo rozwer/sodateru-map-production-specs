@@ -1,0 +1,31 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--search",
+      "main--clear",
+      "main--filter",
+      "main--kind",
+      "main--post",
+      "main--bookmark",
+      "main--map",
+      "main--content",
+      "main--content--count",
+      "main--content--posts",
+      "main--content--people",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--search",
+      "main--clear",
+      "main--filter",
+      "main--kind",
+      "main--post",
+      "main--bookmark",
+      "main--map"
+    ]
+  }
+]

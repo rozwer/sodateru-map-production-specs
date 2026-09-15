@@ -1,0 +1,58 @@
+[
+  {
+    "id": "interpretation-correction-R1",
+    "text": "用途と理由を別々に訂正する。アプリの推定と本人の原文を並べ、どちらを直すか示す。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "interpretation-correction-C1"
+    ]
+  },
+  {
+    "id": "interpretation-correction-R2",
+    "text": "用途の保存は記録のpurposes更新、推定理由への異議はinsightのreviewNoteに保存する。本人原文へAI文章を上書きしない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "interpretation-correction-C2"
+    ]
+  },
+  {
+    "id": "interpretation-correction-F01",
+    "kind": "capability",
+    "title": "推定を確認する",
+    "text": "アプリの解釈と本人の原文を見比べられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "interpretation-correction-FC01"
+    ]
+  },
+  {
+    "id": "interpretation-correction-F02",
+    "kind": "capability",
+    "title": "用途を訂正する",
+    "text": "その体験で実際にした用途を変更できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "interpretation-correction-FC02"
+    ]
+  },
+  {
+    "id": "interpretation-correction-F03",
+    "kind": "capability",
+    "title": "理由を訂正する",
+    "text": "その場面の理由を原文として残し、同じ誤解の再利用を防げる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "interpretation-correction-FC03"
+    ]
+  }
+]

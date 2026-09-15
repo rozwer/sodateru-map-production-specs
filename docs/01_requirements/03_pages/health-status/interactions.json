@@ -1,0 +1,64 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--source",
+    "component": "main--source",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "data-sources",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--stop",
+    "component": "main--stop",
+    "from": "main",
+    "event": "activate",
+    "effect": "新規取り込みだけ停止し、既存値とiPhone原本を維持する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "health-import"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--delete",
+    "component": "main--delete",
+    "from": "main",
+    "event": "activate",
+    "effect": "このアプリに保存した健康データの削除範囲を確認して削除する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "health-import"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

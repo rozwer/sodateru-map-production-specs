@@ -1,0 +1,35 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--share",
+      "main--bookmark",
+      "main--source",
+      "main--select",
+      "main--later",
+      "main--memo",
+      "main--content",
+      "main--content--media",
+      "main--content--name",
+      "main--content--reason",
+      "main--content--wishes",
+      "main--content--travel-time",
+      "main--content--stay-time",
+      "main--content--total-time",
+      "main--content--evaluation",
+      "main--content--facts",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--share",
+      "main--bookmark",
+      "main--source",
+      "main--select",
+      "main--later",
+      "main--memo"
+    ]
+  }
+]

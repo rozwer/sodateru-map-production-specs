@@ -1,0 +1,268 @@
+[
+  {
+    "id": "answer-expanded--back",
+    "testId": "reflection-history--answer-expanded--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answer-expanded--heading",
+    "testId": "reflection-history--answer-expanded--heading",
+    "kind": "content",
+    "purpose": "振り返りの記録",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.answer-expanded.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "answer-expanded--records",
+    "testId": "reflection-history--answer-expanded--records",
+    "kind": "content",
+    "purpose": "月別の回答記録・回答済み／あとで／スキップ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.answer-expanded.records",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "answer",
+      "itemsFrom": "viewModel.records",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "reflection-history--answer-expanded--records--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "answer-expanded--toggle-answer"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answer-expanded--expanded-answer",
+    "testId": "reflection-history--answer-expanded--expanded-answer",
+    "kind": "content",
+    "purpose": "質問と回答の原文",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "answer-expanded--expanded-answer--question",
+        "answer-expanded--expanded-answer--answer"
+      ]
+    }
+  },
+  {
+    "id": "answer-expanded--more",
+    "testId": "reflection-history--answer-expanded--more",
+    "kind": "control",
+    "purpose": "三点メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.more",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "三点メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answer-expanded--filter-all",
+    "testId": "reflection-history--answer-expanded--filter-all",
+    "kind": "control",
+    "purpose": "すべて",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.filter-all",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "すべて",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "answer-expanded--filter-answered",
+    "testId": "reflection-history--answer-expanded--filter-answered",
+    "kind": "control",
+    "purpose": "回答済み",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.filter-answered",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "回答済み",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "answer-expanded--filter-later",
+    "testId": "reflection-history--answer-expanded--filter-later",
+    "kind": "control",
+    "purpose": "あとで",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.filter-later",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "あとで",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "answer-expanded--filter-skipped",
+    "testId": "reflection-history--answer-expanded--filter-skipped",
+    "kind": "control",
+    "purpose": "スキップ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.filter-skipped",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "スキップ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "pressedFrom": "viewModel.selectedOption === thisOption",
+      "group": "同じ期間・表示モード・確認判断ごとの単一選択グループ"
+    }
+  },
+  {
+    "id": "answer-expanded--original",
+    "testId": "reflection-history--answer-expanded--original",
+    "kind": "control",
+    "purpose": "元の記録を見る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.original",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の記録を見る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answer-expanded--update-interpretation",
+    "testId": "reflection-history--answer-expanded--update-interpretation",
+    "kind": "control",
+    "purpose": "この回答で解釈を更新",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.update-interpretation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この回答で解釈を更新",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "answer-expanded--toggle-answer",
+    "testId": "reflection-history--answer-expanded--toggle-answer",
+    "kind": "control",
+    "purpose": "質問と回答を開閉する",
+    "imageRegion": null,
+    "exampleAliases": [
+      "answer-expanded--toggle-first",
+      "answer-expanded--toggle-later",
+      "answer-expanded--toggle-skipped"
+    ],
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.answer-expanded.toggle-answer",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "質問と回答を開閉する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "answer-expanded--records",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "reflection-history--answer-expanded--toggle-answer--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "answer-expanded--expanded-answer--question",
+    "testId": "reflection-history--answer-expanded--expanded-answer--question",
+    "kind": "content",
+    "purpose": "質問本文",
+    "imageRegion": null,
+    "parent": "answer-expanded--expanded-answer",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answer-expanded.expanded-answer.question",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "answer-expanded--expanded-answer--answer",
+    "testId": "reflection-history--answer-expanded--expanded-answer--answer",
+    "kind": "content",
+    "purpose": "回答原文",
+    "imageRegion": null,
+    "parent": "answer-expanded--expanded-answer",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.answer-expanded.expanded-answer.answer",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

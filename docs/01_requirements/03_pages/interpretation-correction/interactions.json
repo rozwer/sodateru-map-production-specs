@@ -1,0 +1,98 @@
+[
+  {
+    "id": "editor--back",
+    "component": "editor--back",
+    "from": "editor",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--info",
+    "component": "editor--info",
+    "from": "editor",
+    "event": "activate",
+    "effect": "同じ詳細面に対象の説明または操作メニューを開く。閉じる/Escapeで元の要素へフォーカスを戻す。表示項目は同じ画面の機能要件に従う。",
+    "destination": "$inline-menu",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--purpose",
+    "component": "editor--purpose",
+    "from": "editor",
+    "event": "change",
+    "effect": "用途の選択の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--save-purpose",
+    "component": "editor--save-purpose",
+    "from": "editor",
+    "event": "activate",
+    "effect": "recordIdのpurposesだけを変更し、他の本文・理由・訪問状態を維持。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "patchRecordsRecordId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "editor--reason",
+    "component": "editor--reason",
+    "from": "editor",
+    "event": "change",
+    "effect": "理由の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "editor--save-reason",
+    "component": "editor--save-reason",
+    "from": "editor",
+    "event": "activate",
+    "effect": "insightIdへreview=editとreviewNoteに本人の訂正原文。元記録本文は維持。",
+    "destination": "$stay",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "patchInsightsInsightId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

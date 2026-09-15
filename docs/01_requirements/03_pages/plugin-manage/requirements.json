@@ -1,0 +1,60 @@
+[
+  {
+    "id": "plugin-manage-R1",
+    "text": "導入済み機能の有効化・無効化・条件変更・更新を見つけられるようにする。無効化しても記録や保存スポットを削除しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-manage-C1"
+    ]
+  },
+  {
+    "id": "plugin-manage-F01",
+    "kind": "capability",
+    "title": "有効化を切り替える",
+    "text": "各機能をON/OFFできる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-manage-FC01"
+    ]
+  },
+  {
+    "id": "plugin-manage-F02",
+    "kind": "capability",
+    "title": "使う条件を整える",
+    "text": "地域などの条件やアイコンを変更できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-manage-FC02"
+    ]
+  },
+  {
+    "id": "plugin-manage-F03",
+    "kind": "capability",
+    "title": "地図で使う",
+    "text": "設定した機能を同じ地図で開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-manage-FC03"
+    ]
+  },
+  {
+    "id": "plugin-manage-F04",
+    "kind": "capability",
+    "title": "更新や管理へ進む",
+    "text": "更新・相棒・別の機能探しへ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-manage-FC04"
+    ]
+  }
+]

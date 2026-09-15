@@ -1,0 +1,146 @@
+[
+  {
+    "id": "navigation-C1",
+    "requirement": "navigation-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "添付の最新メニュー・下部ナビを正本にする。旧リポの4タブ順は移植しない。メニューを閉じると元画面とフォーカスへ戻す。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "main-menu--close",
+      "main-menu--map",
+      "main-menu--self",
+      "main-menu--community",
+      "main-menu--grow-app",
+      "main-menu--settings",
+      "main-menu--start",
+      "main-menu--nav-self",
+      "main-menu--nav-map",
+      "main-menu--nav-community",
+      "self-mode--close",
+      "self-mode--today",
+      "self-mode--type",
+      "self-mode--my-map",
+      "self-mode--locate",
+      "self-mode--menu",
+      "self-mode--nav-self",
+      "self-mode--nav-map",
+      "self-mode--nav-community",
+      "community-mode--close",
+      "community-mode--local",
+      "community-mode--friends",
+      "community-mode--locate",
+      "community-mode--menu",
+      "community-mode--nav-self",
+      "community-mode--nav-map",
+      "community-mode--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "navigation-C2",
+    "requirement": "navigation-R2",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "地図範囲・選択場所・日付・編集中入力を遷移で引き継ぎ、記録中・案内中の状態は画面を離れただけで停止しない。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "main-menu--close",
+      "main-menu--map",
+      "main-menu--self",
+      "main-menu--community",
+      "main-menu--grow-app",
+      "main-menu--settings",
+      "main-menu--start",
+      "main-menu--nav-self",
+      "main-menu--nav-map",
+      "main-menu--nav-community",
+      "self-mode--close",
+      "self-mode--today",
+      "self-mode--type",
+      "self-mode--my-map",
+      "self-mode--locate",
+      "self-mode--menu",
+      "self-mode--nav-self",
+      "self-mode--nav-map",
+      "self-mode--nav-community",
+      "community-mode--close",
+      "community-mode--local",
+      "community-mode--friends",
+      "community-mode--locate",
+      "community-mode--menu",
+      "community-mode--nav-self",
+      "community-mode--nav-map",
+      "community-mode--nav-community"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "navigation-FC01",
+    "requirement": "navigation-F01",
+    "mode": "live",
+    "precondition": "目的の機能へ移動するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「機能を選ぶ」に対応する操作を行う。",
+      "地図・自分・みんな・拡張機能・設定へ移動できることを画面で確認する。"
+    ],
+    "expect": [
+      "地図・自分・みんな・拡張機能・設定へ移動できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "navigation-FC02",
+    "requirement": "navigation-F02",
+    "mode": "live",
+    "precondition": "目的の機能へ移動するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「モードを変える」に対応する操作を行う。",
+      "自分側とみんな側の表示を選べることを画面で確認する。"
+    ],
+    "expect": [
+      "自分側とみんな側の表示を選べる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "navigation-FC03",
+    "requirement": "navigation-F03",
+    "mode": "live",
+    "precondition": "目的の機能へ移動するための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「元の作業へ戻る」に対応する操作を行う。",
+      "選択場所・日付・編集中内容を保ってメニューを閉じられることを画面で確認する。"
+    ],
+    "expect": [
+      "選択場所・日付・編集中内容を保ってメニューを閉じられる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

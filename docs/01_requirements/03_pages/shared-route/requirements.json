@@ -1,0 +1,48 @@
+[
+  {
+    "id": "shared-route-R1",
+    "text": "作成者・テーマ・立ち寄り順・各地点の説明と時間を表示する。元ルートと自分の条件による変更案を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "shared-route-C1"
+    ]
+  },
+  {
+    "id": "shared-route-F01",
+    "kind": "capability",
+    "title": "行程を読む",
+    "text": "作者・目的・立ち寄り順・各地点の説明を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "shared-route-FC01"
+    ]
+  },
+  {
+    "id": "shared-route-F02",
+    "kind": "capability",
+    "title": "時間を確認する",
+    "text": "移動と滞在を含む共有行程を読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "shared-route-FC02"
+    ]
+  },
+  {
+    "id": "shared-route-F03",
+    "kind": "capability",
+    "title": "自分用に調べる",
+    "text": "自分の移動条件で再検索し元ルートとの違いを確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "shared-route-FC03"
+    ]
+  }
+]

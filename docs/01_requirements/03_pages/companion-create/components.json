@@ -1,0 +1,320 @@
+[
+  {
+    "id": "main--back",
+    "testId": "companion-create--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--name",
+    "testId": "companion-create--name",
+    "kind": "control",
+    "purpose": "名前（20文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "名前（20文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "名前（20文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 20,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--appearance",
+    "testId": "companion-create--appearance",
+    "kind": "control",
+    "purpose": "外見の希望（200文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.appearance",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "外見の希望（200文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "外見の希望（200文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 200,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--image",
+    "testId": "companion-create--image",
+    "kind": "control",
+    "purpose": "参考画像JPG・PNG（最大5MB）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "file-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.image",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "参考画像JPG・PNG（最大5MB）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "参考画像JPG・PNG（最大5MB）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "file",
+      "accept": "image/jpeg,image/png",
+      "previewFrom": "selectedFile",
+      "maxBytes": 5000000
+    }
+  },
+  {
+    "id": "main--provider",
+    "testId": "companion-create--provider",
+    "kind": "control",
+    "purpose": "接続先の設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.provider",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "接続先の設定",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--draft",
+    "testId": "companion-create--draft",
+    "kind": "control",
+    "purpose": "下書きを保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.draft",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "下書きを保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--export",
+    "testId": "companion-create--export",
+    "kind": "control",
+    "purpose": "制作指示を持ち出す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.export",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "制作指示を持ち出す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--generate",
+    "testId": "companion-create--generate",
+    "kind": "control",
+    "purpose": "生成する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.generate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "生成する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "companion-create--content",
+    "kind": "content",
+    "purpose": "入力・参考画像・未接続状態・生成進捗",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--name-count",
+        "main--content--appearance-count",
+        "main--content--reference",
+        "main--content--provider",
+        "main--content--generation",
+        "main--content--candidate"
+      ]
+    }
+  },
+  {
+    "id": "main--content--name-count",
+    "testId": "companion-create--main--content--name-count",
+    "kind": "content",
+    "purpose": "名前の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--name)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--name",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--appearance-count",
+    "testId": "companion-create--main--content--appearance-count",
+    "kind": "content",
+    "purpose": "外見希望の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--appearance)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--appearance",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--reference",
+    "testId": "companion-create--main--content--reference",
+    "kind": "content",
+    "purpose": "選択した参考画像",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--provider",
+    "testId": "companion-create--main--content--provider",
+    "kind": "content",
+    "purpose": "生成先の接続状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.provider",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--generation",
+    "testId": "companion-create--main--content--generation",
+    "kind": "content",
+    "purpose": "生成進捗",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.generation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--candidate",
+    "testId": "companion-create--main--content--candidate",
+    "kind": "content",
+    "purpose": "生成候補の動作",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "pet-preview",
+      "renderer": "pet-atlas",
+      "element": "canvas",
+      "valueFrom": "viewModel.petPackageAndAnimation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "検査済みv2ペットatlas。UI画面画像を使用しない。",
+      "labels": "名前・状態・検査結果は別DOM",
+      "reducedMotion": "状態に対応する静止コマ",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "companion-create--page-title",
+    "kind": "content",
+    "purpose": "相棒の制作",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

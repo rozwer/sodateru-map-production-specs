@@ -1,0 +1,48 @@
+[
+  {
+    "id": "data-sources-R1",
+    "text": "歩数の取得元・訪問の取得元と最終取得時点を示す。権限なし・未連携・取得失敗を区別し設定へつなぐ。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "data-sources-C1"
+    ]
+  },
+  {
+    "id": "data-sources-F01",
+    "kind": "capability",
+    "title": "取得元を確認する",
+    "text": "歩数と訪問の取得方法・時点を読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "data-sources-FC01"
+    ]
+  },
+  {
+    "id": "data-sources-F02",
+    "kind": "capability",
+    "title": "連携を管理する",
+    "text": "未連携や取得失敗から健康連携の設定へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "data-sources-FC02"
+    ]
+  },
+  {
+    "id": "data-sources-F03",
+    "kind": "capability",
+    "title": "訪問履歴を読む",
+    "text": "集計に使われた訪問を日付で見返せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "data-sources-FC03"
+    ]
+  }
+]

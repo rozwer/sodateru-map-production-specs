@@ -1,0 +1,289 @@
+[
+  {
+    "id": "expanded-record--back",
+    "component": "expanded-record--back",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--menu",
+    "component": "expanded-record--menu",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "navigation",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--previous-day",
+    "component": "expanded-record--previous-day",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionDaysDate",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "expanded-record--next-day",
+    "component": "expanded-record--next-day",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionDaysDate",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "expanded-record--edit",
+    "component": "expanded-record--edit",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--reflect",
+    "component": "expanded-record--reflect",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "reflection-question",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--nav-self",
+    "component": "expanded-record--nav-self",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "self-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--nav-map",
+    "component": "expanded-record--nav-map",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "map",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--nav-community",
+    "component": "expanded-record--nav-community",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "community-home",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "calendar--back",
+    "component": "calendar--back",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "calendar--more",
+    "component": "calendar--more",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "同じ詳細面に対象の説明または操作メニューを開く。閉じる/Escapeで元の要素へフォーカスを戻す。表示項目は同じ画面の機能要件に従う。",
+    "destination": "$inline-menu",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "calendar--previous-month",
+    "component": "calendar--previous-month",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionDaysDate",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "calendar--next-month",
+    "component": "calendar--next-month",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionDaysDate",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "calendar--select-date",
+    "component": "calendar--select-date",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "対象日・期間を変更し、対応する記録と集計を再取得する。日付選択は単一カレンダー面を開閉する。未保存入力を別日に混ぜない。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "getReflectionDaysDate",
+      "getRecords"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "calendar--show-track",
+    "component": "calendar--show-track",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "daily-track",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "expanded-record--record",
+    "component": "expanded-record--record",
+    "from": "expanded-record",
+    "event": "activate",
+    "effect": "記録を開閉する。押した項目のIDを使い、別の行は変更しない。",
+    "destination": "$inline-detail",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  },
+  {
+    "id": "calendar--record",
+    "component": "calendar--record",
+    "from": "calendar",
+    "event": "activate",
+    "effect": "記録を開閉する。押した項目のIDを使い、別の行は変更しない。",
+    "destination": "$inline-detail",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。",
+    "inputContext": {
+      "itemId": "押した行のitem.id",
+      "itemVersion": "取得済みの同じ行のversion。更新APIが要求する場合だけ使用。"
+    }
+  }
+]

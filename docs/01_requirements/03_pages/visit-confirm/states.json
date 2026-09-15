@@ -1,0 +1,32 @@
+[
+  {
+    "id": "not-visited-selected",
+    "visible": [
+      "not-visited-selected--back",
+      "not-visited-selected--heading",
+      "not-visited-selected--source",
+      "not-visited-selected--place",
+      "not-visited-selected--map",
+      "not-visited-selected--place-open",
+      "not-visited-selected--map-expand",
+      "not-visited-selected--visited",
+      "not-visited-selected--not-visited",
+      "not-visited-selected--unsure",
+      "not-visited-selected--save",
+      "not-visited-selected--place--photo",
+      "not-visited-selected--place--name",
+      "not-visited-selected--place--date",
+      "not-visited-selected--place--duration"
+    ],
+    "hidden": [],
+    "interactive": [
+      "not-visited-selected--back",
+      "not-visited-selected--place-open",
+      "not-visited-selected--map-expand",
+      "not-visited-selected--visited",
+      "not-visited-selected--not-visited",
+      "not-visited-selected--unsure",
+      "not-visited-selected--save"
+    ]
+  }
+]

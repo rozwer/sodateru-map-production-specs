@@ -1,0 +1,41 @@
+[
+  {
+    "id": "place-selected",
+    "visible": [
+      "place-selected--menu",
+      "place-selected--heading",
+      "place-selected--map",
+      "place-selected--place-sheet",
+      "place-selected--filter-all",
+      "place-selected--filter-theme",
+      "place-selected--place",
+      "place-selected--locate",
+      "place-selected--place-detail",
+      "place-selected--view-records",
+      "place-selected--edit-theme",
+      "place-selected--nav-self",
+      "place-selected--nav-map",
+      "place-selected--nav-community",
+      "place-selected--place-sheet--photo",
+      "place-selected--place-sheet--name",
+      "place-selected--place-sheet--address",
+      "place-selected--place-sheet--body",
+      "place-selected--place-sheet--themes",
+      "place-selected--theme-options"
+    ],
+    "hidden": [],
+    "interactive": [
+      "place-selected--menu",
+      "place-selected--filter-all",
+      "place-selected--filter-theme",
+      "place-selected--place",
+      "place-selected--locate",
+      "place-selected--place-detail",
+      "place-selected--view-records",
+      "place-selected--edit-theme",
+      "place-selected--nav-self",
+      "place-selected--nav-map",
+      "place-selected--nav-community"
+    ]
+  }
+]

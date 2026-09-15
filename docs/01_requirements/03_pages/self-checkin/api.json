@@ -1,0 +1,169 @@
+{
+  "bindings": [
+    {
+      "id": "getSelfCheckins",
+      "method": "GET",
+      "path": "/self-checkins",
+      "contract": "../../04_api/openapi.json#/paths/~1self-checkins/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "date",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.date": "選択localDate（YYYY-MM-DD）",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "postSelfCheckins",
+      "method": "POST",
+      "path": "/self-checkins",
+      "contract": "../../04_api/openapi.json#/paths/~1self-checkins/post",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SelfCheckinCreate",
+      "responses": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "422",
+        "409"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "header.Idempotency-Key": "選択対象のIdempotency-Key",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "patchSelfCheckinsCheckinId",
+      "method": "PATCH",
+      "path": "/self-checkins/{checkinId}",
+      "contract": "../../04_api/openapi.json#/paths/~1self-checkins~1{checkinId}/patch",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "checkinId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SelfCheckinPatch",
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "422",
+        "409",
+        "412",
+        "428"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "path.checkinId": "選択対象のcheckinId",
+        "header.If-Match": "対象の取得versionを引用符付きで送信",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "postSuggestionBatches",
+      "method": "POST",
+      "path": "/suggestion-batches",
+      "contract": "../../04_api/openapi.json#/paths/~1suggestion-batches/post",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/SuggestionBatchInput",
+      "responses": [
+        "201",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "410",
+        "422",
+        "429",
+        "502",
+        "503",
+        "504",
+        "409"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "header.Idempotency-Key": "選択対象のIdempotency-Key",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [
+    "checkin"
+  ],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

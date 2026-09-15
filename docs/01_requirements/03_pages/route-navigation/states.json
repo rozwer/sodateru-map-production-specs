@@ -1,0 +1,27 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--close",
+      "main--locate",
+      "main--list",
+      "main--end",
+      "main--content",
+      "main--content--turn-arrow",
+      "main--content--instruction",
+      "main--content--turn-distance",
+      "main--content--remaining-time",
+      "main--content--remaining-distance",
+      "main--content--map",
+      "main--content--accuracy",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--close",
+      "main--locate",
+      "main--list",
+      "main--end"
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--search",
+      "main--conversation",
+      "main--new",
+      "main--content",
+      "main--content--conversations",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--search",
+      "main--conversation",
+      "main--new"
+    ]
+  }
+]

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "themes-R1",
+    "text": "本人が命名したテーマと所属記録を保存し、同じ記録の複数テーマ所属を許す。選択テーマの記録を地図へ渡す。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "themes-C1"
+    ]
+  },
+  {
+    "id": "themes-F01",
+    "kind": "capability",
+    "title": "テーマを読む",
+    "text": "テーマ名・写真・所属記録数を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "themes-FC01"
+    ]
+  },
+  {
+    "id": "themes-F02",
+    "kind": "capability",
+    "title": "テーマを作る",
+    "text": "新しいテーマを命名して記録をまとめられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "themes-FC02"
+    ]
+  },
+  {
+    "id": "themes-F03",
+    "kind": "capability",
+    "title": "テーマで歩く",
+    "text": "選んだテーマの記録を地図で見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "themes-FC03"
+    ]
+  }
+]

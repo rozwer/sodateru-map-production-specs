@@ -1,0 +1,29 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--enabled",
+      "main--icon",
+      "main--map",
+      "main--conditions",
+      "main--update",
+      "main--companion",
+      "main--find",
+      "main--content",
+      "main--content--plugins",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--enabled",
+      "main--icon",
+      "main--map",
+      "main--conditions",
+      "main--update",
+      "main--companion",
+      "main--find"
+    ]
+  }
+]

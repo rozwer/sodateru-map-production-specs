@@ -1,0 +1,35 @@
+[
+  {
+    "id": "week",
+    "visible": [
+      "week--back",
+      "week--heading",
+      "week--steps",
+      "week--average",
+      "week--activity",
+      "week--source",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-year",
+      "week--steps-detail",
+      "week--activity-open",
+      "week--activity-detail",
+      "week--average--average",
+      "week--average--coverage",
+      "week--activity--confirmed",
+      "week--activity--new"
+    ],
+    "hidden": [],
+    "interactive": [
+      "week--back",
+      "week--period-today",
+      "week--period-week",
+      "week--period-month",
+      "week--period-year",
+      "week--steps-detail",
+      "week--activity-open",
+      "week--activity-detail"
+    ]
+  }
+]

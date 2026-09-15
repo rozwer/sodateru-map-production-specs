@@ -1,0 +1,257 @@
+[
+  {
+    "id": "main--back",
+    "testId": "companion-import--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--file",
+    "testId": "companion-import--file",
+    "kind": "control",
+    "purpose": "ZIPファイルを選択（最大50MB）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "file-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.file",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "ZIPファイルを選択（最大50MB）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "ZIPファイルを選択（最大50MB）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "file",
+      "accept": ".zip",
+      "previewFrom": "selectedFile",
+      "maxBytes": 50000000
+    }
+  },
+  {
+    "id": "main--remove",
+    "testId": "companion-import--remove",
+    "kind": "control",
+    "purpose": "選択を外す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.remove",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "選択を外す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--register",
+    "testId": "companion-import--register",
+    "kind": "control",
+    "purpose": "相棒として登録",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.register",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "相棒として登録",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "相棒として登録",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--current",
+    "testId": "companion-import--current",
+    "kind": "control",
+    "purpose": "今の相棒にする",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.current",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今の相棒にする",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "今の相棒にする",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "companion-import--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "companion-import--save",
+    "kind": "control",
+    "purpose": "登録する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "登録する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "companion-import--content",
+    "kind": "content",
+    "purpose": "選択ファイル・サイズ・動作プレビュー・検査結果",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--filename",
+        "main--content--file-size",
+        "main--content--preview",
+        "main--content--validation"
+      ]
+    }
+  },
+  {
+    "id": "main--content--filename",
+    "testId": "companion-import--main--content--filename",
+    "kind": "content",
+    "purpose": "選んだファイル名",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.filename",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--file-size",
+    "testId": "companion-import--main--content--file-size",
+    "kind": "content",
+    "purpose": "ファイルサイズ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.file-size",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--preview",
+    "testId": "companion-import--main--content--preview",
+    "kind": "content",
+    "purpose": "ペットの動作プレビュー",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "pet-preview",
+      "renderer": "pet-atlas",
+      "element": "canvas",
+      "valueFrom": "viewModel.petPackageAndAnimation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "検査済みv2ペットatlas。UI画面画像を使用しない。",
+      "labels": "名前・状態・検査結果は別DOM",
+      "reducedMotion": "状態に対応する静止コマ",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--validation",
+    "testId": "companion-import--main--content--validation",
+    "kind": "content",
+    "purpose": "形式検査結果",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.validation",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "companion-import--page-title",
+    "kind": "content",
+    "purpose": "相棒をファイルから追加",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

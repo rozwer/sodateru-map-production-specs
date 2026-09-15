@@ -1,0 +1,70 @@
+[
+  {
+    "id": "daily-track-R1",
+    "text": "対象日とタイムゾーンを共通にして軌跡・訪問・記録を表示する。候補・確認済み・否定済み・欠測を区別し、欠測区間を線で補わない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-C1"
+    ]
+  },
+  {
+    "id": "daily-track-R2",
+    "text": "日付変更・カレンダー・記録展開を同じ面で扱い、編集や振り返りから日付・展開行・スクロール位置へ戻る。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-C2"
+    ]
+  },
+  {
+    "id": "daily-track-F01",
+    "kind": "capability",
+    "title": "日付を選ぶ",
+    "text": "前後の日やカレンダーから対象日を開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-FC01"
+    ]
+  },
+  {
+    "id": "daily-track-F02",
+    "kind": "capability",
+    "title": "軌跡を読む",
+    "text": "訪問・移動・欠測を地図と時系列で確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-FC02"
+    ]
+  },
+  {
+    "id": "daily-track-F03",
+    "kind": "capability",
+    "title": "記録を開く",
+    "text": "写真・本文・場所を展開して見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-FC03"
+    ]
+  },
+  {
+    "id": "daily-track-F04",
+    "kind": "capability",
+    "title": "追記や振り返りへ進む",
+    "text": "選んだ記録を編集したり質問へ渡せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "daily-track-FC04"
+    ]
+  }
+]

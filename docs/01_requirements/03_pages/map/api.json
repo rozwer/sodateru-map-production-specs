@@ -1,0 +1,262 @@
+{
+  "bindings": [
+    {
+      "id": "getPlaceCandidates",
+      "method": "GET",
+      "path": "/place-candidates",
+      "contract": "../../04_api/openapi.json#/paths/~1place-candidates/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "q",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "longitude",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "latitude",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "category",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "410",
+        "422",
+        "429",
+        "502",
+        "503",
+        "504",
+        "409",
+        "413"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.q": "入力された検索文字",
+        "query.longitude": "検索中心の経度",
+        "query.latitude": "検索中心の緯度",
+        "query.category": "選択対象のcategory",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getPlaces",
+      "method": "GET",
+      "path": "/places",
+      "contract": "../../04_api/openapi.json#/paths/~1places/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "q",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "buildingKey",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.q": "入力された検索文字",
+        "query.bbox": "表示範囲の西・南・東・北",
+        "query.buildingKey": "選択地物の安定キー",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getPlacesPlaceId",
+      "method": "GET",
+      "path": "/places/{placeId}",
+      "contract": "../../04_api/openapi.json#/paths/~1places~1{placeId}/get",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "placeId",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "path.placeId": "選択対象のplaceId",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "postPlaces",
+      "method": "POST",
+      "path": "/places",
+      "contract": "../../04_api/openapi.json#/paths/~1places/post",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": "#/components/schemas/PlaceCreate",
+      "responses": [
+        "201",
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "410",
+        "422",
+        "429",
+        "502",
+        "503",
+        "504",
+        "409",
+        "413"
+      ],
+      "usage": "interactions.jsonで明記した操作時のみ。作成/更新や条件付き処理は排他的に判定する。",
+      "inputFrom": {
+        "header.Idempotency-Key": "選択対象のIdempotency-Key",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    },
+    {
+      "id": "getMapGrowth",
+      "method": "GET",
+      "path": "/map/growth",
+      "contract": "../../04_api/openapi.json#/paths/~1map~1growth/get",
+      "parameters": [
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false
+        },
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true
+        }
+      ],
+      "requestSchema": null,
+      "responses": [
+        "200",
+        "400",
+        "401",
+        "403",
+        "404",
+        "500",
+        "409",
+        "413",
+        "422",
+        "503",
+        "504"
+      ],
+      "usage": "起動・選択対象変更時の読取",
+      "inputFrom": {
+        "query.bbox": "表示範囲の西・南・東・北",
+        "query.cursor": "前回応答の次cursor",
+        "query.limit": "OpenAPIの上限内の取得件数",
+        "header.X-Request-Id": "要求ごとにUUIDを発行"
+      }
+    }
+  ],
+  "gaps": [
+    "bookmark"
+  ],
+  "reads": "初回と対象ID/期間/検索条件変更時に必要なGETを実行。ページングはcursorで継続。画面遷移元から有効な取得済み値がある場合は再利用できる。",
+  "mutationRules": "../common.json#/api",
+  "responseUse": "同じ対象IDと最新versionのdataを表示。mutationのchanged/invalidatedに従い関係する一覧・地図・集計を更新する。"
+}

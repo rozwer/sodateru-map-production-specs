@@ -1,0 +1,325 @@
+[
+  {
+    "id": "AI-01",
+    "title": "日記の実行入力",
+    "schema": "RunRequest",
+    "data": {
+      "conversationId": "c1",
+      "userMessageId": "u1",
+      "assistantMessageId": "a1",
+      "text": "今日の記録をまとめて",
+      "task": "diary",
+      "input": {
+        "date": "2026-09-14",
+        "timezone": "Asia/Tokyo",
+        "recordIds": [
+          "r1"
+        ]
+      },
+      "expectedRefs": [
+        {
+          "type": "record",
+          "id": "r1",
+          "version": 2
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-02",
+    "title": "依頼外のキーを拒否",
+    "schema": "RunRequest",
+    "data": {
+      "conversationId": "c1",
+      "userMessageId": "u1",
+      "assistantMessageId": "a1",
+      "text": "今日の記録をまとめて",
+      "task": "diary",
+      "input": {
+        "date": "2026-09-14",
+        "timezone": "Asia/Tokyo",
+        "recordIds": [
+          "r1"
+        ]
+      },
+      "expectedRefs": [
+        {
+          "type": "record",
+          "id": "r1",
+          "version": 2
+        }
+      ],
+      "personId": "other"
+    },
+    "valid": false
+  },
+  {
+    "id": "AI-03",
+    "title": "自己比較の入力を拒否する意味条件",
+    "schema": "compareInput",
+    "data": {
+      "fromRecordIds": [
+        "r1"
+      ],
+      "toRecordIds": [
+        "r2"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-04",
+    "title": "extractの構造化出力",
+    "schema": "extractResult",
+    "data": {
+      "purpose": "読書",
+      "reason": "落ち着いて読める場所を選んだ",
+      "context": {
+        "weather": null,
+        "companion": "alone",
+        "timeBudgetMinutes": null,
+        "timeBand": null,
+        "notes": null
+      },
+      "evidenceIds": [
+        "src_1"
+      ],
+      "question": null
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-05",
+    "title": "diaryの構造化出力",
+    "schema": "diaryResult",
+    "data": {
+      "text": "本を読んで過ごした。",
+      "evidenceIds": [
+        "src_1"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-06",
+    "title": "consultの構造化出力",
+    "schema": "consultResult",
+    "data": {
+      "summary": "読書をする候補です。",
+      "candidates": [
+        {
+          "placeId": "p1",
+          "reason": "指定した候補の一つです。",
+          "evidenceIds": [],
+          "unknowns": [
+            "営業時間は未確認"
+          ]
+        }
+      ],
+      "unknowns": []
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-07",
+    "title": "compareの構造化出力",
+    "schema": "compareResult",
+    "data": {
+      "mappings": [
+        {
+          "fromRecordId": "r1",
+          "toRecordId": "r2",
+          "relation": "different-place-same-role",
+          "explanation": "どちらも読書のための体験です。",
+          "evidenceIds": [
+            "src_1",
+            "src_2"
+          ],
+          "rejected": false
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-08",
+    "title": "analysisの構造化出力",
+    "schema": "analysisResult",
+    "data": {
+      "summary": "確認できた2日中1日に読書の記録があります。",
+      "evidenceIds": [
+        "src_1"
+      ],
+      "unknowns": [
+        "1日は情報がありません"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-09",
+    "title": "themeの構造化出力",
+    "schema": "themeResult",
+    "data": {
+      "name": "本と過ごす",
+      "description": "読書の体験をまとめる",
+      "evidenceIds": [
+        "src_1"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-10",
+    "title": "mapstyleの構造化出力",
+    "schema": "mapstyleResult",
+    "data": {
+      "proposal": {
+        "theme": "default",
+        "lightPreset": "night",
+        "showPedestrianRoads": true,
+        "showAdminBoundaries": false,
+        "showIndoor": false,
+        "colors": null
+      },
+      "explanation": "夜の表示に変更します。"
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-11",
+    "title": "discoverの構造化出力",
+    "schema": "discoverResult",
+    "data": {
+      "anchor": {
+        "kind": "place",
+        "targetId": "p1",
+        "features": [
+          "木の葉を観察した"
+        ]
+      },
+      "bridge": "葉に注目します。",
+      "knowledge": "葉の形は植物を観察する手がかりです。",
+      "observationPrompt": "葉の縁はどんな形ですか。",
+      "conceptIds": [
+        "leaf"
+      ],
+      "sources": [
+        {
+          "url": null,
+          "title": "観察用の根拠定義",
+          "claimScope": "general",
+          "sourceId": "fact-1"
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-12",
+    "title": "地図設定の任意コードを拒否",
+    "schema": "mapstyleResult",
+    "data": {
+      "proposal": {
+        "theme": "default",
+        "lightPreset": "night",
+        "showPedestrianRoads": true,
+        "showAdminBoundaries": false,
+        "showIndoor": false,
+        "colors": null
+      },
+      "explanation": "夜の表示に変更します。",
+      "code": "alert(1)"
+    },
+    "valid": false
+  },
+  {
+    "id": "AI-13",
+    "title": "空の引用で日記を完了しない",
+    "schema": "diaryResult",
+    "data": {
+      "text": "日記",
+      "evidenceIds": []
+    },
+    "valid": false
+  },
+  {
+    "id": "AI-14",
+    "title": "街歩きの起点を固定",
+    "schema": "DialogueRequest",
+    "data": {
+      "text": "近くのカフェを探して",
+      "origin": {
+        "coordinates": [
+          136.96,
+          35.16
+        ],
+        "label": "地図の中心",
+        "kind": "map-center"
+      }
+    },
+    "valid": true
+  },
+  {
+    "id": "AI-15",
+    "title": "未知の引用を拒否",
+    "rule": "evidence",
+    "input": {
+      "used": [
+        "src_9"
+      ],
+      "allowed": [
+        "src_1"
+      ]
+    },
+    "expected": false
+  },
+  {
+    "id": "AI-16",
+    "title": "取消後の遅着結果を保存しない",
+    "rule": "completion",
+    "input": {
+      "status": "cancelled",
+      "attempt": 1,
+      "resultAttempt": 1
+    },
+    "expected": false
+  },
+  {
+    "id": "AI-17",
+    "title": "古い試行の遅着結果を保存しない",
+    "rule": "completion",
+    "input": {
+      "status": "running",
+      "attempt": 2,
+      "resultAttempt": 1
+    },
+    "expected": false
+  },
+  {
+    "id": "AI-18",
+    "title": "現在の試行の結果を保存する",
+    "rule": "completion",
+    "input": {
+      "status": "running",
+      "attempt": 2,
+      "resultAttempt": 2
+    },
+    "expected": true
+  },
+  {
+    "id": "AI-19",
+    "title": "左右で同じ記録を比較しない",
+    "rule": "disjoint",
+    "input": {
+      "left": [
+        "r1"
+      ],
+      "right": [
+        "r1"
+      ]
+    },
+    "expected": false
+  }
+]

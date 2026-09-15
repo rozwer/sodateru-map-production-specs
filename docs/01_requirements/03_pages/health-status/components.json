@@ -1,0 +1,217 @@
+[
+  {
+    "id": "main--back",
+    "testId": "health-status--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--source",
+    "testId": "health-status--source",
+    "kind": "control",
+    "purpose": "取得元を確認",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "取得元を確認",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--stop",
+    "testId": "health-status--stop",
+    "kind": "control",
+    "purpose": "新しいデータの取り込みを停止",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.stop",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "新しいデータの取り込みを停止",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--delete",
+    "testId": "health-status--delete",
+    "kind": "control",
+    "purpose": "このアプリの保存データを削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.delete",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "このアプリの保存データを削除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "health-status--content",
+    "kind": "content",
+    "purpose": "取得元・最終取込・項目・7日間の取得状況",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--source",
+        "main--content--last-import",
+        "main--content--import-status",
+        "main--content--used-items",
+        "main--content--days",
+        "main--content--stop-help"
+      ]
+    }
+  },
+  {
+    "id": "main--content--source",
+    "testId": "health-status--main--content--source",
+    "kind": "content",
+    "purpose": "取得元",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.source",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--last-import",
+    "testId": "health-status--main--content--last-import",
+    "kind": "content",
+    "purpose": "最終取り込み",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.last-import",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--import-status",
+    "testId": "health-status--main--content--import-status",
+    "kind": "content",
+    "purpose": "取得状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.import-status",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--used-items",
+    "testId": "health-status--main--content--used-items",
+    "kind": "content",
+    "purpose": "利用項目",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.used-items",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--days",
+    "testId": "health-status--main--content--days",
+    "kind": "content",
+    "purpose": "日別取得状況",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.days",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "health-day",
+      "itemsFrom": "viewModel.days",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "health-status--main--content--days--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--stop-help",
+    "testId": "health-status--main--content--stop-help",
+    "kind": "content",
+    "purpose": "停止と保存分削除の違い",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.stop-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "health-status--page-title",
+    "kind": "content",
+    "purpose": "健康データの連携状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

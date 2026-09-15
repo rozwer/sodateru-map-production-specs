@@ -1,0 +1,83 @@
+[
+  {
+    "id": "main--back",
+    "component": "main--back",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--preview",
+    "component": "main--preview",
+    "from": "main",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "plugin-trial",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "main--update",
+    "component": "main--update",
+    "from": "main",
+    "event": "activate",
+    "effect": "試用した版を採用し設定と保存スポットを維持する。版の採用APIが必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "plugin-version"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--rollback",
+    "component": "main--rollback",
+    "from": "main",
+    "event": "activate",
+    "effect": "以前の版へ戻し現在の設定との互換性を確認する。版の復帰APIが必要。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "plugin-version"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--delete",
+    "component": "main--delete",
+    "from": "main",
+    "event": "activate",
+    "effect": "対象機能の削除範囲を確認して導入設定を削除。保存スポットは削除対象へ含めない。",
+    "destination": "plugin-manage",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [
+      "deletePluginSettingsPluginId"
+    ],
+    "apiGaps": [],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

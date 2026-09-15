@@ -1,0 +1,48 @@
+[
+  {
+    "id": "conversation-history-R1",
+    "text": "相談を日付別に再表示し、同じconversationIdの発言を開く。新規相談は既存会話を上書きしない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "conversation-history-C1"
+    ]
+  },
+  {
+    "id": "conversation-history-F01",
+    "kind": "capability",
+    "title": "相談を探す",
+    "text": "日付と検索文字から保存した会話を見つけられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "conversation-history-FC01"
+    ]
+  },
+  {
+    "id": "conversation-history-F02",
+    "kind": "capability",
+    "title": "会話を開く",
+    "text": "同じ相談の発言と結果を再表示できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "conversation-history-FC02"
+    ]
+  },
+  {
+    "id": "conversation-history-F03",
+    "kind": "capability",
+    "title": "新しく始める",
+    "text": "既存会話を上書きせず別の相談を始められる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "conversation-history-FC03"
+    ]
+  }
+]

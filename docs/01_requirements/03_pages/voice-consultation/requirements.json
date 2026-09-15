@@ -1,0 +1,48 @@
+[
+  {
+    "id": "voice-consultation-R1",
+    "text": "録音開始前に端末のマイク許可を得る。停止後に文字起こしを編集・消去でき、送る操作で確認した本文だけを相談へ渡す。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "voice-consultation-C1"
+    ]
+  },
+  {
+    "id": "voice-consultation-F01",
+    "kind": "capability",
+    "title": "録音する",
+    "text": "マイク許可後に録音時間と状態を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "voice-consultation-FC01"
+    ]
+  },
+  {
+    "id": "voice-consultation-F02",
+    "kind": "capability",
+    "title": "文章に直す",
+    "text": "停止後の文字起こしを編集・消去できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "voice-consultation-FC02"
+    ]
+  },
+  {
+    "id": "voice-consultation-F03",
+    "kind": "capability",
+    "title": "送る内容を決める",
+    "text": "本人が確認した文章だけを相談へ送れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "voice-consultation-FC03"
+    ]
+  }
+]

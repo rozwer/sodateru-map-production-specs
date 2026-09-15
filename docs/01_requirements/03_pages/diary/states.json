@@ -1,0 +1,30 @@
+[
+  {
+    "id": "editor",
+    "visible": [
+      "editor--back",
+      "editor--heading",
+      "editor--photos",
+      "editor--counter",
+      "editor--private",
+      "editor--previous-day",
+      "editor--next-day",
+      "editor--date",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--body",
+      "editor--save"
+    ],
+    "hidden": [],
+    "interactive": [
+      "editor--back",
+      "editor--previous-day",
+      "editor--next-day",
+      "editor--date",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--body",
+      "editor--save"
+    ]
+  }
+]

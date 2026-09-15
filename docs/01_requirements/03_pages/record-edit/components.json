@@ -1,0 +1,500 @@
+[
+  {
+    "id": "editor--back",
+    "testId": "record-edit--editor--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--heading",
+    "testId": "record-edit--editor--heading",
+    "kind": "content",
+    "purpose": "体験を編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.editor.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "editor--place",
+    "testId": "record-edit--editor--place",
+    "kind": "content",
+    "purpose": "写真・場所名・訪問日時",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "editor--place--photo",
+        "editor--place--name",
+        "editor--place--date"
+      ]
+    }
+  },
+  {
+    "id": "editor--body-count",
+    "testId": "record-edit--editor--body-count",
+    "kind": "content",
+    "purpose": "11/200",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(editor--body)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "editor--body",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--impression-count",
+    "testId": "record-edit--editor--impression-count",
+    "kind": "content",
+    "purpose": "5/200",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(editor--impression)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "editor--impression",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--body",
+    "testId": "record-edit--editor--body",
+    "kind": "control",
+    "purpose": "わたしの言葉",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "わたしの言葉",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "わたしの言葉",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 200,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "editor--reading",
+    "testId": "record-edit--editor--reading",
+    "kind": "control",
+    "purpose": "読書",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "読書",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "読書",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--rest",
+    "testId": "record-edit--editor--rest",
+    "kind": "control",
+    "purpose": "休憩",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "休憩",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "休憩",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--meal",
+    "testId": "record-edit--editor--meal",
+    "kind": "control",
+    "purpose": "食事",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "食事",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "食事",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--work",
+    "testId": "record-edit--editor--work",
+    "kind": "control",
+    "purpose": "仕事・勉強",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "仕事・勉強",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "仕事・勉強",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--walk",
+    "testId": "record-edit--editor--walk",
+    "kind": "control",
+    "purpose": "散歩",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "散歩",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "散歩",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--other",
+    "testId": "record-edit--editor--other",
+    "kind": "control",
+    "purpose": "その他",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.purposes",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "その他",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "inputType": "checkbox",
+      "selection": "multiple",
+      "label": "その他",
+      "checkedFrom": "form.purposes includes thisOption"
+    }
+  },
+  {
+    "id": "editor--impression",
+    "testId": "record-edit--editor--impression",
+    "kind": "control",
+    "purpose": "どうだった？",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.impression",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "どうだった？",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "どうだった？",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 200,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "editor--mood",
+    "testId": "record-edit--editor--mood",
+    "kind": "control",
+    "purpose": "気分",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.mood",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "気分",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "気分",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.moodOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "editor--time",
+    "testId": "record-edit--editor--time",
+    "kind": "control",
+    "purpose": "滞在時刻",
+    "imageRegion": null,
+    "implementation": {
+      "type": "time-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.time",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "滞在時刻",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "滞在時刻",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "time",
+      "allowsUnspecified": true
+    }
+  },
+  {
+    "id": "editor--remove-photo",
+    "testId": "record-edit--editor--remove-photo",
+    "kind": "control",
+    "purpose": "写真を外す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.remove-photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を外す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "editor--media",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "record-edit--editor--remove-photo--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith image/"
+    }
+  },
+  {
+    "id": "editor--add-photo",
+    "testId": "record-edit--editor--add-photo",
+    "kind": "control",
+    "purpose": "写真を追加",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.add-photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を追加",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--bookmark",
+    "testId": "record-edit--editor--bookmark",
+    "kind": "control",
+    "purpose": "しおり（任意）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "checkbox",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.bookmark",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "しおり（任意）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "しおり（任意）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "editor--save",
+    "testId": "record-edit--editor--save",
+    "kind": "control",
+    "purpose": "変更を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "変更を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--return-list",
+    "testId": "record-edit--editor--return-list",
+    "kind": "control",
+    "purpose": "元の一覧に戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.return-list",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "元の一覧に戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--place--photo",
+    "testId": "record-edit--editor--place--photo",
+    "kind": "content",
+    "purpose": "記録写真",
+    "imageRegion": null,
+    "parent": "editor--place",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--place--name",
+    "testId": "record-edit--editor--place--name",
+    "kind": "content",
+    "purpose": "場所名",
+    "imageRegion": null,
+    "parent": "editor--place",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.place.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--place--date",
+    "testId": "record-edit--editor--place--date",
+    "kind": "content",
+    "purpose": "日時",
+    "imageRegion": null,
+    "parent": "editor--place",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.place.date",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--media",
+    "testId": "record-edit--editor--media",
+    "kind": "content",
+    "purpose": "記録の写真一覧",
+    "imageRegion": null,
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.media",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体参照のみ。画面画像・カード画像の切抜きは使わない。",
+      "mediaTypeFrom": "media.mimeType",
+      "itemKey": "media.id",
+      "altFrom": "媒体の説明",
+      "itemControls": [
+        "editor--remove-photo"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

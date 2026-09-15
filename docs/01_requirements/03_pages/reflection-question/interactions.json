@@ -1,0 +1,90 @@
+[
+  {
+    "id": "answering--back",
+    "component": "answering--back",
+    "from": "answering",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "$return",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answering--view-record",
+    "component": "answering--view-record",
+    "from": "answering",
+    "event": "activate",
+    "effect": "指定画面を開く。詳細は既存の一面を切り替え、呼出元へ戻れるようにする。",
+    "destination": "record-edit",
+    "carry": [
+      "対象のIDと取得版",
+      "日付/期間とtimeZone",
+      "選択条件",
+      "呼出元・スクロール・フォーカス"
+    ],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answering--answer",
+    "component": "answering--answer",
+    "from": "answering",
+    "event": "change",
+    "effect": "自由記述の回答の入力/選択値を更新し、対応するラベル・選択表示・文字数・エラーをDOMで更新する。保存/適用の操作は別に実行する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [],
+    "completion": "操作結果を表示し、対象外の入力・選択を保持。"
+  },
+  {
+    "id": "answering--save",
+    "component": "answering--save",
+    "from": "answering",
+    "event": "activate",
+    "effect": "回答原文とansweredを保存して再表示する。質問状態の保存APIを追加する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "question-state"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "answering--later",
+    "component": "answering--later",
+    "from": "answering",
+    "event": "activate",
+    "effect": "質問をdeferredに保存する。回答した扱いにしない。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "question-state"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "answering--skip",
+    "component": "answering--skip",
+    "from": "answering",
+    "event": "activate",
+    "effect": "質問をskippedに保存する。未回答と区別する。",
+    "destination": null,
+    "carry": [],
+    "api": [],
+    "apiGaps": [
+      "question-state"
+    ],
+    "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  }
+]

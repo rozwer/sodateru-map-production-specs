@@ -1,0 +1,213 @@
+[
+  {
+    "id": "main--back",
+    "testId": "sharing--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--visibility",
+    "testId": "sharing--visibility",
+    "kind": "control",
+    "purpose": "自分だけ・選んだ友達・公開",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.visibility",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分だけ・選んだ友達・公開",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "自分だけ・選んだ友達・公開",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "single",
+      "optionElement": "input[type=radio]",
+      "options": [
+        {
+          "id": "1",
+          "label": "自分だけ"
+        },
+        {
+          "id": "2",
+          "label": "選んだ友達"
+        },
+        {
+          "id": "3",
+          "label": "公開"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.visibility"
+    }
+  },
+  {
+    "id": "main--friends",
+    "testId": "sharing--friends",
+    "kind": "control",
+    "purpose": "共有する友達を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.friends",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "共有する友達を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--share",
+    "testId": "sharing--share",
+    "kind": "control",
+    "purpose": "この内容で共有",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.share",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この内容で共有",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "sharing--content",
+    "kind": "content",
+    "purpose": "投稿のプレビュー・共有される写真と本文・共有されない診断や履歴",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--media",
+        "main--content--body",
+        "main--content--recipients",
+        "main--content--excluded-note"
+      ]
+    }
+  },
+  {
+    "id": "main--content--media",
+    "testId": "sharing--main--content--media",
+    "kind": "content",
+    "purpose": "共有する媒体",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--body",
+    "testId": "sharing--main--content--body",
+    "kind": "content",
+    "purpose": "共有する本文",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--recipients",
+    "testId": "sharing--main--content--recipients",
+    "kind": "content",
+    "purpose": "共有相手",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.recipients",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "person",
+      "itemsFrom": "viewModel.recipients",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "sharing--main--content--recipients--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--excluded-note",
+    "testId": "sharing--main--content--excluded-note",
+    "kind": "content",
+    "purpose": "共有されない情報の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.excluded-note",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "sharing--page-title",
+    "kind": "content",
+    "purpose": "共有範囲の確認",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

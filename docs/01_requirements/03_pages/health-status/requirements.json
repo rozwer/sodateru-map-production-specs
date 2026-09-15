@@ -1,0 +1,48 @@
+[
+  {
+    "id": "health-status-R1",
+    "text": "停止は新規取込を止め既存保存値を維持する。削除はこのアプリの保存分だけで、iPhoneの原本を消さない。未取得と0を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-status-C1"
+    ]
+  },
+  {
+    "id": "health-status-F01",
+    "kind": "capability",
+    "title": "取得状況を見る",
+    "text": "取得元・最終取込・項目・日別の欠測を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-status-FC01"
+    ]
+  },
+  {
+    "id": "health-status-F02",
+    "kind": "capability",
+    "title": "取り込みを止める",
+    "text": "新しい取得だけ停止し既存値を残せる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-status-FC02"
+    ]
+  },
+  {
+    "id": "health-status-F03",
+    "kind": "capability",
+    "title": "保存分を消す",
+    "text": "このアプリの健康データだけ削除しiPhoneの原本を保てる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "health-status-FC03"
+    ]
+  }
+]

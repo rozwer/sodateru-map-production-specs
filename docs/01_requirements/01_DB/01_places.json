@@ -1,0 +1,20 @@
+{
+  "table": "places",
+  "title": "場所",
+  "description": ["記録・検索・ルートが同じ場所を指し、出典付きの詳細を表示する。"],
+  "common": "common.json",
+  "columns": {
+    "name": {"type": "TEXT", "nullable": false, "description": "場所名"},
+    "longitude": {"type": "REAL", "nullable": false, "description": "経度"},
+    "latitude": {"type": "REAL", "nullable": false, "description": "緯度"},
+    "address": {"type": "TEXT", "nullable": true, "description": "住所。不明はNULL"},
+    "provider": {"type": "TEXT", "nullable": false, "description": "場所情報の提供元"},
+    "external_id": {"type": "TEXT", "nullable": true, "description": "提供元での安定ID。手動地点はNULL"},
+    "building_key": {"type": "TEXT", "nullable": true, "description": "Mapboxのsource/layer/featureに対応する識別子"},
+    "source_url": {"type": "TEXT", "nullable": true, "description": "出典URL。不明はNULL"},
+    "attribution": {"type": "TEXT", "nullable": false, "description": "帰属表示"},
+    "fetched_at": {"type": "INTEGER", "nullable": true, "description": "外部情報の取得時刻。手動地点はNULL"}
+  },
+  "constraints": ["提供元と外部IDの組を一意にする。外部IDが不明な場所はNULLを許可する。", "経度は−180〜180、緯度は−90〜90。"],
+  "operations": ["検索結果を記録・保存ルートへ採用するときに登録する。提供元とexternal_idが一致する場所は同じIDを使う。建物の描画はbuilding_keyとMapboxの形状を対応させる。"]
+}

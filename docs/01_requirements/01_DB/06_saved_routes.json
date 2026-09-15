@@ -1,0 +1,66 @@
+{
+  "table": "saved_routes",
+  "title": "保存ルート",
+  "description": ["選んだコースを保存し、編集・共有・案内の再開に使う。"],
+  "common": "common.json",
+  "columns": {
+    "person_id": {"type": "TEXT", "nullable": false, "description": "保存した人物"},
+    "title": {"type": "TEXT", "nullable": false, "description": "ルート名"},
+    "waypoints_json": {"type": "TEXT", "nullable": false, "description": "順序付きの地点・座標", "encoding": "json"},
+    "route_json": {"type": "TEXT", "nullable": false, "description": "取得した経路形状と区間", "encoding": "json"},
+    "distance_m": {"type": "REAL", "nullable": true, "description": "経路距離。未取得はNULL"},
+    "duration_sec": {"type": "INTEGER", "nullable": true, "description": "所要時間。未取得はNULL"},
+    "provider": {"type": "TEXT", "nullable": true, "description": "経路の提供元。未取得はNULL"},
+    "source_url": {"type": "TEXT", "nullable": true, "description": "出典URL。未取得はNULL"},
+    "fetched_at": {"type": "INTEGER", "nullable": true, "description": "経路の取得時刻。未取得はNULL"},
+    "status": {"type": "TEXT", "nullable": false, "description": "案内状態", "enum": ["saved", "navigating", "finished"]},
+    "current_leg": {"type": "INTEGER", "nullable": false, "description": "現在案内している区間"},
+    "visibility": {"type": "TEXT", "nullable": false, "description": "表示する範囲", "enum": ["private", "selected", "public"]},
+    "shared_with_json": {"type": "TEXT", "nullable": false, "description": "selectedで共有する人物IDの配列", "encoding": "json"}
+  },
+  "references": {"person_id": {"target": "people.id", "on_delete": "この行から参照中の対象は削除を保留し、先に関連データを処理"}},
+  "constraints": ["地点列は2点以上。地点IDのある項目は登録済みの場所と座標を対応させる。", "公開範囲がselectedの場合は共有先を1人以上指定する。private/publicでは共有先配列は空にする。", "current_legは取得済みの経路区間の範囲内にする。案内開始時は経路と取得時点を確認する。"],
+  "indexes": [{"columns": ["person_id", "updated_at"]}],
+  "operations": ["地点の編集後は経路を再取得して同じ行を更新する。案内開始・終了・現在区間はこの行へ保存する。区間の時刻・運賃は取得した値と不明を区別する。ルート削除時は提案からの参照を解除する。"],
+  "json_fields": {
+    "waypoints_json": {
+      "fields": {
+        "$": {"type": "array", "required": true, "minItems": 2},
+        "$[]": {"type": "object", "required": true},
+        "$[].lng": {"type": "number", "required": true, "minimum": -180, "maximum": 180},
+        "$[].lat": {"type": "number", "required": true, "minimum": -90, "maximum": 90},
+        "$[].placeId": {"type": "string", "required": false, "minLength": 1, "maxLength": 80}
+      }
+    },
+    "route_json": {
+      "fields": {
+        "$": {"type": "object", "required": true},
+        "$.geometry": {"type": "object", "nullable": true, "required": true},
+        "$.geometry.type": {"type": "string", "enum": ["LineString"], "required": true},
+        "$.geometry.coordinates": {"type": "array", "required": true, "minItems": 2},
+        "$.geometry.coordinates[]": {"type": "array", "required": true, "minItems": 2, "maxItems": 2},
+        "$.geometry.coordinates[][]": {"type": "number", "required": true},
+        "$.legs": {"type": "array", "required": true},
+        "$.legs[]": {"type": "object", "required": true},
+        "$.legs[].mode": {"type": "string", "required": true, "minLength": 1},
+        "$.legs[].from": {"type": "object", "required": true},
+        "$.legs[].from.lng": {"type": "number", "required": true, "minimum": -180, "maximum": 180},
+        "$.legs[].from.lat": {"type": "number", "required": true, "minimum": -90, "maximum": 90},
+        "$.legs[].from.placeId": {"type": "string", "required": false, "minLength": 1, "maxLength": 80},
+        "$.legs[].to": {"type": "object", "required": true},
+        "$.legs[].to.lng": {"type": "number", "required": true, "minimum": -180, "maximum": 180},
+        "$.legs[].to.lat": {"type": "number", "required": true, "minimum": -90, "maximum": 90},
+        "$.legs[].to.placeId": {"type": "string", "required": false, "minLength": 1, "maxLength": 80},
+        "$.legs[].distanceM": {"type": "number", "required": true, "minimum": 0},
+        "$.legs[].durationSec": {"type": "number", "required": true, "minimum": 0},
+        "$.legs[].line": {"type": "string", "nullable": true, "required": false},
+        "$.legs[].departureAt": {"type": "integer", "nullable": true, "required": false},
+        "$.legs[].arrivalAt": {"type": "integer", "nullable": true, "required": false},
+        "$.legs[].fare": {"type": "number", "nullable": true, "required": false},
+        "$.legs[].additionalFare": {"type": "number", "nullable": true, "required": false}
+      }
+    },
+    "shared_with_json": {"$ref": "common.json#/json_definitions/id_array"}
+  },
+  "related_files": ["00_people.json"]
+}

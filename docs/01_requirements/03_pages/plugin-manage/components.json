@@ -1,0 +1,249 @@
+[
+  {
+    "id": "main--back",
+    "testId": "plugin-manage--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--enabled",
+    "testId": "plugin-manage--enabled",
+    "kind": "control",
+    "purpose": "機能のON/OFF",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "item.enabled",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "機能のON/OFF",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "機能のON/OFF",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--enabled--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--icon",
+    "testId": "plugin-manage--icon",
+    "kind": "control",
+    "purpose": "アイコンを変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.icon",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "アイコンを変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--icon--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--map",
+    "testId": "plugin-manage--map",
+    "kind": "control",
+    "purpose": "地図で使う",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図で使う",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--map--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--conditions",
+    "testId": "plugin-manage--conditions",
+    "kind": "control",
+    "purpose": "条件変更",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.conditions",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "条件変更",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--conditions--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--update",
+    "testId": "plugin-manage--update",
+    "kind": "control",
+    "purpose": "更新",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.update",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "更新",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--update--{item.id}"
+      }
+    }
+  },
+  {
+    "id": "main--companion",
+    "testId": "plugin-manage--companion",
+    "kind": "control",
+    "purpose": "相棒を管理",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.companion",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "相棒を管理",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "main--content--plugins",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "plugin-manage--companion--{item.id}"
+      },
+      "visibleWhen": "item.supportsCompanion"
+    }
+  },
+  {
+    "id": "main--find",
+    "testId": "plugin-manage--find",
+    "kind": "control",
+    "purpose": "他のテーマを探す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.find",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "他のテーマを探す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "plugin-manage--content",
+    "kind": "content",
+    "purpose": "導入済みカード・地図プレビュー・有効状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--plugins"
+      ]
+    }
+  },
+  {
+    "id": "main--content--plugins",
+    "testId": "plugin-manage--main--content--plugins",
+    "kind": "content",
+    "purpose": "導入済みの機能",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.plugins",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "plugin",
+      "itemsFrom": "viewModel.plugins",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "plugin-manage--main--content--plugins--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "itemControls": [
+        "main--enabled",
+        "main--icon",
+        "main--map",
+        "main--conditions",
+        "main--update",
+        "main--companion"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "plugin-manage--page-title",
+    "kind": "content",
+    "purpose": "導入済みの機能",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

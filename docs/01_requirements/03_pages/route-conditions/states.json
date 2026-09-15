@@ -1,0 +1,36 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--origin",
+      "main--destination",
+      "main--clear",
+      "main--waypoint",
+      "main--departure",
+      "main--mode",
+      "main--return",
+      "main--stairs",
+      "main--covered",
+      "main--search",
+      "main--content",
+      "main--content--conditions-help",
+      "main--content--waypoints",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--origin",
+      "main--destination",
+      "main--clear",
+      "main--waypoint",
+      "main--departure",
+      "main--mode",
+      "main--return",
+      "main--stairs",
+      "main--covered",
+      "main--search"
+    ]
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--agree",
+      "main--disagree",
+      "main--unsure",
+      "main--reason",
+      "main--original",
+      "main--save",
+      "main--content",
+      "main--content--insight",
+      "main--content--reason-count",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--agree",
+      "main--disagree",
+      "main--unsure",
+      "main--reason",
+      "main--original",
+      "main--save"
+    ]
+  }
+]

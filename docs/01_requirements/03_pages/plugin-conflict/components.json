@@ -1,0 +1,201 @@
+[
+  {
+    "id": "main--keep",
+    "testId": "plugin-conflict--keep",
+    "kind": "control",
+    "purpose": "このまま併用する",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.keep",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "このまま併用する",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--disable",
+    "testId": "plugin-conflict--disable",
+    "kind": "control",
+    "purpose": "片方を無効にする",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.disable",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "片方を無効にする",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--back",
+    "testId": "plugin-conflict--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "plugin-conflict--content",
+    "kind": "content",
+    "purpose": "競合する色分け・機能ごとの凡例・影響",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--first-map",
+        "main--content--first-legend",
+        "main--content--second-map",
+        "main--content--second-legend",
+        "main--content--conflict"
+      ]
+    }
+  },
+  {
+    "id": "main--content--first-map",
+    "testId": "plugin-conflict--main--content--first-map",
+    "kind": "content",
+    "purpose": "機能Aの地図表示",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--first-legend",
+    "testId": "plugin-conflict--main--content--first-legend",
+    "kind": "content",
+    "purpose": "機能Aの凡例",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.first-legend",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "legend",
+      "itemsFrom": "viewModel.first_legend",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "plugin-conflict--main--content--first-legend--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--second-map",
+    "testId": "plugin-conflict--main--content--second-map",
+    "kind": "content",
+    "purpose": "機能Bの地図表示",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--second-legend",
+    "testId": "plugin-conflict--main--content--second-legend",
+    "kind": "content",
+    "purpose": "機能Bの凡例",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.second-legend",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "legend",
+      "itemsFrom": "viewModel.second_legend",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "plugin-conflict--main--content--second-legend--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--conflict",
+    "testId": "plugin-conflict--main--content--conflict",
+    "kind": "content",
+    "purpose": "競合する対象と影響",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.conflict",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "plugin-conflict--page-title",
+    "kind": "content",
+    "purpose": "変更が重なる場合",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

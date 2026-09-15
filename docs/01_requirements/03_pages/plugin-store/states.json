@@ -1,0 +1,26 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--search",
+      "main--category",
+      "main--plugin",
+      "main--manage",
+      "main--requests",
+      "main--github",
+      "main--back",
+      "main--cards",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--search",
+      "main--category",
+      "main--plugin",
+      "main--manage",
+      "main--requests",
+      "main--github",
+      "main--back"
+    ]
+  }
+]

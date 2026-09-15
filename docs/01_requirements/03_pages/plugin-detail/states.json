@@ -1,0 +1,22 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--try",
+      "main--content",
+      "main--content--icon",
+      "main--content--name",
+      "main--content--description",
+      "main--content--author",
+      "main--content--updated",
+      "main--content--map",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--try"
+    ]
+  }
+]

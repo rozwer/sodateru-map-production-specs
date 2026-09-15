@@ -1,0 +1,315 @@
+[
+  {
+    "id": "main--back",
+    "testId": "memo-edit--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--name",
+    "testId": "memo-edit--name",
+    "kind": "control",
+    "purpose": "名前（20文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text-input",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "名前（20文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "名前（20文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 20,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false,
+      "inputType": "text"
+    }
+  },
+  {
+    "id": "main--body",
+    "testId": "memo-edit--body",
+    "kind": "control",
+    "purpose": "本文（200文字）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "本文（200文字）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "本文（200文字）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 200,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "main--origin",
+    "testId": "memo-edit--origin",
+    "kind": "control",
+    "purpose": "由来を選ぶ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.origin",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "由来を選ぶ",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "由来を選ぶ",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.originOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "main--keywords",
+    "testId": "memo-edit--keywords",
+    "kind": "control",
+    "purpose": "キーワード追加・削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "tag-editor",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.keywords",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キーワード追加・削除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "キーワード追加・削除",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "children": [
+        "input:新しいキーワード",
+        "button:追加",
+        "list:キーワードごとのtextと削除button"
+      ],
+      "itemKey": "keyword.id"
+    }
+  },
+  {
+    "id": "main--use",
+    "testId": "memo-edit--use",
+    "kind": "control",
+    "purpose": "提案に使う",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.use",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "提案に使う",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "提案に使う",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--delete",
+    "testId": "memo-edit--delete",
+    "kind": "control",
+    "purpose": "削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.delete",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "削除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "memo-edit--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--save",
+    "testId": "memo-edit--save",
+    "kind": "control",
+    "purpose": "保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "memo-edit--content",
+    "kind": "content",
+    "purpose": "メモの由来・本文・提案利用状態",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--origin-description",
+        "main--content--name-count",
+        "main--content--body-count",
+        "main--content--suggestion-help"
+      ]
+    }
+  },
+  {
+    "id": "main--content--origin-description",
+    "testId": "memo-edit--main--content--origin-description",
+    "kind": "content",
+    "purpose": "メモの由来の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.origin-description",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--name-count",
+    "testId": "memo-edit--main--content--name-count",
+    "kind": "content",
+    "purpose": "名前の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--name)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--name",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--body-count",
+    "testId": "memo-edit--main--content--body-count",
+    "kind": "content",
+    "purpose": "本文の文字数",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(main--body)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "main--body",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--suggestion-help",
+    "testId": "memo-edit--main--content--suggestion-help",
+    "kind": "content",
+    "purpose": "提案利用の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.suggestion-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "memo-edit--page-title",
+    "kind": "content",
+    "purpose": "メモを編集",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

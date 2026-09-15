@@ -1,0 +1,48 @@
+[
+  {
+    "id": "plugin-conflict-R1",
+    "text": "競合する対象と双方の表示を具体的に示し、併用・片方の無効化・戻るを選べる。勝手に片方を削除しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-conflict-C1"
+    ]
+  },
+  {
+    "id": "plugin-conflict-F01",
+    "kind": "capability",
+    "title": "影響を確認する",
+    "text": "同じ対象の色分けなど競合箇所を比較できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-conflict-FC01"
+    ]
+  },
+  {
+    "id": "plugin-conflict-F02",
+    "kind": "capability",
+    "title": "併用を選ぶ",
+    "text": "違いを確認した上で両方使える。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-conflict-FC02"
+    ]
+  },
+  {
+    "id": "plugin-conflict-F03",
+    "kind": "capability",
+    "title": "片方を止める",
+    "text": "選んだ機能だけ無効化できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "plugin-conflict-FC03"
+    ]
+  }
+]

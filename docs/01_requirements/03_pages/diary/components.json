@@ -1,0 +1,246 @@
+[
+  {
+    "id": "editor--back",
+    "testId": "diary--editor--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--heading",
+    "testId": "diary--editor--heading",
+    "kind": "content",
+    "purpose": "日記／その日の出来事や気持ちを、自由に書き留めましょう。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.editor.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "editor--photos",
+    "testId": "diary--editor--photos",
+    "kind": "content",
+    "purpose": "写真3枚",
+    "imageRegion": null,
+    "implementation": {
+      "type": "media-gallery",
+      "renderer": "native-media",
+      "element": "div",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "mediaTypeFrom": "media.mimeType",
+      "controls": "videoはnative controlsまたは個別DOM操作。写真は独立img。",
+      "itemKey": "media.id",
+      "itemControls": [
+        "editor--remove-photo"
+      ],
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--counter",
+    "testId": "diary--editor--counter",
+    "kind": "content",
+    "purpose": "120/1,000",
+    "imageRegion": null,
+    "implementation": {
+      "type": "metric",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "derived.characterCount(editor--body)",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "calculation": "関連する入力値のUnicode文字数を数え、入力上限と同じ規則で表示する。画像の例示値は参照しない。",
+      "counterFor": "editor--body",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--private",
+    "testId": "diary--editor--private",
+    "kind": "content",
+    "purpose": "自分だけの記録です",
+    "imageRegion": null,
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.editor.private",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "editor--previous-day",
+    "testId": "diary--editor--previous-day",
+    "kind": "control",
+    "purpose": "前の日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.previous-day",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "前の日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--next-day",
+    "testId": "diary--editor--next-day",
+    "kind": "control",
+    "purpose": "次の日",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.next-day",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "次の日",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--date",
+    "testId": "diary--editor--date",
+    "kind": "control",
+    "purpose": "日付選択",
+    "imageRegion": null,
+    "implementation": {
+      "type": "date-picker",
+      "renderer": "dom",
+      "element": "div",
+      "valueFrom": "form.localDate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "日付選択",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "日付選択",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "cellsFrom": "viewModel.calendarDays",
+      "cellElement": "button",
+      "cellKey": "localDate",
+      "selection": "single",
+      "keyboard": "矢印で日を移動、Enterで選択。月移動は別button。"
+    }
+  },
+  {
+    "id": "editor--add-photo",
+    "testId": "diary--editor--add-photo",
+    "kind": "control",
+    "purpose": "写真を追加",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.add-photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "写真を追加",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--body",
+    "testId": "diary--editor--body",
+    "kind": "control",
+    "purpose": "日記本文",
+    "imageRegion": null,
+    "implementation": {
+      "type": "textarea",
+      "renderer": "dom",
+      "element": "textarea",
+      "valueFrom": "form.body",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "日記本文",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "日記本文",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "maxLength": 1000,
+      "counter": "入力値から再計算する。画像中の文字数は使わない。",
+      "placeholderIsValue": false
+    }
+  },
+  {
+    "id": "editor--save",
+    "testId": "diary--editor--save",
+    "kind": "control",
+    "purpose": "日記を保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.save",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "日記を保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "editor--remove-photo",
+    "testId": "diary--editor--remove-photo",
+    "kind": "control",
+    "purpose": "選んだ写真を外す",
+    "imageRegion": null,
+    "exampleAliases": [
+      "editor--remove-photo-1",
+      "editor--remove-photo-2",
+      "editor--remove-photo-3"
+    ],
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.editor.remove-photo",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "選んだ写真を外す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "placement": {
+        "in": "editor--photos",
+        "slot": "item-control",
+        "repeatKey": "item.id",
+        "testId": "diary--editor--remove-photo--{item.id}"
+      },
+      "visibleWhen": "media.mimeType startsWith image/"
+    }
+  }
+]

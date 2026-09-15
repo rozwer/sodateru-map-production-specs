@@ -1,0 +1,48 @@
+[
+  {
+    "id": "trend-evidence-R1",
+    "text": "根拠となる複数体験・本人の言葉・観測・AI推定・反例・未知を別表示し、元記録へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-evidence-C1"
+    ]
+  },
+  {
+    "id": "trend-evidence-F01",
+    "kind": "capability",
+    "title": "根拠を読む",
+    "text": "本人の言葉と観測と推定を区別して読める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-evidence-FC01"
+    ]
+  },
+  {
+    "id": "trend-evidence-F02",
+    "kind": "capability",
+    "title": "別の説明を確かめる",
+    "text": "反例や記録のない日を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-evidence-FC02"
+    ]
+  },
+  {
+    "id": "trend-evidence-F03",
+    "kind": "capability",
+    "title": "元記録へ戻る",
+    "text": "対象体験を開き、必要なら解釈訂正へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "trend-evidence-FC03"
+    ]
+  }
+]

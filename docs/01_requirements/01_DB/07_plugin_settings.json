@@ -1,0 +1,10 @@
+{
+  "table": "plugin_settings",
+  "title": "プラグイン設定",
+  "description": ["導入・有効化・設定変更を再起動後に復元する。"],
+  "common": "common.json",
+  "columns": {"enabled": {"type": "INTEGER", "nullable": false, "description": "有効なら1", "enum": [0, 1]}, "settings_json": {"type": "TEXT", "nullable": false, "description": "プラグイン定義の設定Schemaに適合する値", "encoding": "json"}},
+  "constraints": ["idはプラグイン定義のIDと一致させる。", "settings_jsonは選択したプラグインの設定項目・型・必須条件に従う。"],
+  "operations": ["idにはコードのプラグイン定義で使用するIDを使う。導入で1行作成し、無効化はenabled=0、削除は行を削除する。設定はそのプラグインのSchemaで検証する。"],
+  "json_fields": {"settings_json": {"fields": {"$": {"type": "object", "required": true}}, "rules": ["具体的な項目は各プラグインの設定仕様で定義する。"]}}
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "id": "route-conditions-R1",
+    "text": "出発地・目的地・経由順・出発時刻・帰着時刻・移動手段・階段回避・屋根優先を入力して検索する。目的地の屋根だけで道中の屋根条件を判断しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-conditions-C1"
+    ]
+  },
+  {
+    "id": "route-conditions-F01",
+    "kind": "capability",
+    "title": "場所と順番を決める",
+    "text": "出発地・目的地・経由地を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-conditions-FC01"
+    ]
+  },
+  {
+    "id": "route-conditions-F02",
+    "kind": "capability",
+    "title": "条件を決める",
+    "text": "移動手段・出発と帰着の時刻・階段・屋根の条件を指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-conditions-FC02"
+    ]
+  },
+  {
+    "id": "route-conditions-F03",
+    "kind": "capability",
+    "title": "経路を検索する",
+    "text": "条件を引き継いだ経路候補を受け取れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-conditions-FC03"
+    ]
+  }
+]

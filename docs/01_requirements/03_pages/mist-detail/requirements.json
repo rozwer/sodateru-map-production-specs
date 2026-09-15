@@ -1,0 +1,48 @@
+[
+  {
+    "id": "mist-detail-R1",
+    "text": "もやは未形成の候補として表示する。写真・入口・理由・情報源を確認して経路またはコンパスへ進む。保存や接近だけで成長させない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "mist-detail-C1"
+    ]
+  },
+  {
+    "id": "mist-detail-F01",
+    "kind": "capability",
+    "title": "候補を調べる",
+    "text": "写真・入口・理由・出典を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "mist-detail-FC01"
+    ]
+  },
+  {
+    "id": "mist-detail-F02",
+    "kind": "capability",
+    "title": "後で見返す",
+    "text": "候補を保存できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "mist-detail-FC02"
+    ]
+  },
+  {
+    "id": "mist-detail-F03",
+    "kind": "capability",
+    "title": "向かい方を選ぶ",
+    "text": "道路経路または直線方向のコンパスを開ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "mist-detail-FC03"
+    ]
+  }
+]

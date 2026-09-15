@@ -1,0 +1,58 @@
+[
+  {
+    "id": "activity-stats-R1",
+    "text": "集計期間・単位・取得元・欠測を示す。歩数とGPS距離を混算しない。0と未取得を区別する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "activity-stats-C1"
+    ]
+  },
+  {
+    "id": "activity-stats-R2",
+    "text": "活動別の内訳から対象記録を確認する。期間変更でグラフと合計を同時に更新する。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "activity-stats-C2"
+    ]
+  },
+  {
+    "id": "activity-stats-F01",
+    "kind": "capability",
+    "title": "期間を選ぶ",
+    "text": "今日・週・月・年の集計を切り替えられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "activity-stats-FC01"
+    ]
+  },
+  {
+    "id": "activity-stats-F02",
+    "kind": "capability",
+    "title": "活動を比べる",
+    "text": "歩数・移動距離・訪問と活動の内訳を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "activity-stats-FC02"
+    ]
+  },
+  {
+    "id": "activity-stats-F03",
+    "kind": "capability",
+    "title": "数値の出所を見る",
+    "text": "取得元・欠測を確認し対応する記録へ戻れる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "activity-stats-FC03"
+    ]
+  }
+]

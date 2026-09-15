@@ -1,0 +1,60 @@
+[
+  {
+    "id": "route-results-R1",
+    "text": "候補線とカードを同期し、移動と滞在を含む合計時間、距離、成立・違反・不明を区別する。既知違反の経路を採用させず、不明を条件成立として採用させない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-results-C1"
+    ]
+  },
+  {
+    "id": "route-results-F01",
+    "kind": "capability",
+    "title": "候補を比べる",
+    "text": "複数経路を地図と距離・時間で比べられる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-results-FC01"
+    ]
+  },
+  {
+    "id": "route-results-F02",
+    "kind": "capability",
+    "title": "条件を確かめる",
+    "text": "成立・違反・未確認を区別して確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-results-FC02"
+    ]
+  },
+  {
+    "id": "route-results-F03",
+    "kind": "capability",
+    "title": "選び直す",
+    "text": "条件へ戻って再検索できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-results-FC03"
+    ]
+  },
+  {
+    "id": "route-results-F04",
+    "kind": "capability",
+    "title": "案内を始める",
+    "text": "採用可能な経路を保存して案内へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "route-results-FC04"
+    ]
+  }
+]

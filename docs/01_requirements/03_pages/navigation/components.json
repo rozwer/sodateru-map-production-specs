@@ -1,0 +1,793 @@
+[
+  {
+    "id": "main-menu--background",
+    "testId": "navigation--main-menu--background",
+    "kind": "content",
+    "purpose": "暗くなった自分を知る画面",
+    "imageRegion": null,
+    "implementation": {
+      "type": "backdrop",
+      "renderer": "dom",
+      "element": "div",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "construction": "元の実DOMを残し、半透明CSS面を重ねる。背景画面を画像化しない。"
+    }
+  },
+  {
+    "id": "main-menu--profile",
+    "testId": "navigation--main-menu--profile",
+    "kind": "content",
+    "purpose": "やまもとはるか／人物写真・紹介文",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main-menu--profile--photo",
+        "main-menu--profile--name",
+        "main-menu--profile--bio"
+      ]
+    }
+  },
+  {
+    "id": "main-menu--illustration",
+    "testId": "navigation--main-menu--illustration",
+    "kind": "content",
+    "purpose": "下部のイラストとメッセージ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main-menu--illustration--art",
+        "main-menu--illustration--message"
+      ]
+    }
+  },
+  {
+    "id": "main-menu--close",
+    "testId": "navigation--main-menu--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--map",
+    "testId": "navigation--main-menu--map",
+    "kind": "control",
+    "purpose": "地図に戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地図に戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--self",
+    "testId": "navigation--main-menu--self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--community",
+    "testId": "navigation--main-menu--community",
+    "kind": "control",
+    "purpose": "みんなを知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなを知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--grow-app",
+    "testId": "navigation--main-menu--grow-app",
+    "kind": "control",
+    "purpose": "アプリを育てる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.grow-app",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "アプリを育てる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--settings",
+    "testId": "navigation--main-menu--settings",
+    "kind": "control",
+    "purpose": "設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.settings",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "設定",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--start",
+    "testId": "navigation--main-menu--start",
+    "kind": "control",
+    "purpose": "スタート画面",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.start",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "スタート画面",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--nav-self",
+    "testId": "navigation--main-menu--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--nav-map",
+    "testId": "navigation--main-menu--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--nav-community",
+    "testId": "navigation--main-menu--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main-menu.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--heading",
+    "testId": "navigation--self-mode--heading",
+    "kind": "content",
+    "purpose": "自分を知る／日々の体験から、いまの自分へ。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.self-mode.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "self-mode--background",
+    "testId": "navigation--self-mode--background",
+    "kind": "content",
+    "purpose": "右側の地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "self-mode--illustration",
+    "testId": "navigation--self-mode--illustration",
+    "kind": "content",
+    "purpose": "下部イラストとメッセージ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "self-mode--illustration--art",
+        "self-mode--illustration--message"
+      ]
+    }
+  },
+  {
+    "id": "self-mode--close",
+    "testId": "navigation--self-mode--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--today",
+    "testId": "navigation--self-mode--today",
+    "kind": "control",
+    "purpose": "今日の軌跡",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.today",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今日の軌跡",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--type",
+    "testId": "navigation--self-mode--type",
+    "kind": "control",
+    "purpose": "タイプ診断",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.type",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "タイプ診断",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--my-map",
+    "testId": "navigation--self-mode--my-map",
+    "kind": "control",
+    "purpose": "わたしの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.my-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "わたしの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--locate",
+    "testId": "navigation--self-mode--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--menu",
+    "testId": "navigation--self-mode--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--nav-self",
+    "testId": "navigation--self-mode--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--nav-map",
+    "testId": "navigation--self-mode--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "self-mode--nav-community",
+    "testId": "navigation--self-mode--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.self-mode.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--heading",
+    "testId": "navigation--community-mode--heading",
+    "kind": "content",
+    "purpose": "みんなを知る／まちの人や場所と出会い、新しい視点を見つけよう。",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.community-mode.heading",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  },
+  {
+    "id": "community-mode--background",
+    "testId": "navigation--community-mode--background",
+    "kind": "content",
+    "purpose": "右側の地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "map",
+      "renderer": "mapbox-webgl",
+      "element": "div",
+      "valueFrom": "viewModel.mapScene",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "geographyFrom": "Mapboxの実地図と選択対象の位置",
+      "layersFrom": "選択中の記録・候補・成長・経路のGeoJSON/3D表現",
+      "interaction": "画像ドラッグでなく地図cameraを操作する",
+      "fallback": "利用不可表示。参照画像へ置換しない。",
+      "accessibleSummary": "現在の場所・選択地点・経路の要約をDOMでも表示",
+      "attribution": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "community-mode--illustration",
+    "testId": "navigation--community-mode--illustration",
+    "kind": "content",
+    "purpose": "下部イラストとメッセージ",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "community-mode--illustration--art",
+        "community-mode--illustration--message"
+      ]
+    }
+  },
+  {
+    "id": "community-mode--close",
+    "testId": "navigation--community-mode--close",
+    "kind": "control",
+    "purpose": "閉じる",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.close",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "閉じる",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--local",
+    "testId": "navigation--community-mode--local",
+    "kind": "control",
+    "purpose": "地域の知",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.local",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "地域の知",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--friends",
+    "testId": "navigation--community-mode--friends",
+    "kind": "control",
+    "purpose": "友達の地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.friends",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "友達の地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--locate",
+    "testId": "navigation--community-mode--locate",
+    "kind": "control",
+    "purpose": "現在地",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.locate",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "現在地",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--menu",
+    "testId": "navigation--community-mode--menu",
+    "kind": "control",
+    "purpose": "メニュー",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.menu",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "メニュー",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--nav-self",
+    "testId": "navigation--community-mode--nav-self",
+    "kind": "control",
+    "purpose": "自分を知る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.nav-self",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "自分を知る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--nav-map",
+    "testId": "navigation--community-mode--nav-map",
+    "kind": "control",
+    "purpose": "中央の地図ボタン",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.nav-map",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "中央の地図ボタン",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "community-mode--nav-community",
+    "testId": "navigation--community-mode--nav-community",
+    "kind": "control",
+    "purpose": "みんなの地図",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.community-mode.nav-community",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "みんなの地図",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main-menu--profile--photo",
+    "testId": "navigation--main-menu--profile--photo",
+    "kind": "content",
+    "purpose": "人物写真",
+    "imageRegion": null,
+    "parent": "main-menu--profile",
+    "implementation": {
+      "type": "image",
+      "renderer": "native-image",
+      "element": "img",
+      "valueFrom": "viewModel.mediaReferences",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "本人の媒体または対象ごとの提供素材。ページ画像・カード画像・スクリーンショット切抜きは禁止。",
+      "altFrom": "媒体内容の説明。見出し・本文を画像のaltだけに置かない。",
+      "missing": "媒体領域だけ未取得表示にし、本文・操作は残す。",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main-menu--profile--name",
+    "testId": "navigation--main-menu--profile--name",
+    "kind": "content",
+    "purpose": "表示名",
+    "imageRegion": null,
+    "parent": "main-menu--profile",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main-menu.profile.name",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main-menu--profile--bio",
+    "testId": "navigation--main-menu--profile--bio",
+    "kind": "content",
+    "purpose": "自己紹介",
+    "imageRegion": null,
+    "parent": "main-menu--profile",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main-menu.profile.bio",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main-menu--illustration--art",
+    "testId": "navigation--main-menu--illustration--art",
+    "kind": "content",
+    "purpose": "独立した装飾イラスト",
+    "imageRegion": null,
+    "parent": "main-menu--illustration",
+    "implementation": {
+      "type": "illustration",
+      "renderer": "asset",
+      "element": "img",
+      "valueFrom": "assets.decorativeArtwork",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "文字・操作・データを含まない独立した装飾素材のみ",
+      "alt": "",
+      "pointerEvents": "none",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main-menu--illustration--message",
+    "testId": "navigation--main-menu--illustration--message",
+    "kind": "content",
+    "purpose": "案内文",
+    "imageRegion": null,
+    "parent": "main-menu--illustration",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main-menu.illustration.message",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "self-mode--illustration--art",
+    "testId": "navigation--self-mode--illustration--art",
+    "kind": "content",
+    "purpose": "独立した装飾イラスト",
+    "imageRegion": null,
+    "parent": "self-mode--illustration",
+    "implementation": {
+      "type": "illustration",
+      "renderer": "asset",
+      "element": "img",
+      "valueFrom": "assets.decorativeArtwork",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "文字・操作・データを含まない独立した装飾素材のみ",
+      "alt": "",
+      "pointerEvents": "none",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "self-mode--illustration--message",
+    "testId": "navigation--self-mode--illustration--message",
+    "kind": "content",
+    "purpose": "案内文",
+    "imageRegion": null,
+    "parent": "self-mode--illustration",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.self-mode.illustration.message",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "community-mode--illustration--art",
+    "testId": "navigation--community-mode--illustration--art",
+    "kind": "content",
+    "purpose": "独立した装飾イラスト",
+    "imageRegion": null,
+    "parent": "community-mode--illustration",
+    "implementation": {
+      "type": "illustration",
+      "renderer": "asset",
+      "element": "img",
+      "valueFrom": "assets.decorativeArtwork",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "assetPolicy": "文字・操作・データを含まない独立した装飾素材のみ",
+      "alt": "",
+      "pointerEvents": "none",
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "community-mode--illustration--message",
+    "testId": "navigation--community-mode--illustration--message",
+    "kind": "content",
+    "purpose": "案内文",
+    "imageRegion": null,
+    "parent": "community-mode--illustration",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.community-mode.illustration.message",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  }
+]

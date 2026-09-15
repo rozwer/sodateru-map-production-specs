@@ -1,0 +1,29 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--detail",
+      "main--app",
+      "main--file",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community",
+      "main--content",
+      "main--content--connection",
+      "main--content--methods",
+      "main--content--browser-note",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--detail",
+      "main--app",
+      "main--file",
+      "main--nav-self",
+      "main--nav-map",
+      "main--nav-community"
+    ]
+  }
+]

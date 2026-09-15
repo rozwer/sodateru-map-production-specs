@@ -1,0 +1,83 @@
+[
+  {
+    "id": "reflection-history-C1",
+    "requirement": "reflection-history-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "回答済み・あとで・スキップを保持し、フィルターと展開を変えても状態が戻らない。元記録と回答から解釈の更新へ進む。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "answer-expanded--back",
+      "answer-expanded--more",
+      "answer-expanded--filter-all",
+      "answer-expanded--filter-answered",
+      "answer-expanded--filter-later",
+      "answer-expanded--filter-skipped",
+      "answer-expanded--toggle-answer",
+      "answer-expanded--original",
+      "answer-expanded--update-interpretation"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "reflection-history-FC01",
+    "requirement": "reflection-history-F01",
+    "mode": "live",
+    "precondition": "過去の回答と未回答の質問を見返すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「状態で絞る」に対応する操作を行う。",
+      "すべて・回答済み・あとで・スキップを切り替えられることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "すべて・回答済み・あとで・スキップを切り替えられる。",
+      "保存済み回答は読取対象。解釈更新を確定したときだけ、対象回答を根拠にした解釈を更新する。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "reflection-history-FC02",
+    "requirement": "reflection-history-F02",
+    "mode": "live",
+    "precondition": "過去の回答と未回答の質問を見返すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「回答を読む」に対応する操作を行う。",
+      "質問と回答を展開して元記録を確認できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "質問と回答を展開して元記録を確認できる。",
+      "保存済み回答は読取対象。解釈更新を確定したときだけ、対象回答を根拠にした解釈を更新する。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "reflection-history-FC03",
+    "requirement": "reflection-history-F03",
+    "mode": "live",
+    "precondition": "過去の回答と未回答の質問を見返すための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「解釈に反映する」に対応する操作を行う。",
+      "保存した回答を根拠として解釈を更新できることを画面で確認する。",
+      "この機能で保存/削除を確定する場合は、一度ページを離れて再度開き、下記の保存対象と一致することを確認する。"
+    ],
+    "expect": [
+      "保存した回答を根拠として解釈を更新できる。",
+      "保存済み回答は読取対象。解釈更新を確定したときだけ、対象回答を根拠にした解釈を更新する。"
+    ],
+    "status": "not-run"
+  }
+]

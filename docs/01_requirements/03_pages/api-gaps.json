@@ -1,0 +1,169 @@
+{
+  "basis": "production OpenAPI inspected 2026-09-15",
+  "items": [
+    {
+      "id": "health",
+      "requirement": "歩数・連携・取得履歴を取得するHTTP契約がない。GPS距離で歩数を代用しない。",
+      "pages": [
+        "activity-stats",
+        "data-sources"
+      ]
+    },
+    {
+      "id": "comparison",
+      "requirement": "2体験の共通点・違いの保存/読取契約、および友達との意味比較の生成・訂正契約がない。会話本文へ押し込んで比較の正本にしない。",
+      "pages": [
+        "experience-compare",
+        "friend-compare"
+      ]
+    },
+    {
+      "id": "question-state",
+      "requirement": "質問IDに対する回答済み/あとで/スキップと回答原文の保存・一覧契約がない。会話の読書きだけでは満たせない。",
+      "pages": [
+        "reflection-question",
+        "reflection-history"
+      ]
+    },
+    {
+      "id": "presentation",
+      "requirement": "テーマの色・写真、メモの名前・由来・キーワードの専用fieldがない。既存name/bodyをJSON文字列の代用品にしない。",
+      "pages": [
+        "theme-edit",
+        "memo-edit"
+      ]
+    },
+    {
+      "id": "route",
+      "requirement": "RouteRequestはwaypoints/mode/titleのみ。出発・帰着時刻、階段回避、屋根優先、複数候補、ターン案内の契約を追加する必要がある。未対応交通の501を成功表示しない。",
+      "pages": [
+        "route-conditions",
+        "route-results",
+        "route-navigation"
+      ]
+    },
+    {
+      "id": "object",
+      "requirement": "本人が追加した飾り・目印の名前・メモ・色・表示サイズ・位置の保存/更新/削除APIが必要。体験由来の成長建物は編集対象に含めない。",
+      "pages": [
+        "object-edit",
+        "object-place"
+      ]
+    },
+    {
+      "id": "checkin",
+      "requirement": "同行者・負担・移動手段こだわらない・120分以上の構造化条件が不足。noteへ書くだけで制約を適用済みとしない。",
+      "pages": [
+        "self-checkin",
+        "suggestions"
+      ]
+    },
+    {
+      "id": "bookmark",
+      "requirement": "他者投稿/未保存候補/場所のしおり専用契約がない。自分のrecord.bookmarkedと混同しない。",
+      "pages": [
+        "knowledge-list",
+        "suggestion-detail",
+        "mist-detail",
+        "map"
+      ]
+    },
+    {
+      "id": "follow",
+      "requirement": "友達の共有テーマ取得契約が不足。関係は既存friendshipsの申請・承認へ統一し、片方向フォローAPIは追加しない。",
+      "pages": [
+        "friend-profile"
+      ]
+    },
+    {
+      "id": "export",
+      "requirement": "記録削除previewとデータ書出しのAPIがない。削除対象・残存物の集計とダウンロード経路を追加する。",
+      "pages": [
+        "record-delete"
+      ]
+    },
+    {
+      "id": "voice",
+      "requirement": "端末録音・文字起こし・AI利用設定の保存方法は共通設定/音声機能への接続が必要。新しい架空HTTP APIを発行しない。",
+      "pages": [
+        "voice-consultation",
+        "ai-consent"
+      ]
+    },
+    {
+      "id": "layers",
+      "requirement": "自分のテーマ/候補/友達の表示設定永続化先が未定義。自転車は導入済みプラグインの有効化と表示を区別する。",
+      "pages": [
+        "map-layers"
+      ]
+    },
+    {
+      "id": "knowledge",
+      "requirement": "休憩チップ/体験/人の分類とtopicKey/purposesの対応辞書、地図表示範囲と検索bboxの対応が不足。現在の共有検索は中心と半径で指定する。",
+      "pages": [
+        "knowledge-list",
+        "knowledge-filter"
+      ]
+    },
+    {
+      "id": "consult-history",
+      "requirement": "地図相談のresultIdと保存会話conversationIdの対応契約がない。map-dialoguesが自動的に会話履歴へ保存されると仮定しない。",
+      "pages": [
+        "ai-explore",
+        "conversation-history"
+      ]
+    },
+    {
+      "id": "shared-detail",
+      "requirement": "他者投稿はgetRecordsRecordIdで読めると仮定しない。共有一覧のrecordIdで対象を解決し、共有詳細専用取得が必要ならAPI側に追加する。",
+      "pages": [
+        "knowledge-detail"
+      ]
+    },
+    {
+      "id": "plugin-version",
+      "requirement": "プラグイン更新版の採用・前版への復帰・競合検出・アイコン変更の契約がない。settingsへの未定義field追加で代用しない。",
+      "pages": [
+        "plugin-trial",
+        "plugin-update",
+        "plugin-conflict",
+        "plugin-manage"
+      ]
+    },
+    {
+      "id": "feature-request",
+      "requirement": "投稿時の固定表示名・共感・タグの契約が不足。人に頼むは同じアプリ内投稿フォームへ接続し依頼先fieldは追加しない。API必須titleの生成規則を本文と整合させる。",
+      "pages": [
+        "feature-requests",
+        "feature-request-edit"
+      ]
+    },
+    {
+      "id": "settings",
+      "requirement": "表示・位置・媒体・AI・通知・保存期間・提案停止/解除の本人設定APIがない。patchMeはname/bio/avatarUrlだけ。",
+      "pages": [
+        "settings",
+        "profile-settings",
+        "suggestion-settings"
+      ]
+    },
+    {
+      "id": "health-import",
+      "requirement": "健康取込・許可・期間・状態・停止・保存分削除のAPIがない。元リポのHealth契約の移植が必要。",
+      "pages": [
+        "health-connect",
+        "health-permissions",
+        "health-status"
+      ]
+    },
+    {
+      "id": "pet",
+      "requirement": "ペット登録・一覧・選択設定・生成・接続先・採用APIがない。ZIP上限は新画像50MBを要件とし展開上限等も合わせて定義する。",
+      "pages": [
+        "companion-settings",
+        "companion-import",
+        "companion-create"
+      ]
+    }
+  ]
+}

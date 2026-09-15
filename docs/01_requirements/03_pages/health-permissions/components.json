@@ -1,0 +1,242 @@
+[
+  {
+    "id": "main--back",
+    "testId": "health-permissions--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--items",
+    "testId": "health-permissions--items",
+    "kind": "control",
+    "purpose": "歩数・歩行距離・活動時間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "choice-group",
+      "renderer": "dom",
+      "element": "fieldset",
+      "valueFrom": "form.items",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "歩数・歩行距離・活動時間",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "歩数・歩行距離・活動時間",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "selection": "multiple",
+      "optionElement": "input[type=checkbox]",
+      "options": [
+        {
+          "id": "1",
+          "label": "歩数"
+        },
+        {
+          "id": "2",
+          "label": "歩行距離"
+        },
+        {
+          "id": "3",
+          "label": "活動時間"
+        }
+      ],
+      "optionsFrom": null,
+      "optionKey": "option.id",
+      "checkedFrom": "form.items"
+    }
+  },
+  {
+    "id": "main--period",
+    "testId": "health-permissions--period",
+    "kind": "control",
+    "purpose": "対象期間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "select",
+      "renderer": "dom",
+      "element": "select",
+      "valueFrom": "form.period",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "対象期間",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "対象期間",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "optionsFrom": "viewModel.periodOptions",
+      "optionKey": "option.id"
+    }
+  },
+  {
+    "id": "main--store",
+    "testId": "health-permissions--store",
+    "kind": "control",
+    "purpose": "アプリ内に保存",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.store",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "アプリ内に保存",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "アプリ内に保存",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--ai",
+    "testId": "health-permissions--ai",
+    "kind": "control",
+    "purpose": "AIへの利用（任意）",
+    "imageRegion": null,
+    "implementation": {
+      "type": "switch",
+      "renderer": "dom",
+      "element": "input",
+      "valueFrom": "form.ai",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "AIへの利用（任意）",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。",
+      "label": "AIへの利用（任意）",
+      "fieldState": [
+        "value",
+        "disabled",
+        "error"
+      ],
+      "errorElement": "同じDOM内の関連付けられたエラー文",
+      "inputType": "checkbox",
+      "selection": "boolean"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "health-permissions--cancel",
+    "kind": "control",
+    "purpose": "今はしない",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "今はしない",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--allow",
+    "testId": "health-permissions--allow",
+    "kind": "control",
+    "purpose": "許可して続ける",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.allow",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "許可して続ける",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "health-permissions--content",
+    "kind": "content",
+    "purpose": "項目・期間・保存とAI利用の独立した選択",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--permission-help",
+        "main--content--ai-help"
+      ]
+    }
+  },
+  {
+    "id": "main--content--permission-help",
+    "testId": "health-permissions--main--content--permission-help",
+    "kind": "content",
+    "purpose": "項目と期間の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.permission-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--ai-help",
+    "testId": "health-permissions--main--content--ai-help",
+    "kind": "content",
+    "purpose": "任意のAI利用の説明",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "text",
+      "renderer": "dom",
+      "element": "p",
+      "valueFrom": "viewModel.main.content.ai-help",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "health-permissions--page-title",
+    "kind": "content",
+    "purpose": "健康データの項目と期間",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

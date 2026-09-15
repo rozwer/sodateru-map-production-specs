@@ -1,0 +1,50 @@
+[
+  {
+    "id": "editor",
+    "visible": [
+      "editor--back",
+      "editor--heading",
+      "editor--place",
+      "editor--body-count",
+      "editor--impression-count",
+      "editor--body",
+      "editor--reading",
+      "editor--rest",
+      "editor--meal",
+      "editor--work",
+      "editor--walk",
+      "editor--other",
+      "editor--impression",
+      "editor--mood",
+      "editor--time",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--bookmark",
+      "editor--save",
+      "editor--return-list",
+      "editor--place--photo",
+      "editor--place--name",
+      "editor--place--date",
+      "editor--media"
+    ],
+    "hidden": [],
+    "interactive": [
+      "editor--back",
+      "editor--body",
+      "editor--reading",
+      "editor--rest",
+      "editor--meal",
+      "editor--work",
+      "editor--walk",
+      "editor--other",
+      "editor--impression",
+      "editor--mood",
+      "editor--time",
+      "editor--remove-photo",
+      "editor--add-photo",
+      "editor--bookmark",
+      "editor--save",
+      "editor--return-list"
+    ]
+  }
+]

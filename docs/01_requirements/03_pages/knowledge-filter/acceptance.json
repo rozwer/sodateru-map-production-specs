@@ -1,0 +1,79 @@
+[
+  {
+    "id": "knowledge-filter-C1",
+    "requirement": "knowledge-filter-R1",
+    "mode": "live",
+    "precondition": "対象データと取得版、操作前の保存値を確認する。未保存/保存済みの違いが分かる値を使う。",
+    "expect": [
+      "編集中条件は適用まで一覧へ反映しない。閉じるで適用済み条件へ戻し、クリア後の適用で条件を解除する。距離の中心と地図範囲を区別する。",
+      "関連する操作後、表示対象・開閉・遷移先・入力引継ぎ・APIの対象IDと通信結果を確認する。",
+      "保存を伴う操作は再読込後にも同じ結果が表示される。取消は保存値を変えない。"
+    ],
+    "status": "not-run",
+    "checkActions": [
+      "main--close",
+      "main--clear",
+      "main--radius",
+      "main--area",
+      "main--purpose",
+      "main--period",
+      "main--audience",
+      "main--apply"
+    ],
+    "steps": [
+      "参照画像と同じ表示モードで開き、対象ID・日付・取得元を確認する。",
+      "checkActionsの操作をそれぞれ実行し、interactions.jsonに記載した結果・遷移・呼出しを確認する。",
+      "保存操作がある場合、変更した値で確定し、元の一覧へ戻る。",
+      "再読込して詳細を開き、保存した値・媒体・共有範囲を照合する。",
+      "同じ機能で取消・通信失敗・0件を確認し、common.jsonの表示条件を満たすことを確認する。"
+    ]
+  },
+  {
+    "id": "knowledge-filter-FC01",
+    "requirement": "knowledge-filter-F01",
+    "mode": "live",
+    "precondition": "地域の声を探す範囲と条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「範囲を選ぶ」に対応する操作を行う。",
+      "検索地域と半径または地図範囲を選べることを画面で確認する。"
+    ],
+    "expect": [
+      "検索地域と半径または地図範囲を選べる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "knowledge-filter-FC02",
+    "requirement": "knowledge-filter-F02",
+    "mode": "live",
+    "precondition": "地域の声を探す範囲と条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「内容を絞る」に対応する操作を行う。",
+      "目的・期間・共有範囲を選べることを画面で確認する。"
+    ],
+    "expect": [
+      "目的・期間・共有範囲を選べる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  },
+  {
+    "id": "knowledge-filter-FC03",
+    "requirement": "knowledge-filter-F03",
+    "mode": "live",
+    "precondition": "地域の声を探す範囲と条件を決めるための対象を用意し、操作前の状態を確認する。",
+    "checkActions": [],
+    "steps": [
+      "このページで「条件を適用する」に対応する操作を行う。",
+      "適用時に一覧へ反映し取消では以前の条件を維持できることを画面で確認する。"
+    ],
+    "expect": [
+      "適用時に一覧へ反映し取消では以前の条件を維持できる。",
+      "閲覧だけで保存済みデータを変更せず、選択対象を引き継いで次画面を開ける。"
+    ],
+    "status": "not-run"
+  }
+]

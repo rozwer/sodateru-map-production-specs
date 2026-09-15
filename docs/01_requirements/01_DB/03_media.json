@@ -1,0 +1,19 @@
+{
+  "table": "media",
+  "title": "添付媒体",
+  "description": ["記録へ写真・動画・音声を追加し、順序付きで表示する。"],
+  "common": "common.json",
+  "columns": {
+    "record_id": {"type": "TEXT", "nullable": false, "description": "添付先の記録"},
+    "storage_key": {"type": "TEXT", "nullable": false, "description": "媒体ディレクトリ内の相対パス"},
+    "kind": {"type": "TEXT", "nullable": false, "description": "媒体の種類", "enum": ["photo", "video", "audio"]},
+    "mime_type": {"type": "TEXT", "nullable": false, "description": "検証したMIME型"},
+    "byte_size": {"type": "INTEGER", "nullable": false, "description": "ファイルサイズ"},
+    "position": {"type": "INTEGER", "nullable": false, "description": "記録内の表示順"},
+    "status": {"type": "TEXT", "nullable": false, "description": "ファイル保存状態", "enum": ["pending", "ready", "failed"]}
+  },
+  "references": {"record_id": {"target": "records.id", "on_delete": "参照先の削除に合わせてこの行も削除"}},
+  "constraints": ["保存先を一意にする。記録IDと表示順の組を一意にする。", "保存先は媒体ディレクトリ内の相対パスとする。親ディレクトリへの移動や絶対パスを含めない。"],
+  "operations": ["実体の保存完了でreadyにする。画面はreadyの媒体を表示する。記録または添付を削除した後、参照がなくなったファイルを清掃する。清掃は起動時にも再実行できる処理にする。"],
+  "related_files": ["02_records.json"]
+}

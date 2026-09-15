@@ -1,0 +1,170 @@
+[
+  {
+    "id": "main--back",
+    "testId": "record-delete--back",
+    "kind": "control",
+    "purpose": "戻る",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.back",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "戻る",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--export",
+    "testId": "record-delete--export",
+    "kind": "control",
+    "purpose": "データを書き出す",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.export",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "データを書き出す",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--cancel",
+    "testId": "record-delete--cancel",
+    "kind": "control",
+    "purpose": "キャンセル",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.cancel",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "キャンセル",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--delete",
+    "testId": "record-delete--delete",
+    "kind": "control",
+    "purpose": "この記録を削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "button",
+      "renderer": "dom",
+      "element": "button",
+      "valueFrom": "copy.main.delete",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "accessibleName": "この記録を削除",
+      "disabledWhen": "処理中で再実行不可、または対象が利用不可の場合。理由を近くに表示。"
+    }
+  },
+  {
+    "id": "main--content",
+    "testId": "record-delete--content",
+    "kind": "content",
+    "purpose": "消える記録・媒体・関連解釈・共有と、残る独立メモ・他記録・設定",
+    "imageRegion": null,
+    "implementation": {
+      "type": "group",
+      "renderer": "dom",
+      "element": "section",
+      "valueFrom": null,
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "children": [
+        "main--content--deleted",
+        "main--content--retained",
+        "main--content--deletion-state"
+      ]
+    }
+  },
+  {
+    "id": "main--content--deleted",
+    "testId": "record-delete--main--content--deleted",
+    "kind": "content",
+    "purpose": "削除されるデータ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.deleted",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "scope-item",
+      "itemsFrom": "viewModel.deleted",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "record-delete--main--content--deleted--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--retained",
+    "testId": "record-delete--main--content--retained",
+    "kind": "content",
+    "purpose": "残るデータ",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "list",
+      "renderer": "dom",
+      "element": "ul",
+      "valueFrom": "viewModel.main.content.retained",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "template": "scope-item",
+      "itemsFrom": "viewModel.retained",
+      "itemKey": "item.id",
+      "countFrom": "items.length",
+      "itemTestId": "record-delete--main--content--retained--{item.id}",
+      "empty": "対象の0件表示",
+      "variableLength": true,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "main--content--deletion-state",
+    "testId": "record-delete--main--content--deletion-state",
+    "kind": "content",
+    "purpose": "削除処理の状態",
+    "imageRegion": null,
+    "parent": "main--content",
+    "implementation": {
+      "type": "status",
+      "renderer": "dom",
+      "element": "output",
+      "valueFrom": "viewModel.main.content.deletion-state",
+      "referenceUse": "appearance-only",
+      "screenRaster": false,
+      "sampleTextPolicy": "purposeは役割または参照例。実表示はvalueFromから得る。"
+    }
+  },
+  {
+    "id": "shared--page-title",
+    "testId": "record-delete--page-title",
+    "kind": "content",
+    "purpose": "記録を削除",
+    "imageRegion": null,
+    "implementation": {
+      "type": "heading",
+      "renderer": "dom",
+      "element": "h2",
+      "valueFrom": "copy.shared.page-title",
+      "referenceUse": "appearance-only",
+      "screenRaster": false
+    }
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "main",
+    "visible": [
+      "main--back",
+      "main--export",
+      "main--cancel",
+      "main--delete",
+      "main--content",
+      "main--content--deleted",
+      "main--content--retained",
+      "main--content--deletion-state",
+      "shared--page-title"
+    ],
+    "hidden": [],
+    "interactive": [
+      "main--back",
+      "main--export",
+      "main--cancel",
+      "main--delete"
+    ]
+  }
+]

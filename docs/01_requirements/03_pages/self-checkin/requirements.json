@@ -1,0 +1,82 @@
+[
+  {
+    "id": "self-checkin-R1",
+    "text": "今の状態と今日の希望を任意入力する。回答だけ保存・未回答で地図へを残し、過去の希望を当日の希望として自動適用しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-C1"
+    ]
+  },
+  {
+    "id": "self-checkin-R2",
+    "text": "15/30/60/120分以上、移動手段、同行者、負担の条件を保持する。120分以上を上限120分へ変換しない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-C2"
+    ]
+  },
+  {
+    "id": "self-checkin-F01",
+    "kind": "capability",
+    "title": "希望を入力する",
+    "text": "状態・したいこと・使える時間を任意で書ける。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-FC01"
+    ]
+  },
+  {
+    "id": "self-checkin-F02",
+    "kind": "capability",
+    "title": "条件を選ぶ",
+    "text": "移動手段・同行者・歩く負担を指定できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-FC02"
+    ]
+  },
+  {
+    "id": "self-checkin-F03",
+    "kind": "capability",
+    "title": "候補を探す",
+    "text": "今の入力を優先した候補一覧へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-FC03"
+    ]
+  },
+  {
+    "id": "self-checkin-F04",
+    "kind": "capability",
+    "title": "回答だけ残す",
+    "text": "候補を作らず回答を保存できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-FC04"
+    ]
+  },
+  {
+    "id": "self-checkin-F05",
+    "kind": "capability",
+    "title": "未回答で使う",
+    "text": "入力せず地図へ進める。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "self-checkin-FC05"
+    ]
+  }
+]

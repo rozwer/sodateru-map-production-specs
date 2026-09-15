@@ -1,0 +1,48 @@
+[
+  {
+    "id": "quest-compass-R1",
+    "text": "方向と直線距離を測位時点と共に表示する。道路沿いの案内と区別し、測位停止時に距離を更新したように見せない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "quest-compass-C1"
+    ]
+  },
+  {
+    "id": "quest-compass-F01",
+    "kind": "capability",
+    "title": "方角を見る",
+    "text": "現在地から対象への方向と直線距離を見られる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "quest-compass-FC01"
+    ]
+  },
+  {
+    "id": "quest-compass-F02",
+    "kind": "capability",
+    "title": "測位を確かめる",
+    "text": "更新時点と取得不能を識別できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "quest-compass-FC02"
+    ]
+  },
+  {
+    "id": "quest-compass-F03",
+    "kind": "capability",
+    "title": "移動を切り替える",
+    "text": "道路経路を開くかコンパスを終了できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "quest-compass-FC03"
+    ]
+  }
+]

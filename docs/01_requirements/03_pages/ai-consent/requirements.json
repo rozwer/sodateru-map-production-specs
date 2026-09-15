@@ -1,0 +1,48 @@
+[
+  {
+    "id": "ai-consent-R1",
+    "text": "送る本文と対象場所を確認・変更・解除できる。AIを有効にして送信する操作で初めて送る。取消では本文を保持し送信しない。Codex以外へ自動で切り替えない。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-consent-C1"
+    ]
+  },
+  {
+    "id": "ai-consent-F01",
+    "kind": "capability",
+    "title": "送信内容を見る",
+    "text": "本文と参照場所を確認できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-consent-FC01"
+    ]
+  },
+  {
+    "id": "ai-consent-F02",
+    "kind": "capability",
+    "title": "対象を変える",
+    "text": "場所を変更・解除してプレビューを更新できる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-consent-FC02"
+    ]
+  },
+  {
+    "id": "ai-consent-F03",
+    "kind": "capability",
+    "title": "利用を決める",
+    "text": "有効化して送信、または送信せず取消を選べる。",
+    "sources": [
+      "../sources.json"
+    ],
+    "acceptance": [
+      "ai-consent-FC03"
+    ]
+  }
+]
