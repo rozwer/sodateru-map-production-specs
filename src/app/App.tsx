@@ -19,12 +19,13 @@ export interface AppProps {
   scopeKey?: string;
   profile?: ProfileView | null;
   dataMode?: 'live' | 'demo';
+  onStart?: () => void;
 }
 export function App({ scopeKey = 'unresolved', ...props }: AppProps) {
   // All page state and temporary map results are discarded atomically on context change.
   return <ScopedApp key={scopeKey} scopeKey={scopeKey} {...props}/>;
 }
-function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolved', profile, dataMode }: AppProps) {
+function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolved', profile, dataMode, onStart }: AppProps) {
   const [bridge] = useState(() => new MapBridge(scopeKey));
   const [navigation] = useState(() => new NavigationStore(parseRoute(location.hash)));
   const entries = useSyncExternalStore(navigation.subscribe, navigation.getSnapshot);
@@ -43,12 +44,15 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolv
   const showBottomNav = menuMode !== null || screen?.layout?.bottomNav !== false;
   const title = menuMode ? messages.menu : screen?.title || ({ 'self-home': messages.self, 'community-home': messages.community, settings: messages.settings, 'plugin-store': messages.plugins, '$start': messages.start }[current.route.pageId] ?? current.route.pageId);
   const go = useCallback((pageId: string, params: Record<string, string> = {}) => {
+    if (pageId === '$start' && onStart) { onStart(); return; }
     if (contentRef.current) current.scrollTop = contentRef.current.querySelector<HTMLElement>('[data-sheet-scroll]')?.scrollTop ?? 0;
     const carry: Record<string, string> = {};
     for (const key of ['date', 'from', 'to', 'timeZone']) if (current.route.params[key]) carry[key] = current.route.params[key];
+    const previous = navigation.getSnapshot();
     navigation.navigate(pageId, { ...carry, ...params });
-    history.pushState({ sodateruDepth: navigation.getSnapshot().length }, '', routeHash(navigation.getSnapshot().at(-1)!.route));
-  }, [navigation, current]);
+    const next = navigation.getSnapshot();
+    if (next !== previous) history.pushState({ sodateruDepth: next.length }, '', routeHash(next.at(-1)!.route));
+  }, [navigation, current, onStart]);
   const back = useCallback(() => {
     if (entries.length > 1) history.back();
     else { navigation.reset(); history.replaceState({ sodateruDepth: 1 }, '', '#/map'); }
