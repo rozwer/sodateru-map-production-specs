@@ -11,7 +11,7 @@ const context = (personId = 'alice', dataMode: 'live' | 'demo' = 'live'): Plugin
 const release = (id: string, version = '1.0.0', color = 'red'): PluginRelease => ({
   manifest: { id,name:id,description:'Test fixture only',category:'test',author:'test',pluginVersion:version,updatedAt:1,changeLog:version,icon:'pin',usageInfo:[],sources:[],settingsSchema:{type:'object',properties:{region:{type:'string'},highways:{type:'boolean'}},required:['region','highways'],additionalProperties:false},defaultSettings:{region:'Tokyo',highways:false},trialConditions:['地域','高速道路'] },
   declarations: (settings: Settings) => [{targetKey:'layer:bike',property:'color',value:color},{targetKey:`layer:${id}`,property:'conditions',value:settings}],
-  trial: (settings: Settings) => ({dataKind:'mock',label:'模擬データ（試用）',declarations:[],features:[{region:settings.region,highways:settings.highways}],warnings:['未確認道路の走行可否を示しません']}),
+  trial: (settings: Settings) => ({dataKind:'mock',label:'模擬データ（試用）',declarations:[],features:[{type:'Feature',id:'sample',geometry:{type:'Point',coordinates:[139.7,35.6]},properties:{kind:'place',label:String(settings.region),legendId:'sample',sourceIds:['fixture'],status:'simulated',value:null,unit:null}}],legends:[{id:'sample',label:'試用',color:'#008080',meaning:'模擬地点'}],sources:[{id:'fixture',title:'試用データ',url:null,attribution:'テスト用模擬データ',dataKind:'mock',fetchedAt:null,sourceUpdatedAt:null,observedAt:null,issuedAt:null,validAt:null}],generatedAt:1,warnings:['未確認道路の走行可否を示しません']}),
 });
 const migration = readFileSync(new URL('../../db/migrations/plugins/001-plugins.sql',import.meta.url),'utf8');
 function open(path: string, fresh = false) {
@@ -34,7 +34,7 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
   try {
     await t.test('trial and cancelled/unconfirmed installation write nothing', async () => {
       const before=service.state(); const trial=service.trial('bike','1.0.0',{region:'Kyoto',highways:true});
-      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0] && (trial.preview.features[0] as any).region,'Kyoto');
+      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0].properties.label,'Kyoto');
       assert.deepEqual(service.state(),before);
       await assert.rejects(service.install({...input('bike'),confirmed:false} as any),{code:'CONFIRMATION_REQUIRED'});
       assert.equal(service.state().items.length,0);

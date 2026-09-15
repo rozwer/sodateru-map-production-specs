@@ -1,3 +1,4 @@
+import { validateTrialPreview } from './preview.ts';
 import { randomUUID } from 'node:crypto';
 import { resolveDeclarations } from './declarations.ts';
 import { PluginRegistry, pluginRegistry } from './registry.ts';
@@ -15,8 +16,7 @@ export class PluginService {
     const snapshot = this.registry.snapshot(id,version,settings,icon);
     const state = this.state(), retained = this.store.retained(id);
     const candidate: PluginSetting = { ...snapshot,id,installId: retained?.installId ?? 'trial', version: retained?.version ?? 1, createdAt: retained?.createdAt ?? Date.now(), updatedAt: Date.now(), enabled: true, previousVersion: retained?.pluginVersion ?? null };
-    const preview = this.registry.get(id,snapshot.pluginVersion).trial(structuredClone(snapshot.settings));
-    if (preview.dataKind !== 'mock' || !preview.label) throw new PluginError(422,'VALIDATION_FAILED','試用には模擬データの表示が必要です');
+    const preview = validateTrialPreview(this.registry.get(id,snapshot.pluginVersion).trial(structuredClone(snapshot.settings)));
     return { snapshot, stateRevision: state.revision, preview, conflicts: resolveDeclarations([...state.items.filter(p => p.id !== id),candidate],this.store.resolutions()).conflicts };
   }
   private confirm(input: Confirmation) {

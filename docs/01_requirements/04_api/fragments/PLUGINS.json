@@ -1,6 +1,6 @@
 {
   "taskId": "PLUGINS",
-  "version": 1,
+  "version": 2,
   "replaceSchemas": [
     "PluginValues",
     "PluginDefinition",
@@ -670,8 +670,11 @@
         },
         "features": {
           "type": "array",
-          "items": {},
-          "maxItems": 1000
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialFeature"
+          },
+          "minItems": 0,
+          "maxItems": 10000
         },
         "warnings": {
           "type": "array",
@@ -681,6 +684,26 @@
             "maxLength": 2000
           },
           "maxItems": 1000
+        },
+        "legends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialLegend"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialSource"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "generatedAt": {
+          "type": "integer",
+          "minimum": 0
         }
       },
       "required": [
@@ -688,7 +711,10 @@
         "label",
         "declarations",
         "features",
-        "warnings"
+        "warnings",
+        "legends",
+        "sources",
+        "generatedAt"
       ],
       "additionalProperties": false
     },
@@ -932,6 +958,353 @@
       },
       "required": [
         "data"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialPosition": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "PluginTrialGeometry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "Point"
+            },
+            "coordinates": {
+              "$ref": "#/components/schemas/PluginTrialPosition"
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PluginTrialPosition"
+              },
+              "minItems": 2,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "Polygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PluginTrialPosition"
+                },
+                "minItems": 4,
+                "maxItems": 10000
+              },
+              "minItems": 1,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "MultiPolygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PluginTrialPosition"
+                  },
+                  "minItems": 4,
+                  "maxItems": 10000
+                },
+                "minItems": 1,
+                "maxItems": 10000
+              },
+              "minItems": 1,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PluginTrialFeature": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "geometry": {
+          "$ref": "#/components/schemas/PluginTrialGeometry"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "place",
+                "route",
+                "hazard",
+                "observation",
+                "forecast",
+                "terrain",
+                "pilgrimage"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "legendId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "minItems": 1,
+              "maxItems": 10000,
+              "uniqueItems": true
+            },
+            "status": {
+              "enum": [
+                "simulated",
+                "unknown"
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "unit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "label",
+            "legendId",
+            "sourceIds",
+            "status",
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "geometry",
+        "properties"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialLegend": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "color",
+        "meaning"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "dataKind": {
+          "const": "mock"
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUpdatedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issuedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url",
+        "attribution",
+        "dataKind",
+        "fetchedAt",
+        "sourceUpdatedAt",
+        "observedAt",
+        "issuedAt",
+        "validAt"
       ],
       "additionalProperties": false
     }
@@ -1775,6 +2148,7 @@
       "plugin-manage": "getPluginSettings/patchPluginSettingsPluginId",
       "plugin-update": "postPluginTrial/postPluginUpdate/postPluginRollback",
       "plugin-conflict": "trialのconflictsを表示→create/patch/update/rollbackのresolutionsで確定"
-    }
+    },
+    "trial-preview": "v2: preview.featuresはGeoJSON Feature[]のPoint/LineString/Polygon/MultiPolygon。propertiesのkind/legendId/sourceIds/status/value/unitを明示。凡例と出典はpreview.legends/sourcesで参照整合を検証。試用は全体と出典ともmock、生成時刻と取得/更新/観測/発表/対象時刻を分離し不明はnull。BIKE等の通常実データは固有APIから取得し、試用配列へ混入しない。"
   }
 }

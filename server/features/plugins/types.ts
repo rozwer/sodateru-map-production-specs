@@ -11,9 +11,30 @@ export interface PluginManifest {
   usageInfo: string[]; sources: PluginSource[]; settingsSchema: Record<string, unknown>;
   defaultSettings: Settings; trialConditions: string[]; order?: number;
 }
+export type TrialPosition = [number, number];
+export type TrialGeometry =
+  | { type: 'Point'; coordinates: TrialPosition }
+  | { type: 'LineString'; coordinates: TrialPosition[] }
+  | { type: 'Polygon'; coordinates: TrialPosition[][] }
+  | { type: 'MultiPolygon'; coordinates: TrialPosition[][][] };
+export interface TrialFeature {
+  type: 'Feature'; id: string; geometry: TrialGeometry;
+  properties: {
+    kind: 'place' | 'route' | 'hazard' | 'observation' | 'forecast' | 'terrain' | 'pilgrimage';
+    label: string; legendId: string; sourceIds: string[];
+    status: 'simulated' | 'unknown'; value: number | null; unit: string | null;
+  };
+}
+export interface TrialLegend { id: string; label: string; color: string; meaning: string }
+export interface TrialSource {
+  id: string; title: string; url: string | null; attribution: string; dataKind: 'mock';
+  fetchedAt: number | null; sourceUpdatedAt: number | null;
+  observedAt: number | null; issuedAt: number | null; validAt: number | null;
+}
 export interface TrialPreview {
   dataKind: 'mock'; label: string; declarations: Declaration[];
-  features: Json[]; warnings: string[];
+  features: TrialFeature[]; legends: TrialLegend[]; sources: TrialSource[];
+  generatedAt: number; warnings: string[];
 }
 export interface PluginRelease {
   manifest: PluginManifest;
