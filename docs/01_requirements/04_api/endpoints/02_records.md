@@ -2,7 +2,7 @@
 
 本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。
 
-[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。全操作は本人識別Q01が前提。POSTの再送基盤Q02と操作固有の依存も[未確定事項](../conventions/03_open-questions.md)で確認する。
+[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。ローカル本人識別と再送は[CORE契約](../conventions/07_core-runtime.md)。操作固有の依存は[未確定事項](../conventions/03_open-questions.md)で確認する。
 
 ## 操作一覧
 
@@ -41,7 +41,7 @@ cursorは本人・検索条件・順序に束縛し、条件不一致は400。�
 
 並び順：`startedAt DESC NULLS LAST, id DESC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -80,7 +80,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。startedAtとendedAtは終了が開始以上。unknownは両方null。終了のみの指定不可。 status=candidateをサーバーが設定。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -110,7 +110,7 @@ HTTP 201。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -146,7 +146,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。startedAtとendedAtは終了が開始以上。unknownは両方null。終了のみの指定不可。 candidate/confirmed/rejected間の本人操作による遷移を許す。confirmedでなくなった場合、または提案先と場所が一致しなくなった場合は参照提案をselectedへ戻しcompletedVisitId=null。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -182,7 +182,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。 記録のvisitIdをnullにし、直接の場所・日時は未指定のまま本文を残す。達成提案はselectedへ戻す。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -218,7 +218,7 @@ HTTP 204。
 
 並び順：`effectiveStartedAt DESC NULLS LAST, id ASC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -260,7 +260,7 @@ HTTP 200。
 
 visitIdありならkind=experience、placeId/occurredAt/endedAt=null、timePrecision=unknown。同じ本人の訪問だけ参照する。visitIdなしでは直接場所・日時を使う。 occurredAt/endedAtは終了≧開始、unknownは両方null。終了のみは不可。visibility=selectedはsharedWithが1人以上。private/publicは空配列。人物の存在と重複を検査する。 activities.idは記録内一意。希望不明ならpurpose/satisfaction=null。サーバーはAI出力を勝手に反映しない。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -290,7 +290,7 @@ HTTP 201。
 
 visitIdありならkind=experience、placeId/occurredAt/endedAt=null、timePrecision=unknown。同じ本人の訪問だけ参照する。visitIdなしでは直接場所・日時を使う。 読めない記録は404。媒体一覧は記録IDに属する媒体だけをposition ASC,id ASCで返す。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -326,7 +326,7 @@ HTTP 200。
 
 visitIdありならkind=experience、placeId/occurredAt/endedAt=null、timePrecision=unknown。同じ本人の訪問だけ参照する。visitIdなしでは直接場所・日時を使う。 occurredAt/endedAtは終了≧開始、unknownは両方null。終了のみは不可。visibility=selectedはsharedWithが1人以上。private/publicは空配列。人物の存在と重複を検査する。 省略値は保持し、変更後の全体へ制約を適用。本文の編集とAI案の採用は本人の送信項目だけを反映。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -362,7 +362,7 @@ HTTP 200。
 
 本文・添付media・全themesの所属IDを削除。visitsは保持。依存する生成結果は以後表示しない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -398,7 +398,7 @@ HTTP 204。
 
 並び順：`position ASC, id ASC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -434,7 +434,7 @@ HTTP 200。
 
 If-Matchは親記録の版。MIMEを内容で検証し1ファイル最大50 MiB。JPEG/PNG/WebPはphoto、MP4はvideo、MPEG/MP4/WAV音声はaudio。保存済みpositionは409。ファイル保存後に親の版を再検査しmedia追加と親の版増加を原子的に行う。失敗時は未参照実体を清掃。 親記録の媒体が既に100件なら422。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -472,7 +472,7 @@ HTTP 201。
 
 If-Matchは親記録。itemsは現在の全媒体ID・版を漏れなく各1回指定。配列順をposition=0から採用し一意制約を一括更新。版不一致は412で全件変更しない。最大100件を返し、続きは添付一覧。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -506,7 +506,7 @@ HTTP 200。
 
 親記録の閲覧権限を確認。storageKeyは返さずcontentUrlを返す。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -542,7 +542,7 @@ HTTP 200。
 
 親記録の現在権限を毎要求検査。pendingは409、failed/ファイルなしは503。readyの実体をContent-TypeとContent-Length付きで返す。単一bytes Rangeは206+Content-Range、範囲外と複数Rangeは416。実パスが媒体ルート外なら配信しない。Cache-Control: private, no-store、Content-Disposition: inline。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [Range](../conventions/06_shared-http.md#range)（省略可）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [Range](../conventions/06_shared-http.md#range)（省略可） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -580,7 +580,7 @@ string (binary)。—
 
 If-Matchはmediaの版。親記録の所有者だけが削除。親版も増加し未参照実体を清掃。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -616,7 +616,7 @@ HTTP 204。
 
 並び順：`observedAt ASC, id ASC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -654,7 +654,7 @@ HTTP 200。
 
 人物とsourcePointIdの組で同一観測へ収束。既存と観測内容が同じなら既存ID、異なるなら409で全体rollback。検査・保存は全件一括。観測を訪問確認へ自動変換しない。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -692,7 +692,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -728,7 +728,7 @@ HTTP 200。
 
 from<to。targetsは同じ本人で期間内、segmentId非nullなら同区間。全ID・版を照合し不一致は412で全体rollback。送信後に追加された未指定点は削除しない。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
