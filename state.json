@@ -36,6 +36,7 @@
         "INFORMATION": 6,
         "INSIGHTS": 34,
         "INSIGHTS-DEMO": 101,
+        "ISSUE-CLOSE-UI": 218,
         "MAP-CUSTOM": 27,
         "PILGRIMAGE": 38,
         "PLACES": 5,
@@ -7442,6 +7443,16 @@
           "src/features/plugins/reference-data.ts",
           "src/features/plugins/assets/",
           "docs/evidence/GROW-DATA/"
+        ]
+      },
+      {
+        "hard_dependencies": [],
+        "id": "ISSUE-CLOSE-UI",
+        "kind": "coordination",
+        "priority": "P1",
+        "title": "元UIとCONNECTの受入・終了状態を照合",
+        "write_paths": [
+          "docs/evidence/ISSUE-CLOSE-UI/"
         ]
       }
     ],
@@ -33690,9 +33701,10 @@
     "EXPLORATION-FOLLOWUP",
     "DISASTER-DATA",
     "DISASTER-UI",
-    "GROW-DATA"
+    "GROW-DATA",
+    "ISSUE-CLOSE-UI"
   ],
-  "revision": 219,
+  "revision": 220,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34069,6 +34081,21 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "f0f48162eba944b090d2f1464d453e48"
+    },
+    "ISSUE-CLOSE-UI": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 218,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "docs/evidence/ISSUE-CLOSE-UI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "8d2a3dcb39044219850109438689ad30"
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
