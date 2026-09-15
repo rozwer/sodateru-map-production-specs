@@ -11,7 +11,7 @@
 - 3機能のPOST trialは模擬と明示されたGeoJSON/凡例/出典/時点を返し、本人導入stateは変わらない。
 - 試用snapshot.settingsと確認済みstateRevisionをPOSTして導入201、同一キー再送200。各installIdからownerKeyと適用宣言を取得。
 - 停止後は設定を残してresolvedDeclarationsが空。OSプロセス終了→同じDB/本人profileで再起動後、state/設定一覧の全項目が一致。
-- 削除後は導入一覧から消える。別live DBは空のまま。
+- 削除後は導入一覧から消える。別live DBは空のまま。ただしliveの空確認はdemo削除後なので、この確認だけで非空データのmode間分離を立証したとは扱わない（PR #198独立レビュー補足）。
 - 未公開版の更新は404で旧stateを保持。実manifestは各1版のみのため、実版更新/版戻し成功は今回の証拠に含めない。既存の更新/版戻し/prepare障害/競合の処理証拠は[http-integration.md](http-integration.md)に保持。
 
 結果JSON: [main-result.json](main-result.json)。37 HTTP操作、`passed:true` は上記PLUGINS処理単位だけを意味する。`blockers`の地図受入は未達。
@@ -41,3 +41,13 @@ demo投入のために既存UIへ新mock基盤は加えない。本probeは隔�
 - [PILGRIMAGE](../PILGRIMAGE/README.md): live-http-result.json、実公式出典/道路/計画保存。試用は実作品対応を示さない。
 
 親 #28・子 #120はこの処理単位だけでcloseしない。claim/branch/worktreeを維持。
+
+## 実版更新/版戻しに必要な提供物
+
+正式develop `98bece8` の通常mainで、GET /pluginsと各GET /plugins/{id}/versionsを確認した。BIKE/DISASTER/PILGRIMAGEはいずれも実公開版1.0.0のみで、更新先になる実2版はない。
+
+- 再現: `mise exec -- node docs/evidence/PLUGINS/release-inventory.mjs`
+- 実応答manifest: [published-releases.json](published-releases.json)。試用/導入/未公開版404の既存成功区間は再実行していない。
+- 最小提案はBIKE #29へ一度連絡済み。`server/plugins/bike/release.ts` / `register.ts`で旧1.0.0を保持し、既統合の共通PLACES採用など実変更に対応する次releaseを正式登録する。新旧両版のmanifest/settingsSchema/defaultSettings/declarationsを再現できる状態が必要。
+- PLUGINS側の登録口変更や新mock版は不要。実2版の提供後に通常HTTP更新→旧版戻し→設定/表示宣言/履歴/再起動保持を確認する。
+- C処理の版管理・通常接続が揃った後、表示側受入をA #144へ明示引継ぎし、ユーザーの最新運用に従ってCの正式finishへ進める。UI未達だけをclaim保持条件へ追加しない。現時点ではCの実版成功・地図設定通常接続が残るためfinishしない。
