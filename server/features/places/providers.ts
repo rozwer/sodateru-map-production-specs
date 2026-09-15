@@ -41,7 +41,7 @@ export function parseNominatim(rows: unknown, fetchedAt: number): Candidate[] {
       attribution:"© OpenStreetMap contributors (ODbL)", fetchedAt, retention:"storable" as const}];
   });
 }
-export async function searchNominatim(query: string, limit: number, caller: AbortSignal): Promise<Candidate[]> {
+async function nominatimRequest(path: string, params: Record<string,string>, caller: AbortSignal): Promise<any> {
   const deadline = AbortSignal.any([caller, AbortSignal.timeout(30_000)]);
   const work = nominatimQueue.catch(() => {}).then(async () => {
     try {
@@ -51,10 +51,10 @@ export async function searchNominatim(query: string, limit: number, caller: Abor
       deadline.throwIfAborted();
       lastNominatimStart = Date.now();
       const signal = AbortSignal.any([deadline, AbortSignal.timeout(10_000)]);
-      const url = new URL(`${(process.env.NOMINATIM_BASE_URL || "https://nominatim.openstreetmap.org").replace(/\/$/, "")}/search`);
-      url.search = new URLSearchParams({q:query,format:"jsonv2",addressdetails:"1",namedetails:"1",limit:String(limit),"accept-language":"ja",countrycodes:process.env.NOMINATIM_COUNTRY_CODES || "jp"}).toString();
+      const url = new URL(`${(process.env.NOMINATIM_BASE_URL || "https://nominatim.openstreetmap.org").replace(/\/$/, "")}/${path}`);
+      url.search = new URLSearchParams({format:"jsonv2",addressdetails:"1",namedetails:"1","accept-language":"ja",...params}).toString();
       const rows = await json(url, signal, {"User-Agent":process.env.NOMINATIM_USER_AGENT || "sodateru-map-production/1.0"});
-      return parseNominatim(rows, Date.now()).slice(0,limit);
+      return rows;
     } catch (error) { return providerError(error, deadline); }
   });
   nominatimQueue = work;
@@ -97,4 +97,23 @@ export async function searchMapbox(category: string, origin: Position, caller: A
   })).catch(error=> { if(error instanceof CommonError && error.code==="OUTPUT_INVALID") throw error; throw new CommonError("PROVIDER_UNAVAILABLE","周辺候補を取得できません。",true); });
   const seen=new Set<string>();
   return groups.flat().filter(item => {if(!item.externalId)return true; if(seen.has(item.externalId))return false;seen.add(item.externalId);return true;}).slice(0,5);
+}
+
+export async function searchNominatim(query:string,limit:number,caller:AbortSignal):Promise<Candidate[]> {
+  const rows=await nominatimRequest("search",{q:query,limit:String(limit),countrycodes:process.env.NOMINATIM_COUNTRY_CODES || "jp"},caller);
+  return parseNominatim(rows,Date.now()).slice(0,limit);
+}
+export async function refreshNominatim(externalId:string,caller:AbortSignal) {
+  if(!/^[NWR][1-9][0-9]*$/.test(externalId))throw new CommonError("INVALID_INPUT","外部場所IDが不正です。",false);
+  const rows=await nominatimRequest("lookup",{osm_ids:externalId,extratags:"1",entrances:"1"},caller);
+  const fetchedAt=Date.now(),candidate=parseNominatim(rows,fetchedAt).find(item=>item.externalId===externalId);
+  if(!candidate)throw new CommonError("OUTPUT_INVALID","外部の場所を再取得できませんでした。",true);
+  const row=rows.find((item:any)=>item.osm_type?.[0]?.toUpperCase()+item.osm_id===externalId);
+  const openingHours=text(row.extratags?.opening_hours)?{rawText:row.extratags.opening_hours,timezone:null,sourceUrl:candidate.sourceUrl,fetchedAt,verificationStatus:"unverified" as const}:null;
+  const entrances=(Array.isArray(row.entrances)?row.entrances:[]).flatMap((item:any)=> {
+    const coordinates=[Number(item.lon),Number(item.lat)];
+    if(!isPosition(coordinates)||!item.osm_id||!text(String(item.lat))||!text(String(item.lon)))return [];
+    return [{id:`N${item.osm_id}`,coordinates,label:text(item.name)?item.name:null,accessibility:"unknown",sourceUrl:`https://www.openstreetmap.org/node/${item.osm_id}`,fetchedAt,verificationStatus:"unverified"}];
+  });
+  return {candidate,openingHours,entrances};
 }

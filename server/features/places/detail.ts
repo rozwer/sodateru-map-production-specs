@@ -2,6 +2,7 @@ import type { DatabaseSync } from "node:sqlite";
 import type { RequestContext } from "../../core/context.ts";
 import { CommonError } from "../../core/errors.ts";
 import { createInformationService } from "../../information/service.ts";
+import { getPlaceMetadata } from "./metadata.ts";
 import { getPlace, colocated } from "./repository.ts";
 async function section<T>(read:()=>T|Promise<T>) {
   try{return {status:"ready" as const,items:await read(),error:null};}
@@ -18,5 +19,5 @@ export async function getPlaceDetail(context:RequestContext,db:DatabaseSync,plac
     section(async()=>(await information.allRecords(context,{...query,audience:"visible"})).filter(record=>record.person.id!==context.personId)),
     section(()=>information.ownVisits(context,placeId))
   ]);
-  return {place,colocated:colocated(db,place),ownRecords,sharedRecords,visits};
+  return {place,...getPlaceMetadata(db,placeId),colocated:colocated(db,place),ownRecords,sharedRecords,visits};
 }

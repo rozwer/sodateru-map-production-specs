@@ -49,7 +49,7 @@ export class PlacesService {
     for(const [key,value] of this.results)if(value.result.expiresAt<=now)this.results.delete(key);
     // Reuse live in-memory provider results for identical conditions; no persistent candidate cache.
     for(const cached of this.results.values())if(cached.personId===context.personId&&cached.dataMode===context.dataMode&&hash(cached.input)===hash(input)) {
-      if(!("q" in input)||savedCandidates(db,input.q,input.limit??10).length===0)return structuredClone(cached.result);
+      if(!("q" in input)||(cached.result.items.every(item=>item.placeId===null)&&savedCandidates(db,input.q,input.limit??10).length===0))return structuredClone(cached.result);
     }
     context.signal.throwIfAborted();
     let items:Omit<PlaceCandidate,"candidateId">[];
