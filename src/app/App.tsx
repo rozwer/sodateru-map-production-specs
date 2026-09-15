@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type ComponentType, type CSSProperties } from 'react';
 import { messages } from '../messages';
 import { Icon } from '../ui/Icon';
+import { CapturePicker } from '../ui/CapturePicker';
+import { stageRecordCapture } from '../features/records/capture-handoff';
 import { Sheet } from '../ui/Sheet';
 import { Status } from '../ui/Status';
 import type { ProfileView, ScreenDefinition, ScreenProps } from './contracts';
@@ -36,6 +38,8 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const entries = useSyncExternalStore(navigation.subscribe, navigation.getSnapshot);
   const current = entries.at(-1)!;
   const [saved] = useState(() => new Map<string, unknown>());
+  const [captureOpen, setCaptureOpen] = useState(false);
+  const [captureError, setCaptureError] = useState<string | null>(null);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [visited, setVisited] = useState(() => new Map([[current.key, current.route]]));
   const lastDepth = useRef(entries.length);
@@ -139,9 +143,16 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
           })}
         </Sheet>
       </div>
+      {captureOpen && <CapturePicker onClose={() => setCaptureOpen(false)} onFiles={files => {
+        const captureId = stageRecordCapture(files, scopeKey);
+        if (!captureId) { setCaptureError('写真を読み込めませんでした。画像を選び直してください。'); return; }
+        setCaptureOpen(false); setCaptureError(null);
+        go('record-create', { captureId });
+      }}/>}
+      {captureError && <div className="sm-location-error"><Status kind="error">{captureError}</Status></div>}
       <nav ref={navRef} hidden={!showBottomNav} className="sm-bottom-nav" aria-label="画面の切替">
         <button type="button" aria-pressed={menuMode === 'self' || current.route.pageId === 'self-home'} onClick={() => go('navigation', { mode: 'self' })}><Icon name="person" size={25}/><span>{messages.self}</span></button>
-        <button type="button" className="sm-bottom-nav__map" aria-label={messages.map} onClick={() => go('map')}><Icon name="map" size={29}/></button>
+        <button type="button" className={`sm-bottom-nav__map${isMapPage ? ' sm-bottom-nav__map--camera' : ''}`} aria-label={isMapPage ? '写真を記録する' : messages.map} onClick={() => { if (isMapPage) { setCaptureError(null); setCaptureOpen(true); } else go('map'); }}><Icon name={isMapPage ? 'camera' : 'map'} size={29}/></button>
         <button type="button" aria-pressed={menuMode === 'community' || current.route.pageId === 'community-home'} onClick={() => go('navigation', { mode: 'community' })}><Icon name="people" size={27}/><span>{messages.communityMap}</span></button>
       </nav>
     </main>
