@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { messages } from '../messages';
 import { Icon } from './Icon';
 import './sheet.css';
@@ -11,11 +11,13 @@ export interface SheetProps {
   onBack?: () => void;
   side?: 'left' | 'right';
   kind?: 'screen' | 'navigation';
-  header?: 'back' | 'close' | 'back-close';
+  header?: 'back' | 'close' | 'back-close' | 'none';
+  contentPadding?: 'default' | 'none';
+  mobileHeight?: number;
   background?: 'surface' | 'soft';
   onRect?: (rect: DOMRect | null) => void;
 }
-export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', header = 'back-close', background = 'surface', onRect }: SheetProps) {
+export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', header = 'back-close', contentPadding = 'default', mobileHeight, background = 'surface', onRect }: SheetProps) {
   const ref = useRef<HTMLElement>(null);
   const closeRef = useRef(onClose); closeRef.current = onClose;
   useLayoutEffect(() => {
@@ -31,14 +33,14 @@ export function Sheet({ open, title, children, onClose, onBack, side = 'left', k
       if (source?.isConnected) source.focus({ preventScroll: true });
     };
   }, [open, side, kind, onRect]);
-  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background}`} role="dialog" aria-label={title} onKeyDown={event => {
+  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background}${mobileHeight ? ' sm-sheet--mobile-height' : ''}`} style={mobileHeight ? { '--sheet-mobile-height': `${Math.max(20, Math.min(100, mobileHeight))}dvh` } as CSSProperties : undefined} role="dialog" aria-label={title} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); event.stopPropagation(); closeRef.current(); }
   }}>
-    <header className={`sm-sheet__header${header === 'back' && kind !== 'navigation' ? ' sm-sheet__header--centered' : ''}`}>
+    {header !== 'none' && <header className={`sm-sheet__header${header === 'back' && kind !== 'navigation' ? ' sm-sheet__header--centered' : ''}`}>
       {header !== 'close' && onBack && <button className="sm-icon-button" type="button" onClick={onBack} aria-label={messages.back}><Icon name="back"/></button>}
       {kind === 'screen' && <h1>{title}</h1>}
       {(header !== 'back' || kind === 'navigation') && <button className="sm-icon-button sm-sheet__close" type="button" onClick={onClose} aria-label={messages.close}><Icon name="close" size={22}/></button>}
-    </header>
-    <div className="sm-sheet__body" data-sheet-scroll>{children}</div>
+    </header>}
+    <div className={`sm-sheet__body${contentPadding === 'none' ? ' sm-sheet__body--no-padding' : ''}`} data-sheet-scroll>{children}</div>
   </aside>;
 }
