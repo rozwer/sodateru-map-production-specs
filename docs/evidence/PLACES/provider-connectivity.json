@@ -1,0 +1,35 @@
+{
+  "timestamp": "2026-09-15T02:18:10.575Z",
+  "kind": "provider connectivity only; CORE/adapter/DB integration pending",
+  "requests": {
+    "nominatim": {
+      "query": "東京駅",
+      "limit": 3
+    },
+    "mapbox": {
+      "category": "coffee",
+      "limit": 5,
+      "origin": [
+        139.7671,
+        35.6812
+      ]
+    }
+  },
+  "results": [
+    {
+      "provider": "nominatim",
+      "fetchedAt": 1789438691891,
+      "status": 200,
+      "ok": true,
+      "count": 3
+    },
+    {
+      "provider": "mapbox",
+      "fetchedAt": 1789438691185,
+      "status": 200,
+      "ok": true,
+      "count": 5
+    }
+  ],
+  "notes": "No token, provider response body, or Mapbox temporary candidates are persisted."
+}
