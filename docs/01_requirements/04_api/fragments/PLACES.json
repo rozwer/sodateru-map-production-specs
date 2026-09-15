@@ -1,0 +1,1249 @@
+{
+  "taskId": "PLACES",
+  "version": "0.2.0",
+  "schemas": {
+    "PlaceOpeningHours": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rawText": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "timezone": {
+          "anyOf": [
+            {
+              "type": "string",
+              "description": "IANA timezone, null when unknown"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2048,
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "enum": [
+            "unverified",
+            "confirmed"
+          ]
+        }
+      },
+      "required": [
+        "rawText",
+        "timezone",
+        "sourceUrl",
+        "fetchedAt",
+        "verificationStatus"
+      ]
+    },
+    "PlaceEntrance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "coordinates": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "accessibility": {
+          "enum": [
+            "unknown",
+            "accessible",
+            "restricted"
+          ]
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2048,
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "enum": [
+            "unverified",
+            "confirmed"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "coordinates",
+        "label",
+        "accessibility",
+        "sourceUrl",
+        "fetchedAt",
+        "verificationStatus"
+      ]
+    },
+    "PlacePatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "場所名"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "buildingKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "openingHours": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/PlaceOpeningHours"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entrances": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/components/schemas/PlaceEntrance"
+          }
+        },
+        "resetFields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "name",
+              "address",
+              "buildingKey",
+              "openingHours",
+              "entrances"
+            ]
+          }
+        },
+        "refreshExternal": {
+          "const": true
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1,
+      "description": "Manual values override provider refresh. resetFields removes corrections and restores latest saved provider values. refreshExternal performs Nominatim lookup before the version-checked transaction. Editing authority pending user decision."
+    },
+    "PlaceDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "place": {
+          "$ref": "#/components/schemas/CommonMapPlace"
+        },
+        "colocated": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80,
+                "pattern": "\\S"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "address": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 2000
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "coordinates": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "address",
+              "coordinates"
+            ]
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "ownRecords": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "failed"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonInfoRecordView"
+              },
+              "minItems": 0,
+              "maxItems": 100000
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CommonInfoError"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "items",
+            "error"
+          ]
+        },
+        "sharedRecords": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "failed"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonInfoRecordView"
+              },
+              "minItems": 0,
+              "maxItems": 100000
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CommonInfoError"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "items",
+            "error"
+          ]
+        },
+        "visits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "ready",
+                "failed"
+              ]
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/CommonInfoVisitView"
+              },
+              "minItems": 0,
+              "maxItems": 100000
+            },
+            "error": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CommonInfoError"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "status",
+            "items",
+            "error"
+          ]
+        },
+        "openingHours": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/PlaceOpeningHours"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "entrances": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/components/schemas/PlaceEntrance"
+          }
+        },
+        "correctedFields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "name",
+              "address",
+              "buildingKey",
+              "openingHours",
+              "entrances"
+            ]
+          }
+        }
+      },
+      "required": [
+        "place",
+        "colocated",
+        "ownRecords",
+        "sharedRecords",
+        "visits",
+        "openingHours",
+        "entrances",
+        "correctedFields"
+      ],
+      "x-source": "../../02_common/03_information/schemas.json#/definitions/PlaceDetail",
+      "description": "openingHours=null and entrances=[] mean not acquired. No open-now or accessibility inference from unknown data. All provider-derived details are unverified until explicitly confirmed."
+    },
+    "PlaceCreate": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "mode": {
+              "const": "candidate"
+            },
+            "resultId": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "candidateId": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "required": [
+            "id",
+            "mode",
+            "resultId",
+            "candidateId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "mode": {
+              "const": "manual"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "position": {
+              "$ref": "#/components/schemas/Position"
+            },
+            "address": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 2000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "buildingKey": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 300
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "id",
+            "mode",
+            "name",
+            "position",
+            "address",
+            "buildingKey"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "operations": [
+    {
+      "operationId": "getPlaces",
+      "summary": "保存済み場所一覧",
+      "tags": [
+        "地図・場所"
+      ],
+      "description": "権限: 本人。保存先: なし。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_q"
+        },
+        {
+          "$ref": "#/components/parameters/query_bbox"
+        },
+        {
+          "name": "buildingKey",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 400
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlacePage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "01-01",
+      "x-sort": "name ASC, id ASC",
+      "method": "get",
+      "path": "/places",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "postPlaces",
+      "summary": "候補採用・手動登録",
+      "tags": [
+        "地図・場所"
+      ],
+      "description": "権限: 本人。保存先: places。candidateでは本人・期限を確認しprovider+externalIdで照合。既存なら200でそのPlaceを返す。manualはprovider=manual、externalId/sourceUrl/fetchedAt=null、attributionは空文字。要求IDと既存IDが異なる場合も返却されたIDを使う。 候補のretention=storableを必須としtemporaryは409 REQUEST_CONFLICT。creation_receiptsを期限照合より先に確認し、同じ要求は現在の場所を返す。削除済みなら404で復活させない。categoriesもコピーする。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Place"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "x",
+                  "name": "本山のカフェ",
+                  "address": null,
+                  "coordinates": [
+                    0,
+                    0
+                  ],
+                  "categories": [],
+                  "provider": "x",
+                  "externalId": null,
+                  "buildingKey": null,
+                  "sourceUrl": null,
+                  "attribution": "x",
+                  "fetchedAt": null,
+                  "version": 1,
+                  "createdAt": 0,
+                  "updatedAt": 0
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "200": {
+          "description": "providerとexternalIdが既存場所に一致。返した既存IDを使う。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Place"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "x",
+                  "name": "本山のカフェ",
+                  "address": null,
+                  "coordinates": [
+                    0,
+                    0
+                  ],
+                  "categories": [],
+                  "provider": "x",
+                  "externalId": null,
+                  "buildingKey": null,
+                  "sourceUrl": null,
+                  "attribution": "x",
+                  "fetchedAt": null,
+                  "version": 1,
+                  "createdAt": 0,
+                  "updatedAt": 0
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "429": {
+          "$ref": "#/components/responses/Response429_postPlaces"
+        },
+        "502": {
+          "$ref": "#/components/responses/Response502_postPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01",
+        "Q02"
+      ],
+      "x-api-id": "01-03",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlaceCreate"
+            },
+            "example": {
+              "id": "record-001",
+              "mode": "candidate",
+              "resultId": "record-001",
+              "candidateId": "record-001"
+            }
+          }
+        }
+      },
+      "method": "post",
+      "path": "/places",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getPlaceCandidates",
+      "summary": "場所候補検索",
+      "tags": [
+        "地図・場所"
+      ],
+      "description": "権限: 本人。保存先: なし。qまたはcategoryの一方を必須。qはtrim/NFKC/小文字化して保存場所を検索し、0件ならNominatim。categoryではlongitude/latitudeの両方を必須とし緯度±85。categoryは5件固定のためlimit指定不可。候補は15分、本人・dataModeで分離。temporaryは閲覧だけで保存不可。共通の場所検索仕様を適用。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_q"
+        },
+        {
+          "$ref": "#/components/parameters/query_longitude"
+        },
+        {
+          "$ref": "#/components/parameters/query_latitude"
+        },
+        {
+          "name": "category",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "coffee",
+              "restaurant",
+              "bakery",
+              "park"
+            ]
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 10
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CandidateResult"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "resultId": "record-001",
+                  "expiresAt": 1789430400000,
+                  "items": []
+                }
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "429": {
+          "$ref": "#/components/responses/Response429_postPlaces"
+        },
+        "502": {
+          "$ref": "#/components/responses/Response502_postPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "01-02",
+      "method": "get",
+      "path": "/place-candidates",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getPlacesPlaceId",
+      "summary": "場所詳細",
+      "tags": [
+        "地図・場所"
+      ],
+      "description": "権限: 本人。保存先: なし。共通getPlaceDetailのPlaceDetailをdataへ返す。colocatedは同じ非nullのbuildingKeyで名前・ID順。本人訪問は全ページ取得し、ownRecords/sharedRecords/visitsを領域別状態で返す。主対象なしは404。schemaのerrorは共通Errorとして保持する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_placeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PlaceDetail"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "place": {
+                    "id": "x",
+                    "name": "本山のカフェ",
+                    "address": null,
+                    "coordinates": [
+                      0,
+                      0
+                    ],
+                    "categories": [],
+                    "provider": "x",
+                    "externalId": null,
+                    "buildingKey": null,
+                    "sourceUrl": null,
+                    "attribution": "x",
+                    "fetchedAt": null,
+                    "version": 1,
+                    "createdAt": 0,
+                    "updatedAt": 0
+                  },
+                  "colocated": [],
+                  "ownRecords": {
+                    "status": "ready",
+                    "items": [],
+                    "error": null
+                  },
+                  "sharedRecords": {
+                    "status": "ready",
+                    "items": [],
+                    "error": null
+                  },
+                  "visits": {
+                    "status": "ready",
+                    "items": [],
+                    "error": null
+                  }
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "01-04",
+      "method": "get",
+      "path": "/places/{placeId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "patchPlacesPlaceId",
+      "summary": "場所情報・建物対応の訂正",
+      "tags": [
+        "地図・場所"
+      ],
+      "description": "権限: 場所管理権限（未確定）。保存先: places。共有のplacesを編集する権限を先に決める。外部取得項目の手修正・再取得時の優先順位はQ03。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_placeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Place"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "x",
+                  "name": "本山のカフェ",
+                  "address": null,
+                  "coordinates": [
+                    0,
+                    0
+                  ],
+                  "categories": [],
+                  "provider": "x",
+                  "externalId": null,
+                  "buildingKey": null,
+                  "sourceUrl": null,
+                  "attribution": "x",
+                  "fetchedAt": null,
+                  "version": 1,
+                  "createdAt": 0,
+                  "updatedAt": 0
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [
+        "Q03"
+      ],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "01-05",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PlacePatch"
+            },
+            "example": {
+              "name": "本山のカフェ"
+            }
+          }
+        }
+      },
+      "method": "patch",
+      "path": "/places/{placeId}",
+      "replaceOperation": true
+    }
+  ],
+  "x-deliveries": {
+    "PLACES.search": {
+      "status": "implementation-in-progress",
+      "internal": "server/features/places/service.ts placesService.search(context,db,input), resolveCandidate(context,resultId,candidateId), adopt(context,db,input)",
+      "http": "Candidate.position={longitude,latitude}; internal PlaceCandidate.coordinates=[longitude,latitude]. PlaceCreate manual position is the HTTP Position object.",
+      "retention": "15 minutes; owner/mode-scoped memory only. Search never inserts places. Mapbox temporary candidates cannot be adopted.",
+      "adopt": "CORE synchronous transaction must wrap adopt. creation_receipts are read before candidates. Same input returns current place; different input conflicts; deleted place returns NOT_FOUND."
+    },
+    "PLACES.detail": {
+      "status": "integration-pending",
+      "dependency": "INFORMATION createInformationService(db).allRecords / ownVisits",
+      "contract": "Existing PlaceDetail. Main place missing fails all; ownRecords/sharedRecords/visits fail independently. Same non-null building key returns colocated facilities in name/id order."
+    }
+  },
+  "x-q03": {
+    "status": "permission-decision-pending",
+    "searchPriority": "Search does not overwrite saved places. Explicit refresh must preserve manually corrected fields and check If-Match.",
+    "buildingKey": "source/layer/feature identifier, null when unknown; facilities keep separate placeIds.",
+    "openingHours": "rawText/timezone/sourceUrl/fetchedAt/verificationStatus; null unknown, never infer openNow",
+    "entrances": "id/coordinates/label/accessibility/sourceUrl/fetchedAt/verificationStatus; empty unknown, accessibility=unknown when not obtained",
+    "authority": "PATCH implementation waits only for shared-place editor policy. User clarification pending.",
+    "externalRefresh": "PATCH refreshExternal=true uses Nominatim /lookup. Stores external values separately from corrections; failure preserves old rows. resetFields restores latest external value. Shared editor policy still pending."
+  },
+  "replaceSchemas": [
+    "PlacePatch",
+    "PlaceDetail",
+    "PlaceCreate"
+  ]
+}

@@ -1,0 +1,27 @@
+/** Central UI copy. Feature-owned messages.ts fragments are exposed by namespace. */
+export const messages = {
+  appName: '育てる地図',
+  menu: 'メニュー', close: '閉じる', back: '戻る', retry: '再試行',
+  loading: '読み込んでいます', save: '保存する', saving: '保存しています', cancel: '取消',
+  unavailable: 'この画面はまだ接続されていません。',
+  mapUnavailable: '地図を利用できません',
+  mapPending: '地図の接続準備中です。メニューから画面を開けます。',
+  map: '地図に戻る', self: '自分を知る', community: 'みんなを知る',
+  communityMap: 'みんなの地図', plugins: 'アプリを育てる', settings: '設定', start: 'スタート画面',
+  locate: '現在地', locationDenied: '現在地を取得できません。端末の位置情報設定を確認してください。',
+  profilePending: 'プロフィールを読み込めません', profileEmpty: 'プロフィール未設定',
+  selfDescription: '日々の体験から、\nいまの自分へ。',
+  communityDescription: 'まちの人や場所と出会い、\n新しい視点を見つけよう。',
+  today: '今日の軌跡', todayDescription: '今日を振り返る',
+  diagnosis: 'タイプ診断', diagnosisDescription: '記録から見える傾向',
+  personalMap: 'わたしの地図', personalMapDescription: '自分のテーマで見る',
+  knowledge: '地域の知', knowledgeDescription: 'まちのストーリーから知る',
+  friends: '友達の地図', friendsDescription: '友達の軌跡を見てみる',
+  menuFooter: '歩いた分だけ、\nわたしが育つ。',
+  selfFooter: '何気ない一日が、\nわたしをつくっていく。',
+  communityFooter: 'だれかの地図が、\nわたしの世界をひろげる。',
+  chatLabel: 'メッセージ', chatPlaceholder: '気になることを話してみよう', send: '送信',
+  processing: '考えています', stop: '処理を取消', demo: 'デモ', live: '自分のデータ',
+} as const;
+
+export const featureMessages = import.meta.glob('./features/**/messages.ts', { eager: true });
