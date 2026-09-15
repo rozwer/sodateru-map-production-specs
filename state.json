@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 70,
+  "revision": 71,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4783,17 +4783,22 @@
       "token": "b4dd196edb8a4a0f918de1218e0399c1"
     },
     "ROUTES": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 6,
+      "actor": "kaiya",
+      "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
+      "generation": 7,
       "issue_number": 25,
       "landed_main": null,
       "note": "Refresh own claim base after integrating approved CORE/PLACES develop commits; preserve worktree, branch and all changes",
       "owner": "kaiya",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/routes/",
+        "server/db/migrations/routes/",
+        "docs/01_requirements/04_api/fragments/ROUTES.json",
+        "docs/evidence/ROUTES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "6e0fd1b0833542f086e43376c7dce057"
     },
     "SETTINGS": {
       "actor": "koshiro",
