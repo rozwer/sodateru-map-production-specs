@@ -33,3 +33,12 @@
 - typecheckは既存のCORE/companion/exploration/friends/record-flow.test/reflectionの型差分で失敗。今回追加・変更したcameraファイルの診断なし。
 - 受取テスト: mise exec -- bunx vitest run --environment jsdom src/features/records/capture-handoff.test.tsx → 2件成功。
 - 受渡し後の戻る、キャンセル、端末許可拒否、実機撮影、実保存は後継担当とShell側の確認が必要。
+
+## #185 継続: 通常データと写真の切替
+
+- records/activityはPR188→#189へ引継ぎ、#176は通常release済み。#185の取得範囲はreflection/insights/themes/suggestionsと本証拠だけ。
+- reflection.html: 既存previewの6画面へ独立写真3枚・履歴4件・2体験・地図座標と軌跡・レーダー4軸を用意。写真は既存UI-INSIGHTSの提供素材、地図は実Mapbox、データは明示fixture/API未接続。
+- PhotoImageは前の画像取得失敗後に別URLの記録を選ぶと回復する。photo-recovery.test.tsx 1件成功。
+- AI下書き/回答の採用へ正式SchemaのexpectedAttemptを渡す。質問本文がnullなら元質問取得不可と表示してAI抽出を止める。新しいAPIやSchemaは作っていない。
+- 製品入口+reflection.html+suggestions.htmlを同じVite buildでコンパイル成功。実ブラウザの新reflectionはQA反映後確認。
+- 全体typecheckは既存型差分が残る。日記新規AI採用のIf-Match必須扱いは既存serverテストもCORE未接続として明記している（#111）。今回のexpectedAttempt対応だけで新規AI日記保存完了とはしない。

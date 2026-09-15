@@ -41,7 +41,7 @@ async function questionCard(
 ): Promise<QuestionCardData> {
   return {
     id: q.id,
-    question: q.questionText,
+    question: q.questionText ?? "元の質問を表示できません。",
     month: new Intl.DateTimeFormat("ja-JP", {
       timeZone,
       year: "numeric",
@@ -210,7 +210,7 @@ export function QuestionsScreen({
   };
   const generate = async () => {
     const q = state.question;
-    if (aiBusy || !q?.answerText || !q.answerRef || q.answerUnavailable) return;
+    if (aiBusy || !q?.questionText || !q.answerText || !q.answerRef || q.answerUnavailable) return;
     const c = new AbortController();
     aiControl.current.abort();
     aiControl.current = c;
@@ -255,6 +255,7 @@ export function QuestionsScreen({
       await api.request("postReflectionAdoptions", {
         body: {
           assistantMessageId: ai.job.send.assistantMessageId,
+          expectedAttempt: ai.run.attempt,
           recordId: q.targetRecordId,
           fields,
         },
@@ -321,7 +322,7 @@ export function QuestionsScreen({
                 <Action
                   onClick={() => void generate()}
                   disabled={
-                    aiBusy || state.edited || !!state.question.answerUnavailable
+                    aiBusy || state.edited || !!state.question.answerUnavailable || !state.question.questionText
                   }
                 >
                   AIで整理する
