@@ -1,0 +1,59 @@
+{
+  "status": "partial-ui",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-storable-route/d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+  "entry": "server/app/main.ts",
+  "client": "正式UI / packages/api-client",
+  "cardId": "c22ce365-a497-4da7-a4ce-3665734f7f44",
+  "run": {
+    "id": "d136f521-545e-4a25-8046-68dc989e1680",
+    "status": "complete",
+    "attempt": 1,
+    "model": "gpt-5.6-luna",
+    "source_refs_json": "[{\"type\":\"place\",\"id\":\"place-d7bd15b4-08d9-40cc-b63c-238d36640c3f\",\"version\":1}]",
+    "applied_refs_json": "[{\"type\":\"discovery\",\"id\":\"c22ce365-a497-4da7-a4ce-3665734f7f44\",\"version\":1,\"contentHash\":\"84e48d568df0add0b7bafe149d72c977843f75668147fd0071144490a8fba743\"}]"
+  },
+  "anchor": {
+    "kind": "place",
+    "targetId": "place-d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+    "features": [
+      "科学館という名前が気になります。登録名と住所、情報の取得元を確かめたいです。"
+    ]
+  },
+  "sources": [
+    {
+      "url": "https://www.openstreetmap.org/node/11436123137",
+      "title": "取得元の場所情報（nominatim）",
+      "claimScope": "place-specific",
+      "sourceId": "place-d7bd15b4-08d9-40cc-b63c-238d36640c3f"
+    }
+  ],
+  "sourceRefs": [
+    {
+      "type": "place",
+      "id": "place-d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+      "version": 1
+    }
+  ],
+  "reactions": [
+    {
+      "reaction": "saved"
+    }
+  ],
+  "apiChecks": {
+    "completeRealLuna": true,
+    "placeSpecificSource": true,
+    "sourceRefMatchesAnchor": true,
+    "appliedReference": true,
+    "savedReaction": true
+  },
+  "uiObservations": {
+    "consentEnabled": true,
+    "postConsentReturnedToBlankRoute": true,
+    "browserBackToOriginalRouteRecoveredCard": true,
+    "saveReactionClicked": true,
+    "browserReloadThenSavedListReopenedCard": true,
+    "sourceLabel": "対象の出典",
+    "knowledgeMatchedRegisteredPlace": true
+  },
+  "remaining": "同意完了後に元route params/cardを直接表示する修正はCONNECT-EXPLORE #136"
+}

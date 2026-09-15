@@ -1,0 +1,19 @@
+{
+  "id": "60a4552c-2c0d-4565-8c31-7111596790a6",
+  "aiCalls": 0,
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-source-change/60a4552c-2c0d-4565-8c31-7111596790a6",
+  "status": "complete",
+  "entry": "server/app/main.ts",
+  "client": "packages/api-client/index.ts",
+  "dataMode": "live",
+  "checks": {
+    "currentRead": true,
+    "placeVersionChanged": true,
+    "staleReadRejected": 409,
+    "staleAdoptionRejected": 409,
+    "staleReactionRejected": 409,
+    "aiCalls": 0,
+    "originalDatabaseUnmodified": true
+  },
+  "originalDatabase": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-storable-route/d7bd15b4-08d9-40cc-b63c-238d36640c3f"
+}
