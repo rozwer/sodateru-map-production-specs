@@ -1,6 +1,6 @@
 {
   "taskId": "BIKE",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "schemas": {
     "BikeSettings": {
       "type": "object",
@@ -410,6 +410,9 @@
         },
         "expiresAt": {
           "type": "integer"
+        },
+        "resultEvaluation": {
+          "$ref": "#/components/schemas/BikeRouteResultEvaluation"
         }
       }
     },
@@ -825,6 +828,213 @@
               }
             }
           }
+        }
+      }
+    },
+    "BikeSegmentEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "profile",
+        "geometryHash",
+        "routeFetchedAt",
+        "fetchedAt",
+        "sourceUrl",
+        "osmChangeset",
+        "options",
+        "warnings",
+        "edges"
+      ],
+      "properties": {
+        "provider": {
+          "const": "valhalla"
+        },
+        "profile": {
+          "enum": [
+            "motorcycle",
+            "motor_scooter"
+          ]
+        },
+        "geometryHash": {
+          "type": "string"
+        },
+        "routeFetchedAt": {
+          "type": "integer"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "sourceUrl": {
+          "type": "string"
+        },
+        "osmChangeset": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "excludeHighways",
+            "useHighways",
+            "topSpeed",
+            "departureLocal"
+          ],
+          "properties": {
+            "excludeHighways": {
+              "type": "boolean"
+            },
+            "useHighways": {
+              "type": "number"
+            },
+            "topSpeed": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "departureLocal": {
+              "type": "string"
+            }
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "text"
+            ],
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "wayId",
+              "forward",
+              "beginShapeIndex",
+              "endShapeIndex",
+              "roadClass",
+              "use",
+              "motorroad"
+            ],
+            "properties": {
+              "wayId": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "forward": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              },
+              "beginShapeIndex": {
+                "type": "integer"
+              },
+              "endShapeIndex": {
+                "type": "integer"
+              },
+              "roadClass": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "use": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "motorroad": {
+                "type": [
+                  "boolean",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "BikeRouteResultEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence",
+        "requestedExclusion",
+        "coverage",
+        "motorwayAssessment"
+      ],
+      "properties": {
+        "evidence": {
+          "$ref": "#/components/schemas/BikeSegmentEvidence"
+        },
+        "requestedExclusion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reason"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "not_requested",
+                "ignored",
+                "unknown"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "complete",
+            "segmentCount",
+            "coveredSegmentCount",
+            "edgeCount"
+          ],
+          "properties": {
+            "complete": {
+              "type": "boolean"
+            },
+            "segmentCount": {
+              "type": "integer"
+            },
+            "coveredSegmentCount": {
+              "type": "integer"
+            },
+            "edgeCount": {
+              "type": "integer"
+            }
+          }
+        },
+        "motorwayAssessment": {
+          "$ref": "#/components/schemas/BikeAssessment"
         }
       }
     }

@@ -1,3 +1,4 @@
+import type { SegmentEvidence, RouteResultEvaluation } from "./segment-evidence.ts";
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
 import type { RequestContext } from "../../core/context.ts";
@@ -13,6 +14,7 @@ export interface Installation { installId: string; version: number; enabled: boo
 export interface RouteSnapshot {
   previewId: string; mode: string; geometry: { type: "LineString"; coordinates: Position[] };
   expiresAt: number; fetchedAt: number; retention: "storable" | "temporary";
+  segmentEvidence?: SegmentEvidence;
   requestedConditions?: { avoidMotorways?: boolean };
   conditionEvaluations?: { key: string; status: string; reason: string; provider: string; sourceUrl: string; fetchedAt: number }[];
 }
@@ -21,7 +23,7 @@ export interface RoutesBoundary {
   revalidatePreview(context: RequestContext, previewId: string, forSave?: boolean): RouteSnapshot;
   saveRoute(context: RequestContext, input: { id: string; previewId: string; title: string }): { data: { id: string }; created: boolean };
   getSavedRoute(context: RequestContext, id: string, own?: boolean): { id: string; geometry: unknown };
-  assess?(context: RequestContext, route: RouteSnapshot, settings: BikeSettings): { vehicle: Assessment; highway: Assessment; geometryHash: string; settingsHash: string };
+  assess?(context: RequestContext, route: RouteSnapshot, settings: BikeSettings): { vehicle: Assessment; highway: Assessment; geometryHash: string; settingsHash: string; resultEvaluation?: RouteResultEvaluation };
 }
 export interface PlacesBoundary {
   registerCandidates(context: RequestContext, input: { items: PlaceCandidate[]; expiresAt: number }): CommonCandidates;
@@ -34,6 +36,7 @@ export interface RouteAssessment extends Binding {
   id: string; kind: "assessment"; dataKind: "real"; previewId: string; searchId: string;
   geometryHash: string; geometry: RouteSnapshot["geometry"]; routeFetchedAt: number;
   vehicleAssessment: Assessment; highwayAssessment: Assessment; adoptable: boolean;
+  resultEvaluation?: RouteResultEvaluation;
   checkedAt: number; expiresAt: number;
 }
 export interface Adoption extends Binding { id: string; kind: "adoption"; assessment: RouteAssessment; routeId: string; adoptedAt: number }
@@ -106,7 +109,7 @@ export class BikeService {
     const vehicleAssessment = supplied?.vehicle ?? unknown("共通driving経路の全区間に対応する二輪車通行根拠がありません。周辺のOSM道路タグだけでは通行可能と判断しません。");
     const highwayAssessment = supplied?.highway ?? unknown("同じ経路形状の高速道路条件を確認する根拠がありません。");
     for (const a of [vehicleAssessment, highwayAssessment]) if (a.status === "verified" && (!a.sourceRefs.length || !Number.isFinite(a.checkedAt))) throw new CommonError("SOURCE_CHANGED", "通行確認の出典・時刻が不足しています。");
-    const result: RouteAssessment = { ...binding, id: randomUUID(), kind: "assessment", dataKind: "real", previewId: route.previewId, searchId: search.id, geometryHash: hash, geometry: route.geometry, routeFetchedAt: route.fetchedAt, vehicleAssessment, highwayAssessment, adoptable: vehicleAssessment.status === "verified" && highwayAssessment.status === "verified", checkedAt, expiresAt: Math.min(route.expiresAt, search.expiresAt) };
+    const result: RouteAssessment = { ...binding, id: randomUUID(), kind: "assessment", dataKind: "real", previewId: route.previewId, searchId: search.id, geometryHash: hash, geometry: route.geometry, routeFetchedAt: route.fetchedAt, vehicleAssessment, highwayAssessment, adoptable: vehicleAssessment.status === "verified" && highwayAssessment.status === "verified", checkedAt, expiresAt: Math.min(route.expiresAt, search.expiresAt), ...(supplied?.resultEvaluation ? { resultEvaluation: supplied.resultEvaluation } : {}) };
     transaction(this.db, () => { this.recheck(context, binding); this.put(context, result); });
     return result;
   }
