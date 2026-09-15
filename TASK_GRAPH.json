@@ -61,7 +61,13 @@
       "CONNECT-SETTINGS": 145,
       "CONNECT-COMPANION": 147,
       "UI-HEALTH": 146,
-      "CONNECT-HEALTH": 148
+      "CONNECT-HEALTH": 148,
+      "VISUAL-COMMUNITY": 173,
+      "VISUAL-SOCIAL": 184,
+      "VISUAL-PLUGINS": 186,
+      "VISUAL-SELF": 176,
+      "VISUAL-SELF-CONTINUE": 185,
+      "VISUAL-RECORDS-CAMERA": 189
     }
   },
   "tasks": [
@@ -6236,6 +6242,105 @@
         "mode": "if-time-remains",
         "required_for_other_features": false
       }
+    },
+    {
+      "connect_after": [],
+      "effective_priority": "P1",
+      "hard_dependencies": [],
+      "id": "VISUAL-COMMUNITY",
+      "kind": "ui",
+      "priority": "P1",
+      "title": "友達地図の重複修復と担当画面の参照照合",
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/VISUAL-COMMUNITY/"
+      ]
+    },
+    {
+      "connect_after": [],
+      "effective_priority": "P1",
+      "hard_dependencies": [],
+      "id": "VISUAL-SOCIAL",
+      "kind": "ui",
+      "priority": "P1",
+      "title": "友達地図・地域情報・相棒の参照差分修復",
+      "write_paths": [
+        "src/features/friends/",
+        "src/features/knowledge/",
+        "src/features/companion/",
+        "docs/evidence/VISUAL-COMMUNITY/"
+      ],
+      "source_task_ids": [
+        "VISUAL-COMMUNITY"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "VISUAL-PLUGINS",
+      "kind": "ui",
+      "lane": "A",
+      "priority": "P0",
+      "title": "拡張機能とお願い9画面の参照状態を修復",
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/VISUAL-PLUGINS/"
+      ],
+      "source_task_ids": [
+        "VISUAL-COMMUNITY"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "VISUAL-SELF",
+      "kind": "repair",
+      "priority": "P1",
+      "title": "記録・振り返り・傾向・提案の参照照合と表示修復",
+      "write_paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "VISUAL-SELF-CONTINUE",
+      "kind": "repair",
+      "priority": "P1",
+      "title": "自分を知る14画面の参照と通常データ修復",
+      "write_paths": [
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ],
+      "source_task_ids": [
+        "VISUAL-SELF"
+      ]
+    },
+    {
+      "hard_dependencies": [],
+      "id": "VISUAL-RECORDS-CAMERA",
+      "kind": "implementation",
+      "priority": "P0",
+      "title": "写真引継ぎと記録7画面の修復",
+      "write_paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/VISUAL-RECORDS-CAMERA/"
+      ],
+      "source_task_ids": [
+        "VISUAL-SELF"
+      ]
     }
   ],
   "ui_connection_split": {
@@ -32454,6 +32559,100 @@
         },
         "priority": "P1",
         "effective_priority": "P1"
+      }
+    }
+  },
+  "supersessions": {
+    "VISUAL-COMMUNITY": [
+      "VISUAL-SOCIAL",
+      "VISUAL-PLUGINS"
+    ],
+    "VISUAL-SELF": [
+      "VISUAL-SELF-CONTINUE",
+      "VISUAL-RECORDS-CAMERA"
+    ]
+  },
+  "supersession_details": {
+    "VISUAL-COMMUNITY": {
+      "source_issue": 173,
+      "authorization_issue": 229,
+      "reason": "担当分割による全22画面の完全移管。機能受入の完了ではない。",
+      "evidence": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
+      "source_acceptance": [
+        "指定原本画像を実際に開き、1画面1行の参照/原本状態/実URL・commit・幅・状態/差分/修正/未確認を記録。reference absentや未確認は一致済みにしない。",
+        "友達地図の二重MapboxをShellとfeatureに分け専任Shell担当と調整。",
+        "実API・Mapbox・入力保持・戻る・ペットmockと重なり修正を保全。",
+        "原本幅および390pxの実ブラウザで変更を確認し、小PRを提出。原本不足は承認画像探索後も未確認として残す。"
+      ],
+      "pages_by_successor": {
+        "VISUAL-SOCIAL": [
+          "community-home",
+          "friends-map",
+          "friend-profile",
+          "friend-compare",
+          "shared-route",
+          "sharing",
+          "friend-picker",
+          "local-knowledge",
+          "knowledge-list",
+          "knowledge-filter",
+          "knowledge-detail",
+          "companion-settings",
+          "companion-import"
+        ],
+        "VISUAL-PLUGINS": [
+          "plugin-store",
+          "plugin-detail",
+          "plugin-trial",
+          "plugin-install",
+          "plugin-manage",
+          "plugin-update",
+          "plugin-conflict",
+          "feature-requests",
+          "feature-request-edit"
+        ]
+      },
+      "excluded_pages": [
+        "companion-create"
+      ]
+    },
+    "VISUAL-SELF": {
+      "source_issue": 176,
+      "authorization_issue": 229,
+      "reason": "担当分割による全21画面の完全移管。機能受入の完了ではない。",
+      "evidence": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
+      "source_acceptance": [
+        "参照原本を実際に開き、1画面1行の証拠表をdocs/evidence/VISUAL-SELFへ保存。",
+        "feature内の差分修正を小PRで提出し、原本の状態と390px実ブラウザで確認。未確認・差分残りを明記。",
+        "API/Mapbox/戻る/入力保持/mock表示を保全。src/appとsrc/uiは共通担当へ報告し変更しない。",
+        "健康3画面・相棒新規制作は対象外。"
+      ],
+      "pages_by_successor": {
+        "VISUAL-SELF-CONTINUE": [
+          "self-home",
+          "diary",
+          "reflection-question",
+          "reflection-history",
+          "experience-compare",
+          "memo-edit",
+          "type-diagnosis",
+          "trend-evidence",
+          "trend-review",
+          "themes",
+          "theme-edit",
+          "self-checkin",
+          "suggestions",
+          "suggestion-detail"
+        ],
+        "VISUAL-RECORDS-CAMERA": [
+          "record-create",
+          "record-edit",
+          "visit-confirm",
+          "interpretation-correction",
+          "record-delete",
+          "growth-result",
+          "daily-track"
+        ]
       }
     }
   }
