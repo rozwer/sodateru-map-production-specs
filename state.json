@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 129,
+  "revision": 130,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4953,21 +4953,17 @@
       "token": "80f76318ce8a4129b583a88940ff7e41"
     },
     "UI-EXPLORE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 10,
       "landed_main": null,
-      "note": null,
+      "note": "ユーザー終了指示。PR74統合済み、後続binding PR151/de12b77は全push済み。UI-INTEGRATION #98へ引継ぎ済み。未完UI/接続受入は#10と#72 comment5674183597に保持。worktree /Users/roz/.codex/worktrees/ui-explore-10 と全commitを保存し、完了扱いせず編集claimを返却。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/exploration/",
-        "src/features/transfer/",
-        "docs/evidence/UI-EXPLORE/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "c62b64d01fa3456483e22d5224add4ca"
+      "token": null
     },
     "UI-FRIENDS": {
       "actor": null,
