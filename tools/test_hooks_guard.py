@@ -1,6 +1,7 @@
 """Focused policy tests that do not require a remote task board."""
 import os
 import io
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -12,6 +13,18 @@ import taskctl as tc
 
 
 class ProductionGuard(unittest.TestCase):
+    def git(self, root, *args):
+        return subprocess.run(['git', *args], cwd=root, text=True, encoding='utf-8',
+                              capture_output=True, check=True).stdout.strip()
+
+    def commit(self, root, path, content, message):
+        target=Path(root)/path
+        target.parent.mkdir(parents=True,exist_ok=True)
+        target.write_text(content,encoding='utf-8')
+        self.git(root,'add','--',path)
+        self.git(root,'commit','-m',message)
+        return self.git(root,'rev-parse','HEAD')
+
     def test_claimed_paths_are_exact_or_under_directory_prefix(self):
         guard.allowed(['docs/a.md', 'src/feature/file.ts'], ['docs/a.md', 'src/feature/'])
 
@@ -112,6 +125,43 @@ class ProductionGuard(unittest.TestCase):
              patch.object(guard.tc,'read_board',return_value=(None,None)), \
              self.assertRaisesRegex(tc.BoardError,'merge a PR into develop'):
             guard.main()
+
+    def test_task_changes_exclude_integrated_develop_but_keep_task_authorship(self):
+        with tempfile.TemporaryDirectory(prefix='production-guard-') as root:
+            self.git(root,'init','-b','develop')
+            self.git(root,'config','user.name','Guard Test')
+            self.git(root,'config','user.email','guard@example.invalid')
+            base=self.commit(root,'src/feature/owned.txt','base\n','base')
+            self.commit(root,'outside.txt','base\n','outside base')
+            base=self.git(root,'rev-parse','HEAD')
+            self.git(root,'update-ref','refs/remotes/origin/develop',base)
+            self.git(root,'switch','-c','task')
+            self.commit(root,'src/feature/owned.txt','task one\n','task change')
+            self.git(root,'switch','develop')
+            self.commit(root,'outside.txt','upstream\n','upstream change')
+            self.git(root,'update-ref','refs/remotes/origin/develop',self.git(root,'rev-parse','HEAD'))
+            self.git(root,'switch','task')
+            self.git(root,'merge','--no-edit','develop')
+            owned=Path(root)/'src/feature/owned.txt'
+            owned.write_text('task staged\n',encoding='utf-8')
+            self.git(root,'add','--','src/feature/owned.txt')
+            board={'graph':{'task_policy':{'integration_branch':'develop'}},'tasks':{}}
+            state={'base_commit':base,'paths':['src/feature/']}
+            previous=Path.cwd()
+            try:
+                os.chdir(root)
+                self.assertEqual(tc.task_changed_files(board,state,'HEAD',staged=True),['src/feature/owned.txt'])
+                self.git(root,'commit','-m','second task change')
+                tip=self.git(root,'rev-parse','HEAD')
+                self.assertEqual(tc.task_changed_files(board,state,tip),['src/feature/owned.txt'])
+                guard.allowed(tc.task_changed_files(board,state,tip),state['paths'])
+                bad=self.commit(root,'outside.txt','task-owned outside\n','outside task change')
+                with self.assertRaisesRegex(tc.BoardError,'outside claim'):
+                    guard.allowed(tc.task_changed_files(board,state,bad),state['paths'])
+                with self.assertRaisesRegex(tc.BoardError,'Claim base is not an ancestor'):
+                    tc.task_changed_files(board,{**state,'base_commit':'f'*40},bad)
+            finally:
+                os.chdir(previous)
 
 
 if __name__ == '__main__':
