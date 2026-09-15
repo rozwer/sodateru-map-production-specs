@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 118,
+  "revision": 119,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5031,20 +5031,17 @@
       "token": "07f8508378e6493bb003656af48cb98f"
     },
     "UI-KNOWLEDGE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 16,
       "landed_main": null,
-      "note": null,
+      "note": "Urgent 15-minute integration handoff: verified UI updates published in PR155, commit9841520/head0416714. Worktree clean and retained. UI remains incomplete: screens registration and local-knowledge shared bottom Sheet/cube/keyboard-scroll checks; API draft preserved for formal CONNECT successor. Release own paths so integration can claim and finish necessary wiring. Do not close Issue16 as complete.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/knowledge/",
-        "docs/evidence/UI-KNOWLEDGE/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "cca1a70a561a47ba9a0f220071824dc9"
+      "token": null
     },
     "UI-MAP": {
       "actor": "rozwer",
