@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 47,
+  "revision": 48,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4694,14 +4694,14 @@
       "generation": 1,
       "issue_number": 40,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/QA-VISUAL/2026-09-15-initial-status.md",
       "owner": "rozwer",
       "paths": [
         "qa/manual/",
         "docs/evidence/QA-VISUAL/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "260184da07891ffd7f172e0f40d18a43dc5ba67b",
       "token": "01e546c746074999b9f479175c6aa02b"
     },
     "RECORDS": {
