@@ -6,10 +6,10 @@ import { useSession } from '../../app/session';
 import { api } from '../../app/api';
 import type { SceneOverlay } from '../../map/MapScene';
 import type { PluginTrialResult, PluginTrialPreview } from '../../../packages/api-client';
-import { useDisasterData, toDisasterMapData, clipDisasterRaster, createDisasterDemo } from './data';
+import { useDisasterData, toDisasterMapData, createDisasterDemo } from './data';
 import type { DisasterSettings, DisasterLayerId } from './types';
 import { DisasterPanel, DisasterIcon, regions } from './ui/DisasterPanel';
-import { disasterMapDisplay } from './ui/map-state';
+import { disasterMapDisplay, buildDisasterMapDisplay } from './ui/map-state';
 import './ui/disaster.css';
 
 const defaults: DisasterSettings = { region: regions[0]!, layerIds: ['flood-hazard', 'terrain', 'rainfall'] };
@@ -75,14 +75,8 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
       const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
       store.set({ownerKey:'plugin:disaster-preview',images:[],overlays});
     } else if (materials?.action === 'apply' && materials.ownerKey) {
-      const ownerKey = materials.ownerKey;
-      void Promise.all(materials.rasters.map(async raster => {
-        const cropped = await clipDisasterRaster(raster);
-        return {id:raster.id,ownerKey,url:cropped.imageDataUrl,coordinates:cropped.coordinates,opacity};
-      })).then(images => {
-        if (cancelled) return;
-        const overlays: SceneOverlay[] = materials.masks.flatMap(({layerId,mask}) => mask.geojson.features.map((feature,index) => ({id:`${layerId}-missing-${index}`,ownerKey,geometry:feature.geometry as SceneOverlay['geometry'],color:'#66717a',opacity:.45,label:'欠測・未確認'})));
-        store.set({ownerKey,images,overlays});
+      void buildDisasterMapDisplay(materials.view, opacity).then(display => {
+        if (!cancelled) store.set(display);
       }).catch(() => { if (!cancelled) { store.clear(); setRenderError('防災画像を地図に描画できませんでした。情報を更新して再試行してください。'); } });
     }
     return () => { cancelled = true; };
