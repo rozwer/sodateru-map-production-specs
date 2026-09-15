@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, type ReactNode } from 'react';
+import React, { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { knowledgeMessages as m } from './messages';
 import { KnowledgeIcon, type KnowledgeIconName } from './Icon';
 import { KnowledgeAvatar, KnowledgeMediaView, type KnowledgeMediaLoader } from './Media';
@@ -23,9 +23,10 @@ function Choice<T extends string | number>({ label, value, options, onChange, te
   label: string; value: T | null; options: { value: T; label: string; icon?: KnowledgeIconName }[];
   onChange: (value: T) => void; testId?: string;
 }) {
+  const name = useId();
   return <fieldset className="knowledge-choices" data-testid={testId}><legend className="knowledge-sr-only">{label}</legend>
     {options.map(option => <label key={option.value} className={value === option.value ? 'is-selected' : ''}>
-      <input type="radio" name={testId || label} checked={value === option.value} onChange={() => onChange(option.value)} />
+      <input type="radio" name={name} checked={value === option.value} onChange={() => onChange(option.value)} />
       {option.icon && <KnowledgeIcon name={option.icon} />}<span>{option.label}</span></label>)}
   </fieldset>;
 }
