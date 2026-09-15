@@ -66,6 +66,7 @@ export class DialogueService {
   try { check();return await work(scoped,{check,wait,deadline:active.deadline}); }
   catch(error) {
    if(controller.signal.aborted)error=controller.signal.reason;
+   if(!(error instanceof ExplorationError)&&typeof error?.code==='string')error=new ExplorationError(error.code,error.message,error.details);
    if(error instanceof ExplorationError)error.details={...error.details,input:clone(input),requestId:context.requestId,retryable:retryCodes.has(error.code)};
    throw error;
   } finally {
@@ -90,6 +91,7 @@ export class DialogueService {
    const continuation=previous&&previous.settingsVersion===settings.version&&sameOrigin(previous.origin,input.origin)&&previous.expiresAt>this.now();
    let history=continuation?clone(previous.history):[],places=continuation?clone(previous.places):[],routes=[],observations=[];
    let searchResultId=continuation?previous.searchResultId:null,searchCount=0,routeCount=0;
+   let candidateExpiry=continuation?previous.expiresAt:Infinity;
    for(let step=1;step<=6;step++) {
     check();
     const payload={question:input.text,origin:input.origin,history,places,routes:routes.map(({destinationId,route})=>({destinationId,distanceM:route.distanceM,durationSec:route.durationSec})),observations,remainingSteps:7-step};
@@ -102,7 +104,7 @@ export class DialogueService {
      catch(e) {check();if(e.code==='TIMEOUT'||e.code==='CANCELLED')throw e;fail('PROVIDER_UNAVAILABLE','周辺検索を取得できませんでした');}
      if(!found||!Array.isArray(found.items)||found.items.length>5||typeof found.resultId!=='string'||found.expiresAt<=this.now())fail('OUTPUT_INVALID','検索結果の形式が不正です');
      if(new Set(found.items.map(p=>p.candidateId)).size!==found.items.length)fail('OUTPUT_INVALID','候補IDが重複しています');
-     places=clone(found.items);searchResultId=found.resultId;routes=[];
+     places=clone(found.items);searchResultId=found.resultId;candidateExpiry=found.expiresAt;routes=[];
      observations.push({operation:'search_nearby',count:places.length});continue;
     }
     if(action.action==='walking_route') {
@@ -119,7 +121,8 @@ export class DialogueService {
     const current=await wait(this.settings(c));
     if(current.version!==settings.version)fail('RESULT_EXPIRED','AI設定が変わりました');
     check();
-    const data={resultId:randomUUID(),text:action.text,places,routes:routes.map(r=>r.route),origin:input.origin,expiresAt:this.now()+900000};
+    if(candidateExpiry<=this.now())fail('RESULT_EXPIRED','検索候補の期限が切れました');
+    const data={resultId:randomUUID(),text:action.text,places,routes:routes.map(r=>r.route),origin:input.origin,expiresAt:Math.min(this.now()+900000,candidateExpiry)};
     history.push({role:'user',text:input.text},{role:'assistant',text:action.text});
     return this.save(c,data,settings.version,searchResultId,history);
    }

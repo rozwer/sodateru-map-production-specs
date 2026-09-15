@@ -1,19 +1,21 @@
+import {createHash} from 'node:crypto';
 import { fail, assertInput } from './errors.mjs';
 const id = v => typeof v==='string'&&v.trim().length>0&&v.length<=80;
 const reactions=new Set(['known','interested','saved','blocked','dismissed']);
 function cardDto(r) {return {id:r.id,personId:r.person_id,anchor:JSON.parse(r.anchor_json),bridge:r.bridge,knowledge:r.knowledge,observationPrompt:r.observation_prompt,conceptIds:JSON.parse(r.concept_ids_json),sources:JSON.parse(r.sources_json),sourceRefs:JSON.parse(r.source_refs_json),version:r.version,createdAt:r.created_at,updatedAt:r.updated_at};}
 function reactionDto(r) {return {id:r.id,personId:r.person_id,cardId:r.card_id,reaction:r.reaction,createdAt:r.created_at};}
 function checkActive(c) {if(c.signal?.aborted)fail('CANCELLED','処理を取り消しました');}
+const queryHash=(c,kind)=>createHash('sha256').update(JSON.stringify([c.personId,c.dataMode,kind,'createdAt-desc-id-asc'])).digest('hex');
 function pageInput(c,input,kind) {
  const limit=input.limit===undefined?50:Number(input.limit);assertInput(Number.isInteger(limit)&&limit>=1&&limit<=100,'取得件数は1〜100です');
  if(!input.cursor)return {limit,after:null};
  let p;try{p=JSON.parse(Buffer.from(input.cursor,'base64url').toString('utf8'));}catch{fail('INVALID_INPUT','cursorが不正です');}
- assertInput(p&&p.personId===c.personId&&p.dataMode===c.dataMode&&p.kind===kind&&Number.isSafeInteger(p.at)&&id(p.id),'cursorの対象が一致しません');
- return {limit,after:p};
+ assertInput(p&&p.queryHash===queryHash(c,kind)&&p.unknown===false&&Number.isSafeInteger(p.time)&&id(p.id),'cursorの対象が一致しません');
+ return {limit,after:{at:p.time,id:p.id}};
 }
 function page(c,rows,limit,kind,convert) {
  const more=rows.length>limit;const items=rows.slice(0,limit).map(convert);const last=items.at(-1);
- return {items,nextCursor:more?Buffer.from(JSON.stringify({personId:c.personId,dataMode:c.dataMode,kind,at:last.createdAt,id:last.id})).toString('base64url'):null};
+ return {items,nextCursor:more?Buffer.from(JSON.stringify({queryHash:queryHash(c,kind),time:last.createdAt,id:last.id,unknown:false})).toString('base64url'):null};
 }
 export class DiscoveryRepository {
  constructor(db,dataMode) {this.db=db;this.dataMode=dataMode;}
@@ -44,8 +46,8 @@ export class DiscoveryRepository {
   const owner=this.owner(c),{limit,after}=pageInput(c,input,'cards');
   const rows=this.db.prepare(`SELECT c.* FROM discovery_cards c WHERE c.person_id=? AND
    (SELECT r.reaction FROM discovery_reactions r WHERE r.card_id=c.id AND r.person_id=c.person_id AND r.reaction IN ('saved','blocked','dismissed') ORDER BY r.created_at DESC,r.id DESC LIMIT 1)='saved'
-   AND (? IS NULL OR c.created_at<? OR (c.created_at=? AND c.id<?))
-   ORDER BY c.created_at DESC,c.id DESC LIMIT ?`).all(owner,after?.at??null,after?.at??null,after?.at??null,after?.id??null,limit+1);
+   AND (? IS NULL OR c.created_at<? OR (c.created_at=? AND c.id>?))
+   ORDER BY c.created_at DESC,c.id ASC LIMIT ?`).all(owner,after?.at??null,after?.at??null,after?.at??null,after?.id??null,limit+1);
   return page(c,rows,limit,'cards',cardDto);
  }
  react(c,cardId,input,now) {
@@ -65,7 +67,7 @@ export class DiscoveryRepository {
  }
  reactions(c,cardId,input) {
   this.get(c,cardId);const kind='reactions:'+cardId,{limit,after}=pageInput(c,input,kind);
-  const rows=this.db.prepare('SELECT * FROM discovery_reactions WHERE card_id=? AND person_id=? AND (? IS NULL OR created_at<? OR (created_at=? AND id<?)) ORDER BY created_at DESC,id DESC LIMIT ?').all(cardId,this.owner(c),after?.at??null,after?.at??null,after?.at??null,after?.id??null,limit+1);
+  const rows=this.db.prepare('SELECT * FROM discovery_reactions WHERE card_id=? AND person_id=? AND (? IS NULL OR created_at<? OR (created_at=? AND id>?)) ORDER BY created_at DESC,id ASC LIMIT ?').all(cardId,this.owner(c),after?.at??null,after?.at??null,after?.at??null,after?.id??null,limit+1);
   return page(c,rows,limit,kind,reactionDto);
  }
  remove(c,cardId,expectedVersion) {

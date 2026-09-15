@@ -64,3 +64,18 @@ test('search loop enforces two searches, malformed action fails, and setting cha
  await assert.rejects(g.service.run(person(),{text:'探して',origin}),{code:'RESULT_EXPIRED'});
  assert.equal(g.service.resultCount,0);
 });
+
+test('result lifetime never exceeds its source search and only six results/eight history messages remain',async()=>{
+ const actions=[{action:'search_nearby',category:'coffee',destinationId:'',text:''},...Array(8).fill({action:'finish',category:'',destinationId:'',text:'継続'})];
+ const f=fixture(actions);f.dependencies.search=async()=>({resultId:'search-1',items:places,expiresAt:5000});
+ const first=await f.service.run(person(),{text:'最初',origin});
+ assert.equal(first.expiresAt,5000);
+ for(let i=0;i<7;i++)await f.service.run(person(),{text:'続き'+i,origin});
+ assert.equal(f.service.resultCount,6);
+ assert.equal(f.calls.filter(x=>x[0]==='ai').at(-1)[1].history.length,8);
+ await assert.rejects(f.service.get(person(),first.resultId),{code:'RESULT_EXPIRED'});
+});
+test('provider CommonError retains retry input',async()=>{
+ const f=fixture([]);f.dependencies.decide=async()=>{throw Object.assign(new Error('AI unavailable'),{code:'PROVIDER_UNAVAILABLE',retryable:true});};
+ await assert.rejects(f.service.run(person(),{text:'原文',origin}),e=>e.code==='PROVIDER_UNAVAILABLE'&&e.details?.input.text==='原文');
+});

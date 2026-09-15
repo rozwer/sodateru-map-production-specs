@@ -62,3 +62,13 @@ test('source changes or cancellation between AI read and commit prevent adoption
   assert.equal(db.prepare('SELECT COUNT(*) AS n FROM discovery_cards').get().n,0);
  }finally{db.close();}
 });
+
+test('pagination follows time descending and ID ascending with owner/query-bound cursor',async()=>{
+ const db=database(':memory:');try{
+  const f=fixture(db);
+  for(const id of ['b','a','c']){await f.service.create(ctx,{id,assistantMessageId:'a1',expectedAttempt:1});await f.service.react(ctx,id,{id:'save-'+id,reaction:'saved'});}
+  const first=await f.service.list(ctx,{limit:2});assert.deepEqual(first.items.map(x=>x.id),['a','b']);
+  const second=await f.service.list(ctx,{limit:2,cursor:first.nextCursor});assert.deepEqual(second.items.map(x=>x.id),['c']);
+  await assert.rejects(f.service.list({...ctx,personId:'p2'},{cursor:first.nextCursor}),{code:'INVALID_INPUT'});
+ }finally{db.close();}
+});
