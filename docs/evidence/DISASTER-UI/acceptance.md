@@ -29,3 +29,22 @@
 - 390x844で実canvas 1個、横overflowなし、下panel幅390/高さ354.48。再表示で保存された3layerと取得時点を復元。
 - この確認は専用exportをSessionRootへ渡す担当検査入口。通常plugins入口は#215の次差分反映待ち。
 - demo fixtureのlabel/warningsを省略せず表示。live DisasterViewへ変換しない。
+
+## 収束時の最終引継ぎ
+
+ユーザーの収束指示により追加実装を停止する。UI全体の完了とはしない。
+
+- PR #243: 提出1b43202369e74d5470ad43457a6c55cc464a56a5 → 通常統合18cd9dfef440c3db74f8392082a18af2bc180845。
+- PR #250: 提出8ed56ee1bce1c28414de35a771ef320460fc9814 → 通常統合04bdbceec67f76dabee5b945a1e317f8c6e5e4fa。panel/toolbarとhydrateを含む。
+- #215はストア/管理の登録・実導入状態/停止を接続する。export disasterScreens / DisasterScreen、route disaster-mapは確定。
+- #222はBridgeMapでuseDisasterMapDisplayを読む接続を提供済み。通常MapRendererだけhydrate=trueを渡す追加は依頼済み。BridgeMapの各previewではfalseを維持する。
+- #217が通常入口→表示→停止/解除→戻る→再読込を統合commitで一度確認する。今回の担当ブラウザは専用exportをSessionRootへ渡す入口であり、通常plugins導線の合格証拠ではない。
+- 地図の実画像/欠測の最終統合描画、停止/解除後の消去・再読込hydrateは最終QAへ引継ぎ。ローカルSQLiteには実提供元画像6枚/3layerと時点の保存を確認した（local-saved-summary.json）。
+- desktop-source-1536.pngは出典詳細/配置の証拠。共有画像接続前のためレイヤー描画の証拠ではない。
+- 避難所/警報速報/雨雲時間軸/流域は#30 comment5674714669の最小契約案および#144へ未完条件として継続。今回は新C担当を探さず、追加APIを待たない。
+
+### 再開場所
+
+worktree /Users/roz/.codex/worktrees/disaster-ui-223、branch rozwer/223-disaster-screen。
+CODEX_OWNER=rozwer。共有5173/3002は操作していない。
+担当検査はVite5187/API3017、独立.local DB。127.0.0.1を複数サーバーで共有するとCookieがportを区別しないため、後半はdisaster-ui.localhostへ分離した。個人データ/秘密値は証拠に含めない。
