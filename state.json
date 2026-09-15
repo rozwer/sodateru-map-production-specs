@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 113,
+  "revision": 114,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5072,15 +5072,15 @@
       "generation": 3,
       "issue_number": 18,
       "landed_main": null,
-      "note": "Worktree preparation failed during mise trust: [Errno 2] No such file or directory: '/Users/roz/.codex/worktrees/ui-plugins-18/sodateru-map-production-specs'",
+      "note": "docs/evidence/UI-PLUGINS/implementation.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
         "docs/evidence/UI-PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "c6392fc32a5751eebc39c59bdfde54c6142ed297",
       "token": "969f79d0773145028308851ce2e225e4"
     },
     "UI-RECORDS": {
