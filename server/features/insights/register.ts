@@ -4,6 +4,8 @@ import {createInsightsService} from "./service.ts";
 import {createSummaryService} from "./summary.ts";
 import {createInsightsFeature} from "./routes.ts";
 import {createAnalysisTask} from "./analysis.ts";
+import {getActivityStatistics} from "./statistics-service.ts";
+import type {StatisticsRange} from "./statistics.ts";
 import type {DatabaseSync} from "node:sqlite";
 
 const insights=(db:DatabaseSync)=>createInsightsService(db,createInformationService(db));
@@ -19,5 +21,6 @@ export default {...feature,register(...args:Parameters<typeof feature.register>)
   registerAiTask(createAnalysisTask({insights,getRecord:(db,context,id)=>createInformationService(db).getRecord(context,id)}));
   registered=true;
  }
+ args[0].get("/reflection/activity-statistics",c=>c.json({data:getActivityStatistics(c.get("db"),c.get("context"),c.get("input").query as StatisticsRange)}));
  return feature.register(...args);
 }};
