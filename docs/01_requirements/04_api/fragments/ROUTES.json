@@ -1,0 +1,1886 @@
+{
+  "taskId": "ROUTES",
+  "version": "1.2.0",
+  "replaceSchemas": [
+    "RouteSearchInput",
+    "RouteSearchResult",
+    "CommonMapRoutePreview",
+    "SavedRoute"
+  ],
+  "schemas": {
+    "RouteSearchInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "stored"
+                  },
+                  "placeId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "placeId"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "candidate"
+                  },
+                  "resultId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  "candidateId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "resultId",
+                  "candidateId"
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "kind": {
+                    "const": "point"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "prefixItems": [
+                      {
+                        "type": "number",
+                        "minimum": -180,
+                        "maximum": 180
+                      },
+                      {
+                        "type": "number",
+                        "minimum": -90,
+                        "maximum": 90
+                      }
+                    ],
+                    "items": false,
+                    "minItems": 2,
+                    "maxItems": 2
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500
+                  }
+                },
+                "required": [
+                  "kind",
+                  "coordinates",
+                  "label"
+                ]
+              }
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100
+        },
+        "conditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        }
+      },
+      "required": [
+        "waypoints",
+        "mode",
+        "title"
+      ],
+      "x-source": "../../02_common/02_places-routes/schemas.json#/definitions/RouteRequest"
+    },
+    "RouteSearchResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resultId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "geometry": {
+                "$ref": "#/components/schemas/CommonMapGeometry"
+              },
+              "distanceM": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RouteStep"
+                },
+                "minItems": 1,
+                "description": "同一Directions応答のターン案内。別取得の形状へ継ぎ足さない。"
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 9
+        },
+        "geometry": {
+          "$ref": "#/components/schemas/CommonMapGeometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention": {
+          "enum": [
+            "storable",
+            "temporary"
+          ]
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
+        }
+      },
+      "required": [
+        "resultId",
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "fetchedAt",
+        "expiresAt",
+        "retention"
+      ],
+      "x-source": "../../02_common/02_places-routes/schemas.json#/definitions/RoutePreview"
+    },
+    "CommonMapRoutePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "geometry": {
+                "$ref": "#/components/schemas/CommonMapGeometry"
+              },
+              "distanceM": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RouteStep"
+                },
+                "minItems": 1,
+                "description": "同一Directions応答のターン案内。別取得の形状へ継ぎ足さない。"
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 9
+        },
+        "geometry": {
+          "$ref": "#/components/schemas/CommonMapGeometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention": {
+          "enum": [
+            "storable",
+            "temporary"
+          ]
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
+        }
+      },
+      "required": [
+        "previewId",
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "fetchedAt",
+        "expiresAt",
+        "retention"
+      ],
+      "x-source": "../../02_common/02_places-routes/schemas.json#/definitions/RoutePreview"
+    },
+    "SavedRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S",
+          "description": "保存した人物"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100,
+          "description": "ルート名"
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false,
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80,
+                    "pattern": "\\S"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          },
+          "minItems": 2,
+          "maxItems": 10,
+          "description": "順序付きの地点・座標"
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "cycling",
+            "driving",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "geometry": {
+                "$ref": "#/components/schemas/CommonMapGeometry"
+              },
+              "distanceM": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RouteStep"
+                },
+                "minItems": 1,
+                "description": "同一Directions応答のターン案内。別取得の形状へ継ぎ足さない。"
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 9
+        },
+        "geometry": {
+          "$ref": "#/components/schemas/CommonMapGeometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "minimum": 0,
+          "description": "経路距離。未取得はNULL"
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "所要時間。未取得はNULL"
+        },
+        "provider": {
+          "const": "mapbox-directions",
+          "description": "経路の提供元。未取得はNULL"
+        },
+        "sourceUrl": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "format": "uri",
+              "pattern": "^https?://"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "出典URL。未取得はNULL"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "経路の取得時刻。未取得はNULL"
+        },
+        "status": {
+          "enum": [
+            "saved",
+            "navigating",
+            "finished"
+          ],
+          "description": "案内状態"
+        },
+        "currentLeg": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "現在案内している区間"
+        },
+        "visibility": {
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ],
+          "description": "表示する範囲"
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "selectedで共有する人物IDの配列"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "作成日時。UTC Unixミリ秒"
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "personId",
+        "title",
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "sourceUrl",
+        "fetchedAt",
+        "status",
+        "currentLeg",
+        "visibility",
+        "sharedWith",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ],
+      "x-source": "../../02_common/02_places-routes/schemas.json#/definitions/SavedRoute",
+      "description": "保存結果DTO。列の意味は ../01_DB/06_saved_routes.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "RouteStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "location",
+        "type",
+        "modifier",
+        "instruction",
+        "name"
+      ],
+      "properties": {
+        "geometry": {
+          "$ref": "#/components/schemas/CommonMapGeometry"
+        },
+        "distanceM": {
+          "type": "number",
+          "minimum": 0
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "location": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modifier": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "instruction": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "RouteConditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "departAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "出発日時、UTC Unixミリ秒"
+        },
+        "returnBy": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "行程終点への帰着期限、UTC Unixミリ秒"
+        },
+        "avoidStairs": {
+          "type": "boolean"
+        },
+        "preferCovered": {
+          "type": "boolean"
+        },
+        "transitPassIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "stayDurationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "avoidMotorways": {
+          "type": "boolean",
+          "description": "drivingのみ。全区間にexclude=motorwayを指定し、provider違反通知・道路分類を検査。違反は採用不可。"
+        }
+      },
+      "description": "指定条件を黙って除外しない。avoidMotorwaysはdrivingの実provider評価に対応。他の有効な条件指定は501 MODE_UNSUPPORTED。日時はUTC Unixミリ秒。"
+    },
+    "RouteComparisonResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/components/schemas/RouteSearchResult"
+          }
+        }
+      }
+    },
+    "RouteConditionEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "status",
+        "reason",
+        "provider",
+        "sourceUrl",
+        "fetchedAt"
+      ],
+      "properties": {
+        "key": {
+          "const": "avoidMotorways"
+        },
+        "status": {
+          "const": "applied"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "post",
+      "path": "/route-searches",
+      "operationId": "postRouteSearches",
+      "summary": "経路取得",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: なし。共通previewRouteへRouteRequestを渡す。2〜10地点、walking/drivingのみ実接続。cycling/transitは501 MODE_UNSUPPORTED。隣接同座標は400。区間数=地点数−1、形状・距離・時間は全区間成功時に返す。返却previewIdをresultIdへ改名しretentionを保持。temporary候補を含む経路は保存不可。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/RouteSearchResult"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "waypoints": [
+                    {
+                      "coordinates": [
+                        136.96,
+                        35.16
+                      ],
+                      "name": "出発点",
+                      "placeId": null
+                    },
+                    {
+                      "coordinates": [
+                        136.965,
+                        35.165
+                      ],
+                      "name": "本屋",
+                      "placeId": "p1"
+                    }
+                  ],
+                  "mode": "walking",
+                  "legs": [
+                    {
+                      "fromIndex": 0,
+                      "toIndex": 1,
+                      "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                          [
+                            136.96,
+                            35.16
+                          ],
+                          [
+                            136.965,
+                            35.165
+                          ]
+                        ]
+                      },
+                      "distanceM": 710,
+                      "durationSec": 540
+                    }
+                  ],
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                      [
+                        136.96,
+                        35.16
+                      ],
+                      [
+                        136.965,
+                        35.165
+                      ]
+                    ]
+                  },
+                  "distanceM": 710,
+                  "durationSec": 540,
+                  "provider": "mapbox-directions",
+                  "fetchedAt": 1000,
+                  "expiresAt": 901000,
+                  "retention": "storable",
+                  "resultId": "rp1"
+                }
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "429": {
+          "$ref": "#/components/responses/Response429_postPlaces"
+        },
+        "502": {
+          "$ref": "#/components/responses/Response502_postPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postPlaces"
+        },
+        "501": {
+          "description": "移動種別などが未対応",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "enum": [
+                          "MODE_UNSUPPORTED"
+                        ]
+                      },
+                      "message": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 10000
+                      },
+                      "requestId": {
+                        "$ref": "#/components/schemas/Id"
+                      },
+                      "details": {
+                        "type": "object",
+                        "properties": {
+                          "currentVersion": {
+                            "$ref": "#/components/schemas/Version"
+                          },
+                          "fields": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "path": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 300
+                                },
+                                "reason": {
+                                  "type": "string",
+                                  "minLength": 0,
+                                  "maxLength": 10000
+                                }
+                              },
+                              "required": [
+                                "path",
+                                "reason"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "retryAfterSec": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "retryable": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "message",
+                      "requestId"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "error"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "error": {
+                  "code": "MODE_UNSUPPORTED",
+                  "message": "移動種別などが未対応",
+                  "requestId": "123e4567-e89b-42d3-a456-426614174000"
+                }
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-05",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RouteSearchInput"
+            },
+            "example": {
+              "waypoints": [
+                {
+                  "kind": "point",
+                  "coordinates": [
+                    136.96,
+                    35.16
+                  ],
+                  "label": "出発点"
+                },
+                {
+                  "kind": "stored",
+                  "placeId": "p1"
+                }
+              ],
+              "mode": "walking",
+              "title": "本屋へ"
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "get",
+      "path": "/saved-routes",
+      "operationId": "getSavedRoutes",
+      "summary": "本人の保存ルート一覧",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSavedRoutes"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-06",
+      "x-sort": "updatedAt DESC, id DESC",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "post",
+      "path": "/saved-routes",
+      "operationId": "postSavedRoutes",
+      "summary": "ルート保存",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: saved_routes。resultId→previewId。共通saveRouteがcreation_receiptsを先に照合し、未保存なら本人・dataMode・期限・参照版・retention=storableを検査する。private/sharedWith=[]/saved/currentLeg=0で保存。既存の同じ作成は200、違う入力は409。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/SavedRoute"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "x",
+                  "personId": "x",
+                  "title": "散歩の記録",
+                  "waypoints": [
+                    {
+                      "coordinates": [
+                        0,
+                        0
+                      ],
+                      "name": "本山のカフェ",
+                      "placeId": null
+                    },
+                    {
+                      "coordinates": [
+                        0,
+                        0
+                      ],
+                      "name": "本山のカフェ",
+                      "placeId": null
+                    }
+                  ],
+                  "mode": "walking",
+                  "legs": [
+                    {
+                      "fromIndex": 0,
+                      "toIndex": 1,
+                      "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                          [
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            0
+                          ]
+                        ]
+                      },
+                      "distanceM": 1,
+                      "durationSec": 0
+                    }
+                  ],
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                      [
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        0
+                      ]
+                    ]
+                  },
+                  "distanceM": 0,
+                  "durationSec": 0,
+                  "provider": "mapbox-directions",
+                  "sourceUrl": null,
+                  "fetchedAt": 0,
+                  "status": "saved",
+                  "currentLeg": 0,
+                  "visibility": "private",
+                  "sharedWith": [],
+                  "version": 1,
+                  "createdAt": 0,
+                  "updatedAt": 0
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "200": {
+          "description": "providerとexternalIdが既存場所に一致。返した既存IDを使う。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/SavedRoute"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "x",
+                  "personId": "x",
+                  "title": "散歩の記録",
+                  "waypoints": [
+                    {
+                      "coordinates": [
+                        0,
+                        0
+                      ],
+                      "name": "本山のカフェ",
+                      "placeId": null
+                    },
+                    {
+                      "coordinates": [
+                        0,
+                        0
+                      ],
+                      "name": "本山のカフェ",
+                      "placeId": null
+                    }
+                  ],
+                  "mode": "walking",
+                  "legs": [
+                    {
+                      "fromIndex": 0,
+                      "toIndex": 1,
+                      "geometry": {
+                        "type": "LineString",
+                        "coordinates": [
+                          [
+                            0,
+                            0
+                          ],
+                          [
+                            0,
+                            0
+                          ]
+                        ]
+                      },
+                      "distanceM": 1,
+                      "durationSec": 0
+                    }
+                  ],
+                  "geometry": {
+                    "type": "LineString",
+                    "coordinates": [
+                      [
+                        0,
+                        0
+                      ],
+                      [
+                        0,
+                        0
+                      ]
+                    ]
+                  },
+                  "distanceM": 0,
+                  "durationSec": 0,
+                  "provider": "mapbox-directions",
+                  "sourceUrl": null,
+                  "fetchedAt": 0,
+                  "status": "saved",
+                  "currentLeg": 0,
+                  "visibility": "private",
+                  "sharedWith": [],
+                  "version": 1,
+                  "createdAt": 0,
+                  "updatedAt": 0
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-07",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SavedRouteCreate"
+            },
+            "example": {
+              "id": "record-001",
+              "resultId": "record-001",
+              "title": "散歩の記録"
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "get",
+      "path": "/saved-routes/{routeId}",
+      "operationId": "getSavedRoutesRouteId",
+      "summary": "保存ルート詳細",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人または現在の共有先・公開閲覧者。保存先: なし。現在の共有権限を確認し保存した地点順・経路・状態を返す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_routeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSavedRoutesRouteId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-08",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "patch",
+      "path": "/saved-routes/{routeId}",
+      "operationId": "patchSavedRoutesRouteId",
+      "summary": "ルート編集・案内・共有",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: saved_routes。visibility=selectedはsharedWithが1人以上。private/publicは空配列。人物の存在と重複を検査する。 resultId指定時は本人の有効な結果で地点・経路を一緒に置換、status=saved,currentLeg=0へ。status/currentLegとの同時指定は422。案内開始は経路がありfetchedAtから15分以内。currentLegはlegsの添字。状態遷移表に従う。 共通RouteUpdateへ渡す場合はresultId→previewId、If-Match→expectedVersion。title省略時は現行titleを渡す。temporaryは409。区間geometryもDBへ保存する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_routeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getSavedRoutesRouteId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "410": {
+          "$ref": "#/components/responses/Response410_postPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-09",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/SavedRoutePatch"
+            },
+            "example": {
+              "title": "散歩の記録"
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "delete",
+      "path": "/saved-routes/{routeId}",
+      "operationId": "deleteSavedRoutesRouteId",
+      "summary": "ルート削除",
+      "tags": [
+        "提案・経路"
+      ],
+      "description": "権限: 本人。保存先: saved_routes削除、suggestions更新。該当suggestions.routeIdをnullへ変更。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_routeId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "204": {
+          "$ref": "#/components/responses/Response204_deleteVisitsVisitId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_getPlaces"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "413": {
+          "$ref": "#/components/responses/Response413_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_getPlaces"
+        },
+        "503": {
+          "$ref": "#/components/responses/Response503_getPlaces"
+        },
+        "504": {
+          "$ref": "#/components/responses/Response504_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "05-10",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "replaceOperation": true
+    },
+    {
+      "method": "post",
+      "path": "/route-comparisons",
+      "operationId": "postRouteComparisons",
+      "summary": "同じ地点順の全行程を最大3候補で比較",
+      "description": "各provider応答の代替経路を全区間結合し形状の重複を除く。各項目のresultIdを既存ルート保存へ渡す。候補が1件しかない場合も水増ししない。未対応条件は501で拒否する。",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RouteSearchInput"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "全行程候補",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/RouteComparisonResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "501": {
+          "description": "指定条件・移動種別が未対応"
+        }
+      }
+    }
+  ],
+  "x-deliveries": {
+    "ROUTES.basic": "walking/driving、全区間・保存・再取得。共通HTTP実接続の証拠で提供判定。",
+    "ROUTES.navigation": "同一取得stepsと保存status/currentLeg。位置測位と画面表示はUI担当。",
+    "ROUTES.conditions": "未完了。階段・屋根・交通・運賃・定期券・時間条件の取得根拠が必要。"
+  },
+  "x-q07-contract": {
+    "conditionEvaluations": {
+      "status": [
+        "applied",
+        "notSatisfied",
+        "unknown"
+      ],
+      "requiredEvidence": [
+        "provider",
+        "sourceUrl",
+        "fetchedAt"
+      ],
+      "adoptionRule": "必須条件のnotSatisfied/unknownを条件成立として採用しない。未取得運賃を0にしない。"
+    },
+    "transitPass": {
+      "segmentIdentity": [
+        "provider",
+        "operatorId",
+        "lineId",
+        "fromStopId",
+        "toStopId",
+        "direction when provider requires"
+      ],
+      "validity": "YYYY-MM-DDの実在日、validFrom<=validTo、提供元timezoneで両端含む",
+      "validation": "提供元の路線・乗降駅IDを照合。任意IDを実証済みとして保存しない。",
+      "fare": "通貨、通常運賃、適用後追加運賃、対象定期券id/version、取得根拠と無効化された併用条件を保持。",
+      "remaining": "利用可能な交通provider接続・ID検索・実取得が未提供。既存transit-passes operationIdを保持し、正式Schemaと実装の追加時に更新する。"
+    },
+    "alternatives": "独立した全行程previewIdごとに比較・保存。候補数を水増ししない。"
+  }
+}

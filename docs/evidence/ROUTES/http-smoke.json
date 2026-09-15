@@ -1,0 +1,66 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-15T02:42:09.515Z",
+  "entry": "server/app/main.ts",
+  "processStarts": 2,
+  "core": "fb767fe / develop 413598b",
+  "provider": "actual Mapbox Directions",
+  "snapshots": [
+    {
+      "dataMode": "live",
+      "id": "route-walking",
+      "transport": "walking",
+      "distanceM": 798.634,
+      "durationSec": 671,
+      "fetchedAt": 1789440127150,
+      "legs": 2,
+      "steps": [
+        11,
+        8
+      ],
+      "version": 2,
+      "status": "navigating",
+      "currentLeg": 1
+    },
+    {
+      "dataMode": "live",
+      "id": "route-driving",
+      "transport": "driving",
+      "distanceM": 1617.807,
+      "durationSec": 459,
+      "fetchedAt": 1789440127443,
+      "legs": 2,
+      "steps": [
+        10,
+        3
+      ],
+      "version": 2,
+      "status": "navigating",
+      "currentLeg": 1
+    },
+    {
+      "dataMode": "demo",
+      "id": "route-walking",
+      "transport": "walking",
+      "distanceM": 798.634,
+      "durationSec": 671,
+      "fetchedAt": 1789440127724,
+      "legs": 2,
+      "steps": [
+        11,
+        8
+      ],
+      "version": 2,
+      "status": "navigating",
+      "currentLeg": 1
+    }
+  ],
+  "assertions": [
+    "full snapshot equality after OS process restart",
+    "same id separated by live/demo databases",
+    "same search key replays same preview",
+    "save replay survives preview loss and returns current navigation state",
+    "actual second-leg provider rejection creates no saved success"
+  ],
+  "actualFailure": "PROVIDER_UNAVAILABLE"
+}
