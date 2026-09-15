@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 107,
+  "revision": 108,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4864,18 +4864,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 36,
-      "landed_main": null,
-      "note": "PR77/develop364f8ef: 保存API提供。docs/evidence/SUGGESTIONS/runtime-checks.md。正式契約422・実provider・ACTIVITY・UI残件はhttps://github.com/rozwer/sodateru-map-production-specs/issues/108へ移管。元全受入完了ではない。",
+      "landed_main": "a080b3d49ff8f49e9c16a26dfbd7cc2038df59df",
+      "note": "PR77/develop364f8ef: ユーザー承認の保存API提供範囲のみ完了。docs/evidence/SUGGESTIONS/runtime-checks.md。正式契約422・実provider・ACTIVITY・UI残件はhttps://github.com/rozwer/sodateru-map-production-specs/issues/108へ移管。元全受入完了ではない。",
       "owner": "mattsun",
-      "paths": [
-        "server/features/suggestions/",
-        "server/db/migrations/suggestions/",
-        "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
-        "docs/evidence/SUGGESTIONS/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "ca88f2ead49cb8c6753ca6a37098edfa5160096e",
-      "token": "c100bd10dff04fcabcdeef3687a8cbaf"
+      "token": null
     },
     "THEMES": {
       "actor": "mattsun",
