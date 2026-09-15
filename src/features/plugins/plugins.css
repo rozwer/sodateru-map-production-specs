@@ -1197,3 +1197,11 @@
     transition: none;
   }
 }
+
+/* Keep the inspection disclosure visible without displacing the reference CTA. */
+.plugin-inspection-notice {
+  margin: 0 0 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1.4;
+}
