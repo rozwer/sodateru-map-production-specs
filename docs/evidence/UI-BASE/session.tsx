@@ -17,4 +17,10 @@ function SessionMap() {
   const session = useSession();
   return <div style={{ padding: '120px 24px', background: '#edf7f5', height: '100%' }}><strong>実セッション・地図は検査用表示</strong><p>{session?.session?.person.name}</p><p>{session?.dataMode}</p></div>;
 }
-createRoot(document.getElementById('root')!).render(<SessionRoot MapRenderer={SessionMap} screens={[{ id: 'settings', title: 'セッション検査', component: Draft, layout: { header: 'none', contentPadding: 'none', bottomNav: false } }]}/>);
+function MapToolbar({ navigate }: ScreenProps) {
+  return <button className="sm-button" onClick={() => navigate('map', { state: 'search-place-selected' })}>検索結果を開く（検査用）</button>;
+}
+createRoot(document.getElementById('root')!).render(<SessionRoot MapRenderer={SessionMap} MapToolbar={MapToolbar} screens={[
+  { id: 'settings', title: 'セッション検査', component: Draft, layout: { header: 'none', contentPadding: 'none', bottomNav: false } },
+  { id: 'map', title: '検索結果のSheet検査', component: () => <p>検査用の結果表示。業務検索はUI-MAPで確認します。</p>, layout: { header: 'close', mobileHeight: 45, mapControls: true } },
+]}/>);

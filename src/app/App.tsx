@@ -43,9 +43,11 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(80);
   const menuMode = current.route.pageId === 'navigation' ? (current.route.params.mode || 'main') as 'main' | 'self' | 'community' : null;
-  const isMap = current.route.pageId === 'map';
-  const mapControlsCovered = !isMap && menuMode !== 'self' && menuMode !== 'community';
   const screen = screens.find(item => item.id === current.route.pageId);
+  const isMapPage = current.route.pageId === 'map';
+  const mapPanelOpen = isMapPage && !!screen && ['state', 'placeId', 'buildingKey', 'q'].some(key => !!current.route.params[key]);
+  const isMap = isMapPage && !mapPanelOpen;
+  const mapControlsCovered = !isMapPage && menuMode !== 'self' && menuMode !== 'community' && !screen?.layout?.mapControls;
   const showBottomNav = menuMode !== null || screen?.layout?.bottomNav !== false;
   const title = menuMode ? messages.menu : screen?.title || ({ 'self-home': messages.self, 'community-home': messages.community, settings: messages.settings, 'plugin-store': messages.plugins, '$start': messages.start }[current.route.pageId] ?? current.route.pageId);
   const go = useCallback((pageId: string, params: Record<string, string> = {}) => {
@@ -120,11 +122,11 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       {MapCompanion && <div hidden={!active || !isMap}><MapCompanion scopeKey={scopeKey} active={active && isMap} onActivate={() => go('ai-explore')}/></div>}
       {menuMode === 'main' && <button type="button" className="sm-menu-backdrop" onClick={back} aria-label={messages.close} aria-hidden="true" tabIndex={-1}/>}
       <button type="button" hidden={mapControlsCovered} className="sm-map-action sm-menu-trigger" aria-label={messages.menu} onClick={() => go('navigation', { mode: 'main' })}><Icon name="menu"/></button>
-      <button type="button" hidden={mapControlsCovered} className="sm-map-action sm-locate-trigger" aria-label={messages.locate} onClick={locate}><Icon name="locate" size={28}/></button>
+      <button type="button" hidden={mapControlsCovered || !!MapRenderer} className="sm-map-action sm-locate-trigger" aria-label={messages.locate} onClick={locate}><Icon name="locate" size={28}/></button>
       {locationError && <div className="sm-location-error"><Status kind="error" onRetry={locate}>{locationError}</Status></div>}
       {dataMode === 'demo' && <span className="sm-demo-badge">{messages.demo}</span>}
       <div ref={contentRef}>
-        <Sheet open={!isMap} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} background={screen?.layout?.background} onRect={onRect}>
+        <Sheet open={!isMap} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} mobileHeight={screen?.layout?.mobileHeight} background={screen?.layout?.background} onRect={onRect}>
           {menuMode && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
           {!menuMode && !screen && (current.route.pageId === 'self-home' || current.route.pageId === 'community-home') && <NavigationMenu mode={current.route.pageId === 'self-home' ? 'self' : 'community'} profile={profile} navigate={go}/>}
           {!menuMode && !screen && !['self-home','community-home','map'].includes(current.route.pageId) && <Status kind="unavailable">{messages.unavailable}</Status>}

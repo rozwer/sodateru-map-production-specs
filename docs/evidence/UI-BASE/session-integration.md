@@ -20,6 +20,7 @@
 7. `header:none/contentPadding:none/bottomNav:false` で共通header DOM 0件、本文左右padding 0px、nav非表示。dialogのタイトル・スクロール・Escapeは保持。
 8. API停止中に通常入口を再読込すると通信失敗と再試行を表示（`start-api-error-390.png`）。`localhost:5174`でAPI復帰後に再試行し、保存済セッションの地図shellへ復帰。
 9. 320px/390pxで本人select・モードswitch・開始操作へ到達でき、document幅とscrollWidthが一致。共通shellの広幅・文字200%・focus/scroll/date・Chat検査は `shell.md` を参照。
+10. 追補: 登録mapのstate/placeId/buildingKey/qがある場合にSheetを開く。`session.html`の明示した検査結果で、390×844に対するSheet高379.8px（45%）、toolbar表示、BASE locate非表示、Escapeでmapへ戻り元のボタンへfocus復帰を確認（`map-sheet-45-390.png`）。実業務検索の確認はUI-MAPが所有。
 
 途中、127.0.0.1の再試行で本人再選択へ戻った。並列ローカル起動が同じhostのcookieを使う可能性を切り分けるため、localhostの別cookie領域で停止→再試行を確認し、復帰に成功した。APIから別本人を推測して埋める処理はない。
 
@@ -29,6 +30,7 @@
 - SessionRootはサーバー本人とmodeからscopeKeyを作る。切替時は旧画面/bridgeを破棄。同じ本人でスタートへ戻る場合は入力を保持する。
 - start背景とProviderMarkは、ユーザーが利用を許可したリハーサル `docs/ui/reference/start-background.png` と既存welcome画面の構成を基準とする。画像全体を画面として貼らず、背景・文字・操作を分離。Google/Apple/OpenAI接続はCOREローカル本人方式では未提供のため、元画面同様に無効化して説明を表示。
 - `src/features/companion/MapCompanion.tsx` の単一地図への注入入口を追加。相棒の実装が統合されたときに利用され、onActivateはai-exploreへ遷移。
+- `layout.mobileHeight`はmobileのviewportに対する高さ%、`layout.mapControls`は地図toolbar/共通menuの表示指定。広い画面ではside panelを維持する。MapRenderer利用時はBASE側の現在地ボタンを隠す。
 - 設定保存通知 `sodateru:settings-changed` でgetMeを再取得し、本人名/画像を再表示。表示設定の正式型はSETTINGS統合後の残件。
 
 ## 検証と未達

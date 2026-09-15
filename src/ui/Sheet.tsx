@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from 'react';
 import { messages } from '../messages';
 import { Icon } from './Icon';
 import './sheet.css';
@@ -13,10 +13,11 @@ export interface SheetProps {
   kind?: 'screen' | 'navigation';
   header?: 'back' | 'close' | 'back-close' | 'none';
   contentPadding?: 'default' | 'none';
+  mobileHeight?: number;
   background?: 'surface' | 'soft';
   onRect?: (rect: DOMRect | null) => void;
 }
-export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', header = 'back-close', contentPadding = 'default', background = 'surface', onRect }: SheetProps) {
+export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', header = 'back-close', contentPadding = 'default', mobileHeight, background = 'surface', onRect }: SheetProps) {
   const ref = useRef<HTMLElement>(null);
   const closeRef = useRef(onClose); closeRef.current = onClose;
   useLayoutEffect(() => {
@@ -32,7 +33,7 @@ export function Sheet({ open, title, children, onClose, onBack, side = 'left', k
       if (source?.isConnected) source.focus({ preventScroll: true });
     };
   }, [open, side, kind, onRect]);
-  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background}`} role="dialog" aria-label={title} onKeyDown={event => {
+  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background}${mobileHeight ? ' sm-sheet--mobile-height' : ''}`} style={mobileHeight ? { '--sheet-mobile-height': `${Math.max(20, Math.min(100, mobileHeight))}dvh` } as CSSProperties : undefined} role="dialog" aria-label={title} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); event.stopPropagation(); closeRef.current(); }
   }}>
     {header !== 'none' && <header className={`sm-sheet__header${header === 'back' && kind !== 'navigation' ? ' sm-sheet__header--centered' : ''}`}>

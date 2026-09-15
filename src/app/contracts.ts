@@ -27,6 +27,10 @@ export interface ScreenDefinition {
     contentPadding?: 'default' | 'none';
     bottomNav?: boolean;
     background?: 'surface' | 'soft';
+    /** Keep the feature's map toolbar and common menu visible beside this panel. */
+    mapControls?: boolean;
+    /** Mobile Sheet height as a percentage of the viewport; desktop uses a side panel. */
+    mobileHeight?: number;
   };
 }
 
