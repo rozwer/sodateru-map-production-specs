@@ -38,3 +38,7 @@ PR #239（fa78030）、#251（f6d6d15）通常merge。最終PR #253は#228通知
 境界3テストPASS、対象strict TypeScript（noUncheckedIndexedAccess/vite client含む）PASS。Vite buildはPR #251時点PASS。全体typecheckには範囲外既存診断が残る（status.md）。原本853×1844/390幅の最終確認は未実施。
 
 ユーザーの「早く閉じる」指示により追加探索・修正を止め、コード統合後claim/受信を解除してこの担当を終了する。未達受入の所有先は最終統合QA/root、再開は#222の通常claimから。完了扱い/数合わせcloseはしない。
+
+
+## 中心機能の限定修復（再開指示）
+rootの追加指示で実建物面だけ再開。再claim generation3、他範囲の追加探索なし。catalogが同じ形状の後続3D featureの高さを更新せず初期2D height=0を保持しうるため、形状cacheと独立して地理データ由来の高さを更新する。Standard本体との同一平面競合を避ける描画用0.06mを元実装から復元（保存/集計の高さは地理データ値で、訪問で変えない）。バッジに地理高さ/計算色のDOM診断属性を付けて、実面の一往復を確認する。
