@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f0f7f6;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", sans-serif;
+  color: #073b46;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+:focus-visible {
+  outline: 3px solid #007e80;
+  outline-offset: 3px;
+}
+.qa-note {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 200px;
+  font-size: 12px;
+}
+.qa-note nav {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+.qa-note button {
+  background: white;
+  border: 1px solid #cee1e1;
+  padding: 6px;
+  border-radius: 6px;
+}
+.qa-phone {
+  margin: 20px auto;
+  background: #f0f8f7;
+  width: 390px;
+  max-width: 100%;
+  min-height: 800px;
+  padding: 12px;
+  border: 1px solid #d7e7e7;
+}
+.qa-phone header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  position: relative;
+  min-height: 54px;
+  margin-bottom: 8px;
+}
+.qa-phone header strong {
+  font-size: 20px;
+}
+.qa-phone header button {
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  border: 0;
+  background: white;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 27px;
+}
+.qa-status {
+  background: #fff2d2;
+  padding: 8px;
+  font-size: 12px;
+}
+@media (max-width: 700px) {
+  .qa-note {
+    position: static;
+    width: auto;
+    padding: 8px;
+    margin: 0;
+  }
+  .qa-note nav {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .qa-note button {
+    font-size: 10px;
+  }
+  .qa-phone {
+    margin: 0 auto;
+    border: 0;
+    min-height: 100vh;
+  }
+}
