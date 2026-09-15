@@ -15,7 +15,7 @@ connected-http.json / server/features/insights/connected-http.test.ts。
 本を見つけた/カフェで過ごした/公園を歩いた/友人と話したの4文から5軸はいずれも1/1、不明1日。
 
 ## 未完と限界
-共有UIでの最終表示、活動統計HTTP登録は未完。原文判定は版付き定型表現で、自由文の包括的な意味判定ではない。未対応表現は不明。
+共有UIでの最終表示は担当反映待ち。活動統計HTTPは後述の追加提供で実接続済み。原文判定は版付き定型表現で、自由文の包括的な意味判定ではない。未対応表現は不明。
 全体tscは共有生成クライアント未反映によるCOMPANION/SUGGESTIONS/THEMES等の型エラーで失敗。今回の実接続HTTP検証は成功。共有契約生成はCORE担当の反映を要する。
 
 ## 実AI説明の保存
@@ -26,3 +26,9 @@ connected-http.json / server/features/insights/connected-http.test.ts。
 
 ## 定義版2
 疑問符で終わる文を体験ありに数えない修正を加え、集計generatorVersionをinsights-fixed-five-2へ更新。同じ参照の旧定義結果を誤って再利用しない。関連日別テスト2件成功。
+
+## 統計HTTPの追加提供
+getReflectionActivityStatisticsを実ACTIVITY/INFORMATIONへ接続。訪問回数/場所数/初回場所/GPS観測線/活動/日別/出典/欠測/最終更新を返す。限定実HTTP確認が成功。契約詳細statistics-contract.md、証拠statistics-http.json。#13の過去通知に返信を確認できず、現担当と着手状況を再照会中。
+
+## 期間条件の接続修正
+INFORMATION RecordQueryはrange:{startAt,endAt,timezone}形式。HTTP由来のfrom/toをそのまま渡すと読取側で期間が効かないため、Summaryと統計を正式range形式へ統一。Summaryは期間外の記録をsourceRefsへ含めない。generatorVersion insights-fixed-five-3。summary-range.test.tsの追加境界確認と統計HTTP確認、INSIGHTS専用tsconfigの型検査が成功。実AI等の成功済み確認は反復していない。
