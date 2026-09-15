@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-15T03:07:47.706Z",
+  "result": "PASS",
+  "entry": "server/app/main.ts",
+  "processStarts": 1,
+  "checks": [
+    "actual application startup and session"
+  ],
+  "remaining": [
+    "common AI two-plan generation",
+    "actual candidate/road adoption",
+    "Q10 UI binding"
+  ]
+}
