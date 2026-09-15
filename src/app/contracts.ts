@@ -23,9 +23,14 @@ export interface ScreenDefinition {
   component: ComponentType<ScreenProps>;
   /** Select only the chrome shown in this page's reference image. */
   layout?: {
-    header?: 'back' | 'close' | 'back-close';
+    header?: 'back' | 'close' | 'back-close' | 'none';
+    contentPadding?: 'default' | 'none';
     bottomNav?: boolean;
     background?: 'surface' | 'soft';
+    /** Keep the feature's map toolbar and common menu visible beside this panel. */
+    mapControls?: boolean;
+    /** Mobile Sheet height as a percentage of the viewport; desktop uses a side panel. */
+    mobileHeight?: number;
   };
 }
 

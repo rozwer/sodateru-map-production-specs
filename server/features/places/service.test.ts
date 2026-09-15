@@ -21,6 +21,7 @@ function fixture(path=":memory:"){
  CREATE TABLE places(id TEXT PRIMARY KEY,name TEXT NOT NULL,address TEXT,longitude REAL,latitude REAL,categories_json TEXT NOT NULL DEFAULT '[]',provider TEXT,external_id TEXT,building_key TEXT,source_url TEXT,attribution TEXT,fetched_at INTEGER,version INTEGER,created_at INTEGER,updated_at INTEGER,UNIQUE(provider,external_id));
  CREATE TABLE creation_receipts(person_id TEXT,operation TEXT,target_id TEXT,input_hash TEXT,result_type TEXT,result_id TEXT,created_at INTEGER,PRIMARY KEY(person_id,operation,target_id));`);
  db.exec(readFileSync(new URL("../../db/migrations/places/001-details.sql",import.meta.url),"utf8"));
+ db.exec(readFileSync(new URL("../../db/migrations/places/002-presentation.sql",import.meta.url),"utf8"));
  return db;
 }
 function tx<T>(db:DatabaseSync,fn:()=>T){db.exec("BEGIN IMMEDIATE");try{const value=fn();db.exec("COMMIT");return value;}catch(error){db.exec("ROLLBACK");throw error;}}
@@ -35,6 +36,8 @@ test("saved priority, HTTP DTO, expiry retry, persistence and deletion",async()=
    const result=await service.search(ctx,db,{q:"cafe a"});
    assert.equal(result.items.length,1);assert.equal(result.items[0]!.placeId,first.id);
    assert.deepEqual(candidateResultDto(result).items[0]!.position,{longitude:139.7,latitude:35.6});
+   const cancelled=new AbortController();cancelled.abort();
+   await assert.rejects(service.search({...ctx,signal:cancelled.signal},db,{q:"cafe a"}),(error:any)=>error.name==="AbortError");
    const input={id:"adoption-one",mode:"candidate" as const,resultId:result.resultId,candidateId:"candidate-1"};
    assert.equal(tx(db,()=>service.adopt(ctx,db,input)).place.id,first.id);
    now+=16*60_000;
@@ -115,4 +118,25 @@ test("place detail retains the place when one record source fails",async()=>{
   assert.equal(detail.place.id,"detail");assert.equal(detail.ownRecords.status,"ready");assert.equal(detail.visits.status,"ready");assert.equal(detail.sharedRecords.status,"failed");
   assert.ok(!JSON.stringify(detail).includes("private diagnostic"));
  }finally{db.close();}
+});
+
+test("external refresh preserves corrections and failure preserves saved values",async()=>{
+ const db=fixture(),ctx=context(),service=new PlacesService(),originalFetch=globalThis.fetch;
+ globalThis.fetch=async()=>new Response(JSON.stringify([osm]));
+ try{
+  const result=await service.search(ctx,db,{q:"refresh-check"});
+  tx(db,()=>service.adopt(ctx,db,{id:"refresh",mode:"candidate",resultId:result.resultId,candidateId:"candidate-1"}));
+  tx(db,await preparePlaceUpdate(ctx,db,"refresh",{name:"本人の訂正"},1,()=>true));
+  globalThis.fetch=async()=>new Response(JSON.stringify([{...osm,name:"新しい外部名",display_name:"新しい住所",extratags:{opening_hours:"Mo-Fr 09:00-18:00",description:"Provider description",image:"https://example.org/image.jpg"}}]));
+  tx(db,await preparePlaceUpdate(ctx,db,"refresh",{refreshExternal:true},2,()=>true));
+  assert.equal(getPlace(db,"refresh").name,"本人の訂正");assert.equal(getPlace(db,"refresh").address,"新しい住所");
+  assert.equal(getPlaceMetadata(db,"refresh").openingHours?.verificationStatus,"unverified");
+  assert.equal(getPlaceMetadata(db,"refresh").description?.text,"Provider description");assert.equal(getPlaceMetadata(db,"refresh").photos[0]?.attribution,null);
+  tx(db,await preparePlaceUpdate(ctx,db,"refresh",{resetFields:["name"]},3,()=>true));
+  assert.equal(getPlace(db,"refresh").name,"新しい外部名");
+  const before=JSON.stringify({place:getPlace(db,"refresh"),metadata:getPlaceMetadata(db,"refresh")});
+  globalThis.fetch=async()=>new Response("unavailable",{status:503});
+  await assert.rejects(preparePlaceUpdate(ctx,db,"refresh",{refreshExternal:true},4,()=>true),code("PROVIDER_UNAVAILABLE"));
+  assert.equal(JSON.stringify({place:getPlace(db,"refresh"),metadata:getPlaceMetadata(db,"refresh")}),before);
+ }finally{globalThis.fetch=originalFetch;db.close();}
 });
