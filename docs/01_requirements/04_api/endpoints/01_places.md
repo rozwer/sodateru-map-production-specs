@@ -2,7 +2,7 @@
 
 本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。
 
-[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。全操作は本人識別Q01が前提。POSTの再送基盤Q02と操作固有の依存も[未確定事項](../conventions/03_open-questions.md)で確認する。
+[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。ローカル本人識別と再送は[CORE契約](../conventions/07_core-runtime.md)。操作固有の依存は[未確定事項](../conventions/03_open-questions.md)で確認する。
 
 ## 操作一覧
 
@@ -27,7 +27,7 @@ cursorは本人・検索条件・順序に束縛し、条件不一致は400。�
 
 並び順：`name ASC, id ASC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -65,7 +65,7 @@ HTTP 200。
 
 qまたはcategoryの一方を必須。qはtrim/NFKC/小文字化して保存場所を検索し、0件ならNominatim。categoryではlongitude/latitudeの両方を必須とし緯度±85。categoryは5件固定のためlimit指定不可。候補は15分、本人・dataModeで分離。temporaryは閲覧だけで保存不可。共通の場所検索仕様を適用。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -105,7 +105,7 @@ HTTP 200。
 
 candidateでは本人・期限を確認しprovider+externalIdで照合。既存なら200でそのPlaceを返す。manualはprovider=manual、externalId/sourceUrl/fetchedAt=null、attributionは空文字。要求IDと既存IDが異なる場合も返却されたIDを使う。 候補のretention=storableを必須としtemporaryは409 REQUEST_CONFLICT。creation_receiptsを期限照合より先に確認し、同じ要求は現在の場所を返す。削除済みなら404で復活させない。categoriesもコピーする。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -135,7 +135,7 @@ HTTP 201。既存場所を再利用した場合は200。
 
 共通getPlaceDetailのPlaceDetailをdataへ返す。colocatedは同じ非nullのbuildingKeyで名前・ID順。本人訪問は全ページ取得し、ownRecords/sharedRecords/visitsを領域別状態で返す。主対象なしは404。schemaのerrorは共通Errorとして保持する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -173,7 +173,7 @@ HTTP 200。
 
 未確定依存：Q03。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -213,7 +213,7 @@ HTTP 200。
 
 未確定依存：Q11。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 

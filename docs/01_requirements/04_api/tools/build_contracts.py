@@ -226,7 +226,7 @@ op(5,'GET','/transit-passes/{passId}','定期券単体取得',ref('TransitPass')
 op(5,'PATCH','/transit-passes/{passId}','定期券編集',ref('TransitPass'),ref('TransitPassPatch'),rule=R+' 有効終了日≧開始日。交通IDの照合はQ07。',write='transit_passes',blocked=['Q07'])
 op(5,'DELETE','/transit-passes/{passId}','定期券削除',code=204,rule=R,write='transit_passes')
 # sharing
-op(6,'GET','/me','本人プロフィール',ref('Person'),rule='認証層の本人IDからpeopleを取得。初回作成方法はQ01。')
+op(6,'GET','/me','本人プロフィール',ref('Person'),rule='COREのmode別ローカルセッションから本人IDを解決しpeopleを取得。初回作成とセッション開始は07_core-runtime.md。')
 op(6,'PATCH','/me','本人プロフィール編集',ref('Person'),ref('PersonPatch'),rule='avatarUrlは外部URLの保存案。内部ファイルの任意パスを受け付けない。アイコンアップロード導線はQ06。',write='people',blocked=['Q06'])
 op(6,'GET','/people','人物検索',page('Person'),qs=query('q cursor limit'),sort='name ASC, id ASC',rule=PAGE+' qはnameの部分一致。プロフィールの公開範囲はQ01。',blocked=['Q01'])
 op(6,'GET','/people/{personId}','人物プロフィール',ref('Person'),rule='表示可能なプロフィールの範囲はQ01。',blocked=['Q01'])
@@ -371,9 +371,9 @@ for ix,o in enumerate(OPS,1):
  operation_id=o['method'].lower()+''.join(p[:1].upper()+p[1:] for p in re.findall('[A-Za-z0-9]+',o['path']))
  o['operationId']=operation_id
  params=[{'name':p,'in':'path','required':True,'schema':DATE if p=='date' else ID} for p in re.findall(r'{([^}]+)}',o['path'])]+copy.deepcopy(o['query'])
- if o['method']=='POST': params.append({'name':'Idempotency-Key','in':'header','required':True,'schema':st(1,128),'description':'本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。'})
+ if o['method']=='POST': params.append({'name':'Idempotency-Key','in':'header','required':True,'schema':st(1,128),'description':'本人・mode・HTTP操作に束縛した再送識別子。COREの永続受付を使用。読取POSTでも指定し一時結果の期限を保持する。'})
  if o['method'] in ['PATCH','DELETE'] or o['etag']: params.append({'name':'If-Match','in':'header','required':True,'schema':{'type':'string','pattern':'^"[1-9][0-9]*"$'},'description':'対象の版。媒体添付・一括順序変更は親記録の版。'})
- params.append({'name':'X-Request-Id','in':'header','required':True,'schema':{'type':'string','format':'uuid'},'description':'新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。'})
+ params.append({'name':'X-Request-Id','in':'header','required':True,'schema':{'type':'string','format':'uuid'},'description':'新しいHTTP要求のUUID。X-Data-Modeとmode別セッションを検査して本人contextを作る。'})
  if o['path']=='/media/{mediaId}/content': params.append({'name':'Range','in':'header','required':False,'schema':st(1,200),'description':'単一bytes範囲。複数・不正・範囲外は416。'})
  status=str(o['code']); responses={}
  if o['out']:
@@ -437,6 +437,9 @@ def compact_http(spec):
      entry[field][position]={'$ref':'#/components/'+collection+'/'+names[key]}
   result['components'][collection]=shared
  return result
+from contract_fragments import merge_fragments
+O=merge_fragments(O, ROOT)
+S=O['components']['schemas']
 (ROOT/'openapi.json').write_text(json.dumps(compact_http(O),ensure_ascii=False,indent=2)+'\n')
 def type_text(s):
  if '$ref' in s:
@@ -495,7 +498,7 @@ def schema_summary(schema):
  return type_text(schema)+'\n' if '$ref' in schema else schema_fields(schema)
 for group,(filename,title) in GROUPS.items():
  selected=[o for o in OPS if o['group']==group]
- lines=[f'# {title}\n','本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。\n','[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。全操作は本人識別Q01が前提。POSTの再送基盤Q02と操作固有の依存も[未確定事項](../conventions/03_open-questions.md)で確認する。\n','## 操作一覧\n','| ID | Method | パス | 操作 | 固有の未確定依存 |','|---|---|---|---|---|']
+ lines=[f'# {title}\n','本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。\n','[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。ローカル本人識別と再送は[CORE契約](../conventions/07_core-runtime.md)。操作固有の依存は[未確定事項](../conventions/03_open-questions.md)で確認する。\n','## 操作一覧\n','| ID | Method | パス | 操作 | 固有の未確定依存 |','|---|---|---|---|---|']
  for o in selected: lines.append(f"| [{o['id']}](#operation-{o['id']}) | {o['method']} | `{o['path']}` | {o['title']} | {', '.join(o['blocked']) or 'なし'} |")
  for o in selected:
   entry=O['paths'][o['path']][o['method'].lower()]
@@ -526,6 +529,7 @@ for group,(filename,title) in GROUPS.items():
  (ROOT/'endpoints'/f'{filename}.md').write_text(re.sub(r'\n{3,}', '\n\n', '\n'.join(lines)))
 import hashlib
 sources=list((ROOT.parent/'01_DB').glob('*.json'))+list((ROOT.parent/'01_DB').glob('*.md'))+list((ROOT.parent/'02_common').rglob('*.json'))+list((ROOT.parent/'02_common').rglob('*.md'))+list((ROOT.parent/'02_common').rglob('*.sql'))
+sources+=list((ROOT/'fragments').glob('*.json'))
 manifest={str(p.relative_to(ROOT.parent)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(sources)}
 (ROOT/'schemas/source-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-print(f'{len(OPS)} operations, {len(S)} schemas, 7 detailed endpoint documents generated')
+print(f'{sum(len(methods) for methods in O["paths"].values())} operations, {len(S)} schemas, endpoint documents generated')
