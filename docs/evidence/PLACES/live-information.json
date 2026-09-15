@@ -1,13 +1,14 @@
 {
-  "timestamp": "2026-09-15T03:32:40.959Z",
+  "timestamp": "2026-09-15T04:06:26.719Z",
   "status": "passed",
   "checks": [
     "actual INFORMATION reads own visit-linked record, selected shared record and own visit; excludes other private record",
     "current sharing revocation immediately removes shared content from PlaceDetail",
     "restart preserves real records, visit resolution and current sharing access",
+    "test-only own-record SQL failure through real HTTP preserves place and other source sections, without leaking diagnostics",
     "demo mode cannot read live place/detail"
   ],
-  "placeId": "2ae078fb-7aed-45c0-a18d-5fe9577e39c7",
+  "placeId": "f559de60-2917-4f11-97b0-b617c9cd07e8",
   "informationIntegration": "cc710000633262f7436bab3017355aed1633b86e",
   "recordSourceStates": {
     "own": "ready",

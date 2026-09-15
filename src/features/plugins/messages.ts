@@ -1,6 +1,6 @@
 export const pluginMessages = {
   store: "拡張機能を探す",
-  storeHeading: "拡張機能ストア",
+  storeHeading: "アプリを育てる",
   search: "できることや名前で探す",
   tabs: { store: "ストア", installed: "導入済み", requests: "要望" },
   categories: {
