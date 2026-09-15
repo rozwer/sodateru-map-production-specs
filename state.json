@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 96,
+  "revision": 97,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5101,14 +5101,14 @@
       "generation": 1,
       "issue_number": 12,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-REFLECTION/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
         "docs/evidence/UI-REFLECTION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "d179aba9a37d234161b177abb4c39c22843f1e35",
       "token": "db7e3a53e8274d5bbc210ba5c258779a"
     },
     "UI-ROUTES": {
