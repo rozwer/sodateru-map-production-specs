@@ -20,7 +20,7 @@
 
 ## 提供する画面部品
 
-9ページと承認済みアイコン選択の表示・入力・状態をcontrolled Viewとして提供する。業務APIと画面登録は後続接続で、製品入口はまだこのfixtureをimportしない。
+9ページと承認済みアイコン選択の表示・入力・状態をcontrolled Viewとして提供する。`src/features/plugins/screens.tsx` が共通globへ登録する。全画面に「UI検査・API未接続。操作は再読込で初期化されます。」と常時表示する。業務APIは後続接続である。
 
 - ストアの名称/分類絞り込み、導入済み・要望への入口。
 - 詳細、試用条件、同一のMapPreview上での自動before/after、導入前確認。
@@ -68,7 +68,7 @@ strict検査、fixture buildは成功。buildのMapbox同梱bundleサイズ警�
 
 ## 実接続へ引き継ぐ残件
 
-- PLUGINS #28 v3の確定fragment、生成済み共通clientとHTTP実装の統合後、各画面のcontroller/登録を接続する。試用snapshotのsettings/stateRevisionを導入確認へ引継ぎ、確定時のみ保存する。fixtureのReact stateによる条件引継ぎはこの経路の代替ではない。
+- PLUGINS #28 v3の確定fragment、生成済み共通clientとHTTP実装の統合後、各画面の検査stateを実controllerへ置換する。試用snapshotのsettings/stateRevisionを導入確認へ引継ぎ、確定時のみ保存する。fixtureのReact stateによる条件引継ぎはこの経路の代替ではない。
 - BIKE #29 / DISASTER #30 / PILGRIMAGE #38の実取得・保存結果を共通MapBridgeへ接続し、停止/削除/競合時は指定ownerKeyだけを消す。意味別GeoJSONとbounds付きimageの地図側公開署名は #8 と調整中。
 - FEATURE-REQUESTS #31のdisplayName/title/タグ/共感/guideUrl補完と実APIを待ち、投稿→再読込→編集→削除、非公開分離を確認する。
 - GET /plugins.iconOptionsの正式6候補を使う保存/地図マーカー反映、3種類の固有条件・出典/時点、更新失敗の旧版保持、本人/モード切替と通信取消、通常地図への復帰を実接続で確認する。
@@ -77,3 +77,7 @@ strict検査、fixture buildは成功。buildのMapbox同梱bundleサイズ警�
 ## 共通hookの修復と先行提出
 
 `task:verify` はUI-PLUGINS/rozwer/claimed/取得3pathを返して成功。stageも取得3pathだけだが、`origin/develop` の正常fast-forward後にcommitすると、固定したclaim時baseとの差分へCORE等の既統合変更を含めて `Changed paths outside claim` と拒否した。共通修復Issue #62 / PR #63の修正を含む `2332231` を通常fetch/fast-forwardで取り込み、同じstageと取得範囲で `task:verify` 後に一度再試行。正規commit `e333b36` が成功した。独自hook変更・検査回避・claim再取得・変更破棄は行っていない。UI-BASEは `6dac91f` を取込済みで、fixtureは既統合BASEをこのcheckoutから読む。
+
+## 共通QAへの最小登録
+
+残り時間のユーザー指示と組込み担当#98からの依頼で、検査状態と遷移を `src/features/plugins/screens.tsx` へ移し、10画面を共通のscreens globへ登録した。本人/dataModeのscopeKeyごとに検査stateを初期化し、非表示ページのpreviewをunmountする。通常アプリの地図へ検査overlayは追加しない。独立fixtureだけが `InspectionMainMap` を使う。API/DB呼出しはなく、API成功・保存完了の証拠ではない。
