@@ -33433,7 +33433,7 @@
     "VISUAL-SELF",
     "VISUAL-SOCIAL"
   ],
-  "revision": 180,
+  "revision": 181,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34209,21 +34209,17 @@
       "token": null
     },
     "UI-SETTINGS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 17,
       "landed_main": null,
-      "note": null,
+      "note": "ユーザー緊急終了指示。PR #167 / 6dacd4fをUI-INTEGRATION #98へ引継ぎ。設定UI先行提供、統計接続・live受入・健康は未完。worktreeを保持しbacklogへ返却。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/settings/",
-        "src/features/health/",
-        "docs/evidence/UI-SETTINGS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "eb8f8d5dbcdf4eec9855f46a4f3d7def"
+      "token": null
     },
     "UI-SUGGESTIONS": {
       "actor": null,
