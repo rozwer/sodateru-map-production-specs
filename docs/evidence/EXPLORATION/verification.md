@@ -17,3 +17,13 @@ HTTPテストはHono Requestを通す同一プロセスのHTTP境界テスト。
 
 ## 先行提供の切り分け
 PR #99固定head 2e1377bを独立担当が限定レビューし重大指摘なし。元#26の未達実接続/UI通し受入は後続#102へ移管し相互リンクした。先行範囲はHTTP/業務処理/SQLite保存と実サービス接続口。元全要件完成を主張しない。
+
+## 実TCP・Luna・Mapbox（先行統合後）
+PR #99はdevelopのb1126e0553d7cf2f2d4d13ef3387130c9f2c3706へ通常統合済み。
+live-runtime.mjsは本人cookie・実設定許可・共有生成clientを用い、実TCPサーバーを起動。SETTINGS/履歴の追加operation未生成分は実HTTPを直接使用し、contractには提供fragmentをメモリ上で反映した。正式UIの生成client反映とは別の検証である。
+- 初回: 実Luna相談でOUTPUT_INVALID。旧共通文言のため分岐は未確定（live-runtime-first.json）。
+- 固有修正: 検索categoryのSchemaを実行可能値のenumへ合わせ、promptへ分類対応と完了条件を明記。検索2/経路3/判断6の上限は維持。dialogue7テスト成功。
+- 修正後: 実Luna→実Mapbox検索で5候補、続きの「2番目」から経路が返り、その同じcandidateIdをselectへ渡して固定起点・1経路・mapbox-directionsを確認。実保存consult会話へのリンク→同じresultIdで復帰に成功。
+- 経路retentionはtemporary。実候補・経路の生データは証拠やDBへ保存していない。保存可能な経路の通し検証とは扱わない。
+- discover実Runはfailed/UPSTREAM_FAILEDで停止。実AI発見保存と再起動再取得は未達。INFORMATION未統合時の根拠操作503、生成client不足、実UI、再起動後履歴確認を#102へ引き継ぐ。
+結果: live-runtime.json。モデルgpt-5.6-luna、正規主clone.envをprocessへ注入（秘密値は未記録）。最初の検索入力と続きの文言は再現スクリプトに記録。再現はnode --env-file=<主clone>/.env --experimental-transform-types docs/evidence/EXPLORATION/live-runtime.mjs。

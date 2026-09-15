@@ -1,0 +1,29 @@
+{
+  "status": "failed",
+  "model": "gpt-5.6-luna",
+  "transport": "TCP HTTP + shared generated client (settings/history via raw HTTP until CORE generation)",
+  "features": [
+    "conversations",
+    "settings",
+    "PLACES",
+    "routes",
+    "exploration"
+  ],
+  "databaseDirectory": "/tmp/exploration-live-fGMM4X",
+  "candidateCount": 5,
+  "dialogue": {
+    "sameSecondCandidate": true,
+    "fixedOrigin": true,
+    "routeCount": 1,
+    "provider": "mapbox-directions",
+    "retention": "temporary"
+  },
+  "historyBeforeRestart": true,
+  "stage": "discovery",
+  "error": {
+    "name": "AssertionError",
+    "code": "ERR_ASSERTION",
+    "message": "{\"code\":\"UPSTREAM_FAILED\",\"message\":\"AI処理に失敗しました\",\"retryable\":true}\n+ actual - expected\n\n+ 'failed'\n- 'complete'\n",
+    "reason": null
+  }
+}
