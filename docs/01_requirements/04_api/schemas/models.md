@@ -2333,3 +2333,29 @@ string。minLength=1、maxLength=80
 |---|---|---|---|---|
 | `items` | 配列<[DiscoveryReaction](../schemas/models.md#discoveryreaction)> | 必須 | minItems=0、maxItems=100 | — |
 | `nextCursor` | string または null | 必須 | — | — |
+
+## LocalProfile
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `profileKey` | string | 必須 | minLength=1、maxLength=80 | — |
+| `name` | string | 必須 | minLength=1、maxLength=200 | — |
+
+## SessionInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `profileKey` | string | 必須 | minLength=1、maxLength=80 | — |
+
+## LocalSession
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `person` | [Person](../schemas/models.md#person) | 必須 | — | — |
+| `dataMode` | [DataMode](../schemas/models.md#datamode) | 必須 | — | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `expiresAt` | integer | 必須 | — | — |
+
+## DataMode
+
+live / demo。—
