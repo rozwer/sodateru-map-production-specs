@@ -2,6 +2,8 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { createHash } from 'node:crypto';
 import { RouteFault, coordinate, samePoint, type Coordinates, type Conditions, type Mode, type RoadResult, type RoadProvider, type RouteLeg, type RouteStep, type RouteTiming, type ConditionEvaluation } from './types.ts';
 const sourceUrl = 'https://valhalla.github.io/valhalla/api/route/api-reference/';
+// Valhalla serializes input locations at six decimal places. Keep original places in the service.
+const providerPoint = ([lon,lat]: Coordinates): Coordinates => [Number(lon.toFixed(6)),Number(lat.toFixed(6))];
 const invalid = (message: string): never => { throw new RouteFault('OUTPUT_INVALID', message); };
 function number(value: unknown, zero = false): number {
   if (typeof value !== 'number' || !Number.isFinite(value) || (zero ? value < 0 : value <= 0)) return invalid('経路の距離・時間が不正です');
@@ -47,7 +49,7 @@ export function parseValhalla(body: any, points: Coordinates[], conditions: Cond
   const warnings=[...(Array.isArray(body?.warnings)?body.warnings:[]),...(Array.isArray(trip?.warnings)?trip.warnings:[])];
   if(warnings.length) throw new RouteFault('MODE_UNSUPPORTED','providerが条件の警告を返したため採用できません',501,{warnings,applied:false});
   if(trip?.status!==0||trip.units!=='kilometers'||!Array.isArray(trip.locations)||trip.locations.length!==points.length||!Array.isArray(trip.legs)||trip.legs.length!==points.length-1) return invalid('自転車経路の全区間が揃いません');
-  trip.locations.forEach((l:any,i:number)=>{if(l.original_index!==i||!samePoint([l.lon,l.lat],points[i]!))return invalid('地点順・座標が要求と一致しません');});
+  trip.locations.forEach((l:any,i:number)=>{if(l.original_index!==i||!samePoint([l.lon,l.lat],providerPoint(points[i]!)))return invalid('地点順・座標が要求と一致しません');});
   const coordinates: Coordinates[]=[];
   const legs: RouteLeg[]=trip.legs.map((l:any,i:number)=>{
     const line=decodePolyline6(l.shape);
@@ -106,7 +108,7 @@ export class ValhallaCyclingProvider implements RoadProvider {
     try {url=new URL(this.endpoint);if(!['https:','http:'].includes(url.protocol)||url.username||url.password||url.search||url.hash)throw Error();}catch{throw new RouteFault('PROVIDER_UNAVAILABLE','自転車providerのURL設定が不正です',503);}
     let date_time;
     if(at!==undefined)try{date_time={type:conditions?.departAt!==undefined?1:2,value:localMinute(at,conditions!.timeZone!)};}catch{throw new RouteFault('INVALID_INPUT','日時・時間帯が不正です');}
-    const input={locations:points.map(([lon,lat])=>({lon,lat,type:'break'})),costing:'bicycle',costing_options:{bicycle:{shortest:strategy==='shortest'}},units:'kilometers',language:'ja-JP',...(date_time?{date_time}:{})};
+    const input={locations:points.map(providerPoint).map(([lon,lat])=>({lon,lat,type:'break'})),costing:'bicycle',costing_options:{bicycle:{shortest:strategy==='shortest'}},units:'kilometers',language:'ja-JP',...(date_time?{date_time}:{})};
     const deadline=AbortSignal.any([...(signal?[signal]:[]),AbortSignal.timeout(20000)]);
     try {
       deadline.throwIfAborted();

@@ -13,17 +13,18 @@ const records=JSON.parse(readFileSync(new URL('../../../docs/evidence/ROUTES/val
 const points: Coordinates[]=[[139.767125,35.681236],[139.769,35.682],[139.771,35.684]];
 const conditions={departAt:Date.parse('2026-09-16T10:00:00+09:00'),returnBy:Date.parse('2026-09-16T10:30:00+09:00'),timeZone:'Asia/Tokyo'};
 const endpoint='https://valhalla1.openstreetmap.de/route';
-const input:RouteInput={mode:'cycling',title:'自転車',waypoints:points.map((coordinates,i)=>({kind:'point',coordinates,label:`地点${i}`})),conditions};
+const precisePoints:Coordinates[]=points.map(([lon,lat])=>[lon+0.0000001,lat-0.0000001]);
+const input:RouteInput={mode:'cycling',title:'自転車',waypoints:precisePoints.map((coordinates,i)=>({kind:'point',coordinates,label:`地点${i}`})),conditions};
 const context={personId:'cycling-person',dataMode:'live',requestId:'test',signal:new AbortController().signal} as const;
 test('recorded actual cycling: whole route, times, comparison, CORE save/reopen and same receipt',async()=>{
   const dir=mkdtempSync(join(tmpdir(),'routes-cycling-')),options={livePath:join(dir,'live.sqlite'),demoPath:join(dir,'demo.sqlite')};let dbs=openDatabases(options);
   let calls=0;
-  const provider=new ValhallaCyclingProvider(endpoint,(async (_url,init)=>{calls++;const request=JSON.parse(init!.body as string);assert.equal(new Headers(init!.headers).get('X-Client-Id'),'sodateru-map-production-specs-routes-25');assert.equal(request.costing,'bicycle');assert.equal(request.date_time.value,'2026-09-16T10:00');return Response.json(records[0].body);}) as typeof fetch);
+  const provider=new ValhallaCyclingProvider(endpoint,(async (_url,init)=>{calls++;const request=JSON.parse(init!.body as string);assert.equal(new Headers(init!.headers).get('X-Client-Id'),'sodateru-map-production-specs-routes-25');assert.equal(request.costing,'bicycle');assert.deepEqual(request.locations.map((p:any)=>[p.lon,p.lat]),points);assert.equal(request.date_time.value,'2026-09-16T10:00');return Response.json(records[0].body);}) as typeof fetch);
   try {
     seedProfiles(dbs,[{key:'self',id:context.personId,name:'確認用'}]);
     let service=new RoutesService(dbs.live,run=>transaction(dbs.live,run),provider);
     const candidates=await service.compareRoutes(context,input);assert.equal(calls,2);assert.equal(candidates.length,1);
-    const p=candidates[0]!;assert.equal(p.provider,'valhalla');assert.equal(p.durationSec,411);assert.equal(p.legs.length,2);assert.equal(p.timing!.arrivalAt,conditions.departAt+411000);assert.equal(p.conditionEvaluations!.length,2);
+    const p=candidates[0]!;assert.deepEqual(p.waypoints.map(w=>w.coordinates),precisePoints);assert.equal(p.provider,'valhalla');assert.equal(p.durationSec,411);assert.equal(p.legs.length,2);assert.equal(p.timing!.arrivalAt,conditions.departAt+411000);assert.equal(p.conditionEvaluations!.length,2);
     assert.throws(()=>service.revalidatePreview({...context,personId:'other'},p.previewId),{code:'NOT_FOUND'});
     const save={id:'cycling-route',previewId:p.previewId,title:'自転車の保存'};const saved=service.saveRoute(context,save).data;
     assert.deepEqual(saved.timing,p.timing);assert.deepEqual(saved.providerEvidence,p.providerEvidence);assert.equal(saved.sourceUrl,p.sourceUrl);

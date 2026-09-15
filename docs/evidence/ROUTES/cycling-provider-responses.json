@@ -1,0 +1,1437 @@
+[
+  {
+    "fetchedAt": 1789446139792,
+    "endpoint": "https://valhalla1.openstreetmap.de/route",
+    "clientId": "sodateru-map-production-specs-routes-25",
+    "request": {
+      "locations": [
+        {
+          "lon": 139.765,
+          "lat": 35.681068,
+          "type": "break"
+        },
+        {
+          "lon": 139.769,
+          "lat": 35.682,
+          "type": "break"
+        },
+        {
+          "lon": 139.771,
+          "lat": 35.684,
+          "type": "break"
+        }
+      ],
+      "costing": "bicycle",
+      "costing_options": {
+        "bicycle": {
+          "shortest": false
+        }
+      },
+      "units": "kilometers",
+      "language": "ja-JP",
+      "date_time": {
+        "type": 1,
+        "value": "2026-09-16T10:00"
+      }
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": 35.681068,
+            "lon": 139.765,
+            "date_time": "2026-09-16T10:00",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": 35.682,
+            "lon": 139.769,
+            "date_time": "2026-09-16T10:05",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "original_index": 1
+          },
+          {
+            "type": "break",
+            "lat": 35.684,
+            "lon": 139.771,
+            "date_time": "2026-09-16T10:07",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "left",
+            "original_index": 2
+          }
+        ],
+        "legs": [
+          {
+            "maneuvers": [
+              {
+                "type": 2,
+                "instruction": "南方向です。",
+                "verbal_succinct_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_pre_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 197,
+                "time": 23.429,
+                "length": 0.076,
+                "cost": 87.597,
+                "begin_shape_index": 0,
+                "end_shape_index": 11,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "東京駅南口/Tokyo Station South Exitを左方向です。",
+                "verbal_transition_alert_instruction": "東京駅南口を左方向です。",
+                "verbal_succinct_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_pre_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "丸の内室町線",
+                  "Marunouchi-Muromachi Line",
+                  "407"
+                ],
+                "bearing_before": 194,
+                "bearing_after": 106,
+                "time": 70.065,
+                "length": 0.331,
+                "cost": 178.898,
+                "begin_shape_index": 11,
+                "end_shape_index": 26,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 14,
+                "instruction": "東京国際フォーラム東/Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_transition_alert_instruction": "東京国際フォーラム東を斜め左手前方向です。",
+                "verbal_succinct_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_pre_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "鍛冶橋通り",
+                  "Kajibashi-dori Avenue",
+                  "406"
+                ],
+                "bearing_before": 196,
+                "bearing_after": 93,
+                "time": 59.658,
+                "length": 0.173,
+                "cost": 438.386,
+                "begin_shape_index": 26,
+                "end_shape_index": 35,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "鍛冶橋/Kaji-bashiを左方向です。",
+                "verbal_transition_alert_instruction": "鍛冶橋を左方向です。",
+                "verbal_succinct_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_pre_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 99,
+                "bearing_after": 24,
+                "time": 38.929,
+                "length": 0.198,
+                "cost": 82.321,
+                "begin_shape_index": 35,
+                "end_shape_index": 41,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_transition_alert_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_post_transition_instruction": "400メートル直進です。",
+                "street_names": [
+                  "東京駅八重洲パーキング西駐車場"
+                ],
+                "bearing_before": 27,
+                "bearing_after": 332,
+                "time": 77.387,
+                "length": 0.365,
+                "cost": 196.839,
+                "begin_shape_index": 41,
+                "end_shape_index": 56,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "10メートル直進です。",
+                "bearing_before": 30,
+                "bearing_after": 291,
+                "time": 3.099,
+                "length": 0.014,
+                "cost": 25.872,
+                "begin_shape_index": 56,
+                "end_shape_index": 58,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_post_transition_instruction": "10メートル以内直進です。",
+                "bearing_before": 292,
+                "bearing_after": 217,
+                "time": 1.299,
+                "length": 0.002,
+                "cost": 4.133,
+                "begin_shape_index": 58,
+                "end_shape_index": 59,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 11,
+                "instruction": "斜め右手前方向です。",
+                "verbal_transition_alert_instruction": "斜め右手前方向です。",
+                "verbal_succinct_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "20メートル直進です。",
+                "bearing_before": 217,
+                "bearing_after": 12,
+                "time": 7.799,
+                "length": 0.019,
+                "cost": 28.28,
+                "begin_shape_index": 59,
+                "end_shape_index": 69,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_post_transition_instruction": "50メートル直進です。",
+                "bearing_before": 12,
+                "bearing_after": 302,
+                "time": 12.244,
+                "length": 0.053,
+                "cost": 23.201,
+                "begin_shape_index": 69,
+                "end_shape_index": 74,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 4,
+                "instruction": "目的地に到着しました。",
+                "verbal_transition_alert_instruction": "まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "目的地に到着しました。",
+                "bearing_before": 287,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 74,
+                "end_shape_index": 74,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.677313,
+              "min_lon": 139.765055,
+              "max_lat": 35.682026,
+              "max_lon": 139.769812,
+              "time": 293.914,
+              "length": 1.231,
+              "cost": 1065.532
+            },
+            "shape": "{ox`cAyvqqiGlCt@|Ab@~B`@jB?jBEdDUdDu@hBUlB?nAN|Cn@x@}FJg@XcAl@aAfAw@~HaFv[qRjBs@dB]pBDf[vHhBb@tdAdWbBb@vFvAFoDBqEfCiStBiIjDgXl@wErCaVT}B|@sMiGoCkg@qXaG}CySoLuC}AeP_J{AlCw@NgAUkH_EsC}A_f@{WqQ_H}l@{Y}KgJgLsGgAyBqKiIe@a@_GwGcC{Aa@lB}@|DVTP\\Jz@Ct@Mr@QXUVi@X[DSAQGO~@gAtAkArDUbFaCzO"
+          },
+          {
+            "maneuvers": [
+              {
+                "type": 1,
+                "instruction": "東方向です。",
+                "verbal_succinct_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_pre_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 107,
+                "time": 17.39,
+                "length": 0.084,
+                "cost": 30.812,
+                "begin_shape_index": 0,
+                "end_shape_index": 16,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先外堀通り/Sotobori-dori Avenue/405です。",
+                "verbal_transition_alert_instruction": "左方向です。その先外堀通りです。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先外堀通り, Sotobori-dori Avenueです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 111,
+                "bearing_after": 31,
+                "time": 92.356,
+                "length": 0.273,
+                "cost": 436.421,
+                "begin_shape_index": 16,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 6,
+                "instruction": "目的地は左側です。",
+                "verbal_transition_alert_instruction": "目的地は左側です。",
+                "verbal_pre_transition_instruction": "目的地は左側です。",
+                "bearing_before": 19,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 28,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.681764,
+              "min_lon": 139.768968,
+              "max_lat": 35.68398,
+              "max_lon": 139.771068,
+              "time": 109.747,
+              "length": 0.357,
+              "cost": 467.234
+            },
+            "shape": "smz`cAogyqiG`C{OTcFjAsDfAuAN_AM]Ac@@_ADc@Ja@Re@\\a@VM`@C|@}D`@mBqGiE{B{AgEeCuIgF}D{B}IsE_HcDso@_X}G}CuEqBkFwBuJ_D"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 35.677313,
+          "min_lon": 139.765055,
+          "max_lat": 35.68398,
+          "max_lon": 139.771068,
+          "time": 403.661,
+          "length": 1.588,
+          "cost": 1532.766
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "ja-JP"
+      }
+    }
+  },
+  {
+    "fetchedAt": 1789446141522,
+    "endpoint": "https://valhalla1.openstreetmap.de/route",
+    "clientId": "sodateru-map-production-specs-routes-25",
+    "request": {
+      "locations": [
+        {
+          "lon": 139.765,
+          "lat": 35.681068,
+          "type": "break"
+        },
+        {
+          "lon": 139.769,
+          "lat": 35.682,
+          "type": "break"
+        },
+        {
+          "lon": 139.771,
+          "lat": 35.684,
+          "type": "break"
+        }
+      ],
+      "costing": "bicycle",
+      "costing_options": {
+        "bicycle": {
+          "shortest": false
+        }
+      },
+      "units": "kilometers",
+      "language": "ja-JP",
+      "date_time": {
+        "type": 1,
+        "value": "2026-09-16T10:00"
+      }
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": 35.681068,
+            "lon": 139.765,
+            "date_time": "2026-09-16T10:00",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": 35.682,
+            "lon": 139.769,
+            "date_time": "2026-09-16T10:05",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "original_index": 1
+          },
+          {
+            "type": "break",
+            "lat": 35.684,
+            "lon": 139.771,
+            "date_time": "2026-09-16T10:07",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "left",
+            "original_index": 2
+          }
+        ],
+        "legs": [
+          {
+            "maneuvers": [
+              {
+                "type": 2,
+                "instruction": "南方向です。",
+                "verbal_succinct_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_pre_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 197,
+                "time": 23.429,
+                "length": 0.076,
+                "cost": 87.597,
+                "begin_shape_index": 0,
+                "end_shape_index": 11,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "東京駅南口/Tokyo Station South Exitを左方向です。",
+                "verbal_transition_alert_instruction": "東京駅南口を左方向です。",
+                "verbal_succinct_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_pre_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "丸の内室町線",
+                  "Marunouchi-Muromachi Line",
+                  "407"
+                ],
+                "bearing_before": 194,
+                "bearing_after": 106,
+                "time": 70.065,
+                "length": 0.331,
+                "cost": 178.898,
+                "begin_shape_index": 11,
+                "end_shape_index": 26,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 14,
+                "instruction": "東京国際フォーラム東/Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_transition_alert_instruction": "東京国際フォーラム東を斜め左手前方向です。",
+                "verbal_succinct_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_pre_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "鍛冶橋通り",
+                  "Kajibashi-dori Avenue",
+                  "406"
+                ],
+                "bearing_before": 196,
+                "bearing_after": 93,
+                "time": 59.658,
+                "length": 0.173,
+                "cost": 438.386,
+                "begin_shape_index": 26,
+                "end_shape_index": 35,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "鍛冶橋/Kaji-bashiを左方向です。",
+                "verbal_transition_alert_instruction": "鍛冶橋を左方向です。",
+                "verbal_succinct_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_pre_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 99,
+                "bearing_after": 24,
+                "time": 38.929,
+                "length": 0.198,
+                "cost": 82.321,
+                "begin_shape_index": 35,
+                "end_shape_index": 41,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_transition_alert_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_post_transition_instruction": "400メートル直進です。",
+                "street_names": [
+                  "東京駅八重洲パーキング西駐車場"
+                ],
+                "bearing_before": 27,
+                "bearing_after": 332,
+                "time": 77.387,
+                "length": 0.365,
+                "cost": 196.839,
+                "begin_shape_index": 41,
+                "end_shape_index": 56,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "10メートル直進です。",
+                "bearing_before": 30,
+                "bearing_after": 291,
+                "time": 3.099,
+                "length": 0.014,
+                "cost": 25.872,
+                "begin_shape_index": 56,
+                "end_shape_index": 58,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_post_transition_instruction": "10メートル以内直進です。",
+                "bearing_before": 292,
+                "bearing_after": 217,
+                "time": 1.299,
+                "length": 0.002,
+                "cost": 4.133,
+                "begin_shape_index": 58,
+                "end_shape_index": 59,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 11,
+                "instruction": "斜め右手前方向です。",
+                "verbal_transition_alert_instruction": "斜め右手前方向です。",
+                "verbal_succinct_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "20メートル直進です。",
+                "bearing_before": 217,
+                "bearing_after": 12,
+                "time": 7.799,
+                "length": 0.019,
+                "cost": 28.28,
+                "begin_shape_index": 59,
+                "end_shape_index": 69,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_post_transition_instruction": "50メートル直進です。",
+                "bearing_before": 12,
+                "bearing_after": 302,
+                "time": 12.244,
+                "length": 0.053,
+                "cost": 23.201,
+                "begin_shape_index": 69,
+                "end_shape_index": 74,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 4,
+                "instruction": "目的地に到着しました。",
+                "verbal_transition_alert_instruction": "まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "目的地に到着しました。",
+                "bearing_before": 287,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 74,
+                "end_shape_index": 74,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.677313,
+              "min_lon": 139.765055,
+              "max_lat": 35.682026,
+              "max_lon": 139.769812,
+              "time": 293.914,
+              "length": 1.231,
+              "cost": 1065.532
+            },
+            "shape": "{ox`cAyvqqiGlCt@|Ab@~B`@jB?jBEdDUdDu@hBUlB?nAN|Cn@x@}FJg@XcAl@aAfAw@~HaFv[qRjBs@dB]pBDf[vHhBb@tdAdWbBb@vFvAFoDBqEfCiStBiIjDgXl@wErCaVT}B|@sMiGoCkg@qXaG}CySoLuC}AeP_J{AlCw@NgAUkH_EsC}A_f@{WqQ_H}l@{Y}KgJgLsGgAyBqKiIe@a@_GwGcC{Aa@lB}@|DVTP\\Jz@Ct@Mr@QXUVi@X[DSAQGO~@gAtAkArDUbFaCzO"
+          },
+          {
+            "maneuvers": [
+              {
+                "type": 1,
+                "instruction": "東方向です。",
+                "verbal_succinct_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_pre_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 107,
+                "time": 17.39,
+                "length": 0.084,
+                "cost": 30.812,
+                "begin_shape_index": 0,
+                "end_shape_index": 16,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先外堀通り/Sotobori-dori Avenue/405です。",
+                "verbal_transition_alert_instruction": "左方向です。その先外堀通りです。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先外堀通り, Sotobori-dori Avenueです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 111,
+                "bearing_after": 31,
+                "time": 92.356,
+                "length": 0.273,
+                "cost": 436.421,
+                "begin_shape_index": 16,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 6,
+                "instruction": "目的地は左側です。",
+                "verbal_transition_alert_instruction": "目的地は左側です。",
+                "verbal_pre_transition_instruction": "目的地は左側です。",
+                "bearing_before": 19,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 28,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.681764,
+              "min_lon": 139.768968,
+              "max_lat": 35.68398,
+              "max_lon": 139.771068,
+              "time": 109.747,
+              "length": 0.357,
+              "cost": 467.234
+            },
+            "shape": "smz`cAogyqiG`C{OTcFjAsDfAuAN_AM]Ac@@_ADc@Ja@Re@\\a@VM`@C|@}D`@mBqGiE{B{AgEeCuIgF}D{B}IsE_HcDso@_X}G}CuEqBkFwBuJ_D"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 35.677313,
+          "min_lon": 139.765055,
+          "max_lat": 35.68398,
+          "max_lon": 139.771068,
+          "time": 403.661,
+          "length": 1.588,
+          "cost": 1532.766
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "ja-JP"
+      }
+    }
+  },
+  {
+    "fetchedAt": 1789446143095,
+    "endpoint": "https://valhalla1.openstreetmap.de/route",
+    "clientId": "sodateru-map-production-specs-routes-25",
+    "request": {
+      "locations": [
+        {
+          "lon": 139.765,
+          "lat": 35.681068,
+          "type": "break"
+        },
+        {
+          "lon": 139.769,
+          "lat": 35.682,
+          "type": "break"
+        },
+        {
+          "lon": 139.771,
+          "lat": 35.684,
+          "type": "break"
+        }
+      ],
+      "costing": "bicycle",
+      "costing_options": {
+        "bicycle": {
+          "shortest": true
+        }
+      },
+      "units": "kilometers",
+      "language": "ja-JP",
+      "date_time": {
+        "type": 1,
+        "value": "2026-09-16T10:00"
+      }
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": 35.681068,
+            "lon": 139.765,
+            "date_time": "2026-09-16T10:00",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": 35.682,
+            "lon": 139.769,
+            "date_time": "2026-09-16T10:05",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "original_index": 1
+          },
+          {
+            "type": "break",
+            "lat": 35.684,
+            "lon": 139.771,
+            "date_time": "2026-09-16T10:07",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "left",
+            "original_index": 2
+          }
+        ],
+        "legs": [
+          {
+            "maneuvers": [
+              {
+                "type": 2,
+                "instruction": "南方向です。",
+                "verbal_succinct_transition_instruction": "南方向です。。その先東京駅南口を右方向です。",
+                "verbal_pre_transition_instruction": "南方向です。。その先東京駅南口を右方向です。",
+                "verbal_post_transition_instruction": "90メートル直進です。",
+                "bearing_after": 197,
+                "time": 30.144,
+                "length": 0.09,
+                "cost": 90.855,
+                "begin_shape_index": 0,
+                "end_shape_index": 12,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 10,
+                "instruction": "東京駅南口/Tokyo Station South Exitを右方向です。",
+                "verbal_transition_alert_instruction": "東京駅南口を右方向です。",
+                "verbal_succinct_transition_instruction": "東京駅南口, Tokyo Station South Exitを右方向です。。その先右方向です。その先錦町有楽町線です。",
+                "verbal_pre_transition_instruction": "東京駅南口, Tokyo Station South Exitを右方向です。。その先右方向です。その先錦町有楽町線です。",
+                "verbal_post_transition_instruction": "70メートル直進です。",
+                "street_names": [
+                  "丸の内室町線",
+                  "Marunouchi-Muromachi Line",
+                  "407"
+                ],
+                "bearing_before": 219,
+                "bearing_after": 286,
+                "time": 14.82,
+                "length": 0.069,
+                "cost": 69,
+                "begin_shape_index": 12,
+                "end_shape_index": 15,
+                "sign": {},
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 10,
+                "instruction": "右方向です。その先錦町有楽町線/Nishikichō-Yūrakuchō Line/402/特例都道錦町有楽町線です。",
+                "verbal_transition_alert_instruction": "右方向です。その先錦町有楽町線です。",
+                "verbal_succinct_transition_instruction": "右方向です。",
+                "verbal_pre_transition_instruction": "右方向です。その先錦町有楽町線, Nishikichō-Yūrakuchō Lineです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "錦町有楽町線",
+                  "Nishikichō-Yūrakuchō Line",
+                  "402",
+                  "特例都道錦町有楽町線"
+                ],
+                "bearing_before": 284,
+                "bearing_after": 16,
+                "time": 77.982,
+                "length": 0.291,
+                "cost": 292,
+                "begin_shape_index": 15,
+                "end_shape_index": 26,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 10,
+                "instruction": "右方向です。その先丸の内室町線/Marunouchi-Muromachi Line/407/特例都道丸の内室町線です。",
+                "verbal_transition_alert_instruction": "右方向です。その先丸の内室町線です。",
+                "verbal_succinct_transition_instruction": "右方向です。",
+                "verbal_pre_transition_instruction": "右方向です。その先丸の内室町線, Marunouchi-Muromachi Lineです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "丸の内室町線",
+                  "Marunouchi-Muromachi Line",
+                  "407",
+                  "特例都道丸の内室町線"
+                ],
+                "bearing_before": 14,
+                "bearing_after": 139,
+                "time": 77.613,
+                "length": 0.349,
+                "cost": 349,
+                "begin_shape_index": 26,
+                "end_shape_index": 45,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 10,
+                "instruction": "丸の内一丁目/Marunouchi 1-chomeを右方向です。",
+                "verbal_transition_alert_instruction": "丸の内一丁目を右方向です。",
+                "verbal_succinct_transition_instruction": "丸の内一丁目, Marunouchi 1-chomeを右方向です。",
+                "verbal_pre_transition_instruction": "丸の内一丁目, Marunouchi 1-chomeを右方向です。",
+                "verbal_post_transition_instruction": "1, 20を200メートル直進です。",
+                "street_names": [
+                  "1",
+                  "20",
+                  "永代通り"
+                ],
+                "begin_street_names": [
+                  "1",
+                  "20",
+                  "永代通り",
+                  "Eitai Street"
+                ],
+                "bearing_before": 45,
+                "bearing_after": 104,
+                "time": 43.83,
+                "length": 0.172,
+                "cost": 172,
+                "begin_shape_index": 45,
+                "end_shape_index": 51,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 10,
+                "instruction": "右方向です。",
+                "verbal_transition_alert_instruction": "右方向です。",
+                "verbal_succinct_transition_instruction": "右方向です。",
+                "verbal_pre_transition_instruction": "右方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "bearing_before": 105,
+                "bearing_after": 196,
+                "time": 63.808,
+                "length": 0.233,
+                "cost": 233,
+                "begin_shape_index": 51,
+                "end_shape_index": 59,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 4,
+                "instruction": "目的地に到着しました。",
+                "verbal_transition_alert_instruction": "まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "目的地に到着しました。",
+                "bearing_before": 132,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 59,
+                "end_shape_index": 59,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.680261,
+              "min_lon": 139.764244,
+              "max_lat": 35.684397,
+              "max_lon": 139.76953,
+              "time": 308.199,
+              "length": 1.205,
+              "cost": 1205.855
+            },
+            "shape": "{ox`cAyvqqiGlCt@|Ab@~B`@jB?jBEdDUdDu@hBUlB?nAN|Cn@zD|DiFx^SzAkAhJeLqCuA[ch@qLgAW_GsAoJ{BoJ_CeFkAeAWyi@cM{N_DtHmIhDaVf@{DsBuFx@oHDiBKgBa@gBm@gBePse@uAwC_CmCmA_A_BeAu@g@au@sYcBo@gFqBeEsFrEs^l@yEf@}Dl@aFbKyu@`AkHdGAvD`AzJpCrHnB`JdChgAxYp@i@zAuC"
+          },
+          {
+            "maneuvers": [
+              {
+                "type": 1,
+                "instruction": "東方向です。",
+                "verbal_succinct_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_pre_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 107,
+                "time": 17.39,
+                "length": 0.084,
+                "cost": 84,
+                "begin_shape_index": 0,
+                "end_shape_index": 16,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先外堀通り/Sotobori-dori Avenue/405です。",
+                "verbal_transition_alert_instruction": "左方向です。その先外堀通りです。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先外堀通り, Sotobori-dori Avenueです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 111,
+                "bearing_after": 31,
+                "time": 92.356,
+                "length": 0.273,
+                "cost": 273.008,
+                "begin_shape_index": 16,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 6,
+                "instruction": "目的地は左側です。",
+                "verbal_transition_alert_instruction": "目的地は左側です。",
+                "verbal_pre_transition_instruction": "目的地は左側です。",
+                "bearing_before": 19,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 28,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.681764,
+              "min_lon": 139.768968,
+              "max_lat": 35.68398,
+              "max_lon": 139.771068,
+              "time": 109.747,
+              "length": 0.357,
+              "cost": 357.008
+            },
+            "shape": "smz`cAogyqiG`C{OTcFjAsDfAuAN_AM]Ac@@_ADc@Ja@Re@\\a@VM`@C|@}D`@mBqGiE{B{AgEeCuIgF}D{B}IsE_HcDso@_X}G}CuEqBkFwBuJ_D"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 35.680261,
+          "min_lon": 139.764244,
+          "max_lat": 35.684397,
+          "max_lon": 139.771068,
+          "time": 417.946,
+          "length": 1.562,
+          "cost": 1562.864
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "ja-JP"
+      }
+    }
+  },
+  {
+    "fetchedAt": 1789446144902,
+    "endpoint": "https://valhalla1.openstreetmap.de/route",
+    "clientId": "sodateru-map-production-specs-routes-25",
+    "request": {
+      "locations": [
+        {
+          "lon": 139.765,
+          "lat": 35.681068,
+          "type": "break"
+        },
+        {
+          "lon": 139.769,
+          "lat": 35.682,
+          "type": "break"
+        },
+        {
+          "lon": 139.771,
+          "lat": 35.684,
+          "type": "break"
+        }
+      ],
+      "costing": "bicycle",
+      "costing_options": {
+        "bicycle": {
+          "shortest": false
+        }
+      },
+      "units": "kilometers",
+      "language": "ja-JP",
+      "date_time": {
+        "type": 2,
+        "value": "2026-09-16T10:30"
+      }
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": 35.681068,
+            "lon": 139.765,
+            "date_time": "2026-09-16T10:23",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": 35.682,
+            "lon": 139.769,
+            "date_time": "2026-09-16T10:28",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "original_index": 1
+          },
+          {
+            "type": "break",
+            "lat": 35.684,
+            "lon": 139.771,
+            "date_time": "2026-09-16T10:30",
+            "time_zone_offset": "+09:00",
+            "time_zone_name": "Asia/Tokyo",
+            "side_of_street": "left",
+            "original_index": 2
+          }
+        ],
+        "legs": [
+          {
+            "maneuvers": [
+              {
+                "type": 2,
+                "instruction": "南方向です。",
+                "verbal_succinct_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_pre_transition_instruction": "南方向です。。その先80メートルで東京駅南口を左方向です。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 197,
+                "time": 23.429,
+                "length": 0.076,
+                "cost": 87.597,
+                "begin_shape_index": 0,
+                "end_shape_index": 11,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "東京駅南口/Tokyo Station South Exitを左方向です。",
+                "verbal_transition_alert_instruction": "東京駅南口を左方向です。",
+                "verbal_succinct_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_pre_transition_instruction": "東京駅南口, Tokyo Station South Exitを左方向です。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "丸の内室町線",
+                  "Marunouchi-Muromachi Line",
+                  "407"
+                ],
+                "bearing_before": 194,
+                "bearing_after": 106,
+                "time": 70.065,
+                "length": 0.331,
+                "cost": 178.898,
+                "begin_shape_index": 11,
+                "end_shape_index": 26,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 14,
+                "instruction": "東京国際フォーラム東/Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_transition_alert_instruction": "東京国際フォーラム東を斜め左手前方向です。",
+                "verbal_succinct_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_pre_transition_instruction": "東京国際フォーラム東, Tokyo kokusai Forum E.を斜め左手前方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "鍛冶橋通り",
+                  "Kajibashi-dori Avenue",
+                  "406"
+                ],
+                "bearing_before": 196,
+                "bearing_after": 93,
+                "time": 59.658,
+                "length": 0.173,
+                "cost": 438.387,
+                "begin_shape_index": 26,
+                "end_shape_index": 35,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "鍛冶橋/Kaji-bashiを左方向です。",
+                "verbal_transition_alert_instruction": "鍛冶橋を左方向です。",
+                "verbal_succinct_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_pre_transition_instruction": "鍛冶橋, Kaji-bashiを左方向です。",
+                "verbal_post_transition_instruction": "200メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 99,
+                "bearing_after": 24,
+                "time": 38.929,
+                "length": 0.198,
+                "cost": 82.321,
+                "begin_shape_index": 35,
+                "end_shape_index": 41,
+                "sign": {},
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_transition_alert_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先東京駅八重洲パーキング西駐車場です。",
+                "verbal_post_transition_instruction": "400メートル直進です。",
+                "street_names": [
+                  "東京駅八重洲パーキング西駐車場"
+                ],
+                "bearing_before": 27,
+                "bearing_after": 332,
+                "time": 77.387,
+                "length": 0.365,
+                "cost": 196.839,
+                "begin_shape_index": 41,
+                "end_shape_index": 56,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "10メートル直進です。",
+                "bearing_before": 30,
+                "bearing_after": 291,
+                "time": 3.1,
+                "length": 0.014,
+                "cost": 25.872,
+                "begin_shape_index": 56,
+                "end_shape_index": 58,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_pre_transition_instruction": "左方向です。。その先斜め右手前方向です。",
+                "verbal_post_transition_instruction": "10メートル以内直進です。",
+                "bearing_before": 292,
+                "bearing_after": 217,
+                "time": 1.299,
+                "length": 0.002,
+                "cost": 4.133,
+                "begin_shape_index": 58,
+                "end_shape_index": 59,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 11,
+                "instruction": "斜め右手前方向です。",
+                "verbal_transition_alert_instruction": "斜め右手前方向です。",
+                "verbal_succinct_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_pre_transition_instruction": "斜め右手前方向です。。その先左方向です。",
+                "verbal_post_transition_instruction": "20メートル直進です。",
+                "bearing_before": 217,
+                "bearing_after": 12,
+                "time": 7.799,
+                "length": 0.019,
+                "cost": 28.28,
+                "begin_shape_index": 59,
+                "end_shape_index": 69,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。",
+                "verbal_transition_alert_instruction": "左方向です。",
+                "verbal_succinct_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "左方向です。。その先まもなく目的地に到着します。",
+                "verbal_post_transition_instruction": "50メートル直進です。",
+                "bearing_before": 12,
+                "bearing_after": 302,
+                "time": 12.244,
+                "length": 0.053,
+                "cost": 23.201,
+                "begin_shape_index": 69,
+                "end_shape_index": 74,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 4,
+                "instruction": "目的地に到着しました。",
+                "verbal_transition_alert_instruction": "まもなく目的地に到着します。",
+                "verbal_pre_transition_instruction": "目的地に到着しました。",
+                "bearing_before": 287,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 74,
+                "end_shape_index": 74,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.677313,
+              "min_lon": 139.765055,
+              "max_lat": 35.682026,
+              "max_lon": 139.769812,
+              "time": 293.914,
+              "length": 1.231,
+              "cost": 1065.532
+            },
+            "shape": "{ox`cAyvqqiGlCt@|Ab@~B`@jB?jBEdDUdDu@hBUlB?nAN|Cn@x@}FJg@XcAl@aAfAw@~HaFv[qRjBs@dB]pBDf[vHhBb@tdAdWbBb@vFvAFoDBqEfCiStBiIjDgXl@wErCaVT}B|@sMiGoCkg@qXaG}CySoLuC}AeP_J{AlCw@NgAUkH_EsC}A_f@{WqQ_H}l@{Y}KgJgLsGgAyBqKiIe@a@_GwGcC{Aa@lB}@|DVTP\\Jz@Ct@Mr@QXUVi@X[DSAQGO~@gAtAkArDUbFaCzO"
+          },
+          {
+            "maneuvers": [
+              {
+                "type": 1,
+                "instruction": "東方向です。",
+                "verbal_succinct_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_pre_transition_instruction": "東方向です。。その先左方向です。その先外堀通りです。",
+                "verbal_post_transition_instruction": "80メートル直進です。",
+                "bearing_after": 107,
+                "time": 17.39,
+                "length": 0.084,
+                "cost": 30.812,
+                "begin_shape_index": 0,
+                "end_shape_index": 16,
+                "verbal_multi_cue": true,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 15,
+                "instruction": "左方向です。その先外堀通り/Sotobori-dori Avenue/405です。",
+                "verbal_transition_alert_instruction": "左方向です。その先外堀通りです。",
+                "verbal_succinct_transition_instruction": "左方向です。",
+                "verbal_pre_transition_instruction": "左方向です。その先外堀通り, Sotobori-dori Avenueです。",
+                "verbal_post_transition_instruction": "300メートル直進です。",
+                "street_names": [
+                  "外堀通り",
+                  "Sotobori-dori Avenue",
+                  "405"
+                ],
+                "bearing_before": 111,
+                "bearing_after": 31,
+                "time": 92.356,
+                "length": 0.273,
+                "cost": 436.421,
+                "begin_shape_index": 16,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              },
+              {
+                "type": 6,
+                "instruction": "目的地は左側です。",
+                "verbal_transition_alert_instruction": "目的地は左側です。",
+                "verbal_pre_transition_instruction": "目的地は左側です。",
+                "bearing_before": 19,
+                "time": 0,
+                "length": 0,
+                "cost": 0,
+                "begin_shape_index": 28,
+                "end_shape_index": 28,
+                "travel_mode": "bicycle",
+                "travel_type": "hybrid"
+              }
+            ],
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 35.681764,
+              "min_lon": 139.768968,
+              "max_lat": 35.68398,
+              "max_lon": 139.771068,
+              "time": 109.747,
+              "length": 0.357,
+              "cost": 467.234
+            },
+            "shape": "smz`cAogyqiG`C{OTcFjAsDfAuAN_AM]Ac@@_ADc@Ja@Re@\\a@VM`@C|@}D`@mBqGiE{B{AgEeCuIgF}D{B}IsE_HcDso@_X}G}CuEqBkFwBuJ_D"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 35.677313,
+          "min_lon": 139.765055,
+          "max_lat": 35.68398,
+          "max_lon": 139.771068,
+          "time": 403.661,
+          "length": 1.588,
+          "cost": 1532.766
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "ja-JP"
+      }
+    }
+  }
+]
