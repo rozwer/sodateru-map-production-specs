@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 57,
+  "revision": 58,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4835,15 +4835,15 @@
       "generation": 1,
       "issue_number": 49,
       "landed_main": null,
-      "note": null,
+      "note": "Issue #49: node tests 4/4, live cross-owner comment inspect allowed, edit still rejected, mise run verify passed (67 Codex hook tests), git diff --check passed; commit eeee4d4",
       "owner": "rozwer",
       "paths": [
         "scripts/codex-task-hook.mjs",
         "scripts/codex-task-hook.test.mjs",
         "mise.toml"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "eeee4d40ba8dcd7a2f8df8d55b476501e06c778d",
       "token": "fd66e0495bfd479c8d6f0935849376a9"
     },
     "TOOL-WORKTREE-SETUP": {
