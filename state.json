@@ -33969,7 +33969,7 @@
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE"
   ],
-  "revision": 268,
+  "revision": 269,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34505,18 +34505,13 @@
       "base_commit": "6dac91f4fba8bb28506c73efd39c4db1518a963d",
       "generation": 7,
       "issue_number": 5,
-      "landed_main": null,
+      "landed_main": "c6ec1baf9adeb01064bb1cd6cd98282e0e77f04a",
       "note": "https://github.com/rozwer/sodateru-map-production-specs/issues/134#issuecomment-5674784083",
       "owner": "kaiya",
-      "paths": [
-        "server/features/places/",
-        "server/db/migrations/places/",
-        "docs/01_requirements/04_api/fragments/PLACES.json",
-        "docs/evidence/PLACES/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "beda816b973e3479692000726da80243485fad67",
-      "token": "f2c8681b601241ae9a2f423a9d1f4f11"
+      "token": null
     },
     "PLAN-UI-CONNECTIONS": {
       "actor": "rozwer",
