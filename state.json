@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 121,
+  "revision": 122,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4609,18 +4609,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 26,
-      "landed_main": null,
+      "landed_main": "a7c50b4241121f837b3a098771acb82a89042eb3",
       "note": "docs/evidence/EXPLORATION/verification.md",
       "owner": "mattsun",
-      "paths": [
-        "server/features/exploration/",
-        "server/db/migrations/exploration/",
-        "docs/01_requirements/04_api/fragments/EXPLORATION.json",
-        "docs/evidence/EXPLORATION/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "6c61ad646aa051130264fc690eb99b63198173c7",
-      "token": "6e47e11448d944798e714376124227cd"
+      "token": null
     },
     "FEATURE-REQUESTS": {
       "actor": "koshiro",
