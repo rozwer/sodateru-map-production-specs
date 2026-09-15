@@ -8,13 +8,19 @@ import { QuestionStore } from './questions.ts';
 import { comparisonErrors, comparisonResult, comparisonConditions } from './logic.ts';
 
 const common=JSON.parse(readFileSync(new URL('../../../docs/01_requirements/02_common/01_ai/schemas.json',import.meta.url),'utf8'));
-function schema(name:string) {return {...common.definitions[name],definitions:common.definitions};}
+export function reflectionSchema(name:string) {
+ const result=structuredClone({...common.definitions[name],definitions:common.definitions});
+ // The structured-output provider requires a type for const-only properties.
+ // Keep the original false constraint; the model must never decide user rejection.
+ if(name==='compareResult') result.properties.mappings.items.properties.rejected.type='boolean';
+ return result;
+}
 const promptVersion='reflection-v1';
 function localDate(at:number,timeZone:string) { return new Intl.DateTimeFormat('en-CA',{timeZone,year:'numeric',month:'2-digit',day:'2-digit'}).format(at); }
 export function registerReflectionTasks() {
  for(const task of ['extract','diary','compare'] as const) {
   registerAiTask({
-   task,promptVersion,inputSchema:schema(task+'Input'),outputSchema:schema(task+'Result'),
+   task,promptVersion,inputSchema:reflectionSchema(task+'Input'),outputSchema:reflectionSchema(task+'Result'),
    readMaterials(db:DatabaseSync,context:any,input:any,request:any) {
     const info=createInformationService(db);
     let ids:string[]=task==='extract'?[input.recordId]:task==='diary'?input.recordIds:[...input.fromRecordIds,...input.toRecordIds];
