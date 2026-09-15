@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 254,
+  "revision": 255,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34478,20 +34478,13 @@
       "base_commit": "98bece83497d80deb116dac9e88ee14490311f1a",
       "generation": 1,
       "issue_number": 225,
-      "landed_main": null,
-      "note": "docs/evidence/NAV-CARDS/README.md",
+      "landed_main": "e8bf8e46f066ce3403c769a733ee6c8262dc10de",
+      "note": "docs/evidence/NAV-CARDS/README.md; PR247+PR252 merged; menu acceptance verified, final shared runtime recheck handed to QA Issue217 per closeout instruction",
       "owner": "rozwer",
-      "paths": [
-        "src/app/App.tsx",
-        "src/app/NavigationMenu.tsx",
-        "src/app/NavigationCards.tsx",
-        "src/app/navigation-cards.css",
-        "src/app/navigation-card-data.ts",
-        "docs/evidence/NAV-CARDS/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "d343178ef35c55536647d6e6d7d8ab0172eb11e2",
-      "token": "a64041af24b147ca8742e9317a06add7"
+      "token": null
     },
     "PILGRIMAGE": {
       "actor": "kaiya",
