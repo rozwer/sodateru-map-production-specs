@@ -1,3 +1,4 @@
+import { notifyGrowthChanged } from '../activity/growth-refresh';
 import { withRecordMediaScope } from './MediaContent';
 import { useEffect, useState } from 'react';
 import { api } from '../../app/api';
@@ -27,8 +28,8 @@ function CorrectionScreen({route,scopeKey,back,active=true}:ScreenProps & {activ
   return()=>abort.abort();
  },[route.params.insightId,scopeKey,active,insightRevision]);
  const savePurpose=async()=>{
-  if(!loaded.detail||busy)return;setBusy(true);setError('');const abort=beginMutation();
-  try{await api.request('patchRecordsRecordId',{path:{recordId:loaded.detail.record.id},version:loaded.detail.record.version,body:{purposes:state.purposes},signal:abort.signal});if(abort.signal.aborted)return;setNotice('用途を保存しました。');loaded.reload();}catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{setBusy(false);}
+  if(!loaded.detail||busy)return;setBusy(true);setError('');setNotice('');const abort=beginMutation();
+  try{await api.request('patchRecordsRecordId',{path:{recordId:loaded.detail.record.id},version:loaded.detail.record.version,body:{purposes:state.purposes},signal:abort.signal});if(abort.signal.aborted)return;notifyGrowthChanged(scopeKey);setNotice('用途を保存しました。');loaded.reload();}catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{setBusy(false);}
  };
  const saveReason=async()=>{
   if(!insight){setError('訂正する解釈が指定されていません。元の解釈から開き直してください。');return;}
@@ -37,7 +38,7 @@ function CorrectionScreen({route,scopeKey,back,active=true}:ScreenProps & {activ
  };
  if(!loaded.detail)return <section className="records-screen"><RecordHeading title="解釈を訂正" onBack={back}/><div className="records-body"><RecordNotice error={!!loaded.error} retry={loaded.error?loaded.reload:undefined}>{loaded.error||'記録を読み込んでいます…'}</RecordNotice></div></section>;
  const record=loaded.detail.record;
- return <RecordCorrection body={record.body} date={record.effectiveStartedAt===null?'日時未指定':new Date(record.effectiveStartedAt).toLocaleDateString('ja-JP')} interpretation={insight?.summary||'解釈を読み込めていません。本人の原文と用途は表示しています。'} purposes={state.purposes} onPurposes={purposes=>setState(previous=>({...previous,purposes}))} reason={state.reason} onReason={reason=>setState(previous=>({...previous,reason}))} onSavePurpose={()=>void savePurpose()} onSaveReason={()=>void saveReason()} onBack={back} onReload={()=>{loaded.reload();setInsightRevision(value=>value+1);}} error={error||loaded.error} notice={notice} busy={busy}/>;
+ return <RecordCorrection body={record.body} date={record.effectiveStartedAt===null?'日時未指定':new Date(record.effectiveStartedAt).toLocaleDateString('ja-JP')} interpretation={insight?.summary||'解釈を読み込めていません。本人の原文と用途は表示しています。'} currentPurposes={record.purposes} currentVersion={record.version} purposes={state.purposes} onPurposes={purposes=>setState(previous=>({...previous,purposes}))} reason={state.reason} onReason={reason=>setState(previous=>({...previous,reason}))} onSavePurpose={()=>void savePurpose()} onSaveReason={()=>void saveReason()} onBack={back} onReload={()=>{loaded.reload();setInsightRevision(value=>value+1);}} error={error||loaded.error} notice={notice} busy={busy}/>;
 }
 
 function DeleteScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {active?:boolean}) {
@@ -46,7 +47,7 @@ function DeleteScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {
  const [busy,setBusy]=useState(false),[error,setError]=useState('');
  const remove=async()=>{
   if(!loaded.detail||busy)return;setBusy(true);setError('');const abort=beginMutation();
-  try{await api.request('deleteRecordsRecordId',{path:{recordId:loaded.detail.record.id},version:loaded.detail.record.version,signal:abort.signal});if(abort.signal.aborted)return;navigate('daily-track',{date:route.params.date||new Date().toLocaleDateString('sv-SE'),timeZone:route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone});}catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{setBusy(false);}
+  try{await api.request('deleteRecordsRecordId',{path:{recordId:loaded.detail.record.id},version:loaded.detail.record.version,signal:abort.signal});if(abort.signal.aborted)return;notifyGrowthChanged(scopeKey);navigate('daily-track',{date:route.params.date||new Date().toLocaleDateString('sv-SE'),timeZone:route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone});}catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{setBusy(false);}
  };
  if(!loaded.detail)return <section className="records-screen"><RecordHeading title="削除する内容の確認" onBack={back}/><div className="records-body"><RecordNotice error={!!loaded.error} retry={loaded.error?loaded.reload:undefined}>{loaded.error||'記録を読み込んでいます…'}</RecordNotice></div></section>;
  return <RecordDelete place={loaded.place} date={loaded.detail.record.effectiveStartedAt===null?'日時未指定':new Date(loaded.detail.record.effectiveStartedAt).toLocaleDateString('ja-JP')} onBack={back} onExport={()=>setError('この記録の書き出しをまだ利用できません。削除を取りやめて、記録を残すことができます。')} onDelete={()=>void remove()} busy={busy} error={error||loaded.error}/>;

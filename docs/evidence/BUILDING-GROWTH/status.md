@@ -6,3 +6,11 @@
 - 全体typecheckは既存server/core/core.test.tsのdisplayName、exploration/flow.ts requestId、records/record-flow.test.ts unknown、reflection/DiaryScreen.tsx version、tools/local/dev.ts childprocessで失敗。地図変更ファイルの診断はなし。
 - 実API/実ブラウザ9受入は未完。#228の成功保存通知moduleと#223防災表示store統合を後続で接続する。
 - 地理はMapbox Standard公式のbuildings featureset height/min_heightを利用。https://docs.mapbox.com/map-styles/reference/standard/
+
+## 実タイル・候補保存（13:39 JST）
+- PR #239通常merge（fa78030保持）。共有runtime edf48a0→18cd9dの反映を担当本人から受領。iap 1280×720、demo本人さやか。
+- 実Mapbox建物薄灰色/道路白/公園淡緑/水面淡青を確認。3D切替・街区ズーム・建物クリック成功。安定キー `mapbox:basemap:buildings:building-A:5398410314769255` がrouteへ出る。クリックで成長色は付かない。console error/warn 0。unvisited-building.png。
+- 同じキーの場所とcandidate訪問を既存APIでdemoに保存。api-candidate.jsonの成長応答は空。本文や本人IDをリクエストから信用する実装は追加していない。
+- 初回API/ブラウザ往復中に共有配信切替を挟み、セッション再開始を要した。再読込受入は固定commitで未確認。
+- 次差分: 建物選択→名前入力→場所保存、施設ピンから詳細へ遷移、安定ID取得不能/成長取得失敗の明示、同一mapでstyle再読込、#223表示storeのPNG/欠測接続。
+- 対象strict TypeScript検査PASS（MapRenderer/MapScene/map screensと依存、vite/client,node）。Vite build PASS。

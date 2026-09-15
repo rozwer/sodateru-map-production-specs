@@ -1,0 +1,43 @@
+{
+  "mode": "demo",
+  "place": {
+    "data": {
+      "id": "e4d76d9b-e299-496a-b710-ecd9e0eb3d4a",
+      "name": "建物成長の確認用カフェ（デモ）",
+      "address": null,
+      "coordinates": [
+        136.969655,
+        35.169524
+      ],
+      "categories": [],
+      "provider": "manual",
+      "externalId": null,
+      "buildingKey": "mapbox:basemap:buildings:building-A:5398410314769255",
+      "sourceUrl": null,
+      "attribution": "",
+      "fetchedAt": null,
+      "version": 1,
+      "createdAt": 1789447102285,
+      "updatedAt": 1789447102285
+    }
+  },
+  "visit": {
+    "data": {
+      "id": "631db5ae-b3e2-49ec-9d6e-68b522fdcacd",
+      "personId": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+      "placeId": "e4d76d9b-e299-496a-b710-ecd9e0eb3d4a",
+      "startedAt": null,
+      "endedAt": null,
+      "timePrecision": "unknown",
+      "origin": "manual",
+      "status": "candidate",
+      "version": 1,
+      "createdAt": 1789447102288,
+      "updatedAt": 1789447102288
+    }
+  },
+  "growthAfterCandidate": {
+    "items": [],
+    "nextCursor": null
+  }
+}

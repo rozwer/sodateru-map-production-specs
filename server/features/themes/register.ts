@@ -5,12 +5,14 @@ import { expectedVersion } from '../../core/errors.ts';
 import { idempotencyKey, idempotentMutation } from '../../core/idempotency.ts';
 import { createTheme, getTheme, listThemes, patchTheme, deleteTheme, normalizeTheme } from './service.ts';
 import { registerMemoExtension } from './record-extension.ts';
+import { registerThemeAiRoutes } from './ai-routes.ts';
 
 export const themesMigration={id:'themes/001-presentation',sql:readFileSync(new URL('../../db/migrations/themes/001-presentation.sql',import.meta.url),'utf8')};
 export default defineFeature({
   id:'themes', migrations:[themesMigration],
   register(api,services) {
     registerMemoExtension();
+    registerThemeAiRoutes(api);
     api.get('/themes',c=>{
       const {personId,dataMode}=c.get('context'), query=c.get('input').query;
       return c.json(listThemes(c.get('db'),personId,dataMode,query.limit as number|undefined,query.cursor as string|undefined));

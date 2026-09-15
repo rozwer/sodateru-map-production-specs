@@ -10,7 +10,7 @@ import { RecordHeading, RecordNotice } from '../records/RecordParts';
 import { errorText, readRecord } from '../records/record-flow';
 import { placeChoice, useRecordDetail, useScreenMutation } from '../records/record-hooks';
 import type { PlaceChoice } from '../records/form-types';
-import { VisitConfirmation } from './VisitConfirmation';
+import { VisitEditor } from './VisitEditor';
 import { GrowthResult } from './GrowthResult';
 import { DailyTrack, type TimelineEntry } from './DailyTrack';
 import { allTrackPoints, allVisits, displayDuration, displayTime, growthForPlace, localDay, recordDetails, timelineEntries, trackRuns } from './activity-data';
@@ -20,30 +20,6 @@ function usePreviewBridge(scopeKey:string) {
  useEffect(()=>()=>bridge.dispose(),[bridge]);return bridge;
 }
 
-function VisitScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {active?:boolean}) {
- const beginMutation=useScreenMutation(scopeKey,active);
- const [visit,setVisit]=useState<Visit|null>(null),[place,setPlace]=useState<PlaceChoice|null>(null);
- const [state,setState]=useScreenState(()=>({status:'candidate' as Visit['status'],initialized:''}));
- const [error,setError]=useState(''),[notice,setNotice]=useState(''),[busy,setBusy]=useState(false),[loading,setLoading]=useState(false),[revision,setRevision]=useState(0);
- const bridge=usePreviewBridge(scopeKey),visitId=route.params.visitId;
- useEffect(()=>{
-  if(!visitId||!active)return;const abort=new AbortController();setLoading(true);setError('');setVisit(null);setPlace(null);
-  void api.request('getVisitsVisitId',{path:{visitId},signal:abort.signal}).then(async({data})=>{
-   if(abort.signal.aborted)return;setVisit(data);if(state.initialized!==data.id)setState({status:data.status,initialized:data.id});
-   const result=await api.request('getPlacesPlaceId',{path:{placeId:data.placeId},signal:abort.signal});
-   if(abort.signal.aborted)return;setPlace(placeChoice(result.data.place));
-   bridge.showPlaces('record-place-picker',{places:[{id:data.placeId,placeId:data.placeId,coordinates:result.data.place.coordinates,label:result.data.place.name}]});bridge.focus('record-place-picker',{center:result.data.place.coordinates,zoom:15});
-  }).catch(error=>{if(!abort.signal.aborted)setError(errorText(error));}).finally(()=>{if(!abort.signal.aborted)setLoading(false);});
-  return()=>abort.abort();
- },[visitId,scopeKey,active,revision]);
- const save=async()=>{
-  if(!visit||busy)return;setBusy(true);setError('');const abort=beginMutation();
-  try{const {data}=await api.request('patchVisitsVisitId',{path:{visitId:visit.id},version:visit.version,body:{status:state.status},signal:abort.signal});if(abort.signal.aborted)return;setVisit(data);setNotice('訪問の確認を保存しました。');await api.request('getMapGrowth',{query:{limit:100},signal:abort.signal});if(!abort.signal.aborted)back();}catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{setBusy(false);}
- };
- if(!visit)return <section className="records-screen"><RecordHeading title="訪問の確認" onBack={back}/><div className="records-body"><RecordNotice error={!!error} retry={error?()=>setRevision(value=>value+1):undefined}>{error||(loading?'訪問を読み込んでいます…':'確認する訪問が指定されていません。')}</RecordNotice></div></section>;
- const timeZone=route.params.timeZone||Intl.DateTimeFormat().resolvedOptions().timeZone;
- return <VisitConfirmation place={place} date={visit.startedAt===null?'日時未指定':new Intl.DateTimeFormat('ja-JP',{timeZone,month:'long',day:'numeric',weekday:'short'}).format(visit.startedAt)} time={`${displayTime(visit.startedAt,timeZone)}${visit.endedAt!==null?' ～ '+displayTime(visit.endedAt,timeZone):''}`} duration={displayDuration(visit.startedAt,visit.endedAt)} origin={visit.origin} status={state.status} onStatus={status=>setState(previous=>({...previous,status}))} onSave={()=>void save()} onBack={back} onPlace={()=>navigate('map',{placeId:visit.placeId})} onExpandMap={()=>navigate('map',{placeId:visit.placeId})} map={active?<MapPreview bridge={bridge} label="訪問候補の場所" interactive/>:null} busy={busy} error={error} notice={notice}/>;
-}
 
 function GrowthScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {active?:boolean}) {
  const loaded=useRecordDetail(route.params.recordId,scopeKey,active);
@@ -51,7 +27,7 @@ function GrowthScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {
  const bridge=usePreviewBridge(scopeKey);
  useEffect(()=>{
   const placeId=loaded.detail?.record.effectivePlaceId;if(!placeId||!active)return;
-  const abort=new AbortController();setLoading(true);setError('');setGrowth(null);
+  const abort=new AbortController();setLoading(true);setError('');
   void growthForPlace(api,placeId,abort.signal).then(result=>{
    if(abort.signal.aborted)return;setGrowth(result);showRecordGrowth(bridge,result?[result]:[]);
    if(result){bridge.showPlaces('daily-track',{places:[{id:placeId,placeId,coordinates:result.place.coordinates,label:result.place.name}]});bridge.focus('daily-track',{center:result.place.coordinates,zoom:18});bridge.setView({dimension:'3d',lens:'personal'});}
@@ -59,7 +35,7 @@ function GrowthScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {
  },[loaded.detail?.record.effectivePlaceId,loaded.detail?.record.version,scopeKey,active]);
  if(!loaded.detail)return <section className="records-screen"><RecordHeading title="体験から形になる" onBack={back}/><div className="records-body"><RecordNotice error={!!loaded.error} retry={loaded.error?loaded.reload:undefined}>{loaded.error||'成長のもとになった記録を読み込んでいます…'}</RecordNotice></div></section>;
  const record=loaded.detail.record;
- return <GrowthResult place={loaded.place} body={record.body} purposes={growth?.purposes??[]} visitCount={growth?.confirmedVisitCount??0} preview={active?<MapPreview bridge={bridge} label="体験による建物の成長"/>:null} onBack={back} onOriginal={()=>navigate('record-edit',{recordId:record.id})} onNext={()=>navigate('self-checkin',{recordId:record.id})} onMap={()=>navigate('map',{...(record.effectivePlaceId?{placeId:record.effectivePlaceId}:{})})} loading={loading} error={error||loaded.error}/>;
+ return <GrowthResult place={loaded.place} body={record.body} purposes={growth?.purposes??[]} visitCount={loading||error||!record.effectivePlaceId?null:growth?.confirmedVisitCount??0} preview={active?<MapPreview bridge={bridge} label="体験による建物の成長"/>:null} onBack={back} onOriginal={()=>navigate('record-edit',{recordId:record.id})} onNext={()=>navigate('self-checkin',{recordId:record.id})} onMap={()=>navigate('map',{...(record.effectivePlaceId?{placeId:record.effectivePlaceId}:{})})} loading={loading} error={error||loaded.error}/>;
 }
 
 interface DailyState {date:string;calendar:boolean;month:string;expandedId:string|null}
@@ -146,7 +122,7 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
 }
 
 export const screens:ScreenDefinition[]=[
- {id:'visit-confirm',title:'訪問の確認',component:withRecordMediaScope(VisitScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
+ {id:'visit-confirm',title:'訪問の確認',component:withRecordMediaScope(VisitEditor),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
  {id:'growth-result',title:'体験で地図が育った',component:withRecordMediaScope(GrowthScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}},
  {id:'daily-track',title:'今日の軌跡',component:withRecordMediaScope(DailyScreen),layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:true}},
 ];

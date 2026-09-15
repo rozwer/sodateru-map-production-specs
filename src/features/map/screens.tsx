@@ -45,7 +45,7 @@ function MapScreen({ route, navigate, scopeKey, active = true }: Props) {
   useEffect(() => {
     if (!active) return;
     const candidate = bridge.onSelect('map-search', selection => { if (selection.kind === 'candidate') { session.selectCandidate(selection.id, bridge); setUi(value => ({ ...value, tab: 'place' })); } });
-    const place = bridge.onSelect('personal-map', selection => { void session.loadDetail(selection.id); setUi(value => ({ ...value, tab: 'place' })); });
+    const place = bridge.onSelect('personal-map', selection => { void session.loadDetail(selection.id); setUi(value => ({ ...value, tab: 'place' })); navigate('map', { placeId: selection.id }); });
     const object = bridge.onSelect('map-objects', selection => navigate('object-edit', { objectId: selection.id }));
     const poi = bridge.onSelect('map-poi', selection => { const label = (selection as { label?: string }).label; if (label) { session.setQuery(label); void session.search(bridge); } });
     const building = bridge.onSelect('map-building', selection => navigate('map', { buildingKey: selection.buildingKey || selection.id }));
@@ -62,7 +62,7 @@ function MapScreen({ route, navigate, scopeKey, active = true }: Props) {
   const nearbySelected = (id: string) => { session.selectNearby(id, bridge); setUi(value => ({ ...value, tab: 'place' })); };
   return <div className="map-feature" data-testid="map-screen">
     {state.growthError && <Status kind="error" onRetry={() => void session.loadGrowth(bridge)}>成長の取得に失敗しました。直前の表示を保持しています。{state.growthError}</Status>}
-    {(route.params.buildingKey || state.detail) && <BuildingGrowthPanel buildingKey={route.params.buildingKey} buildings={display.buildings} growth={state.growth} places={state.places} place={state.detail?.place || null} onSaved={async () => { if (state.detail) await session.loadDetail(state.detail.place.id, true); await session.loadGrowth(bridge); }} openPlace={id => navigate('map', { placeId: id })} openRecord={id => navigate('record-detail', { recordId: id })}/>}
+    {(route.params.buildingKey || state.detail) && <BuildingGrowthPanel buildingKey={route.params.buildingKey} buildings={display.buildings} growth={state.growth} growthLoaded={state.growthLoaded} places={state.places} place={state.detail?.place || null} onSaved={async () => { if (state.detail) await session.loadDetail(state.detail.place.id, true); await session.loadGrowth(bridge); }} openPlace={id => navigate('map', { placeId: id })} openRecord={id => navigate('record-detail', { recordId: id })} reloadMap={() => mapDisplay(bridge).reloadStyle()}/>}
 
     {(state.result || state.loading || route.params.state === 'search-place-selected') && <div className="map-result-tabs" role="tablist" aria-label="検索結果の表示"><button type="button" role="tab" aria-selected={ui.tab === 'results'} onClick={() => setUi(value => ({ ...value, tab: 'results' }))}>{m.searchResults}{state.result ? ` ${state.result.items.length}件` : ''}</button><button type="button" role="tab" aria-selected={ui.tab === 'place'} disabled={!place} onClick={() => setUi(value => ({ ...value, tab: 'place' }))}>{m.placeInfo}</button></div>}
     {state.loading && <Status kind="loading">場所を検索中…</Status>}

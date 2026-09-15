@@ -11,6 +11,7 @@ import { MapBridgeContext } from './useMapBridge';
 import { ScreenKeyContext, ScreenStateContext } from './useScreenState';
 import { NavigationStore, parseRoute, routeHash, routeKey } from './navigation';
 import { NavigationMenu } from './NavigationMenu';
+import { NavigationCards } from './NavigationCards';
 import '../ui/tokens.css';
 import './app.css';
 
@@ -47,14 +48,15 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(80);
   const menuMode = current.route.pageId === 'navigation' ? (current.route.params.mode || 'main') as 'main' | 'self' | 'community' : null;
+  const cardMode = menuMode === 'self' || menuMode === 'community' ? menuMode : current.route.pageId === 'self-home' ? 'self' : current.route.pageId === 'community-home' ? 'community' : null;
   const screen = screens.find(item => item.id === current.route.pageId);
-  const fullscreen = !menuMode && screen?.layout?.presentation === 'fullscreen';
+  const fullscreen = !cardMode && !menuMode && screen?.layout?.presentation === 'fullscreen';
   const Toolbar = screen?.toolbar ?? MapToolbar;
   const isMapPage = current.route.pageId === 'map';
   const mapPanelOpen = isMapPage && !!screen && ['state', 'placeId', 'buildingKey', 'q'].some(key => !!current.route.params[key]);
   const isMap = isMapPage && !mapPanelOpen;
-  const mapControlsCovered = !isMapPage && menuMode !== 'self' && menuMode !== 'community' && !screen?.layout?.mapControls;
-  const showBottomNav = menuMode !== null || screen?.layout?.bottomNav !== false;
+  const mapControlsCovered = !isMapPage && !cardMode && !screen?.layout?.mapControls;
+  const showBottomNav = cardMode !== null || menuMode !== null || screen?.layout?.bottomNav !== false;
   const title = menuMode ? messages.menu : screen?.title || ({ 'self-home': messages.self, 'community-home': messages.community, settings: messages.settings, 'plugin-store': messages.plugins, '$start': messages.start }[current.route.pageId] ?? current.route.pageId);
   const go = useCallback((pageId: string, params: Record<string, string> = {}) => {
     if (pageId === '$start' && onStart) { navigation.reset(); onStart(); return; }
@@ -119,13 +121,13 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   };
   const screenProps: ScreenProps = { route: current.route, navigate: go, back, scopeKey, active: active && !mapControlsCovered };
   return <MapBridgeContext.Provider value={bridge}><ScreenStateContext.Provider value={saved}>
-    <main className="sm-app" style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
+    <main className={`sm-app${cardMode ? ' sm-app--nav-cards' : ''}`} style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
       // WebKit may leave focus on the dialog after a pointer activation. Record the real trigger.
       const button = (event.target as Element).closest<HTMLButtonElement>('button');
       if (button && !button.disabled) button.focus({ preventScroll: true });
     }} onKeyDown={event => { if (event.key === 'Escape' && !event.defaultPrevented && !isMap) { event.preventDefault(); back(); } }}>
       <div className="sm-map-host" hidden={fullscreen} aria-label={messages.appName}>{MapRenderer ? <MapRenderer bridge={bridge}/> : <div className="sm-map-unavailable"><Status kind="unavailable">{messages.mapPending}</Status></div>}</div>
-      {Toolbar && <div className={`sm-map-toolbar${screen?.toolbar ? ' sm-map-toolbar--page' : ''}`} hidden={mapControlsCovered}><Toolbar {...screenProps}/></div>}
+      {Toolbar && <div className={`sm-map-toolbar${screen?.toolbar ? ' sm-map-toolbar--page' : ''}`} hidden={mapControlsCovered || !!cardMode}><Toolbar {...screenProps}/></div>}
       {MapCompanion && <div hidden={!active || !isMap}><MapCompanion scopeKey={scopeKey} active={active && isMap} onActivate={() => go('ai-explore')}/></div>}
       {menuMode === 'main' && <button type="button" className="sm-menu-backdrop" onClick={back} aria-label={messages.close} aria-hidden="true" tabIndex={-1}/>}
       <button type="button" hidden={mapControlsCovered || !!screen?.toolbar} className="sm-map-action sm-menu-trigger" aria-label={messages.menu} onClick={() => go('navigation', { mode: 'main' })}><Icon name="menu"/></button>
@@ -133,16 +135,16 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       {locationError && <div className="sm-location-error"><Status kind="error" onRetry={locate}>{locationError}</Status></div>}
       {dataMode === 'demo' && <span className="sm-demo-badge">{messages.demo}</span>}
       <div ref={contentRef}>
-        <Sheet open={!isMap} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} presentation={fullscreen ? 'fullscreen' : 'panel'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} mobileHeight={screen?.layout?.mobileHeight} background={screen?.layout?.background} onRect={onRect}>
-          {menuMode && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
-          {!menuMode && !screen && (current.route.pageId === 'self-home' || current.route.pageId === 'community-home') && <NavigationMenu mode={current.route.pageId === 'self-home' ? 'self' : 'community'} profile={profile} navigate={go}/>}
+        <Sheet open={!isMap && !cardMode} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} presentation={fullscreen ? 'fullscreen' : 'panel'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} mobileHeight={screen?.layout?.mobileHeight} background={screen?.layout?.background} onRect={onRect}>
+          {menuMode === 'main' && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
           {!menuMode && !screen && !['self-home','community-home','map'].includes(current.route.pageId) && <Status kind="unavailable">{messages.unavailable}</Status>}
-          {[...visited.entries()].filter(([,route]) => screens.some(item => item.id === route.pageId)).map(([key,route]) => {
+          {[...visited.entries()].filter(([,route]) => !['self-home', 'community-home'].includes(route.pageId) && screens.some(item => item.id === route.pageId)).map(([key,route]) => {
             const Component = screens.find(item => item.id === route.pageId)!.component;
             return <div key={key} hidden={key !== current.key} inert={key !== current.key} className="sm-screen-content"><ScreenKeyContext.Provider value={routeKey(route)}><Component route={route} navigate={go} back={back} scopeKey={scopeKey} active={active && key === current.key}/></ScreenKeyContext.Provider></div>;
           })}
         </Sheet>
       </div>
+      {cardMode && <ScreenKeyContext.Provider value={`navigation-cards:${cardMode}`}><NavigationCards key={cardMode} mode={cardMode} navigate={go} dataMode={dataMode}/></ScreenKeyContext.Provider>}
       {captureOpen && <CapturePicker onClose={() => setCaptureOpen(false)} onFiles={files => {
         const captureId = stageRecordCapture(files, scopeKey);
         if (!captureId) { setCaptureError('写真を読み込めませんでした。画像を選び直してください。'); return; }
