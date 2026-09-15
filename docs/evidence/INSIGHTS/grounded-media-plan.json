@@ -1,0 +1,75 @@
+{
+  "format": "insights-grounded-media-plan-v1",
+  "status": "assets_saved_waiting_shared_recovery",
+  "sourceMode": "sample",
+  "assetProvenance": "User-authorized generated generic photo-style illustrations. They are not photos of the named real establishments or actual visits.",
+  "storageDirectory": "docs/evidence/INSIGHTS/generated-media",
+  "initialBindings": [
+    {
+      "scene": "cafe",
+      "recordId": "insights-grounded-v2-rehearsal-0910-cafe",
+      "mediaId": "insights-grounded-v2-photo-cafe",
+      "position": 0
+    },
+    {
+      "scene": "bookstore",
+      "recordId": "insights-grounded-v2-rehearsal-0910-book",
+      "mediaId": "insights-grounded-v2-photo-bookstore",
+      "position": 0
+    },
+    {
+      "scene": "park",
+      "recordId": "insights-grounded-v2-rehearsal-0910-park",
+      "mediaId": "insights-grounded-v2-photo-park",
+      "position": 0
+    },
+    {
+      "scene": "dinner",
+      "recordId": "insights-grounded-v2-rehearsal-0910-dinner",
+      "mediaId": "insights-grounded-v2-photo-dinner",
+      "position": 0
+    }
+  ],
+  "api": {
+    "operationId": "postRecordsRecordIdMedia",
+    "method": "POST",
+    "path": "/api/v1/records/{recordId}/media",
+    "encoding": "multipart/form-data",
+    "formFields": [
+      "id",
+      "position",
+      "file"
+    ],
+    "headers": {
+      "X-Data-Mode": "demo",
+      "X-Request-Id": "fresh UUID per HTTP request",
+      "Idempotency-Key": "same fixed media ID for retry",
+      "If-Match": "latest parent record ETag"
+    },
+    "authentication": "existing demo/self session cookie",
+    "allowedImages": [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ],
+    "maxFileBytes": 52428800,
+    "maxAttachmentsPerRecord": 100
+  },
+  "sequence": [
+    "Wait for asset paths; inspect actual images, copy original bytes into claimed storageDirectory, record SHA256/MIME/size/generation provenance.",
+    "Wait for #105 confirmed recovery, deployed generator4 and an exclusive import window.",
+    "Append the 14 fixed Record payloads with original bodies; inspect existing records rather than overwriting them.",
+    "Get parent ETag and current media positions; upload file/id/position with fixed ID/key and If-Match. Preserve other attachments.",
+    "Verify response ready, original bytes via authenticated contentUrl GET, and current parent versions.",
+    "Create the three insights only after media attachment because attachment increments record.version.",
+    "Confirm UI uses authenticated binary media loading, actual displayed image decode, real result axes and source records; hand evidence to shooting owner."
+  ],
+  "uiDependency": {
+    "issue": 140,
+    "stateAtBoardRevision272": "backlog, actor null, paths empty",
+    "imageIssue": "InsightPhoto directly uses a protected contentUrl as img src. API requires X-Data-Mode and X-Request-Id, so use common client's getMediaMediaIdContent blob and revoke object URLs on cleanup, as MediaContent already does.",
+    "notYetBrowserVerified": true
+  },
+  "noSharedMutation": true,
+  "assetManifest": "docs/evidence/INSIGHTS/grounded-media-assets.json"
+}

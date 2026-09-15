@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {mkdtempSync,readFileSync,writeFileSync} from "node:fs";
 import {tmpdir} from "node:os";
 import {join} from "node:path";
-import {randomUUID} from "node:crypto";
+import {randomUUID,createHash} from "node:crypto";
 import {serve} from "@hono/node-server";
 import {createApp} from "../../app/app.ts";
 import {openDatabases} from "../../db/connection.ts";
@@ -51,6 +51,32 @@ test("原文14件の正式payloadをdemo/selfへHTTP追加し、5軸・再送・
    assert.deepEqual(read.activities,entry.payload.activities);
    assert.equal(read.timePrecision,entry.payload.timePrecision);
   }
+  const mediaManifest=JSON.parse(readFileSync(new URL("../../../docs/evidence/INSIGHTS/grounded-media-assets.json",import.meta.url),"utf8"));
+  const mediaChecks=[];
+  for(const asset of mediaManifest.assets){
+   const bytes=readFileSync(new URL("../../../"+asset.file,import.meta.url));
+   assert.equal(createHash("sha256").update(bytes).digest("hex"),asset.sha256);
+   const current=await call("/records/"+asset.recordId);
+   const etag=current.response.headers.get("etag")!;
+   let uploaded:any;
+   for(let attempt=0;attempt<2;attempt++){
+    const form=new FormData();form.set("id",asset.mediaId);form.set("position",String(asset.position));
+    form.set("file",new Blob([bytes],{type:asset.mimeType}),asset.key+".png");
+    const response:Response=await fetch("http://127.0.0.1:"+port+"/api/v1/records/"+asset.recordId+"/media",{
+     method:"POST",headers:{"X-Data-Mode":"demo","X-Request-Id":randomUUID(),"Idempotency-Key":asset.idempotencyKey,"If-Match":etag,Cookie:headers.Cookie!},body:form
+    });
+    uploaded=await response.json();assert.equal(response.status,201,JSON.stringify(uploaded));
+    assert.equal(uploaded.data.status,"ready");
+   }
+   const content=await fetch("http://127.0.0.1:"+port+uploaded.data.contentUrl,{headers:{...headers,"X-Request-Id":randomUUID()}});
+   assert.equal(content.status,200);assert.equal(content.headers.get("content-type"),asset.mimeType);
+   const actual=Buffer.from(await content.arrayBuffer());assert.deepEqual(actual,bytes);
+   const detail=(await call("/records/"+asset.recordId)).data.data;
+   assert.equal(detail.record.body,current.data.data.record.body);
+   assert.equal(detail.record.version,current.data.data.record.version+1);
+   assert.equal(detail.media.data.items.length,1);
+   mediaChecks.push({recordId:asset.recordId,mediaId:asset.mediaId,status:uploaded.data.status,contentUrl:uploaded.data.contentUrl,contentStatus:content.status,byteSize:actual.length,sha256:asset.sha256,retryDidNotDuplicate:true,recordVersion:detail.record.version});
+  }
   const periodResults=[];
   for(let i=0;i<manifest.insights.length;i++){
    const entry=manifest.insights[i],range=entry.payload;
@@ -75,6 +101,6 @@ test("原文14件の正式payloadをdemo/selfへHTTP追加し、5軸・再送・
   }
   const list=(await call("/records?limit=100&includeUndated=true")).data.items;
   assert.equal(list.length,15); // existing record + 14 distinct fixed IDs, despite all replays
-  writeFileSync(new URL("../../../docs/evidence/INSIGHTS/grounded-http.json",import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),mode:"demo/self in isolated temporary SQLite; no shared server used",transport:"localhost HTTP ephemeral port",providerInvoked:false,existingRecordPreserved:true,uniqueRecordCount:list.length,sourceBodiesUnchanged:true,checks,periodResults},null,2)+"\n");
+  writeFileSync(new URL("../../../docs/evidence/INSIGHTS/grounded-http.json",import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),mode:"demo/self in isolated temporary SQLite; no shared server used",transport:"localhost HTTP ephemeral port",providerInvoked:false,mediaChecks,existingRecordPreserved:true,uniqueRecordCount:list.length,sourceBodiesUnchanged:true,checks,periodResults},null,2)+"\n");
  }finally{await close();dbs.close();}
 });
