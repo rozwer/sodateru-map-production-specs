@@ -23,7 +23,8 @@ export interface ScreenDefinition {
   component: ComponentType<ScreenProps>;
   /** Select only the chrome shown in this page's reference image. */
   layout?: {
-    header?: 'back' | 'close' | 'back-close';
+    header?: 'back' | 'close' | 'back-close' | 'none';
+    contentPadding?: 'default' | 'none';
     bottomNav?: boolean;
     background?: 'surface' | 'soft';
   };
