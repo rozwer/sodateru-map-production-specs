@@ -4,8 +4,9 @@ import { randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import { CommonError } from '../../core/errors.ts';
 import { readPerson } from './service.ts';
+import { inspectMedia, MEDIA_MAX_BYTES } from '../media/content.ts';
 
-export const MAX_ICON_BYTES = 50 * 1024 * 1024;
+export const MAX_ICON_BYTES = MEDIA_MAX_BYTES;
 export function iconRow(db: DatabaseSync, personId: string) {
   return db.prepare('SELECT file_path,mime_type FROM profile_icons WHERE person_id=?').get(personId);
 }
@@ -22,19 +23,16 @@ export function removeIconFile(path: string | undefined) {
   }
 }
 export function prepareIcon(db: DatabaseSync, bytes: Uint8Array, mimeType: string) {
-  if (!bytes.length || bytes.length > MAX_ICON_BYTES) throw new CommonError('PAYLOAD_TOO_LARGE', '画像は空でない50MiB以内のファイルを選んでください。', false, undefined, 413);
+  const inspected = inspectMedia(bytes, mimeType);
+  if (inspected.kind !== 'photo') throw new CommonError('UNSUPPORTED_MEDIA_TYPE', 'JPEG・PNG・WebP画像を選んでください。', false, undefined, 415);
   const data = Buffer.from(bytes);
-  const actual = data.subarray(0, 8).equals(Buffer.from([137,80,78,71,13,10,26,10])) ? 'image/png'
-    : data[0] === 255 && data[1] === 216 && data[2] === 255 ? 'image/jpeg'
-    : data.toString('ascii', 0, 4) === 'RIFF' && data.toString('ascii', 8, 12) === 'WEBP' ? 'image/webp' : null;
-  if (!actual || actual !== mimeType) throw new CommonError('UNSUPPORTED_MEDIA_TYPE', 'JPEG・PNG・WebP画像を選んでください。', false, undefined, 415);
   const database = db.prepare('PRAGMA database_list').all().find(row => row.name === 'main');
   if (!database?.file) throw new CommonError('UNAVAILABLE', 'アイコン保存にはファイルDBが必要です。', true, undefined, 503);
   const directory = join(dirname(String(database.file)), `${basename(String(database.file))}.media`, 'profile-icons');
   mkdirSync(directory, { recursive: true });
   const path = join(directory, randomUUID());
   writeFileSync(path, data, { flag: 'wx' });
-  return { path, mimeType: actual };
+  return { path, mimeType: inspected.mimeType };
 }
 /** Caller wraps the two database changes in CORE.transaction, then cleans the old file. */
 export function setIcon(db: DatabaseSync, personId: string, expected: number, file: { path: string; mimeType: string } | null, avatarUrl: string | null) {
