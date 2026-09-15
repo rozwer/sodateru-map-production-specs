@@ -31,6 +31,7 @@
         "HEALTH": 23,
         "INFORMATION": 6,
         "INSIGHTS": 34,
+        "INSIGHTS-DEMO": 101,
         "MAP-CUSTOM": 27,
         "PILGRIMAGE": 38,
         "PLACES": 5,
@@ -6604,6 +6605,130 @@
           "server/db/migrations/ai/",
           "docs/01_requirements/04_api/fragments/AI.json",
           "docs/evidence/AI/"
+        ]
+      },
+      {
+        "acceptance_ids": [
+          "activity-stats-C1",
+          "activity-stats-C2",
+          "activity-stats-FC01",
+          "activity-stats-FC02",
+          "activity-stats-FC03",
+          "trend-evidence-C1",
+          "trend-evidence-FC01",
+          "trend-evidence-FC02",
+          "trend-evidence-FC03",
+          "trend-review-C1",
+          "trend-review-FC01",
+          "trend-review-FC02",
+          "trend-review-FC03",
+          "type-diagnosis-C1",
+          "type-diagnosis-C2",
+          "type-diagnosis-FC01",
+          "type-diagnosis-FC02",
+          "type-diagnosis-FC03",
+          "type-diagnosis-FC04"
+        ],
+        "connect_after": [
+          "AI",
+          "INFORMATION"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 101,
+        "hard_dependencies": [],
+        "id": "INSIGHTS-DEMO",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/101",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [],
+        "owned_operations": [
+          "getReflectionSummary",
+          "getInsights",
+          "postInsights",
+          "getInsightsInsightId",
+          "patchInsightsInsightId",
+          "deleteInsightsInsightId"
+        ],
+        "pages": [
+          "type-diagnosis",
+          "trend-evidence",
+          "trend-review",
+          "activity-stats"
+        ],
+        "priority": "P0",
+        "provides": [
+          "INSIGHTS.summary",
+          "INSIGHTS.evidence"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/features/insights/",
+          "server/db/migrations/insights/",
+          "docs/01_requirements/04_api/fragments/INSIGHTS.json",
+          "docs/evidence/INSIGHTS/"
+        ],
+        "references": [
+          "../01_requirements/01_DB/16_insights.json",
+          "../01_requirements/02_common/03_information/03_evidence.md"
+        ],
+        "requirement_ids": [
+          "activity-stats-R1",
+          "activity-stats-R2",
+          "activity-stats-F01",
+          "activity-stats-F02",
+          "activity-stats-F03",
+          "trend-evidence-R1",
+          "trend-evidence-F01",
+          "trend-evidence-F02",
+          "trend-evidence-F03",
+          "trend-review-R1",
+          "trend-review-F01",
+          "trend-review-F02",
+          "trend-review-F03",
+          "type-diagnosis-R1",
+          "type-diagnosis-R2",
+          "type-diagnosis-F01",
+          "type-diagnosis-F02",
+          "type-diagnosis-F03",
+          "type-diagnosis-F04"
+        ],
+        "source_task_ids": [
+          "INSIGHTS"
+        ],
+        "status": "registered",
+        "title": "INSIGHTS-DEMO｜固定5軸と根拠・統計の実接続",
+        "write_paths": [
+          "server/features/insights/",
+          "server/db/migrations/insights/",
+          "docs/01_requirements/04_api/fragments/INSIGHTS.json",
+          "docs/evidence/INSIGHTS/"
         ]
       }
     ],
@@ -32835,9 +32960,10 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD",
     "TOOL-WORKTREE-SETUP",
-    "UI-INTEGRATION"
+    "UI-INTEGRATION",
+    "INSIGHTS-DEMO"
   ],
-  "revision": 158,
+  "revision": 159,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33153,6 +33279,24 @@
       "status": "done",
       "submitted_commit": "3f1d6598984fa45b5a4af1febae1ba54f12a83bd",
       "token": null
+    },
+    "INSIGHTS-DEMO": {
+      "actor": "mattsun",
+      "base_commit": "c908d705cb58386131059b4da09d2223307e530d",
+      "generation": 1,
+      "issue_number": 101,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/insights/",
+        "server/db/migrations/insights/",
+        "docs/01_requirements/04_api/fragments/INSIGHTS.json",
+        "docs/evidence/INSIGHTS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "f0f48162eba944b090d2f1464d453e48"
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
