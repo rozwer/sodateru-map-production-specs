@@ -1,0 +1,2487 @@
+{
+  "taskId": "PILGRIMAGE",
+  "version": "1.0.0",
+  "schemas": {
+    "PilgrimageRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "bounds": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "bounds"
+      ]
+    },
+    "PilgrimageSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "claimScope": {
+          "enum": [
+            "relation",
+            "coordinates"
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      },
+      "required": [
+        "url",
+        "title",
+        "fetchedAt",
+        "claimScope",
+        "attribution"
+      ]
+    },
+    "PilgrimageWork": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "aliases"
+      ]
+    },
+    "PilgrimageRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "workId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "address": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          ],
+          "items": false
+        },
+        "relationType": {
+          "enum": [
+            "model-location",
+            "filming-location",
+            "narrative-location",
+            "related-facility"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PilgrimageSource"
+          }
+        },
+        "verificationStatus": {
+          "enum": [
+            "confirmed",
+            "unverified"
+          ]
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      },
+      "required": [
+        "id",
+        "workId",
+        "name",
+        "address",
+        "coordinates",
+        "relationType",
+        "description",
+        "sourceRefs",
+        "verificationStatus",
+        "unknowns"
+      ]
+    },
+    "PilgrimageSearchInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "workQuery": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "workId": {
+          "type": "string",
+          "pattern": "^Q[1-9][0-9]*$"
+        },
+        "region": {
+          "$ref": "#/components/schemas/PilgrimageRegion"
+        }
+      },
+      "required": [
+        "id",
+        "workQuery",
+        "region"
+      ]
+    },
+    "PilgrimageSearch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "input": {
+          "$ref": "#/components/schemas/PilgrimageSearchInput"
+        },
+        "works": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PilgrimageWork"
+          }
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PilgrimageRelation"
+          }
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "dataKind": {
+          "const": "live"
+        }
+      },
+      "required": [
+        "id",
+        "input",
+        "works",
+        "relations",
+        "fetchedAt",
+        "warnings",
+        "dataKind"
+      ]
+    },
+    "PilgrimageSelection": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "orderedRelationIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "driving"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "acknowledgeUnverified": {
+          "type": "boolean"
+        },
+        "ai": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "runId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            "attempt": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "runId",
+            "attempt"
+          ]
+        }
+      },
+      "required": [
+        "searchId",
+        "orderedRelationIds",
+        "mode",
+        "title",
+        "settingsVersion",
+        "acknowledgeUnverified"
+      ]
+    },
+    "PilgrimageRoutePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          }
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "driving",
+            "cycling",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "geometry": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "LineString"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ]
+              },
+              "distanceM": {
+                "type": "number"
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "geometry": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "LineString"
+                        },
+                        "coordinates": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "prefixItems": [
+                              {
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              },
+                              {
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              }
+                            ],
+                            "items": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "coordinates"
+                      ]
+                    },
+                    "distanceM": {
+                      "type": "number"
+                    },
+                    "durationSec": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "location": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false
+                    },
+                    "type": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "modifier": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "instruction": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "geometry",
+                    "distanceM",
+                    "durationSec",
+                    "location",
+                    "type",
+                    "modifier",
+                    "instruction",
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          }
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false
+              }
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ]
+        },
+        "distanceM": {
+          "type": "number"
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "retention": {
+          "enum": [
+            "storable",
+            "temporary"
+          ]
+        }
+      },
+      "required": [
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "fetchedAt",
+        "previewId",
+        "expiresAt",
+        "retention"
+      ]
+    },
+    "PilgrimageSavedRoute": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "coordinates": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "placeId": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 80
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "coordinates",
+              "name",
+              "placeId"
+            ]
+          }
+        },
+        "mode": {
+          "enum": [
+            "walking",
+            "driving",
+            "cycling",
+            "transit"
+          ]
+        },
+        "legs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "fromIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "toIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "geometry": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "const": "LineString"
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "minItems": 2,
+                    "items": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false
+                    }
+                  }
+                },
+                "required": [
+                  "type",
+                  "coordinates"
+                ]
+              },
+              "distanceM": {
+                "type": "number"
+              },
+              "durationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "geometry": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "type": {
+                          "const": "LineString"
+                        },
+                        "coordinates": {
+                          "type": "array",
+                          "minItems": 2,
+                          "items": {
+                            "type": "array",
+                            "minItems": 2,
+                            "maxItems": 2,
+                            "prefixItems": [
+                              {
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              },
+                              {
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              }
+                            ],
+                            "items": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "coordinates"
+                      ]
+                    },
+                    "distanceM": {
+                      "type": "number"
+                    },
+                    "durationSec": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "location": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "prefixItems": [
+                        {
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        },
+                        {
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        }
+                      ],
+                      "items": false
+                    },
+                    "type": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    },
+                    "modifier": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "instruction": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "geometry",
+                    "distanceM",
+                    "durationSec",
+                    "location",
+                    "type",
+                    "modifier",
+                    "instruction",
+                    "name"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "fromIndex",
+              "toIndex",
+              "geometry",
+              "distanceM",
+              "durationSec"
+            ]
+          }
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  }
+                ],
+                "items": false
+              }
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ]
+        },
+        "distanceM": {
+          "type": "number"
+        },
+        "durationSec": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "sourceUrl": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        "status": {
+          "enum": [
+            "saved",
+            "navigating",
+            "finished"
+          ]
+        },
+        "currentLeg": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visibility": {
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ]
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "waypoints",
+        "mode",
+        "legs",
+        "geometry",
+        "distanceM",
+        "durationSec",
+        "provider",
+        "fetchedAt",
+        "id",
+        "personId",
+        "title",
+        "sourceUrl",
+        "status",
+        "currentLeg",
+        "visibility",
+        "sharedWith",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PilgrimagePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "selection": {
+          "$ref": "#/components/schemas/PilgrimageSelection"
+        },
+        "relations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PilgrimageRelation"
+          }
+        },
+        "route": {
+          "$ref": "#/components/schemas/PilgrimageRoutePreview"
+        },
+        "pluginRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "expiresAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "selection",
+        "relations",
+        "route",
+        "pluginRevision",
+        "expiresAt"
+      ]
+    },
+    "PilgrimagePlan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "dataMode": {
+          "enum": [
+            "live",
+            "demo"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "workIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "region": {
+          "$ref": "#/components/schemas/PilgrimageRegion"
+        },
+        "orderedRelationIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "orderedPlaceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "routeId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "route": {
+          "$ref": "#/components/schemas/PilgrimageSavedRoute"
+        },
+        "sourceSnapshot": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PilgrimageRelation"
+          }
+        },
+        "settingsSnapshot": {
+          "type": "object"
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ai": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "runId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                },
+                "attempt": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "runId",
+                "attempt"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "personId",
+        "dataMode",
+        "title",
+        "workIds",
+        "region",
+        "orderedRelationIds",
+        "orderedPlaceIds",
+        "routeId",
+        "route",
+        "sourceSnapshot",
+        "settingsSnapshot",
+        "settingsVersion",
+        "ai",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PilgrimageCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "id",
+        "previewId"
+      ]
+    },
+    "PilgrimageUpdate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "previewId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "previewId"
+      ]
+    },
+    "PilgrimageAiInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "relationIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "searchId",
+        "relationIds",
+        "settingsVersion"
+      ]
+    },
+    "PilgrimageAiProposalInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "relationIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20000
+        }
+      },
+      "required": [
+        "searchId",
+        "relationIds",
+        "settingsVersion",
+        "text"
+      ]
+    },
+    "PilgrimageAiResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "searchId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "orderedRelationIds": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "unknowns": {
+          "type": "array",
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      },
+      "required": [
+        "searchId",
+        "settingsVersion",
+        "orderedRelationIds",
+        "explanation",
+        "unknowns"
+      ]
+    },
+    "PilgrimageRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "conversationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "userMessageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "\\S"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "running",
+            "complete",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "promptVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonAIError"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommonAISourceRef"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "insightId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "task": {
+          "const": "pilgrimage"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/PilgrimageAiResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "conversationId",
+        "userMessageId",
+        "status",
+        "attempt",
+        "version",
+        "model",
+        "promptVersion",
+        "error",
+        "sourceRefs",
+        "insightId",
+        "createdAt",
+        "updatedAt",
+        "task",
+        "result"
+      ]
+    },
+    "PilgrimageOverlay": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visible": {
+          "type": "boolean"
+        },
+        "dataKind": {
+          "const": "live"
+        },
+        "plans": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 100
+              },
+              "routeId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "version": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "id",
+              "title",
+              "routeId",
+              "version"
+            ]
+          }
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "type": {
+                "const": "Feature"
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "geometry": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "LineString"
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "array",
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "prefixItems": [
+                            {
+                              "type": "number",
+                              "minimum": -180,
+                              "maximum": 180
+                            },
+                            {
+                              "type": "number",
+                              "minimum": -90,
+                              "maximum": 90
+                            }
+                          ],
+                          "items": false
+                        }
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "coordinates"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "type": {
+                        "const": "Point"
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "prefixItems": [
+                          {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          }
+                        ],
+                        "items": false
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "coordinates"
+                    ]
+                  }
+                ]
+              },
+              "properties": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "type",
+              "id",
+              "geometry",
+              "properties"
+            ]
+          }
+        }
+      },
+      "required": [
+        "visible",
+        "dataKind",
+        "plans",
+        "features"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/settings",
+      "operationId": "getPilgrimageSettings",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PluginSetting"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugins/pilgrimage/searches",
+      "operationId": "postPilgrimageSearch",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimageSearch"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PilgrimageSearchInput"
+            }
+          }
+        }
+      },
+      "description": "実作品・出典検索。Idempotency-Keyは本文idと同じ値。更新検索では新しいidを使い、既存snapshotを変更しない。"
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/searches/{searchId}",
+      "operationId": "getPilgrimageSearch",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "searchId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimageSearch"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugins/pilgrimage/previews",
+      "operationId": "postPilgrimagePreview",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePreview"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePreview"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PilgrimageSelection"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/previews/{previewId}",
+      "operationId": "getPilgrimagePreview",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "previewId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePreview"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugins/pilgrimage/plans",
+      "operationId": "postPilgrimagePlan",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePlan"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePlan"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PilgrimageCreate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/plans",
+      "operationId": "getPilgrimagePlans",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/PilgrimagePlan"
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/plans/{planId}",
+      "operationId": "getPilgrimagePlan",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "planId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePlan"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/plugins/pilgrimage/plans/{planId}",
+      "operationId": "patchPilgrimagePlan",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "planId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^\"[1-9][0-9]*\"$"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimagePlan"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PilgrimageUpdate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/overlay",
+      "operationId": "getPilgrimageOverlay",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimageOverlay"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugins/pilgrimage/ai-proposals",
+      "operationId": "postPilgrimageAiProposal",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "responses": {
+        "202": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimageRun"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PilgrimageAiProposalInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/pilgrimage/ai-proposals/{runId}",
+      "operationId": "getPilgrimageAiProposal",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "name": "runId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/PilgrimageRun"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "providerCommit": "50bd6c0",
+  "integrated": false,
+  "result": "failed",
+  "runs": [
+    {
+      "id": "pilgrim-a-92e4830001c0abb026a5f2e693fdbe472ec8b343e4a7f911",
+      "task": "pilgrimage",
+      "status": "failed",
+      "attempt": 1,
+      "model": "gpt-5.6-luna",
+      "error_code": "UPSTREAM_FAILED",
+      "created_at": 1789441470055,
+      "updated_at": 1789441480646,
+      "error": {
+        "code": "UPSTREAM_FAILED",
+        "message": "AI処理に失敗しました",
+        "retryable": true
+      },
+      "input": {
+        "searchId": "search-8f117137-e7c0-457d-815c-5ca4535f5d5e",
+        "relationIds": [
+          "hida-2",
+          "hida-1"
+        ],
+        "settingsVersion": 1
+      },
+      "promptVersion": "pilgrimage-1"
+    }
+  ]
+}
