@@ -40,6 +40,7 @@
         "QA-VISUAL": 40,
         "RECORDS": 20,
         "REFLECTION": 33,
+        "REFLECTION-INTEGRATION": 111,
         "ROUTES": 25,
         "SETTINGS": 24,
         "SUGGESTIONS": 36,
@@ -6954,6 +6955,163 @@
           "server/db/migrations/themes/",
           "docs/01_requirements/04_api/fragments/THEMES.json",
           "docs/evidence/THEMES/"
+        ]
+      },
+      {
+        "acceptance_ids": [
+          "diary-C1",
+          "diary-C2",
+          "diary-FC01",
+          "diary-FC02",
+          "diary-FC03",
+          "experience-compare-C1",
+          "experience-compare-FC01",
+          "experience-compare-FC02",
+          "experience-compare-FC03",
+          "friend-compare-C1",
+          "friend-compare-FC01",
+          "friend-compare-FC02",
+          "friend-compare-FC03",
+          "interpretation-correction-C1",
+          "interpretation-correction-C2",
+          "interpretation-correction-FC01",
+          "interpretation-correction-FC02",
+          "interpretation-correction-FC03",
+          "reflection-history-C1",
+          "reflection-history-FC01",
+          "reflection-history-FC02",
+          "reflection-history-FC03",
+          "reflection-question-C1",
+          "reflection-question-C2",
+          "reflection-question-FC01",
+          "reflection-question-FC02",
+          "reflection-question-FC03"
+        ],
+        "connect_after": [
+          "AI",
+          "RECORDS",
+          "INFORMATION",
+          "INSIGHTS"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行"
+          },
+          {
+            "issue": "RECORDS",
+            "outputs": [
+              "RECORDS.save"
+            ],
+            "required_output": "記録の作成・単体取得・編集・削除"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          },
+          {
+            "issue": "INSIGHTS",
+            "outputs": [
+              "INSIGHTS.evidence"
+            ],
+            "required_output": "傾向・評価・根拠付き結果の保存"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [
+            "comparison",
+            "question-state"
+          ],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 111,
+        "hard_dependencies": [],
+        "id": "REFLECTION-INTEGRATION",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/111",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [
+          "comparison",
+          "question-state"
+        ],
+        "owned_operations": [],
+        "pages": [
+          "diary",
+          "reflection-question",
+          "reflection-history",
+          "experience-compare",
+          "friend-compare",
+          "interpretation-correction"
+        ],
+        "priority": "P0",
+        "provides": [
+          "REFLECTION.record",
+          "REFLECTION.compare"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/features/reflection/",
+          "server/db/migrations/reflection/",
+          "docs/01_requirements/04_api/fragments/REFLECTION.json",
+          "docs/evidence/REFLECTION/"
+        ],
+        "references": [
+          "../01_requirements/02_common/01_ai/01_contract.md",
+          "../01_requirements/02_common/01_ai/03_storage-ui.md"
+        ],
+        "requirement_ids": [
+          "diary-R1",
+          "diary-R2",
+          "diary-F01",
+          "diary-F02",
+          "diary-F03",
+          "experience-compare-R1",
+          "experience-compare-F01",
+          "experience-compare-F02",
+          "experience-compare-F03",
+          "friend-compare-R1",
+          "friend-compare-F01",
+          "friend-compare-F02",
+          "friend-compare-F03",
+          "interpretation-correction-R1",
+          "interpretation-correction-R2",
+          "interpretation-correction-F01",
+          "interpretation-correction-F02",
+          "interpretation-correction-F03",
+          "reflection-history-R1",
+          "reflection-history-F01",
+          "reflection-history-F02",
+          "reflection-history-F03",
+          "reflection-question-R1",
+          "reflection-question-R2",
+          "reflection-question-F01",
+          "reflection-question-F02",
+          "reflection-question-F03"
+        ],
+        "source_task_ids": [
+          "REFLECTION"
+        ],
+        "status": "registered",
+        "title": "REFLECTION 後続｜実モデル・画面導線と残受入",
+        "write_paths": [
+          "server/features/reflection/",
+          "server/db/migrations/reflection/",
+          "docs/01_requirements/04_api/fragments/REFLECTION.json",
+          "docs/evidence/REFLECTION/"
         ]
       }
     ],
@@ -33188,9 +33346,10 @@
     "UI-INTEGRATION",
     "INSIGHTS-DEMO",
     "TRANSFER-INTEGRATION",
-    "THEMES-INTEGRATION"
+    "THEMES-INTEGRATION",
+    "REFLECTION-INTEGRATION"
   ],
-  "revision": 161,
+  "revision": 162,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33651,6 +33810,24 @@
       "status": "done",
       "submitted_commit": "d24f431d42c904a5a4e800effb189bfee2577587",
       "token": null
+    },
+    "REFLECTION-INTEGRATION": {
+      "actor": "mattsun",
+      "base_commit": "977d5bf881f964d875da1b9623bcda03944654b9",
+      "generation": 1,
+      "issue_number": 111,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/reflection/",
+        "server/db/migrations/reflection/",
+        "docs/01_requirements/04_api/fragments/REFLECTION.json",
+        "docs/evidence/REFLECTION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "b2fcf63666454646802c8ff918f4aa0a"
     },
     "ROUTES": {
       "actor": "kaiya",
