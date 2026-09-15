@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 242,
+  "revision": 243,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34157,7 +34157,7 @@
       "generation": 1,
       "issue_number": 223,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/DISASTER-UI/acceptance.md",
       "owner": "rozwer",
       "paths": [
         "src/features/disaster/ui/",
@@ -34165,8 +34165,8 @@
         "src/features/disaster/types.ts",
         "docs/evidence/DISASTER-UI/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "1b43202369e74d5470ad43457a6c55cc464a56a5",
       "token": "37c835c715b64e5ca59e32837fdcb85c"
     },
     "EXPLORATION": {
