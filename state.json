@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 210,
+  "revision": 211,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33549,7 +33549,7 @@
       "generation": 1,
       "issue_number": 29,
       "landed_main": null,
-      "note": "docs/evidence/BIKE/integration.md",
+      "note": "docs/evidence/BIKE/valhalla.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/bike/",
@@ -33558,7 +33558,7 @@
         "docs/evidence/BIKE/"
       ],
       "status": "submitted",
-      "submitted_commit": "04fb0150769dd0c61f49106980b758c45d4382d1",
+      "submitted_commit": "f86a1a79dd8db555735758ccd2ace65913c1357f",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "COMMUNITY": {
