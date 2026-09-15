@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 92,
+  "revision": 93,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4487,18 +4487,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 21,
-      "landed_main": null,
+      "landed_main": "3f1d6598984fa45b5a4af1febae1ba54f12a83bd",
       "note": "https://github.com/rozwer/sodateru-map-production-specs/issues/82",
       "owner": "koshiro",
-      "paths": [
-        "server/features/activity/",
-        "server/db/migrations/activity/",
-        "docs/01_requirements/04_api/fragments/ACTIVITY.json",
-        "docs/evidence/ACTIVITY/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "7bb4594ae5f756d88e70f33f87eb7bc5e2ffe5d7",
-      "token": "c44c11d3cb54496f852602b24271632e"
+      "token": null
     },
     "AI": {
       "actor": "mattsun",
