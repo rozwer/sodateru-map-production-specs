@@ -1247,7 +1247,7 @@ function SharedRoute(props: Props) {
             disabled={!props.route.params.recordId}
             onClick={() =>
               props.navigate("knowledge-detail", {
-                recordId: props.route.params.recordId,
+                recordId: props.route.params.recordId!,
               })
             }
           >
