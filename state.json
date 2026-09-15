@@ -27,6 +27,7 @@
         "SETTINGS": 24,
         "SUGGESTIONS": 36,
         "THEMES": 37,
+        "TOOL-WORKTREE-SETUP": 41,
         "TRANSFER": 32,
         "UI-BASE": 4,
         "UI-COMPANION": 19,
@@ -4407,13 +4408,27 @@
           "qa/manual/",
           "docs/evidence/QA-VISUAL/"
         ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P0",
+        "hard_dependencies": [],
+        "id": "TOOL-WORKTREE-SETUP",
+        "kind": "support",
+        "priority": "P0",
+        "title": "Task worktree作成のproduction移行漏れ修復",
+        "write_paths": [
+          "tools/task_worktree.py",
+          "tools/test_hooks_worktree.py"
+        ]
       }
     ]
   },
   "inline_tasks": [
-    "QA-VISUAL"
+    "QA-VISUAL",
+    "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 36,
+  "revision": 37,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4704,6 +4719,22 @@
       "paths": [],
       "status": "backlog",
       "token": null
+    },
+    "TOOL-WORKTREE-SETUP": {
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 41,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "tools/task_worktree.py",
+        "tools/test_hooks_worktree.py"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "48fe4b75ae194b9eb1d03e1dc7da6941"
     },
     "TRANSFER": {
       "actor": "mattsun",
