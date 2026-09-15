@@ -27,6 +27,7 @@
         "CORE": 3,
         "DISASTER": 30,
         "EXPLORATION": 26,
+        "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
         "HEALTH": 23,
         "INFORMATION": 6,
@@ -7249,6 +7250,155 @@
           "src/features/records/",
           "src/features/activity/",
           "docs/evidence/VISUAL-RECORDS-CAMERA/"
+        ]
+      },
+      {
+        "acceptance_ids": [
+          "ai-explore-C1",
+          "ai-explore-C2",
+          "ai-explore-FC01",
+          "ai-explore-FC02",
+          "ai-explore-FC03",
+          "ai-explore-FC04",
+          "conversation-history-C1",
+          "conversation-history-FC01",
+          "conversation-history-FC02",
+          "conversation-history-FC03",
+          "mist-detail-C1",
+          "mist-detail-FC01",
+          "mist-detail-FC02",
+          "mist-detail-FC03",
+          "quest-compass-C1",
+          "quest-compass-FC01",
+          "quest-compass-FC02",
+          "quest-compass-FC03"
+        ],
+        "connect_after": [
+          "AI",
+          "PLACES",
+          "ROUTES",
+          "INFORMATION"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs",
+              "AI.voice"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行／音声文字起こし・送信確認への接続"
+          },
+          {
+            "issue": "PLACES",
+            "outputs": [
+              "PLACES.search",
+              "PLACES.detail"
+            ],
+            "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+          },
+          {
+            "issue": "ROUTES",
+            "outputs": [
+              "ROUTES.basic"
+            ],
+            "required_output": "基本道路経路の取得・保存・再取得"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [
+            "consult-history"
+          ],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 102,
+        "hard_dependencies": [],
+        "id": "EXPLORATION-FOLLOWUP",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/102",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [
+          "consult-history"
+        ],
+        "owned_operations": [
+          "postMapDialogues",
+          "postMapDialoguesSelect",
+          "postMapDialoguesCancel",
+          "getMapDialoguesResultsResultId",
+          "postDiscoveryCards",
+          "getDiscoveryCards",
+          "getDiscoveryCardsCardId",
+          "deleteDiscoveryCardsCardId",
+          "postDiscoveryCardsCardIdReactions",
+          "getDiscoveryCardsCardIdReactions",
+          "getDiscoveryCardsCardIdReactionsReactionId"
+        ],
+        "pages": [
+          "ai-explore",
+          "conversation-history",
+          "mist-detail",
+          "quest-compass"
+        ],
+        "priority": "P0",
+        "provides": [
+          "EXPLORATION.dialogue",
+          "EXPLORATION.discovery"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "server/ai/",
+          "server/features/information/",
+          "docs/evidence/EXPLORATION/",
+          "../01_requirements/02_common/01_ai/04_map-dialogue.md",
+          "../01_requirements/02_common/03_information/03_evidence.md"
+        ],
+        "references": [
+          "../01_requirements/02_common/01_ai/04_map-dialogue.md",
+          "../01_requirements/02_common/03_information/03_evidence.md"
+        ],
+        "requirement_ids": [
+          "ai-explore-R1",
+          "ai-explore-R2",
+          "ai-explore-F01",
+          "ai-explore-F02",
+          "ai-explore-F03",
+          "ai-explore-F04",
+          "conversation-history-R1",
+          "conversation-history-F01",
+          "conversation-history-F02",
+          "conversation-history-F03",
+          "mist-detail-R1",
+          "mist-detail-F01",
+          "mist-detail-F02",
+          "mist-detail-F03",
+          "quest-compass-R1",
+          "quest-compass-F01",
+          "quest-compass-F02",
+          "quest-compass-F03"
+        ],
+        "source_task_ids": [
+          "EXPLORATION"
+        ],
+        "status": "registered",
+        "title": "EXPLORATION後続｜実UI・外部APIの通し受入と履歴・発見の完成確認",
+        "write_paths": [
+          "server/features/exploration/",
+          "server/db/migrations/exploration/",
+          "docs/01_requirements/04_api/fragments/EXPLORATION.json",
+          "docs/evidence/EXPLORATION/"
         ]
       }
     ],
@@ -33493,9 +33643,10 @@
     "VISUAL-PLUGINS",
     "VISUAL-SELF-CONTINUE",
     "VISUAL-SETTINGS",
-    "VISUAL-RECORDS-CAMERA"
+    "VISUAL-RECORDS-CAMERA",
+    "EXPLORATION-FOLLOWUP"
   ],
-  "revision": 213,
+  "revision": 214,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33737,6 +33888,24 @@
       "status": "done",
       "submitted_commit": "6c61ad646aa051130264fc690eb99b63198173c7",
       "token": null
+    },
+    "EXPLORATION-FOLLOWUP": {
+      "actor": "mattsun",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 102,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/exploration/",
+        "server/db/migrations/exploration/",
+        "docs/01_requirements/04_api/fragments/EXPLORATION.json",
+        "docs/evidence/EXPLORATION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "9ef3fbd9ff114d62b2e7f16a78138706"
     },
     "FEATURE-REQUESTS": {
       "actor": "koshiro",
