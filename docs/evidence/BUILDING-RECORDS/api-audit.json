@@ -1,0 +1,232 @@
+{
+  "checkedAt": "2026-09-15T04:37:24.852Z",
+  "origin": "http://127.0.0.1:3002",
+  "mode": "demo",
+  "api": "real HTTP + generated client",
+  "placeA": {
+    "id": "43361006-154a-4287-b58f-6defddd88db5",
+    "name": "BUILDING-RECORDS 検証場所A（デモ）",
+    "coordinates": [
+      136.964,
+      35.1669
+    ]
+  },
+  "placeB": {
+    "id": "af91771d-a333-46da-bc3a-f967f8f55282",
+    "name": "BUILDING-RECORDS 検証場所B（デモ）",
+    "coordinates": [
+      136.965,
+      35.167
+    ]
+  },
+  "baseline": {
+    "a": 0,
+    "b": 0
+  },
+  "candidateVersion": 1,
+  "tests": [
+    "candidate non-growth",
+    "confirmed +1",
+    "multiple records same visit count",
+    "purpose-only patch preserves body",
+    "unknown purpose preserved",
+    "412 VERSION_CONFLICT preserves saved values",
+    "cancel/reject remove visit from count",
+    "place correction old/new counts",
+    "record deletion preserves visit",
+    "visit deletion preserves/unlinks record",
+    "live/demo separation"
+  ],
+  "deletedVisitId": "82ab2fc6-7365-4aff-87fc-57161696c719",
+  "deletedRecordId": "44f71115-e778-40a0-b4bf-2369b73487ae",
+  "retainedRecordId": "4c6e0a30-b240-4ffd-a6f6-c96e792ddd2a",
+  "browserVisit": {
+    "id": "7f43f9d5-2abe-4d40-b297-42ef06759a3d",
+    "personId": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+    "placeId": "43361006-154a-4287-b58f-6defddd88db5",
+    "startedAt": 1789447044843,
+    "endedAt": null,
+    "timePrecision": "exact",
+    "origin": "manual",
+    "status": "candidate",
+    "version": 1,
+    "createdAt": 1789447044845,
+    "updatedAt": 1789447044845
+  },
+  "browserRecord": {
+    "id": "147ae580-ae1e-40b9-953b-440cd573922c",
+    "personId": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+    "version": 1,
+    "createdAt": 1789447044847,
+    "updatedAt": 1789447044847,
+    "kind": "experience",
+    "visitId": "7f43f9d5-2abe-4d40-b297-42ef06759a3d",
+    "placeId": null,
+    "occurredAt": null,
+    "endedAt": null,
+    "timePrecision": "unknown",
+    "body": "BUILDING-RECORDS ブラウザ確認用の原文",
+    "purposes": [
+      "カフェ"
+    ],
+    "activities": [],
+    "impression": "",
+    "periodAnswers": {},
+    "bookmarked": false,
+    "useForSuggestions": false,
+    "topicKey": null,
+    "visibility": "private",
+    "sharedWith": [],
+    "effectivePlaceId": "43361006-154a-4287-b58f-6defddd88db5",
+    "effectiveStartedAt": 1789447044843,
+    "effectiveEndedAt": null,
+    "effectiveTimePrecision": "exact",
+    "memo": null
+  },
+  "calls": [
+    {
+      "operation": "POST /api/v1/session",
+      "status": 201
+    },
+    {
+      "operation": "GET /api/v1/places",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/records",
+      "status": 200
+    },
+    {
+      "operation": "DELETE /api/v1/records/7f94c92b-3b79-476f-806b-e17ea801fc20",
+      "status": 204
+    },
+    {
+      "operation": "DELETE /api/v1/records/e085bf1f-9349-450f-88c6-777d2d2ed859",
+      "status": 204
+    },
+    {
+      "operation": "GET /api/v1/visits/6671ecb6-a619-4f5c-9194-b23a7aaae5f2",
+      "status": 200
+    },
+    {
+      "operation": "DELETE /api/v1/visits/6671ecb6-a619-4f5c-9194-b23a7aaae5f2",
+      "status": 204
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "POST /api/v1/visits",
+      "status": 201
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/visits/82ab2fc6-7365-4aff-87fc-57161696c719",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "POST /api/v1/records",
+      "status": 201
+    },
+    {
+      "operation": "POST /api/v1/records",
+      "status": 201
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/records/44f71115-e778-40a0-b4bf-2369b73487ae",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/records/44f71115-e778-40a0-b4bf-2369b73487ae",
+      "status": 412
+    },
+    {
+      "operation": "GET /api/v1/records/44f71115-e778-40a0-b4bf-2369b73487ae",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/visits/82ab2fc6-7365-4aff-87fc-57161696c719",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/visits/82ab2fc6-7365-4aff-87fc-57161696c719",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "PATCH /api/v1/visits/82ab2fc6-7365-4aff-87fc-57161696c719",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/records/44f71115-e778-40a0-b4bf-2369b73487ae",
+      "status": 200
+    },
+    {
+      "operation": "DELETE /api/v1/records/44f71115-e778-40a0-b4bf-2369b73487ae",
+      "status": 204
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "DELETE /api/v1/visits/82ab2fc6-7365-4aff-87fc-57161696c719",
+      "status": 204
+    },
+    {
+      "operation": "GET /api/v1/records/4c6e0a30-b240-4ffd-a6f6-c96e792ddd2a",
+      "status": 200
+    },
+    {
+      "operation": "GET /api/v1/map/growth",
+      "status": 200
+    },
+    {
+      "operation": "POST /api/v1/visits",
+      "status": 201
+    },
+    {
+      "operation": "POST /api/v1/records",
+      "status": 201
+    },
+    {
+      "operation": "POST /api/v1/session",
+      "status": 201
+    },
+    {
+      "operation": "GET /api/v1/visits/7f43f9d5-2abe-4d40-b297-42ef06759a3d",
+      "status": 404
+    }
+  ]
+}

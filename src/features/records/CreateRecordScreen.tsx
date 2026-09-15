@@ -1,5 +1,6 @@
+import { notifyGrowthChanged } from '../activity/growth-refresh';
 import { useEffect, useRef, useState } from 'react';
-import type { Person } from '../../../packages/api-client/index';
+import type { Person, Visit } from '../../../packages/api-client/index';
 import { api } from '../../app/api';
 import type { ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
@@ -24,6 +25,13 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
  const [state,setState]=useScreenState<CreateState>(()=>({draft:blankDraft(),place:null,step:'editor',returnStep:'editor',mode:'map',query:'',selected:null,saveSession:null}));
  const [busy,setBusy]=useState(false), [error,setError]=useState(''), [notice,setNotice]=useState('');
  const [places,setPlaces]=useState<PlaceChoice[]>([]), [placeBusy,setPlaceBusy]=useState(false), [placeError,setPlaceError]=useState('');
+ const [attachedVisit,setAttachedVisit]=useState<Visit|null>(null);
+ useEffect(()=>{if(!route.params.visitId||!active)return;const abort=new AbortController();
+ void api.request('getVisitsVisitId',{path:{visitId:route.params.visitId},signal:abort.signal}).then(async({data})=>{
+  const found=await api.request('getPlacesPlaceId',{path:{placeId:data.placeId},signal:abort.signal});
+  if(!abort.signal.aborted){setAttachedVisit(data);setState(previous=>({...previous,place:placeChoice(found.data.place)}));}
+ }).catch(cause=>{if(!abort.signal.aborted)setError(errorText(cause));});return()=>abort.abort();
+ },[route.params.visitId,scopeKey,active]);
  const [people,setPeople]=useState<Person[]>([]), [peopleError,setPeopleError]=useState('');
  const [searchRevision,setSearchRevision]=useState(0);
  const bridge=useMapBridge();
@@ -105,10 +113,11 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
    changeDraft({...state.draft,media:items.map((item,position)=>({...item,position}))});
  };
  const save=async()=>{
+   if(route.params.visitId&&!attachedVisit){setError('関連する訪問を取得できていません。訪問画面から開き直してください。');return;}
    if(submitting.current)return;submitting.current=true;setBusy(true);setError('');
    const controller=new AbortController();saveController.current=controller;
    let session=state.saveSession;
-   if(!session){session=createSaveSession(state.draft,state.place,route.params.topicKey || null);setState(previous=>({...previous,saveSession:session}));}
+   if(!session){session=createSaveSession(state.draft,state.place,route.params.topicKey || null,attachedVisit??undefined);setState(previous=>({...previous,saveSession:session}));}
    const progress=(value:SaveProgress)=>{
      if(controller.signal.aborted)return;
      setState(previous=>({...previous,draft:{...previous.draft,media:value.media}}));
@@ -120,24 +129,24 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
      // Later edits are applied to that same record after the creation is resolved.
      const requestedDraft={...state.draft,media:state.draft.media.map(item=>({...item}))};
      let saved;
-     if(!session.record || !changed){saved=await saveNewRecord(api,session,changed?()=>{}:progress,controller.signal);}
+     if(!session.record || !changed){saved=await saveNewRecord(api,session,changed?()=>{}:progress,controller.signal,()=>notifyGrowthChanged(scopeKey));}
      else saved=session.record;
      if(changed){
        const current=await readRecord(api,saved.id,controller.signal);
        if(current.media.status!=='ready')throw new Error('媒体を取得できません。入力を保持しています。');
        const actual=current.media.data.items;
        const edited={...requestedDraft,media:requestedDraft.media.map(item=>{const existing=actual.find(media=>media.id===item.id);return existing?{...item,version:existing.version,state:existing.status}:item;}),removedMedia:actual.filter(media=>!requestedDraft.media.some(item=>item.id===media.id)).map(media=>({id:media.id,version:media.version}))};
-       saved=await saveEditedRecord(api,createEditSession(current.record,edited),progress,controller.signal);
+       saved=await saveEditedRecord(api,createEditSession(current.record,edited),progress,controller.signal,()=>notifyGrowthChanged(scopeKey));
      }
      if(controller.signal.aborted)return;
      setState({draft:blankDraft(),place:null,step:'editor',returnStep:'editor',mode:'map',query:'',selected:null,saveSession:null});
      setNotice('');
      if(route.params.returnPage==='knowledge-list'){back();return;}
      navigate('daily-track',{recordId:saved.id,date:state.draft.date || new Date().toLocaleDateString('sv-SE'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,includeUndated:state.draft.date?'false':'true'});
-   }catch(error){if(!controller.signal.aborted)setError(errorText(error));}
+   }catch(error){if(!controller.signal.aborted)setError(`${session?.visit?.status === "confirmed" && !session.record ? "訪問の確認は保存済みです。記録の保存は完了していません。" : ""}${errorText(error)}`);}
    finally{submitting.current=false;setBusy(false);}
  };
  const sharing=<div className="records-share-people">{peopleError&&<RecordNotice error>{peopleError}</RecordNotice>}{people.length===0&&!peopleError&&<p>共有する友達がいません。</p>}{people.map(person=><label key={person.id}><input type="checkbox" checked={state.draft.sharedWith.includes(person.id)} onChange={event=>changeDraft({...state.draft,sharedWith:event.target.checked?[...state.draft.sharedWith,person.id]:state.draft.sharedWith.filter(id=>id!==person.id)})}/>{person.name}</label>)}</div>;
  if(state.step==='place-picker')return <PlacePicker mode={state.mode} onMode={mode=>setState(previous=>({...previous,mode}))} query={state.query} onQuery={query=>setState(previous=>({...previous,query}))} onSearch={()=>setSearchRevision(value=>value+1)} items={places} selected={state.selected} onSelect={selectPlace} onUse={()=>setState(previous=>({...previous,place:previous.selected,step:previous.returnStep}))} onBack={()=>setState(previous=>({...previous,step:previous.returnStep}))} onLocate={()=>{navigator.geolocation.getCurrentPosition(position=>{bridge.focus('record-place-picker',{center:[position.coords.longitude,position.coords.latitude],zoom:15});bridge.setCamera({longitude:position.coords.longitude,latitude:position.coords.latitude});setSearchRevision(value=>value+1);},()=>setPlaceError('現在地を取得できませんでした。検索や訪問履歴から場所を選べます。'));}} map={active?<MapPreview bridge={bridge} label="体験の場所を選ぶ地図" interactive/>:null} busy={placeBusy} error={placeError}/>;
- return <RecordComposer draft={state.draft} setDraft={changeDraft} place={state.place} step={state.step} onStep={step=>setState(previous=>({...previous,step}))} onBack={back} onChoosePlace={()=>setState(previous=>({...previous,returnStep:previous.step==='confirmation'?'confirmation':'editor',step:'place-picker',selected:previous.place}))} onFiles={addFiles} onRemove={remove} onMove={move} onSave={()=>void save()} busy={busy} error={error} notice={notice} onRetry={()=>void save()} sharingControl={sharing} savedLocationLocked={state.saveSession!==null}/>;
+ return <RecordComposer draft={state.draft} setDraft={changeDraft} place={state.place} step={state.step} onStep={step=>setState(previous=>({...previous,step}))} onBack={back} onChoosePlace={()=>setState(previous=>({...previous,returnStep:previous.step==='confirmation'?'confirmation':'editor',step:'place-picker',selected:previous.place}))} onFiles={addFiles} onRemove={remove} onMove={move} onSave={()=>void save()} busy={busy} error={error} notice={notice} onRetry={()=>void save()} sharingControl={sharing} savedLocationLocked={state.saveSession!==null||!!route.params.visitId}/>;
 }
