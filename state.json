@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 11,
+  "revision": 12,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4683,12 +4683,21 @@
       "token": "cca1a70a561a47ba9a0f220071824dc9"
     },
     "UI-MAP": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 8,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/map/",
+        "src/map/",
+        "docs/evidence/UI-MAP/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "b3d8cb7e61134a24845c5ea598f64542"
     },
     "UI-PLUGINS": {
       "actor": null,
