@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 72,
+  "revision": 73,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4712,17 +4712,22 @@
       "token": "f2c8681b601241ae9a2f423a9d1f4f11"
     },
     "PLUGINS": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 4,
+      "actor": "kaiya",
+      "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
+      "generation": 5,
       "issue_number": 28,
       "landed_main": null,
       "note": "Preserve worktree and staged PLUGINS changes; renew own claim at integrated CORE/develop base",
       "owner": "kaiya",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/plugins/",
+        "server/db/migrations/plugins/",
+        "docs/01_requirements/04_api/fragments/PLUGINS.json",
+        "docs/evidence/PLUGINS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "30a5c79a3d5d495a805dd2040d30d824"
     },
     "QA-VISUAL": {
       "actor": "rozwer",
