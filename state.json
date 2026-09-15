@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 211,
+  "revision": 212,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33894,7 +33894,7 @@
       "generation": 1,
       "issue_number": 40,
       "landed_main": null,
-      "note": "docs/evidence/QA-VISUAL/2026-09-15-initial-status.md",
+      "note": "docs/evidence/QA-VISUAL/2026-09-15-api-readiness.md",
       "owner": "rozwer",
       "paths": [
         "qa/manual/",
@@ -33902,7 +33902,7 @@
         "tools/local/dev.ts"
       ],
       "status": "submitted",
-      "submitted_commit": "260184da07891ffd7f172e0f40d18a43dc5ba67b",
+      "submitted_commit": "3159ab4dac4dfc6ab5a9710e361f29cfb0b2fa28",
       "token": "01e546c746074999b9f479175c6aa02b"
     },
     "RECORDS": {
