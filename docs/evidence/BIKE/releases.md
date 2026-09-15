@@ -1,34 +1,39 @@
-# BIKE実release 1.0.0 / 1.1.0
+# BIKE実release訂正: 旧版候補維持・新版区間評価
 
-ユーザー採用指示に従い、既統合#166の共通地点候補・採用を1.1.0の公開機能として明示する。1.0.0のmanifest、settingsSchema、defaultSettings、trial、適用宣言は原定義を保持し、通常registerで1.0.0→1.1.0の順に登録する。仮manifestではない。
+PR #260 / 60abd89は行き違いで0e1daa43へ統合された。本修正はその履歴を保持し、ユーザーの最新方針どおり旧1.0.0の候補登録・地点採用を維持する。候補機能を止める以前のrelease案は撤回済み。
+
+## 公開される実差
 
 | 項目 | 1.0.0 | 1.1.0 |
 |---|---|---|
-| 地点検索・BIKE表示・経路評価 | 維持 | 維持 |
-| 設定schema / defaults | 元定義 | 元定義の独立コピー |
-| 適用宣言 | layer:bike / visibility=true | 左記 + feature:bike:place-candidates / enabled=true |
-| 新規共通候補登録 | STATE_CONFLICT（1.1.0への更新を案内） | 解決済み宣言が有効なら正式PLACES登録口へ接続 |
-| 試用 | 明示mock | 同じ明示mock＋新機能の適用宣言 |
+| 元manifest/settings/defaults/layer宣言 | 元定義を保持 | 元定義の独立コピー＋区間評価の案内 |
+| 共通地点候補登録・採用 | 維持 | 維持 |
+| Mapbox既存経路評価 | 維持 | 維持 |
+| 新規の同一形状区間根拠評価 | unknown、部分評価を新規発行しない | `feature:bike:segment-evidence / enabled=true` の解決済み宣言が有効なら#231の照合/部分評価を提供 |
+| 保存済み区間評価GET | 保持・再取得可 | 保持・再取得可 |
 
-これまで版番号未分割の1.0.0に追加されていた候補登録を、今回1.1.0の公開宣言に連動させる。既存1.0.0利用者は更新後に候補登録できる。旧版の既存宣言は書き換えない。HTTP入力や共通Schema/DBは変更しない。
+`register.ts`の`assessBikeReleaseRoute(db,context,route,settings)`が現在の解決済み宣言を読み、新規区間評価だけを制御する。旧版が区間根拠付き経路を受け取ってもMapbox根拠へ偽装せずunknownとする。`createBikeService`の共通PLACES接続は両版で元の正式登録口を使う。
 
-## 旧版へ戻したとき
+新区間評価では同一geometry/hash・取得時刻・順序付き全区間被覆・ID/方向/道路属性を照合し、warning208の要求ignoredとmotorway結果検証を分離する。日本の車種/排気量・時間規制と高速条件全体の不足はunknownを維持し、適合採用の成功へ変えない。正式二輪ROUTES入口は未提供である。
 
-- 1.0.0の元manifest・設定・宣言へ戻る。新規共通候補登録を停止する。
-- BIKE検索snapshot・評価・採用履歴、共通PLACESの採用済み地点は削除しない。地点表示も維持する。
-- 既発行の共通候補はPLACESの本人/mode・有効期限に従う。rollbackで共通候補を横断的に失効させない。採用済み地点の削除操作もしない。
-- 更新/rollbackはPLUGINSの保存版を進めるため、以前の保存版に紐づく検索からの再登録はINPUT_CHANGEDになる。候補登録を再開するときは現版で新規検索・新規操作IDを使用する。
-- 停止すると従来どおりBIKE表示と操作を停止し、保存結果を保持する。
+## rollback / 既導入の誤版
 
-## 限定確認
+- rollback後も旧版の候補登録・地点採用・BIKE表示を維持する。
+- 保存検索、採用済み共通地点、既存の区間評価snapshotは削除せずGETできる。既発行候補は共通PLACESの本人/mode・有効期限に従う。
+- 更新/rollback後の候補登録・評価は、PLUGINS保存版の更新に合わせ、新しい検索と操作IDを使用する。
+- #260の旧宣言を持つ1.1.0が既に保存されている場合、共通PLUGINSの通常PATCHで現在のsettingsを再保存すると、現行release定義・宣言へ更新される（現在のIf-Matchを使用）。共通DBを直接書き換えない。候補登録の誤制限はこの修正後、宣言更新を待たず解除される。新区間評価は新宣言が有効になるまでunknown。
+
+## 限定検証
 
 ```sh
 mise exec -- node --experimental-transform-types docs/evidence/BIKE/release-check.ts
 mise exec -- node node_modules/typescript/bin/tsc --noEmit --strict --noUncheckedIndexedAccess --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler --esModuleInterop --allowImportingTsExtensions server/plugins/bike/register.ts docs/evidence/BIKE/release-check.ts
 ```
 
-[release-check.json](release-check.json) に実registry、実PluginService/createBikeService/PlacesService、実SQLite保存・開き直しの結果を保存した。地点入力は明示したfixture。外部provider取得は0回で、実provider取得成功の追加証拠とはしない。旧版登録拒否→実1.1.0への更新→共通候補登録/採用→rollbackによる元宣言/設定復元→検索/採用済み地点保持→SQLite再openで一致、限定確認PASS。strict型検査PASS。
+[release-check.json](release-check.json): 実registry/PluginService/createBikeService/PlacesService・実SQLiteで、旧版候補登録/採用→更新→新版候補登録/同一地点採用→区間評価保存→unknown採用拒否→rollback→旧版候補登録維持/新規区間評価停止→既存snapshot再取得→SQLite再openで設定/宣言/検索/地点/評価一致を確認。地点・区間入力は明示fixtureであり、追加の実provider成功証拠ではない。strict型検査PASS。
 
-通常mainの実HTTP更新/rollback・別OSプロセス復元は、正式merge後にPLUGINS #28が確認する。既存live.e2e.tsの試用/導入版は1.1.0へ合わせたが、成功済みprovider呼出しは再実行していない。
+既存実Valhalla応答の全52edge評価/保存証拠は#231を再利用する。通常main実HTTPの版更新/戻し・別OS復元はPLUGINS #28の後続確認。追加provider呼出しは0回。#91/親#29は未完了のまま保持する。
 
-#91の日本車種・全区間規制根拠不足は維持する。1.1.0は全条件適合経路の成功を主張しない。
+## 選択commit
+
+失敗したbranch切替の全差分は `/private/tmp/bike-selective-before.patch` に保存した。必要なBIKE release/評価/証拠ファイルだけを編集し、標準 `git commit --only -- <明示path>` で正式guardを通す。他pathのindex・内容は保持し、restore/resetやguard無効化は行わない。

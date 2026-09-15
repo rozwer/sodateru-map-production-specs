@@ -1,0 +1,4287 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-15T05:01:21.834Z",
+  "scope": "Archived real route/trace replay over local HTTP → formal ROUTES factory → real BIKE service and SQLite → another OS route read; installation and Overpass inputs are test fixtures. No fresh provider claim.",
+  "externalCalls": 0,
+  "localProviderCalls": 2,
+  "profile": "motorcycle",
+  "checks": [
+    "same shape all 52 edges / 79 segments",
+    "warning208 ignored, motorway observation verified separately",
+    "Japanese vehicle/highway unknown, BIKE adoption rejected",
+    "owner binding and same-ID replay",
+    "plain route snapshot preserves all evidence after OS restart"
+  ],
+  "preview": {
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          139.700507,
+          35.659125
+        ],
+        [
+          139.700505,
+          35.659119
+        ],
+        [
+          139.700468,
+          35.659039
+        ],
+        [
+          139.700414,
+          35.658939
+        ],
+        [
+          139.700402,
+          35.658903
+        ],
+        [
+          139.700398,
+          35.658863
+        ],
+        [
+          139.700409,
+          35.658761
+        ],
+        [
+          139.70042,
+          35.658685
+        ],
+        [
+          139.700435,
+          35.658627
+        ],
+        [
+          139.700465,
+          35.658554
+        ],
+        [
+          139.700495,
+          35.658498
+        ],
+        [
+          139.700509,
+          35.658475
+        ],
+        [
+          139.700536,
+          35.65844
+        ],
+        [
+          139.700626,
+          35.658317
+        ],
+        [
+          139.700637,
+          35.658291
+        ],
+        [
+          139.700642,
+          35.658271
+        ],
+        [
+          139.700643,
+          35.65825
+        ],
+        [
+          139.700642,
+          35.65823
+        ],
+        [
+          139.70064,
+          35.658208
+        ],
+        [
+          139.700632,
+          35.658177
+        ],
+        [
+          139.700615,
+          35.658127
+        ],
+        [
+          139.700608,
+          35.658104
+        ],
+        [
+          139.700592,
+          35.658056
+        ],
+        [
+          139.700588,
+          35.658038
+        ],
+        [
+          139.700582,
+          35.658007
+        ],
+        [
+          139.700584,
+          35.657981
+        ],
+        [
+          139.700588,
+          35.657957
+        ],
+        [
+          139.700604,
+          35.657908
+        ],
+        [
+          139.700653,
+          35.657799
+        ],
+        [
+          139.700675,
+          35.657744
+        ],
+        [
+          139.700762,
+          35.657587
+        ],
+        [
+          139.70081,
+          35.657503
+        ],
+        [
+          139.700846,
+          35.657435
+        ],
+        [
+          139.701651,
+          35.657703
+        ],
+        [
+          139.702117,
+          35.657852
+        ],
+        [
+          139.702842,
+          35.658088
+        ],
+        [
+          139.703034,
+          35.658119
+        ],
+        [
+          139.702922,
+          35.658335
+        ],
+        [
+          139.70267,
+          35.658855
+        ],
+        [
+          139.702449,
+          35.659337
+        ],
+        [
+          139.702425,
+          35.659388
+        ],
+        [
+          139.702409,
+          35.659432
+        ],
+        [
+          139.702368,
+          35.65954
+        ],
+        [
+          139.702472,
+          35.659558
+        ],
+        [
+          139.702634,
+          35.659583
+        ],
+        [
+          139.702705,
+          35.659594
+        ],
+        [
+          139.703078,
+          35.659655
+        ],
+        [
+          139.703187,
+          35.659672
+        ],
+        [
+          139.703889,
+          35.659788
+        ],
+        [
+          139.704254,
+          35.65985
+        ],
+        [
+          139.704523,
+          35.659899
+        ],
+        [
+          139.704877,
+          35.659964
+        ],
+        [
+          139.705373,
+          35.660074
+        ],
+        [
+          139.705591,
+          35.660122
+        ],
+        [
+          139.705685,
+          35.660143
+        ],
+        [
+          139.705781,
+          35.660162
+        ],
+        [
+          139.705859,
+          35.660165
+        ],
+        [
+          139.705916,
+          35.660158
+        ],
+        [
+          139.705948,
+          35.66019
+        ],
+        [
+          139.705981,
+          35.660221
+        ],
+        [
+          139.706072,
+          35.66029
+        ],
+        [
+          139.706703,
+          35.660709
+        ],
+        [
+          139.706829,
+          35.660791
+        ],
+        [
+          139.707426,
+          35.661182
+        ],
+        [
+          139.707683,
+          35.661327
+        ],
+        [
+          139.707712,
+          35.661346
+        ],
+        [
+          139.707947,
+          35.661496
+        ],
+        [
+          139.707982,
+          35.661518
+        ],
+        [
+          139.708134,
+          35.661616
+        ],
+        [
+          139.709011,
+          35.662185
+        ],
+        [
+          139.710012,
+          35.662799
+        ],
+        [
+          139.710323,
+          35.66299
+        ],
+        [
+          139.710387,
+          35.663029
+        ],
+        [
+          139.710446,
+          35.66308
+        ],
+        [
+          139.710608,
+          35.663222
+        ],
+        [
+          139.710822,
+          35.663443
+        ],
+        [
+          139.711248,
+          35.663885
+        ],
+        [
+          139.711458,
+          35.664108
+        ],
+        [
+          139.71173,
+          35.664405
+        ],
+        [
+          139.712178,
+          35.664892
+        ]
+      ]
+    },
+    "legs": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              139.700507,
+              35.659125
+            ],
+            [
+              139.700505,
+              35.659119
+            ],
+            [
+              139.700468,
+              35.659039
+            ],
+            [
+              139.700414,
+              35.658939
+            ],
+            [
+              139.700402,
+              35.658903
+            ],
+            [
+              139.700398,
+              35.658863
+            ],
+            [
+              139.700409,
+              35.658761
+            ],
+            [
+              139.70042,
+              35.658685
+            ],
+            [
+              139.700435,
+              35.658627
+            ],
+            [
+              139.700465,
+              35.658554
+            ],
+            [
+              139.700495,
+              35.658498
+            ],
+            [
+              139.700509,
+              35.658475
+            ],
+            [
+              139.700536,
+              35.65844
+            ],
+            [
+              139.700626,
+              35.658317
+            ],
+            [
+              139.700637,
+              35.658291
+            ],
+            [
+              139.700642,
+              35.658271
+            ],
+            [
+              139.700643,
+              35.65825
+            ],
+            [
+              139.700642,
+              35.65823
+            ],
+            [
+              139.70064,
+              35.658208
+            ],
+            [
+              139.700632,
+              35.658177
+            ],
+            [
+              139.700615,
+              35.658127
+            ],
+            [
+              139.700608,
+              35.658104
+            ],
+            [
+              139.700592,
+              35.658056
+            ],
+            [
+              139.700588,
+              35.658038
+            ],
+            [
+              139.700582,
+              35.658007
+            ],
+            [
+              139.700584,
+              35.657981
+            ],
+            [
+              139.700588,
+              35.657957
+            ],
+            [
+              139.700604,
+              35.657908
+            ],
+            [
+              139.700653,
+              35.657799
+            ],
+            [
+              139.700675,
+              35.657744
+            ],
+            [
+              139.700762,
+              35.657587
+            ],
+            [
+              139.70081,
+              35.657503
+            ],
+            [
+              139.700846,
+              35.657435
+            ],
+            [
+              139.701651,
+              35.657703
+            ],
+            [
+              139.702117,
+              35.657852
+            ],
+            [
+              139.702842,
+              35.658088
+            ],
+            [
+              139.703034,
+              35.658119
+            ],
+            [
+              139.702922,
+              35.658335
+            ],
+            [
+              139.70267,
+              35.658855
+            ],
+            [
+              139.702449,
+              35.659337
+            ],
+            [
+              139.702425,
+              35.659388
+            ],
+            [
+              139.702409,
+              35.659432
+            ],
+            [
+              139.702368,
+              35.65954
+            ],
+            [
+              139.702472,
+              35.659558
+            ],
+            [
+              139.702634,
+              35.659583
+            ],
+            [
+              139.702705,
+              35.659594
+            ],
+            [
+              139.703078,
+              35.659655
+            ],
+            [
+              139.703187,
+              35.659672
+            ],
+            [
+              139.703889,
+              35.659788
+            ],
+            [
+              139.704254,
+              35.65985
+            ],
+            [
+              139.704523,
+              35.659899
+            ],
+            [
+              139.704877,
+              35.659964
+            ],
+            [
+              139.705373,
+              35.660074
+            ],
+            [
+              139.705591,
+              35.660122
+            ],
+            [
+              139.705685,
+              35.660143
+            ],
+            [
+              139.705781,
+              35.660162
+            ],
+            [
+              139.705859,
+              35.660165
+            ],
+            [
+              139.705916,
+              35.660158
+            ],
+            [
+              139.705948,
+              35.66019
+            ],
+            [
+              139.705981,
+              35.660221
+            ],
+            [
+              139.706072,
+              35.66029
+            ],
+            [
+              139.706703,
+              35.660709
+            ],
+            [
+              139.706829,
+              35.660791
+            ],
+            [
+              139.707426,
+              35.661182
+            ],
+            [
+              139.707683,
+              35.661327
+            ],
+            [
+              139.707712,
+              35.661346
+            ],
+            [
+              139.707947,
+              35.661496
+            ],
+            [
+              139.707982,
+              35.661518
+            ],
+            [
+              139.708134,
+              35.661616
+            ],
+            [
+              139.709011,
+              35.662185
+            ],
+            [
+              139.710012,
+              35.662799
+            ],
+            [
+              139.710323,
+              35.66299
+            ],
+            [
+              139.710387,
+              35.663029
+            ],
+            [
+              139.710446,
+              35.66308
+            ],
+            [
+              139.710608,
+              35.663222
+            ],
+            [
+              139.710822,
+              35.663443
+            ],
+            [
+              139.711248,
+              35.663885
+            ],
+            [
+              139.711458,
+              35.664108
+            ],
+            [
+              139.71173,
+              35.664405
+            ],
+            [
+              139.712178,
+              35.664892
+            ]
+          ]
+        },
+        "distanceM": 1693,
+        "durationSec": 253,
+        "steps": [
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.700507,
+                  35.659125
+                ],
+                [
+                  139.700505,
+                  35.659119
+                ],
+                [
+                  139.700468,
+                  35.659039
+                ],
+                [
+                  139.700414,
+                  35.658939
+                ],
+                [
+                  139.700402,
+                  35.658903
+                ],
+                [
+                  139.700398,
+                  35.658863
+                ],
+                [
+                  139.700409,
+                  35.658761
+                ],
+                [
+                  139.70042,
+                  35.658685
+                ],
+                [
+                  139.700435,
+                  35.658627
+                ],
+                [
+                  139.700465,
+                  35.658554
+                ],
+                [
+                  139.700495,
+                  35.658498
+                ],
+                [
+                  139.700509,
+                  35.658475
+                ],
+                [
+                  139.700536,
+                  35.65844
+                ],
+                [
+                  139.700626,
+                  35.658317
+                ],
+                [
+                  139.700637,
+                  35.658291
+                ],
+                [
+                  139.700642,
+                  35.658271
+                ],
+                [
+                  139.700643,
+                  35.65825
+                ],
+                [
+                  139.700642,
+                  35.65823
+                ],
+                [
+                  139.70064,
+                  35.658208
+                ],
+                [
+                  139.700632,
+                  35.658177
+                ],
+                [
+                  139.700615,
+                  35.658127
+                ],
+                [
+                  139.700608,
+                  35.658104
+                ],
+                [
+                  139.700592,
+                  35.658056
+                ],
+                [
+                  139.700588,
+                  35.658038
+                ],
+                [
+                  139.700582,
+                  35.658007
+                ],
+                [
+                  139.700584,
+                  35.657981
+                ],
+                [
+                  139.700588,
+                  35.657957
+                ],
+                [
+                  139.700604,
+                  35.657908
+                ],
+                [
+                  139.700653,
+                  35.657799
+                ],
+                [
+                  139.700675,
+                  35.657744
+                ],
+                [
+                  139.700762,
+                  35.657587
+                ],
+                [
+                  139.70081,
+                  35.657503
+                ],
+                [
+                  139.700846,
+                  35.657435
+                ]
+              ]
+            },
+            "location": [
+              139.700507,
+              35.659125
+            ],
+            "distanceM": 201,
+            "durationSec": 40,
+            "type": "depart",
+            "modifier": null,
+            "instruction": "神宮通り/Jingu-dori Streetを南方向です。",
+            "name": "神宮通り / Jingu-dori Street"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.700846,
+                  35.657435
+                ],
+                [
+                  139.701651,
+                  35.657703
+                ],
+                [
+                  139.702117,
+                  35.657852
+                ],
+                [
+                  139.702842,
+                  35.658088
+                ],
+                [
+                  139.703034,
+                  35.658119
+                ]
+              ]
+            },
+            "location": [
+              139.700846,
+              35.657435
+            ],
+            "distanceM": 212,
+            "durationSec": 25,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "左方向です。その先246/玉川通り/Tamagawa Street/一般国道246号/National Highway Route 246です。",
+            "name": "246 / 玉川通り / Tamagawa Street / 一般国道246号 / National Highway Route 246"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.703034,
+                  35.658119
+                ],
+                [
+                  139.702922,
+                  35.658335
+                ],
+                [
+                  139.70267,
+                  35.658855
+                ],
+                [
+                  139.702449,
+                  35.659337
+                ],
+                [
+                  139.702425,
+                  35.659388
+                ],
+                [
+                  139.702409,
+                  35.659432
+                ],
+                [
+                  139.702368,
+                  35.65954
+                ]
+              ]
+            },
+            "location": [
+              139.703034,
+              35.658119
+            ],
+            "distanceM": 170,
+            "durationSec": 29,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "左方向、明治通り/Meiji Avenue/305です。その先、明治通り/305です。",
+            "name": "明治通り / 305"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.702368,
+                  35.65954
+                ],
+                [
+                  139.702472,
+                  35.659558
+                ],
+                [
+                  139.702634,
+                  35.659583
+                ],
+                [
+                  139.702705,
+                  35.659594
+                ],
+                [
+                  139.703078,
+                  35.659655
+                ],
+                [
+                  139.703187,
+                  35.659672
+                ],
+                [
+                  139.703889,
+                  35.659788
+                ],
+                [
+                  139.704254,
+                  35.65985
+                ],
+                [
+                  139.704523,
+                  35.659899
+                ],
+                [
+                  139.704877,
+                  35.659964
+                ],
+                [
+                  139.705373,
+                  35.660074
+                ],
+                [
+                  139.705591,
+                  35.660122
+                ],
+                [
+                  139.705685,
+                  35.660143
+                ],
+                [
+                  139.705781,
+                  35.660162
+                ],
+                [
+                  139.705859,
+                  35.660165
+                ],
+                [
+                  139.705916,
+                  35.660158
+                ]
+              ]
+            },
+            "location": [
+              139.702368,
+              35.65954
+            ],
+            "distanceM": 329,
+            "durationSec": 69,
+            "type": "valhalla:10",
+            "modifier": "right",
+            "instruction": "宮益坂下/Miyamasu-zaka Hill-L.を右方向です。",
+            "name": "宮益坂 / Miyamasu-zaka Street"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.705916,
+                  35.660158
+                ],
+                [
+                  139.705948,
+                  35.66019
+                ],
+                [
+                  139.705981,
+                  35.660221
+                ],
+                [
+                  139.706072,
+                  35.66029
+                ],
+                [
+                  139.706703,
+                  35.660709
+                ],
+                [
+                  139.706829,
+                  35.660791
+                ],
+                [
+                  139.707426,
+                  35.661182
+                ],
+                [
+                  139.707683,
+                  35.661327
+                ],
+                [
+                  139.707712,
+                  35.661346
+                ],
+                [
+                  139.707947,
+                  35.661496
+                ],
+                [
+                  139.707982,
+                  35.661518
+                ],
+                [
+                  139.708134,
+                  35.661616
+                ],
+                [
+                  139.709011,
+                  35.662185
+                ],
+                [
+                  139.710012,
+                  35.662799
+                ],
+                [
+                  139.710323,
+                  35.66299
+                ],
+                [
+                  139.710387,
+                  35.663029
+                ],
+                [
+                  139.710446,
+                  35.66308
+                ],
+                [
+                  139.710608,
+                  35.663222
+                ],
+                [
+                  139.710822,
+                  35.663443
+                ],
+                [
+                  139.711248,
+                  35.663885
+                ],
+                [
+                  139.711458,
+                  35.664108
+                ],
+                [
+                  139.71173,
+                  35.664405
+                ],
+                [
+                  139.712178,
+                  35.664892
+                ]
+              ]
+            },
+            "location": [
+              139.705916,
+              35.660158
+            ],
+            "distanceM": 780,
+            "durationSec": 90,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "宮益坂上を左方向です。",
+            "name": "246 / 一般国道246号 / National Highway Route 246"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.712178,
+                  35.664892
+                ],
+                [
+                  139.712178,
+                  35.664892
+                ]
+              ]
+            },
+            "location": [
+              139.712178,
+              35.664892
+            ],
+            "distanceM": 0,
+            "durationSec": 0,
+            "type": "arrive",
+            "modifier": null,
+            "instruction": "目的地は左側です。",
+            "name": ""
+          }
+        ]
+      }
+    ],
+    "distanceM": 1693,
+    "durationSec": 253,
+    "provider": "valhalla",
+    "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+    "fetchedAt": 1789448480632,
+    "requestedConditions": {
+      "departAt": 1789446600000,
+      "timeZone": "Asia/Tokyo",
+      "avoidMotorways": true
+    },
+    "conditionEvaluations": [
+      {
+        "key": "departAt",
+        "status": "applied",
+        "reason": "同一応答の指定端点日時・時間帯を照合し、区間秒合計で出発/到着予定と期限を評価（推定値）",
+        "provider": "valhalla",
+        "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+        "fetchedAt": 1789448480632
+      },
+      {
+        "key": "avoidMotorways",
+        "status": "ignored",
+        "reason": "要求の適用状態と同一形状の道路属性評価を分離。警告なしでも高速強制除外の適用を保証しない",
+        "provider": "valhalla",
+        "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+        "fetchedAt": 1789448480632
+      }
+    ],
+    "timing": {
+      "departureAt": 1789446600000,
+      "arrivalAt": 1789446853149,
+      "timeZone": "Asia/Tokyo",
+      "providerTimePrecisionSec": 60,
+      "locations": [
+        {
+          "waypointIndex": 0,
+          "localDateTime": "2026-09-15T13:30",
+          "timeZone": "Asia/Tokyo",
+          "utcOffset": "+09:00"
+        },
+        {
+          "waypointIndex": 1,
+          "localDateTime": "2026-09-15T13:34",
+          "timeZone": "Asia/Tokyo",
+          "utcOffset": "+09:00"
+        }
+      ]
+    },
+    "providerEvidence": {
+      "endpoint": "http://127.0.0.1:54931/route",
+      "attribution": "© OpenStreetMap contributors (ODbL); routing by Valhalla",
+      "geometryHash": "ba0d389b217f8d192a30149708b623914966bb3433260419260d2e90a3665727",
+      "strategy": "balanced",
+      "warnings": [
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        },
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        }
+      ]
+    },
+    "segmentEvidence": {
+      "provider": "valhalla",
+      "profile": "motorcycle",
+      "geometryHash": "ca9764fb5edf7ba83abeaeca2a2375ba28704dd85442f84a0e438bc9fab95dd4",
+      "routeFetchedAt": 1789448480632,
+      "fetchedAt": 1789448481736,
+      "sourceUrl": "https://valhalla.github.io/valhalla/api/map-matching/api-reference/",
+      "osmChangeset": "1789328065",
+      "options": {
+        "excludeHighways": true,
+        "useHighways": 0,
+        "topSpeed": null,
+        "departureLocal": "2026-09-15T13:30"
+      },
+      "warnings": [
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        },
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        }
+      ],
+      "edges": [
+        {
+          "wayId": 1109680532,
+          "forward": true,
+          "beginShapeIndex": 0,
+          "endShapeIndex": 1,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375676167,
+          "forward": true,
+          "beginShapeIndex": 1,
+          "endShapeIndex": 6,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375676167,
+          "forward": true,
+          "beginShapeIndex": 6,
+          "endShapeIndex": 8,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 310155101,
+          "forward": true,
+          "beginShapeIndex": 8,
+          "endShapeIndex": 12,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 258432971,
+          "forward": true,
+          "beginShapeIndex": 12,
+          "endShapeIndex": 13,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 215955359,
+          "forward": true,
+          "beginShapeIndex": 13,
+          "endShapeIndex": 18,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1391280800,
+          "forward": true,
+          "beginShapeIndex": 18,
+          "endShapeIndex": 19,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499726,
+          "forward": true,
+          "beginShapeIndex": 19,
+          "endShapeIndex": 20,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 390536923,
+          "forward": true,
+          "beginShapeIndex": 20,
+          "endShapeIndex": 21,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499717,
+          "forward": true,
+          "beginShapeIndex": 21,
+          "endShapeIndex": 24,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499717,
+          "forward": true,
+          "beginShapeIndex": 24,
+          "endShapeIndex": 26,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499727,
+          "forward": true,
+          "beginShapeIndex": 26,
+          "endShapeIndex": 30,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 277209471,
+          "forward": true,
+          "beginShapeIndex": 30,
+          "endShapeIndex": 31,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 282460768,
+          "forward": true,
+          "beginShapeIndex": 31,
+          "endShapeIndex": 32,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1117318756,
+          "forward": true,
+          "beginShapeIndex": 32,
+          "endShapeIndex": 33,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 759282886,
+          "forward": true,
+          "beginShapeIndex": 33,
+          "endShapeIndex": 34,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 759282887,
+          "forward": true,
+          "beginShapeIndex": 34,
+          "endShapeIndex": 36,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978894,
+          "forward": true,
+          "beginShapeIndex": 36,
+          "endShapeIndex": 37,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 350053182,
+          "forward": true,
+          "beginShapeIndex": 37,
+          "endShapeIndex": 40,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1106270528,
+          "forward": true,
+          "beginShapeIndex": 40,
+          "endShapeIndex": 41,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1106270528,
+          "forward": true,
+          "beginShapeIndex": 41,
+          "endShapeIndex": 42,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 213526434,
+          "forward": true,
+          "beginShapeIndex": 42,
+          "endShapeIndex": 43,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 43,
+          "endShapeIndex": 44,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 44,
+          "endShapeIndex": 46,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 46,
+          "endShapeIndex": 47,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 47,
+          "endShapeIndex": 48,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 48,
+          "endShapeIndex": 49,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 49,
+          "endShapeIndex": 50,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 50,
+          "endShapeIndex": 51,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 51,
+          "endShapeIndex": 52,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098574,
+          "forward": true,
+          "beginShapeIndex": 52,
+          "endShapeIndex": 53,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978901,
+          "forward": true,
+          "beginShapeIndex": 53,
+          "endShapeIndex": 54,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978901,
+          "forward": true,
+          "beginShapeIndex": 54,
+          "endShapeIndex": 57,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098572,
+          "forward": true,
+          "beginShapeIndex": 57,
+          "endShapeIndex": 58,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098571,
+          "forward": true,
+          "beginShapeIndex": 58,
+          "endShapeIndex": 59,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 59,
+          "endShapeIndex": 61,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 61,
+          "endShapeIndex": 62,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 62,
+          "endShapeIndex": 64,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 64,
+          "endShapeIndex": 65,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 65,
+          "endShapeIndex": 67,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 67,
+          "endShapeIndex": 68,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 68,
+          "endShapeIndex": 69,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 69,
+          "endShapeIndex": 70,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 70,
+          "endShapeIndex": 71,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 71,
+          "endShapeIndex": 72,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 72,
+          "endShapeIndex": 73,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 73,
+          "endShapeIndex": 74,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 74,
+          "endShapeIndex": 75,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 75,
+          "endShapeIndex": 76,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 76,
+          "endShapeIndex": 77,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 77,
+          "endShapeIndex": 78,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 78,
+          "endShapeIndex": 79,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        }
+      ]
+    },
+    "previewId": "344a3bb4-3e57-4f33-b506-fbb7f67e8688",
+    "waypoints": [
+      {
+        "coordinates": [
+          139.701,
+          35.659
+        ],
+        "name": "地点0",
+        "placeId": null
+      },
+      {
+        "coordinates": [
+          139.712,
+          35.665
+        ],
+        "name": "地点1",
+        "placeId": null
+      }
+    ],
+    "mode": "driving",
+    "expiresAt": 1789449380632,
+    "retention": "storable"
+  },
+  "saved": {
+    "segmentEvidence": {
+      "provider": "valhalla",
+      "profile": "motorcycle",
+      "geometryHash": "ca9764fb5edf7ba83abeaeca2a2375ba28704dd85442f84a0e438bc9fab95dd4",
+      "routeFetchedAt": 1789448480632,
+      "fetchedAt": 1789448481736,
+      "sourceUrl": "https://valhalla.github.io/valhalla/api/map-matching/api-reference/",
+      "osmChangeset": "1789328065",
+      "options": {
+        "excludeHighways": true,
+        "useHighways": 0,
+        "topSpeed": null,
+        "departureLocal": "2026-09-15T13:30"
+      },
+      "warnings": [
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        },
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        }
+      ],
+      "edges": [
+        {
+          "wayId": 1109680532,
+          "forward": true,
+          "beginShapeIndex": 0,
+          "endShapeIndex": 1,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375676167,
+          "forward": true,
+          "beginShapeIndex": 1,
+          "endShapeIndex": 6,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375676167,
+          "forward": true,
+          "beginShapeIndex": 6,
+          "endShapeIndex": 8,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 310155101,
+          "forward": true,
+          "beginShapeIndex": 8,
+          "endShapeIndex": 12,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 258432971,
+          "forward": true,
+          "beginShapeIndex": 12,
+          "endShapeIndex": 13,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 215955359,
+          "forward": true,
+          "beginShapeIndex": 13,
+          "endShapeIndex": 18,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1391280800,
+          "forward": true,
+          "beginShapeIndex": 18,
+          "endShapeIndex": 19,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499726,
+          "forward": true,
+          "beginShapeIndex": 19,
+          "endShapeIndex": 20,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 390536923,
+          "forward": true,
+          "beginShapeIndex": 20,
+          "endShapeIndex": 21,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499717,
+          "forward": true,
+          "beginShapeIndex": 21,
+          "endShapeIndex": 24,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499717,
+          "forward": true,
+          "beginShapeIndex": 24,
+          "endShapeIndex": 26,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 274499727,
+          "forward": true,
+          "beginShapeIndex": 26,
+          "endShapeIndex": 30,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 277209471,
+          "forward": true,
+          "beginShapeIndex": 30,
+          "endShapeIndex": 31,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 282460768,
+          "forward": true,
+          "beginShapeIndex": 31,
+          "endShapeIndex": 32,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1117318756,
+          "forward": true,
+          "beginShapeIndex": 32,
+          "endShapeIndex": 33,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 759282886,
+          "forward": true,
+          "beginShapeIndex": 33,
+          "endShapeIndex": 34,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 759282887,
+          "forward": true,
+          "beginShapeIndex": 34,
+          "endShapeIndex": 36,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978894,
+          "forward": true,
+          "beginShapeIndex": 36,
+          "endShapeIndex": 37,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 350053182,
+          "forward": true,
+          "beginShapeIndex": 37,
+          "endShapeIndex": 40,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1106270528,
+          "forward": true,
+          "beginShapeIndex": 40,
+          "endShapeIndex": 41,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1106270528,
+          "forward": true,
+          "beginShapeIndex": 41,
+          "endShapeIndex": 42,
+          "roadClass": "primary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 213526434,
+          "forward": true,
+          "beginShapeIndex": 42,
+          "endShapeIndex": 43,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 43,
+          "endShapeIndex": 44,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 44,
+          "endShapeIndex": 46,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 46,
+          "endShapeIndex": 47,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 47,
+          "endShapeIndex": 48,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 48,
+          "endShapeIndex": 49,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 49,
+          "endShapeIndex": 50,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 50,
+          "endShapeIndex": 51,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 375809353,
+          "forward": true,
+          "beginShapeIndex": 51,
+          "endShapeIndex": 52,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098574,
+          "forward": true,
+          "beginShapeIndex": 52,
+          "endShapeIndex": 53,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978901,
+          "forward": true,
+          "beginShapeIndex": 53,
+          "endShapeIndex": 54,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 852978901,
+          "forward": true,
+          "beginShapeIndex": 54,
+          "endShapeIndex": 57,
+          "roadClass": "tertiary",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098572,
+          "forward": true,
+          "beginShapeIndex": 57,
+          "endShapeIndex": 58,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1418098571,
+          "forward": true,
+          "beginShapeIndex": 58,
+          "endShapeIndex": 59,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 59,
+          "endShapeIndex": 61,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 61,
+          "endShapeIndex": 62,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 172125348,
+          "forward": true,
+          "beginShapeIndex": 62,
+          "endShapeIndex": 64,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 64,
+          "endShapeIndex": 65,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 65,
+          "endShapeIndex": 67,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 914330754,
+          "forward": true,
+          "beginShapeIndex": 67,
+          "endShapeIndex": 68,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 68,
+          "endShapeIndex": 69,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 69,
+          "endShapeIndex": 70,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 14984703,
+          "forward": true,
+          "beginShapeIndex": 70,
+          "endShapeIndex": 71,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 71,
+          "endShapeIndex": 72,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 72,
+          "endShapeIndex": 73,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 1328802676,
+          "forward": true,
+          "beginShapeIndex": 73,
+          "endShapeIndex": 74,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 74,
+          "endShapeIndex": 75,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 75,
+          "endShapeIndex": 76,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 76,
+          "endShapeIndex": 77,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 77,
+          "endShapeIndex": 78,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        },
+        {
+          "wayId": 475458685,
+          "forward": true,
+          "beginShapeIndex": 78,
+          "endShapeIndex": 79,
+          "roadClass": "trunk",
+          "use": "road",
+          "motorroad": null
+        }
+      ]
+    },
+    "timing": {
+      "departureAt": 1789446600000,
+      "arrivalAt": 1789446853149,
+      "timeZone": "Asia/Tokyo",
+      "providerTimePrecisionSec": 60,
+      "locations": [
+        {
+          "waypointIndex": 0,
+          "localDateTime": "2026-09-15T13:30",
+          "timeZone": "Asia/Tokyo",
+          "utcOffset": "+09:00"
+        },
+        {
+          "waypointIndex": 1,
+          "localDateTime": "2026-09-15T13:34",
+          "timeZone": "Asia/Tokyo",
+          "utcOffset": "+09:00"
+        }
+      ]
+    },
+    "providerEvidence": {
+      "endpoint": "http://127.0.0.1:54931/route",
+      "attribution": "© OpenStreetMap contributors (ODbL); routing by Valhalla",
+      "geometryHash": "ba0d389b217f8d192a30149708b623914966bb3433260419260d2e90a3665727",
+      "strategy": "balanced",
+      "warnings": [
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        },
+        {
+          "code": 208,
+          "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+        }
+      ]
+    },
+    "requestedConditions": {
+      "departAt": 1789446600000,
+      "timeZone": "Asia/Tokyo",
+      "avoidMotorways": true
+    },
+    "conditionEvaluations": [
+      {
+        "key": "departAt",
+        "status": "applied",
+        "reason": "同一応答の指定端点日時・時間帯を照合し、区間秒合計で出発/到着予定と期限を評価（推定値）",
+        "provider": "valhalla",
+        "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+        "fetchedAt": 1789448480632
+      },
+      {
+        "key": "avoidMotorways",
+        "status": "ignored",
+        "reason": "要求の適用状態と同一形状の道路属性評価を分離。警告なしでも高速強制除外の適用を保証しない",
+        "provider": "valhalla",
+        "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+        "fetchedAt": 1789448480632
+      }
+    ],
+    "id": "motorbike-snapshot",
+    "personId": "motorbike-owner",
+    "title": "未適合の経路snapshot",
+    "waypoints": [
+      {
+        "coordinates": [
+          139.701,
+          35.659
+        ],
+        "name": "地点0",
+        "placeId": null
+      },
+      {
+        "coordinates": [
+          139.712,
+          35.665
+        ],
+        "name": "地点1",
+        "placeId": null
+      }
+    ],
+    "mode": "driving",
+    "legs": [
+      {
+        "fromIndex": 0,
+        "toIndex": 1,
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [
+              139.700507,
+              35.659125
+            ],
+            [
+              139.700505,
+              35.659119
+            ],
+            [
+              139.700468,
+              35.659039
+            ],
+            [
+              139.700414,
+              35.658939
+            ],
+            [
+              139.700402,
+              35.658903
+            ],
+            [
+              139.700398,
+              35.658863
+            ],
+            [
+              139.700409,
+              35.658761
+            ],
+            [
+              139.70042,
+              35.658685
+            ],
+            [
+              139.700435,
+              35.658627
+            ],
+            [
+              139.700465,
+              35.658554
+            ],
+            [
+              139.700495,
+              35.658498
+            ],
+            [
+              139.700509,
+              35.658475
+            ],
+            [
+              139.700536,
+              35.65844
+            ],
+            [
+              139.700626,
+              35.658317
+            ],
+            [
+              139.700637,
+              35.658291
+            ],
+            [
+              139.700642,
+              35.658271
+            ],
+            [
+              139.700643,
+              35.65825
+            ],
+            [
+              139.700642,
+              35.65823
+            ],
+            [
+              139.70064,
+              35.658208
+            ],
+            [
+              139.700632,
+              35.658177
+            ],
+            [
+              139.700615,
+              35.658127
+            ],
+            [
+              139.700608,
+              35.658104
+            ],
+            [
+              139.700592,
+              35.658056
+            ],
+            [
+              139.700588,
+              35.658038
+            ],
+            [
+              139.700582,
+              35.658007
+            ],
+            [
+              139.700584,
+              35.657981
+            ],
+            [
+              139.700588,
+              35.657957
+            ],
+            [
+              139.700604,
+              35.657908
+            ],
+            [
+              139.700653,
+              35.657799
+            ],
+            [
+              139.700675,
+              35.657744
+            ],
+            [
+              139.700762,
+              35.657587
+            ],
+            [
+              139.70081,
+              35.657503
+            ],
+            [
+              139.700846,
+              35.657435
+            ],
+            [
+              139.701651,
+              35.657703
+            ],
+            [
+              139.702117,
+              35.657852
+            ],
+            [
+              139.702842,
+              35.658088
+            ],
+            [
+              139.703034,
+              35.658119
+            ],
+            [
+              139.702922,
+              35.658335
+            ],
+            [
+              139.70267,
+              35.658855
+            ],
+            [
+              139.702449,
+              35.659337
+            ],
+            [
+              139.702425,
+              35.659388
+            ],
+            [
+              139.702409,
+              35.659432
+            ],
+            [
+              139.702368,
+              35.65954
+            ],
+            [
+              139.702472,
+              35.659558
+            ],
+            [
+              139.702634,
+              35.659583
+            ],
+            [
+              139.702705,
+              35.659594
+            ],
+            [
+              139.703078,
+              35.659655
+            ],
+            [
+              139.703187,
+              35.659672
+            ],
+            [
+              139.703889,
+              35.659788
+            ],
+            [
+              139.704254,
+              35.65985
+            ],
+            [
+              139.704523,
+              35.659899
+            ],
+            [
+              139.704877,
+              35.659964
+            ],
+            [
+              139.705373,
+              35.660074
+            ],
+            [
+              139.705591,
+              35.660122
+            ],
+            [
+              139.705685,
+              35.660143
+            ],
+            [
+              139.705781,
+              35.660162
+            ],
+            [
+              139.705859,
+              35.660165
+            ],
+            [
+              139.705916,
+              35.660158
+            ],
+            [
+              139.705948,
+              35.66019
+            ],
+            [
+              139.705981,
+              35.660221
+            ],
+            [
+              139.706072,
+              35.66029
+            ],
+            [
+              139.706703,
+              35.660709
+            ],
+            [
+              139.706829,
+              35.660791
+            ],
+            [
+              139.707426,
+              35.661182
+            ],
+            [
+              139.707683,
+              35.661327
+            ],
+            [
+              139.707712,
+              35.661346
+            ],
+            [
+              139.707947,
+              35.661496
+            ],
+            [
+              139.707982,
+              35.661518
+            ],
+            [
+              139.708134,
+              35.661616
+            ],
+            [
+              139.709011,
+              35.662185
+            ],
+            [
+              139.710012,
+              35.662799
+            ],
+            [
+              139.710323,
+              35.66299
+            ],
+            [
+              139.710387,
+              35.663029
+            ],
+            [
+              139.710446,
+              35.66308
+            ],
+            [
+              139.710608,
+              35.663222
+            ],
+            [
+              139.710822,
+              35.663443
+            ],
+            [
+              139.711248,
+              35.663885
+            ],
+            [
+              139.711458,
+              35.664108
+            ],
+            [
+              139.71173,
+              35.664405
+            ],
+            [
+              139.712178,
+              35.664892
+            ]
+          ]
+        },
+        "distanceM": 1693,
+        "durationSec": 253,
+        "steps": [
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.700507,
+                  35.659125
+                ],
+                [
+                  139.700505,
+                  35.659119
+                ],
+                [
+                  139.700468,
+                  35.659039
+                ],
+                [
+                  139.700414,
+                  35.658939
+                ],
+                [
+                  139.700402,
+                  35.658903
+                ],
+                [
+                  139.700398,
+                  35.658863
+                ],
+                [
+                  139.700409,
+                  35.658761
+                ],
+                [
+                  139.70042,
+                  35.658685
+                ],
+                [
+                  139.700435,
+                  35.658627
+                ],
+                [
+                  139.700465,
+                  35.658554
+                ],
+                [
+                  139.700495,
+                  35.658498
+                ],
+                [
+                  139.700509,
+                  35.658475
+                ],
+                [
+                  139.700536,
+                  35.65844
+                ],
+                [
+                  139.700626,
+                  35.658317
+                ],
+                [
+                  139.700637,
+                  35.658291
+                ],
+                [
+                  139.700642,
+                  35.658271
+                ],
+                [
+                  139.700643,
+                  35.65825
+                ],
+                [
+                  139.700642,
+                  35.65823
+                ],
+                [
+                  139.70064,
+                  35.658208
+                ],
+                [
+                  139.700632,
+                  35.658177
+                ],
+                [
+                  139.700615,
+                  35.658127
+                ],
+                [
+                  139.700608,
+                  35.658104
+                ],
+                [
+                  139.700592,
+                  35.658056
+                ],
+                [
+                  139.700588,
+                  35.658038
+                ],
+                [
+                  139.700582,
+                  35.658007
+                ],
+                [
+                  139.700584,
+                  35.657981
+                ],
+                [
+                  139.700588,
+                  35.657957
+                ],
+                [
+                  139.700604,
+                  35.657908
+                ],
+                [
+                  139.700653,
+                  35.657799
+                ],
+                [
+                  139.700675,
+                  35.657744
+                ],
+                [
+                  139.700762,
+                  35.657587
+                ],
+                [
+                  139.70081,
+                  35.657503
+                ],
+                [
+                  139.700846,
+                  35.657435
+                ]
+              ]
+            },
+            "location": [
+              139.700507,
+              35.659125
+            ],
+            "distanceM": 201,
+            "durationSec": 40,
+            "type": "depart",
+            "modifier": null,
+            "instruction": "神宮通り/Jingu-dori Streetを南方向です。",
+            "name": "神宮通り / Jingu-dori Street"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.700846,
+                  35.657435
+                ],
+                [
+                  139.701651,
+                  35.657703
+                ],
+                [
+                  139.702117,
+                  35.657852
+                ],
+                [
+                  139.702842,
+                  35.658088
+                ],
+                [
+                  139.703034,
+                  35.658119
+                ]
+              ]
+            },
+            "location": [
+              139.700846,
+              35.657435
+            ],
+            "distanceM": 212,
+            "durationSec": 25,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "左方向です。その先246/玉川通り/Tamagawa Street/一般国道246号/National Highway Route 246です。",
+            "name": "246 / 玉川通り / Tamagawa Street / 一般国道246号 / National Highway Route 246"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.703034,
+                  35.658119
+                ],
+                [
+                  139.702922,
+                  35.658335
+                ],
+                [
+                  139.70267,
+                  35.658855
+                ],
+                [
+                  139.702449,
+                  35.659337
+                ],
+                [
+                  139.702425,
+                  35.659388
+                ],
+                [
+                  139.702409,
+                  35.659432
+                ],
+                [
+                  139.702368,
+                  35.65954
+                ]
+              ]
+            },
+            "location": [
+              139.703034,
+              35.658119
+            ],
+            "distanceM": 170,
+            "durationSec": 29,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "左方向、明治通り/Meiji Avenue/305です。その先、明治通り/305です。",
+            "name": "明治通り / 305"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.702368,
+                  35.65954
+                ],
+                [
+                  139.702472,
+                  35.659558
+                ],
+                [
+                  139.702634,
+                  35.659583
+                ],
+                [
+                  139.702705,
+                  35.659594
+                ],
+                [
+                  139.703078,
+                  35.659655
+                ],
+                [
+                  139.703187,
+                  35.659672
+                ],
+                [
+                  139.703889,
+                  35.659788
+                ],
+                [
+                  139.704254,
+                  35.65985
+                ],
+                [
+                  139.704523,
+                  35.659899
+                ],
+                [
+                  139.704877,
+                  35.659964
+                ],
+                [
+                  139.705373,
+                  35.660074
+                ],
+                [
+                  139.705591,
+                  35.660122
+                ],
+                [
+                  139.705685,
+                  35.660143
+                ],
+                [
+                  139.705781,
+                  35.660162
+                ],
+                [
+                  139.705859,
+                  35.660165
+                ],
+                [
+                  139.705916,
+                  35.660158
+                ]
+              ]
+            },
+            "location": [
+              139.702368,
+              35.65954
+            ],
+            "distanceM": 329,
+            "durationSec": 69,
+            "type": "valhalla:10",
+            "modifier": "right",
+            "instruction": "宮益坂下/Miyamasu-zaka Hill-L.を右方向です。",
+            "name": "宮益坂 / Miyamasu-zaka Street"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.705916,
+                  35.660158
+                ],
+                [
+                  139.705948,
+                  35.66019
+                ],
+                [
+                  139.705981,
+                  35.660221
+                ],
+                [
+                  139.706072,
+                  35.66029
+                ],
+                [
+                  139.706703,
+                  35.660709
+                ],
+                [
+                  139.706829,
+                  35.660791
+                ],
+                [
+                  139.707426,
+                  35.661182
+                ],
+                [
+                  139.707683,
+                  35.661327
+                ],
+                [
+                  139.707712,
+                  35.661346
+                ],
+                [
+                  139.707947,
+                  35.661496
+                ],
+                [
+                  139.707982,
+                  35.661518
+                ],
+                [
+                  139.708134,
+                  35.661616
+                ],
+                [
+                  139.709011,
+                  35.662185
+                ],
+                [
+                  139.710012,
+                  35.662799
+                ],
+                [
+                  139.710323,
+                  35.66299
+                ],
+                [
+                  139.710387,
+                  35.663029
+                ],
+                [
+                  139.710446,
+                  35.66308
+                ],
+                [
+                  139.710608,
+                  35.663222
+                ],
+                [
+                  139.710822,
+                  35.663443
+                ],
+                [
+                  139.711248,
+                  35.663885
+                ],
+                [
+                  139.711458,
+                  35.664108
+                ],
+                [
+                  139.71173,
+                  35.664405
+                ],
+                [
+                  139.712178,
+                  35.664892
+                ]
+              ]
+            },
+            "location": [
+              139.705916,
+              35.660158
+            ],
+            "distanceM": 780,
+            "durationSec": 90,
+            "type": "valhalla:15",
+            "modifier": "left",
+            "instruction": "宮益坂上を左方向です。",
+            "name": "246 / 一般国道246号 / National Highway Route 246"
+          },
+          {
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.712178,
+                  35.664892
+                ],
+                [
+                  139.712178,
+                  35.664892
+                ]
+              ]
+            },
+            "location": [
+              139.712178,
+              35.664892
+            ],
+            "distanceM": 0,
+            "durationSec": 0,
+            "type": "arrive",
+            "modifier": null,
+            "instruction": "目的地は左側です。",
+            "name": ""
+          }
+        ]
+      }
+    ],
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          139.700507,
+          35.659125
+        ],
+        [
+          139.700505,
+          35.659119
+        ],
+        [
+          139.700468,
+          35.659039
+        ],
+        [
+          139.700414,
+          35.658939
+        ],
+        [
+          139.700402,
+          35.658903
+        ],
+        [
+          139.700398,
+          35.658863
+        ],
+        [
+          139.700409,
+          35.658761
+        ],
+        [
+          139.70042,
+          35.658685
+        ],
+        [
+          139.700435,
+          35.658627
+        ],
+        [
+          139.700465,
+          35.658554
+        ],
+        [
+          139.700495,
+          35.658498
+        ],
+        [
+          139.700509,
+          35.658475
+        ],
+        [
+          139.700536,
+          35.65844
+        ],
+        [
+          139.700626,
+          35.658317
+        ],
+        [
+          139.700637,
+          35.658291
+        ],
+        [
+          139.700642,
+          35.658271
+        ],
+        [
+          139.700643,
+          35.65825
+        ],
+        [
+          139.700642,
+          35.65823
+        ],
+        [
+          139.70064,
+          35.658208
+        ],
+        [
+          139.700632,
+          35.658177
+        ],
+        [
+          139.700615,
+          35.658127
+        ],
+        [
+          139.700608,
+          35.658104
+        ],
+        [
+          139.700592,
+          35.658056
+        ],
+        [
+          139.700588,
+          35.658038
+        ],
+        [
+          139.700582,
+          35.658007
+        ],
+        [
+          139.700584,
+          35.657981
+        ],
+        [
+          139.700588,
+          35.657957
+        ],
+        [
+          139.700604,
+          35.657908
+        ],
+        [
+          139.700653,
+          35.657799
+        ],
+        [
+          139.700675,
+          35.657744
+        ],
+        [
+          139.700762,
+          35.657587
+        ],
+        [
+          139.70081,
+          35.657503
+        ],
+        [
+          139.700846,
+          35.657435
+        ],
+        [
+          139.701651,
+          35.657703
+        ],
+        [
+          139.702117,
+          35.657852
+        ],
+        [
+          139.702842,
+          35.658088
+        ],
+        [
+          139.703034,
+          35.658119
+        ],
+        [
+          139.702922,
+          35.658335
+        ],
+        [
+          139.70267,
+          35.658855
+        ],
+        [
+          139.702449,
+          35.659337
+        ],
+        [
+          139.702425,
+          35.659388
+        ],
+        [
+          139.702409,
+          35.659432
+        ],
+        [
+          139.702368,
+          35.65954
+        ],
+        [
+          139.702472,
+          35.659558
+        ],
+        [
+          139.702634,
+          35.659583
+        ],
+        [
+          139.702705,
+          35.659594
+        ],
+        [
+          139.703078,
+          35.659655
+        ],
+        [
+          139.703187,
+          35.659672
+        ],
+        [
+          139.703889,
+          35.659788
+        ],
+        [
+          139.704254,
+          35.65985
+        ],
+        [
+          139.704523,
+          35.659899
+        ],
+        [
+          139.704877,
+          35.659964
+        ],
+        [
+          139.705373,
+          35.660074
+        ],
+        [
+          139.705591,
+          35.660122
+        ],
+        [
+          139.705685,
+          35.660143
+        ],
+        [
+          139.705781,
+          35.660162
+        ],
+        [
+          139.705859,
+          35.660165
+        ],
+        [
+          139.705916,
+          35.660158
+        ],
+        [
+          139.705948,
+          35.66019
+        ],
+        [
+          139.705981,
+          35.660221
+        ],
+        [
+          139.706072,
+          35.66029
+        ],
+        [
+          139.706703,
+          35.660709
+        ],
+        [
+          139.706829,
+          35.660791
+        ],
+        [
+          139.707426,
+          35.661182
+        ],
+        [
+          139.707683,
+          35.661327
+        ],
+        [
+          139.707712,
+          35.661346
+        ],
+        [
+          139.707947,
+          35.661496
+        ],
+        [
+          139.707982,
+          35.661518
+        ],
+        [
+          139.708134,
+          35.661616
+        ],
+        [
+          139.709011,
+          35.662185
+        ],
+        [
+          139.710012,
+          35.662799
+        ],
+        [
+          139.710323,
+          35.66299
+        ],
+        [
+          139.710387,
+          35.663029
+        ],
+        [
+          139.710446,
+          35.66308
+        ],
+        [
+          139.710608,
+          35.663222
+        ],
+        [
+          139.710822,
+          35.663443
+        ],
+        [
+          139.711248,
+          35.663885
+        ],
+        [
+          139.711458,
+          35.664108
+        ],
+        [
+          139.71173,
+          35.664405
+        ],
+        [
+          139.712178,
+          35.664892
+        ]
+      ]
+    },
+    "distanceM": 1693,
+    "durationSec": 253,
+    "provider": "valhalla",
+    "sourceUrl": "https://valhalla.github.io/valhalla/api/route/api-reference/",
+    "fetchedAt": 1789448480632,
+    "status": "saved",
+    "currentLeg": 0,
+    "visibility": "private",
+    "sharedWith": [],
+    "version": 1,
+    "createdAt": 1789448481740,
+    "updatedAt": 1789448481740
+  },
+  "assessment": {
+    "installId": "replay-installation",
+    "settingsVersion": 1,
+    "settingsHash": "7ec274d2bae369528ab54251cd9e6ad024607421a3f80193e130cc2d0feff5a3",
+    "settings": {
+      "region": {
+        "id": "JP-13-shibuya",
+        "bounds": [
+          139.69,
+          35.65,
+          139.73,
+          35.69
+        ]
+      },
+      "vehicle": {
+        "class": "motorcycle",
+        "displacementCc": 250
+      },
+      "highwayPolicy": "avoid"
+    },
+    "id": "d07aaecd-9312-434e-bd5e-0aad0a11ef46",
+    "kind": "assessment",
+    "dataKind": "real",
+    "previewId": "344a3bb4-3e57-4f33-b506-fbb7f67e8688",
+    "searchId": "d16b0aee-8cbf-420a-a332-8278b5961f63",
+    "geometryHash": "ca9764fb5edf7ba83abeaeca2a2375ba28704dd85442f84a0e438bc9fab95dd4",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [
+          139.700507,
+          35.659125
+        ],
+        [
+          139.700505,
+          35.659119
+        ],
+        [
+          139.700468,
+          35.659039
+        ],
+        [
+          139.700414,
+          35.658939
+        ],
+        [
+          139.700402,
+          35.658903
+        ],
+        [
+          139.700398,
+          35.658863
+        ],
+        [
+          139.700409,
+          35.658761
+        ],
+        [
+          139.70042,
+          35.658685
+        ],
+        [
+          139.700435,
+          35.658627
+        ],
+        [
+          139.700465,
+          35.658554
+        ],
+        [
+          139.700495,
+          35.658498
+        ],
+        [
+          139.700509,
+          35.658475
+        ],
+        [
+          139.700536,
+          35.65844
+        ],
+        [
+          139.700626,
+          35.658317
+        ],
+        [
+          139.700637,
+          35.658291
+        ],
+        [
+          139.700642,
+          35.658271
+        ],
+        [
+          139.700643,
+          35.65825
+        ],
+        [
+          139.700642,
+          35.65823
+        ],
+        [
+          139.70064,
+          35.658208
+        ],
+        [
+          139.700632,
+          35.658177
+        ],
+        [
+          139.700615,
+          35.658127
+        ],
+        [
+          139.700608,
+          35.658104
+        ],
+        [
+          139.700592,
+          35.658056
+        ],
+        [
+          139.700588,
+          35.658038
+        ],
+        [
+          139.700582,
+          35.658007
+        ],
+        [
+          139.700584,
+          35.657981
+        ],
+        [
+          139.700588,
+          35.657957
+        ],
+        [
+          139.700604,
+          35.657908
+        ],
+        [
+          139.700653,
+          35.657799
+        ],
+        [
+          139.700675,
+          35.657744
+        ],
+        [
+          139.700762,
+          35.657587
+        ],
+        [
+          139.70081,
+          35.657503
+        ],
+        [
+          139.700846,
+          35.657435
+        ],
+        [
+          139.701651,
+          35.657703
+        ],
+        [
+          139.702117,
+          35.657852
+        ],
+        [
+          139.702842,
+          35.658088
+        ],
+        [
+          139.703034,
+          35.658119
+        ],
+        [
+          139.702922,
+          35.658335
+        ],
+        [
+          139.70267,
+          35.658855
+        ],
+        [
+          139.702449,
+          35.659337
+        ],
+        [
+          139.702425,
+          35.659388
+        ],
+        [
+          139.702409,
+          35.659432
+        ],
+        [
+          139.702368,
+          35.65954
+        ],
+        [
+          139.702472,
+          35.659558
+        ],
+        [
+          139.702634,
+          35.659583
+        ],
+        [
+          139.702705,
+          35.659594
+        ],
+        [
+          139.703078,
+          35.659655
+        ],
+        [
+          139.703187,
+          35.659672
+        ],
+        [
+          139.703889,
+          35.659788
+        ],
+        [
+          139.704254,
+          35.65985
+        ],
+        [
+          139.704523,
+          35.659899
+        ],
+        [
+          139.704877,
+          35.659964
+        ],
+        [
+          139.705373,
+          35.660074
+        ],
+        [
+          139.705591,
+          35.660122
+        ],
+        [
+          139.705685,
+          35.660143
+        ],
+        [
+          139.705781,
+          35.660162
+        ],
+        [
+          139.705859,
+          35.660165
+        ],
+        [
+          139.705916,
+          35.660158
+        ],
+        [
+          139.705948,
+          35.66019
+        ],
+        [
+          139.705981,
+          35.660221
+        ],
+        [
+          139.706072,
+          35.66029
+        ],
+        [
+          139.706703,
+          35.660709
+        ],
+        [
+          139.706829,
+          35.660791
+        ],
+        [
+          139.707426,
+          35.661182
+        ],
+        [
+          139.707683,
+          35.661327
+        ],
+        [
+          139.707712,
+          35.661346
+        ],
+        [
+          139.707947,
+          35.661496
+        ],
+        [
+          139.707982,
+          35.661518
+        ],
+        [
+          139.708134,
+          35.661616
+        ],
+        [
+          139.709011,
+          35.662185
+        ],
+        [
+          139.710012,
+          35.662799
+        ],
+        [
+          139.710323,
+          35.66299
+        ],
+        [
+          139.710387,
+          35.663029
+        ],
+        [
+          139.710446,
+          35.66308
+        ],
+        [
+          139.710608,
+          35.663222
+        ],
+        [
+          139.710822,
+          35.663443
+        ],
+        [
+          139.711248,
+          35.663885
+        ],
+        [
+          139.711458,
+          35.664108
+        ],
+        [
+          139.71173,
+          35.664405
+        ],
+        [
+          139.712178,
+          35.664892
+        ]
+      ]
+    },
+    "routeFetchedAt": 1789448480632,
+    "vehicleAssessment": {
+      "status": "unknown",
+      "reason": "二輪profile名と方向付きway IDだけでは、日本の排気量・出力・時刻別の全区間通行規制を確認できません。",
+      "sourceRefs": [
+        "https://valhalla.github.io/valhalla/api/map-matching/api-reference/"
+      ],
+      "checkedAt": 1789448481736
+    },
+    "highwayAssessment": {
+      "status": "unknown",
+      "reason": "motorwayクラスの検査結果は保存しましたが、日本の自動車専用道路区分を含む全区間の高速条件根拠が不足しています。",
+      "sourceRefs": [
+        "https://valhalla.github.io/valhalla/api/map-matching/api-reference/"
+      ],
+      "checkedAt": 1789448481736
+    },
+    "adoptable": false,
+    "checkedAt": 1789448481739,
+    "expiresAt": 1789449380632,
+    "resultEvaluation": {
+      "evidence": {
+        "provider": "valhalla",
+        "profile": "motorcycle",
+        "geometryHash": "ca9764fb5edf7ba83abeaeca2a2375ba28704dd85442f84a0e438bc9fab95dd4",
+        "routeFetchedAt": 1789448480632,
+        "fetchedAt": 1789448481736,
+        "sourceUrl": "https://valhalla.github.io/valhalla/api/map-matching/api-reference/",
+        "osmChangeset": "1789328065",
+        "options": {
+          "excludeHighways": true,
+          "useHighways": 0,
+          "topSpeed": null,
+          "departureLocal": "2026-09-15T13:30"
+        },
+        "warnings": [
+          {
+            "code": 208,
+            "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+          },
+          {
+            "code": 208,
+            "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+          }
+        ],
+        "edges": [
+          {
+            "wayId": 1109680532,
+            "forward": true,
+            "beginShapeIndex": 0,
+            "endShapeIndex": 1,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375676167,
+            "forward": true,
+            "beginShapeIndex": 1,
+            "endShapeIndex": 6,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375676167,
+            "forward": true,
+            "beginShapeIndex": 6,
+            "endShapeIndex": 8,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 310155101,
+            "forward": true,
+            "beginShapeIndex": 8,
+            "endShapeIndex": 12,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 258432971,
+            "forward": true,
+            "beginShapeIndex": 12,
+            "endShapeIndex": 13,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 215955359,
+            "forward": true,
+            "beginShapeIndex": 13,
+            "endShapeIndex": 18,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1391280800,
+            "forward": true,
+            "beginShapeIndex": 18,
+            "endShapeIndex": 19,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 274499726,
+            "forward": true,
+            "beginShapeIndex": 19,
+            "endShapeIndex": 20,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 390536923,
+            "forward": true,
+            "beginShapeIndex": 20,
+            "endShapeIndex": 21,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 274499717,
+            "forward": true,
+            "beginShapeIndex": 21,
+            "endShapeIndex": 24,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 274499717,
+            "forward": true,
+            "beginShapeIndex": 24,
+            "endShapeIndex": 26,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 274499727,
+            "forward": true,
+            "beginShapeIndex": 26,
+            "endShapeIndex": 30,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 277209471,
+            "forward": true,
+            "beginShapeIndex": 30,
+            "endShapeIndex": 31,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 282460768,
+            "forward": true,
+            "beginShapeIndex": 31,
+            "endShapeIndex": 32,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1117318756,
+            "forward": true,
+            "beginShapeIndex": 32,
+            "endShapeIndex": 33,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 759282886,
+            "forward": true,
+            "beginShapeIndex": 33,
+            "endShapeIndex": 34,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 759282887,
+            "forward": true,
+            "beginShapeIndex": 34,
+            "endShapeIndex": 36,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 852978894,
+            "forward": true,
+            "beginShapeIndex": 36,
+            "endShapeIndex": 37,
+            "roadClass": "primary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 350053182,
+            "forward": true,
+            "beginShapeIndex": 37,
+            "endShapeIndex": 40,
+            "roadClass": "primary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1106270528,
+            "forward": true,
+            "beginShapeIndex": 40,
+            "endShapeIndex": 41,
+            "roadClass": "primary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1106270528,
+            "forward": true,
+            "beginShapeIndex": 41,
+            "endShapeIndex": 42,
+            "roadClass": "primary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 213526434,
+            "forward": true,
+            "beginShapeIndex": 42,
+            "endShapeIndex": 43,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 43,
+            "endShapeIndex": 44,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 44,
+            "endShapeIndex": 46,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 46,
+            "endShapeIndex": 47,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 47,
+            "endShapeIndex": 48,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 48,
+            "endShapeIndex": 49,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 49,
+            "endShapeIndex": 50,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 50,
+            "endShapeIndex": 51,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 375809353,
+            "forward": true,
+            "beginShapeIndex": 51,
+            "endShapeIndex": 52,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1418098574,
+            "forward": true,
+            "beginShapeIndex": 52,
+            "endShapeIndex": 53,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 852978901,
+            "forward": true,
+            "beginShapeIndex": 53,
+            "endShapeIndex": 54,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 852978901,
+            "forward": true,
+            "beginShapeIndex": 54,
+            "endShapeIndex": 57,
+            "roadClass": "tertiary",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1418098572,
+            "forward": true,
+            "beginShapeIndex": 57,
+            "endShapeIndex": 58,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1418098571,
+            "forward": true,
+            "beginShapeIndex": 58,
+            "endShapeIndex": 59,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 172125348,
+            "forward": true,
+            "beginShapeIndex": 59,
+            "endShapeIndex": 61,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 172125348,
+            "forward": true,
+            "beginShapeIndex": 61,
+            "endShapeIndex": 62,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 172125348,
+            "forward": true,
+            "beginShapeIndex": 62,
+            "endShapeIndex": 64,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 914330754,
+            "forward": true,
+            "beginShapeIndex": 64,
+            "endShapeIndex": 65,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 914330754,
+            "forward": true,
+            "beginShapeIndex": 65,
+            "endShapeIndex": 67,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 914330754,
+            "forward": true,
+            "beginShapeIndex": 67,
+            "endShapeIndex": 68,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 14984703,
+            "forward": true,
+            "beginShapeIndex": 68,
+            "endShapeIndex": 69,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 14984703,
+            "forward": true,
+            "beginShapeIndex": 69,
+            "endShapeIndex": 70,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 14984703,
+            "forward": true,
+            "beginShapeIndex": 70,
+            "endShapeIndex": 71,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1328802676,
+            "forward": true,
+            "beginShapeIndex": 71,
+            "endShapeIndex": 72,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1328802676,
+            "forward": true,
+            "beginShapeIndex": 72,
+            "endShapeIndex": 73,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 1328802676,
+            "forward": true,
+            "beginShapeIndex": 73,
+            "endShapeIndex": 74,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 475458685,
+            "forward": true,
+            "beginShapeIndex": 74,
+            "endShapeIndex": 75,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 475458685,
+            "forward": true,
+            "beginShapeIndex": 75,
+            "endShapeIndex": 76,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 475458685,
+            "forward": true,
+            "beginShapeIndex": 76,
+            "endShapeIndex": 77,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 475458685,
+            "forward": true,
+            "beginShapeIndex": 77,
+            "endShapeIndex": 78,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          },
+          {
+            "wayId": 475458685,
+            "forward": true,
+            "beginShapeIndex": 78,
+            "endShapeIndex": 79,
+            "roadClass": "trunk",
+            "use": "road",
+            "motorroad": null
+          }
+        ]
+      },
+      "requestedExclusion": {
+        "status": "ignored",
+        "reason": "providerがwarning 208で強制除外を無視しました。経路結果の区間検査とは別の状態です。"
+      },
+      "coverage": {
+        "complete": true,
+        "segmentCount": 79,
+        "coveredSegmentCount": 79,
+        "edgeCount": 52
+      },
+      "motorwayAssessment": {
+        "status": "verified",
+        "reason": "同一形状の全区間を検査し、Valhallaのmotorwayクラスを含まないことを確認しました。日本の自動車専用道路全般や車種適合の証明ではありません。",
+        "sourceRefs": [
+          "https://valhalla.github.io/valhalla/api/map-matching/api-reference/"
+        ],
+        "checkedAt": 1789448481736
+      }
+    }
+  }
+}
