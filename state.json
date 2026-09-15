@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 208,
+  "revision": 209,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33935,19 +33935,13 @@
       "base_commit": "977d5bf881f964d875da1b9623bcda03944654b9",
       "generation": 1,
       "issue_number": 111,
-      "landed_main": null,
+      "landed_main": "9d3455661b31ae4f0c61c7a2c12ecc8f89f283b3",
       "note": "docs/evidence/REFLECTION/live-integration.md",
       "owner": "mattsun",
-      "paths": [
-        "server/features/reflection/",
-        "server/db/migrations/reflection/",
-        "docs/01_requirements/04_api/fragments/REFLECTION.json",
-        "docs/evidence/REFLECTION/",
-        "server/core/validation.ts"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "bb9fb87a4909da4933cb4d1649fff37caa54d94b",
-      "token": "b2fcf63666454646802c8ff918f4aa0a"
+      "token": null
     },
     "ROUTES": {
       "actor": "kaiya",
