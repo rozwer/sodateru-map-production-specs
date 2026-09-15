@@ -877,3 +877,46 @@
 .fr-theme-purple {
   background: #ede4f4;
 }
+
+/* The two standalone map references use one continuous page, not a narrow
+   panel over a second map. Keep record lists natural-height in empty states. */
+.fr-home,
+.fr-friends-map {
+  align-content: start;
+}
+.fr-friends-map > .fr-map {
+  height: clamp(285px, 75vw, 640px);
+}
+.fr-home > .fr-map {
+  height: clamp(330px, 91vw, 776px);
+}
+.fr-home > .fr-home-card {
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .fr-home, .fr-friends-map { padding: 32px 40px; }
+  .fr-friends-map > .fr-map {
+    margin-left: -40px;
+    margin-right: -40px;
+    width: calc(100% + 80px);
+  }
+  .fr-home > .fr-map {
+    margin-left: -40px;
+    margin-right: -40px;
+    width: calc(100% + 80px);
+  }
+  .fr-friends-map > .fr-people-strip { gap: 36px; }
+  .fr-friends-map > .fr-people-strip .fr-avatar { width: 96px; height: 96px; }
+  .fr-friends-map > .fr-people-strip button { font-size: 24px; }
+  .fr-friends-map h1 { font-size: 40px; }
+  .fr-friends-map > .fr-search input { min-height: 68px; font-size: 24px; }
+  .fr-friend-sheet { gap: 16px; padding: 16px 24px 24px; border-radius: 36px; }
+  .fr-friend-sheet .fr-profile .fr-avatar { width: 96px; height: 96px; }
+  .fr-friend-sheet h2 { font-size: 36px; }
+  .fr-friend-sheet .fr-record { gap: 24px; padding: 16px; }
+  .fr-friend-sheet .fr-record > .fr-media { max-height: 230px; min-height: 180px; }
+  .fr-friend-sheet .fr-record h3 { font-size: 26px; }
+  .fr-friend-sheet .fr-record-copy p { font-size: 22px; }
+  .fr-friend-sheet small { font-size: 19px; }
+  .fr-friend-sheet > .fr-actions .fr-action { font-size: 24px; }
+}

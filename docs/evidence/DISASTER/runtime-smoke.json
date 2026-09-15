@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "verifiedAt": "2026-09-15T03:42:22.080Z",
+  "checks": [
+    "official main.ts automatic feature registration and generated contract: PLACES selection -> PLUGINS install -> real disaster refresh",
+    "first OS process exits; second OS process reopens SQLite and returns identical images, source/analysis times, region and settings",
+    "completed POST receipt replays after OS process restart without replacing snapshot",
+    "official runtime disable clears only plugin owner and retains cached result"
+  ],
+  "firstPid": 32670,
+  "secondPid": 32698,
+  "resultId": "fc0ab64b-b334-41c4-a11e-42dc31573cfb",
+  "settings": {
+    "region": {
+      "id": "選択地点周辺: 江戸川区役所",
+      "bounds": [
+        139.8484393,
+        35.6868463,
+        139.88843930000002,
+        35.726846300000005
+      ]
+    },
+    "layerIds": [
+      "flood-hazard",
+      "terrain",
+      "rainfall"
+    ]
+  },
+  "sources": [
+    {
+      "layerId": "flood-hazard",
+      "sourceUrl": "https://disaportal.gsi.go.jp/hazardmapportal/hazardmap/copyright/opendata.html",
+      "fetchedAt": 1789443740213,
+      "sourceUpdatedAt": 1789036653000,
+      "validAt": null,
+      "sha256": [
+        "0c95770e04e2d8a705dc2354ad7736aee29b33e8ae82632bc1e3a169181bb1fe"
+      ]
+    },
+    {
+      "layerId": "terrain",
+      "sourceUrl": "https://maps.gsi.go.jp/development/ichiran.html#hillshademap",
+      "fetchedAt": 1789443740357,
+      "sourceUpdatedAt": 1740902708000,
+      "validAt": null,
+      "sha256": [
+        "fa93d93b28b83e573e00b315aa7cad0df6ee9fa034674e68fd0273f5f7c82780"
+      ]
+    },
+    {
+      "layerId": "rainfall",
+      "sourceUrl": "https://www.jma.go.jp/bosai/nowc/",
+      "fetchedAt": 1789443741039,
+      "sourceUpdatedAt": 1789443622000,
+      "validAt": 1789443600000,
+      "sha256": [
+        "4b0340e0908f21f48e493845089234e33d1a460d317d68176d9bf680e9b65e50"
+      ]
+    }
+  ],
+  "notes": [
+    "Unmodified official server/app/main.ts and generated OpenAPI used.",
+    "Actual Mapbox drawing is separately accepted by A #18/#8."
+  ]
+}

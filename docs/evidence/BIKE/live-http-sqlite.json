@@ -1,0 +1,90 @@
+{
+  "contractMode": "temporary composition of current owned fragments; production generation pending",
+  "checkedAt": 1789443707257,
+  "dataMode": "live",
+  "dataKind": "real",
+  "settings": {
+    "region": {
+      "id": "JP-13-shibuya",
+      "bounds": [
+        139.698,
+        35.655,
+        139.718,
+        35.673
+      ]
+    },
+    "vehicle": {
+      "class": "motorcycle",
+      "displacementCc": 250
+    },
+    "highwayPolicy": "avoid"
+  },
+  "searchId": "efa40a8f-aabe-43f4-a291-8ae1ca86f19a",
+  "assessmentId": "e9770e99-2dd1-44ca-9440-82bc11967a73",
+  "source": {
+    "id": "osm-overpass",
+    "name": "OpenStreetMap / Overpass",
+    "url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "fetchedAt": 1789443705195,
+    "updatedAt": 1789443597000
+  },
+  "placeAdoption": {
+    "placeId": "018d6b97-e400-4abd-92d3-717afabec05a",
+    "candidateId": "osm:node:885679761",
+    "provider": "nominatim",
+    "externalId": "N885679761",
+    "sourceUrl": "https://www.openstreetmap.org/node/885679761",
+    "fetchedAt": 1789443705195,
+    "settingsVersion": 1,
+    "settingsHash": "5513babbbf630cd250afa128e4b011817e92e122e93e0b48e9c79920f4fd1cb0"
+  },
+  "counts": {
+    "places": 10,
+    "roads": 51
+  },
+  "route": {
+    "resultId": "71fded87-8b77-429f-9ba0-4633b50ca489",
+    "provider": "mapbox-directions",
+    "fetchedAt": 1789443705838,
+    "geometryHash": "6e8b1e58b293a793c9accf94a28543a7d7334ba918f96d438c9801333a3878f4"
+  },
+  "vehicleAssessment": {
+    "status": "unknown",
+    "reason": "Mapbox drivingは二輪車の車種・排気量別通行規制を確認していません。",
+    "sourceRefs": [
+      "https://docs.mapbox.com/api/navigation/directions/"
+    ],
+    "checkedAt": 1789443705844
+  },
+  "highwayAssessment": {
+    "status": "verified",
+    "reason": "全区間にexclude=motorwayを指定し、providerのmotorway違反通知と道路分類を検査",
+    "sourceRefs": [
+      "https://docs.mapbox.com/api/navigation/directions/"
+    ],
+    "checkedAt": 1789443705838
+  },
+  "adoptable": false,
+  "checks": {
+    "commonPlaceRegistration": true,
+    "commonPlaceAdoption": true,
+    "commonPlaceRestartRetrieval": true,
+    "expiredCandidateReplayRejected": true,
+    "freshCandidateRegistrationAfterRestart": true,
+    "canonicalPlaceReused": true,
+    "stoppedCandidateRegistrationRejected": true,
+    "mockTrialSeparated": true,
+    "realSearch": true,
+    "idempotentReplay": true,
+    "sqliteRestartSameSnapshot": true,
+    "settingsRestored": true,
+    "stopClearsOnlyBikeOwner": true,
+    "reenableRestoresDisplay": true,
+    "unknownAdoptionRejected": true
+  },
+  "remaining": [
+    "Live verified motorcycle route adoption",
+    "UI display acceptance"
+  ]
+}

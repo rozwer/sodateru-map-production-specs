@@ -1,8 +1,9 @@
 import type { SVGProps } from 'react';
 
-export type IconName = 'map' | 'person' | 'people' | 'leaf' | 'settings' | 'exit' | 'close' | 'chevron' | 'back' | 'clock' | 'chart' | 'pin' | 'locate' | 'menu' | 'send' | 'mic' | 'history';
+export type IconName = 'map' | 'camera' | 'person' | 'people' | 'leaf' | 'settings' | 'exit' | 'close' | 'chevron' | 'back' | 'clock' | 'chart' | 'pin' | 'locate' | 'menu' | 'send' | 'mic' | 'history';
 const paths: Record<IconName, React.ReactNode> = {
   map: <><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Z"/><path d="M9 3v16M15 5v16"/></>,
+  camera: <><path d="M3 6h4l2-3h6l2 3h4v15H3Z"/><circle cx="12" cy="13" r="4"/></>,
   person: <><circle cx="12" cy="6" r="3.5"/><path d="M5 22v-5a7 7 0 0 1 14 0v5"/></>,
   people: <><circle cx="9" cy="6" r="3.5"/><path d="M2 21v-4a7 7 0 0 1 14 0v4M17 3a3.5 3.5 0 0 1 0 7M18 12a6 6 0 0 1 4 6v3"/></>,
   leaf: <><path d="M4 17C0 5 12 1 21 2c1 10-3 20-14 17M3 23 16 7"/></>,

@@ -7,7 +7,7 @@ import { defineFeature } from "../../core/features.ts";
 import { CommonError } from "../../core/errors.ts";
 import { idempotentMutation, type StoredResult } from "../../core/idempotency.ts";
 import { bikeMigration } from "./migration.ts";
-import type { BikeService } from "./service.ts";
+import type { BikeService, PlaceCandidates } from "./service.ts";
 
 const active = new WeakMap<DatabaseSync, Set<string>>();
 function response(c: Context<CoreEnv>, result: StoredResult) {
@@ -53,6 +53,13 @@ export function createBikeFeature(serviceFor: (db: DatabaseSync) => BikeService)
         db.prepare("UPDATE bike_search_jobs SET state=?,error_json=? WHERE id=? AND state=?").run("failed", JSON.stringify({ code: e.code, message: e.message, retryable: e.retryable, details: e.details }), id, "pending");
         throw e;
       } finally { running.delete(id); }
+    });
+    api.post("/bike/place-candidates", c => {
+      const db = c.get("db"), context = c.get("context"), service = serviceFor(db), input = c.get("input").body as { searchId: string };
+      return response(c, idempotentMutation(db, { context, operation: "POST /api/v1/bike/place-candidates", key: c.req.header("Idempotency-Key")!, input }, {
+        execute() { const data = service.placeCandidates(context, input.searchId); return { status: 201, body: { data }, expiresAt: data.candidates.expiresAt }; },
+        replay(result) { const data = (result.body as { data: PlaceCandidates }).data; return { status: 200, body: { data: service.replayPlaceCandidates(context, data) }, expiresAt: data.candidates.expiresAt }; },
+      }));
     });
     api.post("/bike/route-assessments", c => {
       const db = c.get("db"), context = c.get("context"), service = serviceFor(db), input = c.get("input").body as { previewId: string; searchId: string };
