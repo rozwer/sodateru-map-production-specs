@@ -31,6 +31,7 @@
         "EXPLORATION": 26,
         "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
+        "GROW-DATA": 216,
         "HEALTH": 23,
         "INFORMATION": 6,
         "INSIGHTS": 34,
@@ -7428,6 +7429,19 @@
           "src/features/disaster/types.ts",
           "src/map/MapRenderer.tsx",
           "docs/evidence/DISASTER-UI/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "GROW-DATA",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "アプリストア・管理・試用の参照データと素材",
+        "write_paths": [
+          "src/features/plugins/reference-data.ts",
+          "src/features/plugins/assets/",
+          "docs/evidence/GROW-DATA/"
         ]
       }
     ],
@@ -33675,9 +33689,10 @@
     "VISUAL-RECORDS-CAMERA",
     "EXPLORATION-FOLLOWUP",
     "DISASTER-DATA",
-    "DISASTER-UI"
+    "DISASTER-UI",
+    "GROW-DATA"
   ],
-  "revision": 218,
+  "revision": 219,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33985,6 +34000,23 @@
       "status": "done",
       "submitted_commit": "43bfc48a368b7d537a620c4bdd84db2095478466",
       "token": null
+    },
+    "GROW-DATA": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 216,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/reference-data.ts",
+        "src/features/plugins/assets/",
+        "docs/evidence/GROW-DATA/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "1f2647d5917042b39f2b044e8cd48a3a"
     },
     "HEALTH": {
       "actor": null,
