@@ -1,0 +1,74 @@
+# UI-REFLECTION #12 実装と接続の確認
+
+## 状態
+
+6画面のUI先行提供。ユーザー承認の分割方針に従い、実API保存・再取得とAI採用の受入を後続接続Issueへ引き継ぐ。**実API保存は未達、全体機能完了ではない**。closeと後続番号はオーケストレーター調整待ち。
+
+専用branch `rozwer/12-reflection-ui`、worktree `/Users/roz/.codex/worktrees/ui-reflection-12`。編集対象は `src/features/reflection/` と本証拠ディレクトリ。共通Shell/クライアント/サーバーを変更していない。
+
+## 実装
+
+- `screens.tsx` が self-home / diary / reflection-question / reflection-history / experience-compare / memo-edit の6画面を提供。UI-BASEの自動登録、ScreenProps、useScreenState、api singletonを使用。
+- 本人/モード別の入力保持、非activeで要求と監視を取消。日記は日付ごとに下書きと媒体差分を保持。同日複数日記は選択する。
+- 日記は初回POSTと既存PATCHを分け、作成ID/再送キーを保持。写真追加・削除後にGET。AI出力は別提案として保持し、本人追記を上書きしない。採用後の保存でREFLECTIONの採用APIへ送る。
+- 質問はpending/later/skipped/answeredを表示状態へ明示変換。回答原文保存とAI整理・選択採用は別操作。
+- 二体験比較は左右のrecord ID/版と共通点・違い各100文字を保存。メモはTHEMESの確定memo fieldとbody/useForSuggestionsへ接続。
+- 由来を外す操作とメモ本文削除を分離。メモ名20、本文200、キーワード80文字/50件。実文字数はUnicode文字単位。
+
+## 参照画像
+
+次の設計画像を実際に開いて確認した。画像を製品の背景・カード・写真として使用していない。
+
+- `03_pages/references/Codex 画像 2026年9月15日 07_40_36.png`: 自分を知る。
+- `03_pages/references/Codex 画像 2026年9月15日 08_08_05.png`: 質問・履歴・日記。
+- `03_pages/references/Codex 画像 2026年9月15日 08_11_42.png`: 右列の二体験比較。
+- `03_pages/references/Codex 画像 2026年9月15日 08_11_58.png`: 右列のメモ編集。
+
+## 確認済み（2026-09-15）
+
+- 取得元develop `6dac91f` 上でVite production build成功。出力 `/tmp/ui-reflection-12-build`。
+- 確定THEMES 1.0.0 / REFLECTION 1.0.0を共通生成器で一時領域へ合成したstrict検査では、既知の任意If-Match生成問題を除く機能コードの型エラーを解消。正式統合版の全typecheck成功は未達。
+- 表示fixture入口で390×844の実ブラウザ操作: メモ名20文字で停止、キーワード追加、提案利用ON/OFF、由来解除、履歴のあとでfilterで対象1件のみ表示、日記入力カウンター。
+- 日記・メモ・履歴・比較のカード/入力/ボタンを参照と目視比較。写真は未設定状態であり、写真あり状態の完全一致は未確認。
+- 専用API `127.0.0.1:3012` 起動とgetSessionProfiles → postSession → 日記GETの実ブラウザ接続を確認。業務features=[]のため日記GETは404。保存ボタンは無効、エラーと再試行を表示。**保存成功の証拠ではない**。
+
+## 再現入口
+
+```sh
+SODATERU_PORT=3012 SODATERU_DB_PATH=.local/ui-reflection-live.sqlite SODATERU_DEMO_DB_PATH=.local/ui-reflection-demo.sqlite SODATERU_PROFILES_PATH=.local/ui-reflection-profiles.json mise exec -- bun run start
+SODATERU_API_ORIGIN=http://127.0.0.1:3012 mise exec -- bunx vite --host 127.0.0.1 --port 5182 --strictPort
+```
+
+- `http://127.0.0.1:5182/docs/evidence/UI-REFLECTION/index.html`: **表示fixture・API未接続**。ページ切替とローカル入力の確認専用。保存成功を返さない。
+- `http://127.0.0.1:5182/docs/evidence/UI-REFLECTION/live.html#/diary`: 実API確認。共通apiで登録済み本人を開始し、共通Appに6画面を渡す。
+- `http://127.0.0.1:5182/#/diary`: 本番の自動登録入口。
+
+保存先は本worktree `.local/ui-reflection-live.sqlite` / `.local/ui-reflection-demo.sqlite`、本人設定は `.local/ui-reflection-profiles.json`。主cloneの既存DB/.envは触っていない。
+
+## 後続接続Issueへの引継ぎ候補
+
+1. COREのTHEMES/REFLECTION生成型反映、任意If-Matchの生成・送信対応（#3へ連絡済み）。REFLECTION次版のexpectedAttempt必須、evidenceStateとquestionText nullableへ追随。変更済み/利用不能の引用本文を抑制し、本人回答を保持する。
+2. RECORDS/INFORMATION/REFLECTION/THEMESの業務API統合。同じ保存先で日記/回答状態/比較/メモの作成→編集→再読込→プロセス再起動GETを確認。
+3. AI生成中の本人追記→明示採用→保存、失敗/取消/再試行、元記録訂正・削除の説明を実APIで確認。
+4. self-homeの実MapPreview統合と診断プレビュー。画像4趣味軸と既存6生活行動軸は意味が異なるためUI-INSIGHTS #13の確定表示契約へ接続する。独自置換しない。
+5. UI-BASE PR #81の固有header/padding統合、写真あり表示、200%文字/キーボード、全遷移先の同一統合版による最終照合。320px質問/1440px表示fixtureは確認済み。
+UI Issueのレビュー・統合・task:finishは本提出で実施し、上記の実接続受入は後続へ残す。後続番号の正式反映前にIssue全体を完了扱いしない。
+
+## UI追加確認
+
+- 6画面Viewと表示fixtureはnoUncheckedIndexedAccessを含む限定strict型検査PASS。
+- 共通Shell登録込みVite production build PASS（2026-09-15 11:59、取得元develop2332231＋UI変更）。
+- 質問の写真左/名称・日時・場所右配置、500文字カウンター内包、保存CTA中央揃えを390pxで修正確認。320pxでdocument.scrollWidth=320、入力/ボタンの横はみ出し0。
+- 履歴に月見出し、未回答filter、三点メニューとEscape、各回答の展開/編集入口を追加。
+- 自分を知るは上部地図slot・固有見出し/メニュー・3枚のカード。4軸レーダーは数値から描画する表示部品を用意し、例示値はfixtureだけに置く。製品の未取得値は埋めない。
+- UI-BASE先行署名のlayout.header:none/contentPadding:noneを使用。自分を知る以外は中央共通header、底部ナビなし。
+- `?page=question&empty=1`等で0件表示を確認できる。日記fixtureは選択した写真を端末内でプレビューし、個別に外せる。
+- 初回commit4492bbb。通常develop取込み後のguard誤判定はPR63を取り込み、task:verify後の通常commitで解消。
+
+- ac7d102時点のself-homeを390pxで確認し、見出しと副題の積み重ねを確認。0件質問の進捗を非着色へ修正。1440×900の表示fixtureで日記全体と保存CTAが表示され、入力・カウンターのはみ出しなし。これは共通Shellデスクトップ全体の受入ではない。
+
+### 媒体とキー操作の追加確認
+
+- `?page=diary&media=1` で独自のSVG検査画像を使用。画像領域・個別削除ボタンの表示、削除後に本人本文が保持されることを390pxで確認。参照写真の流用ではなく、実写真との見た目一致を示す証拠でもない。
+- `?page=question&media=error` で画像失敗だけを「写真を表示できません」に置換し、記録情報・回答を保持。
+- 質問回答の入力欄からTabで「回答を保存」へ移り、Returnでfixture操作結果が表示されることを確認。共通Shell全遷移のキー操作は別途必要。
