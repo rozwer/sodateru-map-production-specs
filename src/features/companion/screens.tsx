@@ -84,9 +84,10 @@ function ImportScreen({ active = true, navigate, back, route }: ScreenProps) {
     });
   };
   useEffect(() => {
-    if (!active || !route.params.importId || state.inspected) return;
+    const importId = route.params.importId;
+    if (!active || !importId || state.inspected) return;
     void request.run(async signal => {
-      const { data: inspected } = await api.request('getCompanionImport', { path: { importId: route.params.importId }, signal });
+      const { data: inspected } = await api.request('getCompanionImport', { path: { importId }, signal });
       if (!signal.aborted) setState(previous => ({ ...previous, inspected, confirmed: false, viewed: [] }));
     });
   }, [active, route.params.importId]);
