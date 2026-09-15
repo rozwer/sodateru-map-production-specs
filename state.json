@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 67,
+  "revision": 68,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4540,39 +4540,17 @@
       "token": "55951bfb17884a9092571685f97731a9"
     },
     "CORE": {
-      "actor": "koshiro",
+      "actor": null,
       "base_commit": "97f4d1a134c6e7f1a66374113d5a641b0a8b1b70",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 3,
       "landed_main": null,
-      "note": "docs/evidence/CORE/companion-dependencies.md",
+      "note": "sharp-only dependency delivery merged PR59 at 522cf7b; shared paths released; CORE connection acceptance remains open, COMPANION corrected fragment awaited.",
       "owner": "koshiro",
-      "paths": [
-        "server/app/",
-        "server/core/",
-        "server/db/connection.ts",
-        "server/db/migrate.ts",
-        "server/db/migrations/000-base.sql",
-        "tools/local/",
-        "package.json",
-        "bun.lock",
-        "tsconfig.json",
-        "docs/01_requirements/04_api/fragments/CORE.json",
-        "packages/api-client/",
-        "docs/01_requirements/04_api/tools/",
-        "docs/01_requirements/04_api/fragments/common.json",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/endpoints/",
-        "docs/01_requirements/04_api/conventions/",
-        "docs/01_requirements/04_api/README.md",
-        "docs/01_requirements/04_api/coverage.md",
-        "docs/01_requirements/04_api/examples.md",
-        "docs/evidence/CORE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "638c91284eb55b21859f0727f81c356e673606bf",
-      "token": "dde193cd1dd44e98a5795b310854873a"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "DISASTER": {
       "actor": "kaiya",
