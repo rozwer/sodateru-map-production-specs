@@ -2,7 +2,7 @@
 
 本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。
 
-[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。全操作は本人識別Q01が前提。POSTの再送基盤Q02と操作固有の依存も[未確定事項](../conventions/03_open-questions.md)で確認する。
+[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。ローカル本人識別と再送は[CORE契約](../conventions/07_core-runtime.md)。操作固有の依存は[未確定事項](../conventions/03_open-questions.md)で確認する。
 
 ## 操作一覧
 
@@ -32,7 +32,7 @@
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -66,7 +66,7 @@ HTTP 200。
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -103,7 +103,7 @@ idは定義ID。未知の定義は404。settingsをその定義のSchemaで検�
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -135,7 +135,7 @@ HTTP 201。
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -173,7 +173,7 @@ settingsはオブジェクト全体の置換。定義のSchemaで検証。無効
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -211,7 +211,7 @@ HTTP 200。
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -247,7 +247,7 @@ HTTP 204。
 
 並び順：`createdAt DESC, id DESC`。同値でもIDで順序を確定する。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -284,7 +284,7 @@ HTTP 200。
 
 personIdは本人。title/body/visibilityを保存。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -314,7 +314,7 @@ HTTP 201。
 
 本人またはpublicのみ。
 
-ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -350,7 +350,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
@@ -386,7 +386,7 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 

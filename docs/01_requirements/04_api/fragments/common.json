@@ -1,0 +1,8 @@
+{
+  "taskId": "common",
+  "version": "0.3.0",
+  "schemas": {
+    "DataMode": { "type": "string", "enum": ["live", "demo"] }
+  },
+  "operations": []
+}

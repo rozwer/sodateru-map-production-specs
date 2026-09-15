@@ -1,0 +1,57 @@
+{
+  "taskId": "CORE",
+  "version": "0.3.0",
+  "schemas": {
+    "LocalProfile": {
+      "type": "object", "additionalProperties": false,
+      "required": ["profileKey", "name"],
+      "properties": { "profileKey": { "type": "string", "minLength": 1, "maxLength": 80 }, "name": { "type": "string", "minLength": 1, "maxLength": 200 } }
+    },
+    "SessionInput": {
+      "type": "object", "additionalProperties": false, "required": ["profileKey"],
+      "properties": { "profileKey": { "type": "string", "minLength": 1, "maxLength": 80 } }
+    },
+    "LocalSession": {
+      "type": "object", "additionalProperties": false,
+      "required": ["person", "dataMode", "version", "expiresAt"],
+      "properties": {
+        "person": { "$ref": "#/components/schemas/Person" },
+        "dataMode": { "$ref": "#/components/schemas/DataMode" },
+        "version": { "type": "integer", "minimum": 1 },
+        "expiresAt": { "type": "integer" }
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "GET", "path": "/session/profiles", "operationId": "getSessionProfiles",
+      "summary": "ローカルで選択できる本人", "x-local-session-bootstrap": true,
+      "description": "サーバー設定で許可したprofileKeyと名前のみ。人物検索や公開プロフィールとは別。",
+      "responses": { "200": { "description": "選択肢", "content": { "application/json": { "schema": { "type": "object", "additionalProperties": false, "required": ["items"], "properties": { "items": { "type": "array", "items": { "$ref": "#/components/schemas/LocalProfile" } } } } } } } }
+    },
+    {
+      "method": "POST", "path": "/session", "operationId": "postSession",
+      "summary": "ローカル本人セッション開始", "x-local-session-bootstrap": true,
+      "description": "登録済みprofileKeyから本人を解決し、X-Data-Modeに対応するHttpOnly cookieを発行する。Idempotency-Keyは初回から固定し、終了後の同じキーは404。",
+      "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SessionInput" } } } },
+      "responses": {
+        "201": { "description": "開始", "content": { "application/json": { "schema": { "type": "object", "additionalProperties": false, "required": ["data"], "properties": { "data": { "$ref": "#/components/schemas/LocalSession" } } } } } },
+        "200": { "description": "同じ入力の再送", "content": { "application/json": { "schema": { "type": "object", "additionalProperties": false, "required": ["data"], "properties": { "data": { "$ref": "#/components/schemas/LocalSession" } } } } } },
+        "409": { "description": "入力衝突", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorEnvelope" } } } },
+        "422": { "description": "入力不正", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorEnvelope" } } } }
+      }
+    },
+    {
+      "method": "GET", "path": "/session", "operationId": "getSession", "summary": "現在の本人セッション",
+      "responses": { "200": { "description": "現在の本人", "content": { "application/json": { "schema": { "type": "object", "additionalProperties": false, "required": ["data"], "properties": { "data": { "$ref": "#/components/schemas/LocalSession" } } } } } } }
+    },
+    {
+      "method": "DELETE", "path": "/session", "operationId": "deleteSession", "summary": "本人セッション終了",
+      "responses": {
+        "204": { "description": "終了" },
+        "412": { "description": "版競合", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorEnvelope" } } } },
+        "428": { "description": "版未指定", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorEnvelope" } } } }
+      }
+    }
+  ]
+}
