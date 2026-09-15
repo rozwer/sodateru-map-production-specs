@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 246,
+  "revision": 247,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34383,7 +34383,7 @@
       "generation": 1,
       "issue_number": 225,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/NAV-CARDS/README.md",
       "owner": "rozwer",
       "paths": [
         "src/app/App.tsx",
@@ -34393,8 +34393,8 @@
         "src/app/navigation-card-data.ts",
         "docs/evidence/NAV-CARDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "c8b129db9c6944da224e3f499ebb7af0b426167c",
       "token": "a64041af24b147ca8742e9317a06add7"
     },
     "PILGRIMAGE": {
