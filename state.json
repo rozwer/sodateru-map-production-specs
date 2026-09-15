@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 12,
+  "revision": 13,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4700,17 +4700,21 @@
       "token": "b3d8cb7e61134a24845c5ea598f64542"
     },
     "UI-PLUGINS": {
-      "actor": null,
+      "actor": "rozwer",
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "generation": 3,
       "issue_number": 18,
       "landed_main": null,
       "note": "Worktree preparation failed during mise trust: [Errno 2] No such file or directory: '/Users/roz/.codex/worktrees/ui-plugins-18/sodateru-map-production-specs'",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/UI-PLUGINS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "969f79d0773145028308851ce2e225e4"
     },
     "UI-RECORDS": {
       "actor": "rozwer",
