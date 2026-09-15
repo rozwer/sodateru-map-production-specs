@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 194,
+  "revision": 195,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34401,15 +34401,15 @@
       "generation": 1,
       "issue_number": 191,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/VISUAL-SETTINGS/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/settings/",
         "src/features/health/",
         "docs/evidence/VISUAL-SETTINGS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "043b6e8c7269d2b7787ea4c1fc9b4c68ae5e6b73",
       "token": "cd5e796b0e914806b7eff755263a2249"
     },
     "VISUAL-SHELL": {
