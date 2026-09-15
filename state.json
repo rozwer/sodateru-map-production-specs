@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 109,
+  "revision": 110,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4628,7 +4628,7 @@
       "generation": 1,
       "issue_number": 31,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/FEATURE-REQUESTS/README.md",
       "owner": "koshiro",
       "paths": [
         "server/features/feature-requests/",
@@ -4636,8 +4636,8 @@
         "docs/01_requirements/04_api/fragments/FEATURE-REQUESTS.json",
         "docs/evidence/FEATURE-REQUESTS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "43bfc48a368b7d537a620c4bdd84db2095478466",
       "token": "99eef6a7d6ac4ac3ad4c0ffb2639c87a"
     },
     "HEALTH": {
