@@ -4760,7 +4760,7 @@
     "SUGGESTIONS-INTEGRATION",
     "AI-INTEGRATION"
   ],
-  "revision": 141,
+  "revision": 142,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5334,21 +5334,17 @@
       "token": null
     },
     "UI-MAP": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 8,
       "landed_main": null,
-      "note": null,
+      "note": "User requested end. All current changes pushed in PR163 cb8ef9b; UI-INTEGRATION98 receives docs/evidence/UI-MAP/screens-handoff.md with required remaining acceptance. Preserve /Users/roz/.codex/worktrees/ui-map-8.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/map/",
-        "src/map/",
-        "docs/evidence/UI-MAP/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "b3d8cb7e61134a24845c5ea598f64542"
+      "token": null
     },
     "UI-PLUGINS": {
       "actor": null,
