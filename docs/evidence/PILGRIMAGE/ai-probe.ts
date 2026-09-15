@@ -25,7 +25,11 @@ const {placesService}=await load(routeRoot,'server/features/places/service.ts');
 const {PluginRegistry,PluginService,PluginStore,getPluginState}=await load(pluginRoot,'server/features/plugins/index.ts');
 const aiRoot=resolve(process.env.PILGRIMAGE_AI_ROOT??'.');const ai=await load(aiRoot,'server/ai/index.ts');
 const config=await load(aiRoot,'server/ai/provider.ts');assert.equal(config.getAiConfiguration('pilgrimage').model,'gpt-5.6-luna');
-ai.configureAi({assertAllowed:(db:any,context:any,scope:any)=>{assertAiAllowed(db,context.personId,scope);}});
+ai.configureAi({assertAllowed:(db:any,context:any,scope:any)=>{assertAiAllowed(db,context.personId,scope);},provider:async(input:any)=>{try{return await config.runStructured(input);}catch(error:any){
+ let message=String(error?.message??error);for(const [key,value] of Object.entries(process.env))if(/TOKEN|SECRET|PASSWORD|API_KEY/.test(key)&&value&&value.length>6)message=message.replaceAll(value,'[redacted]');
+ const failure={checkedAt:new Date().toISOString(),name:error?.name,code:error?.code,message:message.slice(0,5000)};
+ writeFileSync(resolve(process.env.PILGRIMAGE_PROBE_DIR??'.local/pilgrimage-live','provider-error.json'),JSON.stringify(failure,null,2)+'\n');throw error;
+}}});
 ai.registerAiTask(pilgrimageTask(getPluginState));
 const proofDirectory=resolve(process.env.PILGRIMAGE_PROBE_DIR??'.local/pilgrimage-live');mkdirSync(proofDirectory,{recursive:true});
 let server:any;

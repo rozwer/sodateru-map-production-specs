@@ -1,0 +1,5 @@
+{
+  "checkedAt": "2026-09-15T03:12:58.693Z",
+  "name": "Error",
+  "message": "{\n  \"type\": \"error\",\n  \"error\": {\n    \"type\": \"invalid_request_error\",\n    \"code\": \"invalid_json_schema\",\n    \"message\": \"Invalid schema for response_format 'codex_output_schema': In context=('properties', 'orderedRelationIds'), 'uniqueItems' is not permitted.\",\n    \"param\": \"text.format.schema\"\n  },\n  \"status\": 400\n}"
+}
