@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 244,
+  "revision": 245,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34337,13 +34337,13 @@
       "generation": 1,
       "issue_number": 229,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md; PR242; #234 real manifest dry-run: only 2 source states change, 84 preserved, 22/21 pages retained",
       "owner": "rozwer",
       "paths": [
         "TASK_GRAPH.json"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "a51f9f89e6161b9748328003ae52d6e6b969d65b",
       "token": "9acfc65243c042c3a97d1e49443c0673"
     },
     "ISSUE-SUPERSESSION-FIX": {
