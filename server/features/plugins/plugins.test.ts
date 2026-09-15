@@ -101,3 +101,25 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
     });
   } finally { db.close();demo.close();rmSync(dir,{recursive:true,force:true}); }
 });
+
+test('removing or stopping an unselected plugin preserves remaining conflict choice',async()=>{
+  const db=open(':memory:',true), registry=new PluginRegistry();
+  registry.register(release('a','1','red'));registry.register(release('b','1','blue'));registry.register(release('c','1','green'));
+  const service=new PluginService(new PluginStore(db,context()),registry);
+  const add=async(id:string)=>{
+    const trial=service.trial(id,'1');
+    return service.install({id,pluginVersion:'1',settings:trial.snapshot.settings,enabled:true,confirmed:true,stateRevision:trial.stateRevision,resolutions:trial.conflicts.map(c=>({key:c.key,strategy:'prefer',pluginIds:['a']}))});
+  };
+  try {
+    await add('a');await add('b');await add('c');
+    let b=service.store.get('b');service.patch('b',b.version,{enabled:false});
+    assert.equal(service.state().conflicts.length,0);assert.equal(service.state().appliedDeclarations.find(d=>d.property==='color')?.pluginId,'a');
+    b=service.store.get('b');service.patch('b',b.version,{enabled:true});
+    b=service.store.get('b');service.remove('b',b.version);
+    assert.equal(service.state().conflicts.length,0);assert.equal(service.state().appliedDeclarations.find(d=>d.property==='color')?.pluginId,'a');
+    // When removing the chosen winner would leave two different remaining values, no partial deletion occurs.
+    await add('b');const a=service.store.get('a');
+    assert.throws(()=>service.remove('a',a.version),{code:'PLUGIN_CONFLICT'});
+    assert.equal(service.store.get('a').version,a.version);
+  } finally {db.close();}
+});

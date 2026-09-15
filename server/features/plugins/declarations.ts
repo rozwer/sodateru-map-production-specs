@@ -47,3 +47,17 @@ export function resolveDeclarations(items: PluginSetting[], saved: ConflictResol
   }
   return { appliedDeclarations, conflicts, resolutions };
 }
+
+/** Carry only choices whose remaining release declarations are byte-for-byte unchanged. */
+export function projectResolutions(before: PluginSetting[], after: PluginSetting[], saved: ConflictResolution[]): ConflictResolution[] {
+  const prior=resolveDeclarations(before,[]).conflicts;
+  const valid=resolveDeclarations(before,saved).resolutions;
+  return resolveDeclarations(after,[]).conflicts.flatMap(next=>{
+    const parent=prior.find(old=>next.declarations.every(d=>old.declarations.some(p=>canonical(p as unknown as Json)===canonical(d as unknown as Json))));
+    const choice=parent && valid.find(r=>r.key===parent.key);
+    if (!choice) return [];
+    const ids=choice.pluginIds.filter(id=>next.declarations.some(d=>d.pluginId===id));
+    if (!ids.length) return [];
+    return [{...choice,key:next.key,pluginIds:ids}];
+  });
+}
