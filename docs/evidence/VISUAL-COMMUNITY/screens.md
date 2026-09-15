@@ -33,3 +33,7 @@
 PR193提出40a940b、通常merge a96cbc8。QA担当がHEAD d264c15へ5173/API3002を更新したreceiptを受領。担当friends/knowledge/companionのTypeScript検査とproduction build成功。全体tscはCORE/records/reflection/explorationの既存型エラーあり。相棒の内部idempotencyKey付与は保持したままhelperの入力型を修正。
 
 既存UI-FRIENDS fixtureへ到達する専用HTMLだけ追加し、写真/座標/複数記録の既存模擬応答を再利用する。新しいmock基盤や起動サーバーは追加しない。実API保存完了の証拠には使わない。
+
+## 地域の知toolbar
+
+QA d264c15 / 390×844でtoolbarが地図に透け、戻る/メニューがブラウザ標準の四角ボタンになっていることを実見。原本07_41_04は白い全幅header＋左戻る＋右丸メニュー。featureのtoolbarを独立クラスにして白背景、44pxのアイコン操作へ修正。API・MapBridge・Sheet高さ58%を維持。変更後の実表示はQA反映後確認する。
