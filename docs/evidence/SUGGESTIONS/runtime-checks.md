@@ -26,6 +26,6 @@ CORE実runtime、実HTTPソケット、実base SQLiteとFKを使用。回答POST
 
 ## 未完了
 
-develop 522cf7b取り込み後の `bun run typecheck` はPLACESのINFORMATION未統合import、service.ts:108/114のpossibly undefinedで失敗。SUGGESTIONS由来の診断はないが、全体typecheck成功とは扱わない。
+develop 522cf7b時点の `bun run typecheck` はPLACESのINFORMATION未統合import、service.ts:108/114のpossibly undefinedで失敗。SUGGESTIONS由来の診断はなし。その後PLACES修正を含むdevelop2332231を通常mergeし、全体 `bun run typecheck` 成功を確認した。
 
 AI/ROUTES/INFORMATION/SETTINGS/ACTIVITYの公開口をadapterで接続済みだが、develop統合と実外部通信の結合確認待ち。cycling/transitの実経路はROUTES提供状況に依存。UI #15の実表示/詳細/状態更新受入と、ACTIVITY訪問取消の結合確認が残る。
