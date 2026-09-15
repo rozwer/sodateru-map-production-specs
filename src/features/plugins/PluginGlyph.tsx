@@ -45,6 +45,8 @@ export function PluginGlyph({
               strokeWidth="1"
             />
           </>
+        ) : kind === "nature" ? (
+          <><path d="m32 6-12 17h7L15 39h11l-6 11h24l-6-11h11L37 23h7Z" /><path d="M32 50v10" /></>
         ) : kind === "pilgrimage" ? (
           <>
             <path

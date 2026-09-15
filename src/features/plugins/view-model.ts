@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /** Display-only models. HTTP payloads are mapped from the shared API contracts. */
-export type PluginKind = "bike" | "disaster" | "pilgrimage" | "other";
+export type PluginKind = "bike" | "disaster" | "pilgrimage" | "nature" | "other";
 export type PluginCategory = "all" | "safety" | "mobility" | "walking";
 export type PluginLegendItem = {
   id: string;

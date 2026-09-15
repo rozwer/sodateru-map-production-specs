@@ -594,3 +594,5 @@
     padding: 11px 8px;
   }
 }
+
+.request-page { --color-primary: #09a5ad; }
