@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 87,
+  "revision": 88,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4954,7 +4954,7 @@
       "generation": 1,
       "issue_number": 4,
       "landed_main": null,
-      "note": "docs/evidence/UI-BASE/shell.md",
+      "note": "docs/evidence/UI-BASE/session-integration.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -4965,7 +4965,7 @@
         "docs/evidence/UI-BASE/"
       ],
       "status": "submitted",
-      "submitted_commit": "8f1e05931ddb037eda76a7e509d43c321c34c80c",
+      "submitted_commit": "d35a12e98fddf928ec0acc645598c00f1099df4d",
       "token": "26030033ebde45e285cd1f58ccaf1300"
     },
     "UI-COMPANION": {
