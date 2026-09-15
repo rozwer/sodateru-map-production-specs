@@ -11,8 +11,10 @@ import { blankDraft, type PlaceChoice, type RecordDraft } from './form-types';
 import { RecordNotice } from './RecordParts';
 import { createSaveSession, createEditSession, errorText, readRecord, saveNewRecord, saveEditedRecord, type RecordSaveSession, type SaveProgress } from './record-flow';
 import { placeChoice } from './record-hooks';
+import { takeRecordCapture } from './capture-handoff';
 
 interface CreateState {
+ captureId?:string;
  draft:RecordDraft; place:PlaceChoice|null; step:'editor'|'confirmation'|'place-picker'; returnStep:'editor'|'confirmation';
  mode:'map'|'search'|'history'; query:string; selected:PlaceChoice|null; saveSession:RecordSaveSession|null;
 }
@@ -26,6 +28,20 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
  const [searchRevision,setSearchRevision]=useState(0);
  const bridge=useMapBridge();
  const submitting=useRef(false);
+ const receivedCapture=useRef<string|null>(null);
+ useEffect(()=>{
+   const captureId=route.params.captureId;
+   if(!active||!captureId||state.captureId===captureId||receivedCapture.current===captureId)return;
+   receivedCapture.current=captureId;
+   const files=takeRecordCapture(captureId,scopeKey);
+   if(!files){setError('撮影した写真を引き継げませんでした。もう一度、写真を撮るか端末から選んでください。');return;}
+   const room=Math.max(0,100-state.draft.media.length);
+   if(files.length>room)setError('一つの記録に添付できる媒体は100件までです。');
+   const media=files.slice(0,room).map(file=>({id:crypto.randomUUID(),file,url:URL.createObjectURL(file),kind:file.type.startsWith('image/')?'photo' as const:'video' as const,name:file.name,position:0,state:'draft' as const}));
+   setState(previous=>{
+     return {...previous,captureId,step:'editor',draft:{...previous.draft,media:[...previous.draft.media,...media.map((item,index)=>({...item,position:previous.draft.media.length+index}))]}};
+   });
+ },[route.params.captureId,scopeKey,active]);
  const saveController=useRef<AbortController|null>(null);
  useEffect(()=>()=>saveController.current?.abort(),[scopeKey]);
  useEffect(()=>{if(!active)saveController.current?.abort();},[active]);
