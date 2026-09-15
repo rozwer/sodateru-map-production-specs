@@ -34021,7 +34021,7 @@
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO"
   ],
-  "revision": 279,
+  "revision": 280,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34075,7 +34075,7 @@
       "generation": 1,
       "issue_number": 29,
       "landed_main": null,
-      "note": "docs/evidence/BIKE/releases.md",
+      "note": "docs/evidence/BIKE/motorbike-http.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/bike/",
@@ -34084,7 +34084,7 @@
         "docs/evidence/BIKE/"
       ],
       "status": "submitted",
-      "submitted_commit": "78dfbbdb26f258aaf8e4de066ce7180b168fc963",
+      "submitted_commit": "4e8d07067185ef1be1828f53822885dcddfb6c5f",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "BUILDING-GROWTH": {
