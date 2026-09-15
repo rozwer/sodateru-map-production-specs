@@ -356,6 +356,18 @@ export const operations = {
           "type": "boolean",
           "default": false
         }
+      },
+      {
+        "name": "rangeMatch",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "overlap",
+            "startsWithin"
+          ],
+          "default": "overlap"
+        }
       }
     ],
     "hasBody": false,
@@ -584,6 +596,30 @@ export const operations = {
             "analysis",
             "comparison"
           ]
+        }
+      },
+      {
+        "name": "q",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      {
+        "name": "dateFrom",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      {
+        "name": "dateTo",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     ],
@@ -924,6 +960,27 @@ export const operations = {
             "analysis",
             "comparison"
           ]
+        }
+      },
+      {
+        "name": "rangeStart",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "rangeEnd",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "timeZone",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/TimeZone"
         }
       }
     ],
@@ -2156,6 +2213,817 @@ export const operations = {
     "requiresVersion": false,
     "requiresKey": false
   },
+  "getBikeState": {
+    "method": "GET",
+    "path": "/bike/state",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postBikeSearch": {
+    "method": "POST",
+    "path": "/bike/searches",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getBikeResult": {
+    "method": "GET",
+    "path": "/bike/results/{resultId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postBikeRouteAssessment": {
+    "method": "POST",
+    "path": "/bike/route-assessments",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "postBikeAdoption": {
+    "method": "POST",
+    "path": "/bike/adoptions",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getBookmarks": {
+    "method": "GET",
+    "path": "/bookmarks",
+    "query": [
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postBookmarks": {
+    "method": "POST",
+    "path": "/bookmarks",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getBookmarksBookmarkId": {
+    "method": "GET",
+    "path": "/bookmarks/{bookmarkId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "deleteBookmarksBookmarkId": {
+    "method": "DELETE",
+    "path": "/bookmarks/{bookmarkId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "getKnowledgeTopics": {
+    "method": "GET",
+    "path": "/knowledge/topics",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getKnowledge": {
+    "method": "GET",
+    "path": "/knowledge",
+    "query": [
+      {
+        "name": "q",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      {
+        "name": "placeId",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      {
+        "name": "longitude",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      },
+      {
+        "name": "latitude",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      },
+      {
+        "name": "radiusM",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100000
+        }
+      },
+      {
+        "name": "from",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "to",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "timeZone",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/TimeZone"
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "audience",
+        "required": false,
+        "schema": {
+          "enum": [
+            "own",
+            "visible",
+            "public",
+            "selected",
+            "friends"
+          ],
+          "default": "visible"
+        }
+      },
+      {
+        "name": "personIds",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "default": []
+        }
+      },
+      {
+        "name": "purposes",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "uniqueItems": true,
+          "default": []
+        }
+      },
+      {
+        "name": "topicKey",
+        "required": false,
+        "schema": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      {
+        "name": "includeUndated",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      {
+        "name": "category",
+        "required": false,
+        "schema": {
+          "enum": [
+            "tips",
+            "experiences",
+            "food",
+            "rest",
+            "walk"
+          ]
+        }
+      },
+      {
+        "name": "bbox",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "minLon,minLat,maxLon,maxLat。経度・緯度順序必須、日付変更線横断は422。中心/半径と併用不可。"
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getKnowledgeMap": {
+    "method": "GET",
+    "path": "/knowledge/map",
+    "query": [
+      {
+        "name": "q",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        }
+      },
+      {
+        "name": "placeId",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      {
+        "name": "longitude",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      },
+      {
+        "name": "latitude",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      },
+      {
+        "name": "radiusM",
+        "required": false,
+        "schema": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100000
+        }
+      },
+      {
+        "name": "from",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "to",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "timeZone",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/TimeZone"
+        }
+      },
+      {
+        "name": "audience",
+        "required": false,
+        "schema": {
+          "enum": [
+            "own",
+            "visible",
+            "public",
+            "selected",
+            "friends"
+          ],
+          "default": "visible"
+        }
+      },
+      {
+        "name": "personIds",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "pattern": "\\S"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "default": []
+        }
+      },
+      {
+        "name": "purposes",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "uniqueItems": true,
+          "default": []
+        }
+      },
+      {
+        "name": "topicKey",
+        "required": false,
+        "schema": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      {
+        "name": "includeUndated",
+        "required": false,
+        "schema": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      {
+        "name": "category",
+        "required": false,
+        "schema": {
+          "enum": [
+            "tips",
+            "experiences",
+            "food",
+            "rest",
+            "walk"
+          ]
+        }
+      },
+      {
+        "name": "bbox",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "description": "minLon,minLat,maxLon,maxLat。経度・緯度順序必須、日付変更線横断は422。中心/半径と併用不可。"
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getSharedRecordsRecordId": {
+    "method": "GET",
+    "path": "/shared-records/{recordId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getSharedThemes": {
+    "method": "GET",
+    "path": "/shared-themes",
+    "query": [
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      {
+        "name": "personId",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      {
+        "name": "audience",
+        "required": false,
+        "schema": {
+          "enum": [
+            "visible",
+            "own",
+            "public",
+            "selected",
+            "friends"
+          ]
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getSharedThemesThemeId": {
+    "method": "GET",
+    "path": "/shared-themes/{themeId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getThemesThemeIdSharing": {
+    "method": "GET",
+    "path": "/themes/{themeId}/sharing",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchThemesThemeIdSharing": {
+    "method": "PATCH",
+    "path": "/themes/{themeId}/sharing",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "importCompanionZip": {
+    "method": "POST",
+    "path": "/companion/imports",
+    "query": [],
+    "hasBody": true,
+    "multipart": true,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getCompanionImport": {
+    "method": "GET",
+    "path": "/companion/imports/{importId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanionAtlas": {
+    "method": "GET",
+    "path": "/companion/imports/{importId}/atlas",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "confirmCompanionImport": {
+    "method": "PATCH",
+    "path": "/companion/imports/{importId}/confirmation",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "registerCompanionImport": {
+    "method": "POST",
+    "path": "/companion/imports/{importId}/registration",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "listCompanions": {
+    "method": "GET",
+    "path": "/companions",
+    "query": [
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanion": {
+    "method": "GET",
+    "path": "/companions/{companionId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanionSettings": {
+    "method": "GET",
+    "path": "/companion/settings",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "updateCompanionSettings": {
+    "method": "PATCH",
+    "path": "/companion/settings",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "createCompanionDraft": {
+    "method": "POST",
+    "path": "/companion/drafts",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "listCompanionDrafts": {
+    "method": "GET",
+    "path": "/companion/drafts",
+    "query": [
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanionDraft": {
+    "method": "GET",
+    "path": "/companion/drafts/{draftId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "updateCompanionDraft": {
+    "method": "PATCH",
+    "path": "/companion/drafts/{draftId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "exportCompanionInstructions": {
+    "method": "GET",
+    "path": "/companion/drafts/{draftId}/instructions",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "uploadCompanionReferenceImage": {
+    "method": "POST",
+    "path": "/companion/reference-images",
+    "query": [],
+    "hasBody": true,
+    "multipart": true,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getCompanionReferenceImage": {
+    "method": "GET",
+    "path": "/companion/reference-images/{mediaId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanionProvider": {
+    "method": "GET",
+    "path": "/companion/provider",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "createCompanionGeneration": {
+    "method": "POST",
+    "path": "/companion/generations",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "listCompanionGenerations": {
+    "method": "GET",
+    "path": "/companion/generations",
+    "query": [
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getCompanionGeneration": {
+    "method": "GET",
+    "path": "/companion/generations/{generationId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "refreshCompanionGeneration": {
+    "method": "POST",
+    "path": "/companion/generations/{generationId}/refresh",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "cancelCompanionGeneration": {
+    "method": "POST",
+    "path": "/companion/generations/{generationId}/cancellation",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "adoptCompanionGeneration": {
+    "method": "POST",
+    "path": "/companion/generations/{generationId}/adoption",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
   "getSessionProfiles": {
     "method": "GET",
     "path": "/session/profiles",
@@ -2191,5 +3059,414 @@ export const operations = {
     "multipart": false,
     "requiresVersion": true,
     "requiresKey": false
+  },
+  "getDisaster": {
+    "method": "GET",
+    "path": "/disaster",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postDisasterRefresh": {
+    "method": "POST",
+    "path": "/disaster/refresh",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "postMapDialoguesResultsResultIdHistory": {
+    "method": "POST",
+    "path": "/map-dialogues/results/{resultId}/history",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getConversationsConversationIdMapDialogue": {
+    "method": "GET",
+    "path": "/conversations/{conversationId}/map-dialogue",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getDiscoveryFacts": {
+    "method": "GET",
+    "path": "/discovery-facts",
+    "query": [
+      {
+        "name": "kind",
+        "required": true,
+        "schema": {
+          "enum": [
+            "place",
+            "building",
+            "photo"
+          ]
+        }
+      },
+      {
+        "name": "targetId",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchFeatureRequestEmpathy": {
+    "method": "PATCH",
+    "path": "/feature-requests/{requestId}/empathy",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "getFeatureRequestDevelopmentGuide": {
+    "method": "GET",
+    "path": "/feature-requests/development-guide",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getPluginState": {
+    "method": "GET",
+    "path": "/plugin-state",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getPluginVersions": {
+    "method": "GET",
+    "path": "/plugins/{pluginId}/versions",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postPluginTrial": {
+    "method": "POST",
+    "path": "/plugins/{pluginId}/trial",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "postPluginUpdate": {
+    "method": "POST",
+    "path": "/plugin-settings/{pluginId}/update",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "postPluginRollback": {
+    "method": "POST",
+    "path": "/plugin-settings/{pluginId}/rollback",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "getRecordsRecordIdDeletionPreview": {
+    "method": "GET",
+    "path": "/records/{recordId}/deletion-preview",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getRecordsRecordIdExport": {
+    "method": "GET",
+    "path": "/records/{recordId}/export",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getReflectionQuestions": {
+    "method": "GET",
+    "path": "/reflection/questions",
+    "query": [
+      {
+        "name": "status",
+        "required": false,
+        "schema": {
+          "enum": [
+            "pending",
+            "later",
+            "skipped",
+            "answered"
+          ]
+        }
+      },
+      {
+        "name": "targetRecordId",
+        "required": false,
+        "schema": {
+          "$ref": "#/components/schemas/Id"
+        }
+      },
+      {
+        "name": "cursor",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      },
+      {
+        "name": "limit",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 50
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postReflectionQuestions": {
+    "method": "POST",
+    "path": "/reflection/questions",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getReflectionQuestionsQuestionId": {
+    "method": "GET",
+    "path": "/reflection/questions/{questionId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchReflectionQuestionsQuestionId": {
+    "method": "PATCH",
+    "path": "/reflection/questions/{questionId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "postReflectionComparisons": {
+    "method": "POST",
+    "path": "/reflection/comparisons",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getReflectionComparisonsComparisonId": {
+    "method": "GET",
+    "path": "/reflection/comparisons/{comparisonId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchReflectionComparisonsComparisonId": {
+    "method": "PATCH",
+    "path": "/reflection/comparisons/{comparisonId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "postReflectionAdoptions": {
+    "method": "POST",
+    "path": "/reflection/adoptions",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "postRouteComparisons": {
+    "method": "POST",
+    "path": "/route-comparisons",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getMeSettings": {
+    "method": "GET",
+    "path": "/me/settings",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchMeSettings": {
+    "method": "PATCH",
+    "path": "/me/settings",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "resetMeSettings": {
+    "method": "DELETE",
+    "path": "/me/settings",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "getMeData": {
+    "method": "GET",
+    "path": "/me/data",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "exportMeSettings": {
+    "method": "GET",
+    "path": "/me/settings/export",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getMeIcon": {
+    "method": "GET",
+    "path": "/me/icon",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchMeIcon": {
+    "method": "PATCH",
+    "path": "/me/icon",
+    "query": [],
+    "hasBody": true,
+    "multipart": true,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "deleteMeIcon": {
+    "method": "DELETE",
+    "path": "/me/icon",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "createTransferRecipe": {
+    "method": "POST",
+    "path": "/transfer/recipes",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "listTransferRecipes": {
+    "method": "GET",
+    "path": "/transfer/recipes",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getTransferRecipe": {
+    "method": "GET",
+    "path": "/transfer/recipes/{recipeId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "replaceTransferRecipe": {
+    "method": "PATCH",
+    "path": "/transfer/recipes/{recipeId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "createTransferPlanSet": {
+    "method": "POST",
+    "path": "/transfer/plan-sets",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "listTransferPlanSets": {
+    "method": "GET",
+    "path": "/transfer/plan-sets",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getTransferPlanSet": {
+    "method": "GET",
+    "path": "/transfer/plan-sets/{planSetId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "adoptTransferPlan": {
+    "method": "POST",
+    "path": "/transfer/plan-sets/{planSetId}/adoption",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
   }
 } as const;

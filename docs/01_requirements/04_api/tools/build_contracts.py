@@ -437,9 +437,32 @@ def compact_http(spec):
      entry[field][position]={'$ref':'#/components/'+collection+'/'+names[key]}
   result['components'][collection]=shared
  return result
+# Remember generated specimens so authored fragment examples remain untouched.
+def media_examples(value):
+ if isinstance(value,dict):
+  if 'schema' in value and 'example' in value: yield value
+  for child in value.values(): yield from media_examples(child)
+ elif isinstance(value,list):
+  for child in value: yield from media_examples(child)
+base_examples={json.dumps(m['example'],sort_keys=True,ensure_ascii=False) for m in media_examples(O)}
 from contract_fragments import merge_fragments
-O=merge_fragments(O, ROOT)
+O=merge_fragments(O, ROOT, compact_http(O)['components'])
 S=O['components']['schemas']
+def complete_sample(schema,value):
+ if not isinstance(schema,dict): return value
+ # A replaced schema can add required fields to an inherited synthetic example.
+ if '$ref' in schema: return complete_sample(S[schema['$ref'].split('/')[-1]],value)
+ if isinstance(value,dict) and schema.get('type')=='object':
+  value=copy.deepcopy(value)
+  for key,child in schema.get('properties',{}).items():
+   if key not in value and key in schema.get('required',[]): value[key]=sample(child,key)
+   if key in value: value[key]=complete_sample(child,value[key])
+ elif isinstance(value,list) and schema.get('type')=='array':
+  value=[complete_sample(schema.get('items',{}),child) for child in value]
+ return value
+for media in media_examples(O):
+ if json.dumps(media['example'],sort_keys=True,ensure_ascii=False) in base_examples:
+  media['example']=complete_sample(media['schema'],media['example'])
 (ROOT/'openapi.json').write_text(json.dumps(compact_http(O),ensure_ascii=False,indent=2)+'\n')
 def type_text(s):
  if '$ref' in s:
@@ -484,7 +507,8 @@ for methods in O['paths'].values():
   for p in entry['parameters']:
    if p['in']!='header': continue
    if p['name'] in seen_headers:
-    assert seen_headers[p['name']]==p
+    if seen_headers[p['name']]!=p:
+     shared += [f'操作 `{entry["operationId"]}` の `{p["name"]}` は操作別定義を適用（必須: {p.get("required",False)}）。[OpenAPI](../openapi.json)を参照。\n']
     continue
    seen_headers[p['name']]=p
    shared += [f'<a id="{p["name"].lower()}"></a>\n',f'### {p["name"]}\n',f'{type_text(p["schema"])}。{constraints(p["schema"])}。{p.get("description", "")}\n']

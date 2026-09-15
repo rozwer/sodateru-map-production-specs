@@ -34,6 +34,156 @@ string。pattern=^"[1-9][0-9]*"$。対象の版。媒体添付・一括順序変
 
 string。minLength=1、maxLength=200。単一bytes範囲。複数・不正・範囲外は416。
 
+操作 `getPlugins` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPluginSettings` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginSettings` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginSettings` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPluginSettingsPluginId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchPluginSettingsPluginId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchPluginSettingsPluginId` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deletePluginSettingsPluginId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deletePluginSettingsPluginId` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getBookmarks` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postBookmarks` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postBookmarks` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getBookmarksBookmarkId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deleteBookmarksBookmarkId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deleteBookmarksBookmarkId` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getKnowledgeTopics` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getKnowledge` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getKnowledgeMap` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getSharedRecordsRecordId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getSharedThemes` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getSharedThemesThemeId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getThemesThemeIdSharing` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchThemesThemeIdSharing` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchThemesThemeIdSharing` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `importCompanionZip` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `confirmCompanionImport` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `confirmCompanionImport` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `registerCompanionImport` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `registerCompanionImport` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `updateCompanionSettings` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `updateCompanionSettings` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createCompanionDraft` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `updateCompanionDraft` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `updateCompanionDraft` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `uploadCompanionReferenceImage` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createCompanionGeneration` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `refreshCompanionGeneration` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `refreshCompanionGeneration` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `cancelCompanionGeneration` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `cancelCompanionGeneration` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `adoptCompanionGeneration` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `adoptCompanionGeneration` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postDisasterRefresh` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapDialoguesResultsResultIdHistory` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapDialoguesResultsResultIdHistory` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getConversationsConversationIdMapDialogue` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getDiscoveryFacts` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPluginState` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPluginVersions` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginTrial` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginTrial` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginUpdate` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginUpdate` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginUpdate` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginRollback` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginRollback` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPluginRollback` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getRecordsRecordIdDeletionPreview` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getRecordsRecordIdExport` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postReflectionAdoptions` の `If-Match` は操作別定義を適用（必須: False）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postRouteComparisons` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postRouteComparisons` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createTransferRecipe` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createTransferRecipe` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `listTransferRecipes` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getTransferRecipe` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `replaceTransferRecipe` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `replaceTransferRecipe` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createTransferPlanSet` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `createTransferPlanSet` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `listTransferPlanSets` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getTransferPlanSet` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `adoptTransferPlan` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `adoptTransferPlan` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `adoptTransferPlan` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
 ## 共通エラー
 
 全操作は以下を返し得る。本文は [ErrorEnvelope](../schemas/models.md#errorenvelope)。

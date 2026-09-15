@@ -103,7 +103,7 @@ idは定義ID。未知の定義は404。settingsをその定義のSchemaで検�
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### リクエスト本文
 
@@ -141,7 +141,7 @@ HTTP 201。
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
-| path | `pluginId` | [Id](../schemas/models.md#id) | 必須 | —  |
+| path | `pluginId` | string | 必須 | minLength=1、maxLength=80  |
 
 ### リクエスト本文
 
@@ -173,13 +173,13 @@ settingsはオブジェクト全体の置換。定義のSchemaで検証。無効
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
-| path | `pluginId` | [Id](../schemas/models.md#id) | 必須 | —  |
+| path | `pluginId` | string | 必須 | minLength=1、maxLength=80  |
 
 ### リクエスト本文
 
@@ -211,13 +211,13 @@ HTTP 200。
 
 未確定依存：Q09。この部分は型だけで実装完了とは判断できない。
 
-ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須） / [If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Data-Mode](../conventions/06_shared-http.md#x-data-mode)（必須）。
 
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
-| path | `pluginId` | [Id](../schemas/models.md#id) | 必須 | —  |
+| path | `pluginId` | string | 必須 | minLength=1、maxLength=80  |
 
 ### リクエスト本文
 
