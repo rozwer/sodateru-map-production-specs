@@ -92,3 +92,8 @@ Issue #9はclaimed/openを維持する。部分提供を全画面完成やtask:f
 ### 提出を止めている共通ガード
 
 `task:verify`はclaimed/取得path一致で成功し、Vite production buildも成功した。通常commitは`Changed paths outside claim`で拒否された。HEADは `6dac91f4fba8bb28506c73efd39c4db1518a963d`、実際のstageは取得範囲内の10ファイルのみ。`production_guard.py`がclaim起点からstageを比較し、developから取込済みの共通変更まで担当外として判定する。オーケストレーターへ報告済み。hook迂回・共通修正・receipt変更はせずstageを保持する。第2提供は未commit/未PR。
+
+
+### 共通修復後の提出
+
+PR #63の正式修復を含むdevelop `2332231` を通常merge、`task:verify`成功後、保持stageのcommitを1回再試行して `6cafca3` で成功した。ガードの迂回/receipt更新なし。PLACES修正も取り込まれ、同HEADで `bun run typecheck` は全体成功した。上記の失敗は修復前の記録である。ブラウザ/APIの保存往復は未確認のまま継続する。
