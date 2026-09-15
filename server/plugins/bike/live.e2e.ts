@@ -15,7 +15,7 @@ let server: ReturnType<typeof spawn>;
 let origin = "", cookie = "";
 async function start() {
   await new Promise<void>((resolve,reject) => {
-    server=spawn(process.execPath,["--experimental-transform-types",join(root,"server/app/main.ts")],{cwd:root,env,stdio:["ignore","pipe","pipe"]});
+    server=spawn(process.execPath,["--experimental-transform-types",join(root,process.env.BIKE_E2E_CONTRACT ? "server/plugins/bike/live-server.ts" : "server/app/main.ts")],{cwd:root,env,stdio:["ignore","pipe","pipe"]});
     const timeout=setTimeout(()=>reject(Error("CORE startup timed out")),20000);
     let output="",errors="";
     server.stderr!.on("data",chunk=>{errors+=chunk.toString();});
@@ -64,7 +64,12 @@ try {
   const restored=success(await api("/bike/state")).data;
   assert.equal(restored.display.visible,false);
   assert.deepEqual(restored.installation.settings,defaultSettings);
-  const evidence={checkedAt:Date.now(),dataMode:"live",dataKind:"real",searchId:search.id,assessmentId:assessment.id,source:search.source,counts:{places:search.places.length,roads:search.roads.length},route:{resultId:route.resultId,provider:route.provider,fetchedAt:route.fetchedAt,geometryHash:assessment.geometryHash},vehicleAssessment:assessment.vehicleAssessment,highwayAssessment:assessment.highwayAssessment,adoptable:assessment.adoptable,checks:{mockTrialSeparated:true,realSearch:true,idempotentReplay:true,sqliteRestartSameSnapshot:true,settingsRestored:true,stopClearsOnlyBikeOwner:true,unknownAdoptionRejected:true},remaining:["Live verified motorcycle route adoption", "UI display acceptance"]};
+  const stoppedPlugin=success(await api("/plugin-settings/bike")).data;
+  success(await api("/plugin-settings/bike","PATCH",{enabled:true},stoppedPlugin.version));
+  const reenabled=success(await api("/bike/state")).data;
+  assert(reenabled.display.visible);assert(reenabled.display.geojson.features.length>0);
+  assert.deepEqual(success(await api(`/bike/results/${search.id}`)).data,search);
+  const evidence={contractMode:process.env.BIKE_E2E_CONTRACT ? "temporary composition of current owned fragments; production generation pending" : "shared generated production contract",checkedAt:Date.now(),dataMode:"live",dataKind:"real",searchId:search.id,assessmentId:assessment.id,source:search.source,counts:{places:search.places.length,roads:search.roads.length},route:{resultId:route.resultId,provider:route.provider,fetchedAt:route.fetchedAt,geometryHash:assessment.geometryHash},vehicleAssessment:assessment.vehicleAssessment,highwayAssessment:assessment.highwayAssessment,adoptable:assessment.adoptable,checks:{mockTrialSeparated:true,realSearch:true,idempotentReplay:true,sqliteRestartSameSnapshot:true,settingsRestored:true,stopClearsOnlyBikeOwner:true,reenableRestoresDisplay:true,unknownAdoptionRejected:true},remaining:["Live verified motorcycle route adoption", "UI display acceptance"]};
   writeFileSync(join(root,"docs/evidence/BIKE/live-http-sqlite.json"),JSON.stringify(evidence,null,2)+"\n");
   console.log(JSON.stringify(evidence));
 } finally {if(server!)await stop();}

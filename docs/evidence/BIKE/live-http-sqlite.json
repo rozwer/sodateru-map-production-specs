@@ -1,0 +1,57 @@
+{
+  "contractMode": "temporary composition of current owned fragments; production generation pending",
+  "checkedAt": 1789442270712,
+  "dataMode": "live",
+  "dataKind": "real",
+  "searchId": "9c668ad7-fd44-4818-94e6-2ea50d124c5f",
+  "assessmentId": "7dff8976-7caf-4c23-8c45-2db1a98aaf3b",
+  "source": {
+    "id": "osm-overpass",
+    "name": "OpenStreetMap / Overpass",
+    "url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors (ODbL)",
+    "fetchedAt": 1789442268672,
+    "updatedAt": 1789442195000
+  },
+  "counts": {
+    "places": 35,
+    "roads": 243
+  },
+  "route": {
+    "resultId": "36c9ff1c-bc24-4afe-b36a-a626a49ca249",
+    "provider": "mapbox-directions",
+    "fetchedAt": 1789442270005,
+    "geometryHash": "6e8b1e58b293a793c9accf94a28543a7d7334ba918f96d438c9801333a3878f4"
+  },
+  "vehicleAssessment": {
+    "status": "unknown",
+    "reason": "Mapbox drivingは二輪車の車種・排気量別通行規制を確認していません。",
+    "sourceRefs": [
+      "https://docs.mapbox.com/api/navigation/directions/"
+    ],
+    "checkedAt": 1789442270009
+  },
+  "highwayAssessment": {
+    "status": "verified",
+    "reason": "全区間にexclude=motorwayを指定し、providerのmotorway違反通知と道路分類を検査",
+    "sourceRefs": [
+      "https://docs.mapbox.com/api/navigation/directions/"
+    ],
+    "checkedAt": 1789442270005
+  },
+  "adoptable": false,
+  "checks": {
+    "mockTrialSeparated": true,
+    "realSearch": true,
+    "idempotentReplay": true,
+    "sqliteRestartSameSnapshot": true,
+    "settingsRestored": true,
+    "stopClearsOnlyBikeOwner": true,
+    "reenableRestoresDisplay": true,
+    "unknownAdoptionRejected": true
+  },
+  "remaining": [
+    "Live verified motorcycle route adoption",
+    "UI display acceptance"
+  ]
+}
