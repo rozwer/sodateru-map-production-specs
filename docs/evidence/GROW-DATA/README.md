@@ -14,7 +14,8 @@
 `src/features/plugins/reference-data.ts`:
 
 - `createReferencePlugins("store" | "manage")`: 既存PluginCardModel配列。省略時manage。fixture-* IDを維持。
-- `createReferenceConditions()`: バイクの地域・車種・高速選択。返却値は独立コピー。別アプリへの流用は禁止。
+- `createReferenceConditions(kind = "bike")`: バイクは地域・車種・高速、聖地は地域・模擬作品、防災は空配列（専用adapterを使う）。返却値は独立コピー。
+- `createReferenceLayers(kind)`: バイク/聖地の追加レイヤー表示。防災は専用adapterを使う。
 - `createReferencePosts()`: 既存FeatureRequestModelの投稿3件。既存入口のsubmitted/下書き条件はscreens側で維持。
 - `referenceVersions.bike`: current/next/previous/changeLog。
 - `referencePhotos`: shrine/coffee/parkのurl/alt/source/attribution。

@@ -1,5 +1,5 @@
 /** Explicit inspection data only. Never seed the live API or a person's saved state. */
-import type { PluginCardModel, PluginConditionField } from "./view-model";
+import type { PluginCardModel, PluginConditionField, PluginKind } from "./view-model";
 import type { FeatureRequestModel } from "../feature-requests/view-model";
 import type {
   PluginCatalog, PluginManifest, PluginIconId, PluginSetting, PluginTrialPreview,
@@ -184,8 +184,21 @@ export function createReferencePlugins(state: "store" | "manage" = "manage"): Pl
   }));
 }
 
-export function createReferenceConditions(): PluginConditionField[] {
-  return structuredClone(conditionDefaults);
+export function createReferenceConditions(kind: PluginKind = "bike"): PluginConditionField[] {
+  if (kind === "bike") return structuredClone(conditionDefaults);
+  if (kind === "pilgrimage") return [
+    { ...structuredClone(conditionDefaults[0]!), help: "試用する地域を選んでください。" },
+    { id: "work", type: "select", label: "作品を選ぶ", value: "reference-work",
+      help: "画面確認用の模擬作品です。実在作品との対応は未確認です。",
+      options: [{ value: "reference-work", label: "作品の舞台をめぐる（模擬）" }] },
+  ];
+  // Disaster settings belong to the dedicated adapter; never offer bike conditions there.
+  return [];
+}
+export function createReferenceLayers(kind: PluginKind): { id: string; name: string; description: string }[] {
+  if (kind === "bike") return [{ id: "roads", name: "道路条件のレイヤー", description: "快適な道・注意が必要な道・未確認の道を模擬表示します。" }];
+  if (kind === "pilgrimage") return [{ id: "pilgrimage", name: "作品ゆかりの場所", description: "作品と場所の対応を確認するための模擬表示です。" }];
+  return [];
 }
 export function createReferencePosts(): FeatureRequestModel[] {
   return structuredClone(fixturePosts);
@@ -207,8 +220,13 @@ export function createReferenceCatalog(state: "store" | "manage" = "manage"): Pl
         type: "object", additionalProperties: false,
         properties: { region: { enum: ["motoyama", "higashiyama"] }, vehicle: { enum: ["moped", "standard", "large"] }, highway: { type: "boolean" } },
         required: ["region", "vehicle", "highway"],
+      } : card.kind === "pilgrimage" ? {
+        type: "object", additionalProperties: false,
+        properties: { region: { enum: ["motoyama", "higashiyama"] }, work: { const: "reference-work" } },
+        required: ["region", "work"],
       } : { type: "object", properties: {}, additionalProperties: false },
-      defaultSettings: card.kind === "bike" ? { region: "motoyama", vehicle: "moped", highway: false } : {},
+      defaultSettings: card.kind === "bike" ? { region: "motoyama", vehicle: "moped", highway: false }
+        : card.kind === "pilgrimage" ? { region: "motoyama", work: "reference-work" } : {},
       trialConditions: ["UI検査用の模擬データ。API保存・実際の通行可否・防災判断には使えません。"], order,
     };
     const installed: PluginSetting | null = card.installed ? {
