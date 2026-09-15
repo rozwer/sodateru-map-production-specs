@@ -69,6 +69,7 @@
         "UI-SUGGESTIONS": 15,
         "VISUAL-COMMUNITY": 173,
         "VISUAL-MAP-EXPLORE": 174,
+        "VISUAL-SELF": 176,
         "VISUAL-SHELL": 172
       },
       "owners": {
@@ -7157,6 +7158,23 @@
           "src/features/plugins/",
           "src/features/feature-requests/",
           "docs/evidence/VISUAL-COMMUNITY/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-SELF",
+        "kind": "repair",
+        "priority": "P1",
+        "title": "記録・振り返り・傾向・提案の参照照合と表示修復",
+        "write_paths": [
+          "src/features/records/",
+          "src/features/activity/",
+          "src/features/reflection/",
+          "src/features/insights/",
+          "src/features/themes/",
+          "src/features/suggestions/",
+          "docs/evidence/VISUAL-SELF/"
         ]
       }
     ],
@@ -33395,9 +33413,10 @@
     "REFLECTION-INTEGRATION",
     "VISUAL-SHELL",
     "VISUAL-MAP-EXPLORE",
-    "VISUAL-COMMUNITY"
+    "VISUAL-COMMUNITY",
+    "VISUAL-SELF"
   ],
-  "revision": 168,
+  "revision": 169,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34245,6 +34264,27 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "2c2ea76c81324604a1c4189a12dbb03e"
+    },
+    "VISUAL-SELF": {
+      "actor": "rozwer",
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 1,
+      "issue_number": 176,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "53ab18654f51401f941605c7254b37bb"
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
