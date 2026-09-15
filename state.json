@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 71,
+  "revision": 72,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4712,22 +4712,17 @@
       "token": "f2c8681b601241ae9a2f423a9d1f4f11"
     },
     "PLUGINS": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 28,
       "landed_main": null,
-      "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
+      "note": "Preserve worktree and staged PLUGINS changes; renew own claim at integrated CORE/develop base",
       "owner": "kaiya",
-      "paths": [
-        "server/features/plugins/",
-        "server/db/migrations/plugins/",
-        "docs/01_requirements/04_api/fragments/PLUGINS.json",
-        "docs/evidence/PLUGINS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "79a01be765294369b31add7eb99c154b"
+      "token": null
     },
     "QA-VISUAL": {
       "actor": "rozwer",
