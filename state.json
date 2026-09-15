@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 25,
+  "revision": 26,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4577,22 +4577,17 @@
       "token": null
     },
     "ROUTES": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 25,
       "landed_main": null,
       "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
       "owner": "kaiya",
-      "paths": [
-        "server/features/routes/",
-        "server/db/migrations/routes/",
-        "docs/01_requirements/04_api/fragments/ROUTES.json",
-        "docs/evidence/ROUTES/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "8a67678a60164e7d89672b30019ecba5"
+      "token": null
     },
     "SETTINGS": {
       "actor": null,
