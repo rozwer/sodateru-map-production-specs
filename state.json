@@ -43,6 +43,7 @@
         "ISSUE-CLOSE-REPAIRS": 221,
         "ISSUE-CLOSE-UI": 218,
         "ISSUE-REPAIR-SUPERSESSIONS": 229,
+        "ISSUE-SUPERSESSION-FIX": 234,
         "MAP-CUSTOM": 27,
         "NAV-CARDS": 225,
         "PILGRIMAGE": 38,
@@ -7580,6 +7581,20 @@
         "title": "修復2件の分割移管をboardへ反映",
         "write_paths": [
           "TASK_GRAPH.json"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "ISSUE-SUPERSESSION-FIX",
+        "kind": "tooling",
+        "lane": "A",
+        "priority": "P0",
+        "title": "UI分離後の正式移管と複数後続の同期",
+        "write_paths": [
+          "tools/sync_graph.py",
+          "tools/test_sync_graph.py",
+          "docs/evidence/ISSUE-SUPERSESSION-FIX/"
         ]
       }
     ],
@@ -33837,9 +33852,10 @@
     "BUILDING-GROWTH",
     "NAV-CARDS",
     "BUILDING-RECORDS",
-    "ISSUE-REPAIR-SUPERSESSIONS"
+    "ISSUE-REPAIR-SUPERSESSIONS",
+    "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 239,
+  "revision": 240,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34329,6 +34345,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "9acfc65243c042c3a97d1e49443c0673"
+    },
+    "ISSUE-SUPERSESSION-FIX": {
+      "actor": "rozwer",
+      "base_commit": "68a2552d45f645f4d9197070ae90e8b3ced9c2ae",
+      "generation": 1,
+      "issue_number": 234,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "tools/sync_graph.py",
+        "tools/test_sync_graph.py",
+        "docs/evidence/ISSUE-SUPERSESSION-FIX/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "2b083f8fa44e4c4eb574042d1cce1bfb"
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
