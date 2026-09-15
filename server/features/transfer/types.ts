@@ -10,14 +10,15 @@ export type PlanInput = {
 };
 export type Candidate = { placeId: string; version: number; name: string; position: Position; stepIds: string[] };
 export type PlanStep = { stepId: string; placeId: string | null; explanation: string; evidenceIds: string[] };
-export type Proposal = { variant: Variant; steps: PlanStep[]; explanation: string; unmetConditions: string[]; unknowns: string[] };
+export type ConditionCheck = { condition: string; status: 'satisfied'|'unmet'|'unknown'; explanation: string; evidenceIds: string[] };
+export type Proposal = { variant: Variant; steps: PlanStep[]; explanation: string; conditionChecks: ConditionCheck[]; unmetConditions: string[]; unknowns: string[] };
 export type ModelResult = { plans: Proposal[]; commonalities: string[]; differences: string[] };
 export type RoutePreview = { id: string; durationSeconds: number; distanceMeters: number; expiresAt: number; sourceRefs: SourceRef[] };
 export type Plan = Proposal & { route: RoutePreview | null; travelMinutes: number | null; stayMinutes: number; totalMinutes: number | null; eligible: boolean };
 export type PlanSet = PlanInput & {
   recipe: Recipe; sourceRefs: SourceRef[]; candidates: Candidate[]; generatorVersion: string;
   status: 'pending' | 'running' | 'complete' | 'incomplete' | 'failed' | 'cancelled' | 'adopted';
-  assistantMessageId: string | null; plans: Plan[]; commonalities: string[]; differences: string[];
+  assistantMessageId: string | null; assistantAttempt: number | null; plans: Plan[]; commonalities: string[]; differences: string[];
   selectedVariant: Variant | null; savedRouteId: string | null;
   error: { code: string; message: string; retryable: boolean } | null;
   version: number; createdAt: number; updatedAt: number;

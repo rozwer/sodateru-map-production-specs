@@ -43,7 +43,7 @@ export class TransferStore {
     }
     const now = Date.now();
     const plan: PlanSet = { ...input, recipe, sourceRefs: recipe.sourceRefs, candidates: [], generatorVersion: 'transfer-v1',
-      status: 'pending', assistantMessageId: null, plans: [], commonalities: [], differences: [], selectedVariant: null, savedRouteId: null,
+      status: 'pending', assistantMessageId: null, assistantAttempt: null, plans: [], commonalities: [], differences: [], selectedVariant: null, savedRouteId: null,
       error: null, version: 1, createdAt: now, updatedAt: now };
     this.db.prepare('INSERT INTO transfer_plan_sets(id,person_id,recipe_id,version,input_json,plan_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?)').run(input.id, personId, recipe.id, 1, JSON.stringify(input), JSON.stringify(plan), now, now);
     return plan;

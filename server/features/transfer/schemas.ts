@@ -16,13 +16,14 @@ const recipe = obj({ ...recipeInput.properties, ...versioned });
 const planInput = obj({ id, recipeId: id, recipeVersion: int(1), region: str(300), start: position, mode: en('walking','driving'), timeBudgetMinutes: int(1,1440), preferences: str(4000,0) });
 const candidate = obj({ placeId: id, version: int(1), name: str(500), position, stepIds: arr(id,9,1) });
 const planStep = obj({ stepId: id, placeId: nullable(id), explanation: str(), evidenceIds: arr(id,100) });
-const proposal = obj({ variant: en('faithful','personalized'), steps: arr(planStep,9,1), explanation: str(), unmetConditions: arr(str()), unknowns: arr(str()) });
+const conditionCheck = obj({ condition: str(), status: en('satisfied','unmet','unknown'), explanation: str(), evidenceIds: arr(id,100) });
+const proposal = obj({ variant: en('faithful','personalized'), steps: arr(planStep,9,1), explanation: str(), conditionChecks: arr(conditionCheck), unmetConditions: arr(str()), unknowns: arr(str()) });
 export const transferOutputSchema = obj({ plans: arr(proposal,2,2), commonalities: arr(str()), differences: arr(str()) });
 export const transferInputSchema = obj({ planSetId: id });
 const route = obj({ id, durationSeconds: num(), distanceMeters: num(), expiresAt: int(), sourceRefs: arr(sourceRef,200) });
 const plan = obj({ ...proposal.properties, route: nullable(route), travelMinutes: nullable(num()), stayMinutes: num(), totalMinutes: nullable(num()), eligible: bool });
 const planSet = obj({ ...planInput.properties, recipe, sourceRefs: arr(sourceRef,200,1), candidates: arr(candidate,100), generatorVersion: str(100),
-  status: en('pending','running','complete','incomplete','failed','cancelled','adopted'), assistantMessageId: nullable(id), plans: arr(plan,2), commonalities: arr(str()), differences: arr(str()),
+  status: en('pending','running','complete','incomplete','failed','cancelled','adopted'), assistantMessageId: nullable(id), assistantAttempt: nullable(int(1)), plans: arr(plan,2), commonalities: arr(str()), differences: arr(str()),
   selectedVariant: nullable(en('faithful','personalized')), savedRouteId: nullable(id), error: nullable(obj({ code: str(100), message: str(), retryable: bool })), ...versioned });
 export const transferSchemas = {
   TransferRecipeInput: recipeInput, TransferRecipe: recipe, TransferPlanInput: planInput, TransferPlanSet: planSet,
@@ -42,7 +43,7 @@ function operation(method: string, pathValue: string, operationId: string, respo
   return { method, path: pathValue, operationId, tags: ['TRANSFER'], parameters, ...(input ? { requestBody: body(input) } : {}),
     responses: { [status]: response(responseSchema), default: { description: '共通エラー。根拠変更/閲覧不可/期限切れ/版競合では採用しない。', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } } } } };
 }
-export const transferFragment = { taskId: 'TRANSFER', version: 1, schemas: transferSchemas, operations: [
+export const transferFragment = { taskId: 'TRANSFER', version: 2, schemas: transferSchemas, operations: [
   operation('post','/transfer/recipes','createTransferRecipe',ref('TransferRecipe'),'TransferRecipeInput',false,'201'),
   operation('get','/transfer/recipes','listTransferRecipes',obj({ items: arr(ref('TransferRecipe'),100) })),
   operation('get','/transfer/recipes/{recipeId}','getTransferRecipe',ref('TransferRecipe')),

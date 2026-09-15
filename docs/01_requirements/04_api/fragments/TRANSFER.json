@@ -1,6 +1,6 @@
 {
   "taskId": "TRANSFER",
-  "version": 1,
+  "version": 2,
   "schemas": {
     "TransferRecipeInput": {
       "type": "object",
@@ -695,6 +695,18 @@
             }
           ]
         },
+        "assistantAttempt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "plans": {
           "type": "array",
           "items": {
@@ -760,6 +772,51 @@
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 2000
+              },
+              "conditionChecks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "condition": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "satisfied",
+                        "unmet",
+                        "unknown"
+                      ]
+                    },
+                    "explanation": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "required": [
+                    "condition",
+                    "status",
+                    "explanation",
+                    "evidenceIds"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 20
               },
               "unmetConditions": {
                 "type": "array",
@@ -894,6 +951,7 @@
               "variant",
               "steps",
               "explanation",
+              "conditionChecks",
               "unmetConditions",
               "unknowns",
               "route",
@@ -1015,6 +1073,7 @@
         "generatorVersion",
         "status",
         "assistantMessageId",
+        "assistantAttempt",
         "plans",
         "commonalities",
         "differences",
@@ -1110,6 +1169,51 @@
                 "minLength": 1,
                 "maxLength": 2000
               },
+              "conditionChecks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "condition": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "satisfied",
+                        "unmet",
+                        "unknown"
+                      ]
+                    },
+                    "explanation": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 2000
+                    },
+                    "evidenceIds": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "minItems": 0,
+                      "maxItems": 100
+                    }
+                  },
+                  "required": [
+                    "condition",
+                    "status",
+                    "explanation",
+                    "evidenceIds"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 0,
+                "maxItems": 20
+              },
               "unmetConditions": {
                 "type": "array",
                 "items": {
@@ -1135,6 +1239,7 @@
               "variant",
               "steps",
               "explanation",
+              "conditionChecks",
               "unmetConditions",
               "unknowns"
             ],
