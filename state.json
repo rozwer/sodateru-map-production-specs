@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 9,
+  "revision": 10,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4650,12 +4650,21 @@
       "token": null
     },
     "UI-INSIGHTS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 13,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/insights/",
+        "src/features/themes/",
+        "docs/evidence/UI-INSIGHTS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "05e208d9b55143e8a5aeeeef17f80647"
     },
     "UI-KNOWLEDGE": {
       "actor": "rozwer",
