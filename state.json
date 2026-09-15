@@ -49,6 +49,7 @@
         "TOOL-UPSTREAM-GUARD": 62,
         "TOOL-WORKTREE-SETUP": 41,
         "TRANSFER": 32,
+        "TRANSFER-INTEGRATION": 109,
         "UI-BASE": 4,
         "UI-COMPANION": 19,
         "UI-EXPLORE": 10,
@@ -6729,6 +6730,94 @@
           "server/db/migrations/insights/",
           "docs/01_requirements/04_api/fragments/INSIGHTS.json",
           "docs/evidence/INSIGHTS/"
+        ]
+      },
+      {
+        "acceptance_ids": [],
+        "connect_after": [
+          "AI",
+          "PLACES",
+          "ROUTES",
+          "INFORMATION"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "AI",
+            "outputs": [
+              "AI.engine",
+              "AI.refs"
+            ],
+            "required_output": "用途登録・実行・保存・取消・結果取得／共通根拠照合を使う生成・再試行"
+          },
+          {
+            "issue": "PLACES",
+            "outputs": [
+              "PLACES.search",
+              "PLACES.detail"
+            ],
+            "required_output": "保存場所/外部候補の検索・候補採用／場所詳細と本人/共有記録の合成"
+          },
+          {
+            "issue": "ROUTES",
+            "outputs": [
+              "ROUTES.basic"
+            ],
+            "required_output": "基本道路経路の取得・保存・再取得"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.read",
+              "INFORMATION.refs"
+            ],
+            "required_output": "記録検索・実効日時/場所・現在の閲覧条件／根拠解決・閲覧判定・版/更新/削除照合"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "effective_priority": "P0",
+        "github_issue": 109,
+        "hard_dependencies": [],
+        "id": "TRANSFER-INTEGRATION",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/109",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [],
+        "owned_operations": [],
+        "pages": [],
+        "priority": "P0",
+        "provides": [
+          "TRANSFER.complete"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/features/transfer/",
+          "server/db/migrations/transfer/",
+          "docs/01_requirements/04_api/fragments/TRANSFER.json",
+          "docs/evidence/TRANSFER/"
+        ],
+        "references": [
+          "../01_requirements/02_common/02_places-routes/README.md",
+          "../01_requirements/04_api/conventions/03_open-questions.md"
+        ],
+        "requirement_ids": [],
+        "source_task_ids": [
+          "TRANSFER"
+        ],
+        "status": "registered",
+        "title": "TRANSFER follow-up: 実二案生成・採用永続化・Q10画面の結合受入",
+        "write_paths": [
+          "server/features/transfer/",
+          "server/db/migrations/transfer/",
+          "docs/01_requirements/04_api/fragments/TRANSFER.json",
+          "docs/evidence/TRANSFER/"
         ]
       }
     ],
@@ -32961,9 +33050,10 @@
     "TOOL-UPSTREAM-GUARD",
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION",
-    "INSIGHTS-DEMO"
+    "INSIGHTS-DEMO",
+    "TRANSFER-INTEGRATION"
   ],
-  "revision": 159,
+  "revision": 160,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33551,6 +33641,24 @@
       "status": "done",
       "submitted_commit": "6ecfdfb2fd8cf28a1e3271434024230b04da78da",
       "token": null
+    },
+    "TRANSFER-INTEGRATION": {
+      "actor": "mattsun",
+      "base_commit": "68c44d10b423a1d2e69c5d3a1b43fdfdca286beb",
+      "generation": 1,
+      "issue_number": 109,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/features/transfer/",
+        "server/db/migrations/transfer/",
+        "docs/01_requirements/04_api/fragments/TRANSFER.json",
+        "docs/evidence/TRANSFER/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "973244faff1744d9a706e7f51715c07b"
     },
     "UI-BASE": {
       "actor": null,
