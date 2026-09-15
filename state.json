@@ -33969,7 +33969,7 @@
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE"
   ],
-  "revision": 266,
+  "revision": 267,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34484,16 +34484,13 @@
       "base_commit": "dd95f9e92ea5b70488d8026da3b6c8c2459fd81d",
       "generation": 1,
       "issue_number": 262,
-      "landed_main": null,
+      "landed_main": "c4d5824ef6907ac9fd7d21542bdd1b11e5f3dd6c",
       "note": "docs/evidence/OMO7-EXPERIENCE/receipt.json",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/assets/omo7-breakfast-generated.png",
-        "docs/evidence/OMO7-EXPERIENCE/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "7c2f44689465a79efe099820e5e94fe726511984",
-      "token": "734c6416f6c64ef4a8477b23b31d23d9"
+      "token": null
     },
     "PILGRIMAGE": {
       "actor": "kaiya",
