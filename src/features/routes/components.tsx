@@ -1,4 +1,4 @@
-import { useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useState, type ReactNode } from 'react';
 import { routeMessages as m } from './messages';
 import { RouteIcon } from './icons';
 import type { Notice, RouteDraft, RouteMapView } from './types';
@@ -21,7 +21,9 @@ export function RouteHeader({ eyebrow, title, children, onBack }: { eyebrow: str
 
 export function PlaceImage({ src, alt }: { src?: string; alt: string }) {
   const [failed, setFailed] = useState(false);
-  if (!src || failed) return null;
+  useEffect(() => setFailed(false), [src]);
+  if (!src) return <span className="routes-place-image routes-place-image-fallback" role="img" aria-label={m.photoMissing}><RouteIcon name="pin"/><small>{m.photoMissing}</small></span>;
+  if (failed) return <button className="routes-place-image routes-place-image-fallback" type="button" aria-label={m.photoUnavailable} onClick={() => setFailed(false)}><RouteIcon name="warning"/><small>{m.photoRetry}</small></button>;
   return <img className="routes-place-image" src={src} alt={alt} onError={() => setFailed(true)}/>;
 }
 
