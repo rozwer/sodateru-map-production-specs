@@ -20,7 +20,7 @@ export function savedCandidates(db: DatabaseSync,query: string,limit: number): O
 }
 export function colocated(db: DatabaseSync,place: Place) {
   if(!place.buildingKey)return [];
-  return db.prepare("SELECT id,name,address,longitude,latitude FROM places WHERE building_key=? AND id<>? ORDER BY name ASC,id ASC").all(place.buildingKey,place.id)
+  return db.prepare("SELECT id,name,address,longitude,latitude FROM places WHERE building_key=? ORDER BY name ASC,id ASC").all(place.buildingKey)
     .map((r:any)=>({id:r.id,name:r.name,address:r.address,coordinates:[r.longitude,r.latitude]}));
 }
 export function insertPlace(db: DatabaseSync,id: string,c: Omit<PlaceCandidate,"candidateId">,personId: string,now: number) {

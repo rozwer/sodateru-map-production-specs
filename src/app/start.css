@@ -1,0 +1,29 @@
+/* Source layout: rehearsal App.tsx welcome + data-mode/styles.css. */
+.sm-start-root { height: 100dvh; overflow: auto; background: #eff8f4; display: flex; flex-direction: column; }
+.sm-data-mode { min-height: 70px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 4px 20px; padding: 8px 12px; background: #eff8f4; color: #28564c; border-bottom: 1px solid #c5ded5; flex-shrink: 0; }
+.sm-data-mode label { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.sm-data-mode small { width: 100%; text-align: center; font-size: 12px; }
+.sm-data-mode select { min-height: 32px; max-width: 200px; border: 1px solid #bfd7ce; border-radius: 8px; background: white; color: #28564c; padding: 3px 6px; }
+.sm-data-mode input { appearance: none; position: relative; flex: 0 0 42px; width: 42px; height: 26px; margin: 0; border-radius: 30px; background: #d6e0da; border: 1px solid #acbeb3; }
+.sm-data-mode input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; box-shadow: 0 1px 3px #526b6b38; }
+.sm-data-mode input:checked { background: #149d8b; }
+.sm-data-mode input:checked::after { left: 18px; }
+.sm-welcome { position: relative; flex: 1 0 700px; min-height: min(700px,calc(100dvh - 70px)); width: 100%; max-width: 520px; margin: 0 auto; background: url('../ui/assets/start-background.png') center / cover; font-family: 'Hiragino Mincho ProN','Yu Mincho',serif; color: #041c1d; }
+.sm-welcome__brand { position: absolute; top: 5%; left: 8%; }
+.sm-welcome__brand h1 { font-size: clamp(28px,6.6vw,40px); font-weight: 500; letter-spacing: .09em; margin: 0; }
+.sm-welcome__brand p { font-family: Georgia,serif; font-size: clamp(9px,2.05vw,13px); letter-spacing: .19em; margin-top: 8px; }
+.sm-welcome__profile { position: absolute; top: 4%; right: 6%; width: 50px; height: 50px; background: #ffffffe8; color: #1b2328; }
+.sm-welcome__slogan { position: absolute; top: 17.8%; left: 8%; margin: 0; font-size: clamp(28px,6.6vw,40px); font-weight: 500; line-height: 1.5; letter-spacing: .05em; white-space: pre-line; }
+.sm-welcome__explore { position: absolute; top: 35%; left: 50%; transform: translateX(-50%); width: 37%; aspect-ratio: 1; border: 8px solid #f5ffffeb; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 6px; color: white; background: linear-gradient(135deg,#a7cc8d,#51aa9f 48%,#2989a8); font-family: inherit; font-size: clamp(14px,4vw,24px); font-weight: 500; line-height: 1.25; padding: 8px; }
+.sm-welcome__explore > svg { width: 26px; height: 26px; flex-shrink: 0; }
+.sm-welcome__explore small { font-family: Georgia,serif; font-size: 10px; line-height: 1.2; letter-spacing: .22em; }
+.sm-welcome__actions { position: absolute; left: 50%; transform: translateX(-50%); bottom: 5.4%; width: 76%; display: grid; gap: 9px; }
+.sm-welcome__divider { font-size: clamp(11px,2.8vw,15px); margin: 0 0 7px; color: #526b77; text-align: center; }
+.sm-login-button { position: relative; min-height: 46px; border: 0; border-radius: 30px; background: #ffffffed; font-family: -apple-system,BlinkMacSystemFont,sans-serif; font-size: clamp(13px,3.1vw,18px); color: #10151b; display: flex; align-items: center; padding: 0 30px 0 32%; box-shadow: 0 5px 14px #617b7c10; white-space: nowrap; }
+.sm-login-button:disabled { opacity: 1; }
+.sm-login-button > svg { position: absolute; right: 20px; color: #738d9a; }
+.sm-provider { position: absolute; left: 8%; width: 20%; border-right: 1px solid #d7e0e5; font-size: 27px; line-height: 1.2; font-weight: 650; text-align: left; }
+.sm-provider--google { font-family: Arial,sans-serif; background: conic-gradient(#4285f4 0deg 90deg,#34a853 90deg 170deg,#fbbc05 170deg 230deg,#ea4335 230deg 290deg,#4285f4 290deg); background-clip: text; -webkit-background-clip: text; color: transparent; }
+.sm-welcome__notice { font-family: sans-serif; font-size: 10px; text-align: center; color: #56757e; }
+.sm-welcome__actions .sm-status { font: 13px/1.5 sans-serif; }
+@media (min-width: 768px) { .sm-welcome { flex-basis: 850px; min-height: 850px; } }
