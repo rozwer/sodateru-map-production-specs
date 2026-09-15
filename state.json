@@ -4760,7 +4760,7 @@
     "SUGGESTIONS-INTEGRATION",
     "AI-INTEGRATION"
   ],
-  "revision": 143,
+  "revision": 144,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5410,20 +5410,17 @@
       "token": "eb8f8d5dbcdf4eec9855f46a4f3d7def"
     },
     "UI-SUGGESTIONS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 15,
       "landed_main": null,
-      "note": "docs/evidence/UI-SUGGESTIONS/README.md",
+      "note": "User requested end-of-session release. PR66 and PR150, all source/evidence and worktree ui-suggestions-15 retained. Remaining acceptance: normal generated contract, suggestion generation and route/visit/share integration; see docs/evidence/UI-SUGGESTIONS/README.md. No completion claim.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/suggestions/",
-        "docs/evidence/UI-SUGGESTIONS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "3fe167efc4fa69ebaece5229a266a4e87eada675",
-      "token": "1886d03cad6d47ee8d46bdc0a211e1fd"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     }
   }
 }
