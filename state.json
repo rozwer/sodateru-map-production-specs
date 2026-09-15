@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 170,
+  "revision": 171,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34025,7 +34025,7 @@
       "generation": 1,
       "issue_number": 109,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/TRANSFER/integration-acceptance.md",
       "owner": "mattsun",
       "paths": [
         "server/features/transfer/",
@@ -34033,8 +34033,8 @@
         "docs/01_requirements/04_api/fragments/TRANSFER.json",
         "docs/evidence/TRANSFER/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "7e91cdc9c1079fde97f985142712922a682440be",
       "token": "973244faff1744d9a706e7f51715c07b"
     },
     "UI-BASE": {
