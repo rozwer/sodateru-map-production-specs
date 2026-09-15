@@ -2,7 +2,7 @@
 import copy
 import unittest
 from datetime import datetime
-from transfer_search import search_transfers, InputFault
+from transfer_search import search_transfers, InputFault, Fault
 
 
 def epoch(s): return int(datetime.fromisoformat(s+'+09:00').timestamp()*1000)
@@ -70,5 +70,7 @@ class TransferBoundaries(unittest.TestCase):
         r=self.query(d);self.assertEqual(r['status'],'partial');self.assertIsNone(r['journeys'][0]['legs'][1]['geometry'])
         r=self.query(payment='ic');self.assertEqual(r['journeys'][0]['fare']['amount'],180)
         with self.assertRaises(InputFault):self.query(minTransferSec=-1)
+        with self.assertRaises(Fault) as unsupported:self.query(transitPassIds=['pass'])
+        self.assertEqual(unsupported.exception.code,'MODE_UNSUPPORTED')
 
 if __name__=='__main__':unittest.main()

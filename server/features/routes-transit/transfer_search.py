@@ -45,6 +45,8 @@ def search_transfers(loaded, request):
     Max 3 boardings (2 transfers). Access/egress road timing is composed by ROUTES.
     Missing fares/shapes produce partial, never a fabricated successful route.
     """
+    if not isinstance(request,dict) or set(request)-{'fromStopIds','toStopIds','earliestDepartureAt','latestArrivalAt','maxTransfers','maxJourneySec','minTransferSec','payment','transferWalks'}:
+        raise Fault('MODE_UNSUPPORTED','未対応の条件を省略して成功にはしません')
     stops=loaded['stops']; feed=loaded['feed']
     earliest=request.get('earliestDepartureAt'); latest=request.get('latestArrivalAt')
     if type(earliest)!=int or earliest<0:

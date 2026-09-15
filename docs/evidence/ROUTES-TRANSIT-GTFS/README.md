@@ -18,6 +18,15 @@
 
 TSのstrict/noUncheckedIndexedAccess型検査成功。既存成功テストや追加provider通信は再実行しない。
 
+## 実feedと公開TS入口の証拠
+
+- `live_check.py` / `live-check.json`: 実feedの東京駅丸の内南口→豊洲駅前は直通なし。乗継1回420円、2回630円の5候補がready。各便のroute/trip/service/shape ID、全使用停留所の元時刻/順序、乗降、同一乗り場で120秒以上の余裕、区間運賃と合計を照合。9月15日の29-171追加/29-170除外、23:59から30秒以内の便なしを確認。
+- `bridge_check.ts` / `bridge-check.json`: `searchToeiTransfers`→Python別プロセス→既存loader→実feedで0966-02→0939-01→1025-09の2便・420円を確認。pre-abortは新しい子プロセスを起動しない。
+- 当初bridge確認で0966-03/1025-02等の別乗り場を指定するとno_tripとなったため、上記実候補の乗り場に合わせた。停留所名だけで別方向の乗り場へ置換していない。
+- 検証環境はmise Node22.22.1/Python標準lib。依存loaderは#25 worktreeの`f6d9ac0`とファイル差分なしを確認した。先行確認時だけ`PYTHONPATH=/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-25-routes`を指定してread-only利用。共有load_feedの統合後はこの設定不要。
+- 再現: `mise exec -- env PYTHONDONTWRITEBYTECODE=1 python3 docs/evidence/ROUTES-TRANSIT-GTFS/live_check.py`、`mise exec -- node --experimental-transform-types docs/evidence/ROUTES-TRANSIT-GTFS/bridge_check.ts`。上記の二重成功を再実行する必要はない。
+
+
 ## 出典・利用条件
 
 - [GTFS Schedule仕様](https://gtfs.org/documentation/schedule/reference/)のservice day、乗降、運賃を参照。運行日はAsia/Tokyo。24時超は前の運行日を保持する。
@@ -25,8 +34,8 @@ TSのstrict/noUncheckedIndexedAccess型検査成功。既存成功テストや�
 - 取得済ZIPのSHA256 c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8。版20260915_030753、適用20260915〜20290914。再ダウンロードなし。
 - 取得metadataに正確なfetchedAtがない場合はnull。ロード時刻loadedAtとLast-Modifiedを分離し、取得時刻を捏造しない。
 
-## 未完了条件（先行提供時点）
+## 未完了条件
 
-#25へ必要なload_feed exportを依頼済み（issuecomment-5675193717）。統合された既存loaderで実feed乗継・形状/運賃/運行日を確認し、短い独立レビュー・通常mergeへ進む。
+既存loaderは#25の`f6d9ac0`（共有path）を使用。直通提供PR #271の494a9b8とloader追補は依存として先に統合が必要。自身の実feed/公開入口確認は完了しており、依存統合・短い独立レビュー・通常merge後に正式finishする。依存の確認前にこのTaskを完成扱いしない。
 
 全体のHTTP/保存/通常再取得、鉄道/他地域/定期券は#25/#88に残し、UIはA #138。本Taskは乗継provider提供の完了だけを扱う。

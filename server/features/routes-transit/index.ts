@@ -19,7 +19,7 @@ export class TransitProviderError extends Error {
 export async function searchToeiTransfers(options:ToeiTransferOptions,request:TransferQuery,signal?:AbortSignal):Promise<TransferResult>{
   signal?.throwIfAborted();
   return new Promise((resolve,reject)=>{
-    const child=execFile('python3',[fileURLToPath(new URL('./runner.py',import.meta.url)),options.feedPath,options.metadataPath],{signal,timeout:60000,maxBuffer:16000000},(error,stdout)=>{
+    const child=execFile('python3',[fileURLToPath(new URL('./runner.py',import.meta.url)),options.feedPath,options.metadataPath],{signal,timeout:60000,maxBuffer:16000000,env:{...process.env,PYTHONDONTWRITEBYTECODE:'1'}},(error,stdout)=>{
       if(signal?.aborted){reject(new TransitProviderError('CANCELLED','乗継検索を取り消しました'));return;}
       try{
         const value=JSON.parse(stdout);
