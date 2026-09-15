@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 49,
+  "revision": 50,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4982,12 +4982,20 @@
       "token": "96a37508317942b9874adae6366ddc23"
     },
     "UI-REFLECTION": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+      "generation": 1,
+      "issue_number": 12,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/reflection/",
+        "docs/evidence/UI-REFLECTION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "db7e3a53e8274d5bbc210ba5c258779a"
     },
     "UI-ROUTES": {
       "actor": "rozwer",
