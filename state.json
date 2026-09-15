@@ -33810,7 +33810,7 @@
     "BUILDING-GROWTH",
     "NAV-CARDS"
   ],
-  "revision": 229,
+  "revision": 230,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33892,7 +33892,8 @@
         "src/map/display-state.ts",
         "src/map/map.css",
         "src/features/map/",
-        "docs/evidence/BUILDING-GROWTH/"
+        "docs/evidence/BUILDING-GROWTH/",
+        "src/map/"
       ],
       "status": "claimed",
       "submitted_commit": null,
