@@ -246,10 +246,12 @@ export function DiaryScreen({
     try {
       let saved = snapshot.record;
       if (snapshot.ai?.adopted) {
+        if (!snapshot.ai.run) throw new Error("採用する下書きの実行情報を取得できません。入力は保持しています。");
         saved = (
           await api.request("postReflectionAdoptions", {
             body: {
               assistantMessageId: snapshot.ai.job.send.assistantMessageId,
+              expectedAttempt: snapshot.ai.run.attempt,
               recordId: snapshot.id,
               body: snapshot.body,
               ...(!saved ? { create: true, occurredAt: snapshot.from } : {}),

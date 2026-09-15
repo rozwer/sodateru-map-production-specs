@@ -1,4 +1,4 @@
-import React, { useId, useState, type ReactNode } from "react";
+import React, { useEffect, useId, useState, type ReactNode } from "react";
 import "./reflection.css";
 
 // Display models only. API DTOs are mapped at the screen boundary.
@@ -130,6 +130,7 @@ export function Mark({
 }
 export function PhotoImage({ src, alt }: { src: string; alt: string }) {
   const [failed, setFailed] = useState(false);
+  useEffect(() => setFailed(false), [src]);
   return !src || failed ? (
     <span>写真を表示できません</span>
   ) : (
