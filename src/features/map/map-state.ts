@@ -12,7 +12,7 @@ type SearchState = {
   personalError: string | null; personalLoading: boolean; nextPlaceCursor: string | null; nextRecordCursor: string | null;
   failedOperation: 'search' | 'save' | 'places' | null;
   nearby: CandidateResult | null; nearbyLoading: boolean; nearbyError: string | null;
-  growthError: string | null;
+  growthError: string | null; growthLoaded: boolean;
 };
 function message(error: unknown) { return error instanceof Error ? error.message : '通信に失敗しました。'; }
 function aborted(error: unknown) { return error instanceof DOMException && error.name === 'AbortError'; }
@@ -34,7 +34,7 @@ export class MapSession {
   private state: SearchState;
   constructor(readonly scopeKey: string) {
     let query = ''; try { query = localStorage.getItem(`sodateru.map-query:${scopeKey}`) || ''; } catch { /* The input remains editable. */ }
-    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null };
+    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
   }
   getSnapshot = () => this.state;
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
@@ -146,7 +146,7 @@ export class MapSession {
     try {
       const items: GrowthItem[] = []; let cursor: string | undefined;
       do { const page = await api.request('getMapGrowth', { query: { limit: 100, cursor }, signal }); if (signal.aborted) return; items.push(...page.items); cursor = page.nextCursor || undefined; } while (cursor);
-      this.update({ growth: items }); showGrowth(bridge, items);
+      this.update({ growth: items, growthLoaded: true }); showGrowth(bridge, items);
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ growthError: message(error) }); }
   }
   closeSearch(bridge: MapBridge) { this.searchAbort?.abort(); this.generation++; bridge.clear('map-search'); this.update({ result: null, loading: false, selectedCandidateId: null }); }

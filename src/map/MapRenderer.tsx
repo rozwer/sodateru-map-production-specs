@@ -3,12 +3,14 @@ import type { MapBridge, MapOwnerKey, MapSelection } from '../app/map-bridge';
 import { MapScene, type ScenePoint, type SceneLine, type SceneCamera, type SceneSelection, type ScenePadding, type SceneRadius, type SceneImage, type SceneOverlay } from './MapScene';
 import { MapIcon } from '../features/map/MapIcon';
 import { mapMessages as m } from '../features/map/messages';
+import { useDisasterMapDisplay } from '../features/disaster/ui/map-state';
 import { mapDisplay, useMapDisplay } from './display-state';
 
 const previewPadding = { top: 10, bottom: 28, left: 10, right: 10 };
 
 export function BridgeMap({ bridge, interactive = true, label, preview = false, padding, radius, images, overlays }: { bridge: MapBridge; interactive?: boolean; label?: string; preview?: boolean; padding?: ScenePadding; radius?: SceneRadius; images?: SceneImage[]; overlays?: SceneOverlay[] }) {
   const snapshot = useSyncExternalStore(bridge.subscribe, bridge.getSnapshot);
+  const disaster = useDisasterMapDisplay(bridge);
   const display = useMapDisplay(bridge);
   const points = useMemo<ScenePoint[]>(() => [
     ...Object.entries(snapshot.candidates).flatMap(([ownerKey, display]) => display?.candidates.map(point => ({ ...point, ownerKey, selected: point.id === display.selectedCandidateId, kind: ownerKey === 'map-objects' ? 'object' : ownerKey === 'personal-map' ? 'place' : 'candidate' })) || []),
@@ -28,7 +30,7 @@ export function BridgeMap({ bridge, interactive = true, label, preview = false, 
     if (selection.kind === 'candidate') bridge.selectCandidate(ownerKey, selection.id);
     else bridge.select({ ...selection, ownerKey, kind: selection.kind as MapSelection['kind'] });
   };
-  return <MapScene camera={camera} view={snapshot.view} padding={scenePadding} points={points} lines={lines} focus={focus} radius={radius} placement={preview ? null : display.placement} decorations={display.decorations} growth={display.growth} images={images} overlays={overlays} onBuildings={preview ? undefined : buildings => mapDisplay(bridge).setBuildings(buildings)}
+  return <MapScene camera={camera} view={snapshot.view} padding={scenePadding} points={points} lines={lines} focus={focus} radius={radius} placement={preview ? null : display.placement} decorations={display.decorations} growth={display.growth} styleRevision={display.styleRevision} images={images ?? (preview ? undefined : disaster.images)} overlays={overlays ?? (preview ? undefined : disaster.overlays)} onBuildings={preview ? undefined : buildings => mapDisplay(bridge).setBuildings(buildings)}
     interactive={interactive} label={label} onSelect={select} onManualMove={() => bridge.setView({ following: false })}
     onCamera={interactive ? value => bridge.setCamera({ ...value, pitch: snapshot.view.dimension === '2d' ? snapshot.camera.pitch : value.pitch, bounds: value.bounds ? [[value.bounds[0], value.bounds[1]], [value.bounds[2], value.bounds[3]]] : undefined }) : undefined} />;
 }
