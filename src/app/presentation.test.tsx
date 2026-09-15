@@ -31,13 +31,16 @@ it('opens the map camera, cancels without navigation, and hands selected photos 
   HTMLDialogElement.prototype.showModal = function () { this.open = true; };
   history.replaceState(null, '', '#/map');
   let captureId = '';
-  const screens: ScreenDefinition[] = [{ id: 'record-create', title: '記録', component: ({route}) => { captureId = route.params.captureId; return <p>記録入力</p>; } }];
+  const screens: ScreenDefinition[] = [{ id: 'record-create', title: '記録', component: ({route}) => { captureId = route.params.captureId ?? '';  return <p>記録入力</p>; } }];
   const host = document.createElement('div'); document.body.append(host); const root = createRoot(host);
   await act(async () => root.render(<App screens={screens} scopeKey="camera-owner"/>));
   const captureButton = () => host.querySelector<HTMLButtonElement>('[aria-label="写真を記録する"]')!;
   await act(async () => captureButton().click());
   expect(host.querySelector('dialog')?.open).toBe(true);
   await act(async () => [...host.querySelectorAll('button')].find(button => button.textContent === 'キャンセル')!.click());
+  expect(location.hash).toBe('#/map'); expect(host.querySelector('dialog')).toBeNull();
+  await act(async () => captureButton().click());
+  await act(async () => host.querySelector('[aria-label="選択した写真"]')!.dispatchEvent(new Event('cancel', {bubbles: true})));
   expect(location.hash).toBe('#/map'); expect(host.querySelector('dialog')).toBeNull();
   await act(async () => captureButton().click());
   const file = new File(['photo'], 'photo.jpg', {type: 'image/jpeg'});

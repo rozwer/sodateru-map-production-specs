@@ -76,8 +76,10 @@ QA HEAD `2f4df19f46afcbc42986b403ce2df71aade82882`、提出`5b886a043fab8251ca85
 
 共通fullscreenは同QA既存`/docs/evidence/UI-BASE/preview.html#/fixture-chat`でx=0,y=0,width=390,height=844、mapHidden=trueをDOM矩形と実画像で確認（API未接続の明示fixture）。最初の1280×720でも同様に全面矩形。元UIの完全一致を意味しない。
 
-最終操作: 390×844で撮影dialogをEscape取消→#/mapを維持。community原本幅460のpanel286×860、390では横overflowなし。全体typecheckは二度目もcore/companion/exploration/friends/records/reflectionの既存契約エラーで失敗、今回src/app/src/ui変更のエラーなし。
+最終操作: 390×844で撮影dialogをEscape取消→#/mapを維持。community原本幅460のpanel286×860、390では横overflowなし。二度目の全体typecheckで追加input onCancelのReact型未定義とtestのoptional paramsを検出したため、native cancel listenerと未指定値処理へ修正した。全体のcore/companion/exploration/friends/records/reflection既存契約エラーは別途残る。
 
 ## 引継ぎ境界
 
 共通コンテナ/カメラ入口の変更・QA反映は完了。全ページ画像一致は宣言しない。navigationの図版細部/通常プロフィール、原本のないstart、実機撮影/OS拒否、記録API保存の証拠は未達を上記のとおり残す。各featureのfullscreen採否は担当が原本根拠を記録。健康3画面と新規相棒制作は対象外。B/D未着サンプル待ちでclaimを保持せず、受領済みPLUGINS/ROUTESを各担当へ渡して終了する。
+
+最終修正後: native input cancelでdialogを閉じ地図を維持するテストを追加し、Shell2件成功。typecheckを再確認しsrc/app/src/uiエラー0、全体既存25診断は残る。

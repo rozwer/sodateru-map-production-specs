@@ -7,6 +7,12 @@ export function CapturePicker({ onFiles, onClose }: { onFiles: (files: File[]) =
   const library = useRef<HTMLInputElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => { dialog.current?.showModal(); }, []);
+  useEffect(() => {
+    const inputs = [camera.current, library.current];
+    const cancel = (event: Event) => { event.stopPropagation(); onClose(); };
+    inputs.forEach(input => input?.addEventListener('cancel', cancel));
+    return () => inputs.forEach(input => input?.removeEventListener('cancel', cancel));
+  }, [onClose]);
   const receive = (input: HTMLInputElement) => {
     const files = Array.from(input.files ?? []); input.value = '';
     if (files.length) onFiles(files);
@@ -17,7 +23,7 @@ export function CapturePicker({ onFiles, onClose }: { onFiles: (files: File[]) =
     <button className="sm-button sm-button--primary" onClick={() => camera.current?.click()}><Icon name="camera"/>写真を撮る</button>
     <button className="sm-button" onClick={() => library.current?.click()}>端末の写真を選ぶ</button>
     <button className="sm-button" onClick={onClose}>キャンセル</button>
-    <input ref={camera} hidden type="file" accept="image/*" capture="environment" aria-label="撮影した写真" onCancel={onClose} onChange={event => receive(event.currentTarget)}/>
-    <input ref={library} hidden type="file" accept="image/*" multiple aria-label="選択した写真" onCancel={onClose} onChange={event => receive(event.currentTarget)}/>
+    <input ref={camera} hidden type="file" accept="image/*" capture="environment" aria-label="撮影した写真" onChange={event => receive(event.currentTarget)}/>
+    <input ref={library} hidden type="file" accept="image/*" multiple aria-label="選択した写真" onChange={event => receive(event.currentTarget)}/>
   </dialog>;
 }
