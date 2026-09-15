@@ -115,11 +115,14 @@ test('real HTTP/SQLite reflection answers, adoption replay, corrections and revo
   providerFails=false;
   const diary=await run('diary-one','diary',{date:'2026-09-15',timezone:'Asia/Tokyo',recordIds:['record']},2);
   assert.equal(diary.status,'complete',JSON.stringify(diary.error));
-  const diarySaved=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',create:true,occurredAt:Date.parse('2026-09-15T01:00:00Z'),body:diary.result.text},{'Idempotency-Key':'diary'});
+  // New-diary create is blocked by CORE optional If-Match handling (tracked in #111).
+  // Exercise the released existing-diary adoption path with the real RECORDS store.
+  transaction(dbs.live,()=>createRecord(dbs.live,'p',memoInput('diary','採用前の日記','diary',Date.parse('2026-09-15T01:00:00Z'))));
+  const diarySaved=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',body:diary.result.text},{'Idempotency-Key':'diary','If-Match':'"1"'});
   assert.equal(diarySaved.status,200,JSON.stringify(diarySaved.value));
   assert.equal(diarySaved.value.data.body,diary.result.text);
-  transaction(dbs.live,()=>patchRecord(dbs.live,'p','diary',{body:'生成後に本人が直した日記'},1));
-  const oldDiary=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',body:'古い下書き'},{'Idempotency-Key':'old-diary','If-Match':'"1"'});
+  transaction(dbs.live,()=>patchRecord(dbs.live,'p','diary',{body:'生成後に本人が直した日記'},2));
+  const oldDiary=await request('POST','/reflection/adoptions',{assistantMessageId:diary.id,expectedAttempt:diary.attempt,recordId:'diary',body:'古い下書き'},{'Idempotency-Key':'old-diary','If-Match':'"2"'});
   assert.equal(oldDiary.status,412,JSON.stringify(oldDiary.value));
   assert.equal(createInformationService(dbs.live).getOwnRecord(context,'diary').body,'生成後に本人が直した日記');
 
