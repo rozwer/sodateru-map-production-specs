@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 13,
+  "revision": 14,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4525,12 +4525,22 @@
       "token": null
     },
     "PLACES": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 5,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/features/places/",
+        "server/db/migrations/places/",
+        "docs/01_requirements/04_api/fragments/PLACES.json",
+        "docs/evidence/PLACES/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "758d6ba95cbf4547ad280a51048938f4"
     },
     "PLUGINS": {
       "actor": null,
