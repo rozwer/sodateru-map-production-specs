@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 250,
+  "revision": 251,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34408,15 +34408,13 @@
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
       "generation": 1,
       "issue_number": 221,
-      "landed_main": null,
-      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/applied.json",
+      "landed_main": "6a687b7591855f02b08500e451aba2d8ffe10aad",
+      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/applied.json; PR224/242/248; source2 superseded and CLOSED NOT_PLANNED; other7 OPEN with exact residual criteria; 84 unrelated states preserved",
       "owner": "rozwer",
-      "paths": [
-        "docs/evidence/ISSUE-CLOSE-REPAIRS/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "a57067e66c4b8d2563443dc210267596973909ba",
-      "token": "11ae7aa85958484c98cba9d3f321742e"
+      "token": null
     },
     "ISSUE-CLOSE-UI": {
       "actor": "rozwer",
