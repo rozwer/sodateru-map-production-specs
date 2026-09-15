@@ -28,9 +28,13 @@ AI側は `assertAiAllowed(db, personId, {records?,location?,media?,profile?})` �
 
 - 2026-09-15: 正式worktreeでtask:verify成功、SETTINGSの4 pathのclaim確認。
 - 契約aa172f2: 既存OpenAPIへSETTINGSの7 schemasを組み合わせ、AJVとajv-formatsで参照込みコンパイル成功。
-- 実API・再起動・本人/モード分離・アイコン保持の受入はCORE統合待ち。成功扱いにしていない。
-- AI/SUGGESTIONS担当は利用helperの署名と送信直前/保存直前の再確認に合意。利用先の統合証拠は後続。
-- RECORDS担当はHTML文書とアイコン独立保存に合意。媒体MIME共通検査の提供時に接続する。
+- 実装検証対象 `e9342b4fd6e669196fc2955e69bb58e3f6449148`。COREとRECORDSの正式develop統合を取り込んで検証。
+- `mise exec -- bun run typecheck`: PASS。
+- `mise exec -- node --experimental-transform-types --test --test-name-pattern="settings survive" server/features/settings/settings.test.ts`: 1件PASS。SQLiteファイル再接続で保持、本人/モード分離、AI範囲の許可/拒否、停止/解除、低評価と独立した停止、初期化後も古い版を拒否。
+- `mise exec -- node --experimental-transform-types --test --test-name-pattern="profile/icon|real HTTP" server/features/settings/settings.test.ts server/features/settings/http.test.ts`: 2件PASS。COREのcreateApp/openDatabases、17基本表、実HTTPリスナー、session cookie、本人/モードを使い、プロフィール/設定/アイコン保存→サーバー停止・再起動→再取得、428/412、HTMLダウンロード、アイコン削除、設定リセットを確認。テスト固有の簡略基盤へ置換していない。
+- アイコン削除後も別本人のプロフィール、記録本文、記録媒体の保存先が維持される。アイコン内容検査はRECORDSのinspectMedia/MEDIA_MAX_BYTESを利用。
+- HTTPテストはSETTINGS断片を既存OpenAPIにメモリ上で合成し、COREの実入力検査を通す。共有生成ファイルの編集は行っていない。通常起動と型付きクライアントへのSETTINGS反映はCORE担当へ依頼済み。
+- AI/SUGGESTIONS担当は利用helperの署名と送信直前/保存直前の再確認に合意。両担当の実行器の統合証拠とUI操作の受入はそれぞれの担当Issueで追跡する。
 
 ## 契約再生成
 
