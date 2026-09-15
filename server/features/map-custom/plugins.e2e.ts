@@ -23,9 +23,9 @@ async function api(path:string,method='GET',body?:unknown,version?:number,status
 try {
   await api('/session','POST',{profileKey:'self'},undefined,201);
   const registry=new PluginRegistry(),id='map-custom-e2e-layer';
-  registry.register({manifest:{id,name:'MAP-CUSTOM検証専用宣言',description:'Test fixture; not a real bike data provider',category:'test',author:'e2e',pluginVersion:'1.0.0',updatedAt:Date.now(),changeLog:'fixture',icon:'test',usageInfo:[],sources:[],settingsSchema:{type:'object',additionalProperties:false},defaultSettings:{},trialConditions:[]},
+  registry.register({manifest:{id,name:'MAP-CUSTOM検証専用宣言',description:'Test fixture; not a real bike data provider',category:'test',author:'e2e',pluginVersion:'1.0.0',updatedAt:Date.now(),changeLog:'fixture',icon:'map',usageInfo:[],sources:[],settingsSchema:{type:'object',additionalProperties:false},defaultSettings:{},trialConditions:[]},
     declarations:()=>[{targetKey:'layer:bike',property:'visibility',value:true}],
-    trial:()=>({dataKind:'mock',label:'検証専用fixture',declarations:[],features:[],warnings:[]})});
+    trial:()=>({dataKind:'mock',label:'検証専用fixture',declarations:[],features:[],legends:[],sources:[],generatedAt:1,warnings:[]})});
   const plugins=new PluginService(new PluginStore(dbs.live,context),registry);
   const installed=await plugins.install({id,pluginVersion:'1.0.0',enabled:true,settings:{},confirmed:true,stateRevision:plugins.state().revision});
   const current=await api('/map-settings');
