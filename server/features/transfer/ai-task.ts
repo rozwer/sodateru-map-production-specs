@@ -15,7 +15,9 @@ export function registerTransferAiTask(): void {
       const planSet = store.getPlan(context.personId,(input as {planSetId:string}).planSetId);
       if (store.getRecipe(context.personId,planSet.recipeId).version !== planSet.recipeVersion) throw new TransferError('SOURCE_CHANGED','レシピが変更されています');
       const materials = sourceMaterials(db,context,planSet.sourceRefs);
-      return {...materials,context:{planSet}};
+      // Run status/version and adoption change independently of the generation input.
+      const {id,recipe,region,start,mode,timeBudgetMinutes,preferences,candidates,generatorVersion} = planSet;
+      return {...materials,context:{planSet:{id,recipe,region,start,mode,timeBudgetMinutes,preferences,candidates,generatorVersion}}};
     },
     buildPrompt(materials) { return buildTransferPrompt(materials); },
     validateResult(result,materials) {

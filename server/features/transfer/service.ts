@@ -7,7 +7,8 @@ import { materializePlans, validateProposal } from './planning.ts';
 
 export type Context = { personId: string; dataMode: 'live'|'demo'; requestId: string; signal: AbortSignal };
 export type Evidence = { id: string; role: string; text: string; sourceRef: SourceRef };
-export type Materials = { context: { planSet: PlanSet }; evidence: Evidence[]; sourceRefs: SourceRef[] };
+export type PlanMaterials = Pick<PlanSet,'id'|'recipe'|'region'|'start'|'mode'|'timeBudgetMinutes'|'preferences'|'candidates'|'generatorVersion'>;
+export type Materials = { context: { planSet: PlanMaterials }; evidence: Evidence[]; sourceRefs: SourceRef[] };
 export type Dependencies = {
   assertSources(refs: SourceRef[]): Promise<unknown>;
   sourceMaterials(refs: SourceRef[]): Promise<{ evidence: Evidence[]; sourceRefs: SourceRef[] }>;

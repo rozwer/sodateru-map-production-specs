@@ -1,6 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite';
 import type { RequestContext } from '../../core/context.ts';
-import { transaction } from '../../db/transaction.ts';
+import { transaction } from '../../db/migrate.ts';
 import { createInformationService } from '../../information/service.ts';
 import { placesService } from '../places/service.ts';
 import { getPlace } from '../places/repository.ts';
