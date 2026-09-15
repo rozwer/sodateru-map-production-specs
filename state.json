@@ -151,6 +151,7 @@
         "REFLECTION": 33,
         "REFLECTION-INTEGRATION": 111,
         "ROUTES": 25,
+        "ROUTES-TRANSIT-GTFS": 268,
         "SETTINGS": 24,
         "SUGGESTIONS": 36,
         "SUGGESTIONS-INTEGRATION": 108,
@@ -7714,6 +7715,21 @@
         "write_paths": [
           "src/features/plugins/assets/omo7-breakfast-generated.png",
           "docs/evidence/OMO7-EXPERIENCE/"
+        ]
+      },
+      {
+        "connect_after": [
+          "ROUTES"
+        ],
+        "effective_priority": "P0",
+        "hard_dependencies": [],
+        "id": "ROUTES-TRANSIT-GTFS",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "都営GTFSの時刻・運賃付きprovider",
+        "write_paths": [
+          "server/features/routes-transit/",
+          "docs/evidence/ROUTES-TRANSIT-GTFS/"
         ]
       }
     ],
@@ -33967,9 +33983,10 @@
     "VISUAL-MAP-EXPLORE",
     "VISUAL-SETTINGS",
     "VISUAL-SHELL",
-    "OMO7-EXPERIENCE"
+    "OMO7-EXPERIENCE",
+    "ROUTES-TRANSIT-GTFS"
   ],
-  "revision": 271,
+  "revision": 272,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34626,6 +34643,22 @@
       "status": "submitted",
       "submitted_commit": "fd0617a529ccd3979582e4387d02e18c88c06e5c",
       "token": "6e0fd1b0833542f086e43376c7dce057"
+    },
+    "ROUTES-TRANSIT-GTFS": {
+      "actor": "kaiya",
+      "base_commit": "c849b4ce9beeadd6dedd80b09641574482a7e6fc",
+      "generation": 1,
+      "issue_number": 268,
+      "landed_main": null,
+      "note": null,
+      "owner": "kaiya",
+      "paths": [
+        "server/features/routes-transit/",
+        "docs/evidence/ROUTES-TRANSIT-GTFS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "8b299c1152b9488ebbd2d6f21679503e"
     },
     "SETTINGS": {
       "actor": "koshiro",
