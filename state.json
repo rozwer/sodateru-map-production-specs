@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 257,
+  "revision": 258,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34045,21 +34045,17 @@
       "token": "617eceb6f2b44f4d90757cb68227667a"
     },
     "BUILDING-RECORDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "54683e72014242ad4f512d99b4ff700dc008cfc0",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 228,
       "landed_main": null,
-      "note": null,
+      "note": "PR240/249/258 merged, API/SQLite and confirmed-purpose browser save passed. Remaining fixed-head cancel/place/conflict/building/restart QA handed to #217/#222; #228/#11/#135 remain open per user wrap-up request.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/BUILDING-RECORDS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "92c939f23f8d432b88556c4130145e05"
+      "token": null
     },
     "COMMUNITY": {
       "actor": "koshiro",
