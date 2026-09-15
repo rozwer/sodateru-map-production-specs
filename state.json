@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 84,
+  "revision": 85,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4699,7 +4699,7 @@
       "generation": 3,
       "issue_number": 38,
       "landed_main": null,
-      "note": "Refresh own claim base after incorporating integrated develop dependencies; all staged PILGRIMAGE implementation and evidence remain in kaiya/38-pilgrimage worktree.",
+      "note": "docs/evidence/PILGRIMAGE/README.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/pilgrimage/",
@@ -4707,8 +4707,8 @@
         "docs/01_requirements/04_api/fragments/PILGRIMAGE.json",
         "docs/evidence/PILGRIMAGE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "28c17beaed98923ab8651d416d85e23501476c94",
       "token": "389837b8ffac41069b1239fad7e8d964"
     },
     "PLACES": {
