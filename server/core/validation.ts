@@ -78,7 +78,7 @@ export function contractValidation(spec: ApiContract = loadContract()): Middlewa
       }
     }
     if (!matched.path(path) || !matched.query(query)) throw new CommonError('VALIDATION_FAILED', 'パスまたはqueryが入力契約に一致しません。');
-    if (matched.parameters.some(p => p.name.toLowerCase() === 'if-match')) expectedVersion(c.req.header('If-Match'));
+    if (matched.parameters.some(p => p.name.toLowerCase() === 'if-match' && (p.required || c.req.header('If-Match') !== undefined))) expectedVersion(c.req.header('If-Match'));
     if (c.req.method === 'POST') idempotencyKey(c.req.header('Idempotency-Key'));
     let body: unknown;
     if (matched.body) {
