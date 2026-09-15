@@ -33349,7 +33349,7 @@
     "THEMES-INTEGRATION",
     "REFLECTION-INTEGRATION"
   ],
-  "revision": 163,
+  "revision": 164,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33554,39 +33554,17 @@
       "token": null
     },
     "CORE": {
-      "actor": "koshiro",
+      "actor": null,
       "base_commit": "df5e5073085eddda1e6598664e00881e12b25d81",
-      "generation": 7,
+      "generation": 8,
       "issue_number": 3,
       "landed_main": null,
-      "note": "docs/evidence/CORE/catalog-regeneration.md",
+      "note": "PR #169 merged at 6731fce; shared catalog regenerated and focused probes passed. Handoff delivered to integration. Parent Issue remains open; no integration waiting.",
       "owner": "koshiro",
-      "paths": [
-        "server/app/",
-        "server/core/",
-        "server/db/connection.ts",
-        "server/db/migrate.ts",
-        "server/db/migrations/000-base.sql",
-        "tools/local/",
-        "package.json",
-        "bun.lock",
-        "tsconfig.json",
-        "docs/01_requirements/04_api/fragments/CORE.json",
-        "packages/api-client/",
-        "docs/01_requirements/04_api/tools/",
-        "docs/01_requirements/04_api/fragments/common.json",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/endpoints/",
-        "docs/01_requirements/04_api/conventions/",
-        "docs/01_requirements/04_api/README.md",
-        "docs/01_requirements/04_api/coverage.md",
-        "docs/01_requirements/04_api/examples.md",
-        "docs/evidence/CORE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "2526ce9fdd42610f6462f7e6af123fdeb062f402",
-      "token": "5d3b8fed2b1e4e2790a76ae6bad6aadf"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "DISASTER": {
       "actor": "kaiya",
