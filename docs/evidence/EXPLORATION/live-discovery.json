@@ -1,0 +1,36 @@
+{
+  "id": "a307d577-8209-4bd6-b619-1f22e1d40130",
+  "model": "gpt-5.6-luna",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-followup/a307d577-8209-4bd6-b619-1f22e1d40130",
+  "status": "complete",
+  "entry": "server/app/main.ts",
+  "client": "packages/api-client/index.ts",
+  "dataMode": "live",
+  "settingsVersion": 2,
+  "run": {
+    "status": "complete",
+    "attempt": 1,
+    "model": "gpt-5.6-luna",
+    "error": null
+  },
+  "durationMs": 27615,
+  "card": {
+    "id": "card-a307d577-8209-4bd6-b619-1f22e1d40130",
+    "version": 1,
+    "sourceCount": 1,
+    "claimScopes": [
+      "general"
+    ]
+  },
+  "checks": {
+    "realSdk": true,
+    "save": true,
+    "appliedRefs": true,
+    "processRestart": true,
+    "cardAndSourcesEqual": true,
+    "runResultEqual": true,
+    "idempotentReplay": true,
+    "savedVisible": true,
+    "dismissedHidden": true
+  }
+}

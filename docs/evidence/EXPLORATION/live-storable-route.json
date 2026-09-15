@@ -1,0 +1,30 @@
+{
+  "id": "d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+  "aiCalls": 0,
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-storable-route/d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+  "status": "complete",
+  "entry": "server/app/main.ts",
+  "client": "packages/api-client/index.ts",
+  "dataMode": "live",
+  "checks": {
+    "storableCandidate": true,
+    "placeAdopted": true,
+    "realMapboxRoute": true,
+    "storablePreview": true,
+    "explicitSave": true,
+    "processRestart": true,
+    "routeEqual": true,
+    "idempotentReplay": true
+  },
+  "place": {
+    "id": "place-d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+    "provider": "nominatim",
+    "sourceUrl": "https://www.openstreetmap.org/node/11436123137"
+  },
+  "route": {
+    "id": "route-d7bd15b4-08d9-40cc-b63c-238d36640c3f",
+    "provider": "mapbox-directions",
+    "waypointCount": 2,
+    "retention": "storable"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "stage": "provider-failed",
+  "name": "Error",
+  "status": 400,
+  "code": "invalid_json_schema",
+  "type": "invalid_request_error",
+  "schemaError": "Invalid schema for response_format 'codex_output_schema': In context=('properties', 'sources', 'items', 'properties', 'url', 'anyOf', '0'), 'uri' is not a valid format.",
+  "param": "text.format.schema"
+}
