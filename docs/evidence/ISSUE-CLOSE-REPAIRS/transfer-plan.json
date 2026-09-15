@@ -1,0 +1,100 @@
+{
+  "authorization_issue": 229,
+  "supersessions": {
+    "VISUAL-COMMUNITY": [
+      "VISUAL-SOCIAL",
+      "VISUAL-PLUGINS"
+    ],
+    "VISUAL-SELF": [
+      "VISUAL-SELF-CONTINUE",
+      "VISUAL-RECORDS-CAMERA"
+    ]
+  },
+  "supersession_details": {
+    "VISUAL-COMMUNITY": {
+      "source_issue": 173,
+      "authorization_issue": 229,
+      "reason": "担当分割による全22画面の完全移管。機能受入の完了ではない。",
+      "evidence": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
+      "source_acceptance": [
+        "指定原本画像を実際に開き、1画面1行の参照/原本状態/実URL・commit・幅・状態/差分/修正/未確認を記録。reference absentや未確認は一致済みにしない。",
+        "友達地図の二重MapboxをShellとfeatureに分け専任Shell担当と調整。",
+        "実API・Mapbox・入力保持・戻る・ペットmockと重なり修正を保全。",
+        "原本幅および390pxの実ブラウザで変更を確認し、小PRを提出。原本不足は承認画像探索後も未確認として残す。"
+      ],
+      "pages_by_successor": {
+        "VISUAL-SOCIAL": [
+          "community-home",
+          "friends-map",
+          "friend-profile",
+          "friend-compare",
+          "shared-route",
+          "sharing",
+          "friend-picker",
+          "local-knowledge",
+          "knowledge-list",
+          "knowledge-filter",
+          "knowledge-detail",
+          "companion-settings",
+          "companion-import"
+        ],
+        "VISUAL-PLUGINS": [
+          "plugin-store",
+          "plugin-detail",
+          "plugin-trial",
+          "plugin-install",
+          "plugin-manage",
+          "plugin-update",
+          "plugin-conflict",
+          "feature-requests",
+          "feature-request-edit"
+        ]
+      },
+      "excluded_pages": [
+        "companion-create"
+      ]
+    },
+    "VISUAL-SELF": {
+      "source_issue": 176,
+      "authorization_issue": 229,
+      "reason": "担当分割による全21画面の完全移管。機能受入の完了ではない。",
+      "evidence": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
+      "source_acceptance": [
+        "参照原本を実際に開き、1画面1行の証拠表をdocs/evidence/VISUAL-SELFへ保存。",
+        "feature内の差分修正を小PRで提出し、原本の状態と390px実ブラウザで確認。未確認・差分残りを明記。",
+        "API/Mapbox/戻る/入力保持/mock表示を保全。src/appとsrc/uiは共通担当へ報告し変更しない。",
+        "健康3画面・相棒新規制作は対象外。"
+      ],
+      "pages_by_successor": {
+        "VISUAL-SELF-CONTINUE": [
+          "self-home",
+          "diary",
+          "reflection-question",
+          "reflection-history",
+          "experience-compare",
+          "memo-edit",
+          "type-diagnosis",
+          "trend-evidence",
+          "trend-review",
+          "themes",
+          "theme-edit",
+          "self-checkin",
+          "suggestions",
+          "suggestion-detail"
+        ],
+        "VISUAL-RECORDS-CAMERA": [
+          "record-create",
+          "record-edit",
+          "visit-confirm",
+          "interpretation-correction",
+          "record-delete",
+          "growth-result",
+          "daily-track"
+        ]
+      }
+    }
+  },
+  "synchronization_status": "applied by standard CAS at revision248; both sources CLOSED/NOT_PLANNED; see applied.json",
+  "reproduced_blocker": "BoardError: UI split: existing execution state must remain byte-for-byte equivalent",
+  "handoff_comment": "https://github.com/rozwer/sodateru-map-production-specs/issues/229#issuecomment-5674738909"
+}
