@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 6,
+  "revision": 7,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4703,12 +4703,20 @@
       "token": null
     },
     "UI-ROUTES": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 9,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/routes/",
+        "docs/evidence/UI-ROUTES/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "e1fb1fe562bf4c61983ab6c1f862f55d"
     },
     "UI-SETTINGS": {
       "actor": null,
