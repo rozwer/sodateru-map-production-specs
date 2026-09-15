@@ -1,0 +1,72 @@
+{
+  "checkedAt": 1789444819389,
+  "calls": 3,
+  "motorcycle": {
+    "has_time_restrictions": false,
+    "has_toll": false,
+    "has_highway": false,
+    "has_ferry": false,
+    "min_lat": 35.657435,
+    "min_lon": 139.700398,
+    "max_lat": 35.664891,
+    "max_lon": 139.712178,
+    "time": 253.149,
+    "length": 1.693,
+    "cost": 881.152
+  },
+  "motorScooter": {
+    "has_time_restrictions": false,
+    "has_toll": false,
+    "has_highway": false,
+    "has_ferry": false,
+    "min_lat": 35.657435,
+    "min_lon": 139.700398,
+    "max_lat": 35.664891,
+    "max_lon": 139.712178,
+    "time": 304.576,
+    "length": 1.693,
+    "cost": 788.978
+  },
+  "sameShapeForProfiles": true,
+  "traceSameEncodedShape": true,
+  "shapeSha256": "d5b2c2389e20d2d70864dc6b57dcd5bab8fd0b916975ea6ff19be6b75bbc0d25",
+  "pointCount": 80,
+  "edgeCount": 52,
+  "coveredSegmentCount": 79,
+  "fullSegmentCoverage": true,
+  "roadClasses": {
+    "tertiary": 26,
+    "trunk": 22,
+    "primary": 4
+  },
+  "vehicleTypes": {
+    "motorcycle": 52
+  },
+  "traversability": {
+    "forward": 40,
+    "both": 12
+  },
+  "allWarnings": [
+    [
+      {
+        "code": 208,
+        "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+      }
+    ],
+    [
+      {
+        "code": 208,
+        "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+      }
+    ],
+    [
+      {
+        "code": 208,
+        "text": "Hard exclusions are not allowed on this server, ignoring hard excludes"
+      }
+    ]
+  ],
+  "edgeFieldsWithTimeOrRestriction": [],
+  "osmChangesetRaw": 1789328065,
+  "result": "generic motorcycle profile and exact-shape road attributes observed; Japanese displacement/electric conditions unverified; no compliant route adopted"
+}
