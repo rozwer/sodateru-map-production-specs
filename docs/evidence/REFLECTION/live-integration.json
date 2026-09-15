@@ -1,0 +1,46 @@
+{
+  "requestId": "1a4c252b-1f64-41bf-92bc-f61a831d841f",
+  "model": "gpt-5.6-luna",
+  "status": "complete",
+  "recordId": "record-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+  "diaryId": "diary-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+  "insightId": "insight_0666fc2d2a419353feeeda3c675b37788b60c30248093321",
+  "runs": [
+    {
+      "id": "a-extract-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "id": "a-diary-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+      "model": "gpt-5.6-luna"
+    },
+    {
+      "id": "a-comparison-490efdfa-925a-46ac-9d61-fa4a95f95bc8",
+      "model": "gpt-5.6-luna",
+      "promptVersion": "reflection-v1",
+      "attempt": 1,
+      "sourceRefs": [
+        {
+          "type": "record",
+          "id": "other-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+          "version": 1
+        },
+        {
+          "type": "record",
+          "id": "record-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+          "version": 2
+        }
+      ]
+    }
+  ],
+  "diaryBody": "川辺のベンチで休憩した。水の音が静かに聞こえて、落ち着いた。",
+  "comparison": {
+    "common": [
+      "両記録ともベンチで休憩した点は共通します。from側は川辺で水の音に落ち着きを感じ、to側は公園で木陰の涼しさを理由にしています。場所と理由は異なり、to側の用途メタデータは空ですが本文には休憩とあります。"
+    ],
+    "differences": [],
+    "unknown": []
+  },
+  "restartResultEqual": true,
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/reflection-integration-111/.local/ai-live-acceptance/1a4c252b-1f64-41bf-92bc-f61a831d841f"
+}
