@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 243,
+  "revision": 244,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34352,15 +34352,15 @@
       "generation": 1,
       "issue_number": 234,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/ISSUE-SUPERSESSION-FIX/README.md",
       "owner": "rozwer",
       "paths": [
         "tools/sync_graph.py",
         "tools/test_sync_graph.py",
         "docs/evidence/ISSUE-SUPERSESSION-FIX/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "4218ce4f6ef415620fdf1480b8464c74d3899f77",
       "token": "2b083f8fa44e4c4eb574042d1cce1bfb"
     },
     "MAP-CUSTOM": {
