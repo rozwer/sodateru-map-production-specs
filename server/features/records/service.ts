@@ -1,5 +1,5 @@
 import type { DatabaseSync } from 'node:sqlite';
-import { createHash } from 'node:crypto';
+import { requestHash } from '../../core/idempotency.ts';
 import { CommonError, requireVersion } from '../../core/errors.ts';
 import { ownedRecord, recordFields, recordView, storedValues, validateRecordRelations, type Row } from './model.ts';
 import { validateInput } from './validation.ts';
@@ -8,7 +8,7 @@ import { recordExtensions } from './extensions.ts';
 // Called inside the CORE transaction/replay boundary.
 export function createRecord(db: DatabaseSync, personId: string, input: Row): Row {
   validateInput('RecordCreate', input);
-  const normalized = createHash('sha256').update(JSON.stringify(input, (_key, value) => value && typeof value === 'object' && !Array.isArray(value) ? Object.fromEntries(Object.keys(value).sort().map(key => [key, value[key]])) : value)).digest('hex');
+  const normalized = requestHash({ ...input, sharedWith: [...input.sharedWith].sort() });
   const receipt = db.prepare('SELECT original_input_hash FROM records_creation_inputs WHERE person_id = ? AND record_id = ?').get(personId, input.id) as Row | undefined;
   if (receipt) {
     if (receipt.original_input_hash !== normalized) throw new CommonError('IDEMPOTENCY_CONFLICT', '同じ記録IDに異なる作成内容が指定されています。', false, undefined, 409);

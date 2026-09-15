@@ -1,5 +1,6 @@
 import type { DatabaseSync } from 'node:sqlite';
 import { CommonError, requireVersion } from '../../core/errors.ts';
+import { requestHash } from '../../core/idempotency.ts';
 import { missing, ownedRecord, readableRecord, invalid, type Row } from '../records/model.ts';
 import { validateInput } from '../records/validation.ts';
 
@@ -13,13 +14,15 @@ export function readableMedia(db: DatabaseSync, personId: string, id: string): R
   return row;
 }
 export function mediaPage(db: DatabaseSync, personId: string, recordId: string, limit = 100, cursor?: string): Row {
-  readableRecord(db, personId, recordId);
+  const parent = readableRecord(db, personId, recordId);
+  const database = db.prepare('PRAGMA database_list').all().find(row => row.name === 'main')?.file ?? '';
+  const scope = requestHash({ personId, recordId, version: parent.version, database });
   let offset = 0;
   if (cursor) {
-    try { const decoded = JSON.parse(Buffer.from(cursor, 'base64url').toString()); if (decoded.recordId !== recordId || decoded.personId !== personId || !Number.isInteger(decoded.offset) || decoded.offset < 0) invalid('添付一覧のcursorが一致しません。'); offset = decoded.offset; } catch { invalid('添付一覧のcursorが不正です。'); }
+    try { const decoded = JSON.parse(Buffer.from(cursor, 'base64url').toString()); if (decoded.scope !== scope || !Number.isInteger(decoded.offset) || decoded.offset < 0) throw new Error('scope'); offset = decoded.offset; } catch { throw new CommonError('INVALID_REQUEST', '添付一覧が変わったため最初から取得してください。'); }
   }
   const rows = db.prepare('SELECT * FROM media WHERE record_id = ? ORDER BY position, id LIMIT ? OFFSET ?').all(recordId, limit + 1, offset) as Row[];
-  return { items: rows.slice(0, limit).map(mediaView), nextCursor: rows.length > limit ? Buffer.from(JSON.stringify({ recordId, personId, offset: offset + limit })).toString('base64url') : null };
+  return { items: rows.slice(0, limit).map(mediaView), nextCursor: rows.length > limit ? Buffer.from(JSON.stringify({ scope, offset: offset + limit })).toString('base64url') : null };
 }
 export function attachMedia(db: DatabaseSync, personId: string, recordId: string, input: Row, version: number): Row {
   const parent = ownedRecord(db, personId, recordId);
