@@ -1,0 +1,771 @@
+{
+  "taskId": "FEATURE-REQUESTS",
+  "version": "1.0.0",
+  "replaceSchemas": [
+    "FeatureRequest",
+    "FeatureRequestCreate",
+    "FeatureRequestPatch"
+  ],
+  "schemas": {
+    "FeatureRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "投稿者"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "投稿者"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "タイトル"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200,
+          "description": "要望本文"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "description": "公開範囲"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "regionTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        },
+        "purposeTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        },
+        "empathyCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "myEmpathy": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "title",
+        "body",
+        "visibility",
+        "displayName",
+        "regionTags",
+        "purposeTags",
+        "empathyCount",
+        "myEmpathy"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/08_feature_requests.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "FeatureRequestCreate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "タイトル"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200,
+          "description": "要望本文"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "description": "公開範囲"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "regionTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        },
+        "purposeTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "required": [
+        "id",
+        "body",
+        "visibility",
+        "displayName"
+      ],
+      "additionalProperties": false
+    },
+    "FeatureRequestPatch": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "タイトル"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200,
+          "description": "要望本文"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "public"
+          ],
+          "description": "公開範囲"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "regionTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        },
+        "purposeTags": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20
+          }
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "FeatureRequestEmpathyPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "empathy"
+      ],
+      "properties": {
+        "empathy": {
+          "type": "boolean"
+        }
+      }
+    },
+    "FeatureRequestGuide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  },
+  "operations": [
+    {
+      "operationId": "getFeatureRequests",
+      "summary": "機能要望一覧",
+      "tags": [
+        "拡張機能"
+      ],
+      "description": "権限: 本人または公開閲覧者。保存先: なし。本人またはpublicのみ。personId/visibilityで絞り込む。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_personId"
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "name": "visibility",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "private",
+              "public"
+            ]
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeatureRequestPage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "07-07",
+      "x-sort": "createdAt DESC, id DESC",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "method": "get",
+      "path": "/feature-requests",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "postFeatureRequests",
+      "summary": "機能要望投稿",
+      "tags": [
+        "拡張機能"
+      ],
+      "description": "表示名は投稿時の入力を固定保存しプロフィールへ追随しない。明示PATCHでのみ変更。本文は原文200文字以内、公開時は空白のみ不可。titleは最初の空でない行をtrimして生成、空の非公開下書きは「下書き」。互換入力titleは保存値へ使用しない。regionTags/purposeTagsは本人入力を各5件・各1〜20文字・重複なしで保存する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/FeatureRequest"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "data": {
+                  "id": "record-001",
+                  "version": 1,
+                  "createdAt": 1789430400000,
+                  "updatedAt": 1789430400000,
+                  "personId": "record-001",
+                  "title": "散歩の記録",
+                  "body": "本を読んで過ごした。",
+                  "visibility": "private"
+                }
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postVisits"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "07-08",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/FeatureRequestCreate"
+            },
+            "example": {
+              "id": "record-001",
+              "title": "散歩の記録",
+              "body": "本を読んで過ごした。",
+              "visibility": "private"
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "method": "post",
+      "path": "/feature-requests",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "getFeatureRequestsRequestId",
+      "summary": "機能要望詳細",
+      "tags": [
+        "拡張機能"
+      ],
+      "description": "権限: 本人または公開閲覧者。保存先: なし。本人またはpublicのみ。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_requestId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getFeatureRequestsRequestId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "07-09",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "method": "get",
+      "path": "/feature-requests/{requestId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "patchFeatureRequestsRequestId",
+      "summary": "機能要望編集・公開変更",
+      "tags": [
+        "拡張機能"
+      ],
+      "description": "表示名は投稿時の入力を固定保存しプロフィールへ追随しない。明示PATCHでのみ変更。本文は原文200文字以内、公開時は空白のみ不可。titleは最初の空でない行をtrimして生成、空の非公開下書きは「下書き」。互換入力titleは保存値へ使用しない。regionTags/purposeTagsは本人入力を各5件・各1〜20文字・重複なしで保存する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_requestId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getFeatureRequestsRequestId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "07-10",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/FeatureRequestPatch"
+            },
+            "example": {
+              "title": "散歩の記録"
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "method": "patch",
+      "path": "/feature-requests/{requestId}",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "deleteFeatureRequestsRequestId",
+      "summary": "機能要望削除",
+      "tags": [
+        "拡張機能"
+      ],
+      "description": "権限: 本人。保存先: feature_requests。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_requestId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "204": {
+          "$ref": "#/components/responses/Response204_deleteVisitsVisitId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "07-11",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "method": "delete",
+      "path": "/feature-requests/{requestId}",
+      "replaceOperation": true
+    },
+    {
+      "method": "patch",
+      "path": "/feature-requests/{requestId}/empathy",
+      "operationId": "patchFeatureRequestEmpathy",
+      "summary": "共感の追加・解除",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_requestId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/FeatureRequestEmpathyPatch"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getFeatureRequestsRequestId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "description": "本人×投稿一意の望む状態指定。If-Match必須。既に指定状態なら再送として現在値を返し件数と版を増やさない。実際に変更する場合は最新投稿versionを照合する。非公開は本人のみ。"
+    },
+    {
+      "method": "get",
+      "path": "/feature-requests/development-guide",
+      "operationId": "getFeatureRequestDevelopmentGuide",
+      "summary": "本番リポジトリの開発ガイド",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "実在確認した本番ガイドURL",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/FeatureRequestGuide"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
