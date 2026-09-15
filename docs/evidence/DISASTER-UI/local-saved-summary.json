@@ -1,0 +1,43 @@
+{
+  "dataKind": "live",
+  "region": {
+    "id": "江戸川周辺",
+    "bounds": [
+      139.84,
+      35.68,
+      139.92,
+      35.76
+    ]
+  },
+  "status": "available",
+  "fetchedAt": 1789447071554,
+  "layers": [
+    {
+      "id": "flood-hazard",
+      "status": "available",
+      "fetchedAt": 1789447070827,
+      "sourceUpdatedAt": 1789036653000,
+      "validAt": null,
+      "imageCount": 2,
+      "mask": false
+    },
+    {
+      "id": "terrain",
+      "status": "available",
+      "fetchedAt": 1789447070593,
+      "sourceUpdatedAt": 1740902708000,
+      "validAt": null,
+      "imageCount": 2,
+      "mask": false
+    },
+    {
+      "id": "rainfall",
+      "status": "available",
+      "fetchedAt": 1789447071553,
+      "sourceUpdatedAt": 1789446923000,
+      "validAt": 1789446900000,
+      "imageCount": 2,
+      "mask": true
+    }
+  ]
+}
