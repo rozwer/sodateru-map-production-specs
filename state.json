@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 130,
+  "revision": 131,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4937,20 +4937,17 @@
       "token": "26030033ebde45e285cd1f58ccaf1300"
     },
     "UI-COMPANION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 19,
       "landed_main": null,
-      "note": null,
+      "note": "利用者の終了指示。HEAD660a19dをPR161へ公開済み、先行PR64/149統合済み。未完受入は実ZIP保存→25確認→登録/選択→再読込。共通生成型未反映。組込み担当へ引継ぎ、worktreeと成果を保持。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/companion/",
-        "docs/evidence/UI-COMPANION/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "80f76318ce8a4129b583a88940ff7e41"
+      "token": null
     },
     "UI-EXPLORE": {
       "actor": null,
