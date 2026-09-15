@@ -34021,7 +34021,7 @@
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO"
   ],
-  "revision": 278,
+  "revision": 279,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34965,17 +34965,21 @@
       "token": null
     },
     "UI-MAP": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "fe4e4e6aa86285e29ac3da5a411676aa3c8dbf71",
+      "generation": 3,
       "issue_number": 8,
       "landed_main": null,
       "note": "User requested end. All current changes pushed in PR163 cb8ef9b; UI-INTEGRATION98 receives docs/evidence/UI-MAP/screens-handoff.md with required remaining acceptance. Preserve /Users/roz/.codex/worktrees/ui-map-8.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/map/",
+        "src/map/",
+        "docs/evidence/UI-MAP/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "5aff1aa1afc24890b6028ed91666c70e"
     },
     "UI-PLUGINS": {
       "actor": null,
