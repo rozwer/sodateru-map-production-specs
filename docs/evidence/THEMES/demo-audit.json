@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-09-15T03:42:53.331Z",
+  "origin": "http://127.0.0.1:3001",
+  "dataMode": "demo",
+  "source": "Real browser create/save followed by a separate HTTP session GET",
+  "listMemoPresent": false,
+  "theme": {
+    "id": "7452a5ae-dc69-4899-9323-74d8c650b003",
+    "personId": "bb9ee658-d008-45c2-a55b-3241e18bbb3b",
+    "name": "デモ・まち歩き",
+    "description": "手動保存と再表示の確認",
+    "recordIds": [],
+    "colorKey": "blue",
+    "coverMediaId": null,
+    "version": 1,
+    "createdAt": 1789443591794,
+    "updatedAt": 1789443591794
+  },
+  "memo": {
+    "id": "ec571577-9374-465a-ba9b-64331d5fdd5a",
+    "personId": "bb9ee658-d008-45c2-a55b-3241e18bbb3b",
+    "version": 1,
+    "createdAt": 1789443654196,
+    "updatedAt": 1789443654196,
+    "kind": "memo",
+    "visitId": null,
+    "placeId": null,
+    "occurredAt": null,
+    "endedAt": null,
+    "timePrecision": "unknown",
+    "body": "静かな場所を歩くと新しい発見がある。",
+    "purposes": [],
+    "activities": [],
+    "impression": "",
+    "periodAnswers": {},
+    "bookmarked": false,
+    "useForSuggestions": true,
+    "topicKey": null,
+    "visibility": "private",
+    "sharedWith": [],
+    "effectivePlaceId": null,
+    "effectiveStartedAt": null,
+    "effectiveEndedAt": null,
+    "effectiveTimePrecision": "unknown",
+    "memo": {
+      "name": "デモの気づき",
+      "originRefs": [],
+      "keywords": [
+        "静かな場所"
+      ]
+    }
+  }
+}

@@ -10,7 +10,7 @@ export class OverpassBikeProvider implements BikeProvider {
   async search(settings: BikeSettings, signal: AbortSignal): Promise<BikeData> {
     const [w, s, e, n] = settings.region.bounds, bbox = `${s},${w},${n},${e}`;
     // Query syntax contains only validated numeric coordinates. No client-supplied query fragments.
-    const query = `[out:json][timeout:25];(nwr[amenity=motorcycle_parking](${bbox});nwr[amenity=fuel](${bbox});nwr[shop=motorcycle](${bbox});way[highway][motorcycle](${bbox});way[highway][moped](${bbox});way[highway][mofa](${bbox});way[highway][motorroad](${bbox});way[highway][motor_vehicle=no](${bbox});way[highway][access~"^(no|private|destination)$"](${bbox});way[highway~"^motorway(_link)?$"](${bbox}););out meta geom;`;
+    const query = `[out:json][timeout:25];(nwr[amenity=motorcycle_parking](${bbox});nwr[amenity=fuel](${bbox});nwr[shop=motorcycle](${bbox});way[highway][motorcycle](${bbox});way[highway][moped](${bbox});way[highway][mofa](${bbox});way[highway][motorroad](${bbox});way[highway][motor_vehicle=no](${bbox});way[highway][access=no](${bbox});way[highway][access=private](${bbox});way[highway][access=destination](${bbox});way[highway=motorway](${bbox});way[highway=motorway_link](${bbox}););out meta geom;`;
     let response: Response;
     try {
       response = await this.fetcher(this.endpoint, { method: "POST", body: new URLSearchParams({ data: query }), signal: AbortSignal.any([signal, AbortSignal.timeout(35_000)]), headers: { "User-Agent": "sodateru-map-bike/1.0 (+https://github.com/rozwer/sodateru-map-production-specs)", Accept: "application/json" } });

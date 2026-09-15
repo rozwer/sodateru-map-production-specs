@@ -15,6 +15,7 @@ import { createBikeFeature } from "./feature.ts";
 import { CommonError } from "../../core/errors.ts";
 import { assessTags, defaultSettings, geometryHash, settingsHash, validateSettings, type BikeSettings } from "./domain.ts";
 import { OverpassBikeProvider, type BikeProvider } from "./overpass.ts";
+import { PlacesService } from "../../features/places/service.ts";
 import { bikeMigration } from "./migration.ts";
 
 const settings = structuredClone(defaultSettings);
@@ -137,5 +138,35 @@ test("verified fixture adoption is atomic and replay checks the current saved ro
     assert.throws(()=>service.replayAdoption(context,saved.id),{code:"SOURCE_CHANGED"});
     db.prepare("DELETE FROM fixture_saved_routes WHERE id=?").run(input.id);
     assert.throws(()=>service.replayAdoption(context,saved.id),{code:"NOT_FOUND"});
+  } finally {databases.close();rmSync(dir,{recursive:true,force:true});}
+});
+
+
+test("actual PLACES registry: fixture observation binding, replay, settings and registry restart", async () => {
+  const dir=mkdtempSync(join(tmpdir(),"bike-candidates-"));
+  const databases=openDatabases({livePath:join(dir,"live.sqlite"),demoPath:join(dir,"demo.sqlite"),migrations:[bikeMigration]});
+  const personId=randomUUID();seedProfiles(databases,[{id:personId,key:"test",name:"FIXTURE"}]);
+  const context={personId,dataMode:"live" as const,requestId:randomUUID(),signal:new AbortController().signal};
+  const installation={installId:"fixture-bike",version:1,enabled:true,visible:true,settings};
+  const observation:BikeProvider={async search(s,signal){const data=await provider.search(s,signal);data.places[0]!.id="osm:node:1";return data;}};
+  const commonPlaces=new PlacesService();
+  const service=new BikeService(databases.live,()=>installation,routes,observation,commonPlaces);
+  try {
+    const search=await service.search(context);
+    const batch=service.placeCandidates(context,search.id);
+    assert.equal(batch.settingsVersion,search.settingsVersion);assert.equal(batch.settingsHash,search.settingsHash);
+    const candidate=batch.candidates.items[0]!;
+    assert.equal(candidate.provider,"nominatim");assert.equal(candidate.externalId,"N1");assert.equal(candidate.sourceUrl,source.url);
+    assert(batch.candidates.expiresAt<=search.expiresAt);
+    assert.deepEqual(service.replayPlaceCandidates(context,batch),batch);
+    assert.throws(()=>service.placeCandidates({...context,personId:randomUUID()},search.id),{code:"NOT_FOUND"});
+    installation.enabled=false;
+    assert.throws(()=>service.replayPlaceCandidates(context,batch),{code:"STATE_CONFLICT"});
+    installation.enabled=true;installation.version++;
+    assert.throws(()=>service.placeCandidates(context,search.id),{code:"INPUT_CHANGED"});
+    installation.version--;
+    const restarted=new BikeService(databases.live,()=>installation,routes,observation,new PlacesService());
+    assert.throws(()=>restarted.replayPlaceCandidates(context,batch),{code:"RESULT_EXPIRED"});
+    assert.notEqual(restarted.placeCandidates(context,search.id).candidates.resultId,batch.candidates.resultId);
   } finally {databases.close();rmSync(dir,{recursive:true,force:true});}
 });

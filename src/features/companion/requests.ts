@@ -20,7 +20,7 @@ export function useCompanionRequests(active: boolean) {
     if (!keys.current.has(fingerprint)) keys.current.set(fingerprint, crypto.randomUUID());
     return { fingerprint, key: keys.current.get(fingerprint)! };
   };
-  async function mutate<T extends OperationId>(operation: T, input: OperationInput<T>, identity: unknown = input): Promise<MutationData<T>> {
+  async function mutate<T extends OperationId>(operation: T, input: Omit<OperationInput<T>, "idempotencyKey" | "signal">, identity: unknown = input): Promise<MutationData<T>> {
     const { fingerprint, key } = keyFor(operation, identity);
     try {
       const result = await api.request(operation, { ...input, idempotencyKey: key, signal: controller.current?.signal } as OperationInput<T>);
