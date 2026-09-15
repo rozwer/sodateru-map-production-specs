@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useMapBridge } from '../../app/useMapBridge';
 import { useSession } from '../../app/session';
 import { api } from '../../app/api';
-import { BridgeMap } from '../../map/MapRenderer';
 import type { SceneOverlay } from '../../map/MapScene';
 import type { PluginTrialResult, PluginTrialPreview } from '../../../packages/api-client';
-import { useDisasterData, toDisasterMapData, clipDisasterRaster, createDisasterDemo } from './data';
+import { useDisasterData, toDisasterMapData, createDisasterDemo } from './data';
 import type { DisasterSettings, DisasterLayerId } from './types';
 import { DisasterPanel, DisasterIcon, regions } from './ui/DisasterPanel';
-import { disasterMapDisplay } from './ui/map-state';
+import { disasterMapDisplay, buildDisasterMapDisplay } from './ui/map-state';
 import './ui/disaster.css';
 
 const defaults: DisasterSettings = { region: regions[0]!, layerIds: ['flood-hazard', 'terrain', 'rainfall'] };
@@ -23,7 +23,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   const bridge = useMapBridge();
   const session = useSession();
   const data = useDisasterData(scopeKey);
-  const host = useRef<HTMLDivElement>(null);
+  const [toolbarHost, setToolbarHost] = useState<HTMLElement | null>(null);
   const previousCamera = useRef(bridge.getSnapshot().camera);
   const [settings, setSettings] = useState<DisasterSettings>(defaults);
   const [tab, setTab] = useState<'layers' | 'sources'>('layers');
@@ -50,10 +50,11 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     bridge.focus('plugin:disaster-ui', {bounds:[[w!,s!],[e!,n!]],padding: compact ? {top:220,bottom:wide?110:350,left:25,right:65} : {top:160,bottom:60,left:420,right:90}});
   };
   useEffect(() => {
-    if (!host.current) return;
-    const observer = new ResizeObserver(entries => setCompact((entries[0]?.contentRect.width ?? 390) < 700));
-    observer.observe(host.current); return () => observer.disconnect();
-  }, []);
+    setToolbarHost(document.getElementById('disaster-toolbar-root'));
+    const resize = () => setCompact(window.innerWidth < 768);
+    resize(); window.addEventListener('resize', resize);
+    return () => window.removeEventListener('resize', resize);
+  }, [active]);
   useEffect(() => {
     const value = current?.settings;
     if (validSettings(value)) { setSettings(value); setPreview(null); }
@@ -74,14 +75,8 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
       const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
       store.set({ownerKey:'plugin:disaster-preview',images:[],overlays});
     } else if (materials?.action === 'apply' && materials.ownerKey) {
-      const ownerKey = materials.ownerKey;
-      void Promise.all(materials.rasters.map(async raster => {
-        const cropped = await clipDisasterRaster(raster);
-        return {id:raster.id,ownerKey,url:cropped.imageDataUrl,coordinates:cropped.coordinates,opacity};
-      })).then(images => {
-        if (cancelled) return;
-        const overlays: SceneOverlay[] = materials.masks.flatMap(({layerId,mask}) => mask.geojson.features.map((feature,index) => ({id:`${layerId}-missing-${index}`,ownerKey,geometry:feature.geometry as SceneOverlay['geometry'],color:'#66717a',opacity:.45,label:'欠測・未確認'})));
-        store.set({ownerKey,images,overlays});
+      void buildDisasterMapDisplay(materials.view, opacity).then(display => {
+        if (!cancelled) store.set(display);
       }).catch(() => { if (!cancelled) { store.clear(); setRenderError('防災画像を地図に描画できませんでした。情報を更新して再試行してください。'); } });
     }
     return () => { cancelled = true; };
@@ -117,20 +112,21 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   });
   const leave = () => { if (preview) disasterMapDisplay(bridge).clear(); bridge.clear('plugin:disaster-ui'); bridge.setCamera(previousCamera.current); navigate('map'); };
   const viewNotice = data.view?.stale ? '保存された情報は古いか、更新に失敗しています。取得時刻と状況を確認してください。' : data.view?.map.reason === 'settingsChanged' ? '地域・レイヤー設定が変わりました。情報を更新してください。' : installed && !enabled ? '防災レイヤーは停止中です。保存された情報は保持されています。' : '';
-  return <div ref={host} className="disaster-screen">
-    <div className="disaster-screen-map"><BridgeMap bridge={bridge} label="防災の地域地図"/></div>
-    <section className="disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide} aria-label="防災マップ">
+  const toolbar = <section className="disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide} aria-label="防災マップ">
       <header className="disaster-header"><div className="disaster-brand"><DisasterIcon name="shield"/><div><small>わたしの街を、備える街に</small><h2>防災マップ</h2></div></div><button className="disaster-back" onClick={leave}>街の地図へ</button></header>
       <div className="disaster-area"><span><DisasterIcon name="pin"/><b>{settings.region.id}</b><small>選んだ地域の周辺</small></span><button disabled={busy} onClick={() => { const {longitude:x,latitude:y} = bridge.getSnapshot().camera; changeSettings({...settings,region:{id:'地図の中心',bounds:[x-.03,y-.025,x+.03,y+.025]}}); }}>地図の中心で調べる</button></div>
       <div className="disaster-map-mode" aria-label="防災レイヤーの切替">{(['flood-hazard','terrain','rainfall'] as const).map(id => <button key={id} disabled={busy || settings.layerIds.length === 1 && settings.layerIds.includes(id)} aria-pressed={settings.layerIds.includes(id)} onClick={() => toggleLayer(id)}>{layerNames[id]}</button>)}</div>
       <button className="disaster-live-chip" data-alert={!data.view?.result || data.view.stale} onClick={() => {setTab('sources');setWide(false);}}>{preview ? '模擬表示' : data.view?.result ? '保存された防災情報' : '防災情報は未取得'}<small>{preview ? '実情報ではありません' : `${clock(data.view?.result?.fetchedAt)} 取得`} ›</small></button>
       {preview && <div className="disaster-mode-badge">架空の範囲を示すデモです。実際の災害情報ではありません。</div>}
-      <div className="disaster-map-tools"><button onClick={() => { const zoom = bridge.getSnapshot().camera.zoom; bridge.setCamera({zoom:Math.min(zoom+1,18)}); }} aria-label="地図を拡大">＋</button><button onClick={() => { const zoom = bridge.getSnapshot().camera.zoom; bridge.setCamera({zoom:Math.max(zoom-1,3)}); }} aria-label="地図を縮小">−</button><button onClick={() => focusRegion()}><DisasterIcon name="pin"/>地域へ</button></div>
+      <div className="disaster-map-tools"><button onClick={() => { const zoom = bridge.getSnapshot().camera.zoom; bridge.setCamera({zoom:Math.min(zoom+1,18)}); }} aria-label="地図を拡大">＋</button><button onClick={() => { const zoom = bridge.getSnapshot().camera.zoom; bridge.setCamera({zoom:Math.max(zoom-1,3)}); }} aria-label="地図を縮小">−</button></div>
       <div className="disaster-terrain-key"><b>{preview ? '模擬ハザードの凡例' : '地図の重ね合わせ'}</b>{preview ? <><span><i style={{background:'#e59745',width:24}}/>架空の範囲</span><small>実際の浸水想定ではありません</small></> : <><label style={{fontSize:11}}>濃さ<input aria-label="防災レイヤーの濃さ" type="range" min="0.2" max="1" step="0.05" value={opacity} onChange={event => setOpacity(Number(event.target.value))}/></label><small>灰色の範囲：欠測・未確認</small><button onClick={() => {setTab('sources');setWide(false);}}>情報ごとの凡例・時点を確認 ›</button></>}</div>
-      <aside className="disaster-panel"><div className="disaster-panel-size"><button onClick={() => {setWide(!wide);setExpanded(false);}}>{wide ? '情報を戻す ▴' : '地図を広く ▾'}</button><button onClick={() => {setExpanded(!expanded);setWide(false);}}>{expanded ? '情報をたたむ ▾' : '情報を広く ▴'}</button></div>
-        {trial ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => setTrial(null)}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。導入後に情報を取得します。</p><p className="disaster-caption">地域とレイヤーの設定を保存し、あなたの地図に追加します。</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => setTrial(null)}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} busy={busy} error={localError || data.error || renderError} notice={notice || viewNotice} installed={installed} enabled={enabled} demo={!!preview} onSettings={changeSettings} onRefresh={() => {setNotice(''); void data.refresh();}} onEnabled={value => {disasterMapDisplay(bridge).clear();void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
-      </aside>
-    </section>
+    </section>;
+  return <div className="disaster-screen disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide}>
+    {active && toolbarHost && createPortal(toolbar, toolbarHost)}
+      <div className="disaster-panel"><div className="disaster-panel-size"><button onClick={() => {setWide(!wide);setExpanded(false);}}>{wide ? '情報を戻す ▴' : '地図を広く ▾'}</button><button onClick={() => {setExpanded(!expanded);setWide(false);}}>{expanded ? '情報をたたむ ▾' : '情報を広く ▴'}</button></div>
+        {trial ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => setTrial(null)}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。導入後に情報を取得します。</p><p className="disaster-caption">地域とレイヤーの設定を保存し、あなたの地図に追加します。</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => setTrial(null)}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} busy={busy} error={localError || data.error || renderError} notice={notice || viewNotice} installed={installed} enabled={enabled} demo={!!preview} demoLabel={preview?.label} demoWarnings={preview?.warnings} onSettings={changeSettings} onRefresh={() => {setNotice(''); void data.refresh();}} onEnabled={value => {disasterMapDisplay(bridge).clear();void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
+      </div>
   </div>;
 }
-export const disasterScreens: ScreenDefinition[] = [{id:'disaster-map',title:'防災マップ',component:DisasterScreen,layout:{presentation:'fullscreen',header:'none',contentPadding:'none',bottomNav:false}}];
+export function DisasterToolbar() { return <div id="disaster-toolbar-root" className="disaster-toolbar-root"/>; }
+export const disasterScreens: ScreenDefinition[] = [{id:'disaster-map',title:'防災マップ',component:DisasterScreen,toolbar:DisasterToolbar,layout:{presentation:'panel',header:'none',contentPadding:'none',bottomNav:false,mapControls:true,mobileHeight:42}}];
