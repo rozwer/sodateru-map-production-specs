@@ -29,3 +29,26 @@ common.jsonは「モバイル単一Sheet、広い画面単一side panel」。全
 B/C/Dの既存Schema準拠サンプルは受信時にここへ記載し、該当担当へ一度転送。新しい共通fixture基盤は追加しない。未着を通常状態確認済みにしない。健康3画面は余力未実装、新規相棒制作は対象外。
 
 初回検査: `bunx vitest run src/app/presentation.test.tsx src/app/map-bridge.test.ts` 4件成功。fullscreen→navigationでMapRendererが同じDOM/1回mountのまま再表示されることを検査。`bunx vite build` 成功（既存bundle size warning）。新commitの実ブラウザはQA反映後、未確認を成功扱いしない。
+
+### 受領: PLUGINS / shymky / #172 comment5674438674
+
+- 所在: 正式develop `server/plugins/{bike,disaster,pilgrimage}/{release.ts,plugin.ts}`、`docs/evidence/PLUGINS/trial-contract.md`、`server/features/plugins/http.test.ts`。提供コメントはcommit未指定。
+- Schema/投入: 既存GET plugins（iconOptions）/plugin-state、session→trial→snapshot.settings+confirmed:true+stateRevisionでPOST plugin-settings。`X-Data-Mode: demo`。試用mockを明示、試用のみでは保存しない。
+- 再表示: GET plugin-stateで本人installId、GET pluginsで一覧。装飾実JSON `docs/evidence/MAP-CUSTOM/settings-plugin-http.json` と `object-http.json`（同README手順）。
+- 転送先: 現VISUAL-PLUGINS #186。B/C/D通常状態サンプルは他に未受領。
+
+### QA第一反映
+
+QA報告: 5173/API3002をdevelop 7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2へ更新、提出d924a0a祖先保持。既存fixture-inputで下書き入力→fullscreen chat→戻るで同値/未保存表示を実ブラウザ確認。画像一致判定ではない。Shell自身はnavigation self451/390、main458/390、開始画面390の実画像を開き、開始1クリック→mapとmock Hinata表示を確認した。mainのプロフィールは既存demoが自分/空bioのため原本人物との差はデータ差。図版細部の差は残る。
+
+## 第二修正: 地図中央カメラ
+
+原本 `03_pages/references/Codex 画像 2026年9月15日 07_41_12.png` を実際に開き、下部中央は角丸カメラであると確認。map/components.jsonのplace-selected/area-info/search-place-selected nav-cameraにも明記。地図ページでは中央をカメラ、他ページでは地図へ戻るボタンにする。native撮影または写真選択で得たFile[]をPR188の`stageRecordCapture(files,scopeKey)`へ預け、`record-create?captureId`へ進む。空/キャンセル時は地図のまま。撮影/選択キャンセル・Escapeで画面履歴を進めない。API契約は追加しない。
+
+記録側担当は VISUAL-RECORDS-CAMERA #189 / 01a0a32b-ad28-7990-9028-f4ab8e2a9845。受取は同scopeで一度take→既存draft。再読込でFileは消える既存仕様をエラー表示する。
+
+`bunx vite build`成功。記録側testはjsdomオプション必須（初回環境未指定ではdocument is not defined）、`bunx vitest run --environment jsdom src/app/presentation.test.tsx src/features/records/capture-handoff.test.tsx`で検査。実機カメラ/権限拒否/実API投稿はまだ未確認で投稿可能とは判定しない。
+
+### 未受領データの具体的不足（SELFから）
+
+self-home/diary/reflection-question/history/compare/theme写真: getRecords→getRecordsRecordId→getRecordsRecordIdMedia/getPlacesPlaceId。診断: getReflectionSummary/getInsights原本4/5軸。提案: 同batchIdの2候補/写真/座標/所要時間。SELFの既存UI-SUGGESTIONS写真fixtureはPR188。現機能担当へ既存入口で反映する範囲であり、新共通mock基盤なし。
