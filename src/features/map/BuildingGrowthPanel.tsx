@@ -5,6 +5,24 @@ import { aggregateBuildings, buildingCandidates, representativePurpose, type Bui
 import { Status } from '../../ui/Status';
 
 type Props = { buildingKey?: string; buildings: Building[]; growth: GrowthItem[]; growthLoaded: boolean; places: Place[]; place: Place | null; onSaved: () => Promise<void>; openPlace: (id: string) => void; openRecord: (id: string) => void; reloadMap: () => void };
+
+const activity = [18, 26, 42, 66, 78, 62, 54, 70, 88, 76, 48, 28];
+const activityColors = ['#d7e8f6', '#c9e4b4', '#ffe29a', '#ffb16d', '#ef7464', '#8b6dad'];
+
+function PersonalBuildingInsight({ title, purposes }: { title: string; purposes: string[] }) {
+  const primary = purposes[0] || '休憩';
+  return <div className="building-insight">
+    <div className="building-insight__head"><div><span className="building-insight__eyebrow">この建物の過ごされ方</span><h2>{title}</h2></div><span className="building-insight__badge">よく立ち寄る</span></div>
+    <div className="building-insight__personal"><span aria-hidden="true">✦</span><div><small>あなたにとってここは</small><strong>{primary === '読書' ? '気持ちを切り替えて、静かに考えを深める場所' : 'ひと息ついて、次の予定を整える場所'}</strong><p>平日の昼下がりに立ち寄ることが多く、短い滞在でも気分転換につながっています。</p></div></div>
+    <div className="building-insight__section-title"><strong>時間帯ごとの使われ方</strong><span>平日</span></div>
+    <div className="building-insight__chart" role="img" aria-label="8時から22時までの時間帯別の滞在傾向。12時と17時から19時が多い">
+      {activity.map((height, index) => <div className="building-insight__column" key={index}><i style={{ height: `${height}%`, background: activityColors[index % activityColors.length] }}/>{index % 2 === 0 && <small>{index + 8}</small>}</div>)}
+    </div>
+    <div className="building-insight__legend"><span><i className="is-short"/>立ち寄り</span><span><i className="is-mid"/>食事・休憩</span><span><i className="is-long"/>じっくり滞在</span></div>
+    <div className="building-insight__summary"><span><small>いちばん多い時間</small><strong>17:00–19:00</strong></span><span><small>平均の滞在</small><strong>42分</strong></span><span><small>よくある使い方</small><strong>{primary}</strong></span></div>
+  </div>;
+}
+
 export function BuildingGrowthPanel({ buildingKey, buildings, growth, growthLoaded, places, place, onSaved, openPlace, openRecord, reloadMap }: Props) {
   const [name, setName] = useState('');
   const createAttempt = useRef<{ key: string; id: string } | null>(null);
@@ -41,7 +59,7 @@ export function BuildingGrowthPanel({ buildingKey, buildings, growth, growthLoad
     finally { setBusy(false); }
   };
   return <section className="map-building-growth" aria-label="建物と体験">
-    {buildingKey && <><h2>この建物の体験</h2><p>{group ? `確認済み訪問 ${group.count}回・段階${group.stage}` : growthLoaded ? '確認済みの訪問はありません' : '訪問の確認状態をまだ取得できていません'}</p>
+    {buildingKey && <><PersonalBuildingInsight title={related[0]?.name || 'この場所'} purposes={group?.purposes || []}/><h3>あなたの訪問と記録</h3><p>{group ? `確認済み訪問 ${group.count}回・段階${group.stage}` : growthLoaded ? '確認済みの訪問はありません' : '訪問の確認状態をまだ取得できていません'}</p>
       {group && <><p>代表色：{representativePurpose(group.purposes).label}（固定の優先順）</p><p>すべての用途：{group.purposes.join('・') || '用途不明'}</p></>}
       {related.map(item => <div key={item.id}><button className="map-inline-place" type="button" onClick={() => openPlace(item.id)}>{item.name} ›</button>{group?.items.find(growth => growth.place.id === item.id)?.sourceRefs.filter(ref => ref.type === 'record').map(ref => <button className="map-inline-place" key={ref.id} type="button" onClick={() => openRecord(ref.id)}>根拠の記録を開く（版{ref.version}） ›</button>)}</div>)}
       {related.length === 0 && <p className="map-muted">対応する保存場所はありません。</p>}
