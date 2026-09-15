@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 22,
+  "revision": 23,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4543,22 +4543,17 @@
       "token": null
     },
     "PLUGINS": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 28,
       "landed_main": null,
-      "note": null,
+      "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
       "owner": "kaiya",
-      "paths": [
-        "server/features/plugins/",
-        "server/db/migrations/plugins/",
-        "docs/01_requirements/04_api/fragments/PLUGINS.json",
-        "docs/evidence/PLUGINS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "66372d3da36543778417bbf767239de4"
+      "token": null
     },
     "RECORDS": {
       "actor": null,
