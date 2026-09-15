@@ -1,15 +1,28 @@
 import { readFileSync } from 'node:fs';
 import type { Context } from 'hono';
-import type { CoreEnv } from '../../core/context.ts';
+import type { RequestContext, CoreEnv } from '../../core/context.ts';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { defineFeature } from '../../core/features.ts';
 import { CommonError, expectedVersion } from '../../core/errors.ts';
 import { idempotentMutation, idempotencyKey, requestHash } from '../../core/idempotency.ts';
 import type { DatabaseSync } from 'node:sqlite';
 import type { PilgrimageService } from './service.ts';
+import type { StoredResult } from '../../core/idempotency.ts';
 import type { Selection, SearchInput } from './types.ts';
 function endpoint(fn:(c:Context<CoreEnv>)=>Response|Promise<Response>) {
- return async(c:Context<CoreEnv>)=>{try{return await fn(c);}catch(e:any){if(e instanceof CommonError)throw e;if(typeof e?.code==='string')throw new CommonError(e.code,e.message,!!e.retryable,e.details??{},e.status);throw e;}};
+ return async(c:Context<CoreEnv>)=>{try{return await fn(c);}catch(e:any){if(c.get('context')?.signal.aborted)throw new CommonError('CANCELLED','操作を取り消しました。',false,{},409);if(e instanceof CommonError)throw e;if(typeof e?.code==='string')throw new CommonError(e.code,e.message,!!e.retryable,e.details??{},e.status);throw e;}};
+}
+const needsPreview=Symbol('needsPreview');
+export async function requestPreview(db:DatabaseSync,context:RequestContext,service:PilgrimageService,body:Selection,key:string):Promise<StoredResult> {
+ const identity={context,operation:'POST /api/v1/plugins/pilgrimage/previews',key,input:body};
+ let existing:StoredResult|undefined;
+ const replay=(r:StoredResult):StoredResult=>({status:200,body:{data:service.getPreview(context,r.resource!.id)}});
+ // Probe through the public CORE transaction wrapper; a new reservation rolls back before I/O.
+ try { existing=idempotentMutation(db,identity,{execute(){throw needsPreview;},replay}); }
+ catch(error){if(error!==needsPreview)throw error;}
+ if(existing)return existing;
+ const preview=await service.preview(context,body);
+ return idempotentMutation(db,identity,{execute:()=>({status:201,body:{data:preview},resource:{type:'pilgrimage-preview',id:preview.id},expiresAt:preview.expiresAt}),replay});
 }
 export function pilgrimageFeature(createPilgrimageService:(db:DatabaseSync)=>PilgrimageService, ai:{createConversation:(...args:any[])=>any;startRun:(...args:any[])=>Promise<any>;getRun:(...args:any[])=>Promise<any>}) {
  const {createConversation,startRun,getRun}=ai;
@@ -27,8 +40,7 @@ export function pilgrimageFeature(createPilgrimageService:(db:DatabaseSync)=>Pil
   api.get('/plugins/pilgrimage/searches/:searchId',endpoint(c=>c.json({data:createPilgrimageService(c.get('db')).getSearch(c.get('context'),c.req.param('searchId'))})));
   api.post('/plugins/pilgrimage/previews',endpoint(async c=>{
    const db=c.get('db'),context=c.get('context'),service=createPilgrimageService(db),body=c.get('input').body as Selection;
-   const preview=await service.preview(context,body);
-   const result=idempotentMutation(db,{context,operation:'POST /api/v1/plugins/pilgrimage/previews',key:idempotencyKey(c.req.header('Idempotency-Key')),input:body},{execute:()=>({status:201,body:{data:preview},resource:{type:'pilgrimage-preview',id:preview.id},expiresAt:preview.expiresAt}),replay:r=>({status:200,body:{data:service.getPreview(context,r.resource!.id)}})});
+   const result=await requestPreview(db,context,service,body,idempotencyKey(c.req.header('Idempotency-Key')));
    return c.json(result.body as any,result.status as ContentfulStatusCode);
   }));
   api.get('/plugins/pilgrimage/previews/:previewId',endpoint(c=>c.json({data:createPilgrimageService(c.get('db')).getPreview(c.get('context'),c.req.param('previewId'))})));
