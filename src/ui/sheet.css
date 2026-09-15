@@ -31,3 +31,8 @@
   .sm-sheet--navigation.sm-sheet--right { width: 286px; }
   .sm-sheet__body { padding-bottom: calc(var(--bottom-nav-height,80px) + 30px); }
 }
+
+/* Opt-in composition for pages whose own content includes the full map and panels. */
+.sm-sheet--screen.sm-sheet--fullscreen { inset: 0; width: 100%; height: 100%; max-width: none; border: 0; border-radius: 0; box-shadow: none; }
+.sm-sheet--fullscreen .sm-sheet__body { display: flex; flex-direction: column; }
+.sm-sheet--fullscreen .sm-screen-content:not([hidden]) { flex: 1; min-height: 0; display: flex; flex-direction: column; }

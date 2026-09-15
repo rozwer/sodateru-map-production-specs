@@ -1,0 +1,4 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {runStructured} from '../../../server/ai/provider.ts';
+const common=JSON.parse(readFileSync(new URL('../../01_requirements/02_common/01_ai/schemas.json',import.meta.url),'utf8'));
+try {const result=await runStructured({task:'compare',model:'gpt-5.6-luna',prompt:'二つの記録は、川辺で休憩して水の音で落ち着いた体験(from=r1)と、公園の木陰で涼しく休憩した体験(to=r2)。src_1はr1、src_2はr2の引用。比較してください。',schema:{...common.definitions.compareResult,definitions:common.definitions},signal:new AbortController().signal});writeFileSync(new URL('./compare-provider-diagnostic.json',import.meta.url),JSON.stringify({status:'complete',result},null,2));console.log('complete');}catch(error){const result={status:'failed',error:String((error as Error).message)};writeFileSync(new URL('./compare-provider-diagnostic.json',import.meta.url),JSON.stringify(result,null,2));console.log(JSON.stringify(result));process.exitCode=1;}

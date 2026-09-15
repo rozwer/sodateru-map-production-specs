@@ -4,7 +4,7 @@ import { requestHash } from '../../core/idempotency.ts';
 import type { SearchResult } from './types.ts';
 const idSchema={type:'string',minLength:1,maxLength:80};
 export const pilgrimageInputSchema={type:'object',additionalProperties:false,required:['searchId','relationIds','settingsVersion'],properties:{searchId:idSchema,relationIds:{type:'array',minItems:2,maxItems:10,uniqueItems:true,items:idSchema},settingsVersion:{type:'integer',minimum:1}}};
-export const pilgrimageOutputSchema={type:'object',additionalProperties:false,required:['searchId','settingsVersion','orderedRelationIds','explanation','unknowns'],properties:{searchId:idSchema,settingsVersion:{type:'integer',minimum:1},orderedRelationIds:{type:'array',minItems:2,maxItems:10,uniqueItems:true,items:idSchema},explanation:{type:'string',minLength:1,maxLength:2000},unknowns:{type:'array',maxItems:20,items:{type:'string',minLength:1,maxLength:1000}}}};
+export const pilgrimageOutputSchema={type:'object',additionalProperties:false,required:['searchId','settingsVersion','orderedRelationIds','explanation','unknowns'],properties:{searchId:idSchema,settingsVersion:{type:'integer',minimum:1},orderedRelationIds:{type:'array',minItems:2,maxItems:10,items:idSchema},explanation:{type:'string',minLength:1,maxLength:2000},unknowns:{type:'array',maxItems:20,items:{type:'string',minLength:1,maxLength:1000}}}};
 export function pilgrimageTask(pluginState:(db:any,context:any)=>any):AiTask {
  return {
   task:'pilgrimage',promptVersion:'pilgrimage-1',permissionScope:{location:true},inputSchema:pilgrimageInputSchema,outputSchema:pilgrimageOutputSchema,

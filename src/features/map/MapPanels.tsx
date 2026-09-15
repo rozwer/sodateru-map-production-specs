@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { mapMessages as m } from './messages';
 import { MapIcon } from './MapIcon';
+import { Icon } from '../../ui/Icon';
 import { ObjectPreview } from '../../map/ObjectPreview';
 import './map-feature.css';
 
@@ -24,7 +25,7 @@ export function PlaceDetailPanel({ place, variant, saved, saving, canSave = true
   return <section className={`map-place-detail map-place-detail--${variant}`}>
     {variant === 'place' && <PlacePhoto place={place}/>}
     <div className="map-place-copy"><h2>{place.name}</h2>
-      {variant === 'place' && <><p className="map-icon-line map-muted"><MapIcon name="cup"/>{place.categories.join('・')}</p><p className="map-address map-muted">♧ {place.address || m.addressMissing}</p></>}
+      {variant === 'place' && <><p className="map-icon-line map-muted"><MapIcon name="cup"/>{place.categories.join('・')}</p><p className="map-address map-icon-line map-muted"><Icon name="pin"/>{place.address || m.addressMissing}</p></>}
       {variant === 'search' && place.durationMinutes != null && <p className="map-icon-line map-muted"><MapIcon name="walk"/>徒歩 {place.durationMinutes}分{place.distanceMeters != null ? `（約${place.distanceMeters}m）` : ''}</p>}
       {variant === 'search' && <PlacePhoto place={place}/>}
       <p className="map-place-description">{place.description || m.descriptionMissing}</p>

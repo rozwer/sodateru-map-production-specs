@@ -1,0 +1,20 @@
+{
+  "requestId": "1a4c252b-1f64-41bf-92bc-f61a831d841f",
+  "model": "gpt-5.6-luna",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/reflection-integration-111/.local/ai-live-acceptance/1a4c252b-1f64-41bf-92bc-f61a831d841f",
+  "status": "failed",
+  "stage": "generate-comparison",
+  "runs": [
+    {
+      "id": "a-extract-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+      "model": "gpt-5.6-luna",
+      "status": "complete"
+    },
+    {
+      "id": "a-diary-1a4c252b-1f64-41bf-92bc-f61a831d841f",
+      "model": "gpt-5.6-luna",
+      "status": "complete"
+    }
+  ],
+  "error": "comparison {\"code\":\"UPSTREAM_FAILED\",\"message\":\"AI処理に失敗しました\",\"retryable\":true}"
+}

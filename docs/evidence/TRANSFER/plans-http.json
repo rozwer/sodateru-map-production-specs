@@ -1,0 +1,18 @@
+{
+  "checkedAt": "2026-09-15T03:40:45.749Z",
+  "result": "PASS",
+  "entry": "server/app/main.ts",
+  "processStarts": 3,
+  "checks": [
+    "actual application startup and session",
+    "real RECORDS source → recipe POST/GET/replay",
+    "same recipe after OS process restart",
+    "original record unchanged",
+    "actual common AI and PLACES produce both plans",
+    "selected ordered places saved through common ROUTES",
+    "same adopted plan and saved route after OS restart"
+  ],
+  "remaining": [
+    "Q10 UI acceptance"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "requestId": "c8788568-cab5-4d23-b037-200d3a61bc42",
+  "model": "gpt-5.6-luna",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/c667/ai-integration-103/.local/ai-live-acceptance/c8788568-cab5-4d23-b037-200d3a61bc42",
+  "status": "failed",
+  "stage": "read-mapstyle",
+  "error": "/map-settings HTTP 404 {\"code\":\"NOT_FOUND\",\"message\":\"API契約が見つかりません。\",\"requestId\":\"e2bc908e-8ecb-47a2-a725-e0d4d4f9e099\",\"details\":{\"retryable\":false}}"
+}

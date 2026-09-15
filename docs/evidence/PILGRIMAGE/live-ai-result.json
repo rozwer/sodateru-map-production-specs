@@ -1,0 +1,856 @@
+{
+  "aiRun": {
+    "id": "pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+    "conversationId": "pilgrim-c-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+    "userMessageId": "pilgrim-u-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+    "task": "pilgrimage",
+    "status": "complete",
+    "attempt": 1,
+    "version": 3,
+    "model": "gpt-5.6-luna",
+    "promptVersion": "pilgrimage-1",
+    "result": {
+      "searchId": "search-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "settingsVersion": 1,
+      "orderedRelationIds": [
+        "hida-2",
+        "hida-1"
+      ],
+      "explanation": "飛騨古川駅を出発地点とし、公式観光コースで作品との関係が確認された飛騨市図書館へ向かう順序です（src_1、src_2）。道路経路・距離・徒歩移動時間は未取得のため、順序の根拠には含めていません。",
+      "unknowns": [
+        "飛騨市図書館の営業時間は不明です。",
+        "実際の道路経路、道路形状、距離、徒歩移動時間は未確認です。"
+      ]
+    },
+    "error": null,
+    "sourceRefs": [],
+    "insightId": null,
+    "createdAt": 1789442186260,
+    "updatedAt": 1789442211045
+  },
+  "aiAppliedRefs": [
+    {
+      "type": "pilgrimage-plan",
+      "id": "plan-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "version": 1,
+      "contentHash": "2ee5726e340276a931ede2b92dd1f63582aeab74e4742bd254c3fa969fc3d3b6"
+    }
+  ],
+  "httpResponses": [
+    {
+      "method": "POST",
+      "path": "/session",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/searches",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/ai-proposals",
+      "status": 202,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/ai-proposals/pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/previews",
+      "status": 422,
+      "error": "VALIDATION_FAILED"
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/previews",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/plans",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/plans/plan-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/plans",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/plans",
+      "status": 409,
+      "error": "IDEMPOTENCY_CONFLICT"
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/overlay",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/plans/plan-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/plans",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/session",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugins/pilgrimage/plans/plan-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "status": 404,
+      "error": "NOT_FOUND"
+    }
+  ],
+  "checkedAt": "2026-09-15T03:16:53.956Z",
+  "dependencies": {
+    "routeRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-38-pilgrimage",
+    "pluginRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-38-pilgrimage",
+    "aiRoot": "/Users/shimurakaiya/3_Workspace/sodateru-map-production-specs-worktrees/kaiya-38-pilgrimage",
+    "integrated": true
+  },
+  "assertions": {
+    "realAi": true,
+    "realSettingsPermission": true,
+    "aiSqliteReopen": true,
+    "aiAdoptionRecorded": true,
+    "realHttp": true,
+    "authenticatedIsolation": true,
+    "postReplay": true,
+    "inputValidation": true,
+    "realOfficialSources": true,
+    "realNominatimPlaces": true,
+    "realMapboxRoute": true,
+    "orderRetained": true,
+    "sqliteReopen": true,
+    "disabledOverlayOnly": true,
+    "placesAndRoutesAndRecordsRetained": true
+  },
+  "search": {
+    "id": "search-03170469-0b12-481b-b87f-f8e5664cbb77",
+    "input": {
+      "id": "search-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "workQuery": "君の名は。",
+      "region": {
+        "id": "飛騨",
+        "bounds": [
+          137,
+          36,
+          137.4,
+          36.5
+        ]
+      }
+    },
+    "works": [
+      {
+        "id": "Q21697406",
+        "title": "君の名は。",
+        "aliases": [
+          "Your Name",
+          "Kimi no Na wa"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "id": "hida-1",
+        "workId": "Q21697406",
+        "name": "飛騨市図書館",
+        "address": null,
+        "coordinates": [
+          137.1862625,
+          36.238145
+        ],
+        "relationType": "related-facility",
+        "description": "作品に関する展示がある図書館。公式観光コースで紹介されています。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      },
+      {
+        "id": "hida-2",
+        "workId": "Q21697406",
+        "name": "飛騨古川駅",
+        "address": null,
+        "coordinates": [
+          137.1901878,
+          36.2362988
+        ],
+        "relationType": "model-location",
+        "description": "公式観光コースが映画と駅周辺の風景との対応を紹介しています。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      },
+      {
+        "id": "hida-3",
+        "workId": "Q21697406",
+        "name": "気多若宮神社",
+        "address": null,
+        "coordinates": [
+          137.197601,
+          36.2389642
+        ],
+        "relationType": "model-location",
+        "description": "神社の階段と作品の聞き込み場面との対応を、公式観光サイトで確認できます。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      },
+      {
+        "id": "hida-4",
+        "workId": "Q21697406",
+        "name": "落合バス停",
+        "address": null,
+        "coordinates": [
+          137.11241508562,
+          36.303347740571
+        ],
+        "relationType": "model-location",
+        "description": "作品のバス待ち場面のモデルとして、公式観光サイトが紹介しています。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      }
+    ],
+    "fetchedAt": 1789442186253,
+    "warnings": [],
+    "dataKind": "live"
+  },
+  "plan": {
+    "id": "plan-03170469-0b12-481b-b87f-f8e5664cbb77",
+    "personId": "probe-03170469-0b12-481b-b87f-f8e5664cbb77",
+    "dataMode": "live",
+    "title": "飛騨古川駅 → 飛騨市図書館",
+    "workIds": [
+      "Q21697406"
+    ],
+    "region": {
+      "id": "飛騨",
+      "bounds": [
+        137,
+        36,
+        137.4,
+        36.5
+      ]
+    },
+    "orderedRelationIds": [
+      "hida-2",
+      "hida-1"
+    ],
+    "orderedPlaceIds": [
+      "route-place-b6752d940d9db06cae91a111b488aaca6c7159851715ea3b",
+      "route-place-9cf2f0f4695844a6cd820a33a5fd91a14d094ecd120b6f1e"
+    ],
+    "routeId": "pilgrimage-77398f9ba5d525e3bb925cfc040568d81ef0da344c0eaec0",
+    "route": {
+      "id": "pilgrimage-77398f9ba5d525e3bb925cfc040568d81ef0da344c0eaec0",
+      "personId": "probe-03170469-0b12-481b-b87f-f8e5664cbb77",
+      "title": "飛騨古川駅 → 飛騨市図書館",
+      "waypoints": [
+        {
+          "coordinates": [
+            137.1896089,
+            36.2367306
+          ],
+          "name": "飛驒古川駅",
+          "placeId": "route-place-b6752d940d9db06cae91a111b488aaca6c7159851715ea3b"
+        },
+        {
+          "coordinates": [
+            137.1854688,
+            36.2381173
+          ],
+          "name": "飛騨市図書館",
+          "placeId": "route-place-9cf2f0f4695844a6cd820a33a5fd91a14d094ecd120b6f1e"
+        }
+      ],
+      "mode": "walking",
+      "legs": [
+        {
+          "fromIndex": 0,
+          "toIndex": 1,
+          "geometry": {
+            "type": "LineString",
+            "coordinates": [
+              [
+                137.189358,
+                36.236713
+              ],
+              [
+                137.189342,
+                36.236579
+              ],
+              [
+                137.189317,
+                36.236552
+              ],
+              [
+                137.189104,
+                36.236363
+              ],
+              [
+                137.18838,
+                36.236875
+              ],
+              [
+                137.187367,
+                36.237613
+              ],
+              [
+                137.185907,
+                36.238724
+              ],
+              [
+                137.185815,
+                36.238777
+              ],
+              [
+                137.185752,
+                36.238697
+              ],
+              [
+                137.185624,
+                36.238575
+              ],
+              [
+                137.18551,
+                36.238478
+              ],
+              [
+                137.185393,
+                36.23839
+              ],
+              [
+                137.185283,
+                36.238327
+              ]
+            ]
+          },
+          "distanceM": 516.274,
+          "durationSec": 339,
+          "steps": [
+            {
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    137.189358,
+                    36.236713
+                  ],
+                  [
+                    137.189342,
+                    36.236579
+                  ],
+                  [
+                    137.189317,
+                    36.236552
+                  ],
+                  [
+                    137.189104,
+                    36.236363
+                  ]
+                ]
+              },
+              "distanceM": 47.17,
+              "durationSec": 39,
+              "location": [
+                137.189358,
+                36.236713
+              ],
+              "type": "depart",
+              "modifier": null,
+              "instruction": "直進です。",
+              "name": ""
+            },
+            {
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    137.189104,
+                    36.236363
+                  ],
+                  [
+                    137.18838,
+                    36.236875
+                  ],
+                  [
+                    137.187367,
+                    36.237613
+                  ],
+                  [
+                    137.185907,
+                    36.238724
+                  ],
+                  [
+                    137.185815,
+                    36.238777
+                  ]
+                ]
+              },
+              "distanceM": 399.393,
+              "durationSec": 249,
+              "location": [
+                137.189104,
+                36.236363
+              ],
+              "type": "turn",
+              "modifier": "right",
+              "instruction": "右方向です。",
+              "name": ""
+            },
+            {
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    137.185815,
+                    36.238777
+                  ],
+                  [
+                    137.185752,
+                    36.238697
+                  ],
+                  [
+                    137.185624,
+                    36.238575
+                  ],
+                  [
+                    137.18551,
+                    36.238478
+                  ],
+                  [
+                    137.185393,
+                    36.23839
+                  ],
+                  [
+                    137.185283,
+                    36.238327
+                  ]
+                ]
+              },
+              "distanceM": 69.711,
+              "durationSec": 51,
+              "location": [
+                137.185815,
+                36.238777
+              ],
+              "type": "turn",
+              "modifier": "left",
+              "instruction": "左方向です。",
+              "name": ""
+            },
+            {
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    137.185283,
+                    36.238327
+                  ],
+                  [
+                    137.185283,
+                    36.238327
+                  ]
+                ]
+              },
+              "distanceM": 0,
+              "durationSec": 0,
+              "location": [
+                137.185283,
+                36.238327
+              ],
+              "type": "arrive",
+              "modifier": "left",
+              "instruction": "目的地は左側です。",
+              "name": ""
+            }
+          ]
+        }
+      ],
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            137.189358,
+            36.236713
+          ],
+          [
+            137.189342,
+            36.236579
+          ],
+          [
+            137.189317,
+            36.236552
+          ],
+          [
+            137.189104,
+            36.236363
+          ],
+          [
+            137.18838,
+            36.236875
+          ],
+          [
+            137.187367,
+            36.237613
+          ],
+          [
+            137.185907,
+            36.238724
+          ],
+          [
+            137.185815,
+            36.238777
+          ],
+          [
+            137.185752,
+            36.238697
+          ],
+          [
+            137.185624,
+            36.238575
+          ],
+          [
+            137.18551,
+            36.238478
+          ],
+          [
+            137.185393,
+            36.23839
+          ],
+          [
+            137.185283,
+            36.238327
+          ]
+        ]
+      },
+      "distanceM": 516.274,
+      "durationSec": 339,
+      "provider": "mapbox-directions",
+      "sourceUrl": "https://www.mapbox.com/about/maps/",
+      "fetchedAt": 1789442213942,
+      "status": "saved",
+      "currentLeg": 0,
+      "visibility": "private",
+      "sharedWith": [],
+      "version": 1,
+      "createdAt": 1789442213945,
+      "updatedAt": 1789442213945
+    },
+    "sourceSnapshot": [
+      {
+        "id": "hida-2",
+        "workId": "Q21697406",
+        "name": "飛騨古川駅",
+        "address": null,
+        "coordinates": [
+          137.1901878,
+          36.2362988
+        ],
+        "relationType": "model-location",
+        "description": "公式観光コースが映画と駅周辺の風景との対応を紹介しています。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      },
+      {
+        "id": "hida-1",
+        "workId": "Q21697406",
+        "name": "飛騨市図書館",
+        "address": null,
+        "coordinates": [
+          137.1862625,
+          36.238145
+        ],
+        "relationType": "related-facility",
+        "description": "作品に関する展示がある図書館。公式観光コースで紹介されています。",
+        "sourceRefs": [
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "relation",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          },
+          {
+            "url": "https://www.hida-kankou.jp/courses/73",
+            "title": "飛騨市公式観光サイト「君の名は。」モデルコース",
+            "fetchedAt": 1789442186253,
+            "claimScope": "coordinates",
+            "attribution": "飛騨市・事実を要約。本文・画像の転載なし"
+          }
+        ],
+        "verificationStatus": "confirmed",
+        "unknowns": []
+      }
+    ],
+    "settingsSnapshot": {
+      "workQuery": "君の名は。",
+      "region": {
+        "id": "飛騨",
+        "bounds": [
+          137,
+          36,
+          137.4,
+          36.5
+        ]
+      },
+      "mode": "walking"
+    },
+    "settingsVersion": 1,
+    "ai": {
+      "runId": "pilgrim-a-4ec3ce52428b687c87267768c63060b13abda2f05fd2d238",
+      "attempt": 1
+    },
+    "version": 1,
+    "createdAt": 1789442213945,
+    "updatedAt": 1789442213945
+  }
+}

@@ -51,9 +51,33 @@ try{
     assert.deepEqual((await request('/transfer/recipes/'+recipe.id)).data,recipe);
     assert.deepEqual((await request('/records/'+record.id)).data.record,source);
     checks.push('real RECORDS source → recipe POST/GET/replay','same recipe after OS process restart','original record unchanged');
+    await writeFile(new URL('recipe-http.json',import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),result:'PASS',entry:'server/app/main.ts',processStarts:starts,checks,remaining:['two-plan adoption and Q10 UI acceptance']},null,2)+'\n');
+    console.log(JSON.stringify({milestone:'recipe persistence and OS restart',result:'PASS'}));
+    if(process.argv.includes('--plans')){
+      const settings=(await request('/me/settings')).data;
+      await request('/me/settings','PATCH',{ai:{enabled:true,allowRecords:true,allowLocation:true,allowMedia:false,allowProfile:false}},undefined,settings.version);
+      const input={id:'transfer-plan',recipeId:recipe.id,recipeVersion:recipe.version,region:'京都',start:{longitude:135.7681,latitude:35.0116},mode:'walking',timeBudgetMinutes:480,preferences:'公園で緑を歩いてから喫茶店で振り返りたい。'};
+      let plan=(await request('/transfer/plan-sets','POST',input,'transfer-plan')).data;
+      const deadline=Date.now()+240000;
+      while(['pending','running'].includes(plan.status)&&Date.now()<deadline){
+        await new Promise(resolve=>setTimeout(resolve,2000));
+        plan=(await request('/transfer/plan-sets/'+plan.id)).data;
+      }
+      await writeFile(new URL('latest-plan-attempt.json',import.meta.url),JSON.stringify({checkedAt:new Date().toISOString(),status:plan.status,error:plan.error,candidates:plan.candidates,plans:plan.plans},null,2)+'\n');
+      assert.equal(plan.status,'complete',JSON.stringify({status:plan.status,error:plan.error,candidates:plan.candidates.length,plans:plan.plans.map(p=>({variant:p.variant,unmet:p.unmetConditions,unknowns:p.unknowns}))}));
+      const adopted=(await request('/transfer/plan-sets/'+plan.id+'/adoption','POST',{variant:'faithful'},'transfer-adoption',plan.version)).data;
+      assert.equal(adopted.status,'adopted');assert.ok(adopted.savedRouteId);
+      const route=(await request('/saved-routes/'+adopted.savedRouteId)).data;
+      const selected=adopted.plans.find(p=>p.variant==='faithful').steps.filter(s=>s.placeId).map(s=>s.placeId);
+      assert.deepEqual(route.waypoints.filter(p=>p.placeId).map(p=>p.placeId),selected);
+      await stop();await start();
+      assert.deepEqual((await request('/transfer/plan-sets/'+plan.id)).data,adopted);
+      assert.deepEqual((await request('/saved-routes/'+adopted.savedRouteId)).data,route);
+      checks.push('actual common AI and PLACES produce both plans','selected ordered places saved through common ROUTES','same adopted plan and saved route after OS restart');
+    }
   }
-  const evidence={checkedAt:new Date().toISOString(),result:'PASS',entry:'server/app/main.ts',processStarts:starts,checks,remaining:['common AI two-plan generation','actual candidate/road adoption','Q10 UI binding']};
-  const filename=process.argv.includes('--boot-only')?'startup.json':'recipe-http.json';
+  const evidence={checkedAt:new Date().toISOString(),result:'PASS',entry:'server/app/main.ts',processStarts:starts,checks,remaining:process.argv.includes('--plans')?['Q10 UI acceptance']:['common AI two-plan generation','actual candidate/road adoption','Q10 UI binding']};
+  const filename=process.argv.includes('--boot-only')?'startup.json':process.argv.includes('--plans')?'plans-http.json':'recipe-http.json';
   await writeFile(new URL(filename,import.meta.url),JSON.stringify(evidence,null,2)+'\n');
   console.log(JSON.stringify(evidence));
 }finally{await stop();await rm(directory,{recursive:true,force:true})}

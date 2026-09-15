@@ -1,0 +1,231 @@
+{
+  "checkedAt": "2026-09-15T03:40:43.586Z",
+  "status": "complete",
+  "error": null,
+  "candidates": [
+    {
+      "placeId": "523f740c-b2b9-4ed6-819d-57de0727ab12",
+      "version": 1,
+      "name": "東塩小路公園",
+      "position": {
+        "longitude": 135.7552294,
+        "latitude": 34.9859651
+      },
+      "stepIds": [
+        "park"
+      ]
+    },
+    {
+      "placeId": "459d09e5-eb08-439f-912c-83da399564f2",
+      "version": 1,
+      "name": "春日公園",
+      "position": {
+        "longitude": 135.7545708,
+        "latitude": 34.9813658
+      },
+      "stepIds": [
+        "park"
+      ]
+    },
+    {
+      "placeId": "618bd79b-c448-4d61-8cdb-fc29437fea5f",
+      "version": 1,
+      "name": "寺ノ前児童公園",
+      "position": {
+        "longitude": 135.7527222,
+        "latitude": 34.9846735
+      },
+      "stepIds": [
+        "park"
+      ]
+    },
+    {
+      "placeId": "862af79e-ea1f-438b-af48-969589c12bab",
+      "version": 1,
+      "name": "下京区",
+      "position": {
+        "longitude": 135.7650104,
+        "latitude": 34.9877093
+      },
+      "stepIds": [
+        "park"
+      ]
+    },
+    {
+      "placeId": "b3470282-3007-478a-938a-dd27c115c7ac",
+      "version": 1,
+      "name": "崇仁テラス",
+      "position": {
+        "longitude": 135.7653183,
+        "latitude": 34.9865931
+      },
+      "stepIds": [
+        "park"
+      ]
+    },
+    {
+      "placeId": "0795f9e7-d6d5-451c-ba94-5c4710ee214c",
+      "version": 1,
+      "name": "マールブランシュ",
+      "position": {
+        "longitude": 135.7577495,
+        "latitude": 34.9847056
+      },
+      "stepIds": [
+        "cafe"
+      ]
+    },
+    {
+      "placeId": "7317bb97-af0f-4e57-9dd6-cae9fa93e90e",
+      "version": 1,
+      "name": "スターバックス",
+      "position": {
+        "longitude": 135.7584627,
+        "latitude": 34.9848433
+      },
+      "stepIds": [
+        "cafe"
+      ]
+    },
+    {
+      "placeId": "df6ad8bf-da7c-49ca-930d-674d03456b84",
+      "version": 1,
+      "name": "小川珈琲（株)",
+      "position": {
+        "longitude": 135.7599984,
+        "latitude": 34.9864384
+      },
+      "stepIds": [
+        "cafe"
+      ]
+    },
+    {
+      "placeId": "e6dc3a6b-6c76-4713-a801-29e33e3dfe95",
+      "version": 1,
+      "name": "ExpressDeli Cafe",
+      "position": {
+        "longitude": 135.7585318,
+        "latitude": 34.9849291
+      },
+      "stepIds": [
+        "cafe"
+      ]
+    },
+    {
+      "placeId": "868e48ce-e6f9-4c48-95fe-4587f3aa6f9e",
+      "version": 1,
+      "name": "IRODORI",
+      "position": {
+        "longitude": 135.7588508,
+        "latitude": 34.9844792
+      },
+      "stepIds": [
+        "cafe"
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "variant": "faithful",
+      "steps": [
+        {
+          "stepId": "park",
+          "placeId": "523f740c-b2b9-4ed6-819d-57de0727ab12",
+          "explanation": "東塩小路公園で緑を眺めながら歩く（20分）。",
+          "evidenceIds": [
+            "src_place_523f740c-b2b9-4ed6-819d-57de0727ab12",
+            "src_record_transfer-source"
+          ]
+        },
+        {
+          "stepId": "cafe",
+          "placeId": "df6ad8bf-da7c-49ca-930d-674d03456b84",
+          "explanation": "小川珈琲（株)で一日の感想を書く（30分）。",
+          "evidenceIds": [
+            "src_place_df6ad8bf-da7c-49ca-930d-674d03456b84",
+            "src_record_transfer-source"
+          ]
+        }
+      ],
+      "explanation": "元体験どおり、公園で歩いた後に喫茶店で振り返る順序を維持した案。",
+      "conditionChecks": [],
+      "unmetConditions": [],
+      "unknowns": [
+        "営業時間、騒音、天気、飲み物の詳細は材料にない。"
+      ],
+      "route": {
+        "id": "49130661-bf14-426b-b6a6-13ac290a143d",
+        "durationSeconds": 3233,
+        "distanceMeters": 4419.165,
+        "expiresAt": 1789444543488,
+        "sourceRefs": [
+          {
+            "type": "place",
+            "id": "523f740c-b2b9-4ed6-819d-57de0727ab12",
+            "version": 1
+          },
+          {
+            "type": "place",
+            "id": "df6ad8bf-da7c-49ca-930d-674d03456b84",
+            "version": 1
+          }
+        ]
+      },
+      "travelMinutes": 53.88333333333333,
+      "stayMinutes": 50,
+      "totalMinutes": 103.88333333333333,
+      "eligible": true
+    },
+    {
+      "variant": "personalized",
+      "steps": [
+        {
+          "stepId": "park",
+          "placeId": "523f740c-b2b9-4ed6-819d-57de0727ab12",
+          "explanation": "東塩小路公園で緑を眺めながら歩く（20分）。希望された順序と内容に合う。",
+          "evidenceIds": [
+            "src_place_523f740c-b2b9-4ed6-819d-57de0727ab12",
+            "src_record_transfer-source"
+          ]
+        },
+        {
+          "stepId": "cafe",
+          "placeId": "df6ad8bf-da7c-49ca-930d-674d03456b84",
+          "explanation": "小川珈琲（株)で一日の感想を書く（30分）。希望された振り返りに合う。",
+          "evidenceIds": [
+            "src_place_df6ad8bf-da7c-49ca-930d-674d03456b84",
+            "src_record_transfer-source"
+          ]
+        }
+      ],
+      "explanation": "preferencesが元体験の内容と一致し、allowedChangesの範囲で追加の個別化要素がないため、忠実案と同じ地点列にした。",
+      "conditionChecks": [],
+      "unmetConditions": [],
+      "unknowns": [
+        "営業時間、騒音、天気、飲み物の詳細は材料にない。"
+      ],
+      "route": {
+        "id": "696265e3-40f5-4e7b-81ec-296dcabe690a",
+        "durationSeconds": 3233,
+        "distanceMeters": 4419.165,
+        "expiresAt": 1789444543583,
+        "sourceRefs": [
+          {
+            "type": "place",
+            "id": "523f740c-b2b9-4ed6-819d-57de0727ab12",
+            "version": 1
+          },
+          {
+            "type": "place",
+            "id": "df6ad8bf-da7c-49ca-930d-674d03456b84",
+            "version": 1
+          }
+        ]
+      },
+      "travelMinutes": 53.88333333333333,
+      "stayMinutes": 50,
+      "totalMinutes": 103.88333333333333,
+      "eligible": true
+    }
+  ]
+}
