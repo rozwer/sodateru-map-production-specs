@@ -76,11 +76,7 @@ def check_commit(board, commit, branch, staged=False, *, check_github=True):
     if op.policy_for(board):op.require_linked_worktree()
     s=board['tasks'].get(task)
     if not s or s['status'] not in ('claimed','submitted'): raise tc.BoardError('No active claim for '+task)
-    if not staged and subprocess.run(['git','merge-base','--is-ancestor',s['base_commit'],commit],capture_output=True).returncode:
-        raise tc.BoardError('Claim base is not an ancestor')
-    args=['diff','--name-only','--no-renames','-z']
-    args+=['--cached',s['base_commit']] if staged else [s['base_commit'],commit]
-    files=[f for f in tc.git(*args).split('\0') if f]
+    files=tc.task_changed_files(board,s,commit,staged=staged)
     allowed(files,s['paths'])
 
 def main():
