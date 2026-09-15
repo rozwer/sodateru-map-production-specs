@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 259,
+  "revision": 260,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34308,29 +34308,17 @@
       "token": null
     },
     "GROW-UI": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 215,
       "landed_main": null,
-      "note": null,
+      "note": "PR226/259 merged; worktree clean at 723640e. UI repair evidence docs/evidence/GROW-UI/progress.md. Keep Issue215 open: bike/pilgrimage/requests remain unsaved fixtures; shared5173 reference/integration acceptance handed to QA217. No further implementation in this session.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/views.tsx",
-        "src/features/plugins/screens.tsx",
-        "src/features/plugins/plugins.css",
-        "src/features/plugins/view-model.ts",
-        "src/features/plugins/messages.ts",
-        "src/features/plugins/usePreviewPhase.ts",
-        "src/features/plugins/PluginIconView.tsx",
-        "src/features/plugins/PluginGlyph.tsx",
-        "src/features/plugins/grow/",
-        "src/features/feature-requests/",
-        "docs/evidence/GROW-UI/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "c00c91cd28c6442c97b670cd1d14799b"
+      "token": null
     },
     "HEALTH": {
       "actor": null,
