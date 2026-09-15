@@ -12,11 +12,16 @@
 - 確認後導入、Schema検証、更新準備失敗時の旧版維持、前版snapshotへの復帰、アイコン変更、停止/削除時の設定保持を実装。
 - 本人は `person_id`、モードはCOREの別DBで分離。削除は `installed=0` として公開一覧から除外する。`plugin_settings_legacy` に旧owner不明行を保持し、現在本人への暗黙移管をしない。
 
+## HTTP接続の準備
+
+`register.ts` は提供されたdefineFeature署名でmigrationと5つの読取ルートを登録する。CORE未統合のため、このファイルを通したHTTP起動検証は未実施。更新ルートはCOREの永続再送wrapperへ接続してから公開する。`validation.ts` は固有fragmentから本文を検証し、`pagination.ts` は本人/モードにcursorを束縛する。
+
 ## 確認
 
 - `mise exec -- node --experimental-transform-types --test server/features/plugins/plugins.test.ts`
 - `mise exec -- bun x tsc --noEmit --strict --skipLibCheck --target es2022 --module esnext --moduleResolution bundler --allowImportingTsExtensions --esModuleInterop server/features/plugins/index.ts`
 - 実SQLiteのファイル保存→接続終了→再接続→再取得、別本人/別mode分離、試用非保存、未確認導入拒否、同値非競合/異値競合、解決再取得、古い版/設定不正、更新準備失敗、更新/版戻し、停止/削除後の設定/場所/体験保持を確認。カタログのtest fixtureは製品プラグインではない。
+- `contract.test.ts` の本文確認/本人混入拒否・cursor条件束縛の2テスト成功。固有処理/validation/paginationのstrict型検査成功。
 - 個別結果は `sqlite-results.txt`。COREの代用品は作成していない。テストの基底表は固有migration検査用の最小fixture。
 
 ## 未達・接続待ち
