@@ -25,27 +25,27 @@ export const bikeRelease: PluginRelease = {
   async prepare(settings) { validateSettings(settings); },
 };
 
-/** 1.0.0 remains registered unchanged; this release enables the shipped PLACES bridge. */
-const placeCandidateDeclarations = () => [
+/** 1.0.0 remains registered unchanged; this release enables the shipped exact-route segment evaluation. */
+const segmentDeclarations = () => [
   ...declarations(),
-  { targetKey: "feature:bike:place-candidates", property: "enabled", value: true },
+  { targetKey: "feature:bike:segment-evidence", property: "enabled", value: true },
 ];
-export const bikePlacesRelease: PluginRelease = {
+export const bikeSegmentRelease: PluginRelease = {
   ...bikeRelease,
   manifest: {
     ...structuredClone(bikeRelease.manifest),
     pluginVersion: "1.1.0",
     updatedAt: Date.UTC(2026, 8, 15, 4),
-    changeLog: "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+    changeLog: "同一形状の道路区間根拠を照合し、要求適用状態とmotorway部分評価を分けて保存。旧版の共通地点候補・採用は維持。",
     usageInfo: [
       ...bikeRelease.manifest.usageInfo,
-      "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
-      "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
-      "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。",
+      "1.1.0では共通経路から同一形状の区間根拠が渡された場合、道路クラス・方向・全区間被覆を評価して保存します。",
+      "1.0.0へ戻しても共通地点候補・採用と保存済み評価の再取得は維持します。新規の区間根拠評価は1.1.0で提供します。",
+      "日本の車種・排気量・時間規制の未確認はunknownを維持します。正式な二輪経路の取得口は準備中です。版変更後は新しい検索・操作IDを使用してください。",
     ],
   },
-  declarations: placeCandidateDeclarations,
+  declarations: segmentDeclarations,
   trial(settings) {
-    return { ...bikeRelease.trial(settings), declarations: placeCandidateDeclarations() };
+    return { ...bikeRelease.trial(settings), declarations: segmentDeclarations() };
   },
 };

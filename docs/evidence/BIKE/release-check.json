@@ -1,5 +1,5 @@
 {
-  "checkedAt": 1789447139935,
+  "checkedAt": 1789448682772,
   "kind": "real production registry and SQLite with explicitly seeded observation fixture",
   "versions": [
     "1.0.0",
@@ -19,14 +19,18 @@
       "value": true
     },
     {
-      "targetKey": "feature:bike:place-candidates",
+      "targetKey": "feature:bike:segment-evidence",
       "property": "enabled",
       "value": true
     }
   ],
   "checks": {
-    "oldRejectsNewCandidates": true,
-    "updateEnablesActualCommonRegistrationAndAdoption": true,
+    "oldRetainsCommonCandidates": true,
+    "bothVersionsSupportActualCommonRegistrationAndAdoption": true,
+    "newVersionPersistsSegmentAssessment": true,
+    "rollbackStopsNewSegmentEvaluationOnly": true,
+    "savedAssessmentRetainedAfterSQLiteReopen": true,
+    "vehicleUnknownAdoptionRejected": true,
     "rollbackRestoresSettingsManifestDeclarations": true,
     "originalManifestUnchanged": true,
     "retainedSearchesAndAdoptedPlaceEqualAfterSQLiteReopen": true,
