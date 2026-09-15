@@ -43,6 +43,7 @@
         "PLACES": 5,
         "PLAN-UI-CONNECTIONS": 72,
         "PLUGINS": 28,
+        "QA-DISASTER-GROW": 217,
         "QA-VISUAL": 40,
         "RECORDS": 20,
         "REFLECTION": 33,
@@ -7476,6 +7477,17 @@
           "src/features/plugins/grow/",
           "src/features/feature-requests/",
           "docs/evidence/GROW-UI/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "QA-DISASTER-GROW",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "防災とアプリ育成の独立実UI検証",
+        "write_paths": [
+          "docs/evidence/QA-DISASTER-GROW/"
         ]
       }
     ],
@@ -33726,9 +33738,10 @@
     "DISASTER-UI",
     "GROW-DATA",
     "ISSUE-CLOSE-UI",
-    "GROW-UI"
+    "GROW-UI",
+    "QA-DISASTER-GROW"
   ],
-  "revision": 221,
+  "revision": 222,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34230,6 +34243,21 @@
       "status": "submitted",
       "submitted_commit": "2c1a5ad47398d64314263daf2ca336d276548337",
       "token": "30a5c79a3d5d495a805dd2040d30d824"
+    },
+    "QA-DISASTER-GROW": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 217,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "docs/evidence/QA-DISASTER-GROW/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "52fe4d4e5e324d5884d98129e94ce9a7"
     },
     "QA-VISUAL": {
       "actor": "rozwer",
