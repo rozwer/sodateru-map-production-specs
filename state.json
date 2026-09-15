@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 131,
+  "revision": 132,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4998,7 +4998,8 @@
       "owner": "rozwer",
       "paths": [
         "src/integration/",
-        "docs/integration/"
+        "docs/integration/",
+        "src/features/knowledge/"
       ],
       "status": "claimed",
       "submitted_commit": null,
