@@ -1,0 +1,770 @@
+{
+  "taskId": "DISASTER",
+  "version": "1.0.0",
+  "schemas": {
+    "DisasterBounds": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 4,
+      "maxItems": 4,
+      "description": "WGS84 [west,south,east,north]。取得地域と個別タイルの実範囲を区別する。"
+    },
+    "DisasterLayerId": {
+      "enum": [
+        "flood-hazard",
+        "terrain",
+        "rainfall"
+      ],
+      "type": "string"
+    },
+    "DisasterStatus": {
+      "enum": [
+        "available",
+        "partial",
+        "missing",
+        "outOfCoverage",
+        "providerError"
+      ],
+      "type": "string"
+    },
+    "DisasterSettings": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "bounds": {
+              "$ref": "#/components/schemas/DisasterBounds"
+            }
+          },
+          "required": [
+            "id",
+            "bounds"
+          ],
+          "additionalProperties": false
+        },
+        "layerIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DisasterLayerId"
+          },
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "region",
+        "layerIds"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterTile": {
+      "type": "object",
+      "properties": {
+        "z": {
+          "type": "integer"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "bounds": {
+          "$ref": "#/components/schemas/DisasterBounds"
+        },
+        "role": {
+          "enum": [
+            "data",
+            "noDataMask"
+          ],
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/components/schemas/DisasterStatus"
+        },
+        "sourceUrl": {
+          "type": "string"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "sourceUpdatedAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "imageDataUrl": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "z",
+        "x",
+        "y",
+        "bounds",
+        "role",
+        "status",
+        "sourceUrl",
+        "fetchedAt",
+        "sourceUpdatedAt",
+        "sha256",
+        "imageDataUrl",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterLayer": {
+      "type": "object",
+      "properties": {
+        "layerId": {
+          "$ref": "#/components/schemas/DisasterLayerId"
+        },
+        "kind": {
+          "enum": [
+            "hazard",
+            "terrain",
+            "observation"
+          ],
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/components/schemas/DisasterStatus"
+        },
+        "sourceUrl": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "unit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "legend": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "meaning": {
+          "type": "string"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "sourceUpdatedAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUpdatedAtMeaning": {
+          "type": "string"
+        },
+        "validAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issuedAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "bounds": {
+          "$ref": "#/components/schemas/DisasterBounds"
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "envelope": {
+              "$ref": "#/components/schemas/DisasterBounds"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "envelope",
+            "description"
+          ],
+          "additionalProperties": false
+        },
+        "tiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DisasterTile"
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "noDataMask": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/DisasterNoDataMask"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "layerId",
+        "kind",
+        "label",
+        "status",
+        "sourceUrl",
+        "attribution",
+        "unit",
+        "legend",
+        "meaning",
+        "fetchedAt",
+        "sourceUpdatedAt",
+        "sourceUpdatedAtMeaning",
+        "validAt",
+        "issuedAt",
+        "bounds",
+        "coverage",
+        "tiles",
+        "unknowns",
+        "noDataMask"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterSnapshot": {
+      "type": "object",
+      "properties": {
+        "resultId": {
+          "type": "string"
+        },
+        "dataKind": {
+          "const": "live",
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/DisasterSettings"
+        },
+        "installId": {
+          "type": "string"
+        },
+        "settingsVersion": {
+          "type": "integer"
+        },
+        "pluginVersion": {
+          "type": "string"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "expiresAt": {
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/components/schemas/DisasterStatus"
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DisasterLayer"
+          }
+        },
+        "unknowns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "resultId",
+        "dataKind",
+        "settings",
+        "installId",
+        "settingsVersion",
+        "pluginVersion",
+        "fetchedAt",
+        "expiresAt",
+        "status",
+        "layers",
+        "unknowns"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterAttempt": {
+      "type": "object",
+      "properties": {
+        "attemptedAt": {
+          "type": "integer"
+        },
+        "status": {
+          "enum": [
+            "complete",
+            "partial",
+            "failed"
+          ],
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/DisasterSettings"
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/DisasterLayer"
+          }
+        }
+      },
+      "required": [
+        "attemptedAt",
+        "status",
+        "settings",
+        "layers"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterView": {
+      "type": "object",
+      "properties": {
+        "dataKind": {
+          "const": "live",
+          "type": "string"
+        },
+        "settings": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/PluginSetting"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/DisasterSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lastAttempt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/DisasterAttempt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stale": {
+          "type": "boolean"
+        },
+        "map": {
+          "type": "object",
+          "properties": {
+            "action": {
+              "enum": [
+                "apply",
+                "clear"
+              ],
+              "type": "string"
+            },
+            "ownerKey": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "pluginRevision": {
+              "type": "string"
+            },
+            "settingsVersion": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "resultId": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "bounds": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/DisasterBounds"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "reason": {
+              "enum": [
+                "stale",
+                "ready",
+                "disabledOrUnresolved",
+                "settingsChanged",
+                "noResult"
+              ],
+              "type": "string"
+            },
+            "layerIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/DisasterLayerId"
+              }
+            }
+          },
+          "required": [
+            "action",
+            "ownerKey",
+            "pluginRevision",
+            "settingsVersion",
+            "resultId",
+            "bounds",
+            "reason",
+            "layerIds"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "dataKind",
+        "settings",
+        "result",
+        "lastAttempt",
+        "stale",
+        "map"
+      ],
+      "additionalProperties": false
+    },
+    "DisasterNoDataMask": {
+      "type": "object",
+      "properties": {
+        "sourceUrl": {
+          "type": "string"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        },
+        "sourceUpdatedAt": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "hasNoData": {
+          "type": "boolean"
+        },
+        "geojson": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "FeatureCollection",
+              "type": "string"
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "Feature",
+                    "type": "string"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "const": "missing",
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "kind",
+                      "label"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "geometry": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "Polygon",
+                        "type": "string"
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "array",
+                            "items": {
+                              "type": "number"
+                            },
+                            "minItems": 2,
+                            "maxItems": 2
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "coordinates"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "type",
+                  "properties",
+                  "geometry"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "type",
+            "features"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "sourceUrl",
+        "fetchedAt",
+        "sourceUpdatedAt",
+        "sha256",
+        "hasNoData",
+        "geojson"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/disaster",
+      "operationId": "getDisaster",
+      "summary": "防災設定と保存済み結果を再取得",
+      "responses": {
+        "200": {
+          "description": "本人の防災設定・保存済み画像・時点・失敗情報と通常地図への適用状態",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/DisasterView"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/disaster/refresh",
+      "operationId": "postDisasterRefresh",
+      "summary": "導入済み地域の防災情報を実提供元から更新",
+      "description": "PLUGINSの最新設定を利用。If-MatchはPluginSetting.version。全取得失敗は502（GETで旧結果と失敗を再取得）。一部失敗はpartialとして明示し旧snapshotを保持。停止・設定変更中の遅着結果は409。",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "pattern": "^\"[1-9][0-9]*\"$"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "本人の防災設定・保存済み画像・時点・失敗情報と通常地図への適用状態",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/DisasterView"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "導入/設定/再送状態の競合",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "412": {
+          "description": "設定版が更新済み",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "428": {
+          "description": "版指定が必要",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "実提供元の取得失敗。GETで失敗と旧結果を再取得",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
