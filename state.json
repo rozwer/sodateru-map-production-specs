@@ -8,6 +8,7 @@
         "AI": 7,
         "AI-INTEGRATION": 103,
         "BIKE": 29,
+        "BUILDING-GROWTH": 222,
         "COMMUNITY": 22,
         "COMPANION": 35,
         "CONNECT-BASE": 137,
@@ -7517,6 +7518,24 @@
           "src/features/disaster/screens.tsx",
           "src/features/disaster/types.ts",
           "docs/evidence/DISASTER-UI/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "BUILDING-GROWTH",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "確認済み体験による実建物3D着色",
+        "write_paths": [
+          "src/map/growth-display.ts",
+          "src/map/growth-rules.ts",
+          "src/map/growth-rules.test.ts",
+          "src/map/MapScene.tsx",
+          "src/map/display-state.ts",
+          "src/map/map.css",
+          "src/features/map/",
+          "docs/evidence/BUILDING-GROWTH/"
         ]
       }
     ],
@@ -33770,9 +33789,10 @@
     "GROW-UI",
     "QA-DISASTER-GROW",
     "ISSUE-CLOSE-REPAIRS",
-    "DISASTER-UI-SCREEN"
+    "DISASTER-UI-SCREEN",
+    "BUILDING-GROWTH"
   ],
-  "revision": 226,
+  "revision": 227,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33837,6 +33857,28 @@
       "status": "submitted",
       "submitted_commit": "f86a1a79dd8db555735758ccd2ace65913c1357f",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
+    },
+    "BUILDING-GROWTH": {
+      "actor": "rozwer",
+      "base_commit": "5760202281c6a73b7f51c58ab90bde28ec826664",
+      "generation": 1,
+      "issue_number": 222,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/map/growth-display.ts",
+        "src/map/growth-rules.ts",
+        "src/map/growth-rules.test.ts",
+        "src/map/MapScene.tsx",
+        "src/map/display-state.ts",
+        "src/map/map.css",
+        "src/features/map/",
+        "docs/evidence/BUILDING-GROWTH/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "617eceb6f2b44f4d90757cb68227667a"
     },
     "COMMUNITY": {
       "actor": "koshiro",
