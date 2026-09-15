@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 198,
+  "revision": 199,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34392,21 +34392,17 @@
       "token": "cf30332752234fd792ad1ef3a8839b5f"
     },
     "VISUAL-SETTINGS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 191,
       "landed_main": null,
-      "note": "docs/evidence/VISUAL-SETTINGS/README.md",
+      "note": "PR #206 merged 11422c8; partial reference repair delivered; statistics API/registration and remaining acceptance handed to #145; evidence docs/evidence/VISUAL-SETTINGS/README.md; deadline stop",
       "owner": "rozwer",
-      "paths": [
-        "src/features/settings/",
-        "src/features/health/",
-        "docs/evidence/VISUAL-SETTINGS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "043b6e8c7269d2b7787ea4c1fc9b4c68ae5e6b73",
-      "token": "cd5e796b0e914806b7eff755263a2249"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
