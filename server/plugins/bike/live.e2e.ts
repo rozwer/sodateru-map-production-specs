@@ -38,10 +38,10 @@ try {
   await start();
   const profiles=success(await api("/session/profiles"));
   success(await api("/session","POST",{profileKey:profiles.items[0].profileKey}));
-  const trial=success(await api("/plugins/bike/trial","POST",{pluginVersion:"1.0.0",settings}));
+  const trial=success(await api("/plugins/bike/trial","POST",{pluginVersion:"1.1.0",settings}));
   assert.equal(trial.data.preview.dataKind,"mock");
   const before=success(await api("/plugin-state"));
-  const installed=success(await api("/plugin-settings","POST",{id:"bike",pluginVersion:"1.0.0",settings,enabled:true,confirmed:true,stateRevision:before.data.revision}));
+  const installed=success(await api("/plugin-settings","POST",{id:"bike",pluginVersion:"1.1.0",settings,enabled:true,confirmed:true,stateRevision:before.data.revision}));
   const searchKey=randomUUID();
   const search=success(await api("/bike/searches","POST",{},undefined,searchKey)).data;
   assert.equal(search.dataKind,"real");assert(search.places.length>0);assert(search.roads.length>0);
