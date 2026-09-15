@@ -1,6 +1,6 @@
 # DISASTER #30 実装・検証状況
 
-提供単位: #124 DISASTER.data（先行統合済み）、#125 DISASTER.connect（処理側実接続済み、共通生成とUI受入待ち）。親Task/claimを維持する。
+提供単位: #124 DISASTER.data（先行統合済み）、#125 DISASTER.connect（処理側・正式起動接続済み、UI受入待ち）。親Task/claimを維持する。
 
 ## 現在の提供範囲
 
@@ -51,7 +51,18 @@ GET `/disaster` → `{data:DisasterView}`。POST `/disaster/refresh` → 同形�
 - 固有ソースとevidenceのstrict + noUncheckedIndexedAccess型検査成功。
 - 共通生成物は編集せず、COREのcanonical fragment composerを一時領域へ呼び出して結合した契約を実HTTPへ適用。
 
+## 正式起動と別OSプロセス再起動
+
+統合develop `28f3bf6`上で、`mise exec -- node docs/evidence/DISASTER/runtime-smoke.mjs` が成功。証拠は `runtime-smoke.json`。共通生成済みOpenAPIと未変更の `server/app/main.ts` をそのまま使用する。
+
+- 実PLACES検索→PLUGINS導入→洪水想定/地形/降水の実取得が正式HTTP入口で成功。
+- 最初のOSプロセスを終了し、別PIDで再起動。同じSQLiteから設定・地域・画像・提供元更新時刻・解析時刻を完全一致で再取得。
+- 再起動後の同一POSTキー再送は同じ保存結果を返す。
+- 正式HTTPの停止操作で対象ownerだけclear、保存済み結果は保持。
+- UI/Mapbox描画の証拠ではない。上記の一時合成契約による検証の制約を、正式起動確認について解消した。
+
 ## 未完了条件
 
-- 共通生成物への反映はB、通常地図・UI実操作の受入はA #18/#8。
-- root手配の独立レビュー、commit保持merge、task:finish/board/受信/Issue終了。
+- 通常地図・UI実操作の受入はA #18/#8（bounds/clip、凡例/出典/時点/欠測、対象owner停止）。
+- 本体PR #67/#129は独立レビュー・commit保持merge済み。追加の正式起動証拠PRのレビュー/統合が残る。
+- 全受入後のtask:finish/board/受信/Issue終了。
