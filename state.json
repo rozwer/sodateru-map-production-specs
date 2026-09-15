@@ -33349,7 +33349,7 @@
     "THEMES-INTEGRATION",
     "REFLECTION-INTEGRATION"
   ],
-  "revision": 164,
+  "revision": 165,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34044,28 +34044,17 @@
       "token": null
     },
     "UI-INTEGRATION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "0216502b0fcba53a379fff9b7fdf8cc8da24b191",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 98,
       "landed_main": null,
-      "note": null,
+      "note": "PR130/170 and 13 UI deliveries integrated; QA 448a857 verified. Reference-matching UI and remaining CONNECT acceptance handed off; worktree preserved.",
       "owner": "rozwer",
-      "paths": [
-        "src/integration/",
-        "docs/integration/",
-        "src/features/knowledge/",
-        "src/features/friends/",
-        "docs/evidence/UI-FRIENDS/",
-        "src/features/companion/",
-        "docs/evidence/UI-COMPANION/",
-        "src/features/exploration/",
-        "src/features/transfer/",
-        "docs/evidence/UI-EXPLORE/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "07f8508378e6493bb003656af48cb98f"
+      "token": null
     },
     "UI-KNOWLEDGE": {
       "actor": null,
