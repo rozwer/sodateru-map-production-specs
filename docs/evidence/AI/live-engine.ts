@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import assert from 'node:assert/strict';
+import { DEFAULT_STYLE } from '../../../server/features/map-custom/domain.ts';
 const root=fileURLToPath(new URL('../../../',import.meta.url));
 const requestId=randomUUID(),directory=resolve(root,'.local/ai-live-acceptance',requestId);
 mkdirSync(directory,{recursive:true});
@@ -39,7 +40,9 @@ try{
  const session=await request('/session','POST',{profileKey:'self'});cookie=session.response.headers.get('set-cookie')!.split(';')[0]!;
  stage='enable-settings';const settings=(await request('/me/settings')).body.data;
  await request('/me/settings','PATCH',{ai:{...settings.ai,enabled:true}},{'If-Match':'"'+settings.version+'"'});
- stage='read-mapstyle';const settingsMap=(await request('/map-settings')).body.data;
+ stage='read-mapstyle';
+ const contextOrigin=process.argv.includes('--fresh-default-style')?'production DEFAULT_STYLE on fresh synthetic profile':'GET /map-settings';
+ const settingsMap=process.argv.includes('--fresh-default-style')?{style:DEFAULT_STYLE}:(await request('/map-settings')).body.data;
  const conversationId='live-'+requestId,userMessageId='u-'+requestId,assistantMessageId='a-'+requestId;
  await request('/conversations','POST',{id:conversationId,purpose:'consult',title:'Luna 実AI保存受入',recordId:null});
  const input={userMessageId,assistantMessageId,body:'夜でも水辺が見やすい地図にしたい',use:'map-style',context:{current:settingsMap.style},expectedRefs:[]};
@@ -58,6 +61,6 @@ try{
  assert.deepEqual(restored.run.result,beforeRestart.run.result);assert.equal(restored.run.model,model);assert.equal(restored.run.attempt,beforeRestart.run.attempt);
  const messages=(await request('/conversations/'+conversationId+'/messages')).body.items;
  assert.equal(messages.find((m:any)=>m.id===userMessageId).body,input.body);
- evidence={requestId,model,status:'complete',durationMs:Date.now()-beganAt,conversationId,userMessageId,assistantMessageId,attempt:restored.run.attempt,version:restored.run.version,promptVersion:restored.run.promptVersion,sourceRefs:restored.run.sourceRefs,result:restored.run.result,restartResultEqual:true,userBodyEqual:true,databaseDirectory:directory};
+ evidence={requestId,model,status:'complete',durationMs:Date.now()-beganAt,conversationId,userMessageId,assistantMessageId,attempt:restored.run.attempt,version:restored.run.version,promptVersion:restored.run.promptVersion,sourceRefs:restored.run.sourceRefs,result:restored.run.result,restartResultEqual:true,userBodyEqual:true,contextOrigin,databaseDirectory:directory};
 }catch(error){evidence={...evidence,stage,error:String((error as Error).message).slice(0,3000)};process.exitCode=1;}
 finally{await stop();writeFileSync(new URL('./live-engine.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence));}

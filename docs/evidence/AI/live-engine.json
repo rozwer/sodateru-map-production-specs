@@ -1,8 +1,28 @@
 {
-  "requestId": "21b305b2-ce43-4d73-9b26-4f39bb87ab1b",
+  "requestId": "290e9b19-0a13-42d8-96d6-b07a4f33c865",
   "model": "gpt-5.6-luna",
-  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/c667/ai-integration-103/.local/ai-live-acceptance/21b305b2-ce43-4d73-9b26-4f39bb87ab1b",
-  "status": "failed",
-  "stage": "enable-settings",
-  "error": "/me/settings HTTP 404 {\"code\":\"NOT_FOUND\",\"message\":\"API契約が見つかりません。\",\"requestId\":\"56ca932a-ff77-4c7a-8ebe-53cf7d3ca105\",\"details\":{\"retryable\":false}}"
+  "status": "complete",
+  "durationMs": 22785,
+  "conversationId": "live-290e9b19-0a13-42d8-96d6-b07a4f33c865",
+  "userMessageId": "u-290e9b19-0a13-42d8-96d6-b07a4f33c865",
+  "assistantMessageId": "a-290e9b19-0a13-42d8-96d6-b07a4f33c865",
+  "attempt": 1,
+  "version": 3,
+  "promptVersion": "map-custom-v1",
+  "sourceRefs": [],
+  "result": {
+    "proposal": {
+      "theme": "default",
+      "lightPreset": "night",
+      "showPedestrianRoads": true,
+      "showAdminBoundaries": false,
+      "showIndoor": false,
+      "colors": null
+    },
+    "explanation": "本人の希望は「夜でも水辺が見やすい地図にしたい」です。夜間表示に変更することで、夜の利用を想定した地図表示にします。水辺の具体的な色や他の表示項目について指定はないため、現在値を維持します。引用ID：なし（evidenceが空です）。"
+  },
+  "restartResultEqual": true,
+  "userBodyEqual": true,
+  "contextOrigin": "production DEFAULT_STYLE on fresh synthetic profile",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/c667/ai-integration-103/.local/ai-live-acceptance/290e9b19-0a13-42d8-96d6-b07a4f33c865"
 }
