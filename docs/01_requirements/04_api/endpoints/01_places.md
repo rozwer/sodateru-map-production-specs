@@ -27,6 +27,8 @@ cursorは本人・検索条件・順序に束縛し、条件不一致は400。�
 
 並び順：`name ASC, id ASC`。同値でもIDで順序を確定する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
@@ -36,7 +38,6 @@ cursorは本人・検索条件・順序に束縛し、条件不一致は400。�
 | query | `buildingKey` | string | 省略可 | minLength=1、maxLength=400  |
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -46,36 +47,13 @@ cursorは本人・検索条件・順序に束縛し、条件不一致は400。�
 
 HTTP 200。
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `items` | 配列<[Place](../schemas/models.md#place)> | 必須 | minItems=0、maxItems=100 | — |
-| `nextCursor` | string または null | 必須 | — | — |
-
-```json
-{
-  "items": [],
-  "nextCursor": null
-}
-```
+[PlacePage](../schemas/models.md#placepage)
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1places/get)。
 
 <a id="operation-01-02"></a>
 
@@ -87,6 +65,8 @@ HTTP 200。
 
 qまたはcategoryの一方を必須。qはtrim/NFKC/小文字化して保存場所を検索し、0件ならNominatim。categoryではlongitude/latitudeの両方を必須とし緯度±85。categoryは5件固定のためlimit指定不可。候補は15分、本人・dataModeで分離。temporaryは閲覧だけで保存不可。共通の場所検索仕様を適用。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
@@ -96,7 +76,6 @@ qまたはcategoryの一方を必須。qはtrim/NFKC/小文字化して保存場
 | query | `latitude` | number | 省略可 | minimum=-90、maximum=90  |
 | query | `category` | coffee / restaurant / bakery / park | 省略可 | —  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=10、default=10  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -110,37 +89,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [CandidateResult](../schemas/models.md#candidateresult) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "resultId": "record-001",
-    "expiresAt": 1789430400000,
-    "items": []
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `OUTPUT_INVALID` / 429 `RATE_LIMITED` / 502 `UPSTREAM_FAILED` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT` / 409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 429 | `RATE_LIMITED` | 実行頻度の上限 |
-| 502 | `UPSTREAM_FAILED` | 外部サービスの応答不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1place-candidates/get)。
 
 <a id="operation-01-03"></a>
 
@@ -152,43 +105,11 @@ HTTP 200。
 
 candidateでは本人・期限を確認しprovider+externalIdで照合。既存なら200でそのPlaceを返す。manualはprovider=manual、externalId/sourceUrl/fetchedAt=null、attributionは空文字。要求IDと既存IDが異なる場合も返却されたIDを使う。 候補のretention=storableを必須としtemporaryは409 REQUEST_CONFLICT。creation_receiptsを期限照合より先に確認し、同じ要求は現在の場所を返す。削除済みなら404で復活させない。categoriesもコピーする。
 
-### パラメータ
-
-| 場所 | 名前 | 型 | 必須 | 制約・説明 |
-|---|---|---|---|---|
-| header | `Idempotency-Key` | string | 必須 | minLength=1、maxLength=128 本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
 
 ### リクエスト本文
 
-分岐 1
-
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `id` | [Id](../schemas/models.md#id) | 必須 | — | — |
-| `mode` | "candidate" | 必須 | — | — |
-| `resultId` | [Id](../schemas/models.md#id) | 必須 | — | — |
-| `candidateId` | [Id](../schemas/models.md#id) | 必須 | — | — |
-
-分岐 2
-
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `id` | [Id](../schemas/models.md#id) | 必須 | — | — |
-| `mode` | "manual" | 必須 | — | — |
-| `name` | string | 必須 | minLength=1、maxLength=200 | — |
-| `position` | [Position](../schemas/models.md#position) | 必須 | — | — |
-| `address` | string または null | 必須 | — | — |
-| `buildingKey` | string または null | 必須 | — | — |
-
-```json
-{
-  "id": "record-001",
-  "mode": "candidate",
-  "resultId": "record-001",
-  "candidateId": "record-001"
-}
-```
+[PlaceCreate](../schemas/models.md#placecreate)
 
 ### 成功応答
 
@@ -198,52 +119,11 @@ HTTP 201。既存場所を再利用した場合は200。
 |---|---|---|---|---|
 | `data` | [Place](../schemas/models.md#place) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "x",
-    "name": "本山のカフェ",
-    "address": null,
-    "coordinates": [
-      0,
-      0
-    ],
-    "categories": [],
-    "provider": "x",
-    "externalId": null,
-    "buildingKey": null,
-    "sourceUrl": null,
-    "attribution": "x",
-    "fetchedAt": null,
-    "version": 1,
-    "createdAt": 0,
-    "updatedAt": 0
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `OUTPUT_INVALID` / 429 `RATE_LIMITED` / 502 `UPSTREAM_FAILED` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT` / 409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 429 | `RATE_LIMITED` | 実行頻度の上限 |
-| 502 | `UPSTREAM_FAILED` | 外部サービスの応答不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-
-POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1places/post)。
 
 <a id="operation-01-04"></a>
 
@@ -255,12 +135,13 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 共通getPlaceDetailのPlaceDetailをdataへ返す。colocatedは同じ非nullのbuildingKeyで名前・ID順。本人訪問は全ページ取得し、ownRecords/sharedRecords/visitsを領域別状態で返す。主対象なしは404。schemaのerrorは共通Errorとして保持する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `placeId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -274,66 +155,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [PlaceDetail](../schemas/models.md#placedetail) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "place": {
-      "id": "x",
-      "name": "本山のカフェ",
-      "address": null,
-      "coordinates": [
-        0,
-        0
-      ],
-      "categories": [],
-      "provider": "x",
-      "externalId": null,
-      "buildingKey": null,
-      "sourceUrl": null,
-      "attribution": "x",
-      "fetchedAt": null,
-      "version": 1,
-      "createdAt": 0,
-      "updatedAt": 0
-    },
-    "colocated": [],
-    "ownRecords": {
-      "status": "ready",
-      "items": [],
-      "error": null
-    },
-    "sharedRecords": {
-      "status": "ready",
-      "items": [],
-      "error": null
-    },
-    "visits": {
-      "status": "ready",
-      "items": [],
-      "error": null
-    }
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1places~1{placeId}/get)。
 
 <a id="operation-01-05"></a>
 
@@ -347,27 +173,17 @@ HTTP 200。
 
 未確定依存：Q03。この部分は型だけで実装完了とは判断できない。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `placeId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `name` | string | 省略可 | minLength=1、maxLength=200 | 場所名 |
-| `address` | string または null | 省略可 | — | 住所。不明はNULL |
-| `buildingKey` | string または null | 省略可 | — | Mapboxのsource/layer/featureに対応する識別子 |
-
-```json
-{
-  "name": "本山のカフェ"
-}
-```
+[PlacePatch](../schemas/models.md#placepatch)
 
 ### 成功応答
 
@@ -377,50 +193,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [Place](../schemas/models.md#place) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "x",
-    "name": "本山のカフェ",
-    "address": null,
-    "coordinates": [
-      0,
-      0
-    ],
-    "categories": [],
-    "provider": "x",
-    "externalId": null,
-    "buildingKey": null,
-    "sourceUrl": null,
-    "attribution": "x",
-    "fetchedAt": null,
-    "version": 1,
-    "createdAt": 0,
-    "updatedAt": 0
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、422 `OUTPUT_INVALID` / 409 `REQUEST_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED` / 413 `INPUT_TOO_LARGE` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1places~1{placeId}/patch)。
 
 <a id="operation-01-06"></a>
 
@@ -436,6 +213,8 @@ HTTP 200。
 
 未確定依存：Q11。この部分は型だけで実装完了とは判断できない。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
@@ -443,7 +222,6 @@ HTTP 200。
 | query | `bbox` | string | 省略可 | pattern=^-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?,-?\d+(\.\d+)?$ west,south,east,north。経度±180、緯度±90、west<east、south<north。日付変更線をまたぐ場合は二要求へ分ける。 |
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -453,32 +231,10 @@ HTTP 200。
 
 HTTP 200。
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `items` | 配列<[GrowthItem](../schemas/models.md#growthitem)> | 必須 | minItems=0、maxItems=100 | — |
-| `nextCursor` | string または null | 必須 | — | — |
-
-```json
-{
-  "items": [],
-  "nextCursor": null
-}
-```
+[GrowthItemPage](../schemas/models.md#growthitempage)
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1map~1growth/get)。

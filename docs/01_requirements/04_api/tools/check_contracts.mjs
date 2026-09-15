@@ -5,7 +5,23 @@ import { fileURLToPath } from 'node:url';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const spec=JSON.parse(fs.readFileSync(path.join(root,'openapi.json'),'utf8'));
+const rawSpec=JSON.parse(fs.readFileSync(path.join(root,'openapi.json'),'utf8'));
+// HTTP Reference Objects are resolved before checking the effective operation contract.
+function resolveHttp(value){
+ if(Array.isArray(value))return value.map(resolveHttp);
+ if(value&&typeof value==='object'){
+  if(/^#\/components\/(parameters|responses)\//.test(value.$ref??'')){
+   if(Object.keys(value).length!==1)throw new Error('Unexpected HTTP reference siblings');
+   let target=rawSpec;
+   for(const part of value.$ref.slice(2).split('/'))target=target[part.replaceAll('~1','/').replaceAll('~0','~')];
+   if(!target)throw new Error(`Unresolved HTTP reference: ${value.$ref}`);
+   return resolveHttp(target);
+  }
+  return Object.fromEntries(Object.entries(value).map(([key,child])=>[key,resolveHttp(child)]));
+ }
+ return value;
+}
+const spec=resolveHttp(rawSpec);
 const ajv=new Ajv2020({allErrors:true,strict:false,validateFormats:true});
 addFormats(ajv); ajv.addFormat('binary',true);
 let count=0, samples=0; const failures=[], ids=new Set(), paths=new Set();

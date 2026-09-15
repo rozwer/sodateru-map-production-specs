@@ -410,7 +410,34 @@ for ix,o in enumerate(OPS,1):
  if o['body']:
   entry['requestBody']={'required':True,'content':{o['ctype']:{'schema':o['body'],'example':sample(o['body'])}}}
  O['paths'].setdefault(o['path'],{})[o['method'].lower()]=entry
-(ROOT/'openapi.json').write_text(json.dumps(O,ensure_ascii=False,indent=2)+'\n')
+def compact_http(spec):
+ # Reuse byte-for-byte equivalent HTTP objects through standard OpenAPI references.
+ result=copy.deepcopy(spec)
+ for collection,field in [('parameters','parameters'),('responses','responses')]:
+  counts={}
+  for methods in result['paths'].values():
+   for entry in methods.values():
+    values=entry[field] if collection=='parameters' else entry[field].values()
+    for value in values:
+     key=json.dumps(value,ensure_ascii=False,sort_keys=True)
+     counts[key]=counts.get(key,0)+1
+  shared={}; names={}
+  for methods in result['paths'].values():
+   for entry in methods.values():
+    items=enumerate(entry[field]) if collection=='parameters' else list(entry[field].items())
+    for position,value in items:
+     key=json.dumps(value,ensure_ascii=False,sort_keys=True)
+     if counts[key]<2: continue
+     if key not in names:
+      base=(value['in']+'_'+value['name']) if collection=='parameters' else ('Response'+str(position)+'_'+entry['operationId'])
+      base=re.sub('[^A-Za-z0-9_.-]','_',base)
+      name=base; suffix=2
+      while name in shared: name=base+'_'+str(suffix); suffix+=1
+      names[key]=name; shared[name]=value
+     entry[field][position]={'$ref':'#/components/'+collection+'/'+names[key]}
+  result['components'][collection]=shared
+ return result
+(ROOT/'openapi.json').write_text(json.dumps(compact_http(O),ensure_ascii=False,indent=2)+'\n')
 def type_text(s):
  if '$ref' in s:
   n=s['$ref'].split('/')[-1]; return f'[{n}](../schemas/models.md#{n.lower()})'
@@ -437,10 +464,35 @@ def schema_fields(schema):
    rows += ['\n`'+k+'` の内部：\n',schema_fields(child)]
  return '\n'.join(rows)+'\n'
 models=['# 入出力の型\n','生成元は [build_contracts.py](../tools/build_contracts.py)。機能別文書と同じ定義から出力する。\n','`required`とnullの可否は別。必須かつnull可の項目はキーを送る。記載のないオブジェクト項目は拒否する。\n','本文上限などDB文書にない制限は今回のAPI設計案。詳細は[データ形式](../conventions/01_http.md)を参照。\n']
+seen_fields={}
 for n,s in S.items():
- models += [f'## {n}\n',s.get('description','')+'\n', ('[共通型の照合元]('+s['x-source']+')\n' if 'x-source' in s else ''),schema_fields(s)]
+ fields=schema_fields(s)
+ previous=seen_fields.get(fields)
+ seen_fields.setdefault(fields,n)
+ body=f'項目・型・必須条件・制約は [{previous}](#{previous.lower()}) と同一。\n' if previous else fields
+ models += [f'## {n}\n',s.get('description','')+'\n', ('[共通型の照合元]('+s['x-source']+')\n' if 'x-source' in s else ''),body]
  if s.get('type')=='object' and 'properties' not in s: models += ['各プラグインのSchemaを必ず追加適用する。自由なJSONを無検査で保存しない。\n']
-(ROOT/'schemas/models.md').write_text('\n'.join(models))
+(ROOT/'schemas/models.md').write_text(re.sub(r'\n{3,}', '\n\n', '\n'.join(models)))
+BASE_ERRORS={400:'INVALID_REQUEST',401:'UNAUTHENTICATED',403:'FORBIDDEN',404:'NOT_FOUND',500:'INTERNAL_ERROR'}
+shared=['# 共通ヘッダーとエラー\n','各操作に列記されたヘッダーとエラーを適用する。入出力例は [OpenAPI](../openapi.json) に保持する合成例であり、実サーバーの応答ではない。空コレクションも省略していない。\n','## ヘッダー\n']
+seen_headers={}
+for methods in O['paths'].values():
+ for entry in methods.values():
+  for p in entry['parameters']:
+   if p['in']!='header': continue
+   if p['name'] in seen_headers:
+    assert seen_headers[p['name']]==p
+    continue
+   seen_headers[p['name']]=p
+   shared += [f'<a id="{p["name"].lower()}"></a>\n',f'### {p["name"]}\n',f'{type_text(p["schema"])}。{constraints(p["schema"])}。{p.get("description", "")}\n']
+shared += ['## 共通エラー\n','全操作は以下を返し得る。本文は [ErrorEnvelope](../schemas/models.md#errorenvelope)。\n','| HTTP | code | 条件 |','|---|---|---|']
+for code,c in BASE_ERRORS.items(): shared.append(f'| {code} | `{c}` | {ERROR_TEXT[code]} |')
+shared += ['\n## 操作別エラー\n','各操作に列記したものだけを適用する。\n','| HTTP | code | 条件 |','|---|---|---|']
+for code,c in sorted({(code,c) for o in OPS for code,c in o['err'].items() if code not in BASE_ERRORS}): shared.append(f'| {code} | `{c}` | {ERROR_TEXT[code]} |')
+shared += ['\nPOSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。\n','全応答のX-Request-Id、操作ごとの追加ヘッダー・エラーcode列挙はOpenAPIに定義する。\n']
+(ROOT/'conventions/06_shared-http.md').write_text('\n'.join(shared))
+def schema_summary(schema):
+ return type_text(schema)+'\n' if '$ref' in schema else schema_fields(schema)
 for group,(filename,title) in GROUPS.items():
  selected=[o for o in OPS if o['group']==group]
  lines=[f'# {title}\n','本番APIの契約案。パスの前に `/api/v1` を付ける。実装・製品の検証結果ではない。\n','[共通規約](../conventions/01_http.md)・[保存条件](../conventions/02_mutations.md)・[状態遷移](../conventions/04_state-transitions.md)を適用する。全操作は本人識別Q01が前提。POSTの再送基盤Q02と操作固有の依存も[未確定事項](../conventions/03_open-questions.md)で確認する。\n','## 操作一覧\n','| ID | Method | パス | 操作 | 固有の未確定依存 |','|---|---|---|---|---|']
@@ -450,28 +502,30 @@ for group,(filename,title) in GROUPS.items():
   lines += [f"\n<a id=\"operation-{o['id']}\"></a>\n",f"## {o['id']} {o['title']}\n",f"`{o['method']} /api/v1{o['path']}`\n",f"権限：{o['access']}。保存先・更新範囲：{o['write']}。\n",o['rule']+'\n']
   if o['sort']: lines += [f"並び順：`{o['sort']}`。同値でもIDで順序を確定する。\n"]
   if o['blocked']: lines += [f"未確定依存：{', '.join(o['blocked'])}。この部分は型だけで実装完了とは判断できない。\n"]
-  lines+=['### パラメータ\n']
-  if entry['parameters']:
-   lines+=['| 場所 | 名前 | 型 | 必須 | 制約・説明 |','|---|---|---|---|---|']
-   for p in entry['parameters']: lines.append(f"| {p['in']} | `{p['name']}` | {type_text(p['schema'])} | {'必須' if p['required'] else '省略可'} | {constraints(p['schema'])} {p.get('description',p['schema'].get('description',''))} |")
-  else: lines+=['なし。']
+  headers=[p for p in entry['parameters'] if p['in']=='header']
+  lines+=['ヘッダー：'+ ' / '.join(f'[{p["name"]}](../conventions/06_shared-http.md#{p["name"].lower()})（'+('必須' if p['required'] else '省略可')+'）' for p in headers)+'。\n']
+  parameters=[p for p in entry['parameters'] if p['in']!='header']
+  if parameters:
+   lines+=['### パラメータ\n','| 場所 | 名前 | 型 | 必須 | 制約・説明 |','|---|---|---|---|---|']
+   for p in parameters: lines.append(f"| {p['in']} | `{p['name']}` | {type_text(p['schema'])} | {'必須' if p['required'] else '省略可'} | {constraints(p['schema'])} {p.get('description',p['schema'].get('description',''))} |")
   lines+=['\n### リクエスト本文\n']
-  lines+=([schema_fields(o['body'])] if o['body'] else ['なし。GET/DELETEに本文を送らない。\n'])
-  if o['body'] and o['ctype']!='multipart/form-data': lines+=['```json',json.dumps(sample(o['body']),ensure_ascii=False,indent=2),'```\n']
+  lines+=([schema_summary(o['body'])] if o['body'] else ['なし。GET/DELETEに本文を送らない。\n'])
+
   if o['ctype']=='multipart/form-data': lines+=['multipartのfileパートへ実体を渡す。id/positionはフォーム文字列をSchemaの型へ変換して検査する。\n']
   lines+=['### 成功応答\n',f"HTTP {o['code']}。"+('既存場所を再利用した場合は200。' if o['path']=='/places' and o['method']=='POST' else '')+'\n']
   if o['out']:
    if o['ctype']=='binary': lines+=['単一Rangeの成功は206、Content-RangeとContent-Lengthを返す。\n']
-   lines+=[schema_fields(o['payload'])]
-   if o['ctype']!='binary': lines+=['```json',json.dumps(sample(o['payload']),ensure_ascii=False,indent=2),'```\n']
-   else: lines+=['本文は実体バイト列、Content-Typeは検証済みMIME。\n']
+   lines+=[schema_summary(o['payload'])]
+   if o['ctype']=='binary': lines+=['本文は実体バイト列、Content-Typeは検証済みMIME。\n']
   else: lines+=['本文なし。\n']
-  lines+=['### 失敗応答\n','[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。\n','| HTTP | code | 条件 |','|---|---|---|']
-  for code,c in o['err'].items(): lines.append(f'| {code} | `{c}` | {ERROR_TEXT[code]} |')
-  lines+=['\nPOSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。\n' if o['method']=='POST' else '\n']
- (ROOT/'endpoints'/f'{filename}.md').write_text('\n'.join(lines))
+  assert all(o['err'].get(code)==c for code,c in BASE_ERRORS.items())
+  extra=' / '.join(f'{code} `{c}`' for code,c in o['err'].items() if code not in BASE_ERRORS)
+  lines+=['### 失敗応答\n','[共通エラー](../conventions/06_shared-http.md#共通エラー)'+('に加え、'+extra if extra else '')+'。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。\n']
+  pointer=o['path'].replace('~','~0').replace('/','~1')
+  lines += [f'[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/{pointer}/{o["method"].lower()})。\n']
+ (ROOT/'endpoints'/f'{filename}.md').write_text(re.sub(r'\n{3,}', '\n\n', '\n'.join(lines)))
 import hashlib
-sources=list((ROOT.parent/'01_DB').glob('*.json'))+list((ROOT.parent/'02_common').rglob('*.json'))+list((ROOT.parent/'02_common').rglob('*.md'))+list((ROOT.parent/'02_common').rglob('*.sql'))
+sources=list((ROOT.parent/'01_DB').glob('*.json'))+list((ROOT.parent/'01_DB').glob('*.md'))+list((ROOT.parent/'02_common').rglob('*.json'))+list((ROOT.parent/'02_common').rglob('*.md'))+list((ROOT.parent/'02_common').rglob('*.sql'))
 manifest={str(p.relative_to(ROOT.parent)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(sources)}
 (ROOT/'schemas/source-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
 print(f'{len(OPS)} operations, {len(S)} schemas, 7 detailed endpoint documents generated')

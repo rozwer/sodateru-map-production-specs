@@ -13,13 +13,14 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 各一覧の型からHTTPクライアントや応答の検証を作れる。
 ただし、認証、集計の判定規則、別都市への体験転用など未確定の依存があるため、**この仕様だけで全機能の動作を再現できる状態にはまだない**。
 操作固有の依存を各一覧、全体の不足を[機能対応表](coverage.md)と[未確定事項](conventions/03_open-questions.md)に記載する。
-画面仕様の `03_pages/` は監査時点で空であり、全画面との網羅性は未検証。
+画面仕様は[67画面](../03_pages/README.md)に整備済み。[画面側のAPI不足](../03_pages/api-gaps.json)を参照する。全画面の実動作との対応は未検証。
 
 ## 共通規約
 
 | 文書 | 内容 |
 |---|---|
 | [通信・データ形式](conventions/01_http.md) | URL、入力、応答、一覧、上限 |
+| [共通ヘッダーとエラー](conventions/06_shared-http.md) | 各操作が参照する型・制約・エラー条件 |
 | [保存・権限・エラー](conventions/02_mutations.md) | 再送、版、権限、部分失敗、原文の保持 |
 | [共通関数との接続](conventions/05_common-bindings.md) | HTTP名と共通Schemaの明示的な変換 |
 | [状態遷移](conventions/04_state-transitions.md) | 訪問、提案、案内、AI、友人関係 |
@@ -45,7 +46,7 @@ JSON例は契約の形を示す合成例であり、実サーバーの応答で�
 - [openapi.json](openapi.json)：全操作の入力・成功／失敗応答を機械可読で保持する。
 - [入出力例と確認条件](examples.md)：保存・競合・取消・権限・空結果。
 
-同じ定義から機能別文書・型一覧・OpenAPIを生成し、記述の食い違いを防ぐ。
+同じ定義から機能別文書・型一覧・OpenAPIを生成する。同一のヘッダー・応答はOpenAPIの `components.parameters` / `components.responses` を `$ref` で参照する。操作の例はOpenAPIに集約し、機能別文書から該当操作へリンクする。
 変更は [build_contracts.py](tools/build_contracts.py) に反映して再生成する。
 説明文書の共通規約・対応表・未確定事項は直接編集する。
 

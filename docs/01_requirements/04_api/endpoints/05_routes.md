@@ -36,39 +36,11 @@ checkin非nullならtype=checkinで本人・version・validUntilを照合。expi
 
 未確定依存：Q05。この部分は型だけで実装完了とは判断できない。
 
-### パラメータ
-
-| 場所 | 名前 | 型 | 必須 | 制約・説明 |
-|---|---|---|---|---|
-| header | `Idempotency-Key` | string | 必須 | minLength=1、maxLength=128 本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `id` | [Id](../schemas/models.md#id) | 必須 | — | — |
-| `checkin` | [SourceRef](../schemas/models.md#sourceref) または null | 必須 | — | — |
-| `origin` | [Position](../schemas/models.md#position) | 必須 | — | — |
-| `conditions` | [SuggestionConditions](../schemas/models.md#suggestionconditions) | 必須 | — | — |
-| `excludedActivities` | 配列<string> | 必須 | minItems=0、maxItems=100、uniqueItems=True | — |
-| `excludedPlaceIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | minItems=0、maxItems=100、uniqueItems=True | — |
-| `expiresAt` | [Timestamp](../schemas/models.md#timestamp) | 必須 | — | — |
-
-```json
-{
-  "id": "record-001",
-  "checkin": null,
-  "origin": {
-    "longitude": 136.9066,
-    "latitude": 35.1815
-  },
-  "conditions": {},
-  "excludedActivities": [],
-  "excludedPlaceIds": [],
-  "expiresAt": 1789430400000
-}
-```
+[SuggestionBatchInput](../schemas/models.md#suggestionbatchinput)
 
 ### 成功応答
 
@@ -78,36 +50,11 @@ HTTP 201。
 |---|---|---|---|---|
 | `data` | [SuggestionBatch](../schemas/models.md#suggestionbatch) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "items": []
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `VALIDATION_FAILED` / 429 `RATE_LIMITED` / 502 `UPSTREAM_FAILED` / 503 `UNAVAILABLE` / 504 `TIMEOUT` / 409 `STATE_CONFLICT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `VALIDATION_FAILED` | 項目・関連・状態条件が不正 |
-| 429 | `RATE_LIMITED` | 実行頻度の上限 |
-| 502 | `UPSTREAM_FAILED` | 外部サービスの応答不正 |
-| 503 | `UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-| 409 | `STATE_CONFLICT` | 現在状態と操作が競合 |
-
-POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1suggestion-batches/post)。
 
 <a id="operation-05-02"></a>
 
@@ -121,6 +68,8 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 並び順：`createdAt DESC, batchId ASC, position ASC, id ASC`。同値でもIDで順序を確定する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
@@ -129,7 +78,6 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
 | query | `status` | offered / later / dismissed / selected / completed / not_done | 省略可 | —  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -139,31 +87,13 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 HTTP 200。
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `items` | 配列<[Suggestion](../schemas/models.md#suggestion)> | 必須 | minItems=0、maxItems=100 | — |
-| `nextCursor` | string または null | 必須 | — | — |
-
-```json
-{
-  "items": [],
-  "nextCursor": null
-}
-```
+[SuggestionPage](../schemas/models.md#suggestionpage)
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1suggestions/get)。
 
 <a id="operation-05-03"></a>
 
@@ -175,12 +105,13 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `suggestionId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -194,47 +125,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [Suggestion](../schemas/models.md#suggestion) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "version": 1,
-    "createdAt": 1789430400000,
-    "updatedAt": 1789430400000,
-    "personId": "record-001",
-    "placeId": "record-001",
-    "batchId": "record-001",
-    "position": 0,
-    "title": "散歩の記録",
-    "activity": "x",
-    "reason": "条件に合う候補。",
-    "conditions": {},
-    "checkinId": null,
-    "sourceRefs": [],
-    "status": "offered",
-    "presentedAt": null,
-    "selectedAt": null,
-    "expiresAt": 1789430400000,
-    "routeId": null,
-    "completedVisitId": null,
-    "feedback": "x"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1suggestions~1{suggestionId}/get)。
 
 <a id="operation-05-04"></a>
 
@@ -246,29 +141,17 @@ HTTP 200。
 
 状態遷移表に従う。presented=trueで初回presentedAtのみ保存。selectedへ初遷移した時刻をselectedAtへ。completedは同じ本人・場所のconfirmed訪問を指定。それ以外はcompletedVisitId=null。routeIdは本人ルートのみ。期限後の新規選択・達成は409。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `suggestionId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `status` | offered / later / dismissed / selected / completed / not_done | 省略可 | — | 操作状態 |
-| `presented` | true | 省略可 | — | — |
-| `routeId` | [Id](../schemas/models.md#id) または null | 省略可 | — | 案内に使う保存ルート。任意 |
-| `completedVisitId` | [Id](../schemas/models.md#id) または null | 省略可 | — | 達成に対応する訪問。未達成はNULL |
-| `feedback` | string | 省略可 | minLength=0、maxLength=10000 | 見送り・選び直し等の任意の原文 |
-
-```json
-{
-  "status": "offered"
-}
-```
+[SuggestionPatch](../schemas/models.md#suggestionpatch)
 
 ### 成功応答
 
@@ -278,51 +161,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [Suggestion](../schemas/models.md#suggestion) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "version": 1,
-    "createdAt": 1789430400000,
-    "updatedAt": 1789430400000,
-    "personId": "record-001",
-    "placeId": "record-001",
-    "batchId": "record-001",
-    "position": 0,
-    "title": "散歩の記録",
-    "activity": "x",
-    "reason": "条件に合う候補。",
-    "conditions": {},
-    "checkinId": null,
-    "sourceRefs": [],
-    "status": "offered",
-    "presentedAt": null,
-    "selectedAt": null,
-    "expiresAt": 1789430400000,
-    "routeId": null,
-    "completedVisitId": null,
-    "feedback": "x"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、422 `VALIDATION_FAILED` / 409 `STATE_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 422 | `VALIDATION_FAILED` | 項目・関連・状態条件が不正 |
-| 409 | `STATE_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1suggestions~1{suggestionId}/patch)。
 
 <a id="operation-05-05"></a>
 
@@ -334,67 +177,11 @@ HTTP 200。
 
 共通previewRouteへRouteRequestを渡す。2〜10地点、walking/drivingのみ実接続。cycling/transitは501 MODE_UNSUPPORTED。隣接同座標は400。区間数=地点数−1、形状・距離・時間は全区間成功時に返す。返却previewIdをresultIdへ改名しretentionを保持。temporary候補を含む経路は保存不可。
 
-### パラメータ
-
-| 場所 | 名前 | 型 | 必須 | 制約・説明 |
-|---|---|---|---|---|
-| header | `Idempotency-Key` | string | 必須 | minLength=1、maxLength=128 本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `waypoints` | 配列<object または object または object> | 必須 | minItems=2、maxItems=10 | — |
-| `mode` | walking / cycling / driving / transit | 必須 | — | — |
-| `title` | string | 必須 | minLength=0、maxLength=100 | — |
-
-`waypoints` の内部：
-
-分岐 1
-
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `kind` | "stored" | 必須 | — | — |
-| `placeId` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
-
-分岐 2
-
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `kind` | "candidate" | 必須 | — | — |
-| `resultId` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
-| `candidateId` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
-
-分岐 3
-
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `kind` | "point" | 必須 | — | — |
-| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
-| `label` | string | 必須 | minLength=1、maxLength=500 | — |
-
-
-```json
-{
-  "waypoints": [
-    {
-      "kind": "point",
-      "coordinates": [
-        136.96,
-        35.16
-      ],
-      "label": "出発点"
-    },
-    {
-      "kind": "stored",
-      "placeId": "p1"
-    }
-  ],
-  "mode": "walking",
-  "title": "本屋へ"
-}
-```
+[RouteSearchInput](../schemas/models.md#routesearchinput)
 
 ### 成功応答
 
@@ -404,96 +191,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [RouteSearchResult](../schemas/models.md#routesearchresult) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "waypoints": [
-      {
-        "coordinates": [
-          136.96,
-          35.16
-        ],
-        "name": "出発点",
-        "placeId": null
-      },
-      {
-        "coordinates": [
-          136.965,
-          35.165
-        ],
-        "name": "本屋",
-        "placeId": "p1"
-      }
-    ],
-    "mode": "walking",
-    "legs": [
-      {
-        "fromIndex": 0,
-        "toIndex": 1,
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              136.96,
-              35.16
-            ],
-            [
-              136.965,
-              35.165
-            ]
-          ]
-        },
-        "distanceM": 710,
-        "durationSec": 540
-      }
-    ],
-    "geometry": {
-      "type": "LineString",
-      "coordinates": [
-        [
-          136.96,
-          35.16
-        ],
-        [
-          136.965,
-          35.165
-        ]
-      ]
-    },
-    "distanceM": 710,
-    "durationSec": 540,
-    "provider": "mapbox-directions",
-    "fetchedAt": 1000,
-    "expiresAt": 901000,
-    "retention": "storable",
-    "resultId": "rp1"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `OUTPUT_INVALID` / 429 `RATE_LIMITED` / 502 `UPSTREAM_FAILED` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT` / 409 `REQUEST_CONFLICT` / 501 `MODE_UNSUPPORTED` / 413 `INPUT_TOO_LARGE`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 429 | `RATE_LIMITED` | 実行頻度の上限 |
-| 502 | `UPSTREAM_FAILED` | 外部サービスの応答不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 501 | `MODE_UNSUPPORTED` | 移動種別などが未対応 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-
-POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1route-searches/post)。
 
 <a id="operation-05-06"></a>
 
@@ -507,13 +209,14 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 並び順：`updatedAt DESC, id DESC`。同値でもIDで順序を確定する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -523,36 +226,13 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 HTTP 200。
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `items` | 配列<[SavedRoute](../schemas/models.md#savedroute)> | 必須 | minItems=0、maxItems=100 | — |
-| `nextCursor` | string または null | 必須 | — | — |
-
-```json
-{
-  "items": [],
-  "nextCursor": null
-}
-```
+[SavedRoutePage](../schemas/models.md#savedroutepage)
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1saved-routes/get)。
 
 <a id="operation-05-07"></a>
 
@@ -564,28 +244,11 @@ HTTP 200。
 
 resultId→previewId。共通saveRouteがcreation_receiptsを先に照合し、未保存なら本人・dataMode・期限・参照版・retention=storableを検査する。private/sharedWith=[]/saved/currentLeg=0で保存。既存の同じ作成は200、違う入力は409。
 
-### パラメータ
-
-| 場所 | 名前 | 型 | 必須 | 制約・説明 |
-|---|---|---|---|---|
-| header | `Idempotency-Key` | string | 必須 | minLength=1、maxLength=128 本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `id` | [Id](../schemas/models.md#id) | 必須 | — | 保存開始時に発行し、再送・編集で使い続けるID。1〜80文字 |
-| `resultId` | [Id](../schemas/models.md#id) | 必須 | — | 保存開始時に発行し、再送・編集で使い続けるID。1〜80文字 |
-| `title` | string | 必須 | minLength=1、maxLength=100 | ルート名 |
-
-```json
-{
-  "id": "record-001",
-  "resultId": "record-001",
-  "title": "散歩の記録"
-}
-```
+[SavedRouteCreate](../schemas/models.md#savedroutecreate)
 
 ### 成功応答
 
@@ -595,101 +258,11 @@ HTTP 201。
 |---|---|---|---|---|
 | `data` | [SavedRoute](../schemas/models.md#savedroute) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "x",
-    "personId": "x",
-    "title": "散歩の記録",
-    "waypoints": [
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      },
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      }
-    ],
-    "mode": "walking",
-    "legs": [
-      {
-        "fromIndex": 0,
-        "toIndex": 1,
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              0,
-              0
-            ],
-            [
-              0,
-              0
-            ]
-          ]
-        },
-        "distanceM": 1,
-        "durationSec": 0
-      }
-    ],
-    "geometry": {
-      "type": "LineString",
-      "coordinates": [
-        [
-          0,
-          0
-        ],
-        [
-          0,
-          0
-        ]
-      ]
-    },
-    "distanceM": 0,
-    "durationSec": 0,
-    "provider": "mapbox-directions",
-    "sourceUrl": null,
-    "fetchedAt": 0,
-    "status": "saved",
-    "currentLeg": 0,
-    "visibility": "private",
-    "sharedWith": [],
-    "version": 1,
-    "createdAt": 0,
-    "updatedAt": 0
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `OUTPUT_INVALID` / 409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1saved-routes/post)。
 
 <a id="operation-05-08"></a>
 
@@ -701,12 +274,13 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 現在の共有権限を確認し保存した地点順・経路・状態を返す。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `routeId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -720,99 +294,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [SavedRoute](../schemas/models.md#savedroute) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "x",
-    "personId": "x",
-    "title": "散歩の記録",
-    "waypoints": [
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      },
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      }
-    ],
-    "mode": "walking",
-    "legs": [
-      {
-        "fromIndex": 0,
-        "toIndex": 1,
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              0,
-              0
-            ],
-            [
-              0,
-              0
-            ]
-          ]
-        },
-        "distanceM": 1,
-        "durationSec": 0
-      }
-    ],
-    "geometry": {
-      "type": "LineString",
-      "coordinates": [
-        [
-          0,
-          0
-        ],
-        [
-          0,
-          0
-        ]
-      ]
-    },
-    "distanceM": 0,
-    "durationSec": 0,
-    "provider": "mapbox-directions",
-    "sourceUrl": null,
-    "fetchedAt": 0,
-    "status": "saved",
-    "currentLeg": 0,
-    "visibility": "private",
-    "sharedWith": [],
-    "version": 1,
-    "createdAt": 0,
-    "updatedAt": 0
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1saved-routes~1{routeId}/get)。
 
 <a id="operation-05-09"></a>
 
@@ -824,30 +310,17 @@ HTTP 200。
 
 visibility=selectedはsharedWithが1人以上。private/publicは空配列。人物の存在と重複を検査する。 resultId指定時は本人の有効な結果で地点・経路を一緒に置換、status=saved,currentLeg=0へ。status/currentLegとの同時指定は422。案内開始は経路がありfetchedAtから15分以内。currentLegはlegsの添字。状態遷移表に従う。 共通RouteUpdateへ渡す場合はresultId→previewId、If-Match→expectedVersion。title省略時は現行titleを渡す。temporaryは409。区間geometryもDBへ保存する。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `routeId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `title` | string | 省略可 | minLength=1、maxLength=100 | ルート名 |
-| `resultId` | [Id](../schemas/models.md#id) | 省略可 | — | — |
-| `status` | saved / navigating / finished | 省略可 | — | 案内状態 |
-| `currentLeg` | integer | 省略可 | minimum=0、maximum=98 | 現在案内している区間 |
-| `visibility` | private / selected / public | 省略可 | — | 表示する範囲 |
-| `sharedWith` | 配列<[Id](../schemas/models.md#id)> | 省略可 | minItems=0、maxItems=100、uniqueItems=True | selectedで共有する人物IDの配列 |
-
-```json
-{
-  "title": "散歩の記録"
-}
-```
+[SavedRoutePatch](../schemas/models.md#savedroutepatch)
 
 ### 成功応答
 
@@ -857,102 +330,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [SavedRoute](../schemas/models.md#savedroute) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "x",
-    "personId": "x",
-    "title": "散歩の記録",
-    "waypoints": [
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      },
-      {
-        "coordinates": [
-          0,
-          0
-        ],
-        "name": "本山のカフェ",
-        "placeId": null
-      }
-    ],
-    "mode": "walking",
-    "legs": [
-      {
-        "fromIndex": 0,
-        "toIndex": 1,
-        "geometry": {
-          "type": "LineString",
-          "coordinates": [
-            [
-              0,
-              0
-            ],
-            [
-              0,
-              0
-            ]
-          ]
-        },
-        "distanceM": 1,
-        "durationSec": 0
-      }
-    ],
-    "geometry": {
-      "type": "LineString",
-      "coordinates": [
-        [
-          0,
-          0
-        ],
-        [
-          0,
-          0
-        ]
-      ]
-    },
-    "distanceM": 0,
-    "durationSec": 0,
-    "provider": "mapbox-directions",
-    "sourceUrl": null,
-    "fetchedAt": 0,
-    "status": "saved",
-    "currentLeg": 0,
-    "visibility": "private",
-    "sharedWith": [],
-    "version": 1,
-    "createdAt": 0,
-    "updatedAt": 0
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、410 `RESULT_EXPIRED` / 422 `OUTPUT_INVALID` / 409 `REQUEST_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED` / 413 `INPUT_TOO_LARGE` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 410 | `RESULT_EXPIRED` | 一時結果の期限切れ |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1saved-routes~1{routeId}/patch)。
 
 <a id="operation-05-10"></a>
 
@@ -964,13 +346,13 @@ HTTP 200。
 
 該当suggestions.routeIdをnullへ変更。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `routeId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -984,24 +366,9 @@ HTTP 204。
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `REQUEST_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED` / 413 `INPUT_TOO_LARGE` / 422 `OUTPUT_INVALID` / 503 `PROVIDER_UNAVAILABLE` / 504 `TIMEOUT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `REQUEST_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-| 413 | `INPUT_TOO_LARGE` | 本文・ファイルが上限超過 |
-| 422 | `OUTPUT_INVALID` | 項目・関連・状態条件が不正 |
-| 503 | `PROVIDER_UNAVAILABLE` | 実行環境を利用できない |
-| 504 | `TIMEOUT` | 処理期限を超過 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1saved-routes~1{routeId}/delete)。
 
 <a id="operation-05-11"></a>
 
@@ -1015,13 +382,14 @@ HTTP 204。
 
 並び順：`validFrom DESC, id DESC`。同値でもIDで順序を確定する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | query | `cursor` | string | 省略可 | minLength=1、maxLength=2048  |
 | query | `limit` | integer | 省略可 | minimum=1、maximum=100、default=50  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -1031,31 +399,13 @@ HTTP 204。
 
 HTTP 200。
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `items` | 配列<[TransitPass](../schemas/models.md#transitpass)> | 必須 | minItems=0、maxItems=100 | — |
-| `nextCursor` | string または null | 必須 | — | — |
-
-```json
-{
-  "items": [],
-  "nextCursor": null
-}
-```
+[TransitPassPage](../schemas/models.md#transitpasspage)
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1transit-passes/get)。
 
 <a id="operation-05-12"></a>
 
@@ -1069,38 +419,11 @@ HTTP 200。
 
 未確定依存：Q07。この部分は型だけで実装完了とは判断できない。
 
-### パラメータ
-
-| 場所 | 名前 | 型 | 必須 | 制約・説明 |
-|---|---|---|---|---|
-| header | `Idempotency-Key` | string | 必須 | minLength=1、maxLength=128 本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
+ヘッダー：[Idempotency-Key](../conventions/06_shared-http.md#idempotency-key)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `id` | [Id](../schemas/models.md#id) | 必須 | — | 保存開始時に発行し、再送・編集で使い続けるID。1〜80文字 |
-| `operator` | string | 必須 | minLength=1、maxLength=200 | 交通事業者 |
-| `segments` | 配列<[TransitSegment](../schemas/models.md#transitsegment)> | 必須 | minItems=1、maxItems=100 | 経由順の路線・乗降駅 |
-| `validFrom` | [Date](../schemas/models.md#date) | 必須 | — | 有効終了日。その日を含む |
-| `validTo` | [Date](../schemas/models.md#date) | 必須 | — | 有効終了日。その日を含む |
-
-```json
-{
-  "id": "record-001",
-  "operator": "x",
-  "segments": [
-    {
-      "lineId": "record-001",
-      "fromStopId": "record-001",
-      "toStopId": "record-001"
-    }
-  ],
-  "validFrom": "2026-09-15",
-  "validTo": "2026-09-15"
-}
-```
+[TransitPassCreate](../schemas/models.md#transitpasscreate)
 
 ### 成功応答
 
@@ -1110,44 +433,11 @@ HTTP 201。
 |---|---|---|---|---|
 | `data` | [TransitPass](../schemas/models.md#transitpass) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "version": 1,
-    "createdAt": 1789430400000,
-    "updatedAt": 1789430400000,
-    "personId": "record-001",
-    "operator": "x",
-    "segments": [
-      {
-        "lineId": "record-001",
-        "fromStopId": "record-001",
-        "toStopId": "record-001"
-      }
-    ],
-    "validFrom": "2026-09-15",
-    "validTo": "2026-09-15"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、422 `VALIDATION_FAILED` / 409 `STATE_CONFLICT`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 422 | `VALIDATION_FAILED` | 項目・関連・状態条件が不正 |
-| 409 | `STATE_CONFLICT` | 現在状態と操作が競合 |
-
-POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更ならINPUT_CHANGEDを使う。
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1transit-passes/post)。
 
 <a id="operation-05-13"></a>
 
@@ -1159,12 +449,13 @@ POSTの409は再送内容不一致ならIDEMPOTENCY_CONFLICT、入力変更な�
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
+ヘッダー：[X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `passId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -1178,41 +469,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [TransitPass](../schemas/models.md#transitpass) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "version": 1,
-    "createdAt": 1789430400000,
-    "updatedAt": 1789430400000,
-    "personId": "record-001",
-    "operator": "x",
-    "segments": [
-      {
-        "lineId": "record-001",
-        "fromStopId": "record-001",
-        "toStopId": "record-001"
-      }
-    ],
-    "validFrom": "2026-09-15",
-    "validTo": "2026-09-15"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1transit-passes~1{passId}/get)。
 
 <a id="operation-05-14"></a>
 
@@ -1226,28 +487,17 @@ HTTP 200。
 
 未確定依存：Q07。この部分は型だけで実装完了とは判断できない。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `passId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
-| 項目 | 型 | 必須 | 制約 | 意味 |
-|---|---|---|---|---|
-| `operator` | string | 省略可 | minLength=1、maxLength=200 | 交通事業者 |
-| `segments` | 配列<[TransitSegment](../schemas/models.md#transitsegment)> | 省略可 | minItems=1、maxItems=100 | 経由順の路線・乗降駅 |
-| `validFrom` | [Date](../schemas/models.md#date) | 省略可 | — | 有効終了日。その日を含む |
-| `validTo` | [Date](../schemas/models.md#date) | 省略可 | — | 有効終了日。その日を含む |
-
-```json
-{
-  "operator": "x"
-}
-```
+[TransitPassPatch](../schemas/models.md#transitpasspatch)
 
 ### 成功応答
 
@@ -1257,45 +507,11 @@ HTTP 200。
 |---|---|---|---|---|
 | `data` | [TransitPass](../schemas/models.md#transitpass) | 必須 | — | — |
 
-```json
-{
-  "data": {
-    "id": "record-001",
-    "version": 1,
-    "createdAt": 1789430400000,
-    "updatedAt": 1789430400000,
-    "personId": "record-001",
-    "operator": "x",
-    "segments": [
-      {
-        "lineId": "record-001",
-        "fromStopId": "record-001",
-        "toStopId": "record-001"
-      }
-    ],
-    "validFrom": "2026-09-15",
-    "validTo": "2026-09-15"
-  }
-}
-```
-
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、422 `VALIDATION_FAILED` / 409 `STATE_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 422 | `VALIDATION_FAILED` | 項目・関連・状態条件が不正 |
-| 409 | `STATE_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1transit-passes~1{passId}/patch)。
 
 <a id="operation-05-15"></a>
 
@@ -1307,13 +523,13 @@ HTTP 200。
 
 参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。
 
+ヘッダー：[If-Match](../conventions/06_shared-http.md#if-match)（必須） / [X-Request-Id](../conventions/06_shared-http.md#x-request-id)（必須）。
+
 ### パラメータ
 
 | 場所 | 名前 | 型 | 必須 | 制約・説明 |
 |---|---|---|---|---|
 | path | `passId` | [Id](../schemas/models.md#id) | 必須 | —  |
-| header | `If-Match` | string | 必須 | pattern=^"[1-9][0-9]*"$ 対象の版。媒体添付・一括順序変更は親記録の版。 |
-| header | `X-Request-Id` | string (uuid) | 必須 | — 新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。 |
 
 ### リクエスト本文
 
@@ -1327,16 +543,6 @@ HTTP 204。
 
 ### 失敗応答
 
-[ErrorEnvelope](../schemas/models.md#errorenvelope)を返す。
+[共通エラー](../conventions/06_shared-http.md#共通エラー)に加え、409 `STATE_CONFLICT` / 412 `VERSION_CONFLICT` / 428 `VERSION_REQUIRED`。条件・形式は[エラー定義](../conventions/06_shared-http.md#操作別エラー)を参照。
 
-| HTTP | code | 条件 |
-|---|---|---|
-| 400 | `INVALID_REQUEST` | 要求形式が不正 |
-| 401 | `UNAUTHENTICATED` | 本人を確認できない |
-| 403 | `FORBIDDEN` | 操作権限なし |
-| 404 | `NOT_FOUND` | 対象なし、または存在を開示しない |
-| 500 | `INTERNAL_ERROR` | 予期しない失敗 |
-| 409 | `STATE_CONFLICT` | 現在状態と操作が競合 |
-| 412 | `VERSION_CONFLICT` | 版が不一致 |
-| 428 | `VERSION_REQUIRED` | If-Matchがない |
-
+[入出力例・全応答ヘッダーとSchema](../openapi.json#/paths/~1transit-passes~1{passId}/delete)。
