@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 169,
+  "revision": 170,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34242,7 +34242,10 @@
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
-        "docs/evidence/VISUAL-COMMUNITY/"
+        "docs/evidence/VISUAL-COMMUNITY/",
+        "src/features/friends/",
+        "src/features/knowledge/",
+        "src/features/companion/"
       ],
       "status": "claimed",
       "submitted_commit": null,
