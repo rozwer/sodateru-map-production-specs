@@ -53,7 +53,7 @@ button:disabled {
   padding: 12px;
   border: 1px solid #d7e7e7;
 }
-.qa-phone header {
+.qa-phone > header {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -62,10 +62,10 @@ button:disabled {
   min-height: 54px;
   margin-bottom: 8px;
 }
-.qa-phone header strong {
+.qa-phone > header strong {
   font-size: 20px;
 }
-.qa-phone header button {
+.qa-phone > header button {
   position: absolute;
   left: 2px;
   top: 8px;
@@ -100,4 +100,11 @@ button:disabled {
     border: 0;
     min-height: 100vh;
   }
+}
+
+.qa-phone {
+  padding: 0;
+}
+.qa-phone > header {
+  margin: 12px 12px 8px;
 }

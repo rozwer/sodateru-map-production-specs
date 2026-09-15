@@ -860,3 +860,115 @@
   color: #456477;
   margin: 8px 3px 0 !important;
 }
+
+.rf-card > .rf-record:not(.rf-record-detail) .rf-record-head,
+.rf-self .rf-record-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+}
+.rf-primary,
+.rf-primary:has(.rf-icon) {
+  padding: 10px 36px;
+  justify-content: center;
+}
+.rf-primary > .rf-icon {
+  position: absolute;
+  right: 16px;
+  margin: 0;
+}
+.rf-inset-field {
+  display: block;
+  position: relative;
+}
+.rf-inset-field label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.rf-inset-field textarea {
+  width: 100%;
+  min-height: 116px;
+  padding-bottom: 30px;
+}
+.rf-inset-field output {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.rf-screen {
+  padding: 12px;
+}
+.rf-card {
+  padding: 14px;
+}
+.rf-self {
+  padding: 0 16px 16px;
+}
+.rf-self-hero {
+  position: relative;
+  height: 290px;
+  margin: 0 -16px;
+}
+.rf-self-map {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  margin: 0;
+  background: #eaf2f0;
+}
+.rf-self-map > .rf-muted {
+  position: absolute;
+  inset: auto 0 35px;
+  text-align: center;
+}
+.rf-self-heading {
+  position: absolute;
+  top: 30px;
+  left: 24px;
+  right: 20px;
+  pointer-events: none;
+}
+.rf-self-heading h2 {
+  font-size: 28px;
+  margin: 0 0 5px;
+}
+.rf-self-heading p {
+  font-size: 14px;
+}
+.rf-self-menu {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+.rf-self .rf-home-card {
+  position: relative;
+}
+.rf-self-hero + .rf-home-card {
+  margin-top: -12px;
+}
+.rf-self .rf-record-head strong,
+.rf-card > .rf-record:not(.rf-record-detail) .rf-record-head strong {
+  align-self: stretch;
+}
+.rf-self .rf-home-link strong {
+  font-size: 21px;
+}
+.rf-self .rf-home-link span span {
+  font-size: 13px;
+}
+.rf-self .rf-home-preview p {
+  font-size: 12px;
+}

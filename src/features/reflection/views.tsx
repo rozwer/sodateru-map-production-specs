@@ -282,6 +282,7 @@ export function TextField({
   placeholder,
   tall,
   disabled,
+  insetCounter,
 }: {
   label: string;
   value: string;
@@ -291,11 +292,14 @@ export function TextField({
   placeholder?: string;
   tall?: boolean;
   disabled?: boolean;
+  insetCounter?: boolean;
 }) {
   const id = useId();
   const set = (v: string) => onChange(Array.from(v).slice(0, limit).join(""));
   return (
-    <div className={`rf-field ${tall ? "rf-tall" : ""}`}>
+    <div
+      className={`rf-field ${tall ? "rf-tall" : ""} ${insetCounter ? "rf-inset-field" : ""}`}
+    >
       <label htmlFor={id}>{label}</label>
       {multiline ? (
         <textarea
@@ -574,6 +578,7 @@ export function QuestionView({
           </p>
           <TextField
             label="回答"
+            insetCounter
             value={answer}
             onChange={onAnswer}
             limit={500}
@@ -1141,9 +1146,28 @@ export function SelfHomeView({
 }) {
   return (
     <div className="rf-screen rf-self">
-      <p className="rf-intro">日々の体験から、いまの自分へ。</p>
-      <div className="rf-self-map">
-        {map || <p className="rf-muted">地図を読み込み中です</p>}
+      <div className="rf-self-hero">
+        <div className="rf-self-map">
+          {map || <p className="rf-muted">地図を読み込み中です</p>}
+        </div>
+        <header className="rf-self-heading">
+          <h2>自分を知る</h2>
+          <p>日々の体験から、いまの自分へ。</p>
+        </header>
+        <button
+          className="rf-self-menu"
+          type="button"
+          aria-label="メニュー"
+          onClick={() => navigate("navigation")}
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path
+              d="M4 5h16M4 12h16M4 19h16"
+              stroke="currentColor"
+              strokeWidth="2"
+            />
+          </svg>
+        </button>
       </div>
       <Feedback notice={notice} />
       <section className="rf-home-card">

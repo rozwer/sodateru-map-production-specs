@@ -2,7 +2,7 @@
 
 ## 状態
 
-6画面のDOM/CSSと共通クライアント接続を実装中。**Issue未完了・実API保存未達**。
+6画面のUI先行提供。ユーザー承認の分割方針に従い、実API保存・再取得とAI採用の受入を後続接続Issueへ引き継ぐ。**実API保存は未達、全体機能完了ではない**。closeと後続番号はオーケストレーター調整待ち。
 
 専用branch `rozwer/12-reflection-ui`、worktree `/Users/roz/.codex/worktrees/ui-reflection-12`。編集対象は `src/features/reflection/` と本証拠ディレクトリ。共通Shell/クライアント/サーバーを変更していない。
 
@@ -45,7 +45,7 @@ SODATERU_API_ORIGIN=http://127.0.0.1:3012 mise exec -- bunx vite --host 127.0.0.
 
 保存先は本worktree `.local/ui-reflection-live.sqlite` / `.local/ui-reflection-demo.sqlite`、本人設定は `.local/ui-reflection-profiles.json`。主cloneの既存DB/.envは触っていない。
 
-## 残る受入と依存
+## 後続接続Issueへの引継ぎ候補
 
 1. COREのTHEMES/REFLECTION生成型反映、任意If-Matchの生成・送信対応（#3へ連絡済み）。REFLECTION採用v1.1.0のexpectedAttemptへ追随。
 2. RECORDS/INFORMATION/REFLECTION/THEMESの業務API統合。同じ保存先で日記/回答状態/比較/メモの作成→編集→再読込→プロセス再起動GETを確認。
@@ -53,3 +53,14 @@ SODATERU_API_ORIGIN=http://127.0.0.1:3012 mise exec -- bunx vite --host 127.0.0.
 4. self-homeの実MapPreview統合と診断プレビュー。画像4趣味軸と既存6生活行動軸は意味が異なるためUI-INSIGHTS #13の確定表示契約へ接続する。独自置換しない。
 5. UI-BASEのself-home固有header、写真あり表示、320px/desktop/200%文字/キーボード、全遷移先の同一統合版による最終照合。
 6. PRレビュー・統合、task:finish、board done、path解放、Issue close。部分提供だけで完了処理しない。
+
+## UI追加確認
+
+- 6画面Viewと表示fixtureはnoUncheckedIndexedAccessを含む限定strict型検査PASS。
+- 共通Shell登録込みVite production build PASS（2026-09-15 11:59、取得元develop2332231＋UI変更）。
+- 質問の写真左/名称・日時・場所右配置、500文字カウンター内包、保存CTA中央揃えを390pxで修正確認。320pxでdocument.scrollWidth=320、入力/ボタンの横はみ出し0。
+- 履歴に月見出し、未回答filter、三点メニューとEscape、各回答の展開/編集入口を追加。
+- 自分を知るは上部地図slot・固有見出し/メニュー・3枚のカード。4軸レーダーは数値から描画する表示部品を用意し、例示値はfixtureだけに置く。製品の未取得値は埋めない。
+- UI-BASE先行署名のlayout.header:none/contentPadding:noneを使用。自分を知る以外は中央共通header、底部ナビなし。
+- `?page=question&empty=1`等で0件表示を確認できる。日記fixtureは選択した写真を端末内でプレビューし、個別に外せる。
+- 初回commit4492bbb。通常develop取込み後のguard誤判定はPR63を取り込み、task:verify後の通常commitで解消。

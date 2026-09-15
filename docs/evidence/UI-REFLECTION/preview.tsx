@@ -10,10 +10,11 @@ import {
   MiniRadar,
   type QuestionCardData,
   type RecordCardData,
+  type PhotoDraft,
   type MemoForm,
 } from "../../../src/features/reflection/views";
 import "./preview.css";
-const records: [RecordCardData,RecordCardData] = [
+const records: [RecordCardData, RecordCardData] = [
   {
     id: "fixture-cafe",
     title: "カフェでひと息",
@@ -65,6 +66,8 @@ const questions: QuestionCardData[] = [
   },
 ];
 function Preview() {
+  const empty = new URLSearchParams(location.search).has("empty");
+  const [photos, setPhotos] = useState<PhotoDraft[]>([]);
   const [page, setPage] = useState(
     new URLSearchParams(location.search).get("page") || "diary",
   );
@@ -114,12 +117,14 @@ function Preview() {
         </nav>
       </aside>
       <main className="qa-phone">
-        <header>
-          <button onClick={() => nav("self-home")} aria-label="戻る">
-            ‹
-          </button>
-          <strong>{titles[page] || page}</strong>
-        </header>
+        {page !== "self-home" && (
+          <header>
+            <button onClick={() => nav("self-home")} aria-label="戻る">
+              ‹
+            </button>
+            <strong>{titles[page] || page}</strong>
+          </header>
+        )}
         {notice && (
           <p role="status" className="qa-status">
             {notice}
@@ -131,9 +136,24 @@ function Preview() {
             changeDate={setDate}
             body={body}
             changeBody={setBody}
-            photos={[]}
-            addPhotos={save}
-            removePhoto={save}
+            photos={photos}
+            addPhotos={(files) =>
+              setPhotos((current) => [
+                ...current,
+                ...files.map((file) => ({
+                  id: crypto.randomUUID(),
+                  url: URL.createObjectURL(file),
+                  name: file.name,
+                })),
+              ])
+            }
+            removePhoto={(id) =>
+              setPhotos((current) => {
+                const photo = current.find((p) => p.id === id);
+                if (photo) URL.revokeObjectURL(photo.url);
+                return current.filter((p) => p.id !== id);
+              })
+            }
             save={save}
             dirty
             ai={{ busy: false, generate: save, adopt: save, cancel: save }}
@@ -141,7 +161,7 @@ function Preview() {
         )}
         {page === "question" && (
           <QuestionView
-            item={questions[0]}
+            item={empty ? undefined : questions[0]}
             answer={answer}
             onAnswer={setAnswer}
             openRecord={save}
@@ -150,7 +170,7 @@ function Preview() {
         )}{" "}
         {page === "history" && (
           <HistoryView
-            items={questions.filter(
+            items={(empty ? [] : questions).filter(
               (q) => filter === "all" || q.status === filter,
             )}
             filter={filter}
@@ -170,8 +190,8 @@ function Preview() {
         )}{" "}
         {page === "compare" && (
           <CompareView
-            records={records}
-            options={records}
+            records={empty ? [] : records}
+            options={empty ? [] : records}
             common={common}
             difference={difference}
             setCommon={setCommon}
@@ -185,7 +205,10 @@ function Preview() {
           <MemoView
             value={memo}
             change={setMemo}
-            options={records.map((r) => ({ id: r.id, label: r.title }))}
+            options={(empty ? [] : records).map((r) => ({
+              id: r.id,
+              label: r.title,
+            }))}
             keyword={keyword}
             setKeyword={setKeyword}
             save={save}
@@ -197,7 +220,7 @@ function Preview() {
         )}{" "}
         {page === "self-home" && (
           <SelfHomeView
-            recent={records[0]}
+            recent={empty ? undefined : records[0]}
             navigate={save}
             chart={
               <MiniRadar

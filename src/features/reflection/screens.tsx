@@ -107,7 +107,8 @@ const definitions: ScreenDefinition[] = [
 export const screens: ScreenDefinition[] = definitions.map((screen) => ({
   ...screen,
   layout: {
-    header: "back",
+    header: screen.id === "self-home" ? "none" : "back",
+    contentPadding: "none",
     bottomNav: screen.id === "self-home",
     background: screen.id === "experience-compare" ? "surface" : "soft",
   },
