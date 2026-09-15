@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 189,
+  "revision": 190,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34381,7 +34381,7 @@
       "generation": 1,
       "issue_number": 185,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/VISUAL-SELF/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
@@ -34390,8 +34390,8 @@
         "src/features/suggestions/",
         "docs/evidence/VISUAL-SELF/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "cc8b1f31ac2da70c256b1196228efdad13feb0cc",
       "token": "cf30332752234fd792ad1ef3a8839b5f"
     },
     "VISUAL-SETTINGS": {
