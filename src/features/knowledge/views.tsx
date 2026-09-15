@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState, type ReactNode } from 'react';
+import React, { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { knowledgeMessages as m } from './messages';
 import { KnowledgeIcon, type KnowledgeIconName } from './Icon';
 import { KnowledgeAvatar, KnowledgeMediaView, type KnowledgeMediaLoader } from './Media';
-import { emptyFilters, type KnowledgeFilters, type KnowledgeKind, type KnowledgePerson, type KnowledgeRecord } from './types';
+import { emptyFilters, type KnowledgeAreaOption, type KnowledgeFilters, type KnowledgeKind, type KnowledgePerson, type KnowledgeRecord } from './types';
 import './knowledge.css';
 
 export function KnowledgeStatus({ loading, error, empty, retry, children }: {
@@ -23,9 +23,10 @@ function Choice<T extends string | number>({ label, value, options, onChange, te
   label: string; value: T | null; options: { value: T; label: string; icon?: KnowledgeIconName }[];
   onChange: (value: T) => void; testId?: string;
 }) {
+  const name = useId();
   return <fieldset className="knowledge-choices" data-testid={testId}><legend className="knowledge-sr-only">{label}</legend>
     {options.map(option => <label key={option.value} className={value === option.value ? 'is-selected' : ''}>
-      <input type="radio" name={testId || label} checked={value === option.value} onChange={() => onChange(option.value)} />
+      <input type="radio" name={name} checked={value === option.value} onChange={() => onChange(option.value)} />
       {option.icon && <KnowledgeIcon name={option.icon} />}<span>{option.label}</span></label>)}
   </fieldset>;
 }
@@ -57,7 +58,7 @@ export function KnowledgeListView(props: {
   onLoadMore: () => void; onRetry: () => void; onBack: () => void; onFilter: () => void;
   onMap: () => void; onOpen: (id: string) => void; onPerson: (id: string) => void;
   bookmarks?: Set<string>; bookmarkBusy?: Set<string>; onBookmark?: (id: string) => void;
-  topicLabels?: Record<string, string>; onPost?: () => void; isMock?: boolean; onRetryMedia?: (id: string) => Promise<void>; loadMedia?: KnowledgeMediaLoader;
+  active?: boolean; topicLabels?: Record<string, string>; onPost?: () => void; isMock?: boolean; onRetryMedia?: (id: string) => Promise<void>; loadMedia?: KnowledgeMediaLoader;
 }) {
   return <section className="knowledge-panel knowledge-list" data-testid="knowledge-list">
     <Header title={m.title} subtitle={m.subtitle} back={props.onBack} />
@@ -70,14 +71,15 @@ export function KnowledgeListView(props: {
     <Choice label={m.kind} value={props.kind} onChange={props.onKind} testId="knowledge-list--kind" options={[
       { value: 'rest-tip', label: m.restTip, icon: 'cup' }, { value: 'experience', label: m.experience, icon: 'meal' }, { value: 'people', label: m.people, icon: 'people' },
     ]} />
-    <div className="knowledge-result-heading"><h3>{props.heading}</h3><output aria-live="polite">{props.totalCount}件</output></div>
-    <KnowledgeStatus loading={props.loading} error={props.error} empty={!props.totalCount} retry={props.onRetry} />
+    <div className="knowledge-result-heading"><h3>{props.heading}</h3><output aria-live="polite">{props.kind === 'people' ? `${props.people?.length ?? 0}人を表示` : `${props.totalCount}件`}</output></div>
+    <KnowledgeStatus loading={props.loading} error={props.error} empty={props.kind !== 'people' && !props.totalCount} retry={props.onRetry} />
+    {props.kind === 'people' && !props.loading && !props.error && !props.people?.length && <p className="knowledge-status" role="status">{m.peopleEmpty}</p>}
     {props.kind === 'people' ? <ul className="knowledge-cards">{props.people?.map(person => <li key={person.id}><button className="knowledge-person-card" onClick={() => props.onPerson(person.id)}><KnowledgeAvatar name={person.name} src={person.avatarUrl} /><span><strong>{person.name}</strong><span>{person.bio}</span></span><KnowledgeIcon name="chevron" /></button></li>)}</ul>
       : <ul className="knowledge-cards">{props.records.map(record => {
-        const [firstLine, ...bodyLines] = record.body.split('\n');
+        const [firstLine = '', ...bodyLines] = record.body.split('\n');
         const media = record.media.find(item => item.kind === 'photo' || item.kind === 'video');
         return <li key={record.id} className="knowledge-card" data-testid={`knowledge-list--post--${record.id}`}>
-          <div className="knowledge-card-main">{media ? <KnowledgeMediaView key={media.id} media={media} description={firstLine} compact onRetry={props.onRetryMedia} loadMedia={props.loadMedia} /> : <div className="knowledge-media knowledge-media-state is-compact">{m.noMedia}</div>}
+          <div className="knowledge-card-main">{media ? <KnowledgeMediaView key={media.id} media={media} description={firstLine} compact active={props.active} onRetry={props.onRetryMedia} loadMedia={props.loadMedia} /> : <div className="knowledge-media knowledge-media-state is-compact">{m.noMedia}</div>}
             <button type="button" className="knowledge-card-copy" onClick={() => props.onOpen(record.id)}><h3>{firstLine || m.experience}</h3>{bodyLines.length > 0 && <p>{bodyLines.join('\n')}</p>}</button></div>
           <RecordIdentity record={record} timeZone={props.timeZone} center={props.center} />
           <div className="knowledge-card-footer"><RecordTags record={record} topicLabel={record.topicKey ? props.topicLabels?.[record.topicKey] : undefined} />
@@ -90,43 +92,51 @@ export function KnowledgeListView(props: {
   </section>;
 }
 
-export function KnowledgeFilterView({ initial, onApply, onClose, onAreaSearch, onUseMapBounds, map, error, busy }: {
+export function KnowledgeFilterView({ initial, onApply, onClose, onAreaSearch, onUseMapBounds, map, error, busy, areas = [], areaLoading, areaError }: {
   initial: KnowledgeFilters; onApply: (filters: KnowledgeFilters) => void; onClose: () => void;
   onAreaSearch: (text: string) => void; onUseMapBounds?: () => [number, number, number, number] | null;
-  map: ReactNode; error?: string | null; busy?: boolean;
+  map: ReactNode | ((draft: KnowledgeFilters) => ReactNode); error?: string | null; busy?: boolean;
+  areas?: KnowledgeAreaOption[]; areaLoading?: boolean; areaError?: string | null;
 }) {
   const [draft, setDraft] = useState<KnowledgeFilters>(() => structuredClone(initial));
+  const [searchedArea, setSearchedArea] = useState<string | null>(null);
   const update = (patch: Partial<KnowledgeFilters>) => setDraft(current => ({ ...current, ...patch }));
-  return <section className="knowledge-panel knowledge-filter" data-testid="knowledge-filter">
-    <Header title={m.searchConditions} back={onClose} close><button className="knowledge-outline" type="button" onClick={() => setDraft(structuredClone(emptyFilters))}>{m.clearConditions}</button></Header>
+  const cancel = () => { setDraft(structuredClone(initial)); setSearchedArea(null); onClose(); };
+  const needsArea = !draft.bounds && !draft.center && (draft.radiusM !== null || Boolean(draft.areaText.trim()));
+  return <section className="knowledge-panel knowledge-filter" data-testid="knowledge-filter" onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); cancel(); } }}>
+    <Header title={m.searchConditions} back={cancel} close><button className="knowledge-outline" type="button" onClick={() => setDraft(structuredClone(emptyFilters))}>{m.clearConditions}</button></Header>
     <section className="knowledge-filter-group"><h3>{m.area}</h3><p>{m.areaHelp}</p>
-      <form onSubmit={event => { event.preventDefault(); onAreaSearch(draft.areaText); }}><label className="knowledge-search is-outline"><KnowledgeIcon name="search" /><input aria-label={m.area} type="search" value={draft.areaText} onChange={event => update({ areaText: event.target.value })} /><button type="button" aria-label={m.clearSearch} onClick={() => update({ areaText: '', center: null, radiusM: null, bounds: null })}><KnowledgeIcon name="close" /></button></label></form>
+      <form onSubmit={event => { event.preventDefault(); setSearchedArea(draft.areaText.trim()); onAreaSearch(draft.areaText); }}><label className="knowledge-search is-outline"><KnowledgeIcon name="search" /><input aria-label={m.area} type="search" enterKeyHint="search" value={draft.areaText} onChange={event => { update({ areaText: event.target.value, center: null, bounds: null }); setSearchedArea(null); }} /><button type="button" aria-label={m.clearSearch} onClick={() => { update({ areaText: '', center: null, radiusM: null, bounds: null }); setSearchedArea(null); }}><KnowledgeIcon name="close" /></button></label></form>
+      {needsArea && <p className="knowledge-area-help" role="status">{m.areaSelectionRequired}</p>}
+      <KnowledgeStatus loading={areaLoading} error={areaError} />
+      {!draft.center && !areaLoading && !areaError && searchedArea !== null && searchedArea === draft.areaText.trim() && areas.length === 0 && <p role="status">{m.areaEmpty}</p>}
+      {!draft.center && !areaLoading && searchedArea === draft.areaText.trim() && areas.length > 0 && <ul className="knowledge-area-results" aria-label={m.areaResults}>{areas.map(area => <li key={area.id}><button type="button" onClick={() => update({ areaText: area.name, center: area.coordinates, bounds: null, radiusM: draft.radiusM ?? 1000 })}><KnowledgeIcon name="pin" /><span>{area.name}</span><KnowledgeIcon name="chevron" /></button></li>)}</ul>}
       <Choice label="検索半径" value={draft.radiusM} onChange={radiusM => update({ radiusM, bounds: null })} options={[{ value: 500, label: '500m' }, { value: 1000, label: '1km' }, { value: 3000, label: '3km' }]} testId="knowledge-filter--radius" />
-      <div className="knowledge-filter-map">{map}{onUseMapBounds && <button className="knowledge-map-area" type="button" onClick={() => { const bounds = onUseMapBounds(); if (bounds) update({ bounds, center: null, radiusM: null }); }} aria-pressed={draft.bounds !== null}>{m.mapArea}</button>}</div>
+      <div className="knowledge-filter-map">{typeof map === 'function' ? map(draft) : map}{onUseMapBounds && <button className="knowledge-map-area" type="button" onClick={() => { const bounds = onUseMapBounds(); if (bounds) update({ bounds, center: null, radiusM: null, areaText: '' }); }} aria-pressed={draft.bounds !== null}>{m.mapArea}</button>}</div>
     </section>
     <section className="knowledge-filter-group"><h3>{m.purpose}</h3><p>{m.purposeHelp}</p><Choice label={m.purpose} value={draft.purpose} onChange={purpose => update({ purpose })} testId="knowledge-filter--purpose" options={[{ value: 'meal', label: m.meal, icon: 'meal' }, { value: 'rest', label: m.rest, icon: 'cup' }, { value: 'walk', label: m.walk, icon: 'walk' }]} /></section>
     <section className="knowledge-filter-group"><h3>{m.period}</h3><p>{m.periodHelp}</p><Choice label={m.period} value={draft.period} onChange={period => update({ period })} testId="knowledge-filter--period" options={[{ value: 'week', label: m.week }, { value: 'month', label: m.month }]} /></section>
     <section className="knowledge-filter-group"><h3>{m.audience}</h3><p>{m.audienceHelp}</p><Choice label={m.audience} value={draft.audience} onChange={audience => update({ audience })} testId="knowledge-filter--audience" options={[{ value: 'visible', label: m.all, icon: 'globe' }, { value: 'friends', label: m.friends, icon: 'people' }, { value: 'public', label: m.public, icon: 'lock' }]} /></section>
     <KnowledgeStatus error={error} />
-    <div className="knowledge-bottom"><button type="button" className="knowledge-primary" disabled={busy} onClick={() => onApply(draft)} data-testid="knowledge-filter--apply">{busy ? m.loading : m.apply}</button></div>
+    <div className="knowledge-bottom"><button type="button" className="knowledge-primary" disabled={busy || needsArea} onClick={() => onApply(draft)} data-testid="knowledge-filter--apply">{busy ? m.loading : m.apply}</button></div>
   </section>;
 }
 
-export function KnowledgeDetailView({ record, timeZone, center, onBack, onPlace, onAuthor, onSource, onShare, onRetryMedia, topicLabel, loadMedia }: {
+export function KnowledgeDetailView({ record, timeZone, center, onBack, onPlace, onAuthor, onSource, onShare, onRetryMedia, topicLabel, loadMedia, active = true }: {
   record: KnowledgeRecord; timeZone: string; center?: [number, number] | null; onBack: () => void; onPlace: (id: string) => void;
   onAuthor: (id: string) => void; onSource: () => void; onShare?: () => void;
-  onRetryMedia?: (id: string) => Promise<void>; topicLabel?: string; loadMedia?: KnowledgeMediaLoader;
+  onRetryMedia?: (id: string) => Promise<void>; topicLabel?: string; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
   const [menu, setMenu] = useState(false);
   const menuTrigger = useRef<HTMLButtonElement>(null);
   const closeMenu = () => { setMenu(false); menuTrigger.current?.focus(); };
-  useEffect(() => { if (!menu) return; const keydown = (event: KeyboardEvent) => { if (event.key === 'Escape') { event.stopPropagation(); setMenu(false); menuTrigger.current?.focus(); } }; document.addEventListener('keydown', keydown, true); return () => document.removeEventListener('keydown', keydown, true); }, [menu]);
-  const [title, ...body] = record.body.split('\n');
+  useEffect(() => { if (!active) { setMenu(false); return; } if (!menu) return; const keydown = (event: KeyboardEvent) => { if (event.key === 'Escape') { event.stopPropagation(); setMenu(false); menuTrigger.current?.focus(); } }; document.addEventListener('keydown', keydown, true); return () => document.removeEventListener('keydown', keydown, true); }, [menu, active]);
+  const [title = '', ...body] = record.body.split('\n');
   return <article className="knowledge-panel knowledge-detail" data-testid="knowledge-detail">
     <Header title={m.detail} back={onBack}><button className="knowledge-icon-button" ref={menuTrigger} type="button" aria-label={m.more} aria-expanded={menu} onClick={() => setMenu(value => !value)}><KnowledgeIcon name="more" /></button></Header>
     {menu && <div className="knowledge-inline-menu"><button type="button" onClick={onSource}>{m.source}</button>{onShare && <button type="button" onClick={onShare}>{m.share}</button>}<button type="button" onClick={closeMenu}>{m.close}</button></div>}
     <div className="knowledge-visibility"><KnowledgeIcon name={record.visibility === 'public' ? 'globe' : 'lock'} />{record.visibility === 'public' ? m.published : record.visibility === 'selected' ? m.selected : m.private}</div>
-    <div className="knowledge-gallery">{[...record.media].sort((a, b) => a.position - b.position).map(media => <KnowledgeMediaView key={media.id} media={media} description={title} onRetry={onRetryMedia} loadMedia={loadMedia} />)}</div>
+    <div className="knowledge-gallery">{[...record.media].sort((a, b) => a.position - b.position).map(media => <KnowledgeMediaView key={media.id} media={media} description={title} active={active} onRetry={onRetryMedia} loadMedia={loadMedia} />)}</div>
     <h3 className="knowledge-detail-title">{title || m.experience}</h3>{body.length > 0 && <p className="knowledge-body">{body.join('\n')}</p>}
     <RecordIdentity record={record} timeZone={timeZone} center={center} /><RecordTags record={record} topicLabel={topicLabel} />
     <nav className="knowledge-related" aria-label="投稿の関連情報">
@@ -137,14 +147,14 @@ export function KnowledgeDetailView({ record, timeZone, center, onBack, onPlace,
   </article>;
 }
 
-export function KnowledgePlaceView({ name, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loadMedia }: {
+export function KnowledgePlaceView({ name, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loadMedia, active = true }: {
   name: string; records: KnowledgeRecord[]; totalCount: number; timeZone: string;
-  onClose: () => void; onVoices: () => void; onOpen: (id: string) => void; error?: string | null; loadMedia?: KnowledgeMediaLoader;
+  onClose: () => void; onVoices: () => void; onOpen: (id: string) => void; error?: string | null; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
   const photo = records.flatMap(record => record.media).find(media => media.kind === 'photo' && media.status === 'ready');
   return <section className="knowledge-panel knowledge-local" data-testid="local-knowledge--place-sheet">
     <div className="knowledge-place-title"><h2>{name}</h2><IconButton icon="close" label="場所シートを閉じる" onClick={onClose} /></div><p className="knowledge-voice-count">{m.voice}　<output>{totalCount}件</output></p>
-    {photo && <KnowledgeMediaView media={photo} description={`${name}に投稿された写真`} loadMedia={loadMedia} />}
+    {photo && <KnowledgeMediaView media={photo} description={`${name}に投稿された写真`} active={active} loadMedia={loadMedia} />}
     <KnowledgeStatus error={error} empty={totalCount === 0} />
     <ul className="knowledge-voices">{records.slice(0, 2).map(record => <li key={record.id}><KnowledgeAvatar src={record.person.iconPath} name={record.person.displayName} /><button type="button" onClick={() => onOpen(record.id)}><span>{record.person.displayName}・{formatKnowledgeDate(record.effectiveAt, timeZone)}</span><strong>「{record.body}」</strong></button></li>)}</ul>
     <button className="knowledge-voices-button" type="button" onClick={onVoices}>{m.voicesOpen}<KnowledgeIcon name="chevron" /></button>

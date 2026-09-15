@@ -147,6 +147,6 @@ function ThemeEditScreen({ route, navigate, back, scopeKey, active = true }: Scr
 }
 
 export const screens: ScreenDefinition[] = [
-  { id: 'themes', title: 'わたしの地図', component: ThemesScreen, layout: { header: 'back', bottomNav: false, background: 'surface' } },
-  { id: 'theme-edit', title: m.edit, component: ThemeEditScreen, layout: { header: 'back', bottomNav: false, background: 'surface' } },
+  { id: 'themes', title: 'わたしの地図', component: ThemesScreen, layout: { header: 'back', contentPadding: 'none', bottomNav: false, background: 'surface' } },
+  { id: 'theme-edit', title: m.edit, component: ThemeEditScreen, layout: { header: 'back', contentPadding: 'none', bottomNav: false, background: 'surface' } },
 ];

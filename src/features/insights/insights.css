@@ -130,3 +130,6 @@
   .insight-section-row { flex-wrap: wrap; }
 }
 @media (prefers-reduced-motion: reduce) { .insights-ui *, .themes-ui * { scroll-behavior: auto !important; } }
+
+.insight-page-header { display: flex; align-items: center; height: 60px; padding: 0 16px; background: rgba(239,247,247,.86); }
+.insight-page-header button { display: grid; place-items: center; width: 44px; height: 44px; padding: 10px; border: 0; background: transparent; color: #123a46; cursor: pointer; }

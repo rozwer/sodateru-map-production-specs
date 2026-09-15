@@ -4,9 +4,9 @@ import { KnowledgeIcon } from './Icon';
 import type { KnowledgeMedia } from './types';
 
 export type KnowledgeMediaLoader = (media: KnowledgeMedia, signal: AbortSignal) => Promise<Blob>;
-export function KnowledgeMediaView({ media, description, compact = false, onRetry, loadMedia }: {
+export function KnowledgeMediaView({ media, description, compact = false, onRetry, loadMedia, active = true }: {
   media: KnowledgeMedia; description: string; compact?: boolean;
-  onRetry?: (id: string) => Promise<void>; loadMedia?: KnowledgeMediaLoader;
+  onRetry?: (id: string) => Promise<void>; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   const [retry, setRetry] = useState(0);
@@ -22,7 +22,7 @@ export function KnowledgeMediaView({ media, description, compact = false, onRetr
   useEffect(() => { setFailed(false); setPlaying(false); }, [media.id, media.contentUrl, media.status]);
   useEffect(() => {
     setResolvedUrl(null);
-    if (!loadMedia || media.status !== 'ready') return;
+    if (!active || !loadMedia || media.status !== 'ready') return;
     const controller = new AbortController();
     let url: string | null = null;
     void loadMedia(media, controller.signal).then(blob => {
@@ -30,13 +30,14 @@ export function KnowledgeMediaView({ media, description, compact = false, onRetr
       url = URL.createObjectURL(blob); setResolvedUrl(url); setFailed(false);
     }).catch(() => { if (!controller.signal.aborted) setFailed(true); });
     return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
-  }, [loadMedia, media.id, media.status, media.contentUrl, retry]);
+  }, [active, loadMedia, media.id, media.status, media.contentUrl, retry]);
   const retryMedia = async () => {
     setRetrying(true);
     try { await onRetry?.(media.id); setFailed(false); setRetry(value => value + 1); }
     catch { setFailed(true); }
     finally { setRetrying(false); }
   };
+  if (!active) return <div className={`knowledge-media knowledge-media-state ${compact ? 'is-compact' : ''}`} />;
   if (failed || media.status !== 'ready' || !media.contentUrl) {
     return <div className={`knowledge-media knowledge-media-state ${compact ? 'is-compact' : ''}`} role="status">
       <span>{media.status === 'pending' && !failed ? m.mediaPending : m.mediaFailure}</span>

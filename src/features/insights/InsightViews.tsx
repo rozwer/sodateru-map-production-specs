@@ -22,6 +22,10 @@ export function InsightGlyph({ name, className = '' }: { name: InsightIcon | 'ar
   return <svg className={`insight-glyph ${className}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>;
 }
 
+export function InsightBackHeader({ onBack }: { onBack: () => void }) {
+  return <header className="insight-page-header"><button type="button" aria-label="戻る" onClick={onBack}><InsightGlyph name="back"/></button></header>;
+}
+
 export function InsightPhoto({ src, alt }: { src?: string | null; alt: string }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
   return src && failedSrc !== src ? <img src={src} alt={alt} loading="lazy" onError={() => setFailedSrc(src)} />

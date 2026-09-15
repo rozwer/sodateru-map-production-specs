@@ -24,6 +24,9 @@ export function MapCompanion({ scopeKey, onActivate, active = true }: { scopeKey
     })().catch(error => { if (!controller.signal.aborted) setError(error instanceof Error ? error.message : '相棒を読み込めませんでした。'); });
     return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
   }, [scopeKey, revision, active]);
-  if (error) return <div className="companion-map-error" role="status">相棒を表示できません。相棒の管理から再確認できます。</div>;
-  return pet ? <button type="button" className={`companion-map companion-map--${pet.size}`} aria-label={`${pet.name}と話す`} onClick={onActivate}><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={pet.reducedMotion}/></button> : null;
+  if (!active) return null;
+  return pet ? <button type="button" className={`companion-map companion-map--${pet.size}`} aria-label={`${pet.name}と話す`} onClick={onActivate}><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={pet.reducedMotion}/></button> : <>
+    {error && <div className="companion-map-error" role="status">相棒を表示できません。相棒の管理から再確認できます。</div>}
+    <button type="button" className="companion-map companion-map--ai" aria-label="AIと話す" onClick={onActivate}>AI</button>
+  </>;
 }
