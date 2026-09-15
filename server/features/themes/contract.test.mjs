@@ -25,3 +25,9 @@ test('memo extension retains long ordinary record body while presentation memo i
   assert.equal(check({...record,body:'休みたい',memo}),true,JSON.stringify(check.errors));
   assert.equal(check({...record,body:'休みたい',kind:'experience',memo}),false);
 });
+test('name adoption requires a confirmed run attempt/version and permits bounded personal edits',()=>{
+  const check=validator('ThemeNameAdoption');
+  assert.equal(check({runId:'run',expectedAttempt:1,expectedRunVersion:2,name:'本人の名前',description:''}),true);
+  assert.equal(check({runId:'run',expectedAttempt:1}),false);
+  assert.equal(check({runId:'run',expectedAttempt:1,expectedRunVersion:2,name:'あ'.repeat(21)}),false);
+});
