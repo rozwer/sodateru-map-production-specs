@@ -59,3 +59,7 @@ Only configured provider credentials are inherited; evidence contains no secrets
 - [NEXCO highway entry guidance](https://www.c-nexco.co.jp/safety/safety_drive/pdf/safety_drive01.pdf): Japan motorway exclusion for mopeds/125cc-or-less. This narrows an OSM-object assessment; it does not certify a Mapbox route.
 
 OSM geometry and tags retain OpenStreetMap contributor attribution and ODbL source links. Provider keys and profile credentials are never stored in evidence.
+
+## 区間結果の部分評価・保存（#91、先行差分）
+
+[segment-snapshot.md](segment-snapshot.md): warning 208の要求適用状態と、同一形状の全52edgeに基づくmotorway結果検証を分離。実取得済み応答のSQLite保存・別OSプロセスHTTP再取得を確認。共通Valhalla境界と日本の車種/高速条件全体は未達。
