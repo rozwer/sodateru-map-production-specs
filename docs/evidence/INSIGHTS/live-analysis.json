@@ -1,0 +1,37 @@
+{
+  "requestId": "2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+  "model": "gpt-5.6-luna",
+  "status": "complete",
+  "durationMs": 26366,
+  "conversationId": "live-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+  "userMessageId": "u-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+  "assistantMessageId": "a-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+  "attempt": 1,
+  "version": 3,
+  "promptVersion": "insights-analysis-1",
+  "sourceRefs": [
+    {
+      "type": "record",
+      "id": "record-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+      "version": 1
+    }
+  ],
+  "result": {
+    "summary": "観測として、2026-09-01に「本を見つけた」「カフェで過ごした」「公園を歩いた」「友人と話した」と本人が記録しています。計算済みの集計では、この対象期間にnature・books・cafe・walk・socialの各体験が1日中1日（1/1）記録されています。これはこの一日に記録された出来事の集計であり、本人の好みや固定的な人格、継続的な傾向を示すものではありません。推定できる検証済みの傾向はなく、本人も「まだ一日だけなので保留」としています。",
+    "evidenceIds": [
+      "record-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d"
+    ],
+    "unknowns": [
+      "各体験にどの程度満足したか、また好んでいるかは不明です。",
+      "体験の時間・頻度・順序や、互いの関係は不明です。",
+      "別の日にも同じ体験があるか、継続的な傾向かは不明です。",
+      "これらの体験から人格や一般的な行動傾向を判断することはできません。"
+    ]
+  },
+  "insightId": "a-2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d",
+  "axesPreserved": true,
+  "reviewPreserved": "unsure",
+  "restartResultEqual": true,
+  "userBodyEqual": true,
+  "databaseDirectory": "/Users/kmattsun/Documents/01_Workspace/sodateru-map-production-specs-insights-demo/.local/insights-live-acceptance/2a2c6943-a6b6-45af-91a7-79c3e4ac3f8d"
+}

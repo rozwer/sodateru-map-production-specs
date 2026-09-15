@@ -57,7 +57,7 @@ export function deriveDailyEvidence(range:StatisticsRange,input:readonly Experie
    }
    if(record.effectiveAt<range.from||record.effectiveAt>=range.to)continue;
    const date=dateInZone(record.effectiveAt,range.timeZone);
-   const statements=[...record.body.split(/[。！!？?\n]+/u).map(quote=>({quote:quote.trim(),field:"body" as const})),
+   const statements=[...record.body.replace(/[^。！!？?\n]*[？?]/gu,"").split(/[。！!\n]+/u).map(quote=>({quote:quote.trim(),field:"body" as const})),
     ...record.activities.map(a=>({quote:a.name.trim(),field:"activities" as const}))].filter(s=>s.quote);
    for(const statement of statements)for(const key of keys){
      const value=classify(statement.quote,statement.field,key);
