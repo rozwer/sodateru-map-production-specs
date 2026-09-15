@@ -33839,7 +33839,7 @@
     "BUILDING-RECORDS",
     "ISSUE-REPAIR-SUPERSESSIONS"
   ],
-  "revision": 238,
+  "revision": 239,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34202,17 +34202,13 @@
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
       "generation": 1,
       "issue_number": 216,
-      "landed_main": null,
+      "landed_main": "c0b446e7a3508da1cfb11692cc744a7fdaab3cc5",
       "note": "docs/evidence/GROW-DATA/README.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/reference-data.ts",
-        "src/features/plugins/assets/",
-        "docs/evidence/GROW-DATA/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "2d4411fede3d8cdc18d82fdbbb2a99907c312b8b",
-      "token": "1f2647d5917042b39f2b044e8cd48a3a"
+      "token": null
     },
     "GROW-UI": {
       "actor": "rozwer",
