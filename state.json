@@ -32837,7 +32837,7 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION"
   ],
-  "revision": 149,
+  "revision": 150,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33187,7 +33187,7 @@
         "docs/evidence/PILGRIMAGE/"
       ],
       "status": "submitted",
-      "submitted_commit": "2fe4965371ba4a9a70971e28cd8a4a6831714cbd",
+      "submitted_commit": "7c10f9e88dec4444752c72851f5365d7fafb208f",
       "token": "389837b8ffac41069b1239fad7e8d964"
     },
     "PLACES": {
