@@ -1,6 +1,6 @@
 {
   "taskId": "REFLECTION",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "schemas": {
     "ReflectionQuestion": {
       "type": "object",
@@ -23,9 +23,16 @@
           ]
         },
         "questionText": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 500
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "sourceRefs": {
           "type": "array",
@@ -100,6 +107,13 @@
         },
         "answerUnavailable": {
           "type": "boolean"
+        },
+        "evidenceState": {
+          "enum": [
+            "current",
+            "changed",
+            "unavailable"
+          ]
         }
       },
       "required": [
@@ -118,9 +132,11 @@
         "answerText",
         "answerVersion",
         "answerRef",
-        "answerUnavailable"
+        "answerUnavailable",
+        "evidenceState"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "生成質問は根拠の現在権限/版を照合し、changed/unavailableではquestionText=null。本人の回答原文と状態は別の正本から保持。"
     },
     "ReflectionQuestionPage": {
       "type": "object",
@@ -360,14 +376,19 @@
         },
         "occurredAt": {
           "$ref": "#/components/schemas/Timestamp"
+        },
+        "expectedAttempt": {
+          "type": "integer",
+          "minimum": 1
         }
       },
       "required": [
         "assistantMessageId",
-        "recordId"
+        "recordId",
+        "expectedAttempt"
       ],
       "additionalProperties": false,
-      "description": "extractはfieldsのみ採用しbodyを書き換えない。diaryは本人確認body、既存はIf-Match、新規はcreate=trueと対象日内occurredAt。"
+      "description": "extractはfieldsのみ採用しbodyを書き換えない。diaryは本人確認body、既存はIf-Match、新規はcreate=trueと対象日内occurredAt。 表示中RunのexpectedAttemptを固定し、採用済み同内容は保存先の現在版を再取得。"
     }
   },
   "operations": [
