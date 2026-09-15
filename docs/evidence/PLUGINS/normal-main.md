@@ -52,21 +52,27 @@ demo投入のために既存UIへ新mock基盤は加えない。本probeは隔�
 - PLUGINS側の登録口変更や新mock版は不要。実2版の提供後に通常HTTP更新→旧版戻し→設定/表示宣言/履歴/再起動保持を確認する。
 - C処理の版管理・通常接続が揃った後、表示側受入をA #144へ明示引継ぎし、ユーザーの最新運用に従ってCの正式finishへ進める。UI未達だけをclaim保持条件へ追加しない。この棚卸し時点ではCの実版成功・地図設定通常接続が残っていた。後述の実2版検証後も地図設定の正式生成が未完なのでfinishしない。
 
-## 実2版の通常HTTP更新・版戻し成功（追加）
+## 訂正後の実2版：通常HTTP更新・版戻し
 
-BIKE PR #260が正式developへ `0e1daa4371ed94bc603044d971631ed983ded2a3` で統合された後、専用branchへ通常mergeして検証した。検証HEADは `342eea235948fbfd47dee30963bc4839e0be763e`。
+旧証拠commit b9c3f5dはPR #260の候補登録gateを版差にしていたため撤回した。今回のversion-roundtrip.jsonは、BIKE PR #266 / 正式merge `5126fac4dbcee54670769ee8abab3a2886fdbd06` の**旧版候補維持・新版区間評価**の定義で置き換えた結果である。旧結果はGit履歴だけに保持し、受入証拠に使わない。
 
-`mise exec -- node docs/evidence/PLUGINS/version-roundtrip.mjs`
+検証HEAD: `f0a3f8503f5cf5c435d52d63f532408eac7b06cb`。`mise exec -- node docs/evidence/PLUGINS/version-roundtrip.mjs`：**16 HTTP操作PASS**。
 
-結果: **16 HTTP操作PASS**。[version-roundtrip.json](version-roundtrip.json)に実manifest・state・履歴を保存。通常main/正式生成OpenAPI/全register/実SQLiteを使い、追加fixture・共通基盤の注入・外部provider呼出しなし。
+通常main/正式生成OpenAPI/全register/実SQLiteを使用し、追加fixture・共通基盤注入・外部provider呼出しなし。
 
-- カタログの最新版1.1.0と旧版1.0.0の登録を確認。本人設定のregion.idを独自値、iconをstarとして旧版導入。
-- HTTP更新で1.1.0、previousVersion=1.0.0、設定/アイコン/installIdを保持。layer:bikeを維持し、feature:bike:place-candidates / enabled=trueの解決済み宣言を追加。同一更新キー再送も同じ現在資源。
-- HTTP版戻しで旧manifest/本人設定/star/layer宣言を完全復元。候補登録宣言は消え、enabled=trueとownerKeyは維持。previousVersion=1.1.0。
-- 保存履歴を別の読み取り専用SQLite接続で確認。revision 1/2/3のpluginVersionは1.0.0/1.1.0/1.0.0。
-- mainを終了し別OSプロセスで同じDB/profileから起動。GET設定/state/履歴が全項目一致し、版戻しPOSTの同一キー再送も現在資源を返す。
-- **demoの導入データが残る時点**でliveへ本人sessionを作成し、liveのstateが空であることを確認。初回#198の削除後比較とは分けた証拠。
+- catalogに実1.0.0/1.1.0。本人地域設定とstarアイコンを指定して旧版導入。
+- HTTP更新1.1.0で本人設定/icon/installId/owner/layer:bikeを保持し、`feature:bike:segment-evidence / enabled=true`を追加。撤回済み`feature:bike:place-candidates`宣言は存在しない。
+- HTTP版戻し1.0.0で旧manifest/本人設定/icon/layer宣言を完全復元。新規区間評価の宣言のみ除去し、enabled/ownerKeyは保持。
+- 別の読み取り専用SQLite接続から履歴revision1/2/3の1.0.0/1.1.0/1.0.0を確認。
+- 別OSプロセスで同じDB/profileを再起動し、HTTP設定/stateとSQL履歴の全項目が一致。同一更新/版戻しキーの再送も現在資源を返す。
+- demo導入が残る時点でliveの本人sessionを作成し、live stateは空。
 
-BIKEの実候補登録/採用が新宣言に連動する処理証拠は [BIKE releases.md](../BIKE/releases.md) とrelease-check.jsonにある（入力地点は明示fixture）。今回の通常main検証では版ごとの宣言と保存保持を確認し、未生成の/bike/place-candidates経由で実地点採用まで成功したとは主張しない。
+### 固有動作証拠との区別
 
-残るC通常接続は/map-settingsの正式生成とowner表示のHTTP照合。現生成では/map-settings・/bike/place-candidatesとも未収録。#3への既依頼を維持し重複依頼なし。C処理完了後の表示受入先はA #144。
+旧1.0.0/rollback後の候補登録・地点採用維持、新版区間評価の保存、新規評価だけunknownへ戻すこと、既存の区間評価GETとSQLite再open保持は、正式#266の [BIKE releases.md](../BIKE/releases.md) / [release-check.json](../BIKE/release-check.json)で確認済み。**その地点・区間入力は明示fixture**であり、今回再実行せず既存の限定証拠を再利用する。
+
+本probeの通常main HTTP証拠は版/設定/適用宣言/履歴/別OS復元の接続差分。通常BIKE実二輪取得や全車種適合の完了を示さない。ROUTES二輪factoryが統合されても通常配線・固有受入はBIKE担当の残件。
+
+### 残件と引継ぎ
+
+Cの通常地図設定接続は/map-settingsの正式生成とowner表示HTTP照合が残る。共通生成はroot保留のため生成・追加依頼・基盤コピーを行わない。C処理が揃えば表示受入をA #144へ明示引継ぎし、UI未達だけをclaim保持条件にせず正式finishへ進める。

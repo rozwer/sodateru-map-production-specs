@@ -71,8 +71,9 @@ try{
   assert.equal(updated.pluginVersion,'1.1.0');assert.equal(updated.previousVersion,'1.0.0');
   assert.deepEqual(updated.settings,initial.settings);assert.equal(updated.icon,'star');assert.equal(updated.installId,initial.installId);
   const upgraded=(await call('/plugin-state')).data;
-  assert.ok(upgraded.plugins[0].resolvedDeclarations.some(d=>d.targetKey==='feature:bike:place-candidates'&&d.property==='enabled'&&d.value===true));
+  assert.ok(upgraded.plugins[0].resolvedDeclarations.some(d=>d.targetKey==='feature:bike:segment-evidence'&&d.property==='enabled'&&d.value===true));
   assert.ok(upgraded.plugins[0].resolvedDeclarations.some(d=>d.targetKey==='layer:bike'));
+  assert.ok(!upgraded.plugins[0].resolvedDeclarations.some(d=>d.targetKey==='feature:bike:place-candidates'),'superseded candidate gate is absent');
   assert.deepEqual((await call('/plugin-settings/bike/update','POST',upgradeBody,initial.version,200,upgradeKey)).data,updated);
   const rollbackBody={confirmed:true,stateRevision:upgraded.revision},rollbackKey=randomUUID();
   const reverted=(await call('/plugin-settings/bike/rollback','POST',rollbackBody,updated.version,200,rollbackKey)).data;
@@ -92,6 +93,7 @@ try{
   assert.deepEqual(history(initial.installId),savedHistory);
   assert.deepEqual((await call('/plugin-settings/bike/rollback','POST',rollbackBody,updated.version,200,rollbackKey)).data,reverted);
   report.restartMatched=true;
+  report.releaseCorrection={mergeCommit:'5126fac4dbcee54670769ee8abab3a2886fdbd06',newCapability:'feature:bike:segment-evidence',legacyCandidatesPreserved:'BIKE release-check.json confirms common registration/adoption and retained assessment snapshots; its input is explicitly fixture. This probe adds normal-main version/state/history HTTP evidence only.'};
   // Compare modes while the demo installation is still present.
   await call('/session','POST',{profileKey:'self'},undefined,201,randomUUID(),'live');
   assert.equal((await call('/plugin-state','GET',undefined,undefined,200,undefined,'live')).data.items.length,0);

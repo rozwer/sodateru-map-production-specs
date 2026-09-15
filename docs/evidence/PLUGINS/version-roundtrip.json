@@ -1,5 +1,5 @@
 {
-  "baseCommit": "342eea235948fbfd47dee30963bc4839e0be763e",
+  "baseCommit": "f0a3f8503f5cf5c435d52d63f532408eac7b06cb",
   "contractSha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf",
   "entrypoint": "server/app/main.ts",
   "mode": "demo",
@@ -285,7 +285,7 @@
         "author": "育てる地図",
         "pluginVersion": "1.1.0",
         "updatedAt": 1789444800000,
-        "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+        "changeLog": "同一形状の道路区間根拠を照合し、要求適用状態とmotorway部分評価を分けて保存。旧版の共通地点候補・採用は維持。",
         "icon": "motorcycle",
         "settingsSchema": {
           "type": "object",
@@ -377,9 +377,9 @@
         "usageInfo": [
           "道路タグ欠測・車種規制未確認の経路は採用できません。",
           "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
-          "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
-          "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
-          "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+          "1.1.0では共通経路から同一形状の区間根拠が渡された場合、道路クラス・方向・全区間被覆を評価して保存します。",
+          "1.0.0へ戻しても共通地点候補・採用と保存済み評価の再取得は維持します。新規の区間根拠評価は1.1.0で提供します。",
+          "日本の車種・排気量・時間規制の未確認はunknownを維持します。正式な二輪経路の取得口は準備中です。版変更後は新しい検索・操作IDを使用してください。"
         ],
         "sources": [
           {
@@ -400,10 +400,10 @@
     ],
     "initial": {
       "id": "bike",
-      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
       "version": 1,
-      "createdAt": 1789448280994,
-      "updatedAt": 1789448280994,
+      "createdAt": 1789450017161,
+      "updatedAt": 1789450017161,
       "enabled": true,
       "settings": {
         "region": {
@@ -551,10 +551,10 @@
     },
     "updated": {
       "id": "bike",
-      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
       "version": 2,
-      "createdAt": 1789448280994,
-      "updatedAt": 1789448280998,
+      "createdAt": 1789450017161,
+      "updatedAt": 1789450017166,
       "enabled": true,
       "settings": {
         "region": {
@@ -581,7 +581,7 @@
           "value": true
         },
         {
-          "targetKey": "feature:bike:place-candidates",
+          "targetKey": "feature:bike:segment-evidence",
           "property": "enabled",
           "value": true
         }
@@ -594,7 +594,7 @@
         "author": "育てる地図",
         "pluginVersion": "1.1.0",
         "updatedAt": 1789444800000,
-        "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+        "changeLog": "同一形状の道路区間根拠を照合し、要求適用状態とmotorway部分評価を分けて保存。旧版の共通地点候補・採用は維持。",
         "icon": "motorcycle",
         "settingsSchema": {
           "type": "object",
@@ -686,9 +686,9 @@
         "usageInfo": [
           "道路タグ欠測・車種規制未確認の経路は採用できません。",
           "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
-          "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
-          "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
-          "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+          "1.1.0では共通経路から同一形状の区間根拠が渡された場合、道路クラス・方向・全区間被覆を評価して保存します。",
+          "1.0.0へ戻しても共通地点候補・採用と保存済み評価の再取得は維持します。新規の区間根拠評価は1.1.0で提供します。",
+          "日本の車種・排気量・時間規制の未確認はunknownを維持します。正式な二輪経路の取得口は準備中です。版変更後は新しい検索・操作IDを使用してください。"
         ],
         "sources": [
           {
@@ -710,10 +710,10 @@
     },
     "reverted": {
       "id": "bike",
-      "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+      "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
       "version": 3,
-      "createdAt": 1789448280994,
-      "updatedAt": 1789448281004,
+      "createdAt": 1789450017161,
+      "updatedAt": 1789450017173,
       "enabled": true,
       "settings": {
         "region": {
@@ -860,16 +860,16 @@
       "previousVersion": "1.1.0"
     },
     "before": {
-      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "personId": "6274cc41-cfaa-44e4-872e-eeb93a6c90e3",
       "dataMode": "demo",
-      "revision": "4fd56c51025a2906369dfe7ff34182a6a2a97ac7fddf0fca74e8d61a7787a5b6",
+      "revision": "92a56d9f7519e8353a69f26ed6ba8aea242859beb50f59e52438570f7ae31242",
       "items": [
         {
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 1,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448280994,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017161,
           "enabled": true,
           "settings": {
             "region": {
@@ -1030,8 +1030,8 @@
       "plugins": [
         {
           "pluginId": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
-          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
+          "ownerKey": "plugin:8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "installedVersion": "1.0.0",
           "version": 1,
           "enabled": true,
@@ -1048,16 +1048,16 @@
       ]
     },
     "upgraded": {
-      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "personId": "6274cc41-cfaa-44e4-872e-eeb93a6c90e3",
       "dataMode": "demo",
-      "revision": "6e3b67d0339281a0a9f610c6573619e42dccc22b4dc7f7a6ade3f4ac91c50325",
+      "revision": "f144e2963b7c861b8eb34ec11b8e2ff65aba84b4bc575287e126124aff450240",
       "items": [
         {
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 2,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448280998,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017166,
           "enabled": true,
           "settings": {
             "region": {
@@ -1084,7 +1084,7 @@
               "value": true
             },
             {
-              "targetKey": "feature:bike:place-candidates",
+              "targetKey": "feature:bike:segment-evidence",
               "property": "enabled",
               "value": true
             }
@@ -1097,7 +1097,7 @@
             "author": "育てる地図",
             "pluginVersion": "1.1.0",
             "updatedAt": 1789444800000,
-            "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+            "changeLog": "同一形状の道路区間根拠を照合し、要求適用状態とmotorway部分評価を分けて保存。旧版の共通地点候補・採用は維持。",
             "icon": "motorcycle",
             "settingsSchema": {
               "type": "object",
@@ -1189,9 +1189,9 @@
             "usageInfo": [
               "道路タグ欠測・車種規制未確認の経路は採用できません。",
               "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
-              "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
-              "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
-              "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+              "1.1.0では共通経路から同一形状の区間根拠が渡された場合、道路クラス・方向・全区間被覆を評価して保存します。",
+              "1.0.0へ戻しても共通地点候補・採用と保存済み評価の再取得は維持します。新規の区間根拠評価は1.1.0で提供します。",
+              "日本の車種・排気量・時間規制の未確認はunknownを維持します。正式な二輪経路の取得口は準備中です。版変更後は新しい検索・操作IDを使用してください。"
             ],
             "sources": [
               {
@@ -1221,7 +1221,7 @@
           "pluginVersion": "1.1.0"
         },
         {
-          "targetKey": "feature:bike:place-candidates",
+          "targetKey": "feature:bike:segment-evidence",
           "property": "enabled",
           "value": true,
           "pluginId": "bike",
@@ -1233,8 +1233,8 @@
       "plugins": [
         {
           "pluginId": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
-          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
+          "ownerKey": "plugin:8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "installedVersion": "1.1.0",
           "version": 2,
           "enabled": true,
@@ -1247,7 +1247,7 @@
               "pluginVersion": "1.1.0"
             },
             {
-              "targetKey": "feature:bike:place-candidates",
+              "targetKey": "feature:bike:segment-evidence",
               "property": "enabled",
               "value": true,
               "pluginId": "bike",
@@ -1258,16 +1258,16 @@
       ]
     },
     "rolledBack": {
-      "personId": "d768e523-722b-4fcf-a1e9-955e2034701c",
+      "personId": "6274cc41-cfaa-44e4-872e-eeb93a6c90e3",
       "dataMode": "demo",
-      "revision": "6a8b0879443b829b93cf621eab1a0de1accca516e486cccf2435f8a4a355875a",
+      "revision": "65fb5865d23ec8da83e43491bbd4e73b8d6af55858d0bb857bc94b49a61eaf75",
       "items": [
         {
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 3,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448281004,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017173,
           "enabled": true,
           "settings": {
             "region": {
@@ -1428,8 +1428,8 @@
       "plugins": [
         {
           "pluginId": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
-          "ownerKey": "plugin:770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
+          "ownerKey": "plugin:8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "installedVersion": "1.0.0",
           "version": 3,
           "enabled": true,
@@ -1592,10 +1592,10 @@
             }
           ],
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 1,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448280994,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017161,
           "enabled": true,
           "previousVersion": null
         }
@@ -1604,10 +1604,10 @@
         "revision": 2,
         "snapshot": {
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 2,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448280998,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017166,
           "enabled": true,
           "settings": {
             "region": {
@@ -1634,7 +1634,7 @@
               "value": true
             },
             {
-              "targetKey": "feature:bike:place-candidates",
+              "targetKey": "feature:bike:segment-evidence",
               "property": "enabled",
               "value": true
             }
@@ -1647,7 +1647,7 @@
             "author": "育てる地図",
             "pluginVersion": "1.1.0",
             "updatedAt": 1789444800000,
-            "changeLog": "実地点を共通地点候補へ登録し、出典を保った地点採用に接続。旧版への復帰後も保存済み検索・採用済み地点を保持。",
+            "changeLog": "同一形状の道路区間根拠を照合し、要求適用状態とmotorway部分評価を分けて保存。旧版の共通地点候補・採用は維持。",
             "icon": "motorcycle",
             "settingsSchema": {
               "type": "object",
@@ -1739,9 +1739,9 @@
             "usageInfo": [
               "道路タグ欠測・車種規制未確認の経路は採用できません。",
               "検索範囲は緯度・経度各0.5度以内。出典と更新時刻を表示します。",
-              "1.1.0では保存済みの実検索から共通地点候補を開き、地点として採用できます。",
-              "1.0.0へ戻すと新しい共通候補の登録を停止します。保存済み検索・採用済み地点は削除しません。",
-              "発行済み共通候補はPLACESの期限に従います。版の更新・復帰後は新しい検索と操作IDを使用してください。"
+              "1.1.0では共通経路から同一形状の区間根拠が渡された場合、道路クラス・方向・全区間被覆を評価して保存します。",
+              "1.0.0へ戻しても共通地点候補・採用と保存済み評価の再取得は維持します。新規の区間根拠評価は1.1.0で提供します。",
+              "日本の車種・排気量・時間規制の未確認はunknownを維持します。正式な二輪経路の取得口は準備中です。版変更後は新しい検索・操作IDを使用してください。"
             ],
             "sources": [
               {
@@ -1766,10 +1766,10 @@
         "revision": 3,
         "snapshot": {
           "id": "bike",
-          "installId": "770f5934-639f-44f9-ac2a-ef92113d2ed9",
+          "installId": "8dda0880-81a6-4b77-98b0-3b949a1d9eb3",
           "version": 3,
-          "createdAt": 1789448280994,
-          "updatedAt": 1789448281004,
+          "createdAt": 1789450017161,
+          "updatedAt": 1789450017173,
           "enabled": true,
           "settings": {
             "region": {
@@ -1920,5 +1920,10 @@
   },
   "passed": true,
   "restartMatched": true,
+  "releaseCorrection": {
+    "mergeCommit": "5126fac4dbcee54670769ee8abab3a2886fdbd06",
+    "newCapability": "feature:bike:segment-evidence",
+    "legacyCandidatesPreserved": "BIKE release-check.json confirms common registration/adoption and retained assessment snapshots; its input is explicitly fixture. This probe adds normal-main version/state/history HTTP evidence only."
+  },
   "modeSeparationWithNonemptyDemo": true
 }
