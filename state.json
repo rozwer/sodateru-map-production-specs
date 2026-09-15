@@ -33969,7 +33969,7 @@
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE"
   ],
-  "revision": 263,
+  "revision": 264,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34563,19 +34563,17 @@
       "token": "30a5c79a3d5d495a805dd2040d30d824"
     },
     "QA-DISASTER-GROW": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 217,
       "landed_main": null,
-      "note": null,
+      "note": "独立QAを終了。PR230/238/256統合済み。記録保存・防災主要操作の証拠と未確認項目はdocs/evidence/QA-DISASTER-GROW/final.md。全面受入は未完了のためIssue217をopenで残す。worktreeと証拠を保持。",
       "owner": "rozwer",
-      "paths": [
-        "docs/evidence/QA-DISASTER-GROW/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "52fe4d4e5e324d5884d98129e94ce9a7"
+      "token": null
     },
     "QA-VISUAL": {
       "actor": "rozwer",
