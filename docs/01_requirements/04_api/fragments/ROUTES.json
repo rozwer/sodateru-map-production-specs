@@ -1,6 +1,6 @@
 {
   "taskId": "ROUTES",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "replaceSchemas": [
     "RouteSearchInput",
     "RouteSearchResult",
@@ -269,6 +269,15 @@
             "storable",
             "temporary"
           ]
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
         }
       },
       "required": [
@@ -428,6 +437,15 @@
             "storable",
             "temporary"
           ]
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
         }
       },
       "required": [
@@ -660,6 +678,15 @@
           "type": "integer",
           "minimum": 0,
           "description": "更新日時。UTC Unixミリ秒"
+        },
+        "requestedConditions": {
+          "$ref": "#/components/schemas/RouteConditions"
+        },
+        "conditionEvaluations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/RouteConditionEvaluation"
+          }
         }
       },
       "required": [
@@ -778,9 +805,64 @@
         "stayDurationSec": {
           "type": "integer",
           "minimum": 0
+        },
+        "avoidMotorways": {
+          "type": "boolean",
+          "description": "drivingのみ。全区間にexclude=motorwayを指定し、provider違反通知・道路分類を検査。違反は採用不可。"
         }
       },
-      "description": "指定条件を黙って除外しない。取得根拠を返せない条件は501 MODE_UNSUPPORTED。基本提供では未指定またはfalse/空配列のみ。時刻0を含む時刻指定も未対応として拒否する。"
+      "description": "指定条件を黙って除外しない。avoidMotorwaysはdrivingの実provider評価に対応。他の有効な条件指定は501 MODE_UNSUPPORTED。日時はUTC Unixミリ秒。"
+    },
+    "RouteComparisonResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/components/schemas/RouteSearchResult"
+          }
+        }
+      }
+    },
+    "RouteConditionEvaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "status",
+        "reason",
+        "provider",
+        "sourceUrl",
+        "fetchedAt"
+      ],
+      "properties": {
+        "key": {
+          "const": "avoidMotorways"
+        },
+        "status": {
+          "const": "applied"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "provider": {
+          "const": "mapbox-directions"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "fetchedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     }
   },
   "operations": [
@@ -799,6 +881,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1035,10 +1120,7 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01",
-        "Q02"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-05",
       "requestBody": {
         "required": true,
@@ -1068,6 +1150,15 @@
           }
         }
       },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
     },
     {
@@ -1088,6 +1179,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1126,11 +1220,18 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-06",
       "x-sort": "updatedAt DESC, id DESC",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
     },
     {
@@ -1148,6 +1249,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1416,10 +1520,7 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01",
-        "Q02"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-07",
       "requestBody": {
         "required": true,
@@ -1436,6 +1537,15 @@
           }
         }
       },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
     },
     {
@@ -1453,6 +1563,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1491,10 +1604,17 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-08",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
     },
     {
@@ -1515,6 +1635,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1562,9 +1685,7 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-09",
       "requestBody": {
         "required": true,
@@ -1579,6 +1700,15 @@
           }
         }
       },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
     },
     {
@@ -1599,6 +1729,9 @@
         },
         {
           "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
         }
       ],
       "responses": {
@@ -1643,11 +1776,76 @@
         }
       },
       "x-open-questions": [],
-      "x-common-open-questions": [
-        "Q01"
-      ],
+      "x-common-open-questions": [],
       "x-api-id": "05-10",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
       "replaceOperation": true
+    },
+    {
+      "method": "post",
+      "path": "/route-comparisons",
+      "operationId": "postRouteComparisons",
+      "summary": "同じ地点順の全行程を最大3候補で比較",
+      "description": "各provider応答の代替経路を全区間結合し形状の重複を除く。各項目のresultIdを既存ルート保存へ渡す。候補が1件しかない場合も水増ししない。未対応条件は501で拒否する。",
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RouteSearchInput"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "全行程候補",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/RouteComparisonResult"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "501": {
+          "description": "指定条件・移動種別が未対応"
+        }
+      }
     }
   ],
   "x-deliveries": {

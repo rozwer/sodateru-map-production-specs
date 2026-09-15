@@ -42,7 +42,7 @@ export function placesBoundary(db: DatabaseSync): PlacesBoundary {
         const id = `route-place-${createHash('sha256').update(JSON.stringify([context.personId, context.dataMode, input.resultId, input.candidateId])).digest('hex').slice(0, 48)}`;
         const { place } = placesService.adopt(context, db, { id, mode: 'candidate', resultId: input.resultId, candidateId: input.candidateId });
         if (!samePoint(place.coordinates, ref.waypoint.coordinates) || place.name !== ref.waypoint.name) throw new RouteFault('INPUT_CHANGED', '採用する場所が変更されています', 409);
-        result.waypoints[i].placeId = place.id;
+        result.waypoints[i]!.placeId = place.id;
       });
       return result;
     },

@@ -1,3 +1,5 @@
+import { requireVersion } from '../../core/errors.ts';
+import { savedRouteDto } from './dto.ts';
 import { createHash, randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import type { RequestContext } from '../../core/context.ts';
@@ -30,11 +32,11 @@ export function validateRouteInput(input: RouteInput) {
     else throw new RouteFault('INVALID_INPUT', '地点の種類が不正です');
   }
   if (input.conditions !== undefined) {
-    allowed(input.conditions, ['departAt', 'returnBy', 'avoidStairs', 'preferCovered', 'transitPassIds', 'stayDurationSec']);
+    allowed(input.conditions, ['avoidMotorways', 'departAt', 'returnBy', 'avoidStairs', 'preferCovered', 'transitPassIds', 'stayDurationSec']);
     const c = input.conditions;
-    if ((c.avoidStairs !== undefined && typeof c.avoidStairs !== 'boolean') || (c.preferCovered !== undefined && typeof c.preferCovered !== 'boolean') || (c.transitPassIds !== undefined && (!Array.isArray(c.transitPassIds) || c.transitPassIds.length > 100 || c.transitPassIds.some(id => !text(id, 80))))) throw new RouteFault('INVALID_INPUT', '経路条件が不正です');
+    if ((c.avoidMotorways !== undefined && typeof c.avoidMotorways !== 'boolean') || (c.avoidStairs !== undefined && typeof c.avoidStairs !== 'boolean') || (c.preferCovered !== undefined && typeof c.preferCovered !== 'boolean') || (c.transitPassIds !== undefined && (!Array.isArray(c.transitPassIds) || c.transitPassIds.length > 100 || c.transitPassIds.some(id => !text(id, 80))))) throw new RouteFault('INVALID_INPUT', '経路条件が不正です');
     for (const key of ['departAt', 'returnBy', 'stayDurationSec'] as const) if (c[key] !== undefined && (!Number.isSafeInteger(c[key]) || c[key]! < 0)) throw new RouteFault('INVALID_INPUT', '時刻・滞在時間が不正です');
-    const requested = Object.entries(c).filter(([,v]) => Array.isArray(v) ? v.length > 0 : v !== false).map(([k]) => k);
+    const requested = Object.entries(c).filter(([k,v]) => k !== 'avoidMotorways' && (Array.isArray(v) ? v.length > 0 : v !== false)).map(([k]) => k);
     if (requested.length) throw new RouteFault('MODE_UNSUPPORTED', '指定条件の取得根拠を返せるproviderが未接続です', 501, { unsupportedConditions: requested, applied: false });
   }
 }
@@ -46,6 +48,12 @@ export class RoutesService {
     this.previews = previewsByDb.get(db)!;
   }
   async previewRoute(context: RequestContext, input: RouteInput): Promise<RoutePreview> {
+    return (await this.calculate(context, input, false))[0]!;
+  }
+  async compareRoutes(context: RequestContext, input: RouteInput): Promise<RoutePreview[]> {
+    return this.calculate(context, input, true);
+  }
+  private async calculate(context: RequestContext, input: RouteInput, compare: boolean): Promise<RoutePreview[]> {
     validateRouteInput(input); cancelled(context);
     if (input.mode !== 'walking' && input.mode !== 'driving') throw new RouteFault('MODE_UNSUPPORTED', 'この道路契約で未対応の移動手段です', 501);
     const references: unknown[] = [];
@@ -58,13 +66,14 @@ export class RoutesService {
       if (resolved.retention === 'temporary') retention = 'temporary';
       return resolved.waypoint;
     });
-    const route = await this.provider.route(waypoints.map(w => w.coordinates), input.mode, context.signal, true);
+    const points = waypoints.map(w => w.coordinates);
+    const routes = compare ? await this.provider.compare(points, input.mode, context.signal, input.conditions) : [await this.provider.route(points, input.mode, context.signal, true, undefined, input.conditions)];
     cancelled(context);
     this.places?.revalidate(context, references.filter(r => r !== null));
-    const preview: RoutePreview = { ...route, previewId: randomUUID(), waypoints, mode: input.mode, expiresAt: route.fetchedAt + 900_000, retention };
+    const previews = routes.map(route => ({ ...route, previewId: randomUUID(), waypoints, mode: input.mode, expiresAt: route.fetchedAt + 900_000, retention } satisfies RoutePreview));
     for (const [key, value] of this.previews) if (value.preview.expiresAt <= Date.now()) this.previews.delete(key);
-    this.previews.set(preview.previewId, { personId: context.personId, dataMode: context.dataMode, preview: structuredClone(preview), references });
-    return preview;
+    for (const preview of previews) this.previews.set(preview.previewId, { personId: context.personId, dataMode: context.dataMode, preview: structuredClone(preview), references });
+    return previews;
   }
   revalidatePreview(context: RequestContext, previewId: string, forSave = false): RoutePreview {
     requireId(previewId); cancelled(context);
@@ -101,13 +110,8 @@ export class RoutesService {
   }
   private storedValues(p: RoutePreview) {
     const points = p.waypoints.map(w => ({ lng: w.coordinates[0], lat: w.coordinates[1], name: w.name, ...(w.placeId ? { placeId: w.placeId } : {}) }));
-    const route = { mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
+    const route = { ...(p.requestedConditions ? { requestedConditions: p.requestedConditions, conditionEvaluations: p.conditionEvaluations } : {}), mode: p.mode, geometry: p.geometry, legs: p.legs.map(l => ({ ...l, mode: p.mode, from: points[l.fromIndex], to: points[l.toIndex] })) };
     return [JSON.stringify(points), JSON.stringify(route), p.distanceM, p.durationSec, p.provider, sourceUrl, p.fetchedAt] as const;
-  }
-  private dto(row: any): SavedRoute {
-    const points = JSON.parse(row.waypoints_json), route = JSON.parse(row.route_json);
-    return { id: row.id, personId: row.person_id, title: row.title, waypoints: points.map((p: any) => ({ coordinates: [p.lng, p.lat], name: p.name ?? p.placeId ?? `${p.lng},${p.lat}`, placeId: p.placeId ?? null })), mode: route.mode ?? route.legs[0].mode,
-      legs: route.legs.map((l: any, i: number) => ({ fromIndex: l.fromIndex ?? i, toIndex: l.toIndex ?? i + 1, geometry: l.geometry, distanceM: l.distanceM, durationSec: l.durationSec, ...(l.steps ? { steps: l.steps } : {}) })), geometry: route.geometry, distanceM: row.distance_m, durationSec: row.duration_sec, provider: row.provider, sourceUrl: row.source_url, fetchedAt: row.fetched_at, status: row.status, currentLeg: row.current_leg, visibility: row.visibility, sharedWith: JSON.parse(row.shared_with_json), version: row.version, createdAt: row.created_at, updatedAt: row.updated_at };
   }
   getSavedRoute(context: RequestContext, id: string, own = false): SavedRoute {
     requireId(id);
@@ -115,7 +119,7 @@ export class RoutesService {
     if (!row) throw new RouteFault('NOT_FOUND', '保存ルートがありません', 404);
     const owned = row.person_id === context.personId;
     if (!owned && (own || (row.visibility !== 'public' && !(row.visibility === 'selected' && JSON.parse(row.shared_with_json).includes(context.personId))))) throw new RouteFault('NOT_FOUND', '保存ルートがありません', 404);
-    return this.dto(row);
+    return savedRouteDto(row);
   }
   listSavedRoutes(context: RequestContext, input: { limit?: number; cursor?: string } = {}) {
     const limit = input.limit ?? 50;
@@ -129,7 +133,7 @@ export class RoutesService {
       } catch { throw new RouteFault('INVALID_INPUT', 'ページの継続条件が不正です', 400); }
     }
     const rows = (boundary ? this.db.prepare('SELECT * FROM saved_routes WHERE person_id=? AND (updated_at < ? OR (updated_at=? AND id < ?)) ORDER BY updated_at DESC,id DESC LIMIT ?').all(context.personId, boundary[0], boundary[0], boundary[1], limit + 1) : this.db.prepare('SELECT * FROM saved_routes WHERE person_id=? ORDER BY updated_at DESC,id DESC LIMIT ?').all(context.personId, limit + 1)) as any[];
-    const items = rows.slice(0, limit).map(r => this.dto(r));
+    const items = rows.slice(0, limit).map(r => savedRouteDto(r));
     const last = items.at(-1);
     return { items, nextCursor: rows.length > limit && last ? Buffer.from(JSON.stringify({ personId: context.personId, dataMode: context.dataMode, limit, updatedAt: last.updatedAt, id: last.id })).toString('base64url') : null };
   }
@@ -141,7 +145,7 @@ export class RoutesService {
     return this.atomic(() => {
       cancelled(context);
       const current = this.getSavedRoute(context, id, true);
-      this.requireVersion(current.version, expectedVersion);
+      requireVersion(current.version, expectedVersion);
       const next = { ...current, ...patch };
       if (!['private', 'selected', 'public'].includes(next.visibility) || !Array.isArray(next.sharedWith) || next.sharedWith.length > 100 || next.sharedWith.some(p => !text(p, 80)) || new Set(next.sharedWith).size !== next.sharedWith.length || (next.visibility === 'selected' ? next.sharedWith.length === 0 : next.sharedWith.length !== 0)) throw new RouteFault('INVALID_INPUT', '共有範囲と共有先が一致しません');
       for (const person of next.sharedWith) if (!this.db.prepare('SELECT id FROM people WHERE id=?').get(person)) throw new RouteFault('INVALID_INPUT', '共有先の人物が存在しません');
@@ -164,14 +168,10 @@ export class RoutesService {
   deleteRoute(context: RequestContext, id: string, expectedVersion: number) {
     return this.atomic(() => {
       cancelled(context);
-      const current = this.getSavedRoute(context, id, true); this.requireVersion(current.version, expectedVersion);
+      const current = this.getSavedRoute(context, id, true); requireVersion(current.version, expectedVersion);
       this.db.prepare('UPDATE suggestions SET route_id=NULL,version=version+1,updated_at=? WHERE route_id=?').run(Date.now(), id);
       const deleted = this.db.prepare('DELETE FROM saved_routes WHERE id=? AND person_id=? AND version=?').run(id, context.personId, expectedVersion);
       if (!deleted.changes) throw new RouteFault('VERSION_CONFLICT', '保存ルートが更新されています', 412);
     });
-  }
-  private requireVersion(actual: number, expected: number) {
-    if (expected === undefined || expected === null) throw new RouteFault('VERSION_REQUIRED', '保存版を指定してください', 428);
-    if (!Number.isInteger(expected) || actual !== expected) throw new RouteFault('VERSION_CONFLICT', '保存ルートが更新されています', 412);
   }
 }
