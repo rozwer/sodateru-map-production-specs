@@ -4461,7 +4461,7 @@
     "TOOL-ISSUE-COMMENT",
     "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 77,
+  "revision": 78,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4872,18 +4872,13 @@
       "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
       "generation": 1,
       "issue_number": 62,
-      "landed_main": null,
-      "note": "Issue #62: #16 live index old guard rejected 6 upstream paths; patched guard accepts only 2 staged claimed paths; regression fixture verifies upstream merge exclusion, own outside-path rejection, disconnected history rejection; mise run verify passed; git diff --check passed; commit aa9551a",
+      "landed_main": "2332231c26d4b90f7e2463567e0e00863bef5f7c",
+      "note": "PR #63 merged as 57591b1; aa9551a ancestor of origin/develop; full verify passed; affected Issues #6/#8/#9/#10/#12/#13/#15/#16/#18/#19/#20/#25/#27/#32/#34 notified once; UI-SUGGESTIONS #15 committed 53cdbd7 and opened Draft PR #66; #16 preserved changes and stopped on ordinary merge overwrite risk",
       "owner": "rozwer",
-      "paths": [
-        "tools/production_guard.py",
-        "tools/taskctl.py",
-        "tools/test_hooks_guard.py",
-        "tools/test_taskctl.py"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "aa9551a31b71c2c262cc8f24a6133cc6213829ac",
-      "token": "8e4095858566451f89bc04dab3efe8b6"
+      "token": null
     },
     "TOOL-WORKTREE-SETUP": {
       "actor": "rozwer",
