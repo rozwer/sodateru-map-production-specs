@@ -2,6 +2,7 @@ import type { DatabaseSync } from 'node:sqlite';
 import { createRequire } from 'node:module';
 import { Ajv } from 'ajv';
 import { CommonError } from '../../core/errors.ts';
+import { getPerson } from '../../core/session.ts';
 import { defaults, SettingsPatch, PersonPatch, type Preferences, type SavedSettings } from './schema.ts';
 
 const ajv = new Ajv({ allErrors: true, strict: false });
@@ -16,9 +17,7 @@ function match(actual: number, expected: number) {
 }
 
 export function readPerson(db: DatabaseSync, personId: string) {
-  const row = db.prepare('SELECT * FROM people WHERE id = ?').get(personId);
-  if (!row) throw new CommonError('FORBIDDEN', '本人が登録されていません。', false, undefined, 403);
-  return { id: String(row.id), version: Number(row.version), createdAt: Number(row.created_at), updatedAt: Number(row.updated_at), name: String(row.name), bio: String(row.bio), avatarUrl: row.avatar_path === null ? null : String(row.avatar_path) };
+  return getPerson(db, personId);
 }
 
 export function readSettings(db: DatabaseSync, personId: string): SavedSettings {

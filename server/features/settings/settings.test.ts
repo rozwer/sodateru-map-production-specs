@@ -5,7 +5,6 @@ import { tmpdir } from 'node:os';
 import { basename, dirname, join, resolve } from 'node:path';
 import { DatabaseSync } from 'node:sqlite';
 import { assertAiAllowed, isSuggestionAllowed, patchPerson, patchSettings, readPerson, readSettings, resetSettings } from './service.ts';
-import { iconBytes, iconRow, prepareIcon, removeIconFile, setIcon } from './icons.ts';
 import { exportSettingsHtml, ownDataSummary } from './data.ts';
 
 const migration = readFileSync(new URL('../../db/migrations/settings/001-settings.sql', import.meta.url), 'utf8');
@@ -68,7 +67,8 @@ test('settings survive restart, remain isolated, enforce AI and suggestion chang
   } finally { db.close(); demo.close(); cleanup(root); }
 });
 
-test('profile/icon changes retain other records/media and export a readable escaped document', () => {
+test('profile/icon changes retain other records/media and export a readable escaped document', async () => {
+  const { iconBytes, iconRow, prepareIcon, removeIconFile, setIcon } = await import('./icons.ts');
   const root = mkdtempSync(join(tmpdir(), 'settings-icons-'));
   const db = fixture(join(root, 'live.sqlite'));
   try {
@@ -91,7 +91,7 @@ test('profile/icon changes retain other records/media and export a readable esca
     assert.equal(readPerson(db, 'a').name, '<本人>');
     assert.equal(db.prepare('SELECT body FROM records WHERE id=?').get('record-a')?.body, '消さない記録');
     assert.equal(db.prepare('SELECT file_path FROM media WHERE id=?').get('media-a')?.file_path, 'untouched-file');
-    assert.equal(ownDataSummary(db, 'a').categories[2].count, 1);
+    assert.equal(ownDataSummary(db, 'a').categories[2]!.count, 1);
     const html = exportSettingsHtml(db, 'a');
     assert.match(html, /&lt;本人&gt;/);
     assert.match(html, /次回にも残る/);

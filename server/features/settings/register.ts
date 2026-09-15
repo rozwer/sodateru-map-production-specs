@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { defineFeature } from '../../core/features.ts';
 import { CommonError, expectedVersion } from '../../core/errors.ts';
-import { transaction } from '../../db/connection.ts';
+import { transaction } from '../../db/migrate.ts';
 import { patchPerson, patchSettings, readSettings, resetSettings } from './service.ts';
 import { iconBytes, iconRow, MAX_ICON_BYTES, prepareIcon, removeIconFile, setIcon } from './icons.ts';
 import { exportSettingsHtml, ownDataSummary } from './data.ts';
