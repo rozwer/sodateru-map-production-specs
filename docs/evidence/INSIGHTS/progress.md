@@ -1,18 +1,19 @@
 # INSIGHTS 提供状況
 
-## 先行提供: 保存adapter
-- COREの同期transaction/所有者境界を使う比較・分析結果の保存、取得、本人評価、削除。
-- 同一入力の再利用で本人評価を保持。要求ID別名のreceiptも保存し、異なる入力へのID再利用を拒否。
-- INFORMATIONの同期checkSourcesを注入する。変更済み/取得不可の根拠は返さない。
-- register.tsは保存用migrationだけを登録。HTTPとAIの実接続は次の提供で追加する。
-- REFLECTIONからcreateInsightsService(db,{checkSources})を利用できる。
+## 保存adapter
+#34/PR #93で同期保存・本人評価・根拠再検査・migrationを提供済み。#34は分割完了し、後続#101 INSIGHTS-DEMOで実接続を継続。
 
-## 検証
-identity/repository/service/HTTP/analysisの限定テスト成功。SQLite保存・再オープン、所有者/版、参照変更/取得不可、同一要求再利用、外側transactionのrollbackを確認。HTTPとAIのテストはCORE実装と依存fixtureを使い、実INFORMATION/AI接続完了の証拠ではない。
+## #101 今回の接続
+- 実INFORMATION ownMaterials/checkSources/assertSourcesCurrentへ接続。
+- GET /reflection/summary、POST /insights、GET一覧/単体、PATCH本人評価、DELETEをregister.tsで登録。
+- 固定5軸の原文日別判定・暫定名・構造化根拠を契約fragment insights-fixed-five-1に追加。旧軸キーは保存結果の読取互換のみ。
+- AI analysis taskを共通registryへ登録。数値/日別/根拠を保持した説明保存を提供。
 
-## 作業中
-固定5軸（自然、本、カフェ、散歩、人との時間）の明示記録による日別集計と根拠。Summary/POST、統計のfactoryを作成中。実環境接続・契約更新・画面確認は未完。
-ユーザーの30分デモ優先方針により、現Issueの提供範囲と残件を明記して後続Issueへ引き継ぐ。現時点で全受入完了とはしない。
+## 実HTTP証拠
+connected-http.json / server/features/insights/connected-http.test.ts。
+隔離した実SQLite live領域、実CORE/RECORDS/INFORMATION、localhostの実HTTPで、本人session→記録POST→固定5軸summary→insightPOST→unsure理由PATCH→サーバ/DB再オープン→GETで理由保持→冪等再送→元記録訂正→古いinsight 409を確認。
+本を見つけた/カフェで過ごした/公園を歩いた/友人と話したの4文から5軸はいずれも1/1、不明1日。
 
-## guard復旧
-developの#63修正を通常merge、task:verify後のcommit d965a47成功。変更破棄・claim解除・hook回避なし。
+## 未完と限界
+共有UIでの最終表示、実AI providerによる説明生成、活動統計HTTP登録は未完。原文判定は版付き定型表現で、自由文の包括的な意味判定ではない。未対応表現は不明。
+全体tscは共有生成クライアント未反映によるCOMPANION/SUGGESTIONS/THEMES等の型エラーで失敗。今回の実接続HTTP検証は成功。共有契約生成はCORE担当の反映を要する。

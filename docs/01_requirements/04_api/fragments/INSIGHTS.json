@@ -1,9 +1,11 @@
 {
   "taskId": "INSIGHTS",
-  "version": "insights-evidence-1",
+  "version": "insights-fixed-five-1",
   "replaceSchemas": [
     "InsightPatch",
-    "Insight"
+    "Insight",
+    "AnalysisResult",
+    "AnalysisAxis"
   ],
   "schemas": {
     "InsightPatch": {
@@ -217,6 +219,323 @@
       ],
       "additionalProperties": false,
       "description": "保存結果DTO。列の意味は ../01_DB/16_insights.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "AnalysisResult": {
+      "type": "object",
+      "properties": {
+        "axes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/AnalysisAxis"
+          },
+          "minItems": 0,
+          "maxItems": 5
+        },
+        "unknown": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 10000
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "provisionalName": {
+          "type": "string"
+        },
+        "daily": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "type": "string"
+              },
+              "key": {
+                "type": "string",
+                "enum": [
+                  "nature",
+                  "books",
+                  "cafe",
+                  "walk",
+                  "social"
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "recordIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "required": [
+              "date",
+              "key",
+              "value",
+              "recordIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "evidence": {
+          "$ref": "#/components/schemas/InsightStructuredEvidence"
+        }
+      },
+      "required": [
+        "axes",
+        "unknown"
+      ],
+      "additionalProperties": false,
+      "description": "固定5軸 nature/books/cafe/walk/social。新規集計は5軸すべてを返す。旧保存結果の読取互換のため追加根拠項目はoptional。本人の明示記録に限定し、不明日は分母に含めない。"
+    },
+    "InsightStatementEvidence": {
+      "type": "object",
+      "properties": {
+        "recordId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "date": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string",
+          "enum": [
+            "nature",
+            "books",
+            "cafe",
+            "walk",
+            "social"
+          ]
+        },
+        "quote": {
+          "type": "string"
+        },
+        "field": {
+          "type": "string",
+          "enum": [
+            "body",
+            "activities"
+          ]
+        },
+        "value": {
+          "type": "boolean"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          }
+        }
+      },
+      "required": [
+        "recordId",
+        "date",
+        "key",
+        "quote",
+        "field",
+        "value",
+        "sourceRefs"
+      ],
+      "additionalProperties": false
+    },
+    "InsightStructuredEvidence": {
+      "type": "object",
+      "properties": {
+        "selfReports": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/InsightStatementEvidence"
+          }
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "type": "string",
+                "enum": [
+                  "nature",
+                  "books",
+                  "cafe",
+                  "walk",
+                  "social"
+                ]
+              },
+              "text": {
+                "type": "string"
+              },
+              "dates": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "key",
+              "text",
+              "dates"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "inferences": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "evidenceIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "required": [
+              "text",
+              "evidenceIds"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "counterexamples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/InsightStatementEvidence"
+          }
+        },
+        "unknown": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "key": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "nature",
+                      "books",
+                      "cafe",
+                      "walk",
+                      "social"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "date": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "recordIds": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            "required": [
+              "key",
+              "date",
+              "reason",
+              "recordIds"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "selfReports",
+        "observations",
+        "inferences",
+        "counterexamples",
+        "unknown"
+      ],
+      "additionalProperties": false
+    },
+    "AnalysisAxis": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "enum": [
+            "nature",
+            "books",
+            "cafe",
+            "walk",
+            "social",
+            "detour",
+            "newPlace",
+            "rest",
+            "alone",
+            "longStay",
+            "farTrip"
+          ]
+        },
+        "numerator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknownDays": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "key",
+        "numerator",
+        "denominator",
+        "value",
+        "unknownDays"
+      ],
+      "additionalProperties": false,
+      "description": "新規期間分析は自然/本/カフェ/散歩/人との時間の5軸。旧保存結果の読取互換のため旧キーも受理する。"
     }
   },
   "operations": [
@@ -608,6 +927,275 @@
         "Q01"
       ],
       "x-api-id": "04-16"
+    },
+    {
+      "operationId": "getReflectionSummary",
+      "summary": "期間集計",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-1。本を見つけたも本に含む。",
+      "parameters": [
+        {
+          "name": "from",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_timeZone_2"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Summary"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "04-12",
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "path": "/reflection/summary",
+      "method": "get",
+      "replaceOperation": true
+    },
+    {
+      "operationId": "postInsights",
+      "summary": "期間集計の作成",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-1。本を見つけたも本に含む。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/header_Idempotency-Key"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Data-Mode"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Insight"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "200": {
+          "description": "同一入力の既存結果。本人評価を保持する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/Insight"
+                  }
+                },
+                "required": [
+                  "data"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "headers": {
+            "ETag": {
+              "schema": {
+                "type": "string",
+                "pattern": "^\"[1-9][0-9]*\"$"
+              },
+              "description": "単体または複合詳細の主資源の版。"
+            },
+            "Location": {
+              "schema": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500
+              },
+              "description": "作成した単体取得先。提案集合は /api/v1/suggestions?batchId={id}。"
+            },
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postVisits"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [],
+      "x-api-id": "04-18",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "from": {
+                  "$ref": "#/components/schemas/Timestamp"
+                },
+                "to": {
+                  "$ref": "#/components/schemas/Timestamp"
+                },
+                "timeZone": {
+                  "$ref": "#/components/schemas/TimeZone"
+                }
+              },
+              "required": [
+                "id",
+                "from",
+                "to",
+                "timeZone"
+              ],
+              "additionalProperties": false
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "localLiveSession": []
+        },
+        {
+          "localDemoSession": []
+        }
+      ],
+      "x-core-contract-version": "0.3.0",
+      "path": "/insights",
+      "method": "post",
+      "replaceOperation": true
     }
   ]
 }

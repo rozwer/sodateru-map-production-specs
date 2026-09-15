@@ -1,0 +1,319 @@
+{
+  "checkedAt": "2026-09-15T03:37:17.319Z",
+  "mode": "live in isolated temporary SQLite",
+  "transport": "localhost HTTP ephemeral port",
+  "dependencies": "actual CORE/RECORDS/INFORMATION; AI registration only, provider not invoked",
+  "checks": [
+    {
+      "method": "POST",
+      "path": "/session",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/reflection/summary?from=1788220800000&to=1788393600000&timeZone=UTC",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "PATCH",
+      "path": "/insights/demo-insight",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/insights/demo-insight",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "PATCH",
+      "path": "/records/demo-exp",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/insights/demo-insight",
+      "status": 409
+    }
+  ],
+  "computed": {
+    "axes": [
+      {
+        "key": "nature",
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1,
+        "unknownDays": 1
+      },
+      {
+        "key": "books",
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1,
+        "unknownDays": 1
+      },
+      {
+        "key": "cafe",
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1,
+        "unknownDays": 1
+      },
+      {
+        "key": "walk",
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1,
+        "unknownDays": 1
+      },
+      {
+        "key": "social",
+        "numerator": 1,
+        "denominator": 1,
+        "value": 1,
+        "unknownDays": 1
+      }
+    ],
+    "daily": [
+      {
+        "date": "2026-09-01",
+        "key": "nature",
+        "value": true,
+        "recordIds": [
+          "demo-exp"
+        ]
+      },
+      {
+        "date": "2026-09-01",
+        "key": "books",
+        "value": true,
+        "recordIds": [
+          "demo-exp"
+        ]
+      },
+      {
+        "date": "2026-09-01",
+        "key": "cafe",
+        "value": true,
+        "recordIds": [
+          "demo-exp"
+        ]
+      },
+      {
+        "date": "2026-09-01",
+        "key": "walk",
+        "value": true,
+        "recordIds": [
+          "demo-exp"
+        ]
+      },
+      {
+        "date": "2026-09-01",
+        "key": "social",
+        "value": true,
+        "recordIds": [
+          "demo-exp"
+        ]
+      },
+      {
+        "date": "2026-09-02",
+        "key": "nature",
+        "value": null,
+        "recordIds": []
+      },
+      {
+        "date": "2026-09-02",
+        "key": "books",
+        "value": null,
+        "recordIds": []
+      },
+      {
+        "date": "2026-09-02",
+        "key": "cafe",
+        "value": null,
+        "recordIds": []
+      },
+      {
+        "date": "2026-09-02",
+        "key": "walk",
+        "value": null,
+        "recordIds": []
+      },
+      {
+        "date": "2026-09-02",
+        "key": "social",
+        "value": null,
+        "recordIds": []
+      }
+    ],
+    "evidence": {
+      "selfReports": [
+        {
+          "recordId": "demo-exp",
+          "date": "2026-09-01",
+          "key": "books",
+          "quote": "本を見つけた",
+          "field": "body",
+          "value": true,
+          "sourceRefs": [
+            {
+              "type": "record",
+              "id": "demo-exp",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "recordId": "demo-exp",
+          "date": "2026-09-01",
+          "key": "cafe",
+          "quote": "カフェで過ごした",
+          "field": "body",
+          "value": true,
+          "sourceRefs": [
+            {
+              "type": "record",
+              "id": "demo-exp",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "recordId": "demo-exp",
+          "date": "2026-09-01",
+          "key": "nature",
+          "quote": "公園を歩いた",
+          "field": "body",
+          "value": true,
+          "sourceRefs": [
+            {
+              "type": "record",
+              "id": "demo-exp",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "recordId": "demo-exp",
+          "date": "2026-09-01",
+          "key": "walk",
+          "quote": "公園を歩いた",
+          "field": "body",
+          "value": true,
+          "sourceRefs": [
+            {
+              "type": "record",
+              "id": "demo-exp",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "recordId": "demo-exp",
+          "date": "2026-09-01",
+          "key": "social",
+          "quote": "友人と話した",
+          "field": "body",
+          "value": true,
+          "sourceRefs": [
+            {
+              "type": "record",
+              "id": "demo-exp",
+              "version": 1
+            }
+          ]
+        }
+      ],
+      "observations": [
+        {
+          "key": "nature",
+          "text": "判断可能な1日のうち体験ありは1日。不明は1日。",
+          "dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "key": "books",
+          "text": "判断可能な1日のうち体験ありは1日。不明は1日。",
+          "dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "key": "cafe",
+          "text": "判断可能な1日のうち体験ありは1日。不明は1日。",
+          "dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "key": "walk",
+          "text": "判断可能な1日のうち体験ありは1日。不明は1日。",
+          "dates": [
+            "2026-09-01"
+          ]
+        },
+        {
+          "key": "social",
+          "text": "判断可能な1日のうち体験ありは1日。不明は1日。",
+          "dates": [
+            "2026-09-01"
+          ]
+        }
+      ],
+      "inferences": [],
+      "counterexamples": [],
+      "unknown": [
+        {
+          "key": "nature",
+          "date": "2026-09-02",
+          "reason": "日全体を判断できる明示的な記録がありません。",
+          "recordIds": []
+        },
+        {
+          "key": "books",
+          "date": "2026-09-02",
+          "reason": "日全体を判断できる明示的な記録がありません。",
+          "recordIds": []
+        },
+        {
+          "key": "cafe",
+          "date": "2026-09-02",
+          "reason": "日全体を判断できる明示的な記録がありません。",
+          "recordIds": []
+        },
+        {
+          "key": "walk",
+          "date": "2026-09-02",
+          "reason": "日全体を判断できる明示的な記録がありません。",
+          "recordIds": []
+        },
+        {
+          "key": "social",
+          "date": "2026-09-02",
+          "reason": "日全体を判断できる明示的な記録がありません。",
+          "recordIds": []
+        }
+      ]
+    },
+    "unknown": [
+      "日全体を判断できる明示的な記録がありません。",
+      "明示的な体験の記録から集計した暫定結果です。記録のない日は不明で、人格や検証済みの傾向を示しません。"
+    ],
+    "provisionalName": "この期間に記録された体験（暫定）"
+  }
+}
