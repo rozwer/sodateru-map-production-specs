@@ -20,6 +20,7 @@ export type PluginCardModel = {
   name: string;
   description: string;
   kind: PluginKind;
+  displayIcon?: ReactNode;
   category: PluginCategory;
   author?: string;
   updatedAt?: string;

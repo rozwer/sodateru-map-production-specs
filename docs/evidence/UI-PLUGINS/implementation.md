@@ -13,17 +13,18 @@
 | plugin-detail / plugin-trial / plugin-install | `docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_23_14.png` | 左・中央・右の順 |
 | plugin-manage / plugin-update / plugin-conflict | `docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_23_21.png` | 左・中央・右の順 |
 | feature-requests / feature-request-edit | `docs/01_requirements/03_pages/references/feature-request-flow-v2.png` | 一覧・入力・投稿完了一覧 |
+| plugin-icon | `screenshots/icon-selection-draft-390.png` | 仕様相談タスク経由で2026-09-15にユーザーが配置を承認。承認後の実装画像は `icon-selection-390.png` |
 | plugin-store | リハーサル `docs/requirements/mockups/grow-app-store-v1.png` / `docs/evidence/R-THEMES/ia-extension-store-390.png` | 専用本番画像なし。既存リハーサルを元に構成可能というユーザー追加指示をIssue #18に記録。既存DOMは `src/features/extensions/entry.tsx`、カードは一行一件 |
 
 参照UI画像は製品の画像素材に使用しない。写真と地図と操作は別要素とする。共通MapPreviewへ同一cameraの比較を渡し、凡例はDOMで表示する。
 
-## 先行提供する画面部品
+## 提供する画面部品
 
-9ページの表示・入力・状態をcontrolled Viewとして提供する。業務APIと画面登録は後続接続で、製品入口はまだこのfixtureをimportしない。
+9ページと承認済みアイコン選択の表示・入力・状態をcontrolled Viewとして提供する。業務APIと画面登録は後続接続で、製品入口はまだこのfixtureをimportしない。
 
 - ストアの名称/分類絞り込み、導入済み・要望への入口。
 - 詳細、試用条件、同一のMapPreview上での自動before/after、導入前確認。
-- 管理のON/OFF・アイコン・地図・条件・更新・相棒への操作callback、更新比較、版戻し/削除、競合の明示選択。
+- 管理のON/OFF・アイコン・地図・条件・更新・相棒への操作callback、更新比較、版戻し/削除、競合の明示選択。アイコン選択は呼出元が候補/選択値を渡し、確定前プレビュー・取消・保存・送信中/失敗を表示する。
 - 公開投稿/自分の下書き、件数を含む共感ボタン、本人の編集/削除、依頼フォーム共用、固定表示名/本文200文字/公開範囲の入力部品。
 - 失敗時の再試行、入力保持、0件、送信中、削除確認。サーバーの失敗・永続化は未検証。
 
@@ -45,20 +46,33 @@
 ### 検査コマンド
 
 ```sh
-mise exec -- bunx tsc --noEmit --strict --noUncheckedIndexedAccess --target ES2022 --lib ES2022,DOM --module ESNext --moduleResolution Bundler --jsx react-jsx --skipLibCheck src/features/plugins/views.tsx src/features/feature-requests/views.tsx src/features/plugins/usePreviewPhase.ts
+mise exec -- bunx tsc --noEmit --strict --noUncheckedIndexedAccess --target ES2022 --lib ES2022,DOM --module ESNext --moduleResolution Bundler --jsx react-jsx --skipLibCheck src/features/plugins/views.tsx src/features/plugins/PluginIconView.tsx src/features/feature-requests/views.tsx src/features/plugins/usePreviewPhase.ts
 UI_QA_BASE_ROOT=/path/to/ui-base UI_QA_MAP_ROOT=/path/to/ui-map mise exec -- bunx vite build --config docs/evidence/UI-PLUGINS/vite.config.ts
 UI_QA_BASE_ROOT=/path/to/ui-base UI_QA_MAP_ROOT=/path/to/ui-map mise exec -- bunx vite --config docs/evidence/UI-PLUGINS/vite.config.ts
 ```
 
-strict検査、fixture buildは成功。buildのMapbox同梱bundleサイズ警告あり。共有UI/MAPの統合後は2つのROOTを省略し同じcheckoutから起動する。`browser.html#/plugin-store` などpageIdを指定する。`?font200=1` は表示拡大確認、`?failure=1` はプラグイン部品の失敗表示確認用。fixtureは保存・投稿・削除を実行しない。
+strict検査、fixture buildは成功。buildのMapbox同梱bundleサイズ警告あり。共有UI/MAPの統合後は2つのROOTを省略し同じcheckoutから起動する。`browser.html#/plugin-store` などpageIdを指定する。`?font200=1` は表示拡大確認、`?failure=1` はプラグイン部品の失敗表示確認用。fixtureの保存・投稿・削除はReact stateだけを変える。API・DB・localStorageへの保存は行わず、リロードで初期検査値に戻る。
 
-## 全体受入までの残件
+## 追加した連続操作の確認
 
-- PLUGINS #28 v2の確定fragment、生成済み共通clientとHTTP実装の統合後、各画面のcontroller/登録を接続する。試用snapshotのsettings/stateRevisionを導入確認へ引継ぎ、確定時のみ保存する。fixtureの固定サマリーはこの経路の代替ではない。
+同じ390pxブラウザで、以下を画面操作とアクセシビリティツリーで確認した。すべてUI fixtureの検査であり永続性の証拠ではない。
+
+- 管理→アイコン選択→ピンを保存→再度開いてピン選択済み。取消は保存値を変えない。
+- 管理→条件変更→東山公園/大型二輪/高速道路あり→試用→確認画面へ3条件を引継ぎ→保存→管理。
+- 更新v1.2.0→v1.3.0→更新なし/更新ボタン無効→前の版へ戻す→v1.2.0。
+- 機能削除の確認→削除→管理一覧から対象だけ消え、背景の模擬地点1→0。カタログには未導入として残る。
+- 新規要望→下書き保存→自分の下書きから編集→表示名固定/本文保持→本文変更して公開→公開一覧へ反映→削除確認→削除。
+- 他者の「人に頼む」→共用依頼フォームへ本文引継ぎ。宛先や外部送信は追加しない。
+
+上記のfixtureには通常地図の模擬表示を加えたため、通常地図のcanvas1個が常時存在する。先のcanvas1個という確認はプレビュー単体の検査時点を指す。業務データの地図表示は後続接続で検証する。
+
+## 実接続へ引き継ぐ残件
+
+- PLUGINS #28 v3の確定fragment、生成済み共通clientとHTTP実装の統合後、各画面のcontroller/登録を接続する。試用snapshotのsettings/stateRevisionを導入確認へ引継ぎ、確定時のみ保存する。fixtureのReact stateによる条件引継ぎはこの経路の代替ではない。
 - BIKE #29 / DISASTER #30 / PILGRIMAGE #38の実取得・保存結果を共通MapBridgeへ接続し、停止/削除/競合時は指定ownerKeyだけを消す。意味別GeoJSONとbounds付きimageの地図側公開署名は #8 と調整中。
 - FEATURE-REQUESTS #31のdisplayName/title/タグ/共感/guideUrl補完と実APIを待ち、投稿→再読込→編集→削除、非公開分離を確認する。
-- アイコン候補のプレビュー/保存、3種類の固有条件・出典/時点、更新失敗の旧版保持、本人/モード切替と通信取消、通常地図への復帰を実接続で確認する。
-- 参照画像の地図内の意味別色/凡例と実表示、未提供のGitHubガイドを完了扱いにしない。fixture、先行PR、画面URLの到達だけではIssue #18を完了しない。
+- GET /plugins.iconOptionsの正式6候補を使う保存/地図マーカー反映、3種類の固有条件・出典/時点、更新失敗の旧版保持、本人/モード切替と通信取消、通常地図への復帰を実接続で確認する。
+- 参照画像の地図内の意味別色/凡例と実表示、未提供のGitHubガイドを完了扱いにしない。ユーザー方針によりUIと実接続を分離する。Issue #18のfinish/closeは正式なUI完了定義と対応する接続後続Issueの確定後に行い、実API/保存の未完を引き継ぐ。
 
 ## 共通hookの修復と先行提出
 
