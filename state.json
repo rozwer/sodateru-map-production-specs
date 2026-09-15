@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 256,
+  "revision": 257,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34252,22 +34252,17 @@
       "token": null
     },
     "DISASTER-UI-SCREEN": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 223,
       "landed_main": null,
-      "note": "docs/evidence/DISASTER-UI/acceptance.md",
+      "note": "ユーザー収束指示。#243/#250/#254通常merge済み（最終a302728）。専用3layerUIと保存接続を提供。統合導線/実描画/停止再読込QAは#217、追加APIは#144へ未完を引継ぎ。worktree disaster-ui-223保全、未完Issueは閉じない。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/disaster/ui/",
-        "src/features/disaster/screens.tsx",
-        "src/features/disaster/types.ts",
-        "docs/evidence/DISASTER-UI/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "8ed56ee1bce1c28414de35a771ef320460fc9814",
-      "token": "37c835c715b64e5ca59e32837fdcb85c"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "EXPLORATION": {
       "actor": "mattsun",
