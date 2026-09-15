@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 289,
+  "revision": 290,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34285,15 +34285,15 @@
       "generation": 1,
       "issue_number": 277,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/DAILY-TRACK-ROUTE/README.md",
       "owner": "mattsun",
       "paths": [
         "src/features/activity/",
         "src/features/records/",
         "docs/evidence/DAILY-TRACK-ROUTE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "80bb5d760fb39bd93d5c2088ae84491d2a86b135",
       "token": "e8bee71ec81a4c53bb4debfc7d25071d"
     },
     "DEMO-MEDIA": {
