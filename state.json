@@ -28,6 +28,7 @@
         "SUGGESTIONS": 36,
         "THEMES": 37,
         "TOOL-ISSUE-COMMENT": 49,
+        "TOOL-UPSTREAM-GUARD": 62,
         "TOOL-WORKTREE-SETUP": 41,
         "TRANSFER": 32,
         "UI-BASE": 4,
@@ -4436,15 +4437,31 @@
           "scripts/codex-task-hook.test.mjs",
           "mise.toml"
         ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P0",
+        "hard_dependencies": [],
+        "id": "TOOL-UPSTREAM-GUARD",
+        "kind": "support",
+        "priority": "P0",
+        "title": "develop取込分を担当外変更と誤判定するguardを修復",
+        "write_paths": [
+          "tools/production_guard.py",
+          "tools/taskctl.py",
+          "tools/test_hooks_guard.py",
+          "tools/test_taskctl.py"
+        ]
       }
     ]
   },
   "inline_tasks": [
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP",
-    "TOOL-ISSUE-COMMENT"
+    "TOOL-ISSUE-COMMENT",
+    "TOOL-UPSTREAM-GUARD"
   ],
-  "revision": 68,
+  "revision": 69,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4849,6 +4866,24 @@
       "status": "done",
       "submitted_commit": "eeee4d40ba8dcd7a2f8df8d55b476501e06c778d",
       "token": null
+    },
+    "TOOL-UPSTREAM-GUARD": {
+      "actor": "rozwer",
+      "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
+      "generation": 1,
+      "issue_number": 62,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "tools/production_guard.py",
+        "tools/taskctl.py",
+        "tools/test_hooks_guard.py",
+        "tools/test_taskctl.py"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "8e4095858566451f89bc04dab3efe8b6"
     },
     "TOOL-WORKTREE-SETUP": {
       "actor": "rozwer",
