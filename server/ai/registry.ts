@@ -1,4 +1,5 @@
-import { createHash } from 'node:crypto';
+import { canonicalJson, requestHash } from '../core/idempotency.ts';
+export { canonicalJson } from '../core/idempotency.ts';
 import { Ajv } from 'ajv';
 import { createRequire } from 'node:module';
 const addFormats=createRequire(import.meta.url)('ajv-formats') as (ajv:Ajv)=>void;
@@ -13,12 +14,7 @@ export function registerAiTask<T extends AiTask>(definition:T):T {
 export function getTask(task:string) {
  const registered=tasks.get(task);if(!registered)throw aiError('PROVIDER_UNAVAILABLE','AI用途が未登録です',true);return registered;
 }
-export function canonicalJson(value:any):string {
- if(Array.isArray(value))return '['+value.map(canonicalJson).join(',')+']';
- if(value!==null&&typeof value==='object')return '{'+Object.keys(value).filter(k=>value[k]!==undefined).sort().map(k=>JSON.stringify(k)+':'+canonicalJson(value[k])).join(',')+'}';
- return JSON.stringify(value);
-}
-export function canonicalHash(value:unknown){return createHash('sha256').update(canonicalJson(value)).digest('hex');}
+export const canonicalHash=requestHash;
 export function normalizeRequest(request:RunRequest):RunRequest {
  const input=structuredClone(request.input);
  // Only named sets are sorted; compare sides and all ordered steps keep their meaning.
@@ -29,7 +25,7 @@ export function validateRefs(refs:SourceRef[]) {
  if(!Array.isArray(refs)||refs.length>1000)throw aiError('INVALID_INPUT','参照形式が不正です');
  const seen=new Set<string>();
  for(const r of refs) {
-  if(!r||!['record','visit','place','checkin','route'].includes(r.type)||typeof r.id!=='string'||!r.id.trim()||r.id.length>80||!Number.isSafeInteger(r.version)||r.version<1||Object.keys(r).some(k=>!['type','id','version'].includes(k)))throw aiError('INVALID_INPUT','参照形式が不正です');
+  if(!r||!['record','visit','place','checkin','route'].includes(r.type)||typeof r.id!=='string'||!r.id.trim()||Array.from(r.id).length>80||!Number.isSafeInteger(r.version)||r.version<1||Object.keys(r).some(k=>!['type','id','version'].includes(k)))throw aiError('INVALID_INPUT','参照形式が不正です');
   const k=r.type+':'+r.id;if(seen.has(k))throw aiError('INVALID_INPUT','参照が重複しています');seen.add(k);
  }
 }
@@ -37,6 +33,7 @@ export const dependencies:AiDependencies={
  provider:async input=>(await import('./provider.ts')).runStructured(input),
  assertSourceRefs:(_db,_context,refs)=>{if(refs.length)throw aiError('PROVIDER_UNAVAILABLE','根拠の共通照合が未接続です',true);},
  assertAllowed:()=>{throw aiError('PROVIDER_UNAVAILABLE','AI許可設定が未接続です',true);},
+ assertConversationRecord:()=>{throw aiError('PROVIDER_UNAVAILABLE','記録の共通読取が未接続です',true);},
  model:task=>process.env['CODEX_AI_MODEL_'+task.toUpperCase().replaceAll('-','_')]?.trim()||process.env.CODEX_AI_MODEL?.trim()||''
 };
 export function configureAi(options:Partial<AiDependencies>){Object.assign(dependencies,options);}

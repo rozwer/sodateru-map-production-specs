@@ -1,3 +1,5 @@
+import { providerSchema } from './provider-schema.ts';
+import { collectAgentMessage } from './ephemeral-output.ts';
 import { Codex } from '@openai/codex-sdk';
 import { createRequire } from 'node:module';
 import { dirname, join, resolve } from 'node:path';
@@ -41,7 +43,7 @@ export async function runStructured(input:ProviderInput):Promise<unknown>{
  try{
   const sdk=new Codex({config:{features:{shell_tool:false}}});
   const thread=sdk.startThread({model:input.model,workingDirectory:directory,skipGitRepoCheck:true,sandboxMode:'read-only',approvalPolicy:'never',networkAccessEnabled:false,webSearchMode:'disabled'});
-  const result=await thread.run(input.prompt,{outputSchema:input.schema,signal});
+  const result=await thread.run(input.prompt,{outputSchema:providerSchema(input.schema),signal});
   return parseOutput(result.finalResponse);
  }catch(e){if(timeout.aborted)throw aiError('TIMEOUT','AI実行の期限を超えました',true);if(input.signal.aborted)throw aiError('CANCELLED','AI実行を取り消しました',true);throw e;}
  finally{await rm(directory,{recursive:true,force:true});}
@@ -52,17 +54,16 @@ export async function runEphemeral(input:ProviderInput):Promise<unknown>{
  const signal=AbortSignal.any([input.signal,timeout]);await loggedIn(signal);
  const directory=await workspace(input.task??'consult'),schemaPath=join(directory,'schema.json');
  try{
-  await writeFile(schemaPath,JSON.stringify(input.schema));
-  const text=await new Promise<string>((resolve,reject)=>{
-   const child=spawn(process.execPath,[cli(),'exec','--ephemeral','--json','--skip-git-repo-check','-s','read-only','--model',input.model,'--output-schema',schemaPath,'-c','features.shell_tool=false','-c','web_search="disabled"','-c','sandbox_workspace_write.network_access=false','-'],{cwd:directory,stdio:['pipe','pipe','pipe'],signal});
-   let buffer='',final='',bytes=0,failure:Error|undefined;
-   const consume=(line:string)=>{if(!line.trim())return;try{const event=JSON.parse(line);if(event.type==='item.completed'&&event.item?.type==='agent_message'){final=event.item.text;if(Buffer.byteLength(final)>256*1024){failure=aiError('OUTPUT_INVALID','AI応答が256KiBを超えました',true);child.kill('SIGTERM');}}if(event.type==='turn.failed'||event.type==='error')failure=aiError('UPSTREAM_FAILED','一時AI実行が失敗しました',true);}catch{failure=aiError('OUTPUT_INVALID','AIイベントがJSONではありません',true);child.kill('SIGTERM');}};
-   child.stdout.on('data',(chunk:Buffer)=>{bytes+=chunk.length;if(bytes>4*1024*1024){failure=aiError('OUTPUT_INVALID','AIイベント出力が上限を超えました',true);child.kill('SIGTERM');return;}buffer+=chunk.toString();let end;while((end=buffer.indexOf('\n'))>=0){consume(buffer.slice(0,end));buffer=buffer.slice(end+1);}});
-   child.stderr.resume();
+  await writeFile(schemaPath,JSON.stringify(providerSchema(input.schema)));
+  const child=spawn(process.execPath,[cli(),'exec','--ephemeral','--json','--skip-git-repo-check','-s','read-only','--model',input.model,'--output-schema',schemaPath,'-c','features.shell_tool=false','-c','web_search="disabled"','-c','sandbox_workspace_write.network_access=false','-'],{cwd:directory,stdio:['pipe','pipe','pipe'],signal});
+  const completion=new Promise<number|null>((resolve,reject)=>{
    child.on('error',()=>reject(aiError(signal.aborted?(timeout.aborted?'TIMEOUT':'CANCELLED'):'UPSTREAM_FAILED','一時AI実行を完了できませんでした',true)));
-   child.on('close',code=>{consume(buffer);if(failure)reject(failure);else if(code!==0)reject(aiError(timeout.aborted?'TIMEOUT':signal.aborted?'CANCELLED':'UPSTREAM_FAILED','一時AI実行を完了できませんでした',true));else resolve(final);});
-   child.stdin.on('error',()=>{});child.stdin.end(input.prompt);
+   child.on('close',resolve);
   });
+  const output=collectAgentMessage(child.stdout).catch(error=>{child.kill('SIGTERM');throw error;});
+  child.stderr.resume();child.stdin.on('error',()=>{});child.stdin.end(input.prompt);
+  const [text,code]=await Promise.all([output,completion]);
+  if(code!==0)throw aiError(timeout.aborted?'TIMEOUT':signal.aborted?'CANCELLED':'UPSTREAM_FAILED','一時AI実行を完了できませんでした',true);
   return parseOutput(text);
  }finally{await rm(directory,{recursive:true,force:true});}
 }

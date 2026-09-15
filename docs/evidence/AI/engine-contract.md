@@ -17,3 +17,5 @@ node node_modules/typescript/bin/tsc --noEmit --allowImportingTsExtensions --mod
 試験providerは明示した代替であり実AIの証拠ではない。固定Codex 0.153.4のlogin statusはChatGPTログイン成功、製品モデルは未設定。
 ## 残件
 CORE統合で共通transaction/CommonError/登録/起動復帰/HTTP再送とDTOへ接続する。用途定義は各担当が提供。実AI一用途保存/再取得、実refs/設定許可、voiceの実取得/文字起こし/確認、独立実装役レビューを行い、全受入前にIssueを閉じない。
+
+独立レビュー: 6275ac1でUTF-8 chunk境界破損P2を指摘。collectAgentMessageへ収集を分離しsetEncoding(utf8)で修正。日本語1byte分割・最終未改行のテストは修正前失敗→修正後成功。provider/routes型チェック成功。
