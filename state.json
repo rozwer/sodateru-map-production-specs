@@ -32,6 +32,7 @@
         "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
         "GROW-DATA": 216,
+        "GROW-UI": 215,
         "HEALTH": 23,
         "INFORMATION": 6,
         "INSIGHTS": 34,
@@ -7453,6 +7454,28 @@
         "title": "元UIとCONNECTの受入・終了状態を照合",
         "write_paths": [
           "docs/evidence/ISSUE-CLOSE-UI/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "GROW-UI",
+        "kind": "ui",
+        "lane": "A",
+        "priority": "P0",
+        "title": "アプリを育てるの参照再現と導入管理の操作修復",
+        "write_paths": [
+          "src/features/plugins/views.tsx",
+          "src/features/plugins/screens.tsx",
+          "src/features/plugins/plugins.css",
+          "src/features/plugins/view-model.ts",
+          "src/features/plugins/messages.ts",
+          "src/features/plugins/usePreviewPhase.ts",
+          "src/features/plugins/PluginIconView.tsx",
+          "src/features/plugins/PluginGlyph.tsx",
+          "src/features/plugins/grow/",
+          "src/features/feature-requests/",
+          "docs/evidence/GROW-UI/"
         ]
       }
     ],
@@ -33702,9 +33725,10 @@
     "DISASTER-DATA",
     "DISASTER-UI",
     "GROW-DATA",
-    "ISSUE-CLOSE-UI"
+    "ISSUE-CLOSE-UI",
+    "GROW-UI"
   ],
-  "revision": 220,
+  "revision": 221,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34029,6 +34053,31 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "1f2647d5917042b39f2b044e8cd48a3a"
+    },
+    "GROW-UI": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 215,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/views.tsx",
+        "src/features/plugins/screens.tsx",
+        "src/features/plugins/plugins.css",
+        "src/features/plugins/view-model.ts",
+        "src/features/plugins/messages.ts",
+        "src/features/plugins/usePreviewPhase.ts",
+        "src/features/plugins/PluginIconView.tsx",
+        "src/features/plugins/PluginGlyph.tsx",
+        "src/features/plugins/grow/",
+        "src/features/feature-requests/",
+        "docs/evidence/GROW-UI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "c00c91cd28c6442c97b670cd1d14799b"
     },
     "HEALTH": {
       "actor": null,
