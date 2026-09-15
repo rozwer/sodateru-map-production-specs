@@ -1,23 +1,35 @@
-# PLACES 提供状況
+# PLACES 提供・検証
 
-## 先行実装（未検証・未完成）
+## PLACES.search: 実接続確認済み
 
-- 専用worktree: `kaiya-5-places`、branch: `kaiya/5-places`。
-- 検索: 保存済み優先、Nominatim名前検索、Mapbox周辺検索。期限15分・本人/mode別メモリ。temporary保存拒否。
-- 採用: `creation_receipts` を期限より先に照合。同一再送は現在資源、異内容409、削除後404。業務変更とreceiptをCORE transactionに接続する。
-- HTTP Candidateは `position:{longitude,latitude}`、内部は `coordinates:[longitude,latitude]`。既存仕様の変換を維持。
-- 場所詳細: INFORMATIONの公開された署名へ接続を実装中。共有権限処理は複製しない。
+- branch: `kaiya/5-places`、PR: [#52](https://github.com/rozwer/sodateru-map-production-specs/pull/52)。
+- CORE正式統合 `413598b`（v0.3.0）を取り込み、登録口・SQLite migration・共通idempotentMutation/requestHashを利用。共通基盤は複製しない。
+- `live-search.json`: 実Nominatim検索→DB増加なし→候補採用201→同一再送200→異内容409→Mapbox実候補のtemporary採用409→サーバー再起動→現在資源再取得→削除後404。live/demo別DBも確認。
+- 再起動後は候補メモリなしで同一placeIdを再取得。現在値の更新と削除はサーバー停止中の隔離テストDBへ直接設定し、HTTP再送で確認した。PATCHのHTTP確認としては扱わない。
+- 外部source URL・attribution・fetchedAt、候補resultId/candidateId、保存placeIdを証拠へ記録。Mapbox一時候補本文・認証値は保存しない。
 
-## 外部接続設定の実確認
+### 再現
 
-`provider-connectivity.json` に2026-09-15の実取得結果を保存。Nominatim 東京駅3件・Mapbox coffee5件がHTTP 200。トークン、Mapbox候補本文は保存していない。これは接続設定だけの検証で、実装adapter・CORE・DBの統合受入とは別。
+```sh
+mise exec -- bun install --frozen-lockfile
+mise exec -- node --experimental-transform-types --test server/features/places/service.test.ts
+mise exec -- node docs/evidence/PLACES/live-smoke.mjs
+mise exec -- bun run typecheck
+```
 
-`mise exec -- bun` のTranspilerで固有TypeScript全ファイルの構文解析が成功。型検査・実行検証の代替とはしない。
+外部検証は主worktreeの.envを既定で読み、`PLACES_ENV_FILE`で明示変更できる。実検証用SQLite/profileは一意のOS一時ディレクトリ。通常の本人DBを使わない。
 
-## 未達
+## 固有SQLテスト
 
-CORE/INFORMATION未統合のため実API/実DB検証未実施。実装adapter経由の実取得、永続化・再起動後再取得、失敗検証、Q03編集権限の確定、営業時間/入口追加属性と更新処理の実接続、短い独立レビューが残る。Issueを完了扱いにしない。
+実CORE CommonError/requestHashとNode DatabaseSyncで、保存場所優先/Unicode・期限後の同一採用再送・DB再オープン・削除後NOT_FOUND・外部候補検索時DB無変更・本人/mode照合・provider同一場所再利用・temporary保存拒否・cursor条件拘束・訂正権限/版/解除を確認。HTTP検証と区別した小さい表fixtureを使用。
+
+## PLACES.detail / Q03: 未達あり
+
+- INFORMATIONの実serviceを動的接続。読取基盤不在・取得元失敗時は該当sectionをfailedとして返す。場所本体を保持し、空readyで代替しない。
+- INFORMATION.read/sharingは未統合のため、本人/共有記録を含む実接続検証が残る。
+- Q03の営業時間/入口、手動訂正優先、明示Nominatim lookup、訂正解除、If-Matchの固有処理/fragment v0.2.0を実装。共有場所の編集主体はユーザー回答待ちでPATCH HTTP公開は保留。
+- 共通Schema/生成器へのv0.2.0反映はCOREへ依頼済み。UI実操作/独立レビュー/全体統合は未完了。Issue #5を閉じない。
 
 ## Provider参照
 
-[Nominatim Search](https://nominatim.org/release-docs/latest/api/Search/)、[Mapbox Search Box](https://docs.mapbox.com/api/search/search-box/)。実取得時の認証値はログや証拠へ保存しない。
+[Nominatim Search](https://nominatim.org/release-docs/latest/api/Search/)、[Address Lookup](https://nominatim.org/release-docs/latest/api/Lookup/)、[Mapbox Search Box](https://docs.mapbox.com/api/search/search-box/)。
