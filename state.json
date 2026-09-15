@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 241,
+  "revision": 242,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34728,17 +34728,20 @@
       "token": null
     },
     "UI-FRIENDS": {
-      "actor": null,
-      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "edf48a07d0e551b3052165401710298041883b7b",
+      "generation": 3,
       "issue_number": 14,
       "landed_main": null,
       "note": "PR89/45374ee pushed; handoff to integration task 01a0a305-c796-7653-8dfe-b0aa1cdf858c. Remaining comparison/routes acceptance retained at issue72 comment5674167432; worktree ui-friends-14 preserved, no uncommitted changes.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/friends/",
+        "docs/evidence/UI-FRIENDS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "41f1b602a38a48f6bc3e5e0a3985d759"
     },
     "UI-HEALTH": {
       "actor": null,
