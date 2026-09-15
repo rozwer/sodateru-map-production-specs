@@ -71,6 +71,10 @@ export class PlacesService {
     if(!candidate)throw new CommonError("NOT_FOUND","候補が見つかりません。",false);
     return structuredClone(candidate);
   }
+  resolveCandidateReference(context:RequestContext,resultId:string,candidateId:string) {
+    const candidate=this.resolveCandidate(context,resultId,candidateId);
+    return {candidate,expiresAt:this.results.get(resultId)!.result.expiresAt};
+  }
   // Caller uses CORE transaction: receipt and the place are committed together.
   adopt(context:RequestContext,db:DatabaseSync,input:PlaceCreate) {
     input=validateCreate(input);
