@@ -4,6 +4,9 @@ import type { RequestContext } from "../../core/context.ts";
 import { CommonError } from "../../core/errors.ts";
 import { transaction } from "../../db/migrate.ts";
 import { geometryHash, inside, settingsHash, validateSettings, type Assessment, type BikeSettings, type Position } from "./domain.ts";
+import type { PlaceCandidate, SearchResult as CommonCandidates } from "../../features/places/types.ts";
+import { candidateResultDto } from "../../features/places/http-dto.ts";
+import { toPlaceCandidate } from "./places-dto.ts";
 import { OverpassBikeProvider, type BikeData, type BikeProvider } from "./overpass.ts";
 
 export interface Installation { installId: string; version: number; enabled: boolean; settings: unknown; visible: boolean }
@@ -20,6 +23,11 @@ export interface RoutesBoundary {
   getSavedRoute(context: RequestContext, id: string, own?: boolean): { id: string; geometry: unknown };
   assess?(context: RequestContext, route: RouteSnapshot, settings: BikeSettings): { vehicle: Assessment; highway: Assessment; geometryHash: string; settingsHash: string };
 }
+export interface PlacesBoundary {
+  registerCandidates(context: RequestContext, input: { items: PlaceCandidate[]; expiresAt: number }): CommonCandidates;
+  resolveCandidate(context: RequestContext, resultId: string, candidateId: string): PlaceCandidate;
+}
+export interface PlaceCandidates extends Binding { searchId: string; candidates: ReturnType<typeof candidateResultDto> }
 export interface Binding { installId: string; settingsVersion: number; settingsHash: string; settings: BikeSettings }
 export interface SearchResult extends BikeData, Binding { id: string; kind: "search"; dataKind: "real"; fetchedAt: number; expiresAt: number }
 export interface RouteAssessment extends Binding {
@@ -31,7 +39,7 @@ export interface RouteAssessment extends Binding {
 export interface Adoption extends Binding { id: string; kind: "adoption"; assessment: RouteAssessment; routeId: string; adoptedAt: number }
 type Stored = SearchResult | RouteAssessment | Adoption;
 export class BikeService {
-  constructor(private db: DatabaseSync, private installation: (context: RequestContext) => Installation | null, private routes: RoutesBoundary, private provider: BikeProvider = new OverpassBikeProvider()) {}
+  constructor(private db: DatabaseSync, private installation: (context: RequestContext) => Installation | null, private routes: RoutesBoundary, private provider: BikeProvider = new OverpassBikeProvider(), private places?: PlacesBoundary) {}
   private binding(context: RequestContext, enabled = true): Binding {
     context.signal.throwIfAborted();
     const installation = this.installation(context);
@@ -58,6 +66,27 @@ export class BikeService {
     const result: SearchResult = { ...data, ...binding, id: randomUUID(), kind: "search", dataKind: "real", fetchedAt, expiresAt: fetchedAt + 900_000 };
     transaction(this.db, () => { this.recheck(context, binding); this.put(context, result); onSaved?.(result); });
     return result;
+  }
+  private candidateSearch(context: RequestContext, searchId: string): SearchResult {
+    const search = this.get(context, searchId);
+    if (search.kind !== "search") throw new CommonError("VALIDATION_FAILED", "BIKEの地点検索結果を指定してください。");
+    this.recheck(context, search);
+    if (search.expiresAt <= Date.now()) throw new CommonError("RESULT_EXPIRED", "地点情報を再検索してください。");
+    return search;
+  }
+  placeCandidates(context: RequestContext, searchId: string): PlaceCandidates {
+    const search = this.candidateSearch(context, searchId);
+    if (!this.places) throw new CommonError("DEPENDENCY_UNAVAILABLE", "共通地点候補の登録が利用できません。", true, {}, 503);
+    if (search.places.length > 1000) throw new CommonError("RANGE_NOT_SATISFIABLE", "地点が1000件を超えました。地域を絞って再検索してください。");
+    const candidates = candidateResultDto(this.places.registerCandidates(context, { items: search.places.map(toPlaceCandidate), expiresAt: search.expiresAt }));
+    return { searchId, installId: search.installId, settingsVersion: search.settingsVersion, settingsHash: search.settingsHash, settings: search.settings, candidates };
+  }
+  replayPlaceCandidates(context: RequestContext, data: PlaceCandidates): PlaceCandidates {
+    this.candidateSearch(context, data.searchId);
+    if (!this.places || data.candidates.expiresAt <= Date.now()) throw new CommonError("RESULT_EXPIRED", "新しい操作IDで地点候補を開き直してください。");
+    // The common candidate registry is ephemeral. Never replay dead result IDs after a restart.
+    for (const item of data.candidates.items) this.places.resolveCandidate(context, data.candidates.resultId, item.candidateId);
+    return data;
   }
   assessRoute(context: RequestContext, input: { previewId: string; searchId: string }): RouteAssessment {
     const binding = this.binding(context), search = this.get(context, input.searchId);
