@@ -140,3 +140,26 @@ test("external refresh preserves corrections and failure preserves saved values"
   assert.equal(JSON.stringify({place:getPlace(db,"refresh"),metadata:getPlaceMetadata(db,"refresh")}),before);
  }finally{globalThis.fetch=originalFetch;db.close();}
 });
+
+test("server adapter candidates preserve scope, provenance, expiry and adoption receipts",()=>{
+ const db=fixture();let now=1000;const service=new PlacesService(()=>now),ctx=context();
+ const candidate={...parseNominatim([osm],1)[0]!,candidateId:"bike-node-123",provider:"openstreetmap",externalId:"node/123",fetchedAt:now};
+ try{
+  const result=service.registerCandidates(ctx,{items:[candidate],expiresAt:now+60_000});
+  assert.equal((db.prepare("SELECT count(*) AS n FROM places").get() as any).n,0);
+  candidate.name="mutated input";result.items[0]!.name="mutated output";
+  const resolved=service.resolveCandidateReference(ctx,result.resultId,candidate.candidateId);
+  assert.equal(resolved.candidate.name,"駅前カフェ");assert.equal(resolved.expiresAt,61_000);
+  assert.throws(()=>service.resolveCandidate(context("person-b"),result.resultId,candidate.candidateId),code("NOT_FOUND"));
+  assert.throws(()=>service.resolveCandidate(context("person-a","demo"),result.resultId,candidate.candidateId),code("NOT_FOUND"));
+  assert.throws(()=>service.registerCandidates(ctx,{items:[candidate,candidate],expiresAt:2000}),code("INVALID_INPUT"));
+  assert.throws(()=>service.registerCandidates(ctx,{items:[{...candidate,provider:"mapbox",retention:"storable"}],expiresAt:2000}),code("INVALID_INPUT"));
+  const input={id:"bike-adopt",mode:"candidate" as const,resultId:result.resultId,candidateId:candidate.candidateId};
+  const adopted=tx(db,()=>service.adopt(ctx,db,input));assert.equal(adopted.created,true);assert.equal(adopted.place.externalId,"N123");assert.equal(adopted.place.provider,"nominatim");assert.equal(adopted.place.fetchedAt,1000);
+  now=62_000;assert.throws(()=>service.resolveCandidate(ctx,result.resultId,candidate.candidateId),code("RESULT_EXPIRED"));
+  assert.equal(tx(db,()=>service.adopt(ctx,db,input)).place.id,"bike-adopt");
+  assert.throws(()=>tx(db,()=>service.adopt(ctx,db,{...input,candidateId:"changed"})),code("REQUEST_CONFLICT"));
+  db.prepare("DELETE FROM places WHERE id=?").run("bike-adopt");
+  assert.throws(()=>tx(db,()=>service.adopt(ctx,db,input)),code("NOT_FOUND"));
+ }finally{db.close();}
+});
