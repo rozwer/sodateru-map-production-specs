@@ -1,0 +1,349 @@
+{
+  "taskId": "EXPLORATION",
+  "version": "1.0.0",
+  "schemas": {
+    "ExplorationHistoryLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversationId"
+      ],
+      "properties": {
+        "conversationId": {
+          "$ref": "#/components/schemas/Id"
+        }
+      }
+    },
+    "ExplorationHistoryResume": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "conversationId",
+        "resultId",
+        "result",
+        "expiresAt",
+        "resumeAction"
+      ],
+      "properties": {
+        "conversationId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "resultId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonAIDialogueResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expiresAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resumeAction": {
+          "enum": [
+            "continue",
+            "search"
+          ]
+        }
+      }
+    },
+    "ExplorationFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "factKey",
+        "text",
+        "conceptIds",
+        "source",
+        "anchor"
+      ],
+      "properties": {
+        "factKey": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "conceptIds": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "uniqueItems": true
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "url",
+            "title",
+            "claimScope",
+            "sourceId"
+          ],
+          "properties": {
+            "url": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https?://",
+                  "maxLength": 2048
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 300
+            },
+            "claimScope": {
+              "enum": [
+                "general",
+                "place-specific"
+              ]
+            },
+            "sourceId": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/Id"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        "anchor": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "targetId"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "place",
+                    "building",
+                    "photo"
+                  ]
+                },
+                "targetId": {
+                  "$ref": "#/components/schemas/Id"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ExplorationHistoryResumeEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/ExplorationHistoryResume"
+        }
+      }
+    },
+    "ExplorationFactPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/components/schemas/ExplorationFact"
+          }
+        },
+        "nextCursor": {
+          "type": "null"
+        }
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "post",
+      "path": "/map-dialogues/results/{resultId}/history",
+      "operationId": "postMapDialoguesResultsResultIdHistory",
+      "summary": "期限内の一時候補を既存の保存相談へ関連付ける",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "path",
+          "name": "resultId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ExplorationHistoryLink"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExplorationHistoryResumeEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/conversations/{conversationId}/map-dialogue",
+      "operationId": "getConversationsConversationIdMapDialogue",
+      "summary": "保存相談から期限内の同じ候補へ復帰する",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "path",
+          "name": "conversationId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExplorationHistoryResumeEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/discovery-facts",
+      "operationId": "getDiscoveryFacts",
+      "summary": "観察対象で利用可能な出典付き根拠を読む",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "query",
+          "name": "kind",
+          "required": true,
+          "schema": {
+            "enum": [
+              "place",
+              "building",
+              "photo"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "targetId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExplorationFactPage"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
