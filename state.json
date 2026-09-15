@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 191,
+  "revision": 192,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33947,7 +33947,8 @@
         "server/features/reflection/",
         "server/db/migrations/reflection/",
         "docs/01_requirements/04_api/fragments/REFLECTION.json",
-        "docs/evidence/REFLECTION/"
+        "docs/evidence/REFLECTION/",
+        "server/core/validation.ts"
       ],
       "status": "claimed",
       "submitted_commit": null,
