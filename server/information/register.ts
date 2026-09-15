@@ -1,5 +1,6 @@
 import { defineFeature } from '../core/features.ts';
-import { createInformationService } from './service.ts';
+import { idempotentMutation, type StoredResult } from '../core/idempotency.ts';
+import { createInformationService, type SourceRef } from './service.ts';
 import { queryFromUrl } from './query.ts';
 
 export default defineFeature({
@@ -8,7 +9,18 @@ export default defineFeature({
     api.get('/records', c => c.json(createInformationService(c.get('db')).ownRecordsPage(c.get('context'), queryFromUrl(new URL(c.req.url), true))));
     api.get('/shared-records', c => c.json(createInformationService(c.get('db')).searchRecords(c.get('context'), queryFromUrl(new URL(c.req.url)))));
     api.get('/shared-records/map', c => c.json({data: createInformationService(c.get('db')).mapRecords(c.get('context'), queryFromUrl(new URL(c.req.url)))}));
-    // Read-only source POST is connected to CORE's fresh-result receipt wrapper at integration.
-    api.post('/source-checks', async c => c.json({data: createInformationService(c.get('db')).checkSources(c.get('context'), await c.req.json())}));
+    api.post('/source-checks', c => {
+      const db = c.get('db'), context = c.get('context');
+      const input = c.get('input').body as {refs: SourceRef[]};
+      const read = (): StoredResult => ({status: 200, body: {data: createInformationService(db).checkSources(context, input)}});
+      const result = idempotentMutation(db, {
+        context, operation: 'POST /api/v1/source-checks', key: c.req.header('Idempotency-Key')!, input,
+      }, {
+        // Persist only the request hash and a marker, never a stale permission/version verdict.
+        execute: () => ({...read(), resource: {type: 'source-checks', id: context.requestId}}),
+        replay: read,
+      });
+      return c.body(JSON.stringify(result.body), 200, {'Content-Type': 'application/json'});
+    });
   },
 });

@@ -1,6 +1,6 @@
 # INFORMATION integration contract
 
-Status: implemented, awaiting CORE runtime integration and database/HTTP verification.
+Status: implemented and verified against integrated CORE runtime v0.3.0. Integration PR #48; see acceptance.md for evidence and remaining consumer checks.
 
 ## Imports and lifetime
 
@@ -48,4 +48,4 @@ SourceRef retains the five existing types: record, visit, place, checkin, route.
 
 RECORDS owns media HTTP delivery and Range/file handling. It must call `requireReadableMedia` on every request, including Range requests. INFORMATION does not duplicate its content route. EXPLORATION owns its fact catalogue/provider provenance; INFORMATION checks persisted record/visit/place/checkin/route sources.
 
-Pending: CORE's read-only POST receipt wrapper, actual base-schema/HTTP tests, integrated commit and media connection evidence. No runtime/API completion is claimed yet.
+Source-checks uses CORE idempotentMutation with a resource marker and a fresh replay callback: request identity/hash persists, verdict bodies do not. Real base-schema/HTTP tests pass, including stale-input replay after correction/revocation and server restart. Remaining: generated rangeMatch parameter integration and the RECORDS media content route connection evidence. No complete UI/media flow is claimed by the isolated INFORMATION acceptance.

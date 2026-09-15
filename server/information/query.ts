@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
 import { CommonError } from '../core/errors.ts';
+import { requestHash } from '../core/idempotency.ts';
 
 export type Audience = 'own' | 'visible' | 'public' | 'selected' | 'friends';
 export type RecordQuery = {
@@ -86,10 +86,8 @@ export function comparePosition(a: Position, b: Position) {
 }
 export function queryKey(context: {personId: string; dataMode: string}, q: NormalQuery) {
   const { cursor: _cursor, limit: _limit, ...conditions } = q;
-  // Canonical property order also covers callers constructing objects in another order.
-  const canonical = (v: any): any => Array.isArray(v) ? v.map(canonical) : v && typeof v === 'object'
-    ? Object.fromEntries(Object.keys(v).sort().map(k => [k, canonical(v[k])])) : v;
-  return createHash('sha256').update(JSON.stringify(canonical({ personId: context.personId, dataMode: context.dataMode, conditions }))).digest('hex');
+  // Omit absent optional fields, then use CORE's canonical JSON/hash implementation.
+  return requestHash({personId: context.personId, dataMode: context.dataMode, conditions: JSON.parse(JSON.stringify(conditions))});
 }
 export function pageRows<T extends Position>(rows: T[], q: NormalQuery, key: string) {
   let remaining = rows;

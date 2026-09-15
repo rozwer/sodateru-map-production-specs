@@ -4,6 +4,14 @@ import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { serve } from '@hono/node-server';
+import type { Server } from 'node:http';
+import { createApp } from '../app/app.ts';
+import { openDatabases, type Databases } from '../db/connection.ts';
+import { loadLocalIdentity, seedProfiles } from '../core/session.ts';
+import { createApiClient, ApiError } from '../../packages/api-client/index.ts';
+import information from './register.ts';
 import { createInformationService, canReadShared, type SourceRef } from './service.ts';
 import { queryFromUrl } from './query.ts';
 import type { RequestContext } from '../core/context.ts';
@@ -150,4 +158,70 @@ test('source checks distinguish change from unavailable and survive reopening SQ
     assert.equal(info.checkSources(a, {refs}).find(r => r.ref.type === 'record')?.state, 'unavailable');
     assert.throws(() => info.checkSources(a, {refs: [visitRef, {...visitRef, version: 2}]}));
   } finally { db.close(); rmSync(directory, {recursive: true, force: true}); }
+});
+
+test('real HTTP and generated client: persisted search, fresh replay, two people, live/demo and restart', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'information-http-'));
+  const identity = loadLocalIdentity(join(directory, 'profiles.json'));
+  identity.profiles.push({key: 'other', id: 'person-b', name: 'Bob'});
+  const owner = identity.profiles[0]!.id;
+  let databases: Databases | undefined;
+  let server: Server | undefined;
+  let origin = '';
+  async function boot() {
+    databases = openDatabases({livePath: join(directory, 'live.sqlite'), demoPath: join(directory, 'demo.sqlite')});
+    seedProfiles(databases, identity.profiles);
+    const app = createApp({databases, identity, features: [information]});
+    await new Promise<void>(resolve => { server = serve({fetch: app.fetch, hostname: '127.0.0.1', port: 0}, address => {origin = `http://127.0.0.1:${address.port}`; resolve();}) as Server; });
+  }
+  async function stop() {
+    if (server) await new Promise<void>((resolve, reject) => server!.close(error => error ? reject(error) : resolve()));
+    server = undefined; databases?.close(); databases = undefined;
+  }
+  function browser() {
+    const cookies = new Map<string, string>();
+    return createApiClient({baseUrl: 'http://fixture/api/v1', fetch: async (url, init) => {
+      const headers = new Headers(init?.headers);
+      headers.set('Cookie', [...cookies].map(([k, v]) => `${k}=${v}`).join('; '));
+      const path = new URL(String(url));
+      const response = await fetch(origin + path.pathname + path.search, {...init, headers});
+      for (const cookie of response.headers.getSetCookie()) { const pair = cookie.split(';')[0]!; const index = pair.indexOf('='); cookies.set(pair.slice(0, index), pair.slice(index + 1)); }
+      return response;
+    }});
+  }
+  try {
+    await boot();
+    insert(databases!.live, 'places', {id: 'place', name: 'HTTP検証場所', longitude: 139, latitude: 35, address: null, provider: 'manual', external_id: null, building_key: null, source_url: null, attribution: 'Test fixture', fetched_at: null});
+    for (let i = 0; i < 125; i++) record(databases!.live, `http-${i}`, {person_id: owner, body: i >= 120 ? 'ＳＰＥＣＩＡＬ' : 'ordinary', visibility: 'selected', shared_with_json: '["person-b"]'});
+    const self = browser(), other = browser();
+    await self.request('postSession', {body: {profileKey: 'self'}, idempotencyKey: 'self-login'});
+    await other.request('postSession', {body: {profileKey: 'other'}, idempotencyKey: 'other-login'});
+    const page = await other.request('getSharedRecords', {query: {q: 'special', limit: 2}});
+    assert.equal(page.totalCount, 5); assert.equal(page.items.length, 2); assert.ok(page.nextCursor);
+    const map = await other.request('getSharedRecordsMap', {query: {q: 'special'}});
+    assert.equal(map.data.totalCount, 5); assert.equal(map.data.items.length, 5);
+    const refs = page.items[0]!.sourceRefs;
+    const first = await other.request('postSourceChecks', {body: {refs}, idempotencyKey: 'check-current'});
+    assert.ok(first.data.every(r => r.state === 'current'));
+    const target = page.items[0]!.id;
+    databases!.live.prepare('UPDATE records SET body=?,version=version+1 WHERE id=?').run('corrected', target);
+    const changed = await other.request('postSourceChecks', {body: {refs}, idempotencyKey: 'check-current'});
+    assert.equal(changed.data.find(r => r.ref.type === 'record')?.state, 'changed');
+    const receipt = databases!.live.prepare('SELECT result_json FROM core_requests WHERE request_key=?').get('check-current');
+    assert.equal(String(receipt?.result_json).includes('currentVersion'), false);
+    await assert.rejects(other.request('postSourceChecks', {body: {refs: []}, idempotencyKey: 'check-current'}), error => error instanceof ApiError && error.code === 'IDEMPOTENCY_CONFLICT');
+    databases!.live.prepare("UPDATE records SET visibility='private',shared_with_json='[]',version=version+1 WHERE id=?").run(target);
+    const revoked = await other.request('postSourceChecks', {body: {refs}, idempotencyKey: 'check-current'});
+    assert.equal(revoked.data.find(r => r.ref.type === 'record')?.state, 'unavailable');
+    await stop(); await boot();
+    assert.deepEqual(await other.request('postSourceChecks', {body: {refs}, idempotencyKey: 'check-current'}), revoked);
+    const own = await self.request('getRecords', {query: {limit: 1}});
+    assert.equal(own.items[0]!.personId, owner); assert.ok(own.nextCursor);
+    other.setDataMode('demo');
+    await other.request('postSession', {body: {profileKey: 'other'}, idempotencyKey: 'other-demo-login'});
+    assert.equal((await other.request('getSharedRecords', {})).totalCount, 0);
+    assert.ok((await other.request('postSourceChecks', {body: {refs}, idempotencyKey: 'check-current'})).data.every(r => r.state === 'unavailable'));
+    const unauthenticated = await fetch(origin + '/api/v1/shared-records', {headers: {'X-Data-Mode': 'live', 'X-Request-Id': randomUUID()}});
+    assert.equal(unauthenticated.status, 401);
+  } finally { await stop(); rmSync(directory, {recursive: true, force: true}); }
 });
