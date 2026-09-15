@@ -34021,7 +34021,7 @@
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO"
   ],
-  "revision": 281,
+  "revision": 282,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34275,7 +34275,8 @@
       "paths": [
         "tools/local/demo-media/",
         "docs/evidence/DEMO-MEDIA/",
-        "src/app/navigation-card-data.ts"
+        "src/app/navigation-card-data.ts",
+        "src/app/NavigationCards.tsx"
       ],
       "status": "claimed",
       "submitted_commit": null,
