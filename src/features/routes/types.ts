@@ -6,7 +6,8 @@ export type RouteMode = 'walking' | 'cycling' | 'driving' | 'transit';
 export type WaypointSelection =
   | { kind: 'stored'; placeId: string }
   | { kind: 'candidate'; resultId: string; candidateId: string }
-  | { kind: 'point'; coordinates: Coordinates; label: string };
+  | { kind: 'point'; coordinates: Coordinates; label: string }
+  | { kind: 'dialogue'; resultId: string; candidateId: string };
 
 export interface PlaceOption {
   id: string;

@@ -50,6 +50,6 @@ export const routeMessages = {
   photoUnavailable: '写真を表示できません。押すと再読み込みします。', photoMissing: '写真なし', photoRetry: '再読込',
   tooManyStops: '経路に使える場所は10地点までです。地点を減らしてから検索してください。',
   sharedRouteLoadFailed: '共有された経路を読み込めませんでした。公開範囲や削除の状態を確認してください。',
-  dialogueCandidatePending: 'この相談候補から経路への接続は準備中です。相談時の出発地と目的地名を保持しています。',
+  dialogueConditionsPending: '相談で選んだ経路の起点・移動手段・寄り道を変更する場合は、場所を検索して選び直してください。入力は保持しています。',
   passEntryPending: '定期券の共通設定画面は接続待ちです。経路条件は保持しています。',
 } as const;

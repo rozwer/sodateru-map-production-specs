@@ -97,3 +97,8 @@ Issue #9はclaimed/openを維持する。部分提供を全画面完成やtask:f
 ### 共通修復後の提出
 
 PR #63の正式修復を含むdevelop `2332231` を通常merge、`task:verify`成功後、保持stageのcommitを1回再試行して `6cafca3` で成功した。ガードの迂回/receipt更新なし。PLACES修正も取り込まれ、同HEADで `bun run typecheck` は全体成功した。上記の失敗は修復前の記録である。ブラウザ/APIの保存往復は未確認のまま継続する。
+
+
+### 相談候補の確定境界
+
+[#26の回答](https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673913499)を反映。相談由来地点はUI内でdialogue選択型を保持し、検索時に `postMapDialoguesSelect` を呼ぶ。成功応答の同じcandidateIdと固定origin、1件のrouteを検査し、route.previewIdを保存resultIdとして使う。場所検索resultIdへ変換しない。temporary経路は保存へ送信しない。変更した起点/移動手段/地点数を黙って除外しない。更新した対象7テストと全体型検査が成功した。

@@ -98,17 +98,21 @@ describe('route entry boundaries', () => {
     expect(await flow.finish()).toBe(false);
     flow.dispose();
   });
-  it('preserves dialogue origin and never treats a dialogue ID as a place-search result ID', async () => {
-    const { flow, calls } = setup(async () => ({ data: {
+  it('uses select preview identity with the fixed origin and refuses temporary route storage', async () => {
+    const result = {
       resultId: 'dialogue', expiresAt: Date.now() + 60000,
       origin: { kind: 'selected', label: '相談を送った地点', coordinates: [136.9, 35.1] },
       places: [{ candidateId: 'candidate', placeId: null, name: '候補', coordinates: [137, 35.2], retention: 'temporary' }],
-    } }));
+      routes: [{ ...preview, previewId: 'selected-route-preview', retention: 'temporary' }],
+    };
+    const { flow, calls } = setup(async () => ({ data: result }));
     await flow.loadDialogueDestination('dialogue', 'candidate');
     expect(flow.getSnapshot().draft.stops[0]?.place?.selection).toEqual({ kind: 'point', coordinates: [136.9, 35.1], label: '相談を送った地点' });
-    expect(flow.getSnapshot().draft.stops[1]?.place).toBeNull();
-    expect(await flow.search()).toBe(false);
-    expect(calls.map(call => call.operation)).toEqual(['getMapDialoguesResultsResultId']);
+    expect(await flow.search()).toBe(true);
+    expect(flow.getSnapshot().preview?.resultId).toBe('selected-route-preview');
+    expect(await flow.adoptAndStart('selected-route-preview')).toBeNull();
+    expect(calls.map(call => call.operation)).toEqual(['getMapDialoguesResultsResultId', 'postMapDialoguesSelect']);
+    expect(calls[1]?.input.body).toEqual({ resultId: 'dialogue', candidateId: 'candidate' });
     flow.dispose();
   });
   it('rechecks saved state when start succeeded but its response was lost', async () => {

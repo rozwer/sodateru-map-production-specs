@@ -1,5 +1,5 @@
 import type { ApiClient, RouteSearchResult, SavedRoute, SavedRouteCreate } from '../../../packages/api-client/index';
-import { createRouteDraft, type PlaceSearchView, type RequestState, type RouteDraft, type RouteMode } from './types';
+import { createRouteDraft, type PlaceSearchView, type RequestState, type RouteDraft, type RouteMode, type WaypointSelection } from './types';
 import { routeMessages as m } from './messages';
 
 export interface RouteFlowSnapshot {
@@ -126,10 +126,9 @@ export class RouteFlow {
       const origin = result.origin;
       this.setDraft({ ...createRouteDraft(), stops: [
         { key: 'origin', query: origin.label, place: { id: 'dialogue-origin', name: origin.label, coordinates: origin.coordinates, selection: { kind: 'point', coordinates: origin.coordinates, label: origin.label } } },
-        { key: 'destination', query: candidate.name, place: candidate.placeId ? { id: candidate.placeId, name: candidate.name, coordinates: candidate.coordinates, selection: { kind: 'stored', placeId: candidate.placeId } } : null },
+        { key: 'destination', query: candidate.name, place: { id: candidate.candidateId, name: candidate.name, coordinates: candidate.coordinates, expiresAt: result.expiresAt, retention: candidate.retention, selection: { kind: 'dialogue', resultId, candidateId } } },
       ] });
-      // Dialogue IDs are not PLACES result IDs. Never change a temporary candidate into a manual point.
-      if (!candidate.placeId) this.update({ state: 'unavailable', message: m.dialogueCandidatePending });
+      // Selection retains dialogue identity; search uses its dedicated select operation.
     } catch (error) {
       if (abort.signal.aborted || generation !== this.generation || isAbort(error)) return;
       this.update({ state: 'error', message: m.failedPlaces });
@@ -178,7 +177,7 @@ export class RouteFlow {
     const draft = this.value.draft;
     if (draft.stops.length > 10 || draft.stops.length < 2) { this.update({ state: 'error', message: m.tooManyStops }); return false; }
     if (draft.stops.some(stop => !stop.place)) { this.update({ state: 'error', message: m.requiredPlaces }); return false; }
-    if (draft.stops.some(stop => stop.place?.selection.kind === 'candidate' && (stop.place.expiresAt ?? Infinity) <= Date.now())) { this.update({ state: 'error', message: m.expiredPlace }); return false; }
+    if (draft.stops.some(stop => (stop.place?.selection.kind === 'candidate' || stop.place?.selection.kind === 'dialogue') && (stop.place.expiresAt ?? Infinity) <= Date.now())) { this.update({ state: 'error', message: m.expiredPlace }); return false; }
     // Never silently drop conditions that the current HTTP Schema cannot carry.
     if (draft.departure || draft.returnBy || draft.avoidStairs || draft.preferCovered) {
       this.update({ state: 'unavailable', message: m.missingConditionsContract }); return false;
@@ -189,10 +188,33 @@ export class RouteFlow {
     this.searchKey ??= crypto.randomUUID();
     this.update({ state: 'loading', message: null, preview: null });
     try {
-      const response = await this.api.request('postRouteSearches', { body: { waypoints: draft.stops.map(stop => stop.place!.selection), mode: draft.mode, title: draft.title }, idempotencyKey: this.searchKey, signal: abort.signal });
+      const selections = draft.stops.map(stop => stop.place!.selection);
+      const dialogue = selections.find(point => point.kind === 'dialogue');
+      let preview: RouteSearchResult;
+      if (dialogue?.kind === 'dialogue') {
+        const origin = selections[0];
+        if (selections.length !== 2 || selections[1] !== dialogue || origin?.kind !== 'point') {
+          this.update({ state: 'unavailable', message: m.dialogueConditionsPending }); return false;
+        }
+        const response = await this.api.request('postMapDialoguesSelect', { body: { resultId: dialogue.resultId, candidateId: dialogue.candidateId }, idempotencyKey: this.searchKey, signal: abort.signal });
+        if (generation !== this.generation || abort.signal.aborted) return false;
+        const result = response.data;
+        const selectedRoute = result.routes[0];
+        if (result.resultId !== dialogue.resultId || result.expiresAt <= Date.now() || result.places.length !== 1 || result.places[0]?.candidateId !== dialogue.candidateId || result.routes.length !== 1 || !selectedRoute) {
+          this.update({ state: 'error', message: m.expiredRoute }); return false;
+        }
+        if (selectedRoute.mode !== draft.mode || result.origin.coordinates.some((coordinate, index) => coordinate !== origin.coordinates[index])) {
+          this.update({ state: 'unavailable', message: m.dialogueConditionsPending }); return false;
+        }
+        // EXPLORATION/ROUTES contract: select's one route previewId is saved-create resultId.
+        preview = { ...selectedRoute, resultId: selectedRoute.previewId };
+      } else {
+        const waypoints = selections.filter((point): point is Exclude<WaypointSelection, { kind: 'dialogue' }> => point.kind !== 'dialogue');
+        preview = (await this.api.request('postRouteSearches', { body: { waypoints, mode: draft.mode, title: draft.title }, idempotencyKey: this.searchKey, signal: abort.signal })).data;
+      }
       if (generation !== this.generation || abort.signal.aborted) return false;
       this.saveIntent = null;
-      this.update({ preview: response.data, searchedDraft: draft, state: 'idle' });
+      this.update({ preview, searchedDraft: draft, state: 'idle' });
       return true;
     } catch (error) {
       if (generation !== this.generation || abort.signal.aborted || isAbort(error)) return false;
