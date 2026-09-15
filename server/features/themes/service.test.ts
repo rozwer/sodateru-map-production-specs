@@ -38,7 +38,8 @@ test('same-name themes preserve separate IDs, memberships and presentation acros
     const page=listThemes(db,'p','live',1);
     assert.ok(page.nextCursor);
     const next=listThemes(db,'p','live',1,page.nextCursor!);
-    assert.notEqual(page.items[0].id,next.items[0].id);
+    assert.equal(page.items.length,1);assert.equal(next.items.length,1);
+    assert.notEqual(page.items[0]!.id,next.items[0]!.id);
     assert.throws(()=>listThemes(db,'p','demo',1,page.nextCursor!),{code:'INVALID_REQUEST'});
     deleteTheme(db,'p','t1',2);
     assert.throws(()=>getTheme(db,'p','t1'),{code:'NOT_FOUND'});
