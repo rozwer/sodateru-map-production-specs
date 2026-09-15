@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 63,
+  "revision": 64,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4540,17 +4540,39 @@
       "token": "55951bfb17884a9092571685f97731a9"
     },
     "CORE": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 4,
+      "actor": "koshiro",
+      "base_commit": "97f4d1a134c6e7f1a66374113d5a641b0a8b1b70",
+      "generation": 5,
       "issue_number": 3,
       "landed_main": null,
       "note": "CORE runtime/integration merged by PR53 at 413598b. Release shared paths after delivery; UI/feature connection acceptance remains in open Issue3. Keep worktree koshiro/3-core and evidence docs/evidence/CORE/runtime-integration.md.",
       "owner": "koshiro",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/app/",
+        "server/core/",
+        "server/db/connection.ts",
+        "server/db/migrate.ts",
+        "server/db/migrations/000-base.sql",
+        "tools/local/",
+        "package.json",
+        "bun.lock",
+        "tsconfig.json",
+        "docs/01_requirements/04_api/fragments/CORE.json",
+        "packages/api-client/",
+        "docs/01_requirements/04_api/tools/",
+        "docs/01_requirements/04_api/fragments/common.json",
+        "docs/01_requirements/04_api/openapi.json",
+        "docs/01_requirements/04_api/schemas/",
+        "docs/01_requirements/04_api/endpoints/",
+        "docs/01_requirements/04_api/conventions/",
+        "docs/01_requirements/04_api/README.md",
+        "docs/01_requirements/04_api/coverage.md",
+        "docs/01_requirements/04_api/examples.md",
+        "docs/evidence/CORE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "dde193cd1dd44e98a5795b310854873a"
     },
     "DISASTER": {
       "actor": "kaiya",
