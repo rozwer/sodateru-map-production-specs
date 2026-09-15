@@ -42,6 +42,7 @@
         "INSIGHTS-DEMO": 101,
         "ISSUE-CLOSE-REPAIRS": 221,
         "ISSUE-CLOSE-UI": 218,
+        "ISSUE-REPAIR-SUPERSESSIONS": 229,
         "MAP-CUSTOM": 27,
         "NAV-CARDS": 225,
         "PILGRIMAGE": 38,
@@ -7567,6 +7568,18 @@
           "src/features/records/",
           "src/features/activity/",
           "docs/evidence/BUILDING-RECORDS/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "ISSUE-REPAIR-SUPERSESSIONS",
+        "kind": "coordination",
+        "lane": "A",
+        "priority": "P1",
+        "title": "修復2件の分割移管をboardへ反映",
+        "write_paths": [
+          "TASK_GRAPH.json"
         ]
       }
     ],
@@ -33823,9 +33836,10 @@
     "DISASTER-UI-SCREEN",
     "BUILDING-GROWTH",
     "NAV-CARDS",
-    "BUILDING-RECORDS"
+    "BUILDING-RECORDS",
+    "ISSUE-REPAIR-SUPERSESSIONS"
   ],
-  "revision": 231,
+  "revision": 232,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34309,6 +34323,21 @@
       "status": "submitted",
       "submitted_commit": "be45d2b1f6a7edd80a2ebbb52de2302a94c510d5",
       "token": "8d2a3dcb39044219850109438689ad30"
+    },
+    "ISSUE-REPAIR-SUPERSESSIONS": {
+      "actor": "rozwer",
+      "base_commit": "54683e72014242ad4f512d99b4ff700dc008cfc0",
+      "generation": 1,
+      "issue_number": 229,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "TASK_GRAPH.json"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "9acfc65243c042c3a97d1e49443c0673"
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
