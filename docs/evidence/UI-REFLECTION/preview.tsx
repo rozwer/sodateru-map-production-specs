@@ -14,9 +14,12 @@ import {
   type MemoForm,
 } from "../../../src/features/reflection/views";
 import "./preview.css";
+const mediaMode = new URLSearchParams(location.search).get("media");
+const mediaUrl = mediaMode === "error" ? "./missing-media-fixture.png" : mediaMode ? "./media-fixture.svg" : undefined;
 const records: [RecordCardData, RecordCardData] = [
   {
     id: "fixture-cafe",
+    photoUrl: mediaUrl,
     title: "カフェでひと息",
     body: "窓際の席で、コーヒーを飲みながら読書。とても落ち着けた。",
     when: "5月12日（日）10:24",
@@ -26,6 +29,7 @@ const records: [RecordCardData, RecordCardData] = [
   },
   {
     id: "fixture-park",
+    photoUrl: mediaUrl,
     title: "東山公園で散歩",
     body: "園内をゆっくり歩いた",
     when: "5月10日（金）15:18",
@@ -67,7 +71,7 @@ const questions: QuestionCardData[] = [
 ];
 function Preview() {
   const empty = new URLSearchParams(location.search).has("empty");
-  const [photos, setPhotos] = useState<PhotoDraft[]>([]);
+  const [photos, setPhotos] = useState<PhotoDraft[]>(mediaUrl ? [{id: "media-fixture", url: mediaUrl, name: "表示確認画像"}] : []);
   const [page, setPage] = useState(
     new URLSearchParams(location.search).get("page") || "diary",
   );
