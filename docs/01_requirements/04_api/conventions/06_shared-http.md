@@ -8,13 +8,19 @@
 
 ### X-Request-Id
 
-string (uuid)。—。新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。
+string (uuid)。—。新しいHTTP要求のUUID。X-Data-Modeとmode別セッションを検査して本人contextを作る。
+
+<a id="x-data-mode"></a>
+
+### X-Data-Mode
+
+live / demo。—。
 
 <a id="idempotency-key"></a>
 
 ### Idempotency-Key
 
-string。minLength=1、maxLength=128。本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。
+string。minLength=1、maxLength=128。本人・mode・HTTP操作に束縛した再送識別子。COREの永続受付を使用。読取POSTでも指定し一時結果の期限を保持する。
 
 <a id="if-match"></a>
 

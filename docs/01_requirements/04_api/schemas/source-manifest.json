@@ -21,7 +21,7 @@
   "02_common/00_protocol.md": "2efea5d814a6a189ec80f1ce62397e84789b4fb84b8f283afd02bd757d38bd8b",
   "02_common/01_ai/01_contract.md": "f44d48bbf144848c7167f25f3f7586c87f5acb469879fa75f3bb301921bd3c6a",
   "02_common/01_ai/02_execution.md": "3341df8bfc50c24a0261e42224edb9c7ced642d94035b0838ec98af6f341206e",
-  "02_common/01_ai/03_storage-ui.md": "7a1e7397f2a87ad22aadd133006bd01e12c39c95ed6bd45e4dd4d1721a0dd44d",
+  "02_common/01_ai/03_storage-ui.md": "25964e73b1fca9ce4398978978577628f68e632cd2a3995bac4dc4e22dd65d25",
   "02_common/01_ai/04_map-dialogue.md": "617668d15e86b828b13272654e8e426bd38dc204254c4393456a3bc2c72c3bb0",
   "02_common/01_ai/05_acceptance.md": "5a5b4d38fc244af6976f332f2edc95c7dbc530db370be602232590c57eac32d1",
   "02_common/01_ai/README.md": "460d7b35c469cae73185a43d87ad8a6b8dd8d705cb0c20c5d68ef0810c4c646a",
@@ -29,7 +29,7 @@
   "02_common/01_ai/schemas.json": "67ad5b8e4b5291f1292b3ab5be28a05376486bb70ec4ecc4f321aff007981310",
   "02_common/02_places-routes/01_places.md": "16f2a991feaf41ae5184631c6fe0b43c10e032085977db894fd29835c40ba2cb",
   "02_common/02_places-routes/02_routes.md": "039ba16c3f6b7043871b1b4e5b328447f6d08f1e79f0653aef6ec8903fab4aa7",
-  "02_common/02_places-routes/03_map-ui.md": "548fb961f2776a7a124888a225590d9109f7674c4d8eef428fa73274c6984de2",
+  "02_common/02_places-routes/03_map-ui.md": "c6dd5309fa59b3fa52239c617a0ae62ea4802acef25fb12e429d3fcdc42473c6",
   "02_common/02_places-routes/04_acceptance.md": "ddf092faceee46de114d6cdfbad73f882cc19204057628e4ed8404ea6ef6afdd",
   "02_common/02_places-routes/README.md": "859b10a2fd90afa929e0aef5edc89328c5ce8f19b55edb1eade663967bde2118",
   "02_common/02_places-routes/examples.json": "d1741c21909c4013a5f61a8dc97db9dad0d0c5e3cc792d241ea5f02341da5481",
@@ -45,5 +45,7 @@
   "02_common/README.md": "7bfc610e06c6f41cd485abfab8975643c65d1a62453ba588e6202845430b5d90",
   "02_common/references/http-bindings.md": "91fedf2eae24ba8c26d812760d38e4a71e84be188f38e4473979c889dca42568",
   "02_common/references/implementation-map.md": "04f3fb4edc523dc883d9c7a7d8e59ff5f564b4347615a9d0892a6c847714fa9f",
-  "02_common/references/storage-additions.sql": "af941b035b98f9de215df5092826c6ba3db91c9819de264c67f81994319d6bb1"
+  "02_common/references/storage-additions.sql": "af941b035b98f9de215df5092826c6ba3db91c9819de264c67f81994319d6bb1",
+  "04_api/fragments/CORE.json": "a5853ae1ceba852a21903945c08d87b48a9a3ef79bf0ff6df94552c201a25648",
+  "04_api/fragments/common.json": "3f652c4590e755737c85943a5d77fa73686c47b2ddcbfbbf594696d4fbee61dd"
 }
