@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 17,
+  "revision": 18,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4509,12 +4509,22 @@
       "token": null
     },
     "MAP-CUSTOM": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 27,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/features/map-custom/",
+        "server/db/migrations/map-custom/",
+        "docs/01_requirements/04_api/fragments/MAP-CUSTOM.json",
+        "docs/evidence/MAP-CUSTOM/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "6fc8eeca03fc4a57873e0b0396298f90"
     },
     "PILGRIMAGE": {
       "actor": null,
