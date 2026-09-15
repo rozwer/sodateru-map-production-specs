@@ -27,6 +27,7 @@
         "CORE": 3,
         "DISASTER": 30,
         "DISASTER-DATA": 214,
+        "DISASTER-UI": 219,
         "EXPLORATION": 26,
         "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
@@ -7412,6 +7413,21 @@
         "write_paths": [
           "src/features/disaster/data/",
           "docs/evidence/DISASTER-DATA/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "DISASTER-UI",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "防災専用地図と主要操作を本番へ接続",
+        "write_paths": [
+          "src/features/disaster/ui/",
+          "src/features/disaster/screens.tsx",
+          "src/features/disaster/types.ts",
+          "src/map/MapRenderer.tsx",
+          "docs/evidence/DISASTER-UI/"
         ]
       }
     ],
@@ -33658,9 +33674,10 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA",
     "EXPLORATION-FOLLOWUP",
-    "DISASTER-DATA"
+    "DISASTER-DATA",
+    "DISASTER-UI"
   ],
-  "revision": 217,
+  "revision": 218,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33905,6 +33922,25 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "b7a845b224db43eabc65f4de7c69e9e2"
+    },
+    "DISASTER-UI": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 219,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "src/map/MapRenderer.tsx",
+        "docs/evidence/DISASTER-UI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "39401bfdc8834fe582cca7efcb35e0a3"
     },
     "EXPLORATION": {
       "actor": "mattsun",
