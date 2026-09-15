@@ -33646,7 +33646,7 @@
     "VISUAL-RECORDS-CAMERA",
     "EXPLORATION-FOLLOWUP"
   ],
-  "revision": 215,
+  "revision": 216,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34180,17 +34180,22 @@
       "token": null
     },
     "THEMES-INTEGRATION": {
-      "actor": null,
-      "base_commit": "977d5bf881f964d875da1b9623bcda03944654b9",
-      "generation": 2,
+      "actor": "mattsun",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 3,
       "issue_number": 105,
       "landed_main": null,
       "note": "Shared demo checkout retained; resume implementation in separate worktree",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/themes/",
+        "server/db/migrations/themes/",
+        "docs/01_requirements/04_api/fragments/THEMES.json",
+        "docs/evidence/THEMES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "1d84645f003c4d7bb086edd8e44a15a0"
     },
     "TOOL-ISSUE-COMMENT": {
       "actor": "rozwer",
