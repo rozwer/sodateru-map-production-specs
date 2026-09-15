@@ -33855,7 +33855,7 @@
     "ISSUE-REPAIR-SUPERSESSIONS",
     "ISSUE-SUPERSESSION-FIX"
   ],
-  "revision": 245,
+  "revision": 246,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34351,17 +34351,13 @@
       "base_commit": "68a2552d45f645f4d9197070ae90e8b3ced9c2ae",
       "generation": 1,
       "issue_number": 234,
-      "landed_main": null,
+      "landed_main": "adfaeae7204146e41a6fe827d55daff95c43e303",
       "note": "docs/evidence/ISSUE-SUPERSESSION-FIX/README.md",
       "owner": "rozwer",
-      "paths": [
-        "tools/sync_graph.py",
-        "tools/test_sync_graph.py",
-        "docs/evidence/ISSUE-SUPERSESSION-FIX/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "4218ce4f6ef415620fdf1480b8464c74d3899f77",
-      "token": "2b083f8fa44e4c4eb574042d1cce1bfb"
+      "token": null
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
