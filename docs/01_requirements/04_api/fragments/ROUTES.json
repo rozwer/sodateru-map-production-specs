@@ -1,6 +1,6 @@
 {
   "taskId": "ROUTES",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "replaceSchemas": [
     "RouteSearchInput",
     "RouteSearchResult",
@@ -294,6 +294,10 @@
         "sourceUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "segmentEvidence": {
+          "$ref": "#/components/schemas/BikeSegmentEvidence",
+          "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
         }
       },
       "required": [
@@ -475,6 +479,10 @@
         "sourceUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "segmentEvidence": {
+          "$ref": "#/components/schemas/BikeSegmentEvidence",
+          "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
         }
       },
       "required": [
@@ -724,6 +732,10 @@
         },
         "providerEvidence": {
           "$ref": "#/components/schemas/RouteProviderEvidence"
+        },
+        "segmentEvidence": {
+          "$ref": "#/components/schemas/BikeSegmentEvidence",
+          "description": "Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown."
         }
       },
       "required": [
@@ -894,7 +906,12 @@
           ]
         },
         "status": {
-          "const": "applied"
+          "type": "string",
+          "enum": [
+            "applied",
+            "ignored",
+            "unknown"
+          ]
         },
         "reason": {
           "type": "string"
@@ -1005,7 +1022,6 @@
         },
         "warnings": {
           "type": "array",
-          "maxItems": 0,
           "items": {
             "type": "object",
             "required": [
@@ -1021,7 +1037,25 @@
               }
             },
             "additionalProperties": false
-          }
+          },
+          "description": "cycling success has no warnings; explicit motorbike evidence retains warning208 as ignored, never applied"
+        },
+        "profile": {
+          "type": "string",
+          "enum": [
+            "motorcycle",
+            "motor_scooter"
+          ]
+        },
+        "traceVehicleTypes": {
+          "type": "array",
+          "items": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "description": "Actual trace vehicle_type values including missing/null. Never a Japanese vehicle eligibility certificate."
         }
       },
       "description": "同一geometryの取得根拠。warningは取得失敗として返し、保存可能な結果には含めない。"
@@ -2045,5 +2079,11 @@
       "remaining": "利用可能な交通provider接続・ID検索・実取得が未提供。既存transit-passes operationIdを保持し、正式Schemaと実装の追加時に更新する。"
     },
     "alternatives": "独立した全行程previewIdごとに比較・保存。候補数を水増ししない。"
+  },
+  "x-motorbike-server-contract": {
+    "factory": "server/features/routes/index.ts#createMotorbikeRoutesService(db,{profile,useHighways?,topSpeed?})",
+    "input": "existing RouteInput mode=driving; conditions.departAt/timeZone required; avoidMotorways becomes requested exclusion, not a guarantee",
+    "output": "RoutePreview.segmentEvidence matches BIKE BikeSegmentEvidence, same ordered full geometry; save and GET retain it",
+    "http": "No new operation or client-supplied profile/evidence. BIKE owns installation/settings to server factory wiring. Shared generation held by root."
   }
 }

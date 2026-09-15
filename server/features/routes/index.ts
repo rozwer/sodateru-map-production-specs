@@ -1,3 +1,4 @@
+import { ValhallaMotorbikeProvider, type MotorbikeOptions } from './motorbike.ts';
 import type { DatabaseSync } from 'node:sqlite';
 import { transaction } from '../../db/migrate.ts';
 import { ValhallaCyclingProvider } from './valhalla.ts';
@@ -14,3 +15,9 @@ export function createRoutesService(db: DatabaseSync): RoutesService {
     compare: (points,mode,...args) => (mode === 'cycling' ? cycling : mapbox).compare(points,mode,...args),
   }, placesBoundary(db));
 }
+
+/** Server-owned options from BIKE settings. The default walking/driving factory is unchanged. */
+export function createMotorbikeRoutesService(db: DatabaseSync, options: MotorbikeOptions): RoutesService {
+  return new RoutesService(db, run => transaction(db, run), new ValhallaMotorbikeProvider(process.env.ROUTES_VALHALLA_URL ?? 'https://valhalla1.openstreetmap.de/route', options), placesBoundary(db));
+}
+export type { MotorbikeOptions } from './motorbike.ts';
