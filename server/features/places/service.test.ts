@@ -36,6 +36,8 @@ test("saved priority, HTTP DTO, expiry retry, persistence and deletion",async()=
    const result=await service.search(ctx,db,{q:"cafe a"});
    assert.equal(result.items.length,1);assert.equal(result.items[0]!.placeId,first.id);
    assert.deepEqual(candidateResultDto(result).items[0]!.position,{longitude:139.7,latitude:35.6});
+   const cancelled=new AbortController();cancelled.abort();
+   await assert.rejects(service.search({...ctx,signal:cancelled.signal},db,{q:"cafe a"}),(error:any)=>error.name==="AbortError");
    const input={id:"adoption-one",mode:"candidate" as const,resultId:result.resultId,candidateId:"candidate-1"};
    assert.equal(tx(db,()=>service.adopt(ctx,db,input)).place.id,first.id);
    now+=16*60_000;
