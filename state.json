@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 124,
+  "revision": 125,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4643,18 +4643,13 @@
       "base_commit": "6b91573436e662e4f743b28b3b55b8a19013a60f",
       "generation": 3,
       "issue_number": 6,
-      "landed_main": null,
+      "landed_main": "f72c7e7c54b87a699d00de964e536c02b4d47083",
       "note": "docs/evidence/INFORMATION/acceptance.md",
       "owner": "koshiro",
-      "paths": [
-        "server/information/",
-        "server/db/migrations/information/",
-        "docs/01_requirements/04_api/fragments/INFORMATION.json",
-        "docs/evidence/INFORMATION/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "dfcb151449f0025a9ceea2895c9ce916ee66d963",
-      "token": "1fc67d9b004c4190838839ef69c3c1bf"
+      "token": null
     },
     "INSIGHTS": {
       "actor": "mattsun",
