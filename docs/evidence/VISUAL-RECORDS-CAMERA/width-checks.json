@@ -1,0 +1,114 @@
+[
+  {
+    "screen": "record-create",
+    "width": 446,
+    "height": 903,
+    "actual": 446,
+    "scroll": 446
+  },
+  {
+    "screen": "record-create",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "record-edit",
+    "width": 426,
+    "height": 930,
+    "actual": 426,
+    "scroll": 426
+  },
+  {
+    "screen": "record-edit",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "visit-confirm",
+    "width": 428,
+    "height": 930,
+    "actual": 428,
+    "scroll": 428
+  },
+  {
+    "screen": "visit-confirm",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "interpretation-correction",
+    "width": 426,
+    "height": 930,
+    "actual": 426,
+    "scroll": 426
+  },
+  {
+    "screen": "interpretation-correction",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "record-delete",
+    "width": 512,
+    "height": 1024,
+    "actual": 512,
+    "scroll": 512
+  },
+  {
+    "screen": "record-delete",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "growth-result",
+    "width": 512,
+    "height": 1024,
+    "actual": 512,
+    "scroll": 512
+  },
+  {
+    "screen": "growth-result",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "daily-track",
+    "width": 426,
+    "height": 922,
+    "actual": 426,
+    "scroll": 426
+  },
+  {
+    "screen": "daily-track",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  },
+  {
+    "screen": "calendar",
+    "width": 440,
+    "height": 866,
+    "actual": 440,
+    "scroll": 440
+  },
+  {
+    "screen": "calendar",
+    "width": 390,
+    "height": 844,
+    "actual": 390,
+    "scroll": 390
+  }
+]
