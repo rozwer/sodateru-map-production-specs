@@ -8,7 +8,10 @@ import {candidateResultDto} from "./http-dto.ts";
 
 export default defineFeature({
   id:"PLACES",
-  migrations:[{id:"places-001-details",sql:readFileSync(new URL("../../db/migrations/places/001-details.sql",import.meta.url),"utf8")}],
+  migrations:[
+    {id:"places-001-details",sql:readFileSync(new URL("../../db/migrations/places/001-details.sql",import.meta.url),"utf8")},
+    {id:"places-002-presentation",sql:readFileSync(new URL("../../db/migrations/places/002-presentation.sql",import.meta.url),"utf8")}
+  ],
   register(api) {
     api.get("/places",c=>c.json(listPlaces(c.get("context"),c.get("db"),c.req.query())));
     api.get("/place-candidates",async c=>c.json({data:candidateResultDto(await placesService.search(c.get("context"),c.get("db"),validateSearch(c.req.query())))}));
