@@ -22,12 +22,15 @@
 | 指定画像 `08_11_47.png` を実際に開いて3画面を照合 | 見出し、カード、条件chip、任意入力、時間式、確認済み/不明、操作行をDOM/CSSで構成 |
 | 390pxで状態入力・2時間以上・同行者変更→候補一覧→詳細→メモ入力 | 選択条件の保持、対象候補の遷移、メモ原文入力を確認 |
 | 320px詳細 / 390px文字200% | DOM幅がviewport内。拡大状態でも下部の「これにする」へスクロールして操作可能 |
+| 5件・長い候補名・評価1と未評価 | 390pxで件数5、評価の区別、横はみ出し0を確認 |
 | 0件・通信失敗 | 条件変更、再試行、入力保持を表示 |
 | TypeScript strict | 公開済みCORE generatorでSUGGESTIONS/COMMUNITY/PLACES/SETTINGSの確定fragmentを一時領域へ合成し、3画面とAPI呼出しの型検査成功 |
 
 参照画像は製品の画像素材にしていない。画面上部の「表示サンプル・API未接続」と、操作後の「API保存は行っていません」で表示検査を明示する。
 
-画像：`reference-layout.png`、`checkin-390.png`、`list-390.png`、`empty-390.png`、`detail-text200.png`。
+コントローラーの限定検査: `mise exec -- bunx vitest run src/features/suggestions/screens.test.tsx --environment jsdom`、2件成功。回答だけ保存のPOST→GET（候補/訪問作成なし）、保存後の応答喪失→同じIDのGET確認（POST/PATCH重複なし）を検証。テスト専用の応答storeであり、live DBの証拠ではない。
+
+画像：`reference-layout.png`、`checkin-390.png`、`list-390.png`、`empty-390.png`、`detail-text200.png`、`list-long-390.png`。
 
 表示サンプルは、Viteで `/docs/evidence/UI-SUGGESTIONS/preview.html` を開く。`preview.tsx` は製品の画面登録から読まれない。
 
