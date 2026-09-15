@@ -69,6 +69,7 @@
         "UI-SUGGESTIONS": 15,
         "VISUAL-COMMUNITY": 173,
         "VISUAL-MAP-EXPLORE": 174,
+        "VISUAL-PLUGINS": 186,
         "VISUAL-SELF": 176,
         "VISUAL-SHELL": 172,
         "VISUAL-SOCIAL": 184
@@ -7191,6 +7192,20 @@
           "src/features/knowledge/",
           "src/features/companion/",
           "docs/evidence/VISUAL-COMMUNITY/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-PLUGINS",
+        "kind": "ui",
+        "lane": "A",
+        "priority": "P0",
+        "title": "拡張機能とお願い9画面の参照状態を修復",
+        "write_paths": [
+          "src/features/plugins/",
+          "src/features/feature-requests/",
+          "docs/evidence/VISUAL-PLUGINS/"
         ]
       }
     ],
@@ -33431,9 +33446,10 @@
     "VISUAL-MAP-EXPLORE",
     "VISUAL-COMMUNITY",
     "VISUAL-SELF",
-    "VISUAL-SOCIAL"
+    "VISUAL-SOCIAL",
+    "VISUAL-PLUGINS"
   ],
-  "revision": 181,
+  "revision": 182,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34265,6 +34281,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "2c2ea76c81324604a1c4189a12dbb03e"
+    },
+    "VISUAL-PLUGINS": {
+      "actor": "rozwer",
+      "base_commit": "14b5b2ea6f7a6b867be0e9d6ca253ab046191038",
+      "generation": 1,
+      "issue_number": 186,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/VISUAL-PLUGINS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "a289009a6e154c28b47e458b4befa827"
     },
     "VISUAL-SELF": {
       "actor": "rozwer",
