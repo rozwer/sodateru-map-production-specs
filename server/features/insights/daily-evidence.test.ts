@@ -16,7 +16,7 @@ test("固定5軸: 本を見つけたを含め同日重複は1、明記なしは�
 });
 test("願望・他人・日時不明はyesにせず、明示日否定と競合は根拠付き不明",()=>{
  const result=deriveDailyEvidence({from,to:from+2*day,timeZone:"UTC"},[
- record("wish","本を読みたい。友人が本を読んだ。カフェに行く予定。"),
+ record("wish","本を読みたい。本を読んだ？友人が本を読んだ。カフェに行く予定。"),
  record("no","今日は一日、散歩をしなかった。"),
  record("yes","散歩をした。"),{...record("undated","本を読んだ。"),timePrecision:"unknown"},
  record("social-no","今日は一日、誰とも過ごさなかった。",1)
