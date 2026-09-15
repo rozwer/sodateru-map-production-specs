@@ -20,6 +20,9 @@ function hasRemoteDevelop(cwd) {
   try { return Boolean(git(['rev-parse', '--verify', 'refs/remotes/origin/develop'], cwd)); }
   catch { return false; }
 }
+export function issueAuthorizationBranch(action, number, branch, owner) {
+  return action === 'comment' ? branch : `${owner}/${number}-issue`;
+}
 function boardCheck(cwd, mode) {
   const root = git(['rev-parse', '--show-toplevel'], cwd), key = root + ':' + mode;
   if (!checked.has(key)) checked.set(key, JSON.parse(execFileSync(process.platform === 'win32' ? 'python' : 'python3', ['-X', 'utf8', resolve(root, 'tools/task_worktree.py'), mode], { cwd, encoding: 'utf8', timeout: 45000 })));
@@ -116,7 +119,7 @@ export function inspectShell(command, cwd, owner) {
     if ((words[1] === 'issue' || words[1] === 'pr') && ['list', 'view', 'status', 'diff', 'checks'].includes(words[2])) return;
     if (words[1] === 'issue' && ['edit', 'close', 'reopen', 'comment'].includes(words[2])) {
       if (!/^\d+$/.test(words[3] ?? '') || words.some(w => ['--repo', '-R', '--title', '-t', '--add-assignee', '--remove-assignee'].includes(w) || w.startsWith('--repo=') || w.startsWith('--title='))) throw new Error('担当変更はtask:claimを使い、Issue操作は番号を明示してください。');
-      verify(cwd, `${owner}/${words[3]}-issue`, owner); return;
+      verify(cwd, issueAuthorizationBranch(words[2], words[3], currentBranch(cwd), owner), owner); return;
     }
     if (words[1] === 'issue' && words[2] === 'create') return;
     if (words[1] === 'issue') throw new Error('このIssue操作はまだ対応していません。');
