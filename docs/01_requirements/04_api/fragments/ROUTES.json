@@ -1,11 +1,14 @@
 {
   "taskId": "ROUTES",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "replaceSchemas": [
     "RouteSearchInput",
     "RouteSearchResult",
     "CommonMapRoutePreview",
-    "SavedRoute"
+    "SavedRoute",
+    "RouteConditions",
+    "RouteConditionEvaluation",
+    "RouteComparisonResult"
   ],
   "schemas": {
     "RouteSearchInput": {
@@ -254,7 +257,10 @@
           "minimum": 0
         },
         "provider": {
-          "const": "mapbox-directions"
+          "enum": [
+            "mapbox-directions",
+            "valhalla"
+          ]
         },
         "fetchedAt": {
           "type": "integer",
@@ -278,6 +284,16 @@
           "items": {
             "$ref": "#/components/schemas/RouteConditionEvaluation"
           }
+        },
+        "timing": {
+          "$ref": "#/components/schemas/RouteTiming"
+        },
+        "providerEvidence": {
+          "$ref": "#/components/schemas/RouteProviderEvidence"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
         }
       },
       "required": [
@@ -422,7 +438,10 @@
           "minimum": 0
         },
         "provider": {
-          "const": "mapbox-directions"
+          "enum": [
+            "mapbox-directions",
+            "valhalla"
+          ]
         },
         "fetchedAt": {
           "type": "integer",
@@ -446,6 +465,16 @@
           "items": {
             "$ref": "#/components/schemas/RouteConditionEvaluation"
           }
+        },
+        "timing": {
+          "$ref": "#/components/schemas/RouteTiming"
+        },
+        "providerEvidence": {
+          "$ref": "#/components/schemas/RouteProviderEvidence"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
         }
       },
       "required": [
@@ -607,8 +636,10 @@
           "description": "所要時間。未取得はNULL"
         },
         "provider": {
-          "const": "mapbox-directions",
-          "description": "経路の提供元。未取得はNULL"
+          "enum": [
+            "mapbox-directions",
+            "valhalla"
+          ]
         },
         "sourceUrl": {
           "anyOf": [
@@ -687,6 +718,12 @@
           "items": {
             "$ref": "#/components/schemas/RouteConditionEvaluation"
           }
+        },
+        "timing": {
+          "$ref": "#/components/schemas/RouteTiming"
+        },
+        "providerEvidence": {
+          "$ref": "#/components/schemas/RouteProviderEvidence"
         }
       },
       "required": [
@@ -781,12 +818,12 @@
         "departAt": {
           "type": "integer",
           "minimum": 0,
-          "description": "出発日時、UTC Unixミリ秒"
+          "description": "出発日時、UTC Unixミリ秒。cyclingで使用する場合は60000の倍数、timeZone必須。"
         },
         "returnBy": {
           "type": "integer",
           "minimum": 0,
-          "description": "行程終点への帰着期限、UTC Unixミリ秒"
+          "description": "行程終点への帰着期限、UTC Unixミリ秒。cyclingで使用する場合は60000の倍数、timeZone必須。"
         },
         "avoidStairs": {
           "type": "boolean"
@@ -809,9 +846,15 @@
         "avoidMotorways": {
           "type": "boolean",
           "description": "drivingのみ。全区間にexclude=motorwayを指定し、provider違反通知・道路分類を検査。違反は採用不可。"
+        },
+        "timeZone": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "IANA時間帯。cyclingのdepartAt/returnBy指定時に必須。日時は分単位のUTC Unixミリ秒。"
         }
       },
-      "description": "指定条件を黙って除外しない。avoidMotorwaysはdrivingの実provider評価に対応。他の有効な条件指定は501 MODE_UNSUPPORTED。日時はUTC Unixミリ秒。"
+      "description": "walking/drivingは既存Mapbox。cyclingはValhallaでdepartAt/returnBy/timeZoneを評価。滞在/階段/屋根/交通/自転車の高速回避は未対応条件として拒否する。"
     },
     "RouteComparisonResult": {
       "type": "object",
@@ -828,7 +871,8 @@
             "$ref": "#/components/schemas/RouteSearchResult"
           }
         }
-      }
+      },
+      "description": "同じ地点順と指定条件の全行程候補。cyclingは標準/距離優先を取得しgeometry重複を除去。時刻/複数経由地の非対応alternatesを捏造しない。"
     },
     "RouteConditionEvaluation": {
       "type": "object",
@@ -843,7 +887,11 @@
       ],
       "properties": {
         "key": {
-          "const": "avoidMotorways"
+          "enum": [
+            "avoidMotorways",
+            "departAt",
+            "returnBy"
+          ]
         },
         "status": {
           "const": "applied"
@@ -852,7 +900,10 @@
           "type": "string"
         },
         "provider": {
-          "const": "mapbox-directions"
+          "enum": [
+            "mapbox-directions",
+            "valhalla"
+          ]
         },
         "sourceUrl": {
           "type": "string",
@@ -863,6 +914,117 @@
           "minimum": 0
         }
       }
+    },
+    "RouteTiming": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "departureAt",
+        "arrivalAt",
+        "timeZone",
+        "providerTimePrecisionSec",
+        "locations"
+      ],
+      "properties": {
+        "departureAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "arrivalAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "providerTimePrecisionSec": {
+          "const": 60
+        },
+        "locations": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "waypointIndex",
+              "localDateTime",
+              "timeZone",
+              "utcOffset"
+            ],
+            "properties": {
+              "waypointIndex": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "localDateTime": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$"
+              },
+              "timeZone": {
+                "type": "string"
+              },
+              "utcOffset": {
+                "type": "string",
+                "pattern": "^[+-]\\d{2}:\\d{2}$"
+              }
+            }
+          }
+        }
+      },
+      "description": "同一provider応答の地点時刻は分精度。departureAt/arrivalAtは指定端点と保存された区間秒合計による移動予定で到着保証ではない。"
+    },
+    "RouteProviderEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "endpoint",
+        "attribution",
+        "geometryHash",
+        "strategy",
+        "warnings"
+      ],
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "geometryHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "strategy": {
+          "enum": [
+            "balanced",
+            "shortest"
+          ]
+        },
+        "warnings": {
+          "type": "array",
+          "maxItems": 0,
+          "items": {
+            "type": "object",
+            "required": [
+              "code",
+              "text"
+            ],
+            "properties": {
+              "code": {
+                "type": "integer"
+              },
+              "text": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "description": "同一geometryの取得根拠。warningは取得失敗として返し、保存可能な結果には含めない。"
     }
   },
   "operations": [
@@ -1851,7 +2013,8 @@
   "x-deliveries": {
     "ROUTES.basic": "walking/driving、全区間・保存・再取得。共通HTTP実接続の証拠で提供判定。",
     "ROUTES.navigation": "同一取得stepsと保存status/currentLeg。位置測位と画面表示はUI担当。",
-    "ROUTES.conditions": "未完了。階段・屋根・交通・運賃・定期券・時間条件の取得根拠が必要。"
+    "ROUTES.conditions": "未完了。階段・屋根・交通・運賃・定期券・時間条件の取得根拠が必要。",
+    "cycling": "Valhalla cycling + departAt/returnBy/timeZone; explicit URL setting for local competition demo. Common generation and HTTP acceptance required."
   },
   "x-q07-contract": {
     "conditionEvaluations": {
