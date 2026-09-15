@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 283,
+  "revision": 284,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34999,21 +34999,17 @@
       "token": null
     },
     "UI-MAP": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "fe4e4e6aa86285e29ac3da5a411676aa3c8dbf71",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 8,
       "landed_main": null,
-      "note": "User requested end. All current changes pushed in PR163 cb8ef9b; UI-INTEGRATION98 receives docs/evidence/UI-MAP/screens-handoff.md with required remaining acceptance. Preserve /Users/roz/.codex/worktrees/ui-map-8.",
+      "note": "PR #278 / 71279ce に建物クリックの滞在傾向UIを限定統合。ローカルdevelop反映・5176起動済み。Issue全体は未完のためopenのまま返却。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/map/",
-        "src/map/",
-        "docs/evidence/UI-MAP/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "5aff1aa1afc24890b6028ed91666c70e"
+      "token": null
     },
     "UI-PLUGINS": {
       "actor": null,
