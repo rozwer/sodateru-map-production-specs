@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 206,
+  "revision": 207,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33941,7 +33941,7 @@
       "generation": 1,
       "issue_number": 111,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/REFLECTION/live-integration.md",
       "owner": "mattsun",
       "paths": [
         "server/features/reflection/",
@@ -33950,8 +33950,8 @@
         "docs/evidence/REFLECTION/",
         "server/core/validation.ts"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "bb9fb87a4909da4933cb4d1649fff37caa54d94b",
       "token": "b2fcf63666454646802c8ff918f4aa0a"
     },
     "ROUTES": {
