@@ -25,3 +25,5 @@ export const emptyFilters: KnowledgeFilters = {
   areaText: '', center: null, radiusM: null, bounds: null, purpose: null, period: null, audience: 'visible',
 };
 export type KnowledgePerson = { id: string; name: string; bio: string; avatarUrl: string | null };
+/** Display options resolved by the place search API; never sent back as a wire DTO. */
+export type KnowledgeAreaOption = { id: string; name: string; coordinates: [number, number] };
