@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 104,
+  "revision": 105,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4939,18 +4939,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 32,
-      "landed_main": null,
+      "landed_main": "09ec5f171323d3f9c57e87d260407d3c05168054",
       "note": "docs/evidence/TRANSFER/completion-scope.md",
       "owner": "mattsun",
-      "paths": [
-        "server/features/transfer/",
-        "server/db/migrations/transfer/",
-        "docs/01_requirements/04_api/fragments/TRANSFER.json",
-        "docs/evidence/TRANSFER/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "6ecfdfb2fd8cf28a1e3271434024230b04da78da",
-      "token": "72e7fb31c2744787aee64fbc14a5bcb3"
+      "token": null
     },
     "UI-BASE": {
       "actor": "rozwer",
