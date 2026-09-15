@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 40,
+  "revision": 41,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4466,12 +4466,23 @@
       "token": null
     },
     "COMMUNITY": {
-      "actor": null,
-      "generation": 0,
+      "actor": "koshiro",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 22,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "koshiro",
+      "paths": [
+        "server/features/community/",
+        "server/features/friends/",
+        "server/db/migrations/community/",
+        "docs/01_requirements/04_api/fragments/COMMUNITY.json",
+        "docs/evidence/COMMUNITY/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "51c20d3b03f74fa08651bbc14376a222"
     },
     "COMPANION": {
       "actor": "mattsun",
