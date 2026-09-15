@@ -18,7 +18,7 @@ export function distanceAndBearing(from: Coordinates, to: Coordinates) {
 type OrientationPermissionEvent = typeof DeviceOrientationEvent & { requestPermission?: (absolute?: boolean) => Promise<'granted' | 'denied'> };
 type CompassEvent = DeviceOrientationEvent & { webkitCompassHeading?: number; webkitCompassAccuracy?: number };
 
-export function useCompassLocation() {
+export function useCompassLocation(enabled = true) {
   const [position, setPosition] = useState<PositionReading | null>(null);
   const [positionError, setPositionError] = useState<string | null>(null);
   const [heading, setHeading] = useState<number | null>(null);
@@ -28,9 +28,11 @@ export function useCompassLocation() {
   const removeOrientation = useRef<(() => void) | null>(null);
 
   useEffect(() => {
+    if (!enabled) { active.current = false; return; }
     active.current = true;
-    if (!navigator.geolocation) { setPositionError(m.positionUnavailable); return; }
-    const watch = navigator.geolocation.watchPosition(reading => {
+    const geolocation = navigator.geolocation;
+    if (!geolocation) setPositionError(m.positionUnavailable);
+    const watch = geolocation?.watchPosition(reading => {
       if (!active.current) return;
       setPosition({ coordinates: [reading.coords.longitude, reading.coords.latitude], accuracy: reading.coords.accuracy, timestamp: reading.timestamp });
       setPositionError(null);
@@ -40,11 +42,11 @@ export function useCompassLocation() {
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => {
       active.current = false;
-      navigator.geolocation.clearWatch(watch);
+      if (watch !== undefined) geolocation.clearWatch(watch);
       window.clearInterval(timer);
       removeOrientation.current?.();
     };
-  }, []);
+  }, [enabled]);
 
   const enableHeading = useCallback(async () => {
     const event = window.DeviceOrientationEvent as OrientationPermissionEvent | undefined;
@@ -135,7 +137,7 @@ export function useVoiceRecorder(transcribe: (audio: Blob, signal: AbortSignal) 
   }, [onTranscript, transcribe]);
 
   const start = useCallback(async () => {
-    if (recorder.current?.state === 'recording') return;
+    if (recorder.current?.state === 'recording') return true;
     const attempt = ++generation.current;
     request.current?.abort();
     setState('requesting');
@@ -143,7 +145,7 @@ export function useVoiceRecorder(transcribe: (audio: Blob, signal: AbortSignal) 
     try {
       if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) throw new Error(m.microphoneUnavailable);
       const acquired = await navigator.mediaDevices.getUserMedia({ audio: true });
-      if (attempt !== generation.current) { acquired.getTracks().forEach(track => track.stop()); return; }
+      if (attempt !== generation.current) { acquired.getTracks().forEach(track => track.stop()); return false; }
       stream.current = acquired;
       const type = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm'].find(value => MediaRecorder.isTypeSupported(value));
       const recording = new MediaRecorder(acquired, type ? { mimeType: type } : undefined);
@@ -187,13 +189,15 @@ export function useVoiceRecorder(transcribe: (audio: Blob, signal: AbortSignal) 
         frames.current = requestAnimationFrame(sample);
       };
       frames.current = requestAnimationFrame(sample);
+      return true;
     } catch (failure) {
-      if (attempt !== generation.current) return;
+      if (attempt !== generation.current) return false;
       generation.current += 1;
       if (recorder.current?.state === 'recording') recorder.current.stop();
       release();
       setState('error');
       setError(failure instanceof DOMException && failure.name === 'NotAllowedError' ? m.microphoneDenied : m.microphoneUnavailable);
+      return false;
     }
   }, [convert, release]);
 

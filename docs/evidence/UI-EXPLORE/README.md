@@ -33,14 +33,14 @@
 ## 実施した確認
 
 - TypeScript strict / React JSX / ES2022・DOMの型検査に成功。
-- 端末処理4件のVitestに成功。取消後の文字起こし遅着を破棄、古い録音の停止イベントが新しい録音を止めない、方位拒否の識別と測位watch解除、実座標からの距離/方角（経度180度を跨ぐ場合を含む）。
+- 端末処理8件のVitestに成功。取消後の文字起こし遅着を破棄、古い録音の停止イベントが新しい録音を止めない、方位拒否の識別と測位watch解除、実座標からの距離/方角（経度180度を跨ぐ場合を含む）、GPSが無い環境のlistener解除、非表示画面のGPS停止/再表示時の再開、録音中認識/停止後最終本文確定、マイク拒否時のブラウザ音声認識停止。
 - 390pxの実ブラウザで、録音停止の表示→本文を編集→送信内容確認→取消。編集した本文が戻り、プレビューの送信確定数は0。
 - 320pxの同意画面で、AI有効化後に送信操作へ到達できることを確認。documentの横幅/scrollWidthはともに320px。
 - 履歴で該当なし検索→0件表示。取得済み範囲の検索である旨を表示。
 - コンパスの方位拒否を現在地取得失敗と別表示。位置時刻/精度を保持する。これは表示fixtureと単体検証であり、実端末のGPS/方位センサー検証は残る。
 - 文字200%・320pxで発生した距離欄と目的地名の重なりを修正し、両者の矩形が重ならず、横幅320px内に収まることを確認。
 
-録音はMediaRecorderで取得し、波形はWeb Audioの実測値から描く。音声blobは指定された文字起こしcallbackへ渡す。音声→AI相談の自動送信はしない。[MediaRecorderの停止イベント](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/stop_event)と[方位の許可](https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent/requestPermission_static)に合わせた解除処理を持つ。
+録音はMediaRecorderで取得し、波形はWeb Audioの実測値から描く。ブラウザ音声経路では録音開始と同時にSpeechRecognitionを開始し、停止後の最終本文を編集下書きへ渡す。MediaRecorder blobをSpeechRecognitionへ送る実装ではない。ブラウザの認識サービスを使うことを明示する。音声→AI相談の自動送信はしない。[MediaRecorderの停止イベント](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/stop_event)と[方位の許可](https://developer.mozilla.org/en-US/docs/Web/API/DeviceOrientationEvent/requestPermission_static)に合わせた解除処理を持つ。
 
 ### 再現
 
@@ -56,8 +56,12 @@ mise exec -- bunx vitest run src/features/exploration/device.test.tsx --config d
 
 1. UI-BASEのScreenDefinition登録、useScreenState、共通Chat、CORE共通client、単一Sheet/MapBridgeとUI-MAPのMapPreviewに接続する。
 2. EXPLORATIONの相談/履歴接続契約を確定して、固定起点・候補ID・resultId・期限・会話IDの同一性を、実API保存/再取得で確認する。旧一時相談文書と永続履歴の差を推測fieldで埋めない。
-3. AI.voiceとSETTINGS.preferencesの提供後、実録音→文字起こし編集→AI利用選択保存→送信を接続。取消で送信しないことと遅着の破棄を実APIでも確認する。
+3. AI.voiceは既存SpeechRecognition経路の合意済み。実録音→文字起こし編集→AI利用選択保存→送信を接続。取消で送信しないことと遅着の破棄を実APIでも確認する。
 4. COMMUNITYのしおりとEXPLORATIONの発見/反応を保存・再取得・非表示・根拠変更へ接続する。保存や接近から訪問/成長を確定しない。
 5. TRANSFERのQ10契約に元記録の意味/順序・二案比較・採用を接続。採用地点列をROUTESへ渡し、再起動後に同じ計画を開く。
 6. 独立した候補写真、入口、候補理由、滞在時間等の提供元を確定し、指定画像との残差を修正する。現在のPlaceCandidateにないfieldを追加送信しない。
 7. 共通Shell組込み後に1440px、全画面の文字200%、キーボード、reduced motion、空/失敗/再試行/版競合/期限切れを確認する。全受入を満たすまでtask:finishとIssue closeは行わない。
+
+## 先行提供のcommit
+
+8ca996dで画面部品をcommit。共通hookはPR63で修復され、通常のfetch/merge→task:verify→commitに成功。後続の共通Shell/API bindingは別の作業中差分で、先行PRの完了主張には含めない。
