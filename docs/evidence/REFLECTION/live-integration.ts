@@ -55,6 +55,16 @@ async function generate(use:string,input:any,refs:any[],text:string){
 try{
  await start();
  const session=await request('/session','POST',{profileKey:'self'});cookie=session.response.headers.get('set-cookie')!.split(';')[0]!;
+ if(process.env.REFLECTION_NEW_DIARY_ONLY){
+  stage='adopt-new-diary';
+  const run=(await request('/messages/a-diary-'+requestId)).body.data.run;
+  const adopted=(await request('/reflection/adoptions','POST',{assistantMessageId:run.id,expectedAttempt:run.attempt,recordId:'new-'+diaryId,create:true,occurredAt:Date.parse('2026-09-15T01:00:00Z'),body:run.result.text})).body.data;
+  assert.equal(adopted.kind,'diary');assert.equal(adopted.body,run.result.text);
+  stage='restart-new-diary';await stop();await start();
+  const restored=(await request('/records/'+adopted.id)).body.data.record;
+  assert.equal(restored.id,adopted.id);assert.equal(restored.body,adopted.body);
+  evidence={requestId,model,status:'complete',sourceRunId:run.id,sourceRunModel:run.model,newDiaryId:restored.id,newDiaryBody:restored.body,noIfMatchRequired:true,restartResultEqual:true,databaseDirectory:directory};
+ }else{
  let adopted:any,savedDiary:any;
  if(!previous){
  stage='enable-settings';const settings=(await request('/me/settings')).body.data;
@@ -90,5 +100,6 @@ try{
  const restoredInsight=(await request('/insights/'+compare.insightId)).body.data;
  assert.equal(restoredInsight.id,insight.id);
  evidence={requestId,model,status:'complete',recordId,diaryId,insightId:insight.id,runs:runs.map(r=>({id:r.id,model:r.model,promptVersion:r.promptVersion,attempt:r.attempt,sourceRefs:r.sourceRefs})),diaryBody:savedDiary.body,comparison:insight.result,restartResultEqual:true,databaseDirectory:directory};
+}
 }catch(error){evidence={...evidence,stage,runs:runs.map(r=>({id:r.id,model:r.model,status:r.status})),error:String((error as Error).message).slice(0,3000)};process.exitCode=1;}
-finally{await stop();writeFileSync(new URL('./live-integration.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence));}
+finally{await stop();writeFileSync(new URL(process.env.REFLECTION_NEW_DIARY_ONLY?'./new-diary-adoption.json':'./live-integration.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');console.log(JSON.stringify(evidence));}

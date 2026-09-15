@@ -28,7 +28,7 @@ mise exec -- env CODEX_AI_MODEL=gpt-5.6-luna node --experimental-transform-types
 
 ## 残件
 
-- 新規日記createのoptional If-MatchはCORE #3へ依頼済み。この証拠は既存日記への採用であり新規採用成功とは扱わない。
+- 新規日記createのoptional If-Matchは追加取得した共通1ファイルの修正で解消。下記の実確認とnew-diary-adoption.jsonを参照。
 - UI実操作は担当CONNECT-REFLECTION #139 / 友達比較UI担当へ依頼。UIや共通ファイルは取得範囲外。画面全受入は未確認。
 
 ## 共有デモの画面確認
@@ -36,3 +36,13 @@ mise exec -- env CODEX_AI_MODEL=gpt-5.6-luna node --experimental-transform-types
 共有デモUI http://127.0.0.1:5173 / API http://127.0.0.1:3001、起動537a15cc275b41ec98c1d25b9558ef9845fdcb07で別CUAタブを使用。デモmodeの2026-09-17へ「REFLECTION #111 デモ確認：日記の保存と再表示を確かめるための合成記録です。」を画面から新規保存。「日記を保存し、保存先から読み直しました。」表示後、ページreload→同日を再選択して本文一致を確認。他担当の9/15日記を変更せず、サーバー再起動/同ポート起動なし。確認タブは閉じた。
 
 これは通常の手動日記保存のUI証拠。起動537a15cへ比較修正16ab8dbのancestor確認はexit1で未含有。共有デモ上の実比較生成や新規AI日記採用を成功とは扱わない。CLI agent-browserのVolta shim実行エラーのため、ブラウザ操作はCUAへ切り替えた。
+
+## 新規AI日記採用の修正と実確認
+
+server/core/validation.tsを正規taskctl add-lockで#111へ追加取得し、requiredのIf-Match、または実在する任意If-MatchだけをexpectedVersionで検査する1行へ修正。共通Schema/生成器には変更なし。
+
+修正前はintegration.test.tsの新規採用が428で失敗（requestId 552fdb09-4249-4b17-9b47-26710fbf3665）。修正後は同テストが成功し、必須の質問PATCHヘッダー未指定428・古い回答/日記版412を維持。担当と共通依存のstrict型検査成功。
+
+保存済みの実Luna日記提案を使い、通常main/正式契約からヘッダーなしでcreate:true採用→新しいdiary IDと本文を取得→サーバー再起動後に同一ID/本文を再取得。AI再生成なし。証拠new-diary-adoption.json。
+
+再現はREFLECTION_RESUME_FILE=docs/evidence/REFLECTION/live-integration.json、REFLECTION_NEW_DIARY_ONLY=1、CODEX_AI_MODEL=gpt-5.6-lunaを設定しlive-integration.tsを実行する。
