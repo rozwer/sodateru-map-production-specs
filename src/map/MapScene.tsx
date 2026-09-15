@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl, { type GeoJSONSource, type TargetFeature } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { ObjectPreview, type ObjectPreviewProps } from './ObjectPreview';
+import { decorationsLayer, type SceneDecoration } from './decorations-layer';
+import { attachGrowth, buildingIdentity, type GrowthDisplay } from './growth-display';
 import './map.css';
 
 export type SceneCamera = { longitude: number; latitude: number; zoom: number; bearing: number; pitch: number; bounds?: [number, number, number, number] };
 export type SceneView = { dimension: '2d' | '3d'; lens: 'personal' | 'physical'; lightPreset: 'dawn' | 'day' | 'dusk' | 'night'; following: boolean };
 export type ScenePadding = { top: number; right: number; bottom: number; left: number };
 export type SceneRadius = { center: [number, number]; meters: number };
+export type SceneGeometry = { type: 'Point'; coordinates: [number, number] } | { type: 'LineString'; coordinates: [number, number][] } | { type: 'Polygon'; coordinates: [number, number][][] } | { type: 'MultiPolygon'; coordinates: [number, number][][][] };
+export type SceneOverlay = { id: string; ownerKey: string; geometry: SceneGeometry; color?: string; opacity?: number; width?: number; dashed?: boolean; label?: string; icon?: string };
+export type SceneImage = { id: string; ownerKey: string; url: string; coordinates: [[number, number], [number, number], [number, number], [number, number]]; opacity?: number };
 export type ScenePoint = { id: string; ownerKey: string; coordinates: [number, number]; label?: string; number?: number; selected?: boolean; color?: string; kind?: string };
 export type SceneLine = { id: string; ownerKey: string; coordinates: [number, number][]; selected?: boolean; color?: string };
 export type SceneSelection = { ownerKey: string; kind: string; id: string; coordinates: [number, number]; buildingKey?: string; height?: number; label?: string };
@@ -21,8 +27,12 @@ type Props = {
   onManualMove?: () => void;
   interactive?: boolean;
   label?: string;
-  placement?: boolean;
+  placement?: Pick<ObjectPreviewProps, 'color' | 'size'> | null;
   radius?: SceneRadius;
+  overlays?: SceneOverlay[];
+  images?: SceneImage[];
+  decorations?: SceneDecoration[];
+  growth?: GrowthDisplay[];
   focus?: { bounds?: [[number, number], [number, number]]; center?: [number, number]; zoom?: number; padding?: ScenePadding; revision: number } | null;
 };
 
@@ -96,7 +106,7 @@ export function MapScene(props: Props) {
     const current = latest.current;
     try {
       map = new mapboxgl.Map({ container: container.current, accessToken, style: 'mapbox://styles/mapbox/standard', center: [current.camera.longitude, current.camera.latitude], zoom: current.camera.zoom, pitch: current.view.dimension === '2d' ? 0 : current.camera.pitch, bearing: current.camera.bearing,
-        antialias: true, interactive: current.interactive !== false, attributionControl: true, language: 'ja',
+        antialias: true, interactive: current.interactive !== false, attributionControl: true, language: 'ja', projection: 'mercator',
         config: { basemap: { theme: current.view.lens === 'personal' ? 'faded' : 'default', lightPreset: current.view.lightPreset, show3dObjects: current.view.dimension === '3d', show3dLandmarks: false, colorBuildingSelect: '#62b5b3', colorBuildingHighlight: '#a8d6d1' } } });
     } catch { setLoading(false); setError('この端末で地図を表示できません'); return; }
     mapRef.current = map;
@@ -113,6 +123,13 @@ export function MapScene(props: Props) {
       map.addSource('sodateru-radius', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addLayer({ id: 'sodateru-radius-fill', type: 'fill', source: 'sodateru-radius', slot: 'middle', paint: { 'fill-color': '#349fa0', 'fill-opacity': 0.13 } });
       map.addLayer({ id: 'sodateru-radius-line', type: 'line', source: 'sodateru-radius', slot: 'top', paint: { 'line-color': '#349fa0', 'line-width': 2, 'line-dasharray': [3, 2] } });
+      map.addSource('sodateru-overlays', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      map.addSource('sodateru-growth', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+      map.addLayer({ id: 'sodateru-growth-building', type: 'fill-extrusion', source: 'sodateru-growth', slot: 'top', paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-base': ['get', 'base'], 'fill-extrusion-height': ['+', ['get', 'height'], 0.06], 'fill-extrusion-opacity': 0.65 } });
+      map.addLayer({ id: 'sodateru-overlay-area', type: 'fill', source: 'sodateru-overlays', slot: 'middle', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['get', 'color'], 'fill-opacity': ['get', 'opacity'] } });
+      map.addLayer({ id: 'sodateru-overlay-line', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['!', ['get', 'dashed']]], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'] } });
+      map.addLayer({ id: 'sodateru-overlay-dashed', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['get', 'dashed']], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'], 'line-dasharray': [3, 2] } });
+      map.addLayer({ id: 'sodateru-overlay-point', type: 'circle', source: 'sodateru-overlays', slot: 'top', filter: ['==', ['geometry-type'], 'Point'], paint: { 'circle-color': ['get', 'color'], 'circle-opacity': ['get', 'opacity'], 'circle-radius': 8, 'circle-stroke-width': 2, 'circle-stroke-color': '#ffffff' } });
       map.addLayer({ id: 'sodateru-route-casing', type: 'line', source: 'sodateru-routes', slot: 'top', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': 9, 'line-opacity': 0.95 } });
       map.addLayer({ id: 'sodateru-route-line', type: 'line', source: 'sodateru-routes', slot: 'top', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', 'color'], 'line-width': ['case', ['get', 'selected'], 6, 4], 'line-opacity': ['case', ['get', 'selected'], 1, 0.65] } });
       if (current.interactive === false) return;
@@ -125,8 +142,7 @@ export function MapScene(props: Props) {
         if (selectedBuilding) map.setFeatureState(selectedBuilding, { select: false });
         selectedBuilding = event.feature; map.setFeatureState(event.feature, { select: true });
         const coordinates = featureCenter(event.feature, [event.lngLat.lng, event.lngLat.lat]);
-        const featureId = String(event.feature.id ?? '');
-        const buildingKey = featureId ? `mapbox:basemap:buildings:${event.feature.namespace ?? ''}:${featureId}` : undefined;
+        const buildingKey = buildingIdentity(event.feature) || undefined;
         latest.current.onSelect?.({ ownerKey: 'map-building', kind: 'building', id: buildingKey || coordinates.join(','), coordinates, buildingKey, height: typeof event.feature.properties.height === 'number' ? event.feature.properties.height : undefined });
       } });
       map.addInteraction('sodateru-poi', { type: 'click', target: { featuresetId: 'poi', importId: 'basemap' }, handler: event => {
@@ -188,6 +204,44 @@ export function MapScene(props: Props) {
   }, [props.points, ready]);
 
   useEffect(() => {
+    const map = mapRef.current; if (!map || !ready || !props.growth?.length || props.view.lens !== 'personal') return;
+    return attachGrowth(map, props.growth, item => latest.current.onSelect?.({ ownerKey: 'personal-map', kind: 'place', id: item.place.id, coordinates: item.place.coordinates, label: item.place.name }), props.interactive !== false);
+  }, [props.growth, props.view.lens, ready]);
+
+  useEffect(() => {
+    const map = mapRef.current; if (!map || !ready || !props.decorations?.length) return;
+    map.addLayer(decorationsLayer(props.decorations));
+    const markers = props.decorations.map(item => {
+      const element = document.createElement('button'); element.type = 'button'; element.className = 'map-decoration-target'; element.setAttribute('aria-label', `目印：${item.name}`);
+      const label = document.createElement('span'); label.textContent = item.name; element.append(label);
+      if (props.interactive !== false) element.addEventListener('click', event => { event.stopPropagation(); latest.current.onSelect?.({ ownerKey: 'map-objects', kind: 'object', id: item.id, coordinates: item.coordinates, label: item.name }); });
+      const marker = new mapboxgl.Marker({ element, anchor: 'bottom', offset: [0, 4] }).setLngLat(item.coordinates).addTo(map);
+      element.setAttribute('role', props.interactive === false ? 'img' : 'button'); element.disabled = props.interactive === false;
+      element.tabIndex = props.interactive === false ? -1 : 0;
+      return marker;
+    });
+    return () => { markers.forEach(marker => marker.remove()); if (map.getLayer('sodateru-decorations')) map.removeLayer('sodateru-decorations'); };
+  }, [props.decorations, ready]);
+
+  useEffect(() => {
+    const source = mapRef.current?.getSource('sodateru-overlays') as GeoJSONSource | undefined;
+    if (!source || !ready) return;
+    source.setData({ type: 'FeatureCollection', features: (props.overlays || []).map(item => ({ type: 'Feature', id: `${item.ownerKey}:${item.id}`, geometry: item.geometry, properties: { ownerKey: item.ownerKey, overlayId: item.id, color: item.color || '#349fa0', opacity: item.opacity ?? (item.geometry.type === 'Polygon' || item.geometry.type === 'MultiPolygon' ? 0.25 : 1), width: item.width ?? 5, dashed: item.dashed ?? false, label: item.label || '' } })) });
+  }, [props.overlays, ready]);
+
+  useEffect(() => {
+    const map = mapRef.current; if (!map || !ready) return;
+    const ids: string[] = [];
+    for (const [index, item] of (props.images || []).entries()) {
+      const id = `sodateru-image-${index}`;
+      map.addSource(id, { type: 'image', url: item.url, coordinates: item.coordinates });
+      map.addLayer({ id, type: 'raster', source: id, slot: 'middle', paint: { 'raster-opacity': item.opacity ?? 0.65, 'raster-fade-duration': 0 } });
+      ids.push(id);
+    }
+    return () => { for (const id of ids) { if (map.getLayer(id)) map.removeLayer(id); if (map.getSource(id)) map.removeSource(id); } };
+  }, [props.images, ready]);
+
+  useEffect(() => {
     const source = mapRef.current?.getSource('sodateru-radius') as GeoJSONSource | undefined;
     if (!source || !ready) return;
     const radius = props.radius;
@@ -212,7 +266,7 @@ export function MapScene(props: Props) {
     <div ref={container} className="map-scene-canvas" />
     {loading && <div className="map-scene-message" role="status">地図を読み込み中…</div>}
     {error && <div className="map-scene-message is-error" role="alert"><span>{error}</span><button type="button" onClick={() => setRetry(value => value + 1)}>地図を再読み込み</button></div>}
-    {props.placement && <div className="map-placement-target" aria-label="中央の配置点"><span>この場所に置きます</span><i aria-hidden="true" /></div>}
+    {props.placement && <div className="map-placement-target" aria-label="中央の配置点" style={{ left: `calc(50% + ${(props.padding.left - props.padding.right) / 2}px)`, top: `calc(50% + ${(props.padding.top - props.padding.bottom) / 2}px)` }}><span>この場所に置きます</span><div className="map-placement-cube"><ObjectPreview {...props.placement}/></div><i aria-hidden="true" /></div>}
     <div className="map-scene-summary" aria-live="polite">{props.points.find(point => point.selected)?.label || `${props.points.length}件の地点`}{props.lines.length > 0 ? `、${props.lines.length}件の経路` : ''}</div>
   </div>;
 }
