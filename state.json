@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 51,
+  "revision": 52,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5014,12 +5014,21 @@
       "token": "e1fb1fe562bf4c61983ab6c1f862f55d"
     },
     "UI-SETTINGS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+      "generation": 1,
+      "issue_number": 17,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/UI-SETTINGS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "eb8f8d5dbcdf4eec9855f46a4f3d7def"
     },
     "UI-SUGGESTIONS": {
       "actor": "rozwer",
