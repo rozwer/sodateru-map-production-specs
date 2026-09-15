@@ -1,0 +1,84 @@
+{
+  "provenance": "User-authorized capture mock, not personal measured movement. Place/route coordinates are provider sourced, unmodified. No shared/live DB writes.",
+  "date": "2026-09-15",
+  "api": "http://127.0.0.1:3277",
+  "places": [
+    {
+      "id": "capture277-hotel",
+      "name": "OMO7横浜 by 星野リゾート",
+      "coordinates": [
+        139.6380035,
+        35.4436422
+      ]
+    },
+    {
+      "id": "capture277-cafe",
+      "name": "象の鼻カフェ",
+      "coordinates": [
+        139.6431966,
+        35.4497297
+      ]
+    },
+    {
+      "id": "capture277-park",
+      "name": "山下公園",
+      "coordinates": [
+        139.6499494,
+        35.4457103
+      ]
+    },
+    {
+      "id": "capture277-venue",
+      "name": "THE BEACH YOKOHAMA",
+      "coordinates": [
+        139.6616906,
+        35.4383509
+      ]
+    }
+  ],
+  "visits": [
+    {
+      "id": "capture277-hotel-visit",
+      "placeId": "capture277-hotel",
+      "startedAt": 1789425000000
+    },
+    {
+      "id": "capture277-cafe-visit",
+      "placeId": "capture277-cafe",
+      "startedAt": 1789428600000
+    },
+    {
+      "id": "capture277-park-visit",
+      "placeId": "capture277-park",
+      "startedAt": 1789431300000
+    },
+    {
+      "id": "capture277-venue-visit",
+      "placeId": "capture277-venue",
+      "startedAt": 1789434000000
+    }
+  ],
+  "segments": [
+    {
+      "segmentId": "capture277-provider-route-1",
+      "provider": "mapbox-directions",
+      "pointCount": 72,
+      "distanceM": 1137.06,
+      "provenance": "Synthetic times on unchanged provider road geometry; accuracyM 100000 denotes unmeasured GPS."
+    },
+    {
+      "segmentId": "capture277-provider-route-2",
+      "provider": "mapbox-directions",
+      "pointCount": 72,
+      "distanceM": 940.124,
+      "provenance": "Synthetic times on unchanged provider road geometry; accuracyM 100000 denotes unmeasured GPS."
+    },
+    {
+      "segmentId": "capture277-provider-route-3",
+      "provider": "mapbox-directions",
+      "pointCount": 59,
+      "distanceM": 1552.192,
+      "provenance": "Synthetic times on unchanged provider road geometry; accuracyM 100000 denotes unmeasured GPS."
+    }
+  ]
+}
