@@ -40,7 +40,7 @@ function operation(method: string, pathValue: string, operationId: string, respo
   if (method === 'post') parameters.push(header('Idempotency-Key'));
   if (version) parameters.push(header('If-Match'));
   return { method, path: pathValue, operationId, tags: ['TRANSFER'], parameters, ...(input ? { requestBody: body(input) } : {}),
-    responses: { [status]: response(responseSchema), default: { description: '共通エラー。根拠変更/閲覧不可/期限切れ/版競合では採用しない。', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorResponse' } } } } } };
+    responses: { [status]: response(responseSchema), default: { description: '共通エラー。根拠変更/閲覧不可/期限切れ/版競合では採用しない。', content: { 'application/json': { schema: { $ref: '#/components/schemas/ErrorEnvelope' } } } } } };
 }
 export const transferFragment = { taskId: 'TRANSFER', version: 1, schemas: transferSchemas, operations: [
   operation('post','/transfer/recipes','createTransferRecipe',ref('TransferRecipe'),'TransferRecipeInput',false,'201'),
