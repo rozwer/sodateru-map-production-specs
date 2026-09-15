@@ -717,67 +717,6 @@
   margin-bottom: 6px;
 }
 
-.fr-friends-map {
-  gap: 10px;
-}
-.fr-friends-map > .fr-search {
-  padding: 0;
-  box-shadow: none;
-}
-.fr-friends-map > .fr-search input {
-  padding: 10px 12px;
-}
-.fr-friends-map > .fr-people-strip {
-  padding: 5px 4px;
-  gap: 17px;
-}
-.fr-friends-map > .fr-map {
-  margin: 0 -20px;
-  width: calc(100% + 40px);
-  border-radius: 0;
-  height: 285px;
-}
-.fr-friend-sheet {
-  display: grid;
-  gap: 10px;
-  background: #fff;
-  margin: -24px -8px 0;
-  padding: 8px 8px 14px;
-  border-radius: 22px 22px 18px 18px;
-  position: relative;
-  box-shadow: 0 -3px 15px #2454650a;
-}
-.fr-grabber {
-  display: block;
-  width: 37px;
-  height: 4px;
-  background: #d3dade;
-  border-radius: 10px;
-  margin: 0 auto 6px;
-}
-.fr-friend-sheet .fr-profile .fr-avatar {
-  width: 52px;
-  height: 52px;
-}
-.fr-friend-sheet > .fr-actions .fr-action {
-  border: 0;
-  box-shadow: none;
-  color: #229fa1;
-  padding: 9px 5px;
-  font-size: 0.8125rem;
-}
-.fr-friend-sheet > .fr-actions .fr-action + .fr-action {
-  border-left: 1px solid #d8e4e8;
-  border-radius: 0;
-}
-@media (max-width: 359px) {
-  .fr-friends-map > .fr-map {
-    margin-left: -14px;
-    margin-right: -14px;
-    width: calc(100% + 28px);
-  }
-}
-
 .fr-home,
 .fr-friends-map {
   padding: 20px;
@@ -878,45 +817,115 @@
   background: #ede4f4;
 }
 
-/* The two standalone map references use one continuous page, not a narrow
-   panel over a second map. Keep record lists natural-height in empty states. */
-.fr-home,
-.fr-friends-map {
-  align-content: start;
-}
-.fr-friends-map > .fr-map {
-  height: clamp(285px, 75vw, 640px);
-}
-.fr-home > .fr-map {
-  height: clamp(330px, 91vw, 776px);
-}
-.fr-home > .fr-home-card {
-  width: 100%;
-}
+/* The standalone community view keeps its own map and cards. */
+.fr-home { align-content: start; }
+.fr-home > .fr-map { height: clamp(330px, 91vw, 776px); }
 @media (min-width: 600px) {
-  .fr-home, .fr-friends-map { padding: 32px 40px; }
-  .fr-friends-map > .fr-map {
-    margin-left: -40px;
-    margin-right: -40px;
-    width: calc(100% + 80px);
-  }
-  .fr-home > .fr-map {
-    margin-left: -40px;
-    margin-right: -40px;
-    width: calc(100% + 80px);
-  }
-  .fr-friends-map > .fr-people-strip { gap: 36px; }
-  .fr-friends-map > .fr-people-strip .fr-avatar { width: 96px; height: 96px; }
-  .fr-friends-map > .fr-people-strip button { font-size: 24px; }
-  .fr-friends-map h1 { font-size: 40px; }
-  .fr-friends-map > .fr-search input { min-height: 68px; font-size: 24px; }
-  .fr-friend-sheet { gap: 16px; padding: 16px 24px 24px; border-radius: 36px; }
-  .fr-friend-sheet .fr-profile .fr-avatar { width: 96px; height: 96px; }
-  .fr-friend-sheet h2 { font-size: 36px; }
-  .fr-friend-sheet .fr-record { gap: 24px; padding: 16px; }
-  .fr-friend-sheet .fr-record > .fr-media { max-height: 230px; min-height: 180px; }
-  .fr-friend-sheet .fr-record h3 { font-size: 26px; }
-  .fr-friend-sheet .fr-record-copy p { font-size: 22px; }
-  .fr-friend-sheet small { font-size: 19px; }
-  .fr-friend-sheet > .fr-actions .fr-action { font-size: 24px; }
+  .fr-home { padding: 32px 40px; }
+  .fr-home > .fr-map { margin-left: -40px; margin-right: -40px; width: calc(100% + 80px); }
+}
+
+/* Friends reference: search/people, full-width map, then shared records. */
+.fr-friends-map {
+  padding: 0;
+  gap: 0;
+  align-content: start;
+  background: #f7fbfb;
+}
+.fr-friends-header {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: clamp(8px, 1.6vw, 14px);
+  padding: clamp(12px, 2vw, 18px) clamp(18px, 4.45vw, 38px) 8px;
+  border-radius: 0 0 clamp(18px, 4vw, 36px) clamp(18px, 4vw, 36px);
+  background: #fff;
+}
+.fr-friends-header h1 { font-size: clamp(1.25rem, 4.3vw, 2.3rem); line-height: 1.35; }
+.fr-friends-header .fr-menu-button {
+  width: clamp(32px, 8vw, 68px);
+  height: clamp(32px, 8vw, 68px);
+  background: #f2f6f6;
+  box-shadow: none;
+}
+.fr-search-icon {
+  flex-direction: row-reverse;
+  align-items: center;
+  padding: 0 10px;
+  gap: 6px;
+  background: #f4f5f7;
+  border: 1px solid #e2e7ed;
+  box-shadow: none;
+  border-radius: clamp(12px, 2.5vw, 24px);
+}
+.fr-search-icon input { padding: 8px 0; min-height: 34px; background: transparent; font-size: clamp(.8125rem, 3vw, 1.75rem); }
+.fr-search-icon button { padding: 3px; min-width: 28px; background: transparent; color: #65758a; display: grid; place-items: center; }
+.fr-friends-header .fr-people-strip { gap: clamp(20px, 4.6vw, 40px); padding: 4px 6px; }
+.fr-friends-header .fr-people-strip button { font-size: clamp(.75rem, 2.8vw, 1.5rem); gap: 4px; font-weight: 700; }
+.fr-friends-header .fr-avatar { width: clamp(44px, 11.7vw, 100px); height: clamp(44px, 11.7vw, 100px); }
+.fr-friends-map > .fr-map {
+  width: 100%;
+  margin: -12px 0 0;
+  border-radius: 0;
+  height: clamp(285px, 77vw, 665px);
+}
+.fr-friend-sheet {
+  position: relative;
+  display: grid;
+  gap: clamp(8px, 1.9vw, 16px);
+  margin-top: -14px;
+  padding: 7px clamp(17px, 4.45vw, 38px) 12px;
+  border-radius: clamp(20px, 4.7vw, 40px) clamp(20px, 4.7vw, 40px) 0 0;
+  background: #fff;
+  box-shadow: 0 -3px 15px #2454650a;
+}
+.fr-grabber { width: clamp(36px, 9.2vw, 79px); height: 4px; border-radius: 10px; background: #d5dce0; margin: 0 auto; }
+.fr-friend-sheet .fr-profile { gap: 8px; justify-content: space-between; }
+.fr-friend-sheet .fr-profile > button { flex: 1; min-width: 0; gap: clamp(10px, 2.7vw, 23px); }
+.fr-friend-sheet .fr-profile .fr-avatar { width: clamp(48px, 13.3vw, 114px); height: clamp(48px, 13.3vw, 114px); }
+.fr-friend-sheet h2 { font-size: clamp(1.0625rem, 4.3vw, 2.3rem); }
+.fr-friend-sheet .fr-profile small { font-size: clamp(.625rem, 2.7vw, 1.4rem); margin-top: 2px; }
+.fr-shared-badge {
+  display: flex; align-items: center; gap: 4px; flex-shrink: 0;
+  padding: 5px 8px; border: 1px solid #ffe6d9; border-radius: 16px;
+  background: #fff3eb; color: #ee824b; font-size: clamp(.5625rem, 2.35vw, 1.25rem); font-weight: 700;
+}
+.fr-shared-badge svg { width: 1.35em; height: 1.35em; }
+.fr-friend-sheet .fr-record { gap: clamp(12px, 2.9vw, 25px); padding: clamp(7px, 1.85vw, 16px); border-radius: clamp(14px, 2.8vw, 24px); }
+.fr-friend-sheet .fr-record > .fr-media { width: 33%; height: clamp(96px, 25vw, 215px); min-height: 94px; max-height: none; align-self: stretch; }
+.fr-friend-sheet .fr-record > .fr-media img { min-height: 94px; height: 100%; max-height: clamp(145px, 25vw, 215px); }
+.fr-friend-sheet .fr-record-copy > button { align-items: start; gap: 4px; font-size: clamp(.8125rem, 3.2vw, 1.75rem); line-height: 1.4; }
+.fr-friend-sheet .fr-record-copy > button svg { flex: none; width: 16px; margin-top: 2px; }
+.fr-friend-sheet .fr-record-copy p { font-size: clamp(.75rem, 2.9vw, 1.5rem); color: #6b798d; margin: 5px 0; line-height: 1.5; }
+.fr-friend-sheet .fr-record-copy small { font-size: clamp(.625rem, 2.65vw, 1.3rem); }
+.fr-friend-sheet .fr-record-copy small svg { display: inline-block; vertical-align: middle; color: #2ba8a8; }
+.fr-friend-sheet .fr-tags { margin-top: 4px; }
+.fr-friend-sheet .fr-tags span { font-size: clamp(.625rem, 2vw, 1rem); }
+.fr-friend-sheet > .fr-actions { gap: 0; flex-wrap: nowrap; flex-direction: row; }
+.fr-friend-sheet > .fr-actions .fr-action { border: 0; box-shadow: none; color: #269fa1; padding: 6px 3px; font-size: clamp(.75rem, 2.9vw, 1.5rem); gap: 6px; }
+.fr-friend-sheet > .fr-actions .fr-action + .fr-action { border-left: 1px solid #d8e4e8; border-radius: 0; }
+@media (min-width: 600px) {
+  .fr-search-icon { padding: 8px 22px; gap: 18px; }
+  .fr-search-icon input { min-height: 56px; }
+  .fr-search-icon button svg { width: 34px; height: 34px; }
+  .fr-friends-header { padding-bottom: 16px; }
+  .fr-grabber { height: 8px; margin: 8px auto; }
+  .fr-friend-sheet { padding-top: 8px; }
+  .fr-shared-badge { padding: 10px 18px; border-radius: 24px; }
+}
+@media (max-width: 359px) {
+  .fr-friend-sheet .fr-profile { flex-wrap: wrap; }
+  .fr-shared-badge { margin-left: auto; }
+}
+
+/* Mapbox also assigns position:relative; keep the friends canvas filling its preview regardless of CSS import order. */
+.fr-map .map-scene-canvas { position: absolute; inset: 0; }
+
+.fr-friends-map .map-scene-pin[data-owner-key="friends-map"] { --pin-color: #ff914f !important; }
+.fr-friends-map .map-scene-pin-label {
+  top: 0; left: 34px; max-width: clamp(96px, 23vw, 205px);
+  padding: 8px 10px; border-radius: 0 16px 16px 16px;
+  text-align: left; color: #163c45; background: #fffefa;
+  text-shadow: none; box-shadow: 0 2px 10px #d28e5220;
+  font-size: clamp(.6875rem, 2.35vw, 1.25rem);
 }

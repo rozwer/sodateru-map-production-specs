@@ -31,7 +31,12 @@ const people: Person[] = ["わたし", "はるか", "こうた", "みなみ", "�
       "自然・カフェ・旅行",
       "映画・アート・カメラ",
     ][i],
-    avatarUrl: null,
+    avatarUrl: i === 0 ? null : [
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=160&h=160&fit=crop&crop=faces",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=160&h=160&fit=crop&crop=faces",
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&h=160&fit=crop&crop=faces",
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=160&h=160&fit=crop&crop=faces",
+    ][i - 1],
   }),
 );
 const coffee =
@@ -52,12 +57,12 @@ const places = [
     coordinates: [136.9782, 35.1604] as [number, number],
   },
 ];
-const initial: RecordView[] = Array.from({ length: 4 }, (_, i) => ({
+const initial: RecordView[] = Array.from({ length: 6 }, (_, i) => ({
   id: `fixture-record-${i}`,
   version: 1,
   createdAt: stamp,
   updatedAt: stamp,
-  personId: people[i < 2 ? 0 : 1].id,
+  personId: people[Math.floor(i / 2)].id,
   kind: "experience",
   visitId: null,
   placeId: places[i % 2].id,
@@ -65,7 +70,7 @@ const initial: RecordView[] = Array.from({ length: 4 }, (_, i) => ({
   endedAt: null,
   timePrecision: "exact",
   body:
-    i % 2
+    i >= 4 ? (i % 2 ? "木陰をたどって、静かな道を歩きました。" : "街の建築を見たあと、コーヒーを飲んでひと休みしました。") : i % 2
       ? "新緑がきれいで、気持ちよく歩けました。"
       : "窓から緑が見える席で、ゆっくり本を読みました。",
   purposes: i % 2 ? ["散歩"] : ["カフェ", "本"],
@@ -560,7 +565,8 @@ details.style.cssText =
 details.innerHTML =
   '<summary>テスト通信記録</summary><pre id="fixture-network"></pre>';
 document.body.append(details);
-const { screens } = await import("../../../src/features/friends/screens");
+const modules = import.meta.glob<{ screens?: import("../../../src/app/contracts").ScreenDefinition[] }>("../../../src/features/**/screens.tsx");
+const screens = (await Promise.all(Object.values(modules).map(load => load()))).flatMap(module => module.screens ?? []);
 createRoot(document.getElementById("root")!).render(
   <App
     screens={screens}
