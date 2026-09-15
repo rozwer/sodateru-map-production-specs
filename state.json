@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 196,
+  "revision": 197,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34347,21 +34347,17 @@
       "token": "a289009a6e154c28b47e458b4befa827"
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 189,
       "landed_main": null,
-      "note": "docs/evidence/VISUAL-RECORDS-CAMERA/README.md",
+      "note": "PR196 merged17c6360; camera demo save/reload verified. Full seven-screen data/map parity remains; Shell172/QA/orchestrator notified. Keep worktree and evidence.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/VISUAL-RECORDS-CAMERA/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "5321da6a92c63cae9993117becd54afd636edc58",
-      "token": "80093c514f3f44b094a62ce77c3ae85d"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "VISUAL-SELF": {
       "actor": null,
