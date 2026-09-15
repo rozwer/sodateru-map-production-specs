@@ -32837,7 +32837,7 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION"
   ],
-  "revision": 146,
+  "revision": 147,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33214,7 +33214,7 @@
       "generation": 1,
       "issue_number": 72,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/PLAN-UI-CONNECTIONS/validation.md",
       "owner": "rozwer",
       "paths": [
         "docs/03_issue/",
@@ -33223,8 +33223,8 @@
         "tools/test_sync_graph.py",
         "docs/evidence/PLAN-UI-CONNECTIONS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "4f59bfe45e3b0a2e93a21476c0765c7e77a64657",
       "token": "32dc3aabd6f14a18aa77b9edb4e796f8"
     },
     "PLUGINS": {
