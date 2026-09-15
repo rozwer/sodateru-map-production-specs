@@ -28,7 +28,8 @@ type ControlName =
   | "play"
   | "trash"
   | "search"
-  | "github";
+  | "github"
+  | "lock";
 export function PluginControlIcon({ name }: { name: ControlName }) {
   const paths: Record<ControlName, ReactNode> = {
     pin: (
@@ -112,6 +113,7 @@ export function PluginControlIcon({ name }: { name: ControlName }) {
         <path d="m15 15 6 6" />
       </>
     ),
+    lock: <><rect x="5" y="10" width="14" height="12" rx="2" /><path d="M8 10V6a4 4 0 0 1 8 0v4m-4 5v3" /></>,
     github: (
       <>
         <path d="M7 3v12a4 4 0 0 0 4 4h3a4 4 0 0 0 4-4V7" />
@@ -275,6 +277,10 @@ export function PluginStoreView({
     <div className="plugin-page plugin-store">
       <header className="plugin-store-heading">
         <h2>{m.storeHeading}</h2>
+        <details className="plugin-development-guide">
+          <summary><PluginControlIcon name="github" />開発ガイド</summary>
+          <div><strong>自分のアイデアで地図を育てる</strong><p>まずは「お願い」から、ほしい機能を提案できます。</p><button type="button" onClick={onRequests}>お願いを書く・見る</button><a href={guideUrl || "https://github.com/rozwer/sodateru-map-production-specs/blob/develop/docs/01_requirements/04_api/endpoints/07_plugins.md"} target="_blank" rel="noreferrer">拡張機能の仕様を読む ↗</a></div>
+        </details>
       </header>
       <label className="plugin-search" htmlFor={inputId}>
         <PluginControlIcon name="search" />
@@ -293,9 +299,6 @@ export function PluginStoreView({
         </button>
         <button type="button" onClick={onManage}>
           {m.tabs.installed}
-        </button>
-        <button type="button" onClick={onRequests}>
-          {m.tabs.requests}
         </button>
       </nav>
       <fieldset className="plugin-categories">
@@ -347,7 +350,7 @@ export function PluginStoreView({
                   <PluginControlIcon name="map" />
                   地図を育てるで使用
                 </span>
-                <span>{plugin.permissions.join("・")}</span>
+                <span><PluginControlIcon name="lock" />{plugin.permissions.join("・")}</span>
                 <strong>
                   {m.details} <PluginControlIcon name="arrow" />
                 </strong>
@@ -359,20 +362,9 @@ export function PluginStoreView({
       {!visible.length && !status.busy && !status.error && (
         <p className="plugin-empty">{m.emptyStore}</p>
       )}
-      {guideUrl ? (
-        <a
-          className="plugin-guide"
-          href={guideUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <PluginControlIcon name="github" />
-          {m.guide}
-          <span aria-hidden="true">↗</span>
-        </a>
-      ) : (
-        <p className="plugin-subtle">{m.guideUnavailable}</p>
-      )}
+      <button className="plugin-guide" type="button" onClick={onRequests}>
+        <PluginControlIcon name="bulb" />こんな機能がほしい・お願いを見る<PluginControlIcon name="arrow" />
+      </button>
     </div>
   );
 }
@@ -717,6 +709,8 @@ export function PluginManageView({
   onUpdate,
   onCompanion,
   onFind,
+  onRemove,
+  onRequests,
   ...status
 }: PluginViewStatus & {
   plugins: PluginCardModel[];
@@ -728,9 +722,15 @@ export function PluginManageView({
   onUpdate: (id: string) => void;
   onCompanion: () => void;
   onFind: () => void;
+  onRemove?: (id: string) => void;
+  onRequests?: () => void;
 }) {
   return (
     <div className="plugin-page plugin-manage">
+      <nav className="plugin-tabs" aria-label="拡張機能の操作">
+        <button type="button" onClick={onFind}>{m.tabs.store}</button>
+        <button type="button" aria-current="page">{m.tabs.installed}</button>
+      </nav>
       <h2 className="plugin-page-heading">{m.installed}</h2>
       <p className="plugin-intro">{m.manageIntro}</p>
       <PluginStatus {...status} />
@@ -783,6 +783,7 @@ export function PluginManageView({
                 </button>
               ))}
             </div>
+            <div className="plugin-managed-meta"><span>{plugin.versionLabel} · {plugin.enabled ? m.enabled : m.disabled}</span>{onRemove && <button type="button" onClick={() => onRemove(plugin.id)} disabled={status.busy}>この機能を外す</button>}</div>
             {plugin.kind === "bike" && (
               <button
                 className="plugin-companion"
@@ -807,6 +808,7 @@ export function PluginManageView({
         <span aria-hidden="true">＋</span>
         {m.findMore}
       </button>
+      {onRequests && <button className="plugin-guide" type="button" onClick={onRequests}><PluginControlIcon name="bulb" />お願いを見る</button>}
     </div>
   );
 }

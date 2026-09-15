@@ -1,0 +1,435 @@
+{
+  "checked_at": "2026-09-15T04:24:03.479069+00:00",
+  "develop": "55a6ff215ceaf15e48729b06a08562c099e01324",
+  "board_revision": 223,
+  "board_oid": "ab2d80c2181e65edb5a724ba627539cc75d63564",
+  "issues": [
+    {
+      "number": 98,
+      "title": "[rozwer] UI-INTEGRATION｜提供UIを共通入口と起動QA画面へ接続",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/98",
+      "task_id": "UI-INTEGRATION",
+      "board": {
+        "actor": null,
+        "base_commit": "0216502b0fcba53a379fff9b7fdf8cc8da24b191",
+        "generation": 2,
+        "issue_number": 98,
+        "landed_main": null,
+        "note": "PR130/170 and 13 UI deliveries integrated; QA 448a857 verified. Reference-matching UI and remaining CONNECT acceptance handed off; worktree preserved.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 173,
+      "title": "[rozwer] VISUAL-COMMUNITY: 友達地図の重複修復と担当画面の参照照合",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/173",
+      "task_id": "VISUAL-COMMUNITY",
+      "board": {
+        "actor": null,
+        "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+        "generation": 2,
+        "issue_number": 173,
+        "landed_main": null,
+        "note": "ユーザー指示で分割。全成果origin/rozwer/173-visual-community HEAD66f7091保全。plugins変更0b0d02aを新担当へ、friends差分66f7091とevidenceをVISUAL-SOCIAL #184へ移す。旧Taskは再claimしない。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 174,
+      "title": "[rozwer] VISUAL-MAP-EXPLORE 地図・経路の参照差分修復と担当画面照合",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/174",
+      "task_id": "VISUAL-MAP-EXPLORE",
+      "board": {
+        "actor": null,
+        "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+        "generation": 2,
+        "issue_number": 174,
+        "landed_main": null,
+        "note": "Deadline handoff: PR187 and PR208 normally merged; final 0f67816 reaches develop via 8e88859. Remaining full-page/live verification in docs/evidence/VISUAL-MAP-EXPLORE/handoff.md. Preserve worktree visual-map-explore and branch rozwer/174-visual-map-explore.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 176,
+      "title": "[rozwer] VISUAL-SELF 記録・振り返り・傾向・提案の参照照合と表示修復",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/176",
+      "task_id": "VISUAL-SELF",
+      "board": {
+        "actor": null,
+        "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+        "generation": 2,
+        "issue_number": 176,
+        "landed_main": null,
+        "note": "PR188 merged (5b39f2d). records/activity to #189, remaining 14 pages to #185. Worktree and commits preserved.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 184,
+      "title": "[rozwer] VISUAL-SOCIAL: 友達地図・地域情報・相棒の参照差分修復",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/184",
+      "task_id": "VISUAL-SOCIAL",
+      "board": {
+        "actor": null,
+        "base_commit": "7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2",
+        "generation": 2,
+        "issue_number": 184,
+        "landed_main": null,
+        "note": "締切指示で追加作業停止。PR193/199/207通常merge済み、HEAD ed3a2f6617787d18250a112ebd6f12b9de431212をorigin/rozwer/184-visual-socialとworktree /Users/roz/.codex/worktrees/visual-social-184に保全。docs/evidence/VISUAL-COMMUNITY/screens.mdに13画面の検証境界と未完。全画面一致/API完了ではない。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 185,
+      "title": "[rozwer] VISUAL-SELF-CONTINUE 自分を知る14画面の参照と通常データ修復",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/185",
+      "task_id": "VISUAL-SELF-CONTINUE",
+      "board": {
+        "actor": null,
+        "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+        "generation": 2,
+        "issue_number": 185,
+        "landed_main": null,
+        "note": "Deadline handoff: PR201 + PR210 merged, submitted793f418 preserved. Visual/API/sample gaps in docs/evidence/VISUAL-SELF/README.md; not all acceptance complete.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 186,
+      "title": "[rozwer] VISUAL-PLUGINS: 拡張機能とお願い9画面の参照状態を修復",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/186",
+      "task_id": "VISUAL-PLUGINS",
+      "board": {
+        "actor": null,
+        "base_commit": "14b5b2ea6f7a6b867be0e9d6ca253ab046191038",
+        "generation": 2,
+        "issue_number": 186,
+        "landed_main": null,
+        "note": "締切指示で現有成果をPR203/8f80c077へ通常統合。提出529cf982祖先到達確認。全9画面最終照合・自然色面・live保存は未完、docs/evidence/VISUAL-PLUGINS/screens.mdとIssue186で保持。worktree/branch保全し通常返却。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 189,
+      "title": "[rozwer] VISUAL-RECORDS-CAMERA 写真引継ぎと記録7画面の修復",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/189",
+      "task_id": "VISUAL-RECORDS-CAMERA",
+      "board": {
+        "actor": null,
+        "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+        "generation": 2,
+        "issue_number": 189,
+        "landed_main": null,
+        "note": "PR196 merged17c6360; camera demo save/reload verified. Full seven-screen data/map parity remains; Shell172/QA/orchestrator notified. Keep worktree and evidence.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 191,
+      "title": "[rozwer] VISUAL-SETTINGS 設定5画面の参照照合と通常状態補完",
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/191",
+      "task_id": "VISUAL-SETTINGS",
+      "board": {
+        "actor": null,
+        "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
+        "generation": 2,
+        "issue_number": 191,
+        "landed_main": null,
+        "note": "PR #206 merged 11422c8; partial reference repair delivered; statistics API/registration and remaining acceptance handed to #145; evidence docs/evidence/VISUAL-SETTINGS/README.md; deadline stop",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "claim_token_absent": true
+    },
+    {
+      "number": 40,
+      "title": "[rozwer] QA-VISUAL｜実画面の起動・遷移・保存再表示確認",
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/40",
+      "task_id": "QA-VISUAL",
+      "board": {
+        "actor": "rozwer",
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 1,
+        "issue_number": 40,
+        "landed_main": "2155430f137a69964d58d96a8507b192d2e7f15f",
+        "note": "docs/evidence/QA-VISUAL/2026-09-15-api-readiness.md",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "done",
+        "submitted_commit": "2155430f137a69964d58d96a8507b192d2e7f15f"
+      },
+      "claim_token_absent": true,
+      "submitted_reachable": true
+    },
+    {
+      "number": 72,
+      "title": "[rozwer] PLAN-UI-CONNECTIONS｜UI完了と実接続受入を13組へ分割",
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/72",
+      "task_id": "PLAN-UI-CONNECTIONS",
+      "board": {
+        "actor": "rozwer",
+        "base_commit": "560c97600352b03e09e02f80d25f79950656a83f",
+        "generation": 1,
+        "issue_number": 72,
+        "landed_main": "2a7e78bfbbc720f7cc2147c21e50f70b938df4c7",
+        "note": "docs/evidence/PLAN-UI-CONNECTIONS/validation.md",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "done",
+        "submitted_commit": "4f59bfe45e3b0a2e93a21476c0765c7e77a64657"
+      },
+      "claim_token_absent": true,
+      "submitted_reachable": true
+    },
+    {
+      "number": 172,
+      "title": "[rozwer] VISUAL-SHELL｜原本に基づく共通Sheet表示修復",
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/172",
+      "task_id": "VISUAL-SHELL",
+      "board": {
+        "actor": "rozwer",
+        "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+        "generation": 1,
+        "issue_number": 172,
+        "landed_main": "f3d50dc11fc4f14919ee776f0dc00dbe32a330b4",
+        "note": "docs/evidence/VISUAL-SHELL/screens.md",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "done",
+        "submitted_commit": "bea2b70eec48a2c7f8339391436d04c6bb8510eb"
+      },
+      "claim_token_absent": true,
+      "submitted_reachable": true
+    }
+  ],
+  "prs": [
+    {
+      "headRefOid": "65442d8593f21e1d480652709ceee63e97fc852b",
+      "mergeCommit": {
+        "oid": "f935c7a2d3456c05929801e3e0d6d054f1c46465"
+      },
+      "mergedAt": "2026-09-15T03:30:53Z",
+      "number": 130,
+      "state": "MERGED",
+      "title": "feat(integration): connect knowledge views and deliver UI to shared QA",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/130",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "4d0b9be0fd706f55a3ee6a9faf86099052f1482b",
+      "mergeCommit": {
+        "oid": "15f2bbbd63094c4f8282f591bedd38a7576828ce"
+      },
+      "mergedAt": "2026-09-15T03:35:19Z",
+      "number": 170,
+      "state": "MERGED",
+      "title": "fix(integration): show mock companion and deliver remaining screen registrations",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/170",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "61363641e22ba9b949afb5e7aaa95d0ee3470617",
+      "mergeCommit": {
+        "oid": "02fd17f1f33cb709c2933622712ac113283eb557"
+      },
+      "mergedAt": "2026-09-15T03:47:51Z",
+      "number": 187,
+      "state": "MERGED",
+      "title": "地図の場所操作列を原本に合わせ、経路比較データを追加",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/187",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "0f67816b847a36fa9e0d3502da052602e3c609e3",
+      "mergeCommit": {
+        "oid": "8e88859e5a42666b526f1a06fd5f172cb974978d"
+      },
+      "mergedAt": "2026-09-15T04:02:26Z",
+      "number": 208,
+      "state": "MERGED",
+      "title": "経路の全候補を選択・保存へ接続し、写真付き参照状態を追加",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/208",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "5b39f2dad0cf669808adf283902a80d282712848",
+      "mergeCommit": {
+        "oid": "14b5b2ea6f7a6b867be0e9d6ca253ab046191038"
+      },
+      "mergedAt": "2026-09-15T03:48:18Z",
+      "number": 188,
+      "state": "MERGED",
+      "title": "feat(records): 地図カメラの媒体を記録下書きへ引き継ぐ",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/188",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "40a940bd52b300d87c17dbf927a6417dc7c5576e",
+      "mergeCommit": {
+        "oid": "a96cbc8dcb49a20989394c402b203c108130c38e"
+      },
+      "mergedAt": "2026-09-15T03:50:43Z",
+      "number": 193,
+      "state": "MERGED",
+      "title": "fix(friends): 参照原本に沿って二重地図と固定側面枠を解消",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/193",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "7d3f0929d466f2e57b6a455c40f4438fda1dfd24",
+      "mergeCommit": {
+        "oid": "9c608b23ace7d19ef8438f23c7f547f6ce1c4ae0"
+      },
+      "mergedAt": "2026-09-15T03:57:26Z",
+      "number": 199,
+      "state": "MERGED",
+      "title": "fix(knowledge): 地図ヘッダーと共通QAプレビューを復旧",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/199",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "ed3a2f6617787d18250a112ebd6f12b9de431212",
+      "mergeCommit": {
+        "oid": "bfdb02bf36fcad829f3286ea0886f83df20a4e29"
+      },
+      "mergedAt": "2026-09-15T04:01:59Z",
+      "number": 207,
+      "state": "MERGED",
+      "title": "docs(visual): 締切時のコミュニティ検証・残件を引き継ぐ",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/207",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "cc8b1f31ac2da70c256b1196228efdad13feb0cc",
+      "mergeCommit": {
+        "oid": "7928dce5fc17b0ba6a22f03db96788d271eb8417"
+      },
+      "mergedAt": "2026-09-15T03:56:27Z",
+      "number": 201,
+      "state": "MERGED",
+      "title": "fix(reflection): 写真切替の回復と通常状態の参照データを追加",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/201",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "793f4184f943b7bba8ea7799f4a0f9531cf7792a",
+      "mergeCommit": {
+        "oid": "9d3455661b31ae4f0c61c7a2c12ecc8f89f283b3"
+      },
+      "mergedAt": "2026-09-15T04:03:19Z",
+      "number": 210,
+      "state": "MERGED",
+      "title": "fix(self): 原本に沿った地図高さとカード寸法へ調整",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/210",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "529cf982b51e006b76192918dda152db5cb91c1f",
+      "mergeCommit": {
+        "oid": "8f80c077bfd2849b9f00ef910aa90082d00ce891"
+      },
+      "mergedAt": "2026-09-15T04:02:10Z",
+      "number": 203,
+      "state": "MERGED",
+      "title": "fix(plugins): 参照状態の投稿・下書きと競合表示を修復",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/203",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "5321da6a92c63cae9993117becd54afd636edc58",
+      "mergeCommit": {
+        "oid": "17c6360006326451957dd80c7ee62d2f74ee553f"
+      },
+      "mergedAt": "2026-09-15T03:59:20Z",
+      "number": 196,
+      "state": "MERGED",
+      "title": "fix(records): 原本にない外側地図を7画面の登録で除く",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/196",
+      "head_reachable": true
+    },
+    {
+      "headRefOid": "043b6e8c7269d2b7787ea4c1fc9b4c68ae5e6b73",
+      "mergeCommit": {
+        "oid": "11422c8452b09e86fded37de75997bdedcadd776"
+      },
+      "mergedAt": "2026-09-15T04:00:18Z",
+      "number": 206,
+      "state": "MERGED",
+      "title": "fix(settings): 設定3画面の全画面表示と停止場所の写真を修復",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/206",
+      "head_reachable": true
+    }
+  ],
+  "split_preservation": [
+    {
+      "source": "66f7091e6caa4f0eafa8c277bc3d13c39aa3c68b",
+      "successor": "8ad0d839300a36fc40db182af8d1d6dfdf92bde0",
+      "same_patch": true,
+      "successor_reachable": true
+    },
+    {
+      "source": "0b0d02a22079c5713ff68cc4c3b0f3da6f84cc3f",
+      "successor": "34885ade47ad807f43f10a71c1d9a3a5a687043d",
+      "same_patch": true,
+      "successor_reachable": true
+    }
+  ]
+}

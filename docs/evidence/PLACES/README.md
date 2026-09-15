@@ -28,7 +28,7 @@ mise exec -- bun run typecheck
 - INFORMATIONの実serviceを動的接続。読取基盤不在・取得元失敗時は該当sectionをfailedとして返す。場所本体を保持し、空readyで代替しない。
 - INFORMATION PR #48の正式統合cc71000を使用。`live-information.json`で実CORE/RECORDS HTTPによる本人訪問記録・共有記録の保存、PLACES詳細経由の実INFORMATION読取、非公開除外、共有解除即時反映、再起動後一致、live/demo分離が成功。
 - Q03の営業時間/入口、手動訂正優先、明示Nominatim lookup、訂正解除、If-Matchの固有処理/fragment v0.4.0を実装。共有場所は同じdataModeの開始済み本人による共同訂正とする[委任決定](https://github.com/rozwer/sodateru-map-production-specs/issues/5#issuecomment-5673814786)を確認し、PATCHを公開。`live-corrections.json` で別本人による共同訂正・未認証401・428/412・同居施設・再起動後の詳細再取得・訂正者保存を実HTTP確認済み。
-- 共通Schema/生成器への最新fragment反映はCOREへ依頼済み。先行実装は独立レビュー後に統合済み。拡張PATCH実HTTPとUI実操作は未完了。Issue #5を閉じない。
+- 共通Schema/生成器への最新fragment反映はCOREへ依頼済み。先行実装は独立レビュー後に統合済み。拡張PATCH実HTTPは後述のlive-refresh.jsonで確認済み。UI実操作は未完了。Issue #5を閉じない。
 
 ## Provider参照
 
@@ -46,4 +46,6 @@ migration 002と外部再取得の訂正優先/失敗時保持を含む7件の�
 
 `mise exec -- node --experimental-transform-types docs/evidence/PLACES/information-smoke.mjs` が成功（2026-09-15T03:32:40Z）。実サーバー、共通migration、RECORDS保存口、INFORMATION読取口をそのまま使用。テスト用に第二本人をprofileへ設定した以外はHTTP操作。本人/共有/訪問sectionがすべてreadyとなり、共有解除後は同じ詳細URLから除外された。
 
-`refresh-smoke.mjs`は共通PlacePatch v0.4.0反映後の検証を準備したもの。まだ実行成功を主張しない。既存生成物が拡張fieldを拒否するため、共通反映を担当へ依頼済み。
+正式共通生成済みdevelop d264c15上で`refresh-smoke.mjs`成功（2026-09-15T03:51:39Z）。`live-refresh.json`に実Nominatim lookup、拡張PATCH、手動訂正優先、最新外部値への解除、再起動後一致の証拠を記録。本人/共有/訪問sectionもready。残る#118受入はUI操作。
+
+`information-source-fault.mjs`は隔離smokeサーバーにだけpreloadする故障注入。実INFORMATIONが行う本人記録SQLを失敗させ、実HTTP詳細200/本人section failed/共有と訪問ready/診断非露出を確認する。共通serviceのコピーや完成用代替ではない。
