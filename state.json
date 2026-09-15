@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 45,
+  "revision": 46,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4591,12 +4591,22 @@
       "token": null
     },
     "INFORMATION": {
-      "actor": null,
-      "generation": 0,
+      "actor": "koshiro",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 6,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "koshiro",
+      "paths": [
+        "server/information/",
+        "server/db/migrations/information/",
+        "docs/01_requirements/04_api/fragments/INFORMATION.json",
+        "docs/evidence/INFORMATION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "950248fbec96497b8f11ecddfb92b5f8"
     },
     "INSIGHTS": {
       "actor": "mattsun",
