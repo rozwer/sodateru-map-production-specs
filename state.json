@@ -66,7 +66,8 @@
         "UI-REFLECTION": 12,
         "UI-ROUTES": 9,
         "UI-SETTINGS": 17,
-        "UI-SUGGESTIONS": 15
+        "UI-SUGGESTIONS": 15,
+        "VISUAL-SHELL": 172
       },
       "owners": {
         "A": "rozwer",
@@ -7112,6 +7113,20 @@
           "server/db/migrations/reflection/",
           "docs/01_requirements/04_api/fragments/REFLECTION.json",
           "docs/evidence/REFLECTION/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "VISUAL-SHELL",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "原本に基づく共通Sheet表示修復",
+        "write_paths": [
+          "src/app/",
+          "src/ui/",
+          "src/messages.ts",
+          "docs/evidence/VISUAL-SHELL/"
         ]
       }
     ],
@@ -33347,9 +33362,10 @@
     "INSIGHTS-DEMO",
     "TRANSFER-INTEGRATION",
     "THEMES-INTEGRATION",
-    "REFLECTION-INTEGRATION"
+    "REFLECTION-INTEGRATION",
+    "VISUAL-SHELL"
   ],
-  "revision": 165,
+  "revision": 166,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34163,6 +34179,24 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "VISUAL-SHELL": {
+      "actor": "rozwer",
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 1,
+      "issue_number": 172,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/app/",
+        "src/ui/",
+        "src/messages.ts",
+        "docs/evidence/VISUAL-SHELL/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "3e9057fe567a4c0b83bfe17ee50f9593"
     }
   }
 }
