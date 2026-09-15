@@ -331,23 +331,25 @@ export function RecordCard({
   record,
   open,
   detailed = false,
+  preview = false,
 }: {
   record: RecordCardData;
   open: () => void;
   detailed?: boolean;
+  preview?: boolean;
 }) {
   return (
     <article className={`rf-record ${detailed ? "rf-record-detail" : ""}`}>
       <div className="rf-record-head">
         <strong>{record.title || "記録"}</strong>
-        <button
+        {!preview && <button
           className="rf-round"
           type="button"
           onClick={open}
           aria-label={`${record.title || "記録"}を開く`}
         >
           <Mark name="chevron" />
-        </button>
+        </button>}
         <span>{record.when || "日時未設定"}</span>
         <span className="rf-place">
           <Mark name="pin" />
@@ -385,9 +387,9 @@ export function RecordCard({
           ) : (
             <>
               <p className="rf-excerpt">{record.body}</p>
-              <button className="rf-link" type="button" onClick={open}>
+              {!preview && <button className="rf-link" type="button" onClick={open}>
                 この記録を見る <Mark name="chevron" />
-              </button>
+              </button>}
             </>
           )}
         </div>
@@ -1184,7 +1186,7 @@ export function SelfHomeView({
           <Mark name="chevron" />
         </button>
         {recent ? (
-          <RecordCard record={recent} open={() => navigate("daily-track")} />
+          <RecordCard record={recent} open={() => navigate("daily-track")} preview />
         ) : (
           <p className="rf-muted">今日の記録はまだありません。</p>
         )}
