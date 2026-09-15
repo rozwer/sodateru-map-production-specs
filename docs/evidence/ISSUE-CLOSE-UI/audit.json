@@ -1,0 +1,2720 @@
+{
+  "audited_at": "2026-09-15T04:24:19.782382+00:00",
+  "repository": "rozwer/sodateru-map-production-specs",
+  "audit_issue": 218,
+  "thread": "01a0a349-c790-7913-bdbf-f2d1aabc7483",
+  "develop": "55a6ff215ceaf15e48729b06a08562c099e01324",
+  "board_oid": "ab2d80c2181e65edb5a724ba627539cc75d63564",
+  "board_revision": 223,
+  "counts": {
+    "completed_closed": 0,
+    "superseded_closed": 0,
+    "kept_open": 28
+  },
+  "formal_split": "docs/03_issue/ui-connections.json",
+  "formal_split_pr": 164,
+  "supersessions": {},
+  "pairs": [
+    {
+      "ui_task": "UI-BASE",
+      "ui_issue": 4,
+      "connection_task": "CONNECT-BASE",
+      "connection_issue": 137,
+      "decision": "keep-open",
+      "ui_remaining": "ナビゲーション図版・通常プロフィールの原本差、実端末キーボード/reduced motionと全状態の総合照合が未完。",
+      "connection_remaining": "本人開始/切替/再起動復帰は部分成功。閲覧mutationなし・切替中の旧要求中断/遅着拒否を含む全通信受入は未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-SHELL/screens.md",
+        "last_commit": "bea2b70eec48a2c7f8339391436d04c6bb8510eb"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。共通Shellの残UIを担当取得後に確認。",
+      "prs": [
+        47,
+        81,
+        152,
+        162,
+        195
+      ],
+      "source_acceptance_ids": [
+        "navigation-C1",
+        "navigation-C2",
+        "navigation-FC01",
+        "navigation-FC02",
+        "navigation-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-MAP",
+      "ui_issue": 8,
+      "connection_task": "CONNECT-MAP",
+      "connection_issue": 134,
+      "decision": "keep-open",
+      "ui_remaining": "5画面の原本同幅・同状態照合、装飾配置/取消と実地図previewの全操作が未確認。",
+      "connection_remaining": "検索/採用は部分成功。テーマ絞込、layer/object保存再表示、共有記録/訪問と属性訂正の通常導線が未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-MAP-EXPLORE/handoff.md",
+        "last_commit": "0f67816b847a36fa9e0d3502da052602e3c609e3"
+      },
+      "next_action": "通常地図/装飾のUI担当を取得。防災rendererは新 #219、data #214の範囲と調整。",
+      "prs": [
+        163
+      ],
+      "source_acceptance_ids": [
+        "map-C1",
+        "map-C2",
+        "map-C3",
+        "map-FC01",
+        "map-FC02",
+        "map-FC03",
+        "map-FC04",
+        "map-FC05",
+        "map-layers-C1",
+        "map-layers-FC01",
+        "map-layers-FC02",
+        "map-layers-FC03",
+        "object-edit-C1",
+        "object-edit-FC01",
+        "object-edit-FC02",
+        "object-edit-FC03",
+        "object-edit-FC04",
+        "object-edit-SCOPE-C",
+        "object-place-C1",
+        "object-place-FC01",
+        "object-place-FC02",
+        "object-place-FC03",
+        "object-place-SCOPE-C",
+        "personal-map-C1",
+        "personal-map-C2",
+        "personal-map-FC01",
+        "personal-map-FC02",
+        "personal-map-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-ROUTES",
+      "ui_issue": 9,
+      "connection_task": "CONNECT-ROUTES",
+      "connection_issue": 138,
+      "decision": "keep-open",
+      "ui_remaining": "実Mapboxの候補線/カード同期・実測位案内・条件全状態の幅別受入が未確認。",
+      "connection_remaining": "実HTTP経路保存は提供済み。製品画面の2候補→選択→同ID保存再表示、条件失敗/帰着の受入未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-MAP-EXPLORE/pages.md",
+        "last_commit": "0f67816b847a36fa9e0d3502da052602e3c609e3"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。ROUTES #25の確定提供物で残る画面導線を確認。",
+      "prs": [
+        157,
+        204
+      ],
+      "source_acceptance_ids": [
+        "route-conditions-C1",
+        "route-conditions-FC01",
+        "route-conditions-FC02",
+        "route-conditions-FC03",
+        "route-navigation-C1",
+        "route-navigation-FC01",
+        "route-navigation-FC02",
+        "route-navigation-FC03",
+        "route-navigation-FC04",
+        "route-results-C1",
+        "route-results-FC01",
+        "route-results-FC02",
+        "route-results-FC03",
+        "route-results-FC04"
+      ]
+    },
+    {
+      "ui_task": "UI-EXPLORE",
+      "ui_issue": 10,
+      "connection_task": "CONNECT-EXPLORE",
+      "connection_issue": 136,
+      "decision": "keep-open",
+      "ui_remaining": "音声/方位の実端末操作、探索/履歴/同意/体験移転の同状態照合が未完。",
+      "connection_remaining": "実AI/Mapbox/体験移転HTTPは部分成功。確認済本文だけ送信・取消送信0・履歴復帰の画面通し未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-MAP-EXPLORE/pages.md",
+        "last_commit": "0f67816b847a36fa9e0d3502da052602e3c609e3"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。AI #103 / EXPLORATION #102へ確定契約だけ照合。",
+      "prs": [
+        151
+      ],
+      "source_acceptance_ids": [
+        "ai-consent-C1",
+        "ai-consent-FC01",
+        "ai-consent-FC02",
+        "ai-consent-FC03",
+        "ai-explore-C1",
+        "ai-explore-C2",
+        "ai-explore-FC01",
+        "ai-explore-FC02",
+        "ai-explore-FC03",
+        "ai-explore-FC04",
+        "conversation-history-C1",
+        "conversation-history-FC01",
+        "conversation-history-FC02",
+        "conversation-history-FC03",
+        "mist-detail-C1",
+        "mist-detail-FC01",
+        "mist-detail-FC02",
+        "mist-detail-FC03",
+        "quest-compass-C1",
+        "quest-compass-FC01",
+        "quest-compass-FC02",
+        "quest-compass-FC03",
+        "voice-consultation-C1",
+        "voice-consultation-FC01",
+        "voice-consultation-FC02",
+        "voice-consultation-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-RECORDS",
+      "ui_issue": 11,
+      "connection_task": "CONNECT-RECORDS",
+      "connection_issue": 135,
+      "decision": "keep-open",
+      "ui_remaining": "訪問確認の地図・成長建物・複数地点軌跡、実機撮影/OS拒否が未達または未確認。",
+      "connection_remaining": "demo写真保存→reload→編集成功を保持。訪問取消/解釈訂正/削除書出しと成長再集計、live/再起動の全通し未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-RECORDS-CAMERA/README.md",
+        "last_commit": "5321da6a92c63cae9993117becd54afd636edc58"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。写真保存済み検査は反復せず残る記録/訪問/成長導線を確認。",
+      "prs": [
+        153,
+        188,
+        195
+      ],
+      "source_acceptance_ids": [
+        "daily-track-C1",
+        "daily-track-C2",
+        "daily-track-FC01",
+        "daily-track-FC02",
+        "daily-track-FC03",
+        "daily-track-FC04",
+        "growth-result-C1",
+        "growth-result-FC01",
+        "growth-result-FC02",
+        "growth-result-FC03",
+        "interpretation-correction-C1",
+        "interpretation-correction-C2",
+        "interpretation-correction-FC01",
+        "interpretation-correction-FC02",
+        "interpretation-correction-FC03",
+        "record-create-C1",
+        "record-create-C2",
+        "record-create-C3",
+        "record-create-FC01",
+        "record-create-FC02",
+        "record-create-FC03",
+        "record-create-FC04",
+        "record-delete-C1",
+        "record-delete-C2",
+        "record-delete-FC01",
+        "record-delete-FC02",
+        "record-delete-FC03",
+        "record-edit-C1",
+        "record-edit-C2",
+        "record-edit-FC01",
+        "record-edit-FC02",
+        "record-edit-FC03",
+        "record-edit-FC04",
+        "visit-confirm-C1",
+        "visit-confirm-C2",
+        "visit-confirm-FC01",
+        "visit-confirm-FC02",
+        "visit-confirm-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-REFLECTION",
+      "ui_issue": 12,
+      "connection_task": "CONNECT-REFLECTION",
+      "connection_issue": 139,
+      "decision": "keep-open",
+      "ui_remaining": "原本幅と最終CSS後の自己画面/日記/質問/履歴/比較/メモの全状態照合未完。",
+      "connection_remaining": "手動日記保存とメモ詳細再取得は部分成功。質問あとで/スキップ/訂正、AI採用、比較判断、根拠更新後再生成の画面受入未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-SELF/README.md",
+        "last_commit": "793f4184f943b7bba8ea7799f4a0f9531cf7792a"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#139の #111引継ぎに従い残画面操作を確認。",
+      "prs": [
+        92,
+        209
+      ],
+      "source_acceptance_ids": [
+        "diary-C1",
+        "diary-C2",
+        "diary-FC01",
+        "diary-FC02",
+        "diary-FC03",
+        "experience-compare-C1",
+        "experience-compare-FC01",
+        "experience-compare-FC02",
+        "experience-compare-FC03",
+        "memo-edit-C1",
+        "memo-edit-FC01",
+        "memo-edit-FC02",
+        "memo-edit-FC03",
+        "memo-edit-FC04",
+        "reflection-history-C1",
+        "reflection-history-FC01",
+        "reflection-history-FC02",
+        "reflection-history-FC03",
+        "reflection-question-C1",
+        "reflection-question-C2",
+        "reflection-question-FC01",
+        "reflection-question-FC02",
+        "reflection-question-FC03",
+        "self-home-C1",
+        "self-home-C2",
+        "self-home-FC01",
+        "self-home-FC02",
+        "self-home-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-INSIGHTS",
+      "ui_issue": 13,
+      "connection_task": "CONNECT-INSIGHTS",
+      "connection_issue": 140,
+      "decision": "keep-open",
+      "ui_remaining": "診断の原本幅・正式軸と原本5軸の対応、テーマ最終変更後の画像照合が未完。",
+      "connection_remaining": "APIの本人訂正保存は提供済み。choice付きrouteの理由復元不具合報告、実軸/テーマ保存と地図絞込の全通し未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-SELF/README.md",
+        "last_commit": "793f4184f943b7bba8ea7799f4a0f9531cf7792a"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#101の正式軸/統計提供物で残UIを接続。",
+      "prs": [
+        159
+      ],
+      "source_acceptance_ids": [
+        "theme-edit-C1",
+        "theme-edit-FC01",
+        "theme-edit-FC02",
+        "theme-edit-FC03",
+        "theme-edit-FC04",
+        "themes-C1",
+        "themes-FC01",
+        "themes-FC02",
+        "themes-FC03",
+        "trend-evidence-C1",
+        "trend-evidence-FC01",
+        "trend-evidence-FC02",
+        "trend-evidence-FC03",
+        "trend-review-C1",
+        "trend-review-FC01",
+        "trend-review-FC02",
+        "trend-review-FC03",
+        "type-diagnosis-C1",
+        "type-diagnosis-C2",
+        "type-diagnosis-FC01",
+        "type-diagnosis-FC02",
+        "type-diagnosis-FC03",
+        "type-diagnosis-FC04"
+      ]
+    },
+    {
+      "ui_task": "UI-FRIENDS",
+      "ui_issue": 14,
+      "connection_task": "CONNECT-FRIENDS",
+      "connection_issue": 142,
+      "decision": "keep-open",
+      "ui_remaining": "友達プロフィール/比較/共有ルート/共有/友達選択の5画面未確認、地図カード密度・pin余白が未完。",
+      "connection_remaining": "比較実モデルHTTPは提供済み。左右/共有取消/本人判断/復帰、二本人媒体と共有行程の画面受入未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-COMMUNITY/screens.md",
+        "last_commit": "ed3a2f6617787d18250a112ebd6f12b9de431212"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。通常友達状態と二本人共有取消を残担当へ。",
+      "prs": [
+        89,
+        199
+      ],
+      "source_acceptance_ids": [
+        "community-home-C1",
+        "community-home-FC01",
+        "community-home-FC02",
+        "friend-compare-C1",
+        "friend-compare-FC01",
+        "friend-compare-FC02",
+        "friend-compare-FC03",
+        "friend-picker-C1",
+        "friend-picker-FC01",
+        "friend-picker-FC02",
+        "friend-picker-FC03",
+        "friend-profile-C1",
+        "friend-profile-FC01",
+        "friend-profile-FC02",
+        "friend-profile-FC03",
+        "friend-profile-FC04",
+        "friends-map-C1",
+        "friends-map-C2",
+        "friends-map-FC01",
+        "friends-map-FC02",
+        "friends-map-FC03",
+        "friends-map-FC04",
+        "shared-route-C1",
+        "shared-route-FC01",
+        "shared-route-FC02",
+        "shared-route-FC03",
+        "sharing-C1",
+        "sharing-C2",
+        "sharing-FC01",
+        "sharing-FC02",
+        "sharing-FC03",
+        "sharing-FC04"
+      ]
+    },
+    {
+      "ui_task": "UI-SUGGESTIONS",
+      "ui_issue": 15,
+      "connection_task": "CONNECT-SUGGESTIONS",
+      "connection_issue": 141,
+      "decision": "keep-open",
+      "ui_remaining": "選択済self-checkin、原本512幅、候補の最終写真比率/文字変更後の目視未確認。",
+      "connection_remaining": "実HTTP候補生成/採用/訪問取消/再起動は成功済み。回答→候補/詳細/選択→再表示の実画面受入未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-SELF/README.md",
+        "last_commit": "793f4184f943b7bba8ea7799f4a0f9531cf7792a"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#141 comment5674401012の画面残だけ確認。",
+      "prs": [
+        150
+      ],
+      "source_acceptance_ids": [
+        "self-checkin-C1",
+        "self-checkin-C2",
+        "self-checkin-FC01",
+        "self-checkin-FC02",
+        "self-checkin-FC03",
+        "self-checkin-FC04",
+        "self-checkin-FC05",
+        "suggestion-detail-C1",
+        "suggestion-detail-FC01",
+        "suggestion-detail-FC02",
+        "suggestion-detail-FC03",
+        "suggestion-detail-FC04",
+        "suggestions-C1",
+        "suggestions-C2",
+        "suggestions-FC01",
+        "suggestions-FC02",
+        "suggestions-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-KNOWLEDGE",
+      "ui_issue": 16,
+      "connection_task": "CONNECT-KNOWLEDGE",
+      "connection_issue": 143,
+      "decision": "keep-open",
+      "ui_remaining": "一覧/絞込/詳細の修復後目視、原本通常状態・共通Sheetの全操作未確認。",
+      "connection_remaining": "API準備稿は保全。100件超cursor/全件地図/413、しおり、投稿→別本人読取→公開取消の画面受入未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-COMMUNITY/screens.md",
+        "last_commit": "ed3a2f6617787d18250a112ebd6f12b9de431212"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#143の正式bindingを既存APIに接続し残画面受入。",
+      "prs": [
+        155,
+        199
+      ],
+      "source_acceptance_ids": [
+        "knowledge-detail-C1",
+        "knowledge-detail-FC01",
+        "knowledge-detail-FC02",
+        "knowledge-detail-FC03",
+        "knowledge-filter-C1",
+        "knowledge-filter-FC01",
+        "knowledge-filter-FC02",
+        "knowledge-filter-FC03",
+        "knowledge-list-C1",
+        "knowledge-list-FC01",
+        "knowledge-list-FC02",
+        "knowledge-list-FC03",
+        "knowledge-list-FC04",
+        "local-knowledge-C1",
+        "local-knowledge-FC01",
+        "local-knowledge-FC02",
+        "local-knowledge-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-SETTINGS",
+      "ui_issue": 17,
+      "connection_task": "CONNECT-SETTINGS",
+      "connection_issue": 145,
+      "decision": "keep-open",
+      "ui_remaining": "5画面の原本照合未完。統計/取得元は製品画面未登録、320/200%/キーボード未確認。",
+      "connection_remaining": "demo名前/紹介保存→reload成功。写真保存、停止解除、正式非健康統計/元記録、live再起動の全受入未確認。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-SETTINGS/README.md",
+        "last_commit": "043b6e8c7269d2b7787ea4c1fc9b4c68ae5e6b73"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#101の統計提供を確認後 #145で2画面登録。健康を理由に非健康を後回しにしない。",
+      "prs": [
+        167,
+        206
+      ],
+      "source_acceptance_ids": [
+        "activity-stats-C1",
+        "activity-stats-C2",
+        "activity-stats-FC01",
+        "activity-stats-FC02",
+        "activity-stats-FC03",
+        "data-sources-C1",
+        "data-sources-FC01",
+        "data-sources-FC02",
+        "data-sources-FC03",
+        "health-connect-C1",
+        "health-connect-FC01",
+        "health-connect-FC02",
+        "health-connect-FC03",
+        "health-permissions-C1",
+        "health-permissions-FC01",
+        "health-permissions-FC02",
+        "health-permissions-FC03",
+        "health-permissions-FC04",
+        "health-status-C1",
+        "health-status-FC01",
+        "health-status-FC02",
+        "health-status-FC03",
+        "profile-settings-C1",
+        "profile-settings-FC01",
+        "profile-settings-FC02",
+        "profile-settings-FC03",
+        "profile-settings-FC04",
+        "settings-C1",
+        "settings-FC01",
+        "settings-FC02",
+        "suggestion-settings-C1",
+        "suggestion-settings-FC01",
+        "suggestion-settings-FC02",
+        "suggestion-settings-FC03"
+      ]
+    },
+    {
+      "ui_task": "UI-PLUGINS",
+      "ui_issue": 18,
+      "connection_task": "CONNECT-PLUGINS",
+      "connection_issue": 144,
+      "decision": "keep-open",
+      "ui_remaining": "9画面の原本幅/390最終照合、自然面塗分け/道路marker/guide URL等が未完。",
+      "connection_remaining": "trial→導入→停止のHTTPは成功済み。通常実地図clip/欠測/出典/時点/owner停止・再起動表示、CRUD二本人通しが未完。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-PLUGINS/screens.md",
+        "last_commit": "529cf982b51e006b76192918dda152db5cb91c1f"
+      },
+      "next_action": "新GROW-UI #215 / GROW-DATA #216とDISASTER #219/#214が一部修復中。全 #18/#144を閉じる範囲ではない。",
+      "prs": [
+        160,
+        203
+      ],
+      "source_acceptance_ids": [
+        "feature-request-edit-C1",
+        "feature-request-edit-FC01",
+        "feature-request-edit-FC02",
+        "feature-request-edit-FC03",
+        "feature-request-edit-FORM-C",
+        "feature-requests-C1",
+        "feature-requests-FC01",
+        "feature-requests-FC02",
+        "feature-requests-FC03",
+        "feature-requests-FC04",
+        "feature-requests-FORM-C",
+        "plugin-conflict-C1",
+        "plugin-conflict-FC01",
+        "plugin-conflict-FC02",
+        "plugin-conflict-FC03",
+        "plugin-detail-C1",
+        "plugin-detail-FC01",
+        "plugin-detail-FC02",
+        "plugin-install-C1",
+        "plugin-install-FC01",
+        "plugin-install-FC02",
+        "plugin-install-FC03",
+        "plugin-manage-C1",
+        "plugin-manage-FC01",
+        "plugin-manage-FC02",
+        "plugin-manage-FC03",
+        "plugin-manage-FC04",
+        "plugin-store-C1",
+        "plugin-store-FC01",
+        "plugin-store-FC02",
+        "plugin-store-FC03",
+        "plugin-store-FC04",
+        "plugin-trial-C1",
+        "plugin-trial-FC01",
+        "plugin-trial-FC02",
+        "plugin-trial-FC03",
+        "plugin-update-C1",
+        "plugin-update-FC01",
+        "plugin-update-FC02",
+        "plugin-update-FC03",
+        "plugin-update-FC04"
+      ]
+    },
+    {
+      "ui_task": "UI-COMPANION",
+      "ui_issue": 19,
+      "connection_task": "CONNECT-COMPANION",
+      "connection_issue": 147,
+      "decision": "keep-open",
+      "ui_remaining": "実ZIP/実atlasの共通Shell全状態、原本キャラ/通常登録状態、幅/200%受入が未確認。",
+      "connection_remaining": "実API ZIP取込→25動作確認→明示登録/選択→再読込地図の受入未確認。モックHinataは実登録証拠でない。",
+      "evidence": {
+        "path": "docs/evidence/VISUAL-COMMUNITY/screens.md",
+        "last_commit": "ed3a2f6617787d18250a112ebd6f12b9de431212"
+      },
+      "next_action": "UI/CONNECTとも実claimなし。#147の正式取込APIを使い既存ペット受入。新規制作は対象外のまま。",
+      "prs": [
+        161
+      ],
+      "source_acceptance_ids": [
+        "companion-create-C1",
+        "companion-create-FC01",
+        "companion-create-FC02",
+        "companion-create-FC03",
+        "companion-create-FC04",
+        "companion-import-C1",
+        "companion-import-FC01",
+        "companion-import-FC02",
+        "companion-import-FC03",
+        "companion-settings-C1",
+        "companion-settings-FC01",
+        "companion-settings-FC02",
+        "companion-settings-FC03",
+        "companion-settings-FC04"
+      ]
+    }
+  ],
+  "issues": [
+    {
+      "number": 4,
+      "title": "[rozwer] UI-BASE｜共通UI・ナビゲーションと画面復帰",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4",
+      "task": "UI-BASE",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 4,
+        "landed_main": null,
+        "note": "ユーザーの終了指示により未完了のまま通常返却。PR47/81/152/162はcommit保持merge済み、最終bef7d6d。worktree /Users/roz/.codex/worktrees/ui-base-4 と既存証拠を保持。残件はCONNECT #72 comment5674158832（表示設定、GPS共有、plugin layer、統合受入、メニュー飾り画像照合）。#4はfinish/closeせず、編集6pathsを解放し組込み#98へ引継ぐ。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673406353",
+          "created_at": "2026-09-15T01:44:41Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673406979",
+          "created_at": "2026-09-15T01:44:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673409086",
+          "created_at": "2026-09-15T01:45:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673409914",
+          "created_at": "2026-09-15T01:45:08Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673411502",
+          "created_at": "2026-09-15T01:45:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673417997",
+          "created_at": "2026-09-15T01:46:09Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673418639",
+          "created_at": "2026-09-15T01:46:14Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673421458",
+          "created_at": "2026-09-15T01:46:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673446715",
+          "created_at": "2026-09-15T01:49:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673464756",
+          "created_at": "2026-09-15T01:52:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673466107",
+          "created_at": "2026-09-15T01:52:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673471572",
+          "created_at": "2026-09-15T01:52:56Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673514301",
+          "created_at": "2026-09-15T01:58:39Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673527374",
+          "created_at": "2026-09-15T02:00:25Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673561289",
+          "created_at": "2026-09-15T02:04:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673566390",
+          "created_at": "2026-09-15T02:05:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673618985",
+          "created_at": "2026-09-15T02:12:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673627708",
+          "created_at": "2026-09-15T02:13:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673629398",
+          "created_at": "2026-09-15T02:13:43Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673630181",
+          "created_at": "2026-09-15T02:13:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673641926",
+          "created_at": "2026-09-15T02:15:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673656349",
+          "created_at": "2026-09-15T02:17:11Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673665086",
+          "created_at": "2026-09-15T02:18:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673677959",
+          "created_at": "2026-09-15T02:19:51Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673711655",
+          "created_at": "2026-09-15T02:23:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673719090",
+          "created_at": "2026-09-15T02:24:12Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673722891",
+          "created_at": "2026-09-15T02:24:29Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673725524",
+          "created_at": "2026-09-15T02:24:40Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673732598",
+          "created_at": "2026-09-15T02:25:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673739376",
+          "created_at": "2026-09-15T02:26:04Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673745785",
+          "created_at": "2026-09-15T02:26:51Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673768796",
+          "created_at": "2026-09-15T02:29:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673777955",
+          "created_at": "2026-09-15T02:30:43Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673794985",
+          "created_at": "2026-09-15T02:32:53Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673811328",
+          "created_at": "2026-09-15T02:35:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673826478",
+          "created_at": "2026-09-15T02:37:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673834626",
+          "created_at": "2026-09-15T02:38:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673853547",
+          "created_at": "2026-09-15T02:40:41Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673856088",
+          "created_at": "2026-09-15T02:41:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673872384",
+          "created_at": "2026-09-15T02:43:15Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673909948",
+          "created_at": "2026-09-15T02:48:14Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673916654",
+          "created_at": "2026-09-15T02:49:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673933373",
+          "created_at": "2026-09-15T02:51:26Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5673966533",
+          "created_at": "2026-09-15T02:55:58Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5674038878",
+          "created_at": "2026-09-15T03:04:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5674056334",
+          "created_at": "2026-09-15T03:06:23Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5674057218",
+          "created_at": "2026-09-15T03:06:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5674156234",
+          "created_at": "2026-09-15T03:19:11Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5674274986",
+          "created_at": "2026-09-15T03:30:50Z"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "title": "[rozwer] UI-MAP｜場所検索・自分の地図・表示と装飾の編集",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8",
+      "task": "UI-MAP",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 8,
+        "landed_main": null,
+        "note": "User requested end. All current changes pushed in PR163 cb8ef9b; UI-INTEGRATION98 receives docs/evidence/UI-MAP/screens-handoff.md with required remaining acceptance. Preserve /Users/roz/.codex/worktrees/ui-map-8.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673406985",
+          "created_at": "2026-09-15T01:44:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673434777",
+          "created_at": "2026-09-15T01:48:18Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673440314",
+          "created_at": "2026-09-15T01:49:00Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673551401",
+          "created_at": "2026-09-15T02:03:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673577869",
+          "created_at": "2026-09-15T02:07:06Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673628464",
+          "created_at": "2026-09-15T02:13:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673631789",
+          "created_at": "2026-09-15T02:13:58Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673636664",
+          "created_at": "2026-09-15T02:14:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673643846",
+          "created_at": "2026-09-15T02:15:33Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673644207",
+          "created_at": "2026-09-15T02:15:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673670417",
+          "created_at": "2026-09-15T02:18:58Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673711357",
+          "created_at": "2026-09-15T02:23:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673722668",
+          "created_at": "2026-09-15T02:24:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673734968",
+          "created_at": "2026-09-15T02:25:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673795298",
+          "created_at": "2026-09-15T02:32:56Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673795681",
+          "created_at": "2026-09-15T02:32:59Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673826184",
+          "created_at": "2026-09-15T02:37:01Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673842108",
+          "created_at": "2026-09-15T02:39:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673863252",
+          "created_at": "2026-09-15T02:42:00Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673877218",
+          "created_at": "2026-09-15T02:43:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673877420",
+          "created_at": "2026-09-15T02:43:56Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673918231",
+          "created_at": "2026-09-15T02:49:23Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673920938",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673926777",
+          "created_at": "2026-09-15T02:50:32Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673945608",
+          "created_at": "2026-09-15T02:53:07Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673976458",
+          "created_at": "2026-09-15T02:57:12Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673982992",
+          "created_at": "2026-09-15T02:57:54Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5673990613",
+          "created_at": "2026-09-15T02:58:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674000145",
+          "created_at": "2026-09-15T02:59:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674022125",
+          "created_at": "2026-09-15T03:02:26Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674030614",
+          "created_at": "2026-09-15T03:03:26Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674039135",
+          "created_at": "2026-09-15T03:04:22Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674056747",
+          "created_at": "2026-09-15T03:06:25Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674057048",
+          "created_at": "2026-09-15T03:06:27Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674081498",
+          "created_at": "2026-09-15T03:09:33Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674150818",
+          "created_at": "2026-09-15T03:18:25Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674307955",
+          "created_at": "2026-09-15T03:33:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674344992",
+          "created_at": "2026-09-15T03:35:59Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674492363",
+          "created_at": "2026-09-15T03:55:39Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674565857",
+          "created_at": "2026-09-15T04:05:42Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/8#issuecomment-5674626369",
+          "created_at": "2026-09-15T04:13:38Z"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "title": "[rozwer] UI-ROUTES｜経路条件・候補比較・徒歩案内",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9",
+      "task": "UI-ROUTES",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 9,
+        "landed_main": null,
+        "note": "緊急統合へ委譲。PR157/a5c8361はheader/余白重複の最小修正、全差分push済・worktree clean。既存PR44/71統合済。UI残:3画面の実Mapbox画像照合/幅別確認・最新Shell内全状態。接続残:本人/経路API保存再取得、比較/conditions/steps、単一測位、定期券入口。UI未完のためfinishせず、#72正式分割後にCONNECTへ接続受入を移管。paths src/features/routes/ docs/evidence/UI-ROUTES/。worktree /Users/roz/.codex/worktrees/ui-routes-9。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673407170",
+          "created_at": "2026-09-15T01:44:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673420905",
+          "created_at": "2026-09-15T01:46:31Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673440530",
+          "created_at": "2026-09-15T01:49:01Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673689009",
+          "created_at": "2026-09-15T02:21:01Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673696586",
+          "created_at": "2026-09-15T02:21:53Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673711616",
+          "created_at": "2026-09-15T02:23:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673732119",
+          "created_at": "2026-09-15T02:25:17Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673742496",
+          "created_at": "2026-09-15T02:26:27Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673761252",
+          "created_at": "2026-09-15T02:28:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673795148",
+          "created_at": "2026-09-15T02:32:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673800190",
+          "created_at": "2026-09-15T02:33:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673913499",
+          "created_at": "2026-09-15T02:48:43Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673924393",
+          "created_at": "2026-09-15T02:50:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673928107",
+          "created_at": "2026-09-15T02:50:43Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673938439",
+          "created_at": "2026-09-15T02:52:09Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673957947",
+          "created_at": "2026-09-15T02:54:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5674030814",
+          "created_at": "2026-09-15T03:03:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5674057119",
+          "created_at": "2026-09-15T03:06:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5674081644",
+          "created_at": "2026-09-15T03:09:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5674096800",
+          "created_at": "2026-09-15T03:11:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5674161811",
+          "created_at": "2026-09-15T03:19:57Z"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "title": "[rozwer] UI-EXPLORE｜街歩き相談・履歴・音声と探索候補",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10",
+      "task": "UI-EXPLORE",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 10,
+        "landed_main": null,
+        "note": "ユーザー終了指示。PR74統合済み、後続binding PR151/de12b77は全push済み。UI-INTEGRATION #98へ引継ぎ済み。未完UI/接続受入は#10と#72 comment5674183597に保持。worktree /Users/roz/.codex/worktrees/ui-explore-10 と全commitを保存し、完了扱いせず編集claimを返却。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673406965",
+          "created_at": "2026-09-15T01:44:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673440740",
+          "created_at": "2026-09-15T01:49:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673464390",
+          "created_at": "2026-09-15T01:52:00Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673498140",
+          "created_at": "2026-09-15T01:56:30Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673590000",
+          "created_at": "2026-09-15T02:08:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673635325",
+          "created_at": "2026-09-15T02:14:26Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673654967",
+          "created_at": "2026-09-15T02:17:00Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673714023",
+          "created_at": "2026-09-15T02:23:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673738654",
+          "created_at": "2026-09-15T02:25:59Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673761293",
+          "created_at": "2026-09-15T02:28:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673821305",
+          "created_at": "2026-09-15T02:36:21Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673837979",
+          "created_at": "2026-09-15T02:38:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673842246",
+          "created_at": "2026-09-15T02:39:11Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673920924",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673939771",
+          "created_at": "2026-09-15T02:52:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5673961807",
+          "created_at": "2026-09-15T02:55:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674014005",
+          "created_at": "2026-09-15T03:01:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674037915",
+          "created_at": "2026-09-15T03:04:15Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674057418",
+          "created_at": "2026-09-15T03:06:30Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674075351",
+          "created_at": "2026-09-15T03:08:44Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674161249",
+          "created_at": "2026-09-15T03:19:52Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674381729",
+          "created_at": "2026-09-15T03:40:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/10#issuecomment-5674408148",
+          "created_at": "2026-09-15T03:44:20Z"
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "title": "[rozwer] UI-RECORDS｜体験記録・訪問確認・訂正と地図の成長",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11",
+      "task": "UI-RECORDS",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 11,
+        "landed_main": null,
+        "note": "緊急引継ぎ: PR #75統合済、後続PR #153 / f5180bdはpush済。UI-BASE接続・保存後再表示・媒体headers・breakBefore修正を提供。worktree /Users/roz/.codex/worktrees/ui-records-11 を保持。UI未達: 実Mapbox/参照最終照合と端末選択撮影/キーボード。API未達: export/preview,気分/訪問日時,成長根拠接続。#98へ配送済。UI未達を完了扱いせず、取込担当が取得可能となるよう通常返却。証拠 docs/evidence/UI-RECORDS/README.md。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673406963",
+          "created_at": "2026-09-15T01:44:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673428148",
+          "created_at": "2026-09-15T01:47:27Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673523592",
+          "created_at": "2026-09-15T01:59:56Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673644056",
+          "created_at": "2026-09-15T02:15:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673668898",
+          "created_at": "2026-09-15T02:18:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673743491",
+          "created_at": "2026-09-15T02:26:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673917072",
+          "created_at": "2026-09-15T02:49:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673928250",
+          "created_at": "2026-09-15T02:50:44Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673976674",
+          "created_at": "2026-09-15T02:57:14Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5673978006",
+          "created_at": "2026-09-15T02:57:23Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5674057656",
+          "created_at": "2026-09-15T03:06:31Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5674081799",
+          "created_at": "2026-09-15T03:09:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/11#issuecomment-5674084716",
+          "created_at": "2026-09-15T03:09:59Z"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "title": "[rozwer] UI-REFLECTION｜日記・振り返り回答・体験比較とメモ",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12",
+      "task": "UI-REFLECTION",
+      "board": {
+        "actor": null,
+        "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+        "generation": 2,
+        "issue_number": 12,
+        "landed_main": null,
+        "note": "緊急統合へ委譲。PR92/d179abaはdevelopへ統合済み。未commitなし。src/features/reflection/とdocs/evidence/UI-REFLECTION/の残UI照合・API型/REFLECTION新契約接続は未完。証拠README参照。専用worktree ui-reflection-12を保持。後続CONNECT正式反映前なのでfinishしない。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673407169",
+          "created_at": "2026-09-15T01:44:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673680419",
+          "created_at": "2026-09-15T02:20:07Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673711757",
+          "created_at": "2026-09-15T02:23:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673725752",
+          "created_at": "2026-09-15T02:24:42Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673828941",
+          "created_at": "2026-09-15T02:37:24Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673924387",
+          "created_at": "2026-09-15T02:50:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673930982",
+          "created_at": "2026-09-15T02:51:06Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5673952593",
+          "created_at": "2026-09-15T02:54:05Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674056412",
+          "created_at": "2026-09-15T03:06:24Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674057928",
+          "created_at": "2026-09-15T03:06:33Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674100312",
+          "created_at": "2026-09-15T03:12:06Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674213606",
+          "created_at": "2026-09-15T03:26:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674338372",
+          "created_at": "2026-09-15T03:35:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/12#issuecomment-5674408726",
+          "created_at": "2026-09-15T03:44:25Z"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "title": "[rozwer] UI-INSIGHTS｜傾向・根拠の訂正とテーマ管理",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13",
+      "task": "UI-INSIGHTS",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 13,
+        "landed_main": null,
+        "note": "User emergency stop: PR69 merged, PR159 ab52b4a published. Handoff to UI-INTEGRATION #98: five registered screens, shared-shell final QA remains UI; real API/generated five axes/theme persistence and map filtering remain CONNECT-INSIGHTS #140. Preserve worktree and evidence; no completion claim.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673407196",
+          "created_at": "2026-09-15T01:44:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673646970",
+          "created_at": "2026-09-15T02:15:57Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673712026",
+          "created_at": "2026-09-15T02:23:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673842776",
+          "created_at": "2026-09-15T02:39:15Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673862142",
+          "created_at": "2026-09-15T02:41:52Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673920959",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673923183",
+          "created_at": "2026-09-15T02:50:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673928424",
+          "created_at": "2026-09-15T02:50:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5673937818",
+          "created_at": "2026-09-15T02:52:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674023710",
+          "created_at": "2026-09-15T03:02:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674058261",
+          "created_at": "2026-09-15T03:06:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674081950",
+          "created_at": "2026-09-15T03:09:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674339240",
+          "created_at": "2026-09-15T03:35:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674382082",
+          "created_at": "2026-09-15T03:40:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674389588",
+          "created_at": "2026-09-15T03:41:51Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674396542",
+          "created_at": "2026-09-15T03:42:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674454304",
+          "created_at": "2026-09-15T03:50:29Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/13#issuecomment-5674658146",
+          "created_at": "2026-09-15T04:17:46Z"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "title": "[rozwer] UI-FRIENDS｜友達との共有・地図・比較とおすすめルート",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14",
+      "task": "UI-FRIENDS",
+      "board": {
+        "actor": null,
+        "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+        "generation": 2,
+        "issue_number": 14,
+        "landed_main": null,
+        "note": "PR89/45374ee pushed; handoff to integration task 01a0a305-c796-7653-8dfe-b0aa1cdf858c. Remaining comparison/routes acceptance retained at issue72 comment5674167432; worktree ui-friends-14 preserved, no uncommitted changes.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673407347",
+          "created_at": "2026-09-15T01:44:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673736876",
+          "created_at": "2026-09-15T02:25:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673743481",
+          "created_at": "2026-09-15T02:26:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673749221",
+          "created_at": "2026-09-15T02:27:17Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673801911",
+          "created_at": "2026-09-15T02:33:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673841453",
+          "created_at": "2026-09-15T02:39:05Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5673859108",
+          "created_at": "2026-09-15T02:41:27Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5674058656",
+          "created_at": "2026-09-15T03:06:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5674082105",
+          "created_at": "2026-09-15T03:09:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5674133527",
+          "created_at": "2026-09-15T03:16:21Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/14#issuecomment-5674219798",
+          "created_at": "2026-09-15T03:26:44Z"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "title": "[rozwer] UI-SUGGESTIONS｜今日の希望から候補選択・行き先へ",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15",
+      "task": "UI-SUGGESTIONS",
+      "board": {
+        "actor": null,
+        "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+        "generation": 2,
+        "issue_number": 15,
+        "landed_main": null,
+        "note": "User requested end-of-session release. PR66 and PR150, all source/evidence and worktree ui-suggestions-15 retained. Remaining acceptance: normal generated contract, suggestion generation and route/visit/share integration; see docs/evidence/UI-SUGGESTIONS/README.md. No completion claim.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673407200",
+          "created_at": "2026-09-15T01:44:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673600733",
+          "created_at": "2026-09-15T02:10:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673675804",
+          "created_at": "2026-09-15T02:19:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673743257",
+          "created_at": "2026-09-15T02:26:33Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673748967",
+          "created_at": "2026-09-15T02:27:15Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673801755",
+          "created_at": "2026-09-15T02:33:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673843172",
+          "created_at": "2026-09-15T02:39:18Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673920952",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673928590",
+          "created_at": "2026-09-15T02:50:47Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5673934530",
+          "created_at": "2026-09-15T02:51:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5674032946",
+          "created_at": "2026-09-15T03:03:42Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5674058949",
+          "created_at": "2026-09-15T03:06:40Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5674082268",
+          "created_at": "2026-09-15T03:09:39Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5674096043",
+          "created_at": "2026-09-15T03:11:31Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/15#issuecomment-5674400651",
+          "created_at": "2026-09-15T03:43:21Z"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "title": "[rozwer] UI-KNOWLEDGE｜地域の知の検索・絞込・詳細と投稿",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16",
+      "task": "UI-KNOWLEDGE",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 2,
+        "issue_number": 16,
+        "landed_main": null,
+        "note": "Urgent 15-minute integration handoff: verified UI updates published in PR155, commit9841520/head0416714. Worktree clean and retained. UI remains incomplete: screens registration and local-knowledge shared bottom Sheet/cube/keyboard-scroll checks; API draft preserved for formal CONNECT successor. Release own paths so integration can claim and finish necessary wiring. Do not close Issue16 as complete.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673407343",
+          "created_at": "2026-09-15T01:44:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673419227",
+          "created_at": "2026-09-15T01:46:18Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673551541",
+          "created_at": "2026-09-15T02:03:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673668717",
+          "created_at": "2026-09-15T02:18:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673744412",
+          "created_at": "2026-09-15T02:26:41Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673755248",
+          "created_at": "2026-09-15T02:28:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673761457",
+          "created_at": "2026-09-15T02:28:50Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673807805",
+          "created_at": "2026-09-15T02:34:34Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673818844",
+          "created_at": "2026-09-15T02:36:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673825243",
+          "created_at": "2026-09-15T02:36:53Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673843327",
+          "created_at": "2026-09-15T02:39:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673856508",
+          "created_at": "2026-09-15T02:41:06Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673920991",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673928740",
+          "created_at": "2026-09-15T02:50:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673934902",
+          "created_at": "2026-09-15T02:51:39Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673966185",
+          "created_at": "2026-09-15T02:55:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673966552",
+          "created_at": "2026-09-15T02:55:58Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673970217",
+          "created_at": "2026-09-15T02:56:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5673981375",
+          "created_at": "2026-09-15T02:57:44Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674058152",
+          "created_at": "2026-09-15T03:06:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674059198",
+          "created_at": "2026-09-15T03:06:42Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674082477",
+          "created_at": "2026-09-15T03:09:41Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674147131",
+          "created_at": "2026-09-15T03:17:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674166680",
+          "created_at": "2026-09-15T03:20:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/16#issuecomment-5674179396",
+          "created_at": "2026-09-15T03:22:20Z"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "title": "[rozwer] UI-SETTINGS｜設定・プロフィール・活動統計と取得元（非健康）",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17",
+      "task": "UI-SETTINGS",
+      "board": {
+        "actor": null,
+        "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+        "generation": 2,
+        "issue_number": 17,
+        "landed_main": null,
+        "note": "ユーザー緊急終了指示。PR #167 / 6dacd4fをUI-INTEGRATION #98へ引継ぎ。設定UI先行提供、統計接続・live受入・健康は未完。worktreeを保持しbacklogへ返却。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673407384",
+          "created_at": "2026-09-15T01:44:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673488430",
+          "created_at": "2026-09-15T01:55:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673668381",
+          "created_at": "2026-09-15T02:18:44Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673672582",
+          "created_at": "2026-09-15T02:19:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673678354",
+          "created_at": "2026-09-15T02:19:53Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673756585",
+          "created_at": "2026-09-15T02:28:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673895230",
+          "created_at": "2026-09-15T02:46:17Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5674023061",
+          "created_at": "2026-09-15T03:02:33Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5674059861",
+          "created_at": "2026-09-15T03:06:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5674073378",
+          "created_at": "2026-09-15T03:08:29Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5674430650",
+          "created_at": "2026-09-15T03:47:18Z"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "title": "[rozwer] UI-PLUGINS｜拡張機能の試用・導入・更新と機能要望",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18",
+      "task": "UI-PLUGINS",
+      "board": {
+        "actor": null,
+        "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+        "generation": 4,
+        "issue_number": 18,
+        "landed_main": null,
+        "note": "User requested immediate shutdown. All changes committed and pushed: PR73 and PR132 merged; registration PR160 head6648f06 handed to UI-INTEGRATION#98. Worktree and evidence retained. API/DB/real map acceptance remains CONNECT-PLUGINS#144; UI finish/close not performed before formal split and shared QA acceptance.",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673407395",
+          "created_at": "2026-09-15T01:44:49Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673419410",
+          "created_at": "2026-09-15T01:46:20Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673445904",
+          "created_at": "2026-09-15T01:49:42Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673480943",
+          "created_at": "2026-09-15T01:54:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673644370",
+          "created_at": "2026-09-15T02:15:37Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673695472",
+          "created_at": "2026-09-15T02:21:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673711009",
+          "created_at": "2026-09-15T02:23:32Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673736677",
+          "created_at": "2026-09-15T02:25:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673758999",
+          "created_at": "2026-09-15T02:28:32Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673773026",
+          "created_at": "2026-09-15T02:30:16Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673777564",
+          "created_at": "2026-09-15T02:30:41Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673786389",
+          "created_at": "2026-09-15T02:31:43Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673803019",
+          "created_at": "2026-09-15T02:33:57Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673814670",
+          "created_at": "2026-09-15T02:35:29Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673842418",
+          "created_at": "2026-09-15T02:39:13Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673915985",
+          "created_at": "2026-09-15T02:49:04Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673919044",
+          "created_at": "2026-09-15T02:49:30Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673920945",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673927735",
+          "created_at": "2026-09-15T02:50:40Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673939737",
+          "created_at": "2026-09-15T02:52:19Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673941682",
+          "created_at": "2026-09-15T02:52:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5673948648",
+          "created_at": "2026-09-15T02:53:32Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674013641",
+          "created_at": "2026-09-15T03:01:17Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674018997",
+          "created_at": "2026-09-15T03:02:01Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674022311",
+          "created_at": "2026-09-15T03:02:28Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674045022",
+          "created_at": "2026-09-15T03:05:02Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674060195",
+          "created_at": "2026-09-15T03:06:48Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674075554",
+          "created_at": "2026-09-15T03:08:46Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674109926",
+          "created_at": "2026-09-15T03:13:23Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674119470",
+          "created_at": "2026-09-15T03:14:35Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674134781",
+          "created_at": "2026-09-15T03:16:30Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674180206",
+          "created_at": "2026-09-15T03:22:27Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674346477",
+          "created_at": "2026-09-15T03:36:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674418197",
+          "created_at": "2026-09-15T03:45:40Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674423438",
+          "created_at": "2026-09-15T03:46:21Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674483886",
+          "created_at": "2026-09-15T03:54:31Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/18#issuecomment-5674565265",
+          "created_at": "2026-09-15T04:05:38Z"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "title": "[rozwer] UI-COMPANION｜既存相棒の取込・管理・動作確認と選択",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19",
+      "task": "UI-COMPANION",
+      "board": {
+        "actor": null,
+        "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
+        "generation": 2,
+        "issue_number": 19,
+        "landed_main": null,
+        "note": "利用者の終了指示。HEAD660a19dをPR161へ公開済み、先行PR64/149統合済み。未完受入は実ZIP保存→25確認→登録/選択→再読込。共通生成型未反映。組込み担当へ引継ぎ、worktreeと成果を保持。",
+        "owner": "rozwer",
+        "paths": [],
+        "status": "backlog",
+        "submitted_commit": null
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673407546",
+          "created_at": "2026-09-15T01:44:50Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673803280",
+          "created_at": "2026-09-15T02:33:59Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673815630",
+          "created_at": "2026-09-15T02:35:36Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673825054",
+          "created_at": "2026-09-15T02:36:51Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673827293",
+          "created_at": "2026-09-15T02:37:10Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673842597",
+          "created_at": "2026-09-15T02:39:14Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673912982",
+          "created_at": "2026-09-15T02:48:39Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673920984",
+          "created_at": "2026-09-15T02:49:45Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673939992",
+          "created_at": "2026-09-15T02:52:22Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673967147",
+          "created_at": "2026-09-15T02:56:03Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5673993405",
+          "created_at": "2026-09-15T02:58:55Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5674039598",
+          "created_at": "2026-09-15T03:04:25Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5674060466",
+          "created_at": "2026-09-15T03:06:50Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/19#issuecomment-5674082625",
+          "created_at": "2026-09-15T03:09:42Z"
+        }
+      ]
+    },
+    {
+      "number": 134,
+      "title": "[rozwer] CONNECT-MAP｜実接続：場所検索・自分の地図・表示と装飾の編集",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/134",
+      "task": "CONNECT-MAP",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 135,
+      "title": "[rozwer] CONNECT-RECORDS｜実接続：体験記録・訪問確認・訂正と地図の成長",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/135",
+      "task": "CONNECT-RECORDS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 136,
+      "title": "[rozwer] CONNECT-EXPLORE｜実接続：街歩き相談・履歴・音声と探索候補",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/136",
+      "task": "CONNECT-EXPLORE",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/136#issuecomment-5674676023",
+          "created_at": "2026-09-15T04:20:05Z"
+        }
+      ]
+    },
+    {
+      "number": 137,
+      "title": "[rozwer] CONNECT-BASE｜実接続：共通UI・ナビゲーションと画面復帰",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/137",
+      "task": "CONNECT-BASE",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 138,
+      "title": "[rozwer] CONNECT-ROUTES｜実接続：経路条件・候補比較・徒歩案内",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/138",
+      "task": "CONNECT-ROUTES",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/138#issuecomment-5674619881",
+          "created_at": "2026-09-15T04:12:49Z"
+        }
+      ]
+    },
+    {
+      "number": 139,
+      "title": "[rozwer] CONNECT-REFLECTION｜実接続：日記・振り返り回答・体験比較とメモ",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/139",
+      "task": "CONNECT-REFLECTION",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/139#issuecomment-5674358144",
+          "created_at": "2026-09-15T03:37:38Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/139#issuecomment-5674428040",
+          "created_at": "2026-09-15T03:46:57Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/139#issuecomment-5674470969",
+          "created_at": "2026-09-15T03:52:44Z"
+        },
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/139#issuecomment-5674554804",
+          "created_at": "2026-09-15T04:04:10Z"
+        }
+      ]
+    },
+    {
+      "number": 140,
+      "title": "[rozwer] CONNECT-INSIGHTS｜実接続：傾向・根拠の訂正とテーマ管理",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/140",
+      "task": "CONNECT-INSIGHTS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 141,
+      "title": "[rozwer] CONNECT-SUGGESTIONS｜実接続：今日の希望から候補選択・行き先へ",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/141",
+      "task": "CONNECT-SUGGESTIONS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/141#issuecomment-5674401012",
+          "created_at": "2026-09-15T03:43:24Z"
+        }
+      ]
+    },
+    {
+      "number": 142,
+      "title": "[rozwer] CONNECT-FRIENDS｜実接続：友達との共有・地図・比較とおすすめルート",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/142",
+      "task": "CONNECT-FRIENDS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/142#issuecomment-5674560550",
+          "created_at": "2026-09-15T04:04:59Z"
+        }
+      ]
+    },
+    {
+      "number": 143,
+      "title": "[rozwer] CONNECT-KNOWLEDGE｜実接続：地域の知の検索・絞込・詳細と投稿",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/143",
+      "task": "CONNECT-KNOWLEDGE",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 144,
+      "title": "[rozwer] CONNECT-PLUGINS｜実接続：拡張機能の試用・導入・更新と機能要望",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/144",
+      "task": "CONNECT-PLUGINS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/144#issuecomment-5674558091",
+          "created_at": "2026-09-15T04:04:39Z"
+        }
+      ]
+    },
+    {
+      "number": 145,
+      "title": "[rozwer] CONNECT-SETTINGS｜実接続：設定・プロフィール・活動統計と取得元（非健康）",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/145",
+      "task": "CONNECT-SETTINGS",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/145#issuecomment-5674531995",
+          "created_at": "2026-09-15T04:01:03Z"
+        }
+      ]
+    },
+    {
+      "number": 146,
+      "title": "[rozwer] UI-HEALTH｜余力枠：健康の画面・許可・状態操作",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/146",
+      "task": "UI-HEALTH",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    },
+    {
+      "number": 147,
+      "title": "[rozwer] CONNECT-COMPANION｜実接続：既存相棒の取込・管理・動作確認と選択",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/147",
+      "task": "CONNECT-COMPANION",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": [
+        {
+          "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/147#issuecomment-5674675200",
+          "created_at": "2026-09-15T04:19:59Z"
+        }
+      ]
+    },
+    {
+      "number": 148,
+      "title": "[rozwer] CONNECT-HEALTH｜余力枠：健康の取込・保存・停止/削除の実接続",
+      "state": "OPEN",
+      "state_reason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/148",
+      "task": "CONNECT-HEALTH",
+      "board": {
+        "actor": null,
+        "generation": 0,
+        "note": null,
+        "paths": [],
+        "status": "backlog"
+      },
+      "has_claim_token": false,
+      "decision": "keep-open",
+      "comments": []
+    }
+  ],
+  "merged_prs": [
+    {
+      "headRefOid": "3159ab4dac4dfc6ab5a9710e361f29cfb0b2fa28",
+      "mergeCommit": {
+        "oid": "2155430f137a69964d58d96a8507b192d2e7f15f"
+      },
+      "mergedAt": "2026-09-15T04:11:20Z",
+      "number": 212,
+      "title": "fix(dev): API readiness後にViteを起動",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/212",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "bb9fb87a4909da4933cb4d1649fff37caa54d94b",
+      "mergeCommit": {
+        "oid": "83776b9b8d870fadb7cf4e7e11c6e1532ad3a87c"
+      },
+      "mergedAt": "2026-09-15T04:03:13Z",
+      "number": 209,
+      "title": "fix(core): honor optional If-Match for new diary adoption",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/209",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "043b6e8c7269d2b7787ea4c1fc9b4c68ae5e6b73",
+      "mergeCommit": {
+        "oid": "11422c8452b09e86fded37de75997bdedcadd776"
+      },
+      "mergedAt": "2026-09-15T04:00:18Z",
+      "number": 206,
+      "title": "fix(settings): 設定3画面の全画面表示と停止場所の写真を修復",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/206",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "7842303dbb54ed5fa47c48d75a5fbf9d752d444c",
+      "mergeCommit": {
+        "oid": "5b747a0a8705d061241590c1cd01e23b8f4187d0"
+      },
+      "mergedAt": "2026-09-15T04:08:12Z",
+      "number": 204,
+      "title": "docs(routes): verify Valhalla bicycle timing and exclusion limitations",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/204",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "529cf982b51e006b76192918dda152db5cb91c1f",
+      "mergeCommit": {
+        "oid": "8f80c077bfd2849b9f00ef910aa90082d00ce891"
+      },
+      "mergedAt": "2026-09-15T04:02:10Z",
+      "number": 203,
+      "title": "fix(plugins): 参照状態の投稿・下書きと競合表示を修復",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/203",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "7d3f0929d466f2e57b6a455c40f4438fda1dfd24",
+      "mergeCommit": {
+        "oid": "9c608b23ace7d19ef8438f23c7f547f6ce1c4ae0"
+      },
+      "mergedAt": "2026-09-15T03:57:26Z",
+      "number": 199,
+      "title": "fix(knowledge): 地図ヘッダーと共通QAプレビューを復旧",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/199",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "5b886a043fab8251ca850cb969173d93708e2592",
+      "mergeCommit": {
+        "oid": "2f4df19f46afcbc42986b403ce2df71aade82882"
+      },
+      "mergedAt": "2026-09-15T03:53:14Z",
+      "number": 195,
+      "title": "fix(shell): 中央カメラから写真を体験記録へ渡す",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/195",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "5b39f2dad0cf669808adf283902a80d282712848",
+      "mergeCommit": {
+        "oid": "14b5b2ea6f7a6b867be0e9d6ca253ab046191038"
+      },
+      "mergedAt": "2026-09-15T03:48:18Z",
+      "number": 188,
+      "title": "feat(records): 地図カメラの媒体を記録下書きへ引き継ぐ",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/188",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "4d0b9be0fd706f55a3ee6a9faf86099052f1482b",
+      "mergeCommit": {
+        "oid": "15f2bbbd63094c4f8282f591bedd38a7576828ce"
+      },
+      "mergedAt": "2026-09-15T03:35:19Z",
+      "number": 170,
+      "title": "fix(integration): show mock companion and deliver remaining screen registrations",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/170",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "6dacd4fb1a22b51a02d4abbdff9397fe3ba417d7",
+      "mergeCommit": {
+        "oid": "448a857b203b46dfc2ae9da0b568d3d8ff62e706"
+      },
+      "mergedAt": "2026-09-15T03:35:41Z",
+      "number": 167,
+      "title": "feat(settings): 設定・プロフィールUIを先行提供",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/167",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "4f59bfe45e3b0a2e93a21476c0765c7e77a64657",
+      "mergeCommit": {
+        "oid": "f9b322793fcc88f9ac2b3c15cd5ff57674953900"
+      },
+      "mergedAt": "2026-09-15T03:29:03Z",
+      "number": 164,
+      "title": "UI完了と実接続受入を分割し既存claimを保持する",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/164",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "cb8ef9bdee1f5e47021b1688c68f4e88d1e8f17c",
+      "mergeCommit": {
+        "oid": "097bd497ba340db353864c78868fefd604fa4384"
+      },
+      "mergedAt": "2026-09-15T03:29:05Z",
+      "number": 163,
+      "title": "feat(map): deliver map screens and growth display",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/163",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "bef7d6d256148d7493aab569167a8e3b7ed9d98b",
+      "mergeCommit": {
+        "oid": "6219ff2b092cce36e995cbc93499a9de7c832ed9"
+      },
+      "mergedAt": "2026-09-15T03:28:31Z",
+      "number": 162,
+      "title": "UI-BASE: 地図をのぞく一回で正規セッションを開始",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/162",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "660a19d900883aea7c4051a4024a8d735edc9ddf",
+      "mergeCommit": {
+        "oid": "2d55d9463e6d34b39dfbf59a13b683849249bff6"
+      },
+      "mergedAt": "2026-09-15T03:35:20Z",
+      "number": 161,
+      "title": "相棒の取得失敗を空一覧と区別する",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/161",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "6648f068b9fbd5aad40f127e437f0dd65d5cf93b",
+      "mergeCommit": {
+        "oid": "cdfdd243956e79281b244e1fe5ed6ba65cccd7fd"
+      },
+      "mergedAt": "2026-09-15T03:24:26Z",
+      "number": 160,
+      "title": "feat(ui-plugins): 共通QAへ未接続表示付き画面を登録",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/160",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "ab52b4ac3623feab09ceb01ffb2b00802ea36b38",
+      "mergeCommit": {
+        "oid": "781f14412183596d2ad86a3e3c660c57f1e95197"
+      },
+      "mergedAt": "2026-09-15T03:24:22Z",
+      "number": 159,
+      "title": "fix(ui-insights): 共通枠の二重余白と診断見出しを修正",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/159",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "a5c8361439cfdd2fa41d6e2bffe334497be840cc",
+      "mergeCommit": {
+        "oid": "2a7e78bfbbc720f7cc2147c21e50f70b938df4c7"
+      },
+      "mergedAt": "2026-09-15T03:29:16Z",
+      "number": 157,
+      "title": "fix(routes): remove duplicate shared header and padding",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/157",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "0416714f2f4aa2d5e5cf5a58abb02efe21460480",
+      "mergeCommit": {
+        "oid": "f72c7e7c54b87a699d00de964e536c02b4d47083"
+      },
+      "mergedAt": "2026-09-15T03:22:40Z",
+      "number": 155,
+      "title": "fix(knowledge): refine reference views and stop inactive media",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/155",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "f5180bdb07289ad7b1eaeaa19b02b23ec8da615b",
+      "mergeCommit": {
+        "oid": "941cb8e9cd2eeb64c894d910433b3e8424740d96"
+      },
+      "mergedAt": "2026-09-15T03:29:10Z",
+      "number": 153,
+      "title": "fix(records): 共通画面接続と保存後の再表示を修正",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/153",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "b83c17ca7574c1af18f364c52eb156ec05424398",
+      "mergeCommit": {
+        "oid": "7cd2aa89a305ce06309a6238ccf38332e8a26f05"
+      },
+      "mergedAt": "2026-09-15T03:22:36Z",
+      "number": 152,
+      "title": "UI-BASE: 地図上の画面固有ヘッダーを接続",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/152",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "de12b7784ce1082a633d7b0e3b80addb13d6409c",
+      "mergeCommit": {
+        "oid": "28a0a934df26a3bb000ad2287efc7c55560bfda1"
+      },
+      "mergedAt": "2026-09-15T03:35:20Z",
+      "number": 151,
+      "title": "feat(exploration): connect consultation, discovery and transfer screens",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/151",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "3fe167efc4fa69ebaece5229a266a4e87eada675",
+      "mergeCommit": {
+        "oid": "f44a47b9bf4d51738351184f852d4439cad48ba8"
+      },
+      "mergedAt": "2026-09-15T03:22:27Z",
+      "number": 150,
+      "title": "fix(suggestions): cached画面の入力ラベル対応を修正",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/150",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "d179aba9a37d234161b177abb4c39c22843f1e35",
+      "mergeCommit": {
+        "oid": "46dc986e8469d5744e7b39102a6a90e846987850"
+      },
+      "mergedAt": "2026-09-15T03:09:03Z",
+      "number": 92,
+      "title": "UI-REFLECTION: 日記・振り返り・比較・メモの6画面を追加",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/92",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "f3949e75440241339371f76257622e7a067cda5b",
+      "mergeCommit": {
+        "oid": "b2db4a00ceca1d780aa26dd3a0a88eb2c5c9da17"
+      },
+      "mergedAt": "2026-09-15T03:09:31Z",
+      "number": 89,
+      "title": "feat(friends): add sharing, friend maps and comparison screens",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/89",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "d35a12e98fddf928ec0acc645598c00f1099df4d",
+      "mergeCommit": {
+        "oid": "ca88f2ead49cb8c6753ca6a37098edfa5160096e"
+      },
+      "mergedAt": "2026-09-15T03:07:31Z",
+      "number": 81,
+      "title": "UI-BASE: 本人APIとlive/demo切替を共通入口へ接続",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/81",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    },
+    {
+      "headRefOid": "c6b73e3e5a55a423f0eb74394db1018caaa045b7",
+      "mergeCommit": {
+        "oid": "6dac91f4fba8bb28506c73efd39c4db1518a963d"
+      },
+      "mergedAt": "2026-09-15T02:38:19Z",
+      "number": 47,
+      "title": "feat(ui): provide navigation shell and shared screen contracts",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/47",
+      "submitted_commit_reachable": true,
+      "merge_commit_reachable": true
+    }
+  ],
+  "health": {
+    "ui_issue": 146,
+    "connection_issue": 148,
+    "decision": "keep-open",
+    "reason": "余力枠の未実施。恒久除外ではなく、健康3画面/共有画面健康面の受入未達を保持する。",
+    "evidence": "docs/evidence/VISUAL-SETTINGS/README.md"
+  }
+}
