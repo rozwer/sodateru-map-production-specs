@@ -69,7 +69,7 @@ def write_receipt(path, state, *, failure=None):
 def trust_destination(root, dest, base_commit):
     """Trust exactly the claimed base's mise.toml before a branch hook can run."""
     config = dest / 'mise.toml'
-    dest.mkdir()
+    dest.mkdir(parents=True)
     try:
         result = subprocess.run(['git', 'show', base_commit + ':mise.toml'], cwd=root,
                                 capture_output=True)
@@ -203,7 +203,7 @@ def verify_started_claim(dest, task, claimed):
     Ordinary verify, commit, push and finish still read the remote board.
     A local handoff during setup is detected before returning success.
     """
-    import rehearsal_guard
+    import production_guard
     old = Path.cwd()
     try:
         os.chdir(dest)
@@ -216,8 +216,8 @@ def verify_started_claim(dest, task, claimed):
         if tc.git('rev-parse', 'HEAD') != claimed['base_commit']:
             raise tc.BoardError('Worktree moved from the claimed base during setup')
         verified = verify(dest, local=True)
-        rehearsal_guard.check_commit(board, 'HEAD', tc.git('branch', '--show-current'),
-                                     staged=True, check_github=False)
+        production_guard.check_commit(board, 'HEAD', tc.git('branch', '--show-current'),
+                                      staged=True, check_github=False)
         return verified
     finally:
         os.chdir(old)
