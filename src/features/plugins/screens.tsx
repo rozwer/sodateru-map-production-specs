@@ -7,6 +7,8 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
+import coffeeAvatar from "../feature-requests/assets/coffee.jpg";
+import parkAvatar from "../feature-requests/assets/park.jpg";
 import { PluginIconView, type PluginIconChoice } from "./PluginIconView";
 import { PluginGlyph } from "./PluginGlyph";
 import { PluginControlIcon } from "./views";
@@ -179,6 +181,7 @@ const fixturePosts: FeatureRequestModel[] = [
   {
     id: "fixture-sakura",
     name: "さくら",
+    avatarUrl: coffeeAvatar,
     body: "雨の日に屋根のある道を選びたい。",
     timestampLabel: "2024/5/12 10:24",
     visibility: "public",
@@ -194,6 +197,7 @@ const fixturePosts: FeatureRequestModel[] = [
   {
     id: "fixture-takumi",
     name: "たくみ",
+    avatarUrl: parkAvatar,
     body: "ベビーカーでも通れる道を地図で知りたい。",
     timestampLabel: "2024/5/10 18:03",
     visibility: "public",
@@ -210,9 +214,11 @@ const fixturePosts: FeatureRequestModel[] = [
 function Scene({
   after = true,
   extra = false,
+  nature = false,
 }: {
   after?: boolean;
   extra?: boolean;
+  nature?: boolean;
 }) {
   const [bridge] = useState(
     () => new MapBridge(`plugins-visual-fixture-${Math.random()}`),
@@ -233,7 +239,10 @@ function Scene({
     if (!after) return;
     bridge.showCandidates("plugin:fixture", {
       resultId: "ui-fixture-only",
-      candidates: [
+      candidates: nature ? [
+        { id: "fixture-green-east", coordinates: [136.983, 35.159], label: "東山公園" },
+        { id: "fixture-green-north", coordinates: [136.976, 35.169], label: "緑のつながり" },
+      ] : [
         {
           id: "fixture-park",
           coordinates: [136.9817, 35.1585],
@@ -255,6 +264,7 @@ function Scene({
           : []),
       ],
     });
+    if (nature) return;
     bridge.showRoute("plugin:fixture", {
       previewId: "ui-fixture-route",
       geometry: {
@@ -269,13 +279,13 @@ function Scene({
       },
       waypoints: [],
     });
-  }, [bridge, after, extra]);
+  }, [bridge, after, extra, nature]);
   return (
     <MapPreview bridge={bridge} label="模擬地点を重ねた本山エリアの実地図" />
   );
 }
-const preview = (after = true, extra = false): PluginPreview => ({
-  map: <Scene after={after} extra={extra} />,
+const preview = (after = true, extra = false, nature = false): PluginPreview => ({
+  map: <Scene after={after} extra={extra} nature={nature} />,
   mock: true,
 });
 function PluginFixture({
@@ -529,7 +539,7 @@ function PluginFixture({
         <PluginManageView
           plugins={data.plugins.filter((item) => item.installed)}
           previews={Object.fromEntries(
-            data.plugins.map((item) => [item.id, preview(item.enabled)]),
+            data.plugins.map((item) => [item.id, preview(item.enabled, false, item.kind === "nature")]),
           )}
           onToggle={(id, enabled) => modify(id, { enabled })}
           onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
@@ -586,14 +596,22 @@ function PluginFixture({
               name: "バイクマップ",
               kind: "bike",
               description: "道の種類に応じて、道路を色分けします。",
-              preview: preview(),
+              preview: { ...preview(), legend: [
+                { id: "recommended", label: "おすすめの道", color: "#40a75c" },
+                { id: "ordinary", label: "一般道", color: "#409cfa" },
+                { id: "other", label: "その他の道", color: "#b9c6ce" },
+              ] },
             },
             {
-              id: "fixture-pilgrimage",
-              name: "聖地マップ",
-              kind: "pilgrimage",
-              description: "作品にゆかりのある場所を表示します。",
-              preview: preview(false),
+              id: "fixture-nature",
+              name: "自然マップ",
+              kind: "nature",
+              description: "緑の多さに応じて、エリアを色分けします。",
+              preview: { ...preview(true, false, true), legend: [
+                { id: "park", label: "公園・緑地", color: "#4ea651" },
+                { id: "connection", label: "緑のつながり", color: "#b2dac7" },
+                { id: "other", label: "その他のエリア", color: "#e0d7b8" },
+              ] },
             },
           ]}
           selection={selection}
@@ -648,12 +666,12 @@ function RequestFixture({
           visibility: "public" as const,
         });
   const open = (source?: FeatureRequestModel) => {
-    const draftId = crypto.randomUUID();
+    const draftId = source ? `request-${source.id}` : "fixture-new";
     setData((previous) => ({
       ...previous,
       drafts: {
         ...previous.drafts,
-        [draftId]: {
+        [draftId]: previous.drafts[draftId] || {
           name: "やまぐち",
           body: source?.body || "",
           visibility: "public",
@@ -709,6 +727,7 @@ function RequestFixture({
           setData((previous) => ({
             ...previous,
             posts: [post, ...previous.posts.filter((item) => item.id !== id)],
+            drafts: Object.fromEntries(Object.entries(previous.drafts).filter(([key]) => key !== draftKey)),
             requestTab: visibility === "private" ? "drafts" : "public",
             requestNotice: `${visibility === "private" ? "下書きを保存しました" : "投稿しました"}（UI fixture・未保存）`,
           }));
@@ -804,6 +823,8 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map(
       );
     },
     layout: {
+      // These nine approved references show standalone content, without an outer map.
+      presentation: id === "plugin-icon" ? "panel" as const : "fullscreen" as const,
       header: "back" as const,
       bottomNav: ["plugin-store", "feature-requests"].includes(id),
       background: "soft" as const,
@@ -812,13 +833,20 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map(
 );
 function initialFixtureData(): FixtureData {
   return {
-    plugins: fixturePlugins,
+    plugins: location.hash.startsWith("#/plugin-conflict") ? [...fixturePlugins, {
+      id: "fixture-nature", name: "自然マップ", kind: "nature", category: "walking",
+      description: "公園・緑地と緑のつながりを確認できます。", regionLabel: "本山・東山エリア",
+      installed: true, enabled: true, permissions: [], demo: true, versionLabel: "v1.0.0",
+    }] : fixturePlugins,
     fields: {},
     savedFields: {},
     previousVersions: { "fixture-bike": "v1.1.0" },
     pluginNotice: "",
     icons: {},
-    posts: fixturePosts,
+    posts: [
+      ...fixturePosts.filter(post => post.id !== "fixture-own" || new URLSearchParams(location.search).has("submitted")),
+      { ...fixturePosts[0]!, id: "fixture-draft", visibility: "private", body: "ベビーカーで休憩できる場所を地図で探したい。", timestampLabel: "2024/5/12 10:50" },
+    ],
     drafts: {},
     requestTab: "public",
     requestNotice: new URLSearchParams(location.search).has("submitted")
