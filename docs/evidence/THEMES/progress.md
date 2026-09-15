@@ -17,4 +17,14 @@
 
 ## 未達
 
-CORE.runtime/integrationは未統合のため共通起動・HTTP・再送・再起動GETは未確認。RECORDS/INFORMATION/AIの実接続、AI命名採用、UI受入、独立レビュー・PR統合は未完了。SQL/契約確認をTHEMES.manual全体またはIssue完了とは扱わない。
+RECORDS/INFORMATION/AIの実接続、AI命名採用、UI受入は未完了。SQL/契約確認をTHEMES.manual全体またはIssue完了とは扱わない。
+
+## CORE接続（PR #53統合後）
+
+- `service.ts`：テーマCRUD/所属/表示属性、所有者/版/記録/媒体確認、構造化メモread/write helper。
+- `register.ts`：CORE自動収集、固有migration、既存5operation。POSTは共通idempotentMutationで現在資源を再取得。
+- service DBテスト2件成功：同名別ID、所属、写真/色、版競合、別人拒否、再起動再取得、由来の版変更/除去と本文保持。
+- CORE HTTP/SQLite統合テスト1件成功：作成201/再送200/異入力409、版欠落428/競合412、本人・live/demo分離、DB再起動再取得、削除後再送404/記録保持。
+- `service.ts`と`register.ts`のstrict型検査成功。
+
+HTTPテストはCOREのcreateApp/共通検証/本人セッション/DBをそのまま使い、取得済みTHEMES断片をメモリ上で合成。fixture記録はテスト用SQLで投入。共通生成物への反映・実main起動とRECORDS保存経由の連結は後続で確認する。
