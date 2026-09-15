@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 201,
+  "revision": 202,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34418,23 +34418,17 @@
       "token": null
     },
     "VISUAL-SOCIAL": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 184,
       "landed_main": null,
-      "note": null,
+      "note": "締切指示で追加作業停止。PR193/199/207通常merge済み、HEAD ed3a2f6617787d18250a112ebd6f12b9de431212をorigin/rozwer/184-visual-socialとworktree /Users/roz/.codex/worktrees/visual-social-184に保全。docs/evidence/VISUAL-COMMUNITY/screens.mdに13画面の検証境界と未完。全画面一致/API完了ではない。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "src/features/knowledge/",
-        "src/features/companion/",
-        "docs/evidence/VISUAL-COMMUNITY/",
-        "docs/evidence/UI-KNOWLEDGE/map-fixture.tsx"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "233ba115b1354b03844298fd251a8afb"
+      "token": null
     }
   }
 }
