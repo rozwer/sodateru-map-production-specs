@@ -98,8 +98,9 @@ export function KnowledgeFilterView({ initial, onApply, onClose, onAreaSearch, o
 }) {
   const [draft, setDraft] = useState<KnowledgeFilters>(() => structuredClone(initial));
   const update = (patch: Partial<KnowledgeFilters>) => setDraft(current => ({ ...current, ...patch }));
-  return <section className="knowledge-panel knowledge-filter" data-testid="knowledge-filter">
-    <Header title={m.searchConditions} back={onClose} close><button className="knowledge-outline" type="button" onClick={() => setDraft(structuredClone(emptyFilters))}>{m.clearConditions}</button></Header>
+  const cancel = () => { setDraft(structuredClone(initial)); onClose(); };
+  return <section className="knowledge-panel knowledge-filter" data-testid="knowledge-filter" onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); cancel(); } }}>
+    <Header title={m.searchConditions} back={cancel} close><button className="knowledge-outline" type="button" onClick={() => setDraft(structuredClone(emptyFilters))}>{m.clearConditions}</button></Header>
     <section className="knowledge-filter-group"><h3>{m.area}</h3><p>{m.areaHelp}</p>
       <form onSubmit={event => { event.preventDefault(); onAreaSearch(draft.areaText); }}><label className="knowledge-search is-outline"><KnowledgeIcon name="search" /><input aria-label={m.area} type="search" value={draft.areaText} onChange={event => update({ areaText: event.target.value })} /><button type="button" aria-label={m.clearSearch} onClick={() => update({ areaText: '', center: null, radiusM: null, bounds: null })}><KnowledgeIcon name="close" /></button></label></form>
       <Choice label="検索半径" value={draft.radiusM} onChange={radiusM => update({ radiusM, bounds: null })} options={[{ value: 500, label: '500m' }, { value: 1000, label: '1km' }, { value: 3000, label: '3km' }]} testId="knowledge-filter--radius" />
