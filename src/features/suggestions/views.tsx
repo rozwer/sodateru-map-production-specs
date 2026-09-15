@@ -21,10 +21,11 @@ export function CheckinView({form,onChange,date,busy,notice,onSave,onSearch,onSk
  form: CheckinForm; onChange: <K extends keyof CheckinForm>(key: K,value:CheckinForm[K])=>void; date:string; busy:boolean; notice?:Notice|null;
  onSave:()=>void;onSearch:()=>void;onSkip:()=>void;children?:React.ReactNode;
 }) {
+ const inputId=useId();
  return <section className="sg-screen sg-checkin" aria-busy={busy}>
   <header className="sg-intro"><h2>{m.checkinTitle}</h2><p>{m.checkinLead}</p></header>
   <form className="sg-form" onSubmit={e=>{e.preventDefault();onSearch();}}>
-   {(['state','wishes'] as const).map(field=><div className="sg-field" key={field}><label htmlFor={`sg-${field}`}><Icon name={field==='state'?'heart':'chat'}/>{m[field]} <span>{m.optional}</span></label><div className="sg-input-wrap"><input id={`sg-${field}`} data-testid={`self-checkin--${field}`} value={form[field]} placeholder={field==='state'?'今の気持ちを入力':'今日したいことを入力'} maxLength={field==='state'?10000:200} onChange={e=>onChange(field,e.target.value)} disabled={busy}/>{form[field] && <button type="button" aria-label={`${m[field]}を消す`} onClick={()=>onChange(field,'')} disabled={busy}>×</button>}</div></div>)}
+   {(['state','wishes'] as const).map(field=><div className="sg-field" key={field}><label htmlFor={`${inputId}-${field}`}><Icon name={field==='state'?'heart':'chat'}/>{m[field]} <span>{m.optional}</span></label><div className="sg-input-wrap"><input id={`${inputId}-${field}`} data-testid={`self-checkin--${field}`} value={form[field]} placeholder={field==='state'?'今の気持ちを入力':'今日したいことを入力'} maxLength={field==='state'?10000:200} onChange={e=>onChange(field,e.target.value)} disabled={busy}/>{form[field] && <button type="button" aria-label={`${m[field]}を消す`} onClick={()=>onChange(field,'')} disabled={busy}>×</button>}</div></div>)}
    <Choices field="time" title={m.time} icon="clock" options={timeChoices} value={form.time} onChange={onChange} disabled={busy}/>
    <Choices field="mode" title={m.mode} icon="walk" options={modeChoices} value={form.mode} onChange={onChange} disabled={busy}/>
    <Choices field="companion" title={m.companion} icon="people" options={companionChoices} value={form.companion} onChange={onChange} disabled={busy}/>
@@ -37,7 +38,7 @@ export function CheckinView({form,onChange,date,busy,notice,onSave,onSearch,onSk
  </section>;
 }
 export function ConditionChips({form}: {form:CheckinForm}) {
- const values=[{key:'wishes',value:form.wishes,icon:'chat'},...(['time','mode','companion','effort'] as const).map((key,i)=>({key,value:[timeChoices,modeChoices,companionChoices,effortChoices][i].find(v=>v[0]===form[key])?.[1] ?? (key==='mode'&&form.mode==='driving'?'車':''),icon:['clock','walk','people','shoe'][i]}))].filter(v=>v.value);
+ const values=[{key:'wishes',value:form.wishes,icon:'chat'},...(['time','mode','companion','effort'] as const).map((key,i)=>({key,value:[timeChoices,modeChoices,companionChoices,effortChoices][i]!.find(v=>v[0]===form[key])?.[1] ?? (key==='mode'&&form.mode==='driving'?'車':''),icon:['clock','walk','people','shoe'][i]!}))].filter(v=>v.value);
  return <div className="sg-chips">{values.length?values.map(v=><span key={v.key}><Icon name={v.icon}/>{v.value}</span>):<span>希望条件の指定なし</span>}</div>;
 }
 function Photo({photo,allowRetry=false}: {photo?:CandidateView['photos'][number];allowRetry?:boolean}) {

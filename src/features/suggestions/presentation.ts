@@ -21,6 +21,7 @@ export function hasAnswer(form:CheckinForm) {return Object.values(form).some(val
 export function localDay(timeZone:string,now=Date.now()) {return new Intl.DateTimeFormat('sv-SE',{timeZone,year:'numeric',month:'2-digit',day:'2-digit'}).format(now);}
 export function endOfDay(date:string,timeZone:string):number {
  const [year,month,day]=date.split('-').map(Number);
+ if(year===undefined||month===undefined||day===undefined||![year,month,day].every(Number.isFinite))throw new Error('日付を確認してください');
  const target=Date.UTC(year,month-1,day+1);
  let instant=target;
  // Match next midnight in the named zone; DST offsets are read for the target instant.
