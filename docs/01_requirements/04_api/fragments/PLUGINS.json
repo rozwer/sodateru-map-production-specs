@@ -1,0 +1,2181 @@
+{
+  "taskId": "PLUGINS",
+  "version": 3,
+  "replaceSchemas": [
+    "PluginValues",
+    "PluginDefinition",
+    "PluginSetting",
+    "PluginSettingCreate",
+    "PluginSettingPatch",
+    "PluginSettingPage"
+  ],
+  "schemas": {
+    "PluginValues": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "PluginDeclaration": {
+      "type": "object",
+      "properties": {
+        "targetKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "value": {}
+      },
+      "required": [
+        "targetKey",
+        "property",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "PluginAppliedDeclaration": {
+      "type": "object",
+      "properties": {
+        "targetKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "value": {},
+        "pluginId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "targetKey",
+        "property",
+        "value",
+        "pluginId",
+        "pluginVersion"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSource": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "attribution"
+      ],
+      "additionalProperties": false
+    },
+    "PluginManifest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "author": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "changeLog": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "usageInfo": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginSource"
+          },
+          "maxItems": 1000
+        },
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "defaultSettings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "trialConditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "order": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "category",
+        "author",
+        "pluginVersion",
+        "updatedAt",
+        "changeLog",
+        "icon",
+        "usageInfo",
+        "sources",
+        "settingsSchema",
+        "defaultSettings",
+        "trialConditions"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSnapshot": {
+      "type": "object",
+      "properties": {
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "declarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginDeclaration"
+          },
+          "maxItems": 1000
+        },
+        "manifest": {
+          "$ref": "#/components/schemas/PluginManifest"
+        }
+      },
+      "required": [
+        "pluginVersion",
+        "settings",
+        "icon",
+        "declarations",
+        "manifest"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSetting": {
+      "type": "object",
+      "properties": {
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "declarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginDeclaration"
+          },
+          "maxItems": 1000
+        },
+        "manifest": {
+          "$ref": "#/components/schemas/PluginManifest"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "installId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "previousVersion": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "pluginVersion",
+        "settings",
+        "icon",
+        "declarations",
+        "manifest",
+        "id",
+        "installId",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "enabled",
+        "previousVersion"
+      ],
+      "additionalProperties": false
+    },
+    "PluginDefinition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "author": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "updatedAt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "changeLog": {
+          "type": "string",
+          "maxLength": 10000
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "usageInfo": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginSource"
+          },
+          "maxItems": 1000
+        },
+        "settingsSchema": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "defaultSettings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "trialConditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "order": {
+          "type": "integer"
+        },
+        "installed": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/PluginSetting"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "versions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginManifest"
+          },
+          "maxItems": 1000
+        },
+        "iconOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginIconOption"
+          },
+          "minItems": 6,
+          "maxItems": 6
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "category",
+        "author",
+        "pluginVersion",
+        "updatedAt",
+        "changeLog",
+        "icon",
+        "usageInfo",
+        "sources",
+        "settingsSchema",
+        "defaultSettings",
+        "trialConditions",
+        "installed",
+        "versions",
+        "iconOptions"
+      ],
+      "additionalProperties": false
+    },
+    "PluginConflict": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "targetKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "property": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "declarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginAppliedDeclaration"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "key",
+        "targetKey",
+        "property",
+        "declarations"
+      ],
+      "additionalProperties": false
+    },
+    "PluginConflictResolution": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "strategy": {
+          "enum": [
+            "prefer",
+            "coexist"
+          ]
+        },
+        "pluginIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "maxItems": 1000,
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "key",
+        "strategy",
+        "pluginIds"
+      ],
+      "additionalProperties": false,
+      "description": "preferは1つの機能を適用。coexistは列挙した各機能の独立ownerレイヤーを同時表示し、単一値を黙って上書きしない。版/宣言hashに結び付けて保存。"
+    },
+    "PluginSettingCreate": {
+      "type": "object",
+      "properties": {
+        "confirmed": {
+          "const": true
+        },
+        "stateRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "resolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflictResolution"
+          },
+          "maxItems": 1000
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        }
+      },
+      "required": [
+        "confirmed",
+        "stateRevision",
+        "id",
+        "pluginVersion",
+        "settings",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSettingPatch": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "resolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflictResolution"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "PluginUpdateInput": {
+      "type": "object",
+      "properties": {
+        "confirmed": {
+          "const": true
+        },
+        "stateRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "resolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflictResolution"
+          },
+          "maxItems": 1000
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "confirmed",
+        "stateRevision",
+        "pluginVersion"
+      ],
+      "additionalProperties": false
+    },
+    "PluginRollbackInput": {
+      "type": "object",
+      "properties": {
+        "confirmed": {
+          "const": true
+        },
+        "stateRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "resolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflictResolution"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "confirmed",
+        "stateRevision"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialInput": {
+      "type": "object",
+      "properties": {
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settings": {
+          "$ref": "#/components/schemas/PluginValues"
+        },
+        "icon": {
+          "$ref": "#/components/schemas/PluginIconId"
+        }
+      },
+      "required": [
+        "pluginVersion"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialPreview": {
+      "type": "object",
+      "properties": {
+        "dataKind": {
+          "const": "mock"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "declarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginDeclaration"
+          },
+          "maxItems": 1000
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialFeature"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
+          "maxItems": 1000
+        },
+        "legends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialLegend"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginTrialSource"
+          },
+          "minItems": 0,
+          "maxItems": 10000
+        },
+        "generatedAt": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "dataKind",
+        "label",
+        "declarations",
+        "features",
+        "warnings",
+        "legends",
+        "sources",
+        "generatedAt"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialResult": {
+      "type": "object",
+      "properties": {
+        "snapshot": {
+          "$ref": "#/components/schemas/PluginSnapshot"
+        },
+        "stateRevision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "preview": {
+          "$ref": "#/components/schemas/PluginTrialPreview"
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflict"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "snapshot",
+        "stateRevision",
+        "preview",
+        "conflicts"
+      ],
+      "additionalProperties": false
+    },
+    "PluginStateEntry": {
+      "type": "object",
+      "properties": {
+        "pluginId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "installId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "ownerKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "installedVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "resolvedDeclarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginAppliedDeclaration"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "pluginId",
+        "installId",
+        "ownerKey",
+        "installedVersion",
+        "version",
+        "enabled",
+        "resolvedDeclarations"
+      ],
+      "additionalProperties": false
+    },
+    "PluginState": {
+      "type": "object",
+      "properties": {
+        "personId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "dataMode": {
+          "enum": [
+            "live",
+            "demo"
+          ]
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginSetting"
+          },
+          "maxItems": 1000
+        },
+        "plugins": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginStateEntry"
+          },
+          "maxItems": 1000
+        },
+        "appliedDeclarations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginAppliedDeclaration"
+          },
+          "maxItems": 1000
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflict"
+          },
+          "maxItems": 1000
+        },
+        "resolutions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginConflictResolution"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "personId",
+        "dataMode",
+        "revision",
+        "items",
+        "plugins",
+        "appliedDeclarations",
+        "conflicts",
+        "resolutions"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSettingPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginSetting"
+          },
+          "maxItems": 100
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "PluginCatalog": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginDefinition"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "PluginVersions": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/PluginManifest"
+          },
+          "maxItems": 1000
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "PluginSettingResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/PluginSetting"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "PluginStateResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/PluginState"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialResultResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/PluginTrialResult"
+        }
+      },
+      "required": [
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialPosition": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "PluginTrialGeometry": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "Point"
+            },
+            "coordinates": {
+              "$ref": "#/components/schemas/PluginTrialPosition"
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PluginTrialPosition"
+              },
+              "minItems": 2,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "Polygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PluginTrialPosition"
+                },
+                "minItems": 4,
+                "maxItems": 10000
+              },
+              "minItems": 1,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "MultiPolygon"
+            },
+            "coordinates": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PluginTrialPosition"
+                  },
+                  "minItems": 4,
+                  "maxItems": 10000
+                },
+                "minItems": 1,
+                "maxItems": 10000
+              },
+              "minItems": 1,
+              "maxItems": 10000
+            }
+          },
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "PluginTrialFeature": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "Feature"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "geometry": {
+          "$ref": "#/components/schemas/PluginTrialGeometry"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "place",
+                "route",
+                "hazard",
+                "observation",
+                "forecast",
+                "terrain",
+                "pilgrimage"
+              ]
+            },
+            "label": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "legendId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              "minItems": 1,
+              "maxItems": 10000,
+              "uniqueItems": true
+            },
+            "status": {
+              "enum": [
+                "simulated",
+                "unknown"
+              ]
+            },
+            "value": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "unit": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "label",
+            "legendId",
+            "sourceIds",
+            "status",
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "geometry",
+        "properties"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialLegend": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "color",
+        "meaning"
+      ],
+      "additionalProperties": false
+    },
+    "PluginTrialSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "attribution": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "dataKind": {
+          "const": "mock"
+        },
+        "fetchedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceUpdatedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "issuedAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "validAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url",
+        "attribution",
+        "dataKind",
+        "fetchedAt",
+        "sourceUpdatedAt",
+        "observedAt",
+        "issuedAt",
+        "validAt"
+      ],
+      "additionalProperties": false
+    },
+    "PluginIconId": {
+      "type": "string",
+      "enum": [
+        "pin",
+        "motorcycle",
+        "shield",
+        "book",
+        "star",
+        "map"
+      ]
+    },
+    "PluginIconOption": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/PluginIconId"
+        },
+        "label": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "symbol"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/plugins",
+      "operationId": "getPlugins",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginCatalog"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "replaceOperation": true
+    },
+    {
+      "method": "get",
+      "path": "/plugin-settings",
+      "operationId": "getPluginSettings",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingPage"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "replaceOperation": true
+    },
+    {
+      "method": "post",
+      "path": "/plugin-settings",
+      "operationId": "postPluginSettings",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_postVisits"
+        }
+      },
+      "replaceOperation": true,
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PluginSettingCreate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugin-settings/{pluginId}",
+      "operationId": "getPluginSettingsPluginId",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "replaceOperation": true
+    },
+    {
+      "method": "patch",
+      "path": "/plugin-settings/{pluginId}",
+      "operationId": "patchPluginSettingsPluginId",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "replaceOperation": true,
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PluginSettingPatch"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "delete",
+      "path": "/plugin-settings/{pluginId}",
+      "operationId": "deletePluginSettingsPluginId",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "Success"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "replaceOperation": true
+    },
+    {
+      "method": "get",
+      "path": "/plugin-state",
+      "operationId": "getPluginState",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginStateResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/plugins/{pluginId}/versions",
+      "operationId": "getPluginVersions",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginVersions"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugins/{pluginId}/trial",
+      "operationId": "postPluginTrial",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginTrialResultResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PluginTrialInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugin-settings/{pluginId}/update",
+      "operationId": "postPluginUpdate",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PluginUpdateInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/plugin-settings/{pluginId}/rollback",
+      "operationId": "postPluginRollback",
+      "tags": [
+        "PLUGINS"
+      ],
+      "parameters": [
+        {
+          "name": "pluginId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PluginSettingResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/PluginRollbackInput"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "decisions": {
+    "plugin-version": "version=楽観ロック版、pluginVersion=機能版、installId=本人/モードの安定した導入ID。PLUGINS.state公開口はinstalledVersionとして同じ機能版を提供する。",
+    "Q09": "本人はCORE contextからのみ解決。mode別SQLite。各機能はregisterPlugin({manifest,declarations,trial,prepare?})に固有Schema・取得元・出典・試用条件を登録する。通常地図はgetPluginState(db,context)を同期読取する。",
+    "confirmation": "試用は保存しない。confirmed=trueとstateRevisionが一致した導入のみ保存。Schema検証と版ごとの準備はtransaction前、確定時に再照合。",
+    "deletion": "installed=0/enabled=0として導入一覧と適用から除外。保存済み設定と履歴を保持し、記録・場所・経路・地図設定は変更しない。",
+    "migration": "旧plugin_settingsをplugin_settings_legacyへ保持し本人へ無断割当しない。新plugin_settingsは(person_id,id)複合PK。旧データのowner割当は別の明示移行でのみ行う。",
+    "coexist": "同じtargetKey/propertyの異なる値だけ競合。coexistは両方を独立ownerレイヤーとして表示、preferは指定した一つ。hashに機能版と宣言を含み変更時に再確認。",
+    "binding": {
+      "plugin-store": "getPlugins",
+      "plugin-detail": "getPlugins/getPluginVersions",
+      "plugin-trial": "postPluginTrial",
+      "plugin-install": "postPluginSettings",
+      "plugin-manage": "getPluginSettings/patchPluginSettingsPluginId",
+      "plugin-update": "postPluginTrial/postPluginUpdate/postPluginRollback",
+      "plugin-conflict": "trialのconflictsを表示→create/patch/update/rollbackのresolutionsで確定"
+    },
+    "trial-preview": "v2: preview.featuresはGeoJSON Feature[]のPoint/LineString/Polygon/MultiPolygon。propertiesのkind/legendId/sourceIds/status/value/unitを明示。凡例と出典はpreview.legends/sourcesで参照整合を検証。試用は全体と出典ともmock、生成時刻と取得/更新/観測/発表/対象時刻を分離し不明はnull。BIKE等の通常実データは固有APIから取得し、試用配列へ混入しない。",
+    "icon": "v3: iconは固定glyph ID（pin/motorcycle/shield/book/star/map）。カタログiconOptionsのid/label/symbolを選択と地図表示で共用。任意URLや絵文字本文をiconへ保存しない。"
+  }
+}

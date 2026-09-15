@@ -1,0 +1,242 @@
+[
+  {
+    "screen": "record-create",
+    "width": 320,
+    "buttons": 12,
+    "inputs": 3,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "confirmation",
+    "width": 320,
+    "buttons": 9,
+    "inputs": 2,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "place-picker",
+    "width": 320,
+    "buttons": 13,
+    "inputs": 1,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "record-edit",
+    "width": 320,
+    "buttons": 6,
+    "inputs": 12,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "visit-confirm",
+    "width": 320,
+    "buttons": 4,
+    "inputs": 3,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "interpretation-correction",
+    "width": 320,
+    "buttons": 5,
+    "inputs": 1,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "record-delete",
+    "width": 320,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "growth-result",
+    "width": 320,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "daily-track",
+    "width": 320,
+    "buttons": 13,
+    "inputs": 0,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "calendar",
+    "width": 320,
+    "buttons": 38,
+    "inputs": 0,
+    "pageWidth": 320,
+    "viewport": 320
+  },
+  {
+    "screen": "record-create",
+    "width": 390,
+    "buttons": 12,
+    "inputs": 3,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "confirmation",
+    "width": 390,
+    "buttons": 9,
+    "inputs": 2,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "place-picker",
+    "width": 390,
+    "buttons": 13,
+    "inputs": 1,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "record-edit",
+    "width": 390,
+    "buttons": 6,
+    "inputs": 12,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "visit-confirm",
+    "width": 390,
+    "buttons": 4,
+    "inputs": 3,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "interpretation-correction",
+    "width": 390,
+    "buttons": 5,
+    "inputs": 1,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "record-delete",
+    "width": 390,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "growth-result",
+    "width": 390,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "daily-track",
+    "width": 390,
+    "buttons": 13,
+    "inputs": 0,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "calendar",
+    "width": 390,
+    "buttons": 38,
+    "inputs": 0,
+    "pageWidth": 390,
+    "viewport": 390
+  },
+  {
+    "screen": "record-create",
+    "width": 1440,
+    "buttons": 12,
+    "inputs": 3,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "confirmation",
+    "width": 1440,
+    "buttons": 9,
+    "inputs": 2,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "place-picker",
+    "width": 1440,
+    "buttons": 13,
+    "inputs": 1,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "record-edit",
+    "width": 1440,
+    "buttons": 6,
+    "inputs": 12,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "visit-confirm",
+    "width": 1440,
+    "buttons": 4,
+    "inputs": 3,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "interpretation-correction",
+    "width": 1440,
+    "buttons": 5,
+    "inputs": 1,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "record-delete",
+    "width": 1440,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "growth-result",
+    "width": 1440,
+    "buttons": 4,
+    "inputs": 0,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "daily-track",
+    "width": 1440,
+    "buttons": 13,
+    "inputs": 0,
+    "pageWidth": 1440,
+    "viewport": 1440
+  },
+  {
+    "screen": "calendar",
+    "width": 1440,
+    "buttons": 38,
+    "inputs": 0,
+    "pageWidth": 1440,
+    "viewport": 1440
+  }
+]
