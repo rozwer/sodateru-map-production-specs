@@ -28,6 +28,7 @@
         "DISASTER": 30,
         "DISASTER-DATA": 214,
         "DISASTER-UI": 219,
+        "DISASTER-UI-SCREEN": 223,
         "EXPLORATION": 26,
         "EXPLORATION-FOLLOWUP": 102,
         "FEATURE-REQUESTS": 31,
@@ -7502,6 +7503,20 @@
         "title": "修復Issueの完了・移管・未完を照合整理",
         "write_paths": [
           "docs/evidence/ISSUE-CLOSE-REPAIRS/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "DISASTER-UI-SCREEN",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "防災専用地図と主要操作を本番へ接続",
+        "write_paths": [
+          "src/features/disaster/ui/",
+          "src/features/disaster/screens.tsx",
+          "src/features/disaster/types.ts",
+          "docs/evidence/DISASTER-UI/"
         ]
       }
     ],
@@ -33754,9 +33769,10 @@
     "ISSUE-CLOSE-UI",
     "GROW-UI",
     "QA-DISASTER-GROW",
-    "ISSUE-CLOSE-REPAIRS"
+    "ISSUE-CLOSE-REPAIRS",
+    "DISASTER-UI-SCREEN"
   ],
-  "revision": 224,
+  "revision": 225,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34014,6 +34030,24 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "DISASTER-UI-SCREEN": {
+      "actor": "rozwer",
+      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
+      "generation": 1,
+      "issue_number": 223,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "docs/evidence/DISASTER-UI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "37c835c715b64e5ca59e32837fdcb85c"
     },
     "EXPLORATION": {
       "actor": "mattsun",
