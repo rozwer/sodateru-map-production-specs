@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 187,
+  "revision": 188,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34441,7 +34441,8 @@
         "src/features/friends/",
         "src/features/knowledge/",
         "src/features/companion/",
-        "docs/evidence/VISUAL-COMMUNITY/"
+        "docs/evidence/VISUAL-COMMUNITY/",
+        "docs/evidence/UI-KNOWLEDGE/map-fixture.tsx"
       ],
       "status": "claimed",
       "submitted_commit": null,
