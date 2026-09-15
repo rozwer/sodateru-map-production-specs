@@ -1,0 +1,125 @@
+{
+  "taskId": "INFORMATION",
+  "version": "1.0.0",
+  "schemas": {},
+  "operations": [
+    {
+      "method": "get",
+      "path": "/records",
+      "replaceOperation": true,
+      "operationId": "getRecords",
+      "summary": "本人記録一覧",
+      "tags": [
+        "訪問・記録・媒体"
+      ],
+      "description": "権限: 本人。保存先: なし。本人の記録だけ。共通RecordQueryと同じ期間重なり条件を使いfrom/to/timeZoneを一組で指定。日時不明は期間なし、またはincludeUndated=trueなら含む。placeIdは実効場所、themeIdは本人テーマの所属でAND。返却は編集用RecordView。 rangeMatchはoverlapが既定。startsWithinではeffectiveStartedAtがfrom以上to未満の記録に限定してからページ分割し、cursorにもこの条件を束縛する。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_placeId"
+        },
+        {
+          "name": "themeId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_from"
+        },
+        {
+          "$ref": "#/components/parameters/query_to"
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "name": "kind",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "experience",
+              "diary",
+              "memo"
+            ]
+          }
+        },
+        {
+          "$ref": "#/components/parameters/query_timeZone"
+        },
+        {
+          "$ref": "#/components/parameters/query_includeUndated"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "rangeMatch",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "overlap",
+              "startsWithin"
+            ],
+            "default": "overlap"
+          },
+          "description": "期間判定。startsWithinは日別詳細の開始日時限定と続きのページ取得に使う。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecordViewPage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "02-06",
+      "x-sort": "effectiveStartedAt DESC NULLS LAST, id ASC"
+    }
+  ]
+}
