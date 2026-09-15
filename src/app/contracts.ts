@@ -25,6 +25,8 @@ export interface ScreenDefinition {
   toolbar?: ComponentType<ScreenProps>;
   /** Select only the chrome shown in this page's reference image. */
   layout?: {
+    /** Explicit page composition. Default panel preserves common.json side panels. */
+    presentation?: 'panel' | 'fullscreen';
     header?: 'back' | 'close' | 'back-close' | 'none';
     contentPadding?: 'default' | 'none';
     bottomNav?: boolean;
