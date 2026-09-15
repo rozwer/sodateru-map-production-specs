@@ -1,4 +1,5 @@
 import {calculateAxes,calendarDays,dateInZone} from "./aggregation.ts";
+import {classifyNaturalStatement} from "./natural-statements.ts";
 import {normalizeRefs,type SourceRef} from "./identity.ts";
 import type {StatisticsRange} from "./statistics.ts";
 
@@ -44,7 +45,7 @@ function classify(quote:string,field:"body"|"activities",key:AxisKey):boolean|nu
  const rest=text.replace(/^(?:一日中|一日|終日)[、,]?/u,"");
  if(allDay&&negative[key]?.test(rest))return false;
  if(positive[key].test(rest)||field==="activities"&&activity[key].test(rest))return true;
- return null;
+ return field==="body"?classifyNaturalStatement(rest,key):null;
 }
 export function deriveDailyEvidence(range:StatisticsRange,input:readonly ExperienceRecord[]){
  const days=calendarDays(range.from,range.to,range.timeZone);

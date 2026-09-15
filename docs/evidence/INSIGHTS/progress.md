@@ -32,3 +32,7 @@ getReflectionActivityStatisticsを実ACTIVITY/INFORMATIONへ接続。訪問回�
 
 ## 期間条件の接続修正
 INFORMATION RecordQueryはrange:{startAt,endAt,timezone}形式。HTTP由来のfrom/toをそのまま渡すと読取側で期間が効かないため、Summaryと統計を正式range形式へ統一。Summaryは期間外の記録をsourceRefsへ含めない。generatorVersion insights-fixed-five-3。summary-range.test.tsの追加境界確認と統計HTTP確認、INSIGHTS専用tsconfigの型検査が成功。実AI等の成功済み確認は反復していない。
+
+
+## 2026-09-15 自然文集計・承認済み14記録
+原文保持の複文認識とgenerator4を実装。5軸期待値、3期間の正式Record/Insight HTTP往復、再送重複なし、DB再開、strict型検査を確認。詳細はgrounded-integration.md、payloadはgrounded-record-import.json。共有デモは復旧/管理者調整待ちで未投入。

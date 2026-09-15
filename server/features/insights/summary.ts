@@ -5,7 +5,7 @@ import {deriveDailyEvidence,type ExperienceRecord} from "./daily-evidence.ts";
 import {normalizeRefs,type SourceRef} from "./identity.ts";
 import type {createInsightsService} from "./service.ts";
 import type {StatisticsRange} from "./statistics.ts";
-export const aggregationVersion="insights-fixed-five-3";
+export const aggregationVersion="insights-fixed-five-4";
 export type SummaryDependencies={
  ownMaterials(db:DatabaseSync,context:RequestContext,query:{range:{startAt:number;endAt:number;timezone:string};rangeMatch:"startsWithin";includeUndated:true}):ExperienceRecord[];
  assertSourcesCurrent(db:DatabaseSync,context:RequestContext,input:{refs:SourceRef[]}):unknown;

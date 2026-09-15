@@ -1,0 +1,574 @@
+{
+  "format": "insights-grounded-record-import-v1",
+  "status": "prepared_not_imported",
+  "dataMode": "demo",
+  "profileKey": "self",
+  "sourceFile": "self-type-diagnosis-grounded-demo.json",
+  "sourceSha256": "43c2eb9820c11f18c1def3a92bb242499d99bb4105c661dcfd23759803bb0b69",
+  "provenanceStorage": "This manifest links every immutable imported record ID to its original source and author-approved supplementation. No provenance is relabelled as real user data.",
+  "noActualAiClaim": true,
+  "existingRecordPolicy": "Append only; preserve all existing IDs and bodies. Reuse the same record ID, key and payload on uncertain responses. Never overwrite mismatches.",
+  "placePolicy": "No unverified place IDs or coordinates are created. Original Nagoya names remain in this manifest and source artifact.",
+  "records": [
+    {
+      "sourceRecordId": "supplement-2026-09-02",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-02",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-02",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-02",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788274800000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ。カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-03",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-03",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-03",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-03",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788361200000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "カフェで本を読み、気になった言葉をノートに書き留めた。今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-05",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-05",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-05",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-05",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788534000000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "友人と公園を散歩しながら近況を話した。緑を見ながら話すと気持ちが軽くなった。本を読む・探すことと、カフェへの立ち寄りはしなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-06",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-06",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-06",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-06",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788620400000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "書店で気になる本を見つけ、カフェで少し読んだ。帰りは公園を散歩してひと息ついた。今日は人と過ごす時間は取らず、自分のペースで動いた。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-08",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-08",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-08",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-08",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788793200000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した。今日は散歩や自然に触れる時間は取らなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "rehearsal-0910-home",
+      "source": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "home",
+        "modified": false
+      },
+      "originalDate": "2026-09-10",
+      "originalTime": "08:30",
+      "originalPlaceName": "自宅",
+      "originalArea": null,
+      "dateMapping": "original explicit local time",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-rehearsal-0910-home",
+      "payload": {
+        "id": "insights-grounded-v2-rehearsal-0910-home",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1788996600000,
+        "endedAt": null,
+        "timePrecision": "exact",
+        "body": "いつもの朝。いい天気で気持ちのいいスタート！",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "rehearsal-0910-cafe",
+      "source": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "cafe",
+        "modified": false
+      },
+      "originalDate": "2026-09-10",
+      "originalTime": "11:20",
+      "originalPlaceName": "やすらぎカフェ",
+      "originalArea": "覚王山",
+      "dateMapping": "original explicit local time",
+      "activityBasis": {
+        "kind": "editorial_normalization_of_source_scene",
+        "basis": "元のカフェ名とラテ/落ち着く空間で過ごした文章を合わせた明示体験。場所カテゴリ単独では判定しない。"
+      },
+      "idempotencyKey": "insights-grounded-v2-rehearsal-0910-cafe",
+      "payload": {
+        "id": "insights-grounded-v2-rehearsal-0910-cafe",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789006800000,
+        "endedAt": null,
+        "timePrecision": "exact",
+        "body": "お気に入りのラテ。今日も落ち着く空間だった☕",
+        "purposes": [],
+        "activities": [
+          {
+            "id": "grounded-rehearsal-0910-cafe-activity-1",
+            "name": "カフェで過ごす",
+            "purpose": null,
+            "outcome": null,
+            "satisfaction": null,
+            "repeatIntent": null
+          }
+        ],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "rehearsal-0910-book",
+      "source": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "book",
+        "modified": false
+      },
+      "originalDate": "2026-09-10",
+      "originalTime": "14:10",
+      "originalPlaceName": "三省堂書店",
+      "originalArea": "名古屋駅",
+      "dateMapping": "original explicit local time",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-rehearsal-0910-book",
+      "payload": {
+        "id": "insights-grounded-v2-rehearsal-0910-book",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789017000000,
+        "endedAt": null,
+        "timePrecision": "exact",
+        "body": "気になっていた本を発見！つい2冊も買ってしまった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "rehearsal-0910-park",
+      "source": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "park",
+        "modified": false
+      },
+      "originalDate": "2026-09-10",
+      "originalTime": "16:30",
+      "originalPlaceName": "鶴舞公園",
+      "originalArea": null,
+      "dateMapping": "original explicit local time",
+      "activityBasis": {
+        "kind": "editorial_normalization_of_source_scene",
+        "basis": "元の鶴舞公園と散歩/緑の中で過ごした文章を合わせた明示体験。場所カテゴリ単独では判定しない。"
+      },
+      "idempotencyKey": "insights-grounded-v2-rehearsal-0910-park",
+      "payload": {
+        "id": "insights-grounded-v2-rehearsal-0910-park",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789025400000,
+        "endedAt": null,
+        "timePrecision": "exact",
+        "body": "少し散歩してリフレッシュ。緑の中でぼーっとする時間が好き。",
+        "purposes": [],
+        "activities": [
+          {
+            "id": "grounded-rehearsal-0910-park-activity-1",
+            "name": "自然に触れる",
+            "purpose": null,
+            "outcome": null,
+            "satisfaction": null,
+            "repeatIntent": null
+          }
+        ],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "rehearsal-0910-dinner",
+      "source": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "dinner",
+        "modified": false
+      },
+      "originalDate": "2026-09-10",
+      "originalTime": "19:05",
+      "originalPlaceName": "ビストロ ルポ",
+      "originalArea": "栄",
+      "dateMapping": "original explicit local time",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-rehearsal-0910-dinner",
+      "payload": {
+        "id": "insights-grounded-v2-rehearsal-0910-dinner",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789034700000,
+        "endedAt": null,
+        "timePrecision": "exact",
+        "body": "友達と合流してごはん。美味しくて楽しい時間だった！",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-11",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-11",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-11",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-11",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789052400000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "公園を散歩して、木陰で本を読んだ。昨日より予定を減らすと、文章がゆっくり頭に入ってきた。カフェには寄らず、人と過ごす時間も取らなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-12",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-12",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-12",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-12",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789138800000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "友人とカフェで話し、そのあと商店街を散歩した。気になる店先を一緒に眺めるのが楽しかった。本を読む・探すことや、自然に触れる時間はなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-14",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-14",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-14",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-14",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789311600000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "公園を散歩したあと、ベンチで本を読んだ。少し歩いてから読むと、気分を切り替えやすかった。カフェには寄らず、人とも過ごさなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    },
+    {
+      "sourceRecordId": "supplement-2026-09-15",
+      "source": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      },
+      "originalDate": "2026-09-15",
+      "originalTime": null,
+      "originalPlaceName": null,
+      "originalArea": null,
+      "dateMapping": "00:00 JST is an approximate anchor for the authored calendar date, not an asserted event time.",
+      "activityBasis": null,
+      "idempotencyKey": "insights-grounded-v2-supplement-2026-09-15",
+      "payload": {
+        "id": "insights-grounded-v2-supplement-2026-09-15",
+        "kind": "diary",
+        "visitId": null,
+        "placeId": null,
+        "occurredAt": 1789398000000,
+        "endedAt": null,
+        "timePrecision": "approximate",
+        "body": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した。今日は自然に触れる時間と、人と過ごす時間は取らなかった。",
+        "purposes": [],
+        "activities": [],
+        "impression": "",
+        "periodAnswers": {},
+        "bookmarked": false,
+        "useForSuggestions": false,
+        "topicKey": null,
+        "visibility": "private",
+        "sharedWith": []
+      }
+    }
+  ],
+  "insights": [
+    {
+      "idempotencyKey": "insights-grounded-v2-whole",
+      "payload": {
+        "id": "insights-grounded-v2-whole",
+        "from": 1788274800000,
+        "to": 1789484400000,
+        "timeZone": "Asia/Tokyo"
+      }
+    },
+    {
+      "idempotencyKey": "insights-grounded-v2-previous",
+      "payload": {
+        "id": "insights-grounded-v2-previous",
+        "from": 1788274800000,
+        "to": 1788879600000,
+        "timeZone": "Asia/Tokyo"
+      }
+    },
+    {
+      "idempotencyKey": "insights-grounded-v2-current",
+      "payload": {
+        "id": "insights-grounded-v2-current",
+        "from": 1788879600000,
+        "to": 1789484400000,
+        "timeZone": "Asia/Tokyo"
+      }
+    }
+  ],
+  "expectedFromImportedRecordsOnly": {
+    "keys": [
+      "nature",
+      "books",
+      "cafe",
+      "walk",
+      "social"
+    ],
+    "numerators": [
+      6,
+      8,
+      6,
+      8,
+      4
+    ],
+    "denominators": [
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "unknownDays": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ]
+  },
+  "limitations": [
+    "The expected values validate these 14 imported records only. Other existing demo/self records in the same range participate in the actual API result; never delete or hide them to match the fixture.",
+    "RecordCreate has no arbitrary profile/daily/result/provenance field. The manifest is retained as internal provenance; editorial name, descriptions and recommendations are not injected into API result.",
+    "Shared server recovery and manager clearance are required before import."
+  ]
+}
