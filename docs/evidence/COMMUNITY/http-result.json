@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "timestamp": "2026-09-15T03:21:07.632Z",
+  "restart": "separate OS process",
+  "checks": [
+    {
+      "phase": "seed",
+      "mode": "live",
+      "checks": [
+        "two profiles, request/replay, recipient approval, real place/record/bookmark saved"
+      ]
+    },
+    {
+      "phase": "verify",
+      "mode": "live",
+      "checks": [
+        "restart persisted IDs/body, common list/map/voices, friend removal, independent selected revocation, unavailable bookmark"
+      ]
+    }
+  ]
+}

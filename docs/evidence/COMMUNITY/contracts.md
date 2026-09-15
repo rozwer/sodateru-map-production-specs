@@ -8,7 +8,7 @@ Issue #22はユーザー承認により、検証済みの友達HTTP・しおり�
 - 共有ルート・比較引用・実候補期限の通し確認: #107（koshiro担当、デモ後）。
 - PR: https://github.com/rozwer/sodateru-map-production-specs/pull/60
 
-実API全体の通過証拠は依存INFORMATION統合後に追記する。
+INFORMATION統合後の実API確認は成功。結果は http-result.json に記録。
 
 ## 人物・友達
 
@@ -64,3 +64,13 @@ THEMES正本のcolorKeyを返し、coverMediaは現在閲覧可能なready媒体
 - 上記保存層テストの対象resolverは明示した制御用fixture。INFORMATION/PLACESをつないだ実HTTP・画面E2Eの代替ではない。
 - `mise exec -- node --experimental-transform-types --test server/features/friends/http.test.ts`: 1 test passed。実CORE/SETTINGS/友達HTTPで本人選択→プロフィール公開→人物検索→申請→受信者承認→サーバー/SQLite再オープン→同じ関係再取得→解除を確認。削除後のPOST再送は404。
 - 実HTTP用 `http-e2e.mjs` は二本人でseed→サーバー再起動→verifyを行う。実API接続後の実行結果は別途記録する。
+
+## 実HTTP統合結果（2026-09-15）
+
+mise exec -- node --experimental-transform-types docs/evidence/COMMUNITY/run-http-e2e.mjs はPASS。実CORE/SETTINGS/RECORDS/PLACES/THEMES/INFORMATIONとCOMMUNITYを起動し、別OSプロセスへの再起動を実施した。
+
+二本人のプロフィール公開・検索・友達申請/再送/承認、実場所/記録/写真/しおり保存、再起動後の同一ID/本文/関係保持、同条件の地域の知一覧/地図/場所の声、共有詳細・写真読出し、友達解除と独立したselected共有取消、取消後の本文/写真404・しおりunavailable、共有テーマの記録/写真除外と共有解除を確認した。
+
+検証用サーバーは既存fragmentを読み取りで合成しCOREへ渡す。共通生成物は変更していないため、本番契約/SDKの再生成はCORE担当。画面操作は未確認で #106、共有ルート/比較引用/実候補期限の通し確認は #107。
+
+mise exec -- bun run typecheck は全体として失敗。共通SDK未生成によるUI側operation/type不足、THEMESテスト、disaster等の担当外エラーが残る。COMMUNITY/friendsサーバーファイルの型エラーは出ていない。全体typecheck成功とは報告しない。
