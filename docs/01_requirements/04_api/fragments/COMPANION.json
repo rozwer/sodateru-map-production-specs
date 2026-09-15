@@ -1,0 +1,1622 @@
+{
+  "taskId": "COMPANION",
+  "version": "0.1.0",
+  "description": "固有契約断片。実API統合前。正式v2互換形式/展開上限/生成providerは司令塔判断待ち。",
+  "schemas": {
+    "CompanionDraftInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "appearance": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "referenceImageId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "name",
+        "appearance",
+        "referenceImageId"
+      ]
+    },
+    "CompanionDraft": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 20
+        },
+        "appearance": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "referenceImageId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "appearance",
+        "referenceImageId",
+        "version",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CompanionSettingsInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selectedCompanionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium"
+          ]
+        },
+        "reducedMotion": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "selectedCompanionId",
+        "visible",
+        "size",
+        "reducedMotion"
+      ]
+    },
+    "CompanionSettings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selectedCompanionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "visible": {
+          "type": "boolean"
+        },
+        "size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium"
+          ]
+        },
+        "reducedMotion": {
+          "type": "boolean"
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "selectedCompanionId",
+        "visible",
+        "size",
+        "reducedMotion",
+        "version"
+      ]
+    },
+    "CompanionImport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "manifest": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "requiredActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confirmedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "manifest",
+        "requiredActions",
+        "confirmedActions",
+        "version",
+        "createdAt"
+      ]
+    },
+    "Companion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "importId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "import",
+            "generation"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "importId",
+        "name",
+        "source",
+        "version",
+        "createdAt"
+      ]
+    },
+    "CompanionConfirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "actions"
+      ]
+    },
+    "CompanionRegistrationInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selectCurrent": {
+          "type": "boolean",
+          "default": false
+        },
+        "settingsVersion": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "selectCurrent"
+      ]
+    },
+    "CompanionRegistration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "companion": {
+          "$ref": "#/components/schemas/Companion"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/CompanionSettings"
+        }
+      },
+      "required": [
+        "companion",
+        "settings"
+      ]
+    },
+    "CompanionGenerationInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "draftId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "draftVersion": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "draftId",
+        "draftVersion"
+      ]
+    },
+    "CompanionGeneration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "draftId": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "input": {
+          "$ref": "#/components/schemas/CompanionDraft"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "upstreamJobId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "progress": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "resultImportId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "failureCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "adoptedCompanionId": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uuid"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "draftId",
+        "input",
+        "provider",
+        "upstreamJobId",
+        "status",
+        "progress",
+        "resultImportId",
+        "failureCode",
+        "version",
+        "adoptedCompanionId",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "CompanionProviderStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "connected": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "connected",
+        "provider",
+        "reason"
+      ]
+    },
+    "CompanionInstructions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "draft": {
+          "$ref": "#/components/schemas/CompanionDraft"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "referenceImageUrl": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "draft",
+        "instructions",
+        "referenceImageUrl"
+      ]
+    },
+    "CompanionMedia": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "mime": {
+          "type": "string",
+          "enum": [
+            "image/png",
+            "image/webp",
+            "image/jpeg"
+          ]
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mime",
+        "byteLength",
+        "url"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "method": "post",
+      "path": "/companion/imports",
+      "operationId": "importCompanionZip",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionImport"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/zip": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "description": "50MB ZIPを検査し媒体・manifest・必要動作を保存。登録物と現在選択は変更しない。v2の互換正本・展開上限は未確定。"
+    },
+    {
+      "method": "get",
+      "path": "/companion/imports/{importId}",
+      "operationId": "getCompanionImport",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "importId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionImport"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/imports/{importId}/atlas",
+      "operationId": "getCompanionAtlas",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "importId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/companion/imports/{importId}/confirmation",
+      "operationId": "confirmCompanionImport",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "importId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionImport"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionConfirmation"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/imports/{importId}/registration",
+      "operationId": "registerCompanionImport",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "importId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionRegistration"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionRegistrationInput"
+            }
+          }
+        }
+      },
+      "description": "全requiredActions確認後に登録。selectCurrent=true時のみsettingsVersionを必須として同じtransactionで現在選択を更新。"
+    },
+    {
+      "method": "get",
+      "path": "/companions",
+      "operationId": "listCompanions",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Companion"
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companions/{companionId}",
+      "operationId": "getCompanion",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "companionId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Companion"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/settings",
+      "operationId": "getCompanionSettings",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionSettings"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/companion/settings",
+      "operationId": "updateCompanionSettings",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionSettings"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionSettingsInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/drafts",
+      "operationId": "createCompanionDraft",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionDraft"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionDraftInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/drafts",
+      "operationId": "listCompanionDrafts",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CompanionDraft"
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/drafts/{draftId}",
+      "operationId": "getCompanionDraft",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "draftId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionDraft"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/companion/drafts/{draftId}",
+      "operationId": "updateCompanionDraft",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "draftId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionDraft"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionDraftInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/drafts/{draftId}/instructions",
+      "operationId": "exportCompanionInstructions",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "draftId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionInstructions"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/reference-images",
+      "operationId": "uploadCompanionReferenceImage",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionMedia"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "image/png": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "image/jpeg": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "image/webp": {
+            "schema": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/reference-images/{mediaId}",
+      "operationId": "getCompanionReferenceImage",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "mediaId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/provider",
+      "operationId": "getCompanionProvider",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionProviderStatus"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/generations",
+      "operationId": "createCompanionGeneration",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      ],
+      "responses": {
+        "202": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionGeneration"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CompanionGenerationInput"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/generations",
+      "operationId": "listCompanionGenerations",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CompanionGeneration"
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/companion/generations/{generationId}",
+      "operationId": "getCompanionGeneration",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "generationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionGeneration"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/generations/{generationId}/refresh",
+      "operationId": "refreshCompanionGeneration",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "generationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionGeneration"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/generations/{generationId}/cancellation",
+      "operationId": "cancelCompanionGeneration",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "generationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompanionGeneration"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/companion/generations/{generationId}/adoption",
+      "operationId": "adoptCompanionGeneration",
+      "tags": [
+        "相棒"
+      ],
+      "parameters": [
+        {
+          "name": "generationId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "name": "Idempotency-Key",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        {
+          "name": "If-Match",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "対象資源のversion。登録はimport、採用/取消はgenerationのversion。"
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Companion"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "CORE共通エラー。形式不正・サイズ超過・未確認動作・未接続を区別する。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "description": "成功候補の全動作を確認して明示採用。現在選択は変更しない。"
+    }
+  ]
+}

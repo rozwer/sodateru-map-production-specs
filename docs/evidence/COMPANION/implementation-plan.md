@@ -1,0 +1,11 @@
+# COMPANION 実装計画
+
+#35本文と最新コメントに基づき、COREの本人context・mode別DatabaseSync・HTTP/再送を使用する。固有migrationとregister.tsから登録し、共通処理を複製しない。全UIはA担当。
+
+- SQLite保存：下書きの入力版、検査済み取込と全動作確認、登録、表示設定と現在選択を別保存。実SQLiteの再オープン・本人分離・未確認登録拒否・版競合を先にテストする。
+- ZIP検査：50MBを受付。正式v2互換仕様・実fixture・展開上限は司令塔判断を反映する。推測で形式を固定しない。不正ZIPで登録物を変えない。
+- 実API：CORE登録入口・再送/版ラッパ確定後、取込→確認→登録→任意選択→再起動再取得を実HTTPで検証。固有断片をCOREとUI #19へ提供する。
+- 制作：下書き/参考画像/指示持出し、生成受付/再照会/取消、候補確認と明示採用を別保存。実生成先と資格情報が提供されたら実接続を確認する。未接続下書き保存だけで完了にしない。
+- 提出：必要検証後PRを司令塔へ報告し独立レビューを依頼。PR経由統合後board/lockを正規手順で処理する。
+
+取得範囲は server/features/companion/、server/db/migrations/companion/、fragments/COMPANION.json、docs/evidence/COMPANION/。サブエージェントは使用しない。
