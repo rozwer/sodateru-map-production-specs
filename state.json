@@ -34001,7 +34001,7 @@
     "ROUTES-TRANSIT-GTFS",
     "DEMO-MEDIA"
   ],
-  "revision": 275,
+  "revision": 276,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34887,21 +34887,17 @@
       "token": null
     },
     "UI-INSIGHTS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "e12cfcaa829a384216e444567e891ef3ecc55eb3",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 13,
       "landed_main": null,
-      "note": "User emergency stop: PR69 merged, PR159 ab52b4a published. Handoff to UI-INTEGRATION #98: five registered screens, shared-shell final QA remains UI; real API/generated five axes/theme persistence and map filtering remain CONNECT-INSIGHTS #140. Preserve worktree and evidence; no completion claim.",
+      "note": "診断デモ補完はPR #269/#272で統合、5173のChromeで写真3枚と再読込保持を確認。Issue全体の他受入は未検証のためopenを維持。worktree diagnosis-data。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/insights/",
-        "src/features/themes/",
-        "docs/evidence/UI-INSIGHTS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "fb8d85520b0e4abda959b6c3e8ff9d92"
+      "token": null
     },
     "UI-INTEGRATION": {
       "actor": null,
