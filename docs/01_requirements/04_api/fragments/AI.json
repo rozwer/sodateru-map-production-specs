@@ -12,10 +12,25 @@
       "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。",
       "parameters": [
         {
-          "$ref": "#/components/parameters/query_cursor"
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
         },
         {
-          "$ref": "#/components/parameters/query_limit"
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
         },
         {
           "name": "purpose",
@@ -32,10 +47,26 @@
           }
         },
         {
-          "$ref": "#/components/parameters/header_X-Request-Id"
+          "name": "X-Request-Id",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "description": "新しいHTTP要求のUUID。X-Data-Modeとmode別セッションを検査して本人contextを作る。"
         },
         {
-          "$ref": "#/components/parameters/header_X-Data-Mode"
+          "name": "X-Data-Mode",
+          "in": "header",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
         },
         {
           "name": "q",
