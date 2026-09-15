@@ -33416,7 +33416,7 @@
     "VISUAL-COMMUNITY",
     "VISUAL-SELF"
   ],
-  "revision": 172,
+  "revision": 173,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33479,7 +33479,7 @@
         "docs/evidence/BIKE/"
       ],
       "status": "submitted",
-      "submitted_commit": "5d97be2edebc8202965995a974bf3f668679a811",
+      "submitted_commit": "2a382d33f4046e846944ebaaf3a63ce2da099d23",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "COMMUNITY": {
