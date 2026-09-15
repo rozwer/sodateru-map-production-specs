@@ -392,7 +392,7 @@
   background: #dfeeed;
   flex: 1;
 }
-.rf-progress > span:first-child {
+.rf-progress:not([data-empty="true"]) > span:first-child {
   background: #2ba8ad;
 }
 .rf-progress small {

@@ -47,12 +47,12 @@ SODATERU_API_ORIGIN=http://127.0.0.1:3012 mise exec -- bunx vite --host 127.0.0.
 
 ## 後続接続Issueへの引継ぎ候補
 
-1. COREのTHEMES/REFLECTION生成型反映、任意If-Matchの生成・送信対応（#3へ連絡済み）。REFLECTION採用v1.1.0のexpectedAttemptへ追随。
+1. COREのTHEMES/REFLECTION生成型反映、任意If-Matchの生成・送信対応（#3へ連絡済み）。REFLECTION次版のexpectedAttempt必須、evidenceStateとquestionText nullableへ追随。変更済み/利用不能の引用本文を抑制し、本人回答を保持する。
 2. RECORDS/INFORMATION/REFLECTION/THEMESの業務API統合。同じ保存先で日記/回答状態/比較/メモの作成→編集→再読込→プロセス再起動GETを確認。
 3. AI生成中の本人追記→明示採用→保存、失敗/取消/再試行、元記録訂正・削除の説明を実APIで確認。
 4. self-homeの実MapPreview統合と診断プレビュー。画像4趣味軸と既存6生活行動軸は意味が異なるためUI-INSIGHTS #13の確定表示契約へ接続する。独自置換しない。
-5. UI-BASEのself-home固有header、写真あり表示、320px/desktop/200%文字/キーボード、全遷移先の同一統合版による最終照合。
-6. PRレビュー・統合、task:finish、board done、path解放、Issue close。部分提供だけで完了処理しない。
+5. UI-BASE PR #81の固有header/padding統合、写真あり表示、200%文字/キーボード、全遷移先の同一統合版による最終照合。320px質問/1440px表示fixtureは確認済み。
+UI Issueのレビュー・統合・task:finishは本提出で実施し、上記の実接続受入は後続へ残す。後続番号の正式反映前にIssue全体を完了扱いしない。
 
 ## UI追加確認
 
@@ -64,3 +64,5 @@ SODATERU_API_ORIGIN=http://127.0.0.1:3012 mise exec -- bunx vite --host 127.0.0.
 - UI-BASE先行署名のlayout.header:none/contentPadding:noneを使用。自分を知る以外は中央共通header、底部ナビなし。
 - `?page=question&empty=1`等で0件表示を確認できる。日記fixtureは選択した写真を端末内でプレビューし、個別に外せる。
 - 初回commit4492bbb。通常develop取込み後のguard誤判定はPR63を取り込み、task:verify後の通常commitで解消。
+
+- ac7d102時点のself-homeを390pxで確認し、見出しと副題の積み重ねを確認。0件質問の進捗を非着色へ修正。1440×900の表示fixtureで日記全体と保存CTAが表示され、入力・カウンターのはみ出しなし。これは共通Shellデスクトップ全体の受入ではない。

@@ -558,7 +558,7 @@ export function QuestionView({
   return (
     <div className="rf-screen">
       <p className="rf-intro">1つの体験から、少しだけ振り返ってみましょう。</p>
-      <div className="rf-progress">
+      <div className="rf-progress" data-empty={!item}>
         <span />
         <span />
         <span />
