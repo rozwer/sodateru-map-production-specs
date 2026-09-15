@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 122,
+  "revision": 123,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4661,18 +4661,13 @@
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
       "generation": 1,
       "issue_number": 34,
-      "landed_main": null,
-      "note": null,
+      "landed_main": "f44a47b9bf4d51738351184f852d4439cad48ba8",
+      "note": "https://github.com/rozwer/sodateru-map-production-specs/pull/93 ; 保存adapter分割完了、全残件は #101 ; docs/evidence/INSIGHTS/progress.md",
       "owner": "mattsun",
-      "paths": [
-        "server/features/insights/",
-        "server/db/migrations/insights/",
-        "docs/01_requirements/04_api/fragments/INSIGHTS.json",
-        "docs/evidence/INSIGHTS/"
-      ],
-      "status": "claimed",
-      "submitted_commit": null,
-      "token": "a9876d2a9f124b05b999cc90a71ac1d6"
+      "paths": [],
+      "status": "done",
+      "submitted_commit": "3f1d6598984fa45b5a4af1febae1ba54f12a83bd",
+      "token": null
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
