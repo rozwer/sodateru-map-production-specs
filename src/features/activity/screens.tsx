@@ -14,6 +14,9 @@ import { VisitEditor } from './VisitEditor';
 import { GrowthResult } from './GrowthResult';
 import { DailyTrack, type TimelineEntry } from './DailyTrack';
 import { allTrackPoints, allVisits, displayDuration, displayTime, growthForPlace, localDay, recordDetails, timelineEntries, trackRuns } from './activity-data';
+import { dailyTrackMap } from './track-map';
+
+const trackPadding={top:66,right:44,bottom:58,left:44};
 
 function usePreviewBridge(scopeKey:string) {
  const bridge=useMemo(()=>new MapBridge(`${scopeKey}:records-preview`),[scopeKey]);
@@ -90,14 +93,22 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
    if(!abort.signal.aborted)setRecordedDates(days);
   };void load().catch(error=>{if(!abort.signal.aborted)setError(errorText(error));});return()=>abort.abort();
  },[state.calendar,state.month,scopeKey,active,timeZone,revision]);
+ const trackMap=useMemo(()=>dailyTrackMap(records,visits,places,track,timeZone),[records,visits,places,track,timeZone]);
+ const fitTrack=()=>{if(trackMap.focus)bridge.focus('daily-track',{...trackMap.focus,padding:trackPadding});};
  useEffect(()=>{
   if(!active)return;
-  const segments=trackRuns(track);
-  const points=visits.flatMap(visit=>{const place=places.get(visit.placeId);return place?[{id:visit.id,coordinates:place.coordinates,label:`${place.name} ${displayTime(visit.startedAt,timeZone)}`}]:[];});
-  bridge.showTrack('daily-track',{segments:segments.filter(run=>run.points.length>1).map(run=>({id:run.id,coordinates:run.points.map(point=>[point.longitude,point.latitude])})),points});
-  if(points[0])bridge.focus('daily-track',{center:points[0].coordinates,zoom:14});
- },[track,visits,places,active]);
- const entries=useMemo(()=>timelineEntries(records,visits,places,details,timeZone,track),[records,visits,places,details,timeZone,track]);
+  bridge.setView({dimension:'2d',lightPreset:'day',following:false});
+  bridge.setCamera({bearing:0,pitch:0});
+  bridge.showTrack('daily-track',trackMap.display);
+  fitTrack();
+ },[trackMap,active,bridge]);
+ const entries=useMemo(()=>timelineEntries(records,visits,places,details,timeZone,track).map(entry=>({...entry,mapNumber:trackMap.stops.find(stop=>stop.id===entry.id||stop.visitId===entry.visitId&&entry.visitId!==undefined)?.number})),[records,visits,places,details,timeZone,track,trackMap]);
+ useEffect(()=>bridge.onSelect('daily-track',selection=>{
+  if(!selection.id.startsWith('stop:'))return;
+  const id=selection.id.slice(5);
+  const entry=entries.find(entry=>entry.id===id||entry.visitId===id);
+  if(entry)setState(previous=>({...previous,expandedId:entry.id}));
+ }),[bridge,trackMap,entries]);
  const selectedRecords=state.calendar?entries.filter(entry=>entry.recordId):entries;
  const durationMs=visits.filter(visit=>visit.status==='confirmed'&&visit.startedAt!==null&&visit.endedAt!==null).reduce((sum,visit)=>sum+Math.max(0,visit.endedAt!-visit.startedAt!),0);
  const more=async()=>{
@@ -118,7 +129,7 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
   }catch(error){if(!abort.signal.aborted)setError(errorText(error));}finally{if(!abort.signal.aborted)setLoading(false);}
  };
  const carry={date:state.date,timeZone,returnPage:'daily-track'};
- return <DailyTrack date={state.date} onDate={date=>setState(previous=>({...previous,date,expandedId:null}))} entries={selectedRecords} expandedId={state.expandedId} onExpand={id=>setState(previous=>({...previous,expandedId:previous.expandedId===id?null:id}))} onEdit={recordId=>navigate('record-edit',{...carry,recordId})} onReflect={recordId=>navigate('reflection-question',{...carry,recordId})} onVisit={visitId=>navigate('visit-confirm',{...carry,visitId})} onBack={back} onMenu={()=>navigate('navigation')} onRecord={()=>navigate('record-create',carry)} map={active?<MapPreview bridge={bridge} label="今日の軌跡と滞在地点" interactive/>:null} loading={loading} error={error} onRetry={()=>setRevision(value=>value+1)} onMore={cursor?()=>void more():undefined} confirmedPlaces={new Set(visits.filter(visit=>visit.status==='confirmed').map(visit=>visit.placeId)).size} duration={durationMs?displayDuration(0,durationMs):''} missingTrack={track.length===0} calendar={state.calendar} onCalendar={calendar=>setState(previous=>({...previous,calendar,month:previous.date.slice(0,7)}))} onMonth={month=>setState(previous=>({...previous,month}))} recordedDates={recordedDates}/>;
+ return <DailyTrack date={state.date} onDate={date=>setState(previous=>({...previous,date,expandedId:null}))} entries={selectedRecords} expandedId={state.expandedId} onExpand={id=>setState(previous=>({...previous,expandedId:previous.expandedId===id?null:id}))} onEdit={recordId=>navigate('record-edit',{...carry,recordId})} onReflect={recordId=>navigate('reflection-question',{...carry,recordId})} onVisit={visitId=>navigate('visit-confirm',{...carry,visitId})} onBack={back} onMenu={()=>navigate('navigation')} onRecord={()=>navigate('record-create',carry)} map={active?<MapPreview bridge={bridge} label="今日の軌跡と滞在地点" padding={trackPadding} interactive/>:null} onFitTrack={fitTrack} trackTimes={{start:trackMap.startTime,end:trackMap.endTime}} loading={loading} error={error} onRetry={()=>setRevision(value=>value+1)} onMore={cursor?()=>void more():undefined} confirmedPlaces={new Set(visits.filter(visit=>visit.status==='confirmed').map(visit=>visit.placeId)).size} duration={durationMs?displayDuration(0,durationMs):''} missingTrack={trackMap.display.segments.length===0} calendar={state.calendar} onCalendar={calendar=>setState(previous=>({...previous,calendar,month:previous.date.slice(0,7)}))} onMonth={month=>setState(previous=>({...previous,month}))} recordedDates={recordedDates}/>;
 }
 
 export const screens:ScreenDefinition[]=[

@@ -116,3 +116,58 @@
 
 .activity-calendar-menu { margin: 0 18px 12px auto; width: max-content; max-width: calc(100% - 36px); border: 1px solid #d8e9e7; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px #153f5010; overflow: hidden; }
 .activity-calendar-menu button { display: block; padding: 12px 18px; border: 0; color: #164b58; background: #fff; width: 100%; text-align: left; }
+
+/* The track is framed independently of other map previews. */
+.sm-app:has(.sm-screen-content:not([hidden]) .activity-daily) > .sm-demo-badge { display:none; }
+.activity-daily:not(.activity-calendar-screen) { background:#f5f8f7; }
+.activity-daily-heading { position:relative; padding:12px 16px; background:#fff; }
+.activity-daily-heading h2 { font-size:23px; letter-spacing:.03em; }
+.activity-daily-heading .records-icon-button { width:38px; height:38px; box-shadow:none; background:#f2f6f5; }
+.activity-track-map { height:370px; }
+.activity-map-caption { position:absolute; z-index:2; top:12px; left:14px; right:14px; display:flex; align-items:center; justify-content:space-between; pointer-events:none; }
+.activity-map-caption > span { padding:6px 11px; border-radius:8px; background:#ffffffeb; color:#234c50; font-size:12px; font-weight:700; box-shadow:0 2px 8px #24434412; }
+.activity-map-caption button { display:flex; align-items:center; gap:5px; border:1px solid #d5e3df; border-radius:9px; background:#fff; color:#27534e; padding:7px 10px; font-size:11px; pointer-events:auto; box-shadow:0 2px 8px #24434412; }
+.activity-map-caption .records-icon { width:16px; height:16px; }
+.activity-route-endpoints { position:absolute; z-index:2; bottom:35px; left:50%; transform:translateX(-50%); display:flex; align-items:center; justify-content:center; gap:15px; border:1px solid #ffffff; border-radius:12px; padding:8px 12px; background:#fffffff2; box-shadow:0 3px 15px #29483f16; white-space:nowrap; color:#526c6a; font-size:11px; }
+.activity-route-endpoints > span { display:flex; align-items:center; gap:5px; }
+.activity-route-endpoints b { color:#1e494a; font-size:13px; }
+.activity-route-endpoints i { height:7px; width:7px; background:#218c80; border-radius:50%; }
+.activity-route-endpoints > span:last-child i { background:#da725d; }
+.activity-track-sheet { padding-top:13px; box-shadow:0 -3px 16px #23403808; }
+.activity-sheet-handle { margin-bottom:12px; }
+.activity-day-row > span { font-size:11px; margin-left:5px; }
+.activity-day-select { font-size:16px !important; }
+.activity-track-legend { margin:16px 0 18px; justify-content:flex-start; gap:14px; font-size:11px; }
+.activity-track-legend > span { gap:6px; white-space:nowrap; }
+.activity-track-legend small { font-size:10px; color:#7c8d89; margin-left:auto; }
+.activity-track-line { height:5px; background:#319d9e; box-shadow:0 0 0 2px #e4f4f0; }
+.activity-stop-number { display:grid; place-items:center; width:29px; height:29px; border:3px solid #fff; border-radius:50%; color:#fff; background:#278e87; box-shadow:0 0 0 1px #278e8730; font-style:normal; font-weight:700; font-size:13px; z-index:1; }
+.activity-track-legend .activity-stop-number { width:22px; height:22px; border-width:2px; font-size:10px; }
+.activity-unplaced-dot { width:9px; height:9px; border-radius:50%; border:2px solid #91a5a0; background:#fff; margin-top:8px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline { gap:13px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline > li { grid-template-columns:47px minmax(0,1fr); gap:9px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline-time { font-size:11px; padding-top:5px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline > li.is-connected:not(:last-child) .activity-timeline-time::after { top:49px; width:3px; background:#b8dcd4; }
+.activity-daily:not(.activity-calendar-screen) .activity-entry-toggle strong { font-size:16px; line-height:1.45; overflow-wrap:anywhere; }
+.activity-daily:not(.activity-calendar-screen) .activity-entry-toggle small { font-size:11px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline-card { border-color:#e0e9e5; border-radius:14px; }
+.activity-daily:not(.activity-calendar-screen) .activity-timeline > li.is-expanded .activity-timeline-card { border-color:#64aba1; background:#f7fcfa; }
+.activity-daily:not(.activity-calendar-screen) .activity-entry-body { font-size:14px; }
+.activity-track-map .map-scene-pin { position:absolute; width:34px; height:34px; filter:drop-shadow(0 2px 3px #173f4b36); }
+.activity-track-map .map-scene-pin-head { width:32px; height:32px; font-size:13px; background:#228c84; }
+.activity-track-map .map-scene-pin-label { display:none; top:36px; padding:6px 9px; border-radius:8px; background:#fff; box-shadow:0 3px 10px #173f4b26; color:#244e4b; font-size:12px; text-shadow:none; max-width:170px; }
+.activity-track-map .map-scene-pin:hover,.activity-track-map .map-scene-pin:focus-visible { z-index:3; }
+.activity-track-map .map-scene-pin:hover .map-scene-pin-label,.activity-track-map .map-scene-pin:focus-visible .map-scene-pin-label { display:block; }
+.activity-track-map .map-scene-pin[data-point-id^="track-"] { width:26px; height:26px; }
+.activity-track-map .map-scene-pin[data-point-id^="track-"] .map-scene-pin-head { width:19px; height:19px; border-width:2px; border-radius:50%; transform:translate(17px,10px); font-size:9px; }
+.activity-track-map .map-scene-pin[data-point-id^="track-"] svg { display:none; }
+.activity-track-map .map-scene-pin[data-point-id="track-start"] .map-scene-pin-head::after { content:'出'; }
+.activity-track-map .map-scene-pin[data-point-id="track-end"] .map-scene-pin-head { background:#da725d; }
+.activity-track-map .map-scene-pin[data-point-id="track-end"] .map-scene-pin-head::after { content:'着'; }
+@media (min-width:900px) {
+ .activity-daily:not(.activity-calendar-screen) { max-width:1080px; display:grid; grid-template-columns:minmax(0,1.35fr) minmax(340px,1fr); align-items:start; }
+ .activity-daily-heading { grid-column:1/-1; }
+ .activity-track-map { height:calc(100dvh - 180px); min-height:490px; position:sticky; top:0; }
+ .activity-daily:not(.activity-calendar-screen) .activity-track-sheet { border-radius:0; min-height:calc(100dvh - 180px); padding:20px; }
+ .activity-daily:not(.activity-calendar-screen) .activity-sheet-handle { display:none; }
+}

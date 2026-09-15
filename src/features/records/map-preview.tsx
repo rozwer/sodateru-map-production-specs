@@ -1,8 +1,8 @@
 import type { ComponentType } from 'react';
-import type { MapBridge } from '../../app/map-bridge';
+import type { MapBridge, MapPadding } from '../../app/map-bridge';
 import type { GrowthItem } from '../../../packages/api-client/index';
 
-type PreviewProps={bridge:MapBridge;label:string;interactive?:boolean;className?:string};
+type PreviewProps={bridge:MapBridge;label:string;interactive?:boolean;className?:string;padding?:MapPadding};
 // BASE also discovers providers through glob. An absent provider must not crash record input.
 const previews=import.meta.glob<{MapPreview:ComponentType<PreviewProps>}>('../../map/MapPreview.tsx',{eager:true});
 const displays=import.meta.glob<{showGrowth:(bridge:MapBridge,items:GrowthItem[])=>void}>('../../map/display-state.ts',{eager:true});
