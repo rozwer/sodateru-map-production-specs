@@ -33792,7 +33792,7 @@
     "DISASTER-UI-SCREEN",
     "BUILDING-GROWTH"
   ],
-  "revision": 227,
+  "revision": 228,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34250,13 +34250,13 @@
       "generation": 1,
       "issue_number": 218,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/ISSUE-CLOSE-UI/README.md",
       "owner": "rozwer",
       "paths": [
         "docs/evidence/ISSUE-CLOSE-UI/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "be45d2b1f6a7edd80a2ebbb52de2302a94c510d5",
       "token": "8d2a3dcb39044219850109438689ad30"
     },
     "MAP-CUSTOM": {
