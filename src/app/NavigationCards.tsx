@@ -2,10 +2,33 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ScreenProps } from './contracts';
 import { Icon, type IconName } from '../ui/Icon';
 import { useScreenState } from './useScreenState';
-import { navigationExamples, readNavigationPhotos, type NavigationPhoto } from './navigation-card-data';
+import { loadNavigationPhoto, navigationExamples, readNavigationPhotos, type NavigationPhoto } from './navigation-card-data';
 import './navigation-cards.css';
 
 type Mode = 'self' | 'community';
+function NavigationCardImage({ photo, icon }: { photo: NavigationPhoto; icon: IconName }) {
+  const protectedMedia = Boolean(photo.photoMediaId);
+  const [source, setSource] = useState<string | undefined>(protectedMedia ? undefined : photo.photoUrl);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    setFailed(false);
+    if (!photo.photoMediaId) { setSource(photo.photoUrl); return; }
+    const controller = new AbortController();
+    let objectUrl: string | undefined;
+    setSource(undefined);
+    void loadNavigationPhoto(photo.photoMediaId, controller.signal).then(blob => {
+      if (controller.signal.aborted) return;
+      objectUrl = URL.createObjectURL(blob);
+      setSource(objectUrl);
+    }).catch(() => { if (!controller.signal.aborted) setFailed(true); });
+    return () => {
+      controller.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [photo.photoMediaId, photo.photoUrl]);
+  if (!source || failed) return <span className="sm-nav-card__placeholder"><Icon name={icon} size={34}/></span>;
+  return <img src={source} alt="" draggable={false} onError={() => setFailed(true)}/>;
+}
 const options: Record<Mode, { page: string; title: string; description: string; icon: IconName; details: string[] }[]> = {
   self: [
     { page: 'daily-track', title: '今日の軌跡', description: '今日を振り返る', icon: 'clock', details: [] },
@@ -85,7 +108,7 @@ export function NavigationCards({ mode, navigate, dataMode }: { mode: Mode; navi
             <span className="sm-nav-card__photos">{[0, 1].map(photoIndex => {
               const photo = shownPhotos[photoIndex];
               return <span className="sm-nav-card__photo" key={photoIndex}>
-                {photo?.photoUrl ? <img src={photo.photoUrl} alt="" draggable={false} onError={event => { event.currentTarget.hidden = true; }}/>
+                {photo?.photoUrl ? <NavigationCardImage photo={photo} icon={row.icon}/>
                   : <span className="sm-nav-card__placeholder"><Icon name={row.icon} size={34}/></span>}
                 <b>{photo?.title || (loading ? '読み込み中…' : photoIndex === 0 ? mode === 'self' ? '今日の記録はまだありません' : '共有された記録はまだありません' : '体験を地図で見返す')}</b>
                 <small>{photo?.detail || (photoIndex === 0 ? '記録から振り返りを始める' : '写真がある記録をここに表示')}</small>
