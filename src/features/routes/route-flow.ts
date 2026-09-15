@@ -7,6 +7,7 @@ export interface RouteFlowSnapshot {
   searchedDraft: RouteDraft | null;
   placeSearch: PlaceSearchView;
   preview: RouteSearchResult | null;
+  previews: RouteSearchResult[];
   saved: SavedRoute | null;
   state: RequestState;
   message: string | null;
@@ -32,13 +33,13 @@ export class RouteFlow {
   private placeGeneration = 0;
   private generation = 0;
   private searchKey: string | null = null;
-  private saveIntent: SaveIntent | null = null;
+  private saveIntents = new Map<string, SaveIntent>();
   private disposed = false;
   constructor(private api: ApiClient, private scopeKey: string, private storage?: StoragePort) {
     this.value = {
       draft: this.readDraft(), searchedDraft: null,
       placeSearch: { stopKey: null, state: 'idle', options: [] },
-      preview: null, saved: null, state: 'idle', message: null,
+      preview: null, previews: [], saved: null, state: 'idle', message: null,
     };
   }
   getSnapshot = () => this.value;
@@ -65,8 +66,8 @@ export class RouteFlow {
     } catch { return initial; }
   }
   setDraft = (draft: RouteDraft) => {
-    this.searchAbort?.abort(); this.placeAbort?.abort(); this.placeGeneration++; this.generation++; this.searchKey = null; this.saveIntent = null;
-    this.update({ draft, preview: null, placeSearch: { stopKey: null, state: 'idle', options: [] }, state: 'idle', message: null });
+    this.searchAbort?.abort(); this.placeAbort?.abort(); this.placeGeneration++; this.generation++; this.searchKey = null; this.saveIntents.clear();
+    this.update({ draft, preview: null, previews: [], placeSearch: { stopKey: null, state: 'idle', options: [] }, state: 'idle', message: null });
     try {
       // Only text and conditions survive reload; no candidate IDs, coordinates, or route truth.
       this.storage?.setItem(`sodateru.routes.draft:${this.scopeKey}`, JSON.stringify({ ...draft, stops: draft.stops.map(stop => ({ query: stop.query })) }));
@@ -186,11 +187,11 @@ export class RouteFlow {
     const abort = this.searchAbort = new AbortController();
     const generation = ++this.generation;
     this.searchKey ??= crypto.randomUUID();
-    this.update({ state: 'loading', message: null, preview: null });
+    this.update({ state: 'loading', message: null, preview: null, previews: [] });
     try {
       const selections = draft.stops.map(stop => stop.place!.selection);
       const dialogue = selections.find(point => point.kind === 'dialogue');
-      let preview: RouteSearchResult;
+      let previews: RouteSearchResult[];
       if (dialogue?.kind === 'dialogue') {
         const origin = selections[0];
         if (selections.length !== 2 || selections[1] !== dialogue || origin?.kind !== 'point') {
@@ -207,14 +208,15 @@ export class RouteFlow {
           this.update({ state: 'unavailable', message: m.dialogueConditionsPending }); return false;
         }
         // EXPLORATION/ROUTES contract: select's one route previewId is saved-create resultId.
-        preview = { ...selectedRoute, resultId: selectedRoute.previewId };
+        previews = [{ ...selectedRoute, resultId: selectedRoute.previewId }];
       } else {
         const waypoints = selections.filter((point): point is Exclude<WaypointSelection, { kind: 'dialogue' }> => point.kind !== 'dialogue');
-        preview = (await this.api.request('postRouteSearches', { body: { waypoints, mode: draft.mode, title: draft.title }, idempotencyKey: this.searchKey, signal: abort.signal })).data;
+        previews = (await this.api.request('postRouteComparisons', { body: { waypoints, mode: draft.mode, title: draft.title }, idempotencyKey: this.searchKey, signal: abort.signal })).data.items;
       }
       if (generation !== this.generation || abort.signal.aborted) return false;
-      this.saveIntent = null;
-      this.update({ preview, searchedDraft: draft, state: 'idle' });
+      this.saveIntents.clear();
+      if (!previews.length) { this.update({ state: 'error', message: m.emptyRoutes }); return false; }
+      this.update({ preview: previews[0], previews, searchedDraft: draft, state: 'idle' });
       return true;
     } catch (error) {
       if (generation !== this.generation || abort.signal.aborted || isAbort(error)) return false;
@@ -223,16 +225,22 @@ export class RouteFlow {
       return false;
     }
   };
+  selectPreview = (resultId: string) => {
+    if (this.value.state === 'loading' || this.value.state === 'saving') return;
+    const preview = this.value.previews.find(item => item.resultId === resultId);
+    if (preview) this.update({ preview, message: null, state: 'idle' });
+  };
   /** Stable IDs/keys survive response loss. A saved route is retained if starting navigation fails. */
   adoptAndStart = async (resultId: string): Promise<SavedRoute | null> => {
     if (this.value.state === 'saving') return null;
     const preview = this.value.preview;
     if (!preview || preview.resultId !== resultId) return null;
-    const savedFromIntent = this.saveIntent && this.value.saved?.id === this.saveIntent.body.id ? this.value.saved : null;
+    const previousIntent = this.saveIntents.get(resultId);
+    const savedFromIntent = previousIntent && this.value.saved?.id === previousIntent.body.id ? this.value.saved : null;
     if (!savedFromIntent && preview.expiresAt <= Date.now()) { this.update({ state: 'error', message: m.expiredRoute }); return null; }
     if (preview.retention !== 'storable') { this.update({ state: 'unavailable', message: m.temporaryRoute }); return null; }
-    this.saveIntent ??= { body: { id: crypto.randomUUID(), resultId, title: this.value.searchedDraft?.title.trim() || m.defaultTitle }, key: crypto.randomUUID(), attempted: false };
-    const intent = this.saveIntent;
+    const intent = previousIntent ?? { body: { id: crypto.randomUUID(), resultId, title: this.value.searchedDraft?.title.trim() || m.defaultTitle }, key: crypto.randomUUID(), attempted: false };
+    this.saveIntents.set(resultId, intent);
     const abort = this.mutationAbort = new AbortController();
     this.update({ state: 'saving', message: null });
     let saved = savedFromIntent;

@@ -16,15 +16,25 @@
 |voice-consultation|Codex 画像 2026年9月15日 08_18_10.png / main / 原本実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
 |ai-consent|Codex 画像 2026年9月15日 08_18_10.png / main / 原本実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
 |conversation-history|Codex 画像 2026年9月15日 08_18_10.png / main / 原本実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
-|mist-detail|Codex 画像 2026年9月15日 08_12_03.png / main / 未実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
-|quest-compass|Codex 画像 2026年9月15日 08_12_03.png / main / 未実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
+|mist-detail|Codex 画像 2026年9月15日 08_12_03.png / main / 原本実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
+|quest-compass|Codex 画像 2026年9月15日 08_12_03.png / main / 原本実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
 |settings|Codex 画像 2026年9月15日 08_23_29.png / main / 未実見|未表示|新独立担当へ移管・未編集|原本同幅/同状態・390px・実API再表示|
 |profile-settings|Codex 画像 2026年9月15日 08_23_29.png / main / 未実見|未表示|新独立担当へ移管・未編集|原本同幅/同状態・390px・実API再表示|
 |suggestion-settings|Codex 画像 2026年9月15日 08_23_29.png / main / 未実見|未表示|新独立担当へ移管・未編集|原本同幅/同状態・390px・実API再表示|
 |activity-stats|Codex 画像 2026年9月15日 08_08_01.png / week / 未実見|未表示|新独立担当へ移管・未編集|原本同幅/同状態・390px・実API再表示|
 |data-sources|Codex 画像 2026年9月15日 08_08_01.png / sources / 未実見|未表示|新独立担当へ移管・未編集|原本同幅/同状態・390px・実API再表示|
-|experience-transfer|reference absent: ページ原本なし。リハーサル既存承認画像を探索対象 / 未実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
-|discovery|reference absent: ページ原本なし。リハーサル既存承認画像を探索対象 / 未実見|未表示|未照合|原本同幅/同状態・390px・実API再表示|
+|experience-transfer|ページ原本画像なし。リハーサルsrc/features/{transfer,discovery}/entry.tsx実読。既存構成由来の参照作成を相談役経由で承認確認。画像組立は締切で未実施|未表示|未照合|原本同幅/同状態・390px・実API再表示|
+|discovery|ページ原本画像なし。リハーサルsrc/features/{transfer,discovery}/entry.tsx実読。既存構成由来の参照作成を相談役経由で承認確認。画像組立は締切で未実施|未表示|未照合|原本同幅/同状態・390px・実API再表示|
 |health-connect|Codex 画像 2026年9月15日 08_23_33.png / main / 未実見|未表示|新独立担当の表へ移管。余力未実装|原本同幅/同状態・390px・実API再表示|
 |health-permissions|Codex 画像 2026年9月15日 08_23_33.png / main / 未実見|未表示|新独立担当の表へ移管。余力未実装|原本同幅/同状態・390px・実API再表示|
 |health-status|Codex 画像 2026年9月15日 08_23_33.png / main / 未実見|未表示|新独立担当の表へ移管。余力未実装|原本同幅/同状態・390px・実API再表示|
+
+## 締切時点の更新
+
+- 第一PR187/6136364は通常merge済み。QA5173のHEAD d264c155に祖先到達、QA側も390pxの地図操作列と経路2候補を確認。
+- 追加バッチは写真あり状態を比較可能にした。map-preview 390×844で生成写真4枚ロード済み、横overflowなし、主写真134.6×142.7。853×1844でも実見し写真を原本比率へ、見出し/本文/操作の大きさをpanel幅に追従。
+- routes-previewは生成カフェ/公園写真を追加。explore-preview（既存UI-EXPLORE fixture由来）へ生成写真/実MapPreviewを追加。ai-explore 390×844で実見、その他の写真追加後全状態は未確認。quest-compassは既存fixtureの390×844を実見。
+- 製品route-conditions→比較API→2候補の選択→選んだresultId保存へ接続。順序/選択/不確定保存の再試行を既存含む11テストで確認。製品での実API2候補/保存/再表示は未確認。出発/帰着時刻・階段・屋根の未対応入力保持は維持。
+- 探索5画面の共通ヘッダーに渡すタイトルを原本文言へ修正。共通Shellは未編集。
+- settings/healthは未claim/未編集で別担当へ移管。新規相棒制作は対象外。
+- 締切指示で追加磨き込み・新規検証を停止。一致済みの全画面は0、部品修正/fixture確認と実製品の同状態一致を分ける。

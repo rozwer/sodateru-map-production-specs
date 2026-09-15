@@ -77,12 +77,12 @@ function ResultsScreen({ route, navigate, back, scopeKey, active = true }: Scree
   useEffect(() => { if (active && routeId) void flow.loadSaved(routeId); }, [flow, routeId, active]);
   useEffect(() => {
     if (!active || !result) return;
-    bridge.showRoute('route-planner', { geometry: result.geometry, waypoints: routePoints(result), ...('resultId' in result ? { previewId: result.resultId } : { routeId: result.id }) });
+    bridge.showRoute('route-planner', { geometry: result.geometry, waypoints: routePoints(result), ...('resultId' in result ? { previewId: result.resultId, selectedRouteId: result.resultId, alternatives: state.previews.filter(item => item.resultId !== result.resultId).map(item => ({ id: item.resultId, geometry: item.geometry, waypoints: routePoints(item) })) } : { routeId: result.id }) });
     focusRoute(bridge, result, 'route-planner');
-  }, [bridge, result, active]);
-  const [selected, setSelected] = useState<string | null>(null);
-  useEffect(() => bridge.onSelect('route-planner', selection => { if (selection.kind === 'route') setSelected(selection.id); }), [bridge]);
-  const candidate = result ? basicCandidate(result) : null;
+  }, [bridge, result, active, state.previews]);
+  useEffect(() => bridge.onSelect('route-planner', selection => { if (selection.kind === 'route') flow.selectPreview(selection.id); }), [bridge, flow]);
+  const candidates = saved ? [basicCandidate(saved)] : state.previews.map((preview, index) => ({ ...basicCandidate(preview), name: `候補${String.fromCharCode(65 + index)}` }));
+  const candidate = result ? candidates.find(item => item.id === ('resultId' in result ? result.resultId : result.id)) : null;
   const displayedDraft = saved ? { ...createRouteDraft(), title: saved.title, mode: saved.mode, stops: saved.waypoints.map((point, index) => ({ key: `saved-${index}`, query: point.name, place: { id: point.placeId || `saved-point-${index}`, name: point.name, coordinates: point.coordinates, selection: { kind: 'point' as const, coordinates: point.coordinates, label: point.name } } })) } : state.searchedDraft || state.draft;
   const adopt = async (id: string) => {
     if (saved) { const started = saved.status === 'saved' ? await flow.startSaved() : saved; if (started) navigate('route-navigation', { routeId: started.id }); return; }
@@ -95,7 +95,7 @@ function ResultsScreen({ route, navigate, back, scopeKey, active = true }: Scree
     if (routeId) { void flow.loadSaved(routeId); return; }
     if (candidate) void adopt(candidate.id); else void flow.search();
   };
-  return <RouteResultsPage draft={displayedDraft} candidates={candidate ? [candidate] : []} selectedId={selected === candidate?.id ? selected : candidate?.id || null} onSelect={id => { setSelected(id); bridge.select({ ownerKey: 'route-planner', kind: 'route', id }); }} onBack={() => { flow.leavePanel(); back(); }} onChangeConditions={() => { flow.leavePanel(); navigate('route-conditions'); }} onAdopt={id => { void adopt(id); }} state={state.state} notice={state.message ? { message: state.message, retry } : undefined} map={{ content: active ? <MapPreview bridge={bridge} interactive padding={{ top: 24, right: 24, bottom: 28, left: 24 }} label={m.results}/> : null, summary: result?.waypoints.map(p => p.name).join(' → ') || m.results }}/>
+  return <RouteResultsPage draft={displayedDraft} candidates={candidates} selectedId={candidate?.id || null} onSelect={id => { flow.selectPreview(id); bridge.select({ ownerKey: 'route-planner', kind: 'route', id }); }} onBack={() => { flow.leavePanel(); back(); }} onChangeConditions={() => { flow.leavePanel(); navigate('route-conditions'); }} onAdopt={id => { void adopt(id); }} state={state.state} notice={state.message ? { message: state.message, retry } : undefined} map={{ content: active ? <MapPreview bridge={bridge} interactive padding={{ top: 24, right: 24, bottom: 28, left: 24 }} label={m.results}/> : null, summary: result?.waypoints.map(p => p.name).join(' → ') || m.results }}/>
 }
 
 function NavigationScreen({ route, navigate, back, scopeKey, active = true }: ScreenProps) {

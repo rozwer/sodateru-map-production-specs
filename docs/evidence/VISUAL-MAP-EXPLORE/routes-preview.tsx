@@ -7,16 +7,17 @@ import { RouteResultsPage } from '../../../src/features/routes/RouteResultsPage'
 import { RouteNavigationPage } from '../../../src/features/routes/RouteNavigationPage';
 import type { NavigationView, PlaceOption, PlaceSearchView, RouteCandidateView, RouteDraft } from '../../../src/features/routes/types';
 
+const photo = (name: string) => new URL(`./assets/${name}-mock.png`, import.meta.url).href;
 // Explicit component fixtures, never used by the application or sent to the API.
 const places: PlaceOption[] = [
   { id: 'fixture-origin', name: '本山駅', selection: { kind: 'point', coordinates: [136.9638, 35.1635], label: '本山駅' } },
-  { id: 'fixture-destination', name: 'カフェでひと息', address: '名古屋市千種区四谷通1-10', selection: { kind: 'point', coordinates: [136.9668, 35.1585], label: 'カフェでひと息' } },
+  { id: 'fixture-destination', imageUrl:photo('cafe'), name: 'カフェでひと息', address: '名古屋市千種区四谷通1-10', selection: { kind: 'point', coordinates: [136.9668, 35.1585], label: 'カフェでひと息' } },
   { id: 'fixture-park', name: '東山公園', selection: { kind: 'point', coordinates: [136.978, 35.158], label: '東山公園' } },
 ];
 const initial: RouteDraft = { title: '散歩のテスト', stops: places.slice(0, 2).map((place, i) => ({ key: i === 0 ? 'origin' : 'destination', place, query: place.name })), mode: 'walking', departure: '', returnBy: '', avoidStairs: true, preferCovered: true };
 const candidates: RouteCandidateView[] = [
-  { id: 'fixture-a', name: '候補A', badge: 'バランスのよいルート', description: '大通りと住宅街を通る、歩きやすいルートです。', distanceM: 1200, travelDurationSec: 1080, stayDurationSec: 720, totalDurationSec: 1800, evaluations: [], adoptable: true },
-  { id: 'fixture-b', name: '候補B', badge: '緑の多いルート', distanceM: 1500, travelDurationSec: 1500, stayDurationSec: 720, totalDurationSec: 2220, evaluations: [{ label: '屋根の情報が一部不明', status: 'unknown', detail: '条件を確認できないため、合格扱いしません。' }], adoptable: false },
+  { id: 'fixture-a', imageUrl:photo('cafe'), name: '候補A', badge: 'バランスのよいルート', description: '大通りと住宅街を通る、歩きやすいルートです。', distanceM: 1200, travelDurationSec: 1080, stayDurationSec: 720, totalDurationSec: 1800, evaluations: [], adoptable: true },
+  { id: 'fixture-b', imageUrl:photo('park'), name: '候補B', badge: '緑の多いルート', distanceM: 1500, travelDurationSec: 1500, stayDurationSec: 720, totalDurationSec: 2220, evaluations: [{ label: '屋根の情報が一部不明', status: 'unknown', detail: '条件を確認できないため、合格扱いしません。' }], adoptable: false },
 ];
 function Preview() {
   const [page, setPage] = useState(new URLSearchParams(location.search).get('page') || 'conditions');
@@ -39,7 +40,7 @@ function Preview() {
   const notice = error ? { message: 'テスト応答：通信に失敗しました。入力と選択を保持しています。', retry: () => setError(false) } : undefined;
   const nav: NavigationView = { routeId: 'fixture-route', title: '散歩のテスト', status: finished ? 'finished' : 'navigating', instruction: '四谷通を進みます', roadName: '四谷通を進みます', direction: 'left', turnDistanceM: 80, remainingDistanceM: 600, remainingDurationSec: 480, accuracyM: 8, locationStatus: 'available' };
   const toPage = (next: string) => { setPage(next); window.history.replaceState(null, '', `?page=${next}`); };
-  return <><nav className="qa-controls" aria-label="部品検証操作"><strong>経路・参照比較モック</strong>{['conditions', 'results', 'navigation'].map(name => <button key={name} onClick={() => toPage(name)}>{name}</button>)}<label><input type="checkbox" checked={empty} onChange={e => setEmpty(e.target.checked)}/>0件</label><label><input type="checkbox" checked={error} onChange={e => setError(e.target.checked)}/>通信失敗</label><output>{log}</output></nav><main>
+  return <><nav className="qa-controls" aria-label="部品検証操作"><strong>経路・参照比較モック（生成写真）</strong>{['conditions', 'results', 'navigation'].map(name => <button key={name} onClick={() => toPage(name)}>{name}</button>)}<label><input type="checkbox" checked={empty} onChange={e => setEmpty(e.target.checked)}/>0件</label><label><input type="checkbox" checked={error} onChange={e => setError(e.target.checked)}/>通信失敗</label><output>{log}</output></nav><main>
     {page === 'conditions' && <RouteConditionsPage demo draft={draft} onChange={setDraft} onBack={() => setLog('呼出元へ戻る（下書き保持）')} onSearch={() => error ? setLog('失敗：遷移なし') : toPage('results')} onSearchPlaces={(stopKey, query) => setSearch({ stopKey, state: 'idle', options: places.filter(p => p.name.includes(query)) })} onOpenPasses={() => setLog('定期券設定へ遷移するコールバック')} placeSearch={search} notice={notice}/>}
     {page === 'results' && <RouteResultsPage demo draft={draft} candidates={empty ? [] : candidates} selectedId={selectedId} onSelect={setSelected} onBack={() => toPage('conditions')} onChangeConditions={() => toPage('conditions')} onAdopt={() => { if (error) setLog('失敗：案内開始せず'); else { setLog('テストの採用操作（API保存は未実行）'); toPage('navigation'); } }} map={map} notice={notice}/>}
     {page === 'navigation' && <RouteNavigationPage demo navigation={nav} map={map} onClose={() => setLog('地図へ戻る：案内状態は継続')} onWholeRoute={() => setLog('経路全体へfocus')} onLocate={() => setLog('位置取得は製品の端末操作接続待ち')} onList={() => toPage('results')} onFinish={() => { if (error) setLog('終了保存に失敗：案内状態は継続'); else { setFinished(true); setLog('テスト終了：訪問は作成しない'); } }} notice={notice}/>}

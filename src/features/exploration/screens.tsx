@@ -144,11 +144,11 @@ function CompassScreen(props: ScreenProps) {
 }
 
 export const screens: ScreenDefinition[] = [
-  { id: 'ai-explore', title: '街を探索', component: ExploreScreen },
-  { id: 'voice-consultation', title: '声で相談する', component: VoiceScreen },
-  { id: 'ai-consent', title: 'AI利用の選択', component: ConsentScreen },
-  { id: 'conversation-history', title: '街を探索', component: HistoryScreen },
+  { id: 'ai-explore', title: 'Codexと探索', component: ExploreScreen },
+  { id: 'voice-consultation', title: '声で相談', component: VoiceScreen },
+  { id: 'ai-consent', title: 'AIを使う前に', component: ConsentScreen },
+  { id: 'conversation-history', title: '相談履歴', component: HistoryScreen },
   { id: 'mist-detail', title: 'もやの候補', component: MistScreen },
-  { id: 'quest-compass', title: 'クエストコンパス', component: CompassScreen },
+  { id: 'quest-compass', title: 'コンパスで探す', component: CompassScreen },
   { id: 'discovery', title: '見方をひらく', component: DiscoveryScreen },
 ].map(screen => ({ ...screen, layout: { contentPadding: 'none' as const, header: 'back' as const, bottomNav: false, background: 'soft' as const } }));

@@ -24,7 +24,7 @@ describe('route screen request sequencing', () => {
   it('retries navigation start on the same saved route without another create, and does not finish on panel close', async () => {
     let fail = true;
     const { flow, calls } = setup(async (operation, input) => {
-      if (operation === 'postRouteSearches') return { data: preview };
+      if (operation === 'postRouteComparisons') return { data: { items: [preview] } };
       if (operation === 'postSavedRoutes') return { data: saved(input.body.id, 'saved') };
       if (operation === 'patchSavedRoutesRouteId') {
         if (fail) { fail = false; throw new Error('response lost'); }
@@ -49,7 +49,7 @@ describe('route screen request sequencing', () => {
   it('confirms an uncertain create by its fixed ID before sending another create', async () => {
     let accepted: SavedRoute | null = null;
     const { flow, calls } = setup(async (operation, input) => {
-      if (operation === 'postRouteSearches') return { data: preview };
+      if (operation === 'postRouteComparisons') return { data: { items: [preview] } };
       if (operation === 'postSavedRoutes') { accepted = saved(input.body.id, 'saved'); throw new Error('connection lost after save'); }
       if (operation === 'getSavedRoutesRouteId') return { data: accepted };
       if (operation === 'patchSavedRoutesRouteId') return { data: saved(input.path.routeId, 'navigating', 2) };
@@ -60,7 +60,7 @@ describe('route screen request sequencing', () => {
     const result = await flow.adoptAndStart(preview.resultId);
     expect(result?.status).toBe('navigating');
     expect(calls.filter(c => c.operation === 'postSavedRoutes')).toHaveLength(1);
-    expect(calls.map(c => c.operation)).toEqual(['postRouteSearches', 'postSavedRoutes', 'getSavedRoutesRouteId', 'patchSavedRoutesRouteId']);
+    expect(calls.map(c => c.operation)).toEqual(['postRouteComparisons', 'postSavedRoutes', 'getSavedRoutesRouteId', 'patchSavedRoutesRouteId']);
     flow.dispose();
   });
   it('keeps navigation active after a failed finish and never writes a visit', async () => {
@@ -127,6 +127,45 @@ describe('route entry boundaries', () => {
     expect((await flow.startSaved())?.status).toBe('navigating');
     expect(calls.filter(call => call.operation === 'patchSavedRoutesRouteId')).toHaveLength(1);
     expect(calls.filter(call => call.operation === 'postSavedRoutes')).toHaveLength(0);
+    flow.dispose();
+  });
+});
+
+
+describe('route comparison selection', () => {
+  it('keeps both candidates, selects the second geometry, and saves the selected result only', async () => {
+    const second = { ...preview, resultId: 'second-result', distanceM: 1400, durationSec: 1100 };
+    const { flow, calls } = setup(async (operation, input) => {
+      if (operation === 'postRouteComparisons') return { data: { items: [preview, second] } };
+      if (operation === 'postSavedRoutes') return { data: saved(input.body.id, 'saved') };
+      if (operation === 'patchSavedRoutesRouteId') return { data: saved(input.path.routeId, 'navigating', 2) };
+      throw new Error(operation);
+    });
+    expect(await flow.search()).toBe(true);
+    expect(flow.getSnapshot().previews).toHaveLength(2);
+    flow.selectPreview(second.resultId);
+    expect(flow.getSnapshot().preview).toEqual(second);
+    expect(await flow.adoptAndStart(preview.resultId)).toBeNull();
+    expect(await flow.adoptAndStart(second.resultId)).not.toBeNull();
+    expect(calls.filter(call => call.operation === 'postSavedRoutes').map(call => call.input.body.resultId)).toEqual(['second-result']);
+    flow.dispose();
+  });
+  it('reconciles an uncertain save after switching to another candidate and back', async () => {
+    let accepted: SavedRoute | null = null;
+    const second = { ...preview, resultId: 'second-result' };
+    const { flow, calls } = setup(async (operation, input) => {
+      if (operation === 'postRouteComparisons') return { data: { items: [preview, second] } };
+      if (operation === 'postSavedRoutes') { accepted = saved(input.body.id, 'saved'); throw new Error('response lost'); }
+      if (operation === 'getSavedRoutesRouteId') return { data: accepted };
+      if (operation === 'patchSavedRoutesRouteId') return { data: saved(input.path.routeId, 'navigating', 2) };
+      throw new Error(operation);
+    });
+    await flow.search();
+    await flow.adoptAndStart(preview.resultId);
+    flow.selectPreview(second.resultId);
+    flow.selectPreview(preview.resultId);
+    expect((await flow.adoptAndStart(preview.resultId))?.status).toBe('navigating');
+    expect(calls.filter(call => call.operation === 'postSavedRoutes')).toHaveLength(1);
     flow.dispose();
   });
 });
