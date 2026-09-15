@@ -1,0 +1,110 @@
+{
+  "reviewHead": "2a382d33f4046e846944ebaaf3a63ce2da099d23",
+  "previousSuccessfulEvidence": "live-http-sqlite.json",
+  "attempts": [
+    {
+      "result": "failed at real Overpass search",
+      "httpStatus": 502,
+      "code": "UPSTREAM_FAILED",
+      "providerStatus": 504,
+      "requestId": "8ff70d70-5f4c-4584-824a-9fd23584ff88"
+    },
+    {
+      "result": "passed full live E2E"
+    }
+  ],
+  "checkedAt": 1789444325839,
+  "successfulRun": {
+    "contractMode": "temporary composition of current owned fragments; production generation pending",
+    "checkedAt": 1789444325831,
+    "dataMode": "live",
+    "dataKind": "real",
+    "settings": {
+      "region": {
+        "id": "JP-13-shibuya",
+        "bounds": [
+          139.698,
+          35.655,
+          139.718,
+          35.673
+        ]
+      },
+      "vehicle": {
+        "class": "motorcycle",
+        "displacementCc": 250
+      },
+      "highwayPolicy": "avoid"
+    },
+    "searchId": "c6cff8d0-ee31-49ef-9d64-8b858b0760bf",
+    "assessmentId": "388d5dff-00f0-4175-86b2-d1b2b4247c2a",
+    "source": {
+      "id": "osm-overpass",
+      "name": "OpenStreetMap / Overpass",
+      "url": "https://www.openstreetmap.org/copyright",
+      "attribution": "© OpenStreetMap contributors (ODbL)",
+      "fetchedAt": 1789444323184,
+      "updatedAt": 1789444206000
+    },
+    "placeAdoption": {
+      "placeId": "3a906fd9-77be-4e0a-ba74-40d7ffc839e2",
+      "candidateId": "osm:node:885679761",
+      "provider": "nominatim",
+      "externalId": "N885679761",
+      "sourceUrl": "https://www.openstreetmap.org/node/885679761",
+      "fetchedAt": 1789444323184,
+      "settingsVersion": 1,
+      "settingsHash": "5513babbbf630cd250afa128e4b011817e92e122e93e0b48e9c79920f4fd1cb0"
+    },
+    "counts": {
+      "places": 10,
+      "roads": 51
+    },
+    "route": {
+      "resultId": "47e9e556-f2f1-4e1b-a464-59ef02928b37",
+      "provider": "mapbox-directions",
+      "fetchedAt": 1789444324422,
+      "geometryHash": "6e8b1e58b293a793c9accf94a28543a7d7334ba918f96d438c9801333a3878f4"
+    },
+    "vehicleAssessment": {
+      "status": "unknown",
+      "reason": "Mapbox drivingは二輪車の車種・排気量別通行規制を確認していません。",
+      "sourceRefs": [
+        "https://docs.mapbox.com/api/navigation/directions/"
+      ],
+      "checkedAt": 1789444324430
+    },
+    "highwayAssessment": {
+      "status": "verified",
+      "reason": "全区間にexclude=motorwayを指定し、providerのmotorway違反通知と道路分類を検査",
+      "sourceRefs": [
+        "https://docs.mapbox.com/api/navigation/directions/"
+      ],
+      "checkedAt": 1789444324422
+    },
+    "adoptable": false,
+    "checks": {
+      "commonPlaceRegistration": true,
+      "commonPlaceAdoption": true,
+      "commonPlaceRestartRetrieval": true,
+      "expiredCandidateReplayRejected": true,
+      "freshCandidateRegistrationAfterRestart": true,
+      "canonicalPlaceReused": true,
+      "stoppedCandidateRegistrationRejected": true,
+      "mockTrialSeparated": true,
+      "realSearch": true,
+      "idempotentReplay": true,
+      "sqliteRestartSameSnapshot": true,
+      "settingsRestored": true,
+      "stopClearsOnlyBikeOwner": true,
+      "reenableRestoresDisplay": true,
+      "unknownAdoptionRejected": true
+    },
+    "remaining": [
+      "Live verified motorcycle route adoption",
+      "UI display acceptance"
+    ]
+  },
+  "mergeCommit": "8ea26a06a6d9fbda2b9f10bc59df197dc3589e2f",
+  "trigger": "Explicit orchestrator request to rerun after PLACES #154 formal integration",
+  "serverRestart": "live.e2e.ts stops child server processes and starts new node processes against the same SQLite paths twice"
+}
