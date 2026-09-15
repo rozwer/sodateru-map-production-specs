@@ -3,7 +3,7 @@ import { PluginError, type AppliedDeclaration, type ConflictResolution, type Dec
 
 export function canonical(value: Json): string {
   if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
-  if (value !== null && typeof value === 'object') return '{' + Object.keys(value).sort().map(k => JSON.stringify(k) + ':' + canonical(value[k])).join(',') + '}';
+  if (value !== null && typeof value === 'object') return '{' + Object.keys(value).sort().map(k => JSON.stringify(k) + ':' + canonical(value[k]!)).join(',') + '}';
   return JSON.stringify(value);
 }
 export function validateDeclarations(declarations: Declaration[]): Declaration[] {
@@ -30,7 +30,7 @@ export function resolveDeclarations(items: PluginSetting[], saved: ConflictResol
   const conflicts: PluginConflict[] = [], appliedDeclarations: AppliedDeclaration[] = [], resolutions: ConflictResolution[] = [];
   for (const declarations of groups.values()) {
     if (new Set(declarations.map(d => canonical(d.value))).size < 2) { appliedDeclarations.push(...declarations); continue; }
-    const { targetKey, property } = declarations[0];
+    const { targetKey, property } = declarations[0]!;
     // Bind a choice to exactly these declarations and release versions. An update must be reviewed again.
     const key = createHash('sha256').update(canonical(declarations as unknown as Json)).digest('hex');
     const resolution = saved.find(r => r.key === key);
@@ -46,4 +46,18 @@ export function resolveDeclarations(items: PluginSetting[], saved: ConflictResol
     }
   }
   return { appliedDeclarations, conflicts, resolutions };
+}
+
+/** Carry only choices whose remaining release declarations are byte-for-byte unchanged. */
+export function projectResolutions(before: PluginSetting[], after: PluginSetting[], saved: ConflictResolution[]): ConflictResolution[] {
+  const prior=resolveDeclarations(before,[]).conflicts;
+  const valid=resolveDeclarations(before,saved).resolutions;
+  return resolveDeclarations(after,[]).conflicts.flatMap(next=>{
+    const parent=prior.find(old=>next.declarations.every(d=>old.declarations.some(p=>canonical(p as unknown as Json)===canonical(d as unknown as Json))));
+    const choice=parent && valid.find(r=>r.key===parent.key);
+    if (!choice) return [];
+    const ids=choice.pluginIds.filter(id=>next.declarations.some(d=>d.pluginId===id));
+    if (!ids.length) return [];
+    return [{...choice,key:next.key,pluginIds:ids}];
+  });
 }

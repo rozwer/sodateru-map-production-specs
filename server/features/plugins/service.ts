@@ -1,5 +1,7 @@
+import { pluginIcons } from './icons.ts';
+import { validateTrialPreview } from './preview.ts';
 import { randomUUID } from 'node:crypto';
-import { resolveDeclarations } from './declarations.ts';
+import { projectResolutions, resolveDeclarations } from './declarations.ts';
 import { PluginRegistry, pluginRegistry } from './registry.ts';
 import { getPluginState, PluginStore } from './store.ts';
 import { PluginError, type ConflictResolution, type PluginSetting, type PluginSnapshot, type Settings } from './types.ts';
@@ -10,13 +12,12 @@ export type PatchInput = { enabled?: boolean; settings?: Settings; icon?: string
 export class PluginService {
   constructor(public store: PluginStore, public registry: PluginRegistry = pluginRegistry) {}
   state() { return getPluginState(this.store.db,this.store.context); }
-  catalog() { return { items: this.registry.list().map(r => ({ ...structuredClone(r.manifest), installed: this.store.list().find(s => s.id === r.manifest.id) ?? null, versions: this.registry.versions(r.manifest.id) })) }; }
+  catalog() { return { items: this.registry.list().map(r => ({ ...structuredClone(r.manifest), iconOptions: structuredClone(pluginIcons), installed: this.store.list().find(s => s.id === r.manifest.id) ?? null, versions: this.registry.versions(r.manifest.id) })) }; }
   trial(id: string, version: string | undefined, settings?: Settings, icon?: string) {
     const snapshot = this.registry.snapshot(id,version,settings,icon);
     const state = this.state(), retained = this.store.retained(id);
     const candidate: PluginSetting = { ...snapshot,id,installId: retained?.installId ?? 'trial', version: retained?.version ?? 1, createdAt: retained?.createdAt ?? Date.now(), updatedAt: Date.now(), enabled: true, previousVersion: retained?.pluginVersion ?? null };
-    const preview = this.registry.get(id,snapshot.pluginVersion).trial(structuredClone(snapshot.settings));
-    if (preview.dataKind !== 'mock' || !preview.label) throw new PluginError(422,'VALIDATION_FAILED','試用には模擬データの表示が必要です');
+    const preview = validateTrialPreview(this.registry.get(id,snapshot.pluginVersion).trial(structuredClone(snapshot.settings)));
     return { snapshot, stateRevision: state.revision, preview, conflicts: resolveDeclarations([...state.items.filter(p => p.id !== id),candidate],this.store.resolutions()).conflicts };
   }
   private confirm(input: Confirmation) {
@@ -29,7 +30,8 @@ export class PluginService {
   }
   private apply(candidate: PluginSetting, expected: number | null, choices: ConflictResolution[] = [], previous?: PluginSnapshot) {
     const state = this.state(), proposed = [...state.items.filter(i => i.id !== candidate.id),candidate];
-    const effective = resolveDeclarations(proposed,[...choices,...this.store.resolutions()]);
+    const saved=this.store.resolutions();
+    const effective = resolveDeclarations(proposed,[...choices,...projectResolutions(state.items,proposed,saved),...saved]);
     if (effective.conflicts.length) throw new PluginError(409,'PLUGIN_CONFLICT','同じ対象への表示を選んでください',{conflicts: effective.conflicts});
     // Reject stale/malformed submitted choices, including misspelled strategies or unknown hashes.
     if (choices.some(c => !effective.resolutions.some(r => JSON.stringify(r) === JSON.stringify(c)))) throw new PluginError(409,'INPUT_CHANGED','競合対象が変わりました。選び直してください');
@@ -37,16 +39,22 @@ export class PluginService {
     this.store.saveResolutions(effective.resolutions);
     return this.store.get(candidate.id);
   }
-  async install(input: InstallInput) {
-    this.confirm(input);
-    if (this.state().items.some(p => p.id === input.id)) throw new PluginError(409,'STATE_CONFLICT','この機能は導入済みです');
-    const snapshot = this.registry.snapshot(input.id,input.pluginVersion,input.settings,input.icon);
+  async prepareInstall(input: InstallInput) {
+    const snapshot=this.registry.snapshot(input.id,input.pluginVersion,input.settings,input.icon);
     await this.registry.prepare(input.id,snapshot.pluginVersion,snapshot.settings,this.store.context);
+    return snapshot;
+  }
+  installPrepared(input: InstallInput, snapshot: PluginSnapshot) {
     return this.store.atomic(() => {
       this.confirm(input);
+      if (this.state().items.some(p => p.id === input.id)) throw new PluginError(409,'STATE_CONFLICT','この機能は導入済みです');
       const retained = this.store.retained(input.id), now = Date.now();
       return this.apply({ ...snapshot,id: input.id,installId: retained?.installId ?? randomUUID(),version: (retained?.version ?? 0)+1,createdAt: retained?.createdAt ?? now,updatedAt: now,enabled: input.enabled,previousVersion: retained?.previousVersion ?? null },retained?.version ?? null,input.resolutions);
     });
+  }
+  async install(input: InstallInput) {
+    this.confirm(input);
+    return this.installPrepared(input,await this.prepareInstall(input));
   }
   patch(id: string, expected: number, input: PatchInput) {
     return this.store.atomic(() => {
@@ -56,16 +64,23 @@ export class PluginService {
       return this.apply({ ...current,...snapshot,version: expected+1,updatedAt: Date.now(),enabled: input.enabled ?? current.enabled },expected,input.resolutions);
     });
   }
-  async update(id: string, expected: number, input: Confirmation & { pluginVersion: string }) {
-    const current = this.store.get(id); this.checkVersion(current,expected); this.confirm(input);
-    if (current.pluginVersion === input.pluginVersion) throw new PluginError(409,'STATE_CONFLICT','同じ版が導入されています');
-    // Preserve settings exactly. Incompatible schema blocks the update and leaves the old version untouched.
-    const snapshot = this.registry.snapshot(id,input.pluginVersion,current.settings,current.icon);
+  async prepareUpdate(id: string, input: {pluginVersion:string}) {
+    const current=this.store.get(id);
+    const snapshot=this.registry.snapshot(id,input.pluginVersion,current.settings,current.icon);
     await this.registry.prepare(id,snapshot.pluginVersion,snapshot.settings,this.store.context);
+    return snapshot;
+  }
+  updatePrepared(id: string, expected: number, input: Confirmation & {pluginVersion:string}, snapshot: PluginSnapshot) {
     return this.store.atomic(() => {
-      this.checkVersion(this.store.get(id),expected); this.confirm(input);
+      const current=this.store.get(id);
+      this.checkVersion(current,expected); this.confirm(input);
+      if (current.pluginVersion===input.pluginVersion) throw new PluginError(409,'STATE_CONFLICT','同じ版が導入されています');
       return this.apply({ ...current,...snapshot,previousVersion: current.pluginVersion,version: expected+1,updatedAt: Date.now() },expected,input.resolutions,current);
     });
+  }
+  async update(id: string, expected: number, input: Confirmation & { pluginVersion: string }) {
+    this.checkVersion(this.store.get(id),expected);this.confirm(input);
+    return this.updatePrepared(id,expected,input,await this.prepareUpdate(id,input));
   }
   rollback(id: string, expected: number, input: Confirmation) {
     return this.store.atomic(() => {
@@ -75,6 +90,13 @@ export class PluginService {
     });
   }
   remove(id: string, expected: number) {
-    this.store.atomic(() => { this.checkVersion(this.store.get(id),expected); this.store.remove(id,expected); });
+    this.store.atomic(() => {
+      this.checkVersion(this.store.get(id),expected);
+      const before=this.store.list(), after=before.filter(item=>item.id!==id), saved=this.store.resolutions();
+      const effective=resolveDeclarations(after,[...projectResolutions(before,after,saved),...saved]);
+      if (effective.conflicts.length) throw new PluginError(409,'PLUGIN_CONFLICT','削除後に残す表示を選んでください',{conflicts:effective.conflicts});
+      this.store.remove(id,expected);
+      this.store.saveResolutions(effective.resolutions);
+    });
   }
 }

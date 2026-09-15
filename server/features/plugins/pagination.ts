@@ -1,5 +1,5 @@
 import { PluginError, type PluginContext, type PluginSetting } from './types.ts';
-export function pluginSettingPage(items: PluginSetting[], context: PluginContext, query: {cursor?:string;limit?:string}) {
+export function pluginSettingPage(items: PluginSetting[], context: PluginContext, query: {cursor?:string;limit?:string|number}) {
   const limit=query.limit === undefined ? 50 : Number(query.limit);
   if (!Number.isInteger(limit) || limit<1 || limit>100) throw new PluginError(400,'INVALID_QUERY','limitは1〜100で指定してください');
   let lastId='';

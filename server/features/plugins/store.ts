@@ -1,3 +1,4 @@
+import { transaction } from '../../db/migrate.ts';
 import type { DatabaseSync } from 'node:sqlite';
 import { createHash } from 'node:crypto';
 import { canonical, resolveDeclarations } from './declarations.ts';
@@ -34,12 +35,10 @@ export class PluginStore {
   resolutions(): ConflictResolution[] {
     return this.db.prepare('SELECT resolution_json FROM plugin_conflict_resolutions WHERE person_id=? ORDER BY conflict_key').all(this.context.personId).map(r => JSON.parse(String(r.resolution_json)));
   }
-  /** Feature savepoint composes with CORE's outer idempotency transaction. */
+  /** All business writes compose with the supplied CORE transaction/replay boundary. */
   atomic<T>(fn: () => T): T {
     this.context.signal.throwIfAborted();
-    this.db.exec('SAVEPOINT plugins_mutation');
-    try { const result = fn(); this.db.exec('RELEASE plugins_mutation'); return result; }
-    catch (error) { this.db.exec('ROLLBACK TO plugins_mutation; RELEASE plugins_mutation'); throw error; }
+    return transaction(this.db,fn);
   }
   save(item: PluginSetting, expected: number | null, previous?: PluginSnapshot) {
     const params = [item.version,item.updatedAt,item.enabled ? 1 : 0,JSON.stringify(item.settings),item.pluginVersion,item.icon,JSON.stringify(item.declarations),JSON.stringify(item.manifest)];

@@ -1,3 +1,4 @@
+import { isPluginIcon } from './icons.ts';
 import Ajv2020 from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import { PluginError, type PluginContext, type PluginRelease, type Settings } from './types.ts';
@@ -11,7 +12,7 @@ export class PluginRegistry {
   constructor() { addFormats(this.ajv); }
   register(release: PluginRelease) {
     const m = release.manifest;
-    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(m.id) || !m.pluginVersion || !m.name || !m.author || !m.icon || !Number.isFinite(m.updatedAt)) throw new Error('Invalid plugin manifest');
+    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(m.id) || !m.pluginVersion || !m.name || !m.author || !isPluginIcon(m.icon) || !Number.isFinite(m.updatedAt)) throw new Error('Invalid plugin manifest');
     const versions = this.releases.get(m.id) ?? [];
     if (versions.some(r => r.manifest.pluginVersion === m.pluginVersion)) throw new Error(`Duplicate plugin release: ${m.id}@${m.pluginVersion}`);
     const validate = this.ajv.compile(m.settingsSchema);
@@ -39,7 +40,7 @@ export class PluginRegistry {
     const release = this.get(id, pluginVersion), manifest = structuredClone(release.manifest);
     const values = structuredClone(settings ?? manifest.defaultSettings);
     this.validate(id, manifest.pluginVersion, values);
-    if (icon !== undefined && (typeof icon !== 'string' || icon.length < 1 || icon.length > 200)) throw new PluginError(422, 'VALIDATION_FAILED', 'アイコンは1〜200文字で指定してください');
+    if (icon !== undefined && !isPluginIcon(icon)) throw new PluginError(422, 'VALIDATION_FAILED', 'カタログのアイコン候補から選んでください');
     return { pluginVersion: manifest.pluginVersion, settings: values, icon: icon ?? manifest.icon, manifest, declarations: validateDeclarations(release.declarations(structuredClone(values))) };
   }
   async prepare(id: string, version: string, settings: Settings, context: PluginContext) {

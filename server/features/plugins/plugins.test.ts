@@ -11,7 +11,7 @@ const context = (personId = 'alice', dataMode: 'live' | 'demo' = 'live'): Plugin
 const release = (id: string, version = '1.0.0', color = 'red'): PluginRelease => ({
   manifest: { id,name:id,description:'Test fixture only',category:'test',author:'test',pluginVersion:version,updatedAt:1,changeLog:version,icon:'pin',usageInfo:[],sources:[],settingsSchema:{type:'object',properties:{region:{type:'string'},highways:{type:'boolean'}},required:['region','highways'],additionalProperties:false},defaultSettings:{region:'Tokyo',highways:false},trialConditions:['地域','高速道路'] },
   declarations: (settings: Settings) => [{targetKey:'layer:bike',property:'color',value:color},{targetKey:`layer:${id}`,property:'conditions',value:settings}],
-  trial: (settings: Settings) => ({dataKind:'mock',label:'模擬データ（試用）',declarations:[],features:[{region:settings.region,highways:settings.highways}],warnings:['未確認道路の走行可否を示しません']}),
+  trial: (settings: Settings) => ({dataKind:'mock',label:'模擬データ（試用）',declarations:[],features:[{type:'Feature',id:'sample',geometry:{type:'Point',coordinates:[139.7,35.6]},properties:{kind:'place',label:String(settings.region),legendId:'sample',sourceIds:['fixture'],status:'simulated',value:null,unit:null}}],legends:[{id:'sample',label:'試用',color:'#008080',meaning:'模擬地点'}],sources:[{id:'fixture',title:'試用データ',url:null,attribution:'テスト用模擬データ',dataKind:'mock',fetchedAt:null,sourceUpdatedAt:null,observedAt:null,issuedAt:null,validAt:null}],generatedAt:1,warnings:['未確認道路の走行可否を示しません']}),
 });
 const migration = readFileSync(new URL('../../db/migrations/plugins/001-plugins.sql',import.meta.url),'utf8');
 function open(path: string, fresh = false) {
@@ -34,7 +34,7 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
   try {
     await t.test('trial and cancelled/unconfirmed installation write nothing', async () => {
       const before=service.state(); const trial=service.trial('bike','1.0.0',{region:'Kyoto',highways:true});
-      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0] && (trial.preview.features[0] as any).region,'Kyoto');
+      assert.equal(trial.preview.dataKind,'mock'); assert.equal(trial.preview.features[0]!.properties.label,'Kyoto');
       assert.deepEqual(service.state(),before);
       await assert.rejects(service.install({...input('bike'),confirmed:false} as any),{code:'CONFIRMATION_REQUIRED'});
       assert.equal(service.state().items.length,0);
@@ -42,13 +42,13 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
     await t.test('confirmed install survives connection close and reopen; identity/mode remain separate',async()=>{
       const installed=await service.install(input('bike')); assert.equal(installed.version,1);
       db.close(); db=open(livePath); service=new PluginService(new PluginStore(db,context()),registry);
-      assert.equal(service.state().items[0].installId,installed.installId);
-      assert.deepEqual(service.state().items[0].settings,values);
+      assert.equal(service.state().items[0]!.installId,installed.installId);
+      assert.deepEqual(service.state().items[0]!.settings,values);
       assert.equal(getPluginState(db,context('bob')).items.length,0);
       assert.equal(getPluginState(demo,context('alice','demo')).items.length,0);
       const bob=new PluginService(new PluginStore(db,context('bob')),registry);
       await bob.install({...input('bike'),stateRevision:bob.state().revision});
-      assert.notEqual(bob.state().plugins[0].ownerKey,service.state().plugins[0].ownerKey);
+      assert.notEqual(bob.state().plugins[0]!.ownerKey,service.state().plugins[0]!.ownerKey);
     });
     await t.test('same values coexist without conflict; different values require a persisted choice',async()=>{
       await service.install(input('same'));
@@ -56,7 +56,7 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
       const trial=service.trial('different','1.0.0',values);
       assert.equal(trial.conflicts.length,1);
       await assert.rejects(service.install(input('different')),{code:'PLUGIN_CONFLICT'});
-      const resolution={key:trial.conflicts[0].key,strategy:'prefer' as const,pluginIds:['different']};
+      const resolution={key:trial.conflicts[0]!.key,strategy:'prefer' as const,pluginIds:['different']};
       await service.install({...input('different'),resolutions:[resolution]});
       db.close(); db=open(livePath); service=new PluginService(new PluginStore(db,context()),registry);
       assert.deepEqual(service.state().resolutions,[resolution]);
@@ -100,4 +100,26 @@ test('PLUGINS SQLite lifecycle, person/mode isolation and restart', async (t) =>
       assert.equal(reinstall.installId,item.installId); assert.ok(reinstall.version>item.version);
     });
   } finally { db.close();demo.close();rmSync(dir,{recursive:true,force:true}); }
+});
+
+test('removing or stopping an unselected plugin preserves remaining conflict choice',async()=>{
+  const db=open(':memory:',true), registry=new PluginRegistry();
+  registry.register(release('a','1','red'));registry.register(release('b','1','blue'));registry.register(release('c','1','green'));
+  const service=new PluginService(new PluginStore(db,context()),registry);
+  const add=async(id:string)=>{
+    const trial=service.trial(id,'1');
+    return service.install({id,pluginVersion:'1',settings:trial.snapshot.settings,enabled:true,confirmed:true,stateRevision:trial.stateRevision,resolutions:trial.conflicts.map(c=>({key:c.key,strategy:'prefer',pluginIds:['a']}))});
+  };
+  try {
+    await add('a');await add('b');await add('c');
+    let b=service.store.get('b');service.patch('b',b.version,{enabled:false});
+    assert.equal(service.state().conflicts.length,0);assert.equal(service.state().appliedDeclarations.find(d=>d.property==='color')?.pluginId,'a');
+    b=service.store.get('b');service.patch('b',b.version,{enabled:true});
+    b=service.store.get('b');service.remove('b',b.version);
+    assert.equal(service.state().conflicts.length,0);assert.equal(service.state().appliedDeclarations.find(d=>d.property==='color')?.pluginId,'a');
+    // When removing the chosen winner would leave two different remaining values, no partial deletion occurs.
+    await add('b');const a=service.store.get('a');
+    assert.throws(()=>service.remove('a',a.version),{code:'PLUGIN_CONFLICT'});
+    assert.equal(service.store.get('a').version,a.version);
+  } finally {db.close();}
 });
