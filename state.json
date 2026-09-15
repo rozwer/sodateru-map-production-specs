@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 42,
+  "revision": 43,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4588,12 +4588,22 @@
       "token": null
     },
     "INSIGHTS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "mattsun",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 34,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "mattsun",
+      "paths": [
+        "server/features/insights/",
+        "server/db/migrations/insights/",
+        "docs/01_requirements/04_api/fragments/INSIGHTS.json",
+        "docs/evidence/INSIGHTS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "a9876d2a9f124b05b999cc90a71ac1d6"
     },
     "MAP-CUSTOM": {
       "actor": "kaiya",
