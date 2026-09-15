@@ -1,0 +1,26 @@
+{
+  "id": "1e9088df-924b-444a-a663-5396ac3663af",
+  "model": "gpt-5.6-luna",
+  "databaseDirectory": "/Users/kmattsun/.codex/worktrees/exploration-followup-102/.local/exploration-followup/1e9088df-924b-444a-a663-5396ac3663af",
+  "status": "failed",
+  "entry": "server/app/main.ts",
+  "client": "packages/api-client/index.ts",
+  "dataMode": "live",
+  "settingsVersion": 2,
+  "run": {
+    "status": "failed",
+    "attempt": 1,
+    "model": "gpt-5.6-luna",
+    "error": {
+      "code": "UPSTREAM_FAILED",
+      "message": "AI処理に失敗しました",
+      "retryable": true
+    }
+  },
+  "stage": "real-discovery",
+  "error": {
+    "name": "AssertionError",
+    "code": "ERR_ASSERTION",
+    "message": "{\"code\":\"UPSTREAM_FAILED\",\"message\":\"AI処理に失敗しました\",\"retryable\":true}\n+ actual - expected\n\n+ 'failed'\n- 'complete'\n"
+  }
+}

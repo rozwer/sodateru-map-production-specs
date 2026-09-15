@@ -175,6 +175,14 @@ function CommunityHome(props: Props) {
   );
 }
 function FriendsMap(props: Props) {
+  const mapElement = useRef<HTMLDivElement>(null);
+  const [mapWidth, setMapWidth] = useState(390);
+  useEffect(() => {
+    if (!mapElement.current) return;
+    const observer = new ResizeObserver(([entry]) => setMapWidth(entry.contentRect.width));
+    observer.observe(mapElement.current);
+    return () => observer.disconnect();
+  }, []);
   const [form, setForm] = useScreenState({
     query: "",
     submitted: "",
@@ -324,6 +332,7 @@ function FriendsMap(props: Props) {
   }, [bridge, shared.data, props.active, personId, person?.name]);
   return (
     <div className="fr-screen fr-friends-map">
+      <header className="fr-friends-header">
       <div className="fr-section-heading">
         <h1>友達の地図</h1>
         <button
@@ -336,6 +345,7 @@ function FriendsMap(props: Props) {
       </div>
       <Search
         label="友達の名前で検索…"
+        iconOnly
         value={form.query}
         change={(query) => setForm({ ...form, query })}
         submit={() =>
@@ -376,10 +386,12 @@ function FriendsMap(props: Props) {
       {people.data && !people.data.visible.length && (
         <Notice>該当する友達はいません。名前で相手を検索できます。</Notice>
       )}
-      <div className="fr-map fr-map-large">
+      </header>
+      <div className="fr-map fr-map-large" ref={mapElement}>
         {props.active !== false && (
           <MapPreview
             bridge={bridge}
+            padding={{ top: 70, bottom: 80, left: 70, right: Math.min(280, mapWidth * .43) }}
             label={`${person?.name ?? "友達"}の共有地点`}
             interactive
           />
@@ -403,9 +415,10 @@ function FriendsMap(props: Props) {
               <Avatar person={person} />
               <div>
                 <h2>{person.name}の地図</h2>
-                <small>共有された記録のみ</small>
+                <small>{person.name}さんが共有した場所です</small>
               </div>
             </button>
+            <span className="fr-shared-badge"><Icon name="people" />共有された記録のみ</span>
           </div>
         )}
         {shared.data?.theme && (
@@ -453,6 +466,7 @@ function FriendsMap(props: Props) {
             disabled={!personId}
             onClick={() => props.navigate("shared-route", { personId })}
           >
+            <Icon name="pin" />
             おすすめルート
           </Action>
         </div>
@@ -1206,7 +1220,8 @@ function SharedRoute(props: Props) {
           </div>
           <div className="fr-map">
             {props.active !== false && (
-              <MapPreview bridge={bridge} label="友達のルートと立ち寄り順" />
+              <MapPreview bridge={bridge} label="友達のルートと立ち寄り順"
+              padding={{ top: 60, bottom: 70, left: 85, right: 85 }} />
             )}
           </div>
           <ol className="fr-stops">

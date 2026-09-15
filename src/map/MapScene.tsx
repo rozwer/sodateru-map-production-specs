@@ -117,7 +117,7 @@ export function MapScene(props: Props) {
     try {
       map = new mapboxgl.Map({ container: container.current, accessToken, style: 'mapbox://styles/mapbox/standard', center: [current.camera.longitude, current.camera.latitude], zoom: current.camera.zoom, pitch: current.view.dimension === '2d' ? 0 : current.camera.pitch, bearing: current.camera.bearing,
         antialias: true, interactive: current.interactive !== false, attributionControl: true, language: 'ja', projection: 'mercator',
-        config: { basemap: { theme: current.view.lens === 'personal' ? 'faded' : 'default', lightPreset: current.view.lightPreset, show3dObjects: current.view.dimension === '3d', show3dLandmarks: false, show3dTrees: false, show3dFacades: false, showPointOfInterestLabels: false, showPlaceLabels: false, showTransitLabels: false, colorBuildings: UNVISITED_COLOR, colorBuildingSelect: UNVISITED_COLOR, colorBuildingHighlight: UNVISITED_COLOR, colorRoads: '#ffffff', colorMotorways: '#ffffff', colorTrunks: '#ffffff', colorLand: '#F2F0EC', colorGreenspace: '#DDE8D7', colorWater: '#D6E7ED' } } });
+        config: { basemap: { theme: 'default', lightPreset: current.view.lightPreset, show3dObjects: current.view.dimension === '3d', show3dLandmarks: false, show3dTrees: false, show3dFacades: false, showPointOfInterestLabels: false, showPlaceLabels: false, showTransitLabels: false, colorBuildings: UNVISITED_COLOR, colorBuildingSelect: UNVISITED_COLOR, colorBuildingHighlight: UNVISITED_COLOR, colorRoads: '#ffffff', colorMotorways: '#ffffff', colorTrunks: '#ffffff', colorLand: '#F2F0EC', colorGreenspace: '#DDE8D7', colorWater: '#D6E7ED' } } });
     } catch { setLoading(false); setError('この端末で地図を表示できません'); return; }
     mapRef.current = map;
     map.addControl(new mapboxgl.ScaleControl({ maxWidth: 90, unit: 'metric' }), 'bottom-left');
@@ -136,7 +136,7 @@ export function MapScene(props: Props) {
       map.addLayer({ id: 'sodateru-radius-line', type: 'line', source: 'sodateru-radius', slot: 'top', paint: { 'line-color': '#349fa0', 'line-width': 2, 'line-dasharray': [3, 2] } });
       map.addSource('sodateru-overlays', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
       map.addSource('sodateru-growth', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-      map.addLayer({ id: 'sodateru-growth-building', type: 'fill-extrusion', source: 'sodateru-growth', slot: 'top', paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-base': ['get', 'base'], 'fill-extrusion-height': ['get', 'height'], 'fill-extrusion-opacity': 1, 'fill-extrusion-color-transition': { duration: 220 } } });
+      map.addLayer({ id: 'sodateru-growth-building', type: 'fill-extrusion', source: 'sodateru-growth', slot: 'top', paint: { 'fill-extrusion-color': ['get', 'color'], 'fill-extrusion-base': ['get', 'base'], 'fill-extrusion-height': ['+', ['get', 'height'], 0.06], 'fill-extrusion-opacity': 1, 'fill-extrusion-color-transition': { duration: 220 } } });
       map.addLayer({ id: 'sodateru-overlay-area', type: 'fill', source: 'sodateru-overlays', slot: 'middle', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['get', 'color'], 'fill-opacity': ['get', 'opacity'] } });
       map.addLayer({ id: 'sodateru-overlay-line', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['!', ['get', 'dashed']]], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'] } });
       map.addLayer({ id: 'sodateru-overlay-dashed', type: 'line', source: 'sodateru-overlays', slot: 'top', filter: ['all', ['==', ['geometry-type'], 'LineString'], ['get', 'dashed']], paint: { 'line-color': ['get', 'color'], 'line-opacity': ['get', 'opacity'], 'line-width': ['get', 'width'], 'line-dasharray': [3, 2] } });
@@ -200,7 +200,7 @@ export function MapScene(props: Props) {
   useEffect(() => {
     const map = mapRef.current; if (!map || !ready) return;
     map.setConfigProperty('basemap', 'show3dObjects', props.view.dimension === '3d');
-    map.setConfigProperty('basemap', 'theme', props.view.lens === 'personal' ? 'faded' : 'default');
+    map.setConfigProperty('basemap', 'theme', 'default');
     map.setConfigProperty('basemap', 'lightPreset', props.view.lightPreset);
   }, [props.view.dimension, props.view.lens, props.view.lightPreset, ready]);
 

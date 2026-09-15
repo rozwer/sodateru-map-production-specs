@@ -1,0 +1,32 @@
+{
+  "data": {
+    "id": "7d232803-704f-4851-81cd-ae0b62402dc8",
+    "personId": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+    "version": 1,
+    "createdAt": 1789447627715,
+    "updatedAt": 1789447627715,
+    "kind": "experience",
+    "visitId": "631db5ae-b3e2-49ec-9d6e-68b522fdcacd",
+    "placeId": null,
+    "occurredAt": null,
+    "endedAt": null,
+    "timePrecision": "unknown",
+    "body": "実建物着色の確認用記録。本文保持を確認する。",
+    "purposes": [
+      "食事"
+    ],
+    "activities": [],
+    "impression": "",
+    "periodAnswers": {},
+    "bookmarked": false,
+    "useForSuggestions": false,
+    "topicKey": null,
+    "visibility": "private",
+    "sharedWith": [],
+    "effectivePlaceId": "e4d76d9b-e299-496a-b710-ecd9e0eb3d4a",
+    "effectiveStartedAt": null,
+    "effectiveEndedAt": null,
+    "effectiveTimePrecision": "unknown",
+    "memo": null
+  }
+}
