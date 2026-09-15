@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 103,
+  "revision": 104,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4940,7 +4940,7 @@
       "generation": 1,
       "issue_number": 32,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/TRANSFER/completion-scope.md",
       "owner": "mattsun",
       "paths": [
         "server/features/transfer/",
@@ -4948,8 +4948,8 @@
         "docs/01_requirements/04_api/fragments/TRANSFER.json",
         "docs/evidence/TRANSFER/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6ecfdfb2fd8cf28a1e3271434024230b04da78da",
       "token": "72e7fb31c2744787aee64fbc14a5bcb3"
     },
     "UI-BASE": {
