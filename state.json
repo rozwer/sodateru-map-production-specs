@@ -33349,7 +33349,7 @@
     "THEMES-INTEGRATION",
     "REFLECTION-INTEGRATION"
   ],
-  "revision": 162,
+  "revision": 163,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33559,7 +33559,7 @@
       "generation": 7,
       "issue_number": 3,
       "landed_main": null,
-      "note": "sharp-only dependency delivery merged PR59 at 522cf7b; shared paths released; CORE connection acceptance remains open, COMPANION corrected fragment awaited.",
+      "note": "docs/evidence/CORE/catalog-regeneration.md",
       "owner": "koshiro",
       "paths": [
         "server/app/",
@@ -33584,8 +33584,8 @@
         "docs/01_requirements/04_api/examples.md",
         "docs/evidence/CORE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "2526ce9fdd42610f6462f7e6af123fdeb062f402",
       "token": "5d3b8fed2b1e4e2790a76ae6bad6aadf"
     },
     "DISASTER": {
