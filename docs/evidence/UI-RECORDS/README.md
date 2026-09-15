@@ -55,3 +55,16 @@
 6. 参照画像との最終照合・共通Sheet/キーボード/実データ失敗状態・独立担当の軽量レビュー・PR統合・task:finishを行う。
 
 この先行PRだけでboard done、Issue close、機能完了とはしない。
+
+## 12:16 追加提供（先行PR #75の後続差分）
+
+- #75は `24bd098` でdevelop統合済み。BASE #81の `header:none / contentPadding:none` を7画面へ適用し、daily-trackのみ参照どおり下部navを残す。
+- MAP表示を同じproviderのglobから取得する。`display-state.ts`が未提供でも記録入力全体をimport errorで停止させない。実MapPreviewは各カードの指定高さを継承。成長provider未提供は引き続き未完。
+- 実ブラウザ入力→POST→GET→同ID PATCH→GETを専用DBで確認。recordId `7c159e62-43a3-40dc-bd7d-630f15f02795`、本人 `280ee89c-d9c4-43dd-b081-a722201d85a9`、live、記録1/訪問0、場所と日時はnull/unknown。本人/DBは確認用。API `127.0.0.1:3181`、Vite `127.0.0.1:5181`。起動時backendはRECORDS統合560c976を含み、features=activity/PLACES/records。一覧GETのINFORMATION未統合404は明示し、選択recordIdの個別取得で再表示した。地図更新/一覧全体の完了証拠ではない。
+- 実操作で見つかった「編集後includeUndated欠落」「戻った編集画面に旧値を再初期化」を修正。再保存→日別再表示→履歴で編集へ戻る操作で最新本文/用途/感想を確認した。
+- 保存中は入力fieldsetをdisabledとし、競合時は入力を保持した再読込操作を用意。媒体を共通clientからBlob取得しlive/demoヘッダーを維持、画面非表示で動画を停止する。
+- ACTIVITYの正式説明に従い、チェック済み訪問はPOST candidateの後にPATCH confirmedを行う。`breakBefore:true`では同じsegmentIdでも線を切る。成長結果の原文/次の遷移先を指定のrecord-edit/self-checkinへ修正。
+- 保存テスト **5件成功**（12:12）。追加の確認訪問のPOST→PATCH→record作成を確認。
+- feature範囲のstrict/noUncheckedIndexedAccess型チェック成功（12:14）。直前の全体typecheckは先行統合された他featureの未生成契約型などで失敗し、共通修復はしていない。
+- ネイティブファイル選択の端末操作は今回の自動操作では未確認。OSアプリ操作がツール対象外であり、選択/撮影の手動受入と実媒体部分失敗は後続接続条件として残す。
+- 新規文書控え/削除preview、気分/訪問付き日時、本人切替/共有取消/根拠再計算、実地図との最終照合はCONNECT側へ受入ごと引継ぐ。UI未達と接続未達の正式区分は #72 に従い、確定前にfinish/closeしない。

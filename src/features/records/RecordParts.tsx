@@ -2,6 +2,7 @@ import { useRef, type ReactNode } from 'react';
 import { recordMessages as m, purposeOptions } from './messages';
 import type { MediaDraft, PlaceChoice } from './form-types';
 import './records.css';
+import { MediaContent } from './MediaContent';
 
 const shapes = {
   back: <path d="m14 5-7 7 7 7" />,
@@ -54,7 +55,7 @@ export function RecordNotice({ children, retry, error = false }: { children: Rea
 }
 
 export function PlaceCard({ place, detail, onClick }: { place: PlaceChoice | null; detail?: ReactNode; onClick?: () => void }) {
-  const content = <><div className="records-place-photo">{place?.photoUrl ? <img src={place.photoUrl} alt="場所の写真" /> : <RecordIcon name="pin" />}</div><div className="records-place-copy"><strong>{place?.name ?? m.noPlace}</strong>{place?.address && <p><RecordIcon name="pin" />{place.address}</p>}{detail}</div>{onClick && <RecordIcon name="next" />}</>;
+  const content = <><div className="records-place-photo">{place?.photoUrl ? <MediaContent item={{id:place.photoMediaId??place.id,version:place.photoMediaVersion,url:place.photoUrl,kind:'photo',name:'場所の写真',position:0,state:'ready'}} photoOnly/> : <RecordIcon name="pin" />}</div><div className="records-place-copy"><strong>{place?.name ?? m.noPlace}</strong>{place?.address && <p><RecordIcon name="pin" />{place.address}</p>}{detail}</div>{onClick && <RecordIcon name="next" />}</>;
   return onClick ? <button type="button" className="records-place-card" onClick={onClick}>{content}</button> : <div className="records-place-card">{content}</div>;
 }
 
@@ -62,7 +63,7 @@ export function MediaGallery({ items, onRemove, onMove, compact = false }: { ite
   return <div className={`records-media ${compact ? 'records-media-compact' : ''}`}>
     {items.length === 0 && <div className="records-media-empty"><RecordIcon name="image" /><span>{m.emptyMedia}</span></div>}
     {items.map((item, index) => <figure className={`records-media-item records-media-${item.state}`} key={item.id}>
-      {item.url ? item.kind === 'photo' ? <img src={item.url} alt={item.name} /> : item.kind === 'video' ? <video src={item.url} controls preload="metadata" aria-label={item.name} /> : <audio src={item.url} controls aria-label={item.name} /> : <div className="records-media-unavailable"><RecordIcon name="image" />{m.mediaUnavailable}</div>}
+      {item.url ? <MediaContent item={item}/> : <div className="records-media-unavailable"><RecordIcon name="image" />{m.mediaUnavailable}</div>}
       {onRemove && <button type="button" className="records-media-remove" aria-label={`${item.kind === 'photo' ? '写真' : '動画'}を外す：${item.name}`} onClick={() => onRemove(item.id)}><RecordIcon name="close" /></button>}
       {onMove && items.length > 1 && <div className="records-media-order"><button type="button" disabled={index === 0} aria-label={`${item.name}を前へ`} onClick={() => onMove(item.id, -1)}>←</button><button type="button" disabled={index === items.length - 1} aria-label={`${item.name}を後へ`} onClick={() => onMove(item.id, 1)}>→</button></div>}
       {(item.state === 'pending' || item.state === 'failed') && <figcaption>{item.state === 'pending' ? '保存中…' : item.error ?? '保存できませんでした'}</figcaption>}

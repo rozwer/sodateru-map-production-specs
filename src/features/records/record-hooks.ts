@@ -22,9 +22,9 @@ export function useRecordDetail(recordId: string | undefined, scopeKey: string, 
     void readRecord(api,recordId,controller.signal).then(async data=>{
       if(controller.signal.aborted)return;
       setDetail(data);
-      const mediaPhoto=data.media.status==='ready' ? data.media.data.items.find(item=>item.kind==='photo' && item.status==='ready')?.contentUrl : null;
+      const mediaPhoto=data.media.status==='ready' ? data.media.data.items.find(item=>item.kind==='photo' && item.status==='ready') : undefined;
       const requests:Promise<void>[]=[];
-      if(data.record.effectivePlaceId)requests.push(api.request('getPlacesPlaceId',{path:{placeId:data.record.effectivePlaceId},signal:controller.signal}).then(result=>{if(!controller.signal.aborted)setPlace(placeChoice(result.data.place,mediaPhoto));}));
+      if(data.record.effectivePlaceId)requests.push(api.request('getPlacesPlaceId',{path:{placeId:data.record.effectivePlaceId},signal:controller.signal}).then(result=>{if(!controller.signal.aborted)setPlace({...placeChoice(result.data.place,mediaPhoto?.contentUrl),photoMediaId:mediaPhoto?.id,photoMediaVersion:mediaPhoto?.version});}));
       if(data.record.visitId)requests.push(api.request('getVisitsVisitId',{path:{visitId:data.record.visitId},signal:controller.signal}).then(result=>{if(!controller.signal.aborted)setVisit(result.data);}));
       const results=await Promise.allSettled(requests);
       if(controller.signal.aborted)return;
