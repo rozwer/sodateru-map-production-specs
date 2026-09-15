@@ -60,6 +60,6 @@ strict検査、fixture buildは成功。buildのMapbox同梱bundleサイズ警�
 - アイコン候補のプレビュー/保存、3種類の固有条件・出典/時点、更新失敗の旧版保持、本人/モード切替と通信取消、通常地図への復帰を実接続で確認する。
 - 参照画像の地図内の意味別色/凡例と実表示、未提供のGitHubガイドを完了扱いにしない。fixture、先行PR、画面URLの到達だけではIssue #18を完了しない。
 
-## 先行提出を止めている共通hook
+## 共通hookの修復と先行提出
 
-`task:verify` はUI-PLUGINS/rozwer/claimed/取得3pathを返して成功。stageも取得3pathだけだが、`origin/develop` の正常fast-forward後にcommitすると、固定したclaim時baseとの差分へCORE等の既統合変更を含めて `Changed paths outside claim` と拒否する。共通修復Issue #62へ集約中。独自のhook変更・検査回避は行っていない。修復を取り込み、同じstageでcommit/先行PRへ進む。UI-BASEはその後 `6dac91f` を取込済みで、fixtureは既統合BASEをこのcheckoutから読む。
+`task:verify` はUI-PLUGINS/rozwer/claimed/取得3pathを返して成功。stageも取得3pathだけだが、`origin/develop` の正常fast-forward後にcommitすると、固定したclaim時baseとの差分へCORE等の既統合変更を含めて `Changed paths outside claim` と拒否した。共通修復Issue #62 / PR #63の修正を含む `2332231` を通常fetch/fast-forwardで取り込み、同じstageと取得範囲で `task:verify` 後に一度再試行。正規commit `e333b36` が成功した。独自hook変更・検査回避・claim再取得・変更破棄は行っていない。UI-BASEは `6dac91f` を取込済みで、fixtureは既統合BASEをこのcheckoutから読む。
