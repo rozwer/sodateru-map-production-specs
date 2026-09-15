@@ -25,7 +25,7 @@ export function validateRefs(refs:SourceRef[]) {
  if(!Array.isArray(refs)||refs.length>1000)throw aiError('INVALID_INPUT','参照形式が不正です');
  const seen=new Set<string>();
  for(const r of refs) {
-  if(!r||!['record','visit','place','checkin','route'].includes(r.type)||typeof r.id!=='string'||!r.id.trim()||r.id.length>80||!Number.isSafeInteger(r.version)||r.version<1||Object.keys(r).some(k=>!['type','id','version'].includes(k)))throw aiError('INVALID_INPUT','参照形式が不正です');
+  if(!r||!['record','visit','place','checkin','route'].includes(r.type)||typeof r.id!=='string'||!r.id.trim()||Array.from(r.id).length>80||!Number.isSafeInteger(r.version)||r.version<1||Object.keys(r).some(k=>!['type','id','version'].includes(k)))throw aiError('INVALID_INPUT','参照形式が不正です');
   const k=r.type+':'+r.id;if(seen.has(k))throw aiError('INVALID_INPUT','参照が重複しています');seen.add(k);
  }
 }

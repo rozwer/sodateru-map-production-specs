@@ -9,8 +9,8 @@ const controllers=new WeakMap<DatabaseSync,Map<string,{attempt:number;controller
 function active(db:DatabaseSync){let map=controllers.get(db);if(!map){map=new Map();controllers.set(db,map);}return map;}
 function validateRequest(req:RunRequest){
  if(!req||typeof req!=='object'||Object.keys(req).some(k=>!['conversationId','userMessageId','assistantMessageId','text','task','input','expectedRefs'].includes(k)))throw aiError('INVALID_INPUT','実行入力が不正です');
- for(const k of ['conversationId','userMessageId','assistantMessageId'] as const)if(typeof req[k]!=='string'||!req[k].trim()||req[k].length>80)throw aiError('INVALID_INPUT','IDが不正です');
- if(req.userMessageId===req.assistantMessageId||typeof req.text!=='string'||!req.text.trim()||req.text.length>20000||typeof req.task!=='string')throw aiError('INVALID_INPUT','実行入力が不正です');
+ for(const k of ['conversationId','userMessageId','assistantMessageId'] as const)if(typeof req[k]!=='string'||!req[k].trim()||Array.from(req[k]).length>80)throw aiError('INVALID_INPUT','IDが不正です');
+ if(req.userMessageId===req.assistantMessageId||typeof req.text!=='string'||!req.text.trim()||Array.from(req.text).length>20000||typeof req.task!=='string')throw aiError('INVALID_INPUT','実行入力が不正です');
  validateRefs(req.expectedRefs);if(!getTask(req.task).input(req.input))throw aiError('INVALID_INPUT','用途の入力形式が不正です');
 }
 async function materialsFor(db:DatabaseSync,ctx:AiContext,req:RunRequest):Promise<Materials>{
@@ -43,7 +43,7 @@ export async function startRun(db:DatabaseSync,ctx:AiContext,raw:RunRequest,iden
   if(db.prepare('SELECT id FROM messages WHERE id=?').get(req.userMessageId))throw aiError('REQUEST_CONFLICT','本人の発言IDが使用済みです');
   if(db.prepare("SELECT id FROM messages WHERE conversation_id=? AND status IN ('pending','running') AND role='assistant'").get(req.conversationId))throw aiError('BUSY','同じ会話でAI処理中です',true);
   const now=Date.now(),position=Number((db.prepare('SELECT COALESCE(MAX(position),0) AS n FROM messages WHERE conversation_id=?').get(req.conversationId) as any).n);
-  const stored={...req,sourceRefs:materials.sourceRefs,model,promptVersion:registered.definition.promptVersion};
+  const stored={...req,requestId:ctx.requestId,sourceRefs:materials.sourceRefs,model,promptVersion:registered.definition.promptVersion};
   const sql='INSERT INTO messages(id,conversation_id,position,role,body,status,attempt,model,error_code,insight_id,source_refs_json,version,created_at,updated_at,task,request_hash,request_json,result_json,applied_refs_json) VALUES(?,?,?,?,?,?,1,?,NULL,NULL,?,1,?,?,?,?,?,NULL,\'[]\')';
   const insert=db.prepare(sql);
   insert.run(req.userMessageId,req.conversationId,position+1,'user',req.text,'complete',null,'[]',now,now,null,null,null);
@@ -81,7 +81,7 @@ export async function retryRun(db:DatabaseSync,ctx:AiContext,id:string,input:{ex
   const current=messageRow(db,ctx,id);expectations(current,input,Boolean(identity));
   if(!['failed','cancelled'].includes(current.status))throw aiError('REQUEST_CONFLICT','再試行できない状態です');
   if(db.prepare("SELECT id FROM messages WHERE conversation_id=? AND role='assistant' AND status IN ('pending','running')").get(row.conversation_id))throw aiError('BUSY','同じ会話でAI処理中です',true);
-  delete stored.error;
+  delete stored.error;stored.attemptRequestId=ctx.requestId;
   db.prepare("UPDATE messages SET status='pending',attempt=attempt+1,version=version+1,updated_at=?,result_json=NULL,error_code=NULL,request_json=? WHERE id=? AND version=? AND attempt=?").run(Date.now(),JSON.stringify(stored),id,input.expectedVersion,input.expectedAttempt);
   return {run:runDto(messageRow(db,ctx,id)),created:true};
  });
@@ -114,6 +114,7 @@ async function execute(db:DatabaseSync,ctx:AiContext,req:RunRequest,attempt:numb
   try{definition.validateResult(result,materials,req);}catch(e){throw aiError('OUTPUT_INVALID','AI応答が用途の意味条件を満たしません',true);}
   await dependencies.assertSourceRefs(db,ctx,materials.sourceRefs);
   const body=definition.toBody(result);
+  if(typeof body!=='string'||Array.from(body).length>20000)throw aiError('OUTPUT_INVALID','AI表示文の形式または文字数が不正です',true);
   transaction(db,()=>{
    const current=db.prepare('SELECT * FROM messages WHERE id=?').get(row.id) as any;
    if(!current||current.attempt!==attempt||current.status!=='running')return;

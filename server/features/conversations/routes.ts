@@ -50,6 +50,7 @@ export function registerConversationRoutes(api:Hono<any>,helpers:Helpers){
  for(const action of ['cancel','retry'] as const)api.post('/messages/:messageId/'+action,async c=>{
   const input=await body(c,['attempt']),db=c.get('db'),ctx=c.get('context'),id=c.req.param('messageId')!,version=helpers.expectedVersion(c.req.header('If-Match'));
   const run=await (action==='cancel'?cancelRun:retryRun)(db,ctx,id,{expectedVersion:version,expectedAttempt:input.attempt},requestIdentity(c,{...input,expectedVersion:version}));
+  await dependencies.assertSourceRefs(db,ctx,run.sourceRefs);
   const message=httpMessage(messageRow(db,ctx,id));c.header('ETag','"'+run.version+'"');
   return action==='cancel'?c.json({data:message},200):c.json({data:{message,statusUrl:'/api/v1/messages/'+encodeURIComponent(id)}},202);
  });

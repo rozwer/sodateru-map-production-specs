@@ -7,6 +7,7 @@ import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { openDatabases } from '../db/connection.ts';
 import { loadLocalIdentity, seedProfiles } from '../core/session.ts';
+import { CommonError } from '../core/errors.ts';
 import { createApp } from '../app/app.ts';
 import feature from '../features/conversations/register.ts';
 import { configureAi, registerAiTask } from './index.ts';
@@ -47,6 +48,10 @@ test('CORE HTTP receipts, SQLite persistence, cancellation replay and retry surv
   await new Promise(r=>setImmediate(r));outputs.shift()!({proposal,explanation:'旧応答'});outputs.shift()!({proposal,explanation:'現在の水辺'});await new Promise(r=>setImmediate(r));
   const completed=await request('/messages/a-http');assert.equal(completed.body.data.output.value.explanation,'現在の水辺');
   assert.equal(completed.body.data.output.use,'map-style');
+  configureAi({assertSourceRefs:()=>{throw new CommonError('NOT_FOUND','根拠が非公開です');}});
+  const revokedReplay=await request('/messages/a-http/cancel','POST',{attempt:1},headers);
+  assert.equal(revokedReplay.response.status,404);assert.equal(revokedReplay.body.data,undefined);
+  configureAi({assertSourceRefs:()=>{}});
   const conflict=await request('/conversations/chat-http/messages','POST',{...input,body:'変更'}, {'Idempotency-Key':'run'});assert.equal(conflict.response.status,409);assert.equal(conflict.body.error.code,'IDEMPOTENCY_CONFLICT');
   databases.close();databases=openDatabases(options);seedProfiles(databases,identity.profiles);app=createApp({databases,identity,features:[feature]});
   const restored=await request('/messages/a-http');assert.equal(restored.body.data.output.value.explanation,'現在の水辺');

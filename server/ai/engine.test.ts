@@ -66,3 +66,7 @@ test('missing model rejects before acceptance and preserves caller input',async(
  assert.equal(d.prepare('SELECT count(*) AS n FROM messages').get()!.n,0);assert.equal(req.text,'原文');
  configureAi({model:()=> 'test-model'});d.close();
 });
+
+test('text limit counts Unicode code points',async()=>{
+ const d=db();await startRun(d,ctx,{...request(),text:'🌏'.repeat(20000)});await tick();pending.shift()!({text:'受理'});await tick();assert.equal((await getRun(d,ctx,'a')).status,'complete');d.close();
+});
