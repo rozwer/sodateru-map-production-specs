@@ -28,3 +28,9 @@ RECORDS/INFORMATION/AIの実接続、AI命名採用、UI受入は未完了。SQL
 - `service.ts`と`register.ts`のstrict型検査成功。
 
 HTTPテストはCOREのcreateApp/共通検証/本人セッション/DBをそのまま使い、取得済みTHEMES断片をメモリ上で合成。fixture記録はテスト用SQLで投入。共通生成物への反映・実main起動とRECORDS保存経由の連結は後続で確認する。
+
+## 30分デモ範囲への切り分け
+
+利用者の方針変更により、今回を手動テーマ/由来付きメモの保存・再表示に限定し、AI命名採用と残る全体受入は後続Issueへ移す。全要件の完成とは記載しない。
+
+RECORDS #58統合後、registerRecordExtensionの同期write/readへ接続。通常memoの長い回答は保持し、presentation付きメモのbodyだけ200文字を検査する。登録・adapter・連結テストを含む全体typecheckは成功。連結テストの現時点の失敗は共通OpenAPIのmemo未反映（VALIDATION_FAILED/additional properties）で、CORE担当へ依頼済み。契約検証を迂回せず、生成反映後に実保存確認を行う。
