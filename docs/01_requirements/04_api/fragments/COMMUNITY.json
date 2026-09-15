@@ -1,6 +1,6 @@
 {
   "taskId": "COMMUNITY",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "schemas": {
     "CommunityBookmarkTarget": {
       "oneOf": [
@@ -113,8 +113,13 @@
         "resource": {
           "anyOf": [
             {
-              "type": "object",
-              "description": "現在の共通読出しで解決したRecordView / Place / 元の候補。参照先の正式DTOをそのまま返す。保存スナップショットではない。"
+              "$ref": "#/components/schemas/CommonInfoRecordView"
+            },
+            {
+              "$ref": "#/components/schemas/CommonMapPlace"
+            },
+            {
+              "$ref": "#/components/schemas/CommonMapPlaceCandidate"
             },
             {
               "type": "null"
@@ -152,20 +157,12 @@
           "items": {
             "type": "string"
           }
-        },
-        "screenCategory": {
-          "enum": [
-            "food",
-            "rest",
-            "walk"
-          ]
         }
       },
       "required": [
         "topicKey",
         "title",
-        "purposes",
-        "screenCategory"
+        "purposes"
       ]
     },
     "CommunityThemeSharing": {
@@ -273,6 +270,27 @@
         },
         "sharing": {
           "$ref": "#/components/schemas/CommunityThemeSharing"
+        },
+        "colorKey": {
+          "enum": [
+            "teal",
+            "pink",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple"
+          ]
+        },
+        "coverMedia": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonInfoMediaView"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -285,7 +303,9 @@
         "description",
         "recordIds",
         "records",
-        "sharing"
+        "sharing",
+        "colorKey",
+        "coverMedia"
       ]
     },
     "CommunityBookmarkPage": {
@@ -338,6 +358,54 @@
       "required": [
         "items",
         "nextCursor"
+      ]
+    },
+    "CommunityKnowledgeCategory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "enum": [
+            "tips",
+            "experiences",
+            "people"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "entity": {
+          "enum": [
+            "record",
+            "person"
+          ]
+        },
+        "topicKey": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "kind": {
+          "enum": [
+            "experience",
+            null
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "title",
+        "entity",
+        "topicKey",
+        "purposes",
+        "kind"
       ]
     }
   },
@@ -428,7 +496,7 @@
           }
         },
         "410": {
-          "description": "元の候補が期限切れ（EXPIRED）。以前の本文は返さない",
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
           "content": {
             "application/json": {
               "schema": {
@@ -563,11 +631,30 @@
           }
         },
         "410": {
-          "description": "元の候補が期限切れ（EXPIRED）。以前の本文は返さない",
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityBookmark"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
               }
             }
           }
@@ -668,7 +755,7 @@
           }
         },
         "410": {
-          "description": "元の候補が期限切れ（EXPIRED）。以前の本文は返さない",
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
           "content": {
             "application/json": {
               "schema": {
@@ -795,7 +882,7 @@
           }
         },
         "410": {
-          "description": "元の候補が期限切れ（EXPIRED）。以前の本文は返さない",
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
           "content": {
             "application/json": {
               "schema": {
@@ -835,10 +922,17 @@
                     "items": {
                       "$ref": "#/components/schemas/CommunityTopic"
                     }
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CommunityKnowledgeCategory"
+                    }
                   }
                 },
                 "required": [
-                  "items"
+                  "items",
+                  "categories"
                 ]
               }
             }
@@ -901,11 +995,187 @@
           }
         },
         {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "placeId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "longitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        {
+          "name": "latitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          }
+        },
+        {
+          "name": "radiusM",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        },
+        {
+          "name": "from",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "timeZone",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/TimeZone"
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "name": "audience",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "enum": [
+              "own",
+              "visible",
+              "public",
+              "selected",
+              "friends"
+            ],
+            "default": "visible"
+          }
+        },
+        {
+          "name": "personIds",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "minItems": 0,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "purposes",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 0,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "topicKey",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        {
+          "name": "includeUndated",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        {
           "in": "query",
           "name": "category",
           "required": false,
           "schema": {
             "enum": [
+              "tips",
+              "experiences",
               "food",
               "rest",
               "walk"
@@ -990,11 +1260,166 @@
           }
         },
         {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "placeId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "longitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        {
+          "name": "latitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          }
+        },
+        {
+          "name": "radiusM",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        },
+        {
+          "name": "from",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "timeZone",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/TimeZone"
+          }
+        },
+        {
+          "name": "audience",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "enum": [
+              "own",
+              "visible",
+              "public",
+              "selected",
+              "friends"
+            ],
+            "default": "visible"
+          }
+        },
+        {
+          "name": "personIds",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "minItems": 0,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "purposes",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 0,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "topicKey",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        {
+          "name": "includeUndated",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        {
           "in": "query",
           "name": "category",
           "required": false,
           "schema": {
             "enum": [
+              "tips",
+              "experiences",
               "food",
               "rest",
               "walk"

@@ -1,16 +1,14 @@
-import { createHash } from 'node:crypto';
+import { identity, page } from '../community/pagination.ts';
 import type { DatabaseSync } from 'node:sqlite';
+import type { RequestContext } from '../../core/context.ts';
 import { CommonError, requireVersion } from '../../core/errors.ts';
+import { readSettings } from '../settings/service.ts';
 
 type Row = Record<string, any>;
-export type SocialContext = { personId: string; dataMode: string };
+export type SocialContext = RequestContext;
 const missing = () => new CommonError('NOT_FOUND', '対象が見つかりません', false, undefined, 404);
 const invalid = (message: string) => new CommonError('VALIDATION_FAILED', message, false, undefined, 422);
 
-export function identity(value: unknown, name = 'id'): string {
-  if (typeof value !== 'string' || !value.trim() || value.length > 80) throw invalid(`${name}は1〜80文字です`);
-  return value;
-}
 
 function base(row: Row) {
   return { id: row.id, version: row.version, createdAt: row.created_at, updatedAt: row.updated_at };
@@ -22,32 +20,18 @@ export function friendshipView(row: Row) {
   return { ...base(row), requesterId: row.requester_id, recipientId: row.recipient_id, status: row.status };
 }
 
-// Cursors belong to one viewer, mode and filter; they never change the visible set.
-export function page<T extends { id: string }>(items: T[], query: URLSearchParams, binding: unknown) {
-  const raw = query.get('limit') ?? '50';
-  if (!/^\d+$/.test(raw) || +raw < 1 || +raw > 100) throw invalid('limitは1〜100です');
-  const limit = +raw;
-  const key = createHash('sha256').update(JSON.stringify(binding)).digest('hex');
-  let start = 0;
-  const cursor = query.get('cursor');
-  if (cursor !== null) {
-    try {
-      const parsed = JSON.parse(Buffer.from(cursor, 'base64url').toString());
-      const index = items.findIndex(item => item.id === parsed.after);
-      if (parsed.key !== key || index < 0) throw Error('cursor');
-      start = index + 1;
-    } catch {
-      throw new CommonError('VALIDATION_FAILED', '検索条件に対応しないcursorです', false, undefined, 400);
-    }
-  }
-  const selected = items.slice(start, start + limit);
-  return { items: selected, nextCursor: start + limit < items.length
-    ? Buffer.from(JSON.stringify({ key, after: selected.at(-1)!.id })).toString('base64url') : null };
+
+function profileVisible(db: DatabaseSync, viewerId: string, personId: string) {
+  if (viewerId === personId) return true;
+  const visibility = readSettings(db, personId).profileVisibility;
+  if (visibility === 'public') return true;
+  return visibility === 'friends' && !!db.prepare("SELECT id FROM friendships WHERE status='accepted' AND ((requester_id=? AND recipient_id=?) OR (requester_id=? AND recipient_id=?))")
+    .get(viewerId, personId, personId, viewerId);
 }
 
-export function getPerson(db: DatabaseSync, personId: string) {
+export function getPerson(db: DatabaseSync, viewerId: string, personId: string) {
   const row = db.prepare('SELECT * FROM people WHERE id=?').get(identity(personId));
-  if (!row) throw missing();
+  if (!row || !profileVisible(db, viewerId, personId)) throw missing();
   return personView(row);
 }
 
@@ -56,7 +40,7 @@ export function listPeople(db: DatabaseSync, context: SocialContext, query: URLS
   if (q !== null && (!q.trim() || q.length > 200)) throw invalid('qは1〜200文字です');
   const text = q?.normalize('NFKC').toLocaleLowerCase() ?? '';
   const rows = db.prepare('SELECT * FROM people ORDER BY name ASC, id ASC').all()
-    .filter(row => String(row.name).normalize('NFKC').toLocaleLowerCase().includes(text)).map(personView);
+    .filter(row => String(row.name).normalize('NFKC').toLocaleLowerCase().includes(text) && profileVisible(db, context.personId, String(row.id))).map(personView);
   return page(rows, query, ['people', context.personId, context.dataMode, text]);
 }
 
@@ -76,10 +60,11 @@ export function getFriendship(db: DatabaseSync, personId: string, id: string) {
 }
 
 export function createFriendship(db: DatabaseSync, personId: string, input: { id: string; recipientId: string }) {
+  if (!input || typeof input !== 'object' || Array.isArray(input)) throw invalid('申請内容が不正です');
   const id = identity(input.id);
   const recipient = identity(input.recipientId, 'recipientId');
   if (recipient === personId) throw invalid('自分には友達申請できません');
-  getPerson(db, recipient);
+  getPerson(db, personId, recipient);
   const existing = db.prepare('SELECT id FROM friendships WHERE id=? OR (requester_id=? AND recipient_id=?) OR (requester_id=? AND recipient_id=?)')
     .get(id, personId, recipient, recipient, personId);
   if (existing) throw new CommonError('STATE_CONFLICT', 'この二人の申請または友達関係は既に存在します', false, undefined, 409);
@@ -92,11 +77,11 @@ export function createFriendship(db: DatabaseSync, personId: string, input: { id
 export function acceptFriendship(db: DatabaseSync, personId: string, id: string, version: number, input: { status: string }) {
   const current = getFriendship(db, personId, id);
   if (current.recipientId !== personId) throw new CommonError('FORBIDDEN', '申請を受けた本人だけが承認できます', false, undefined, 403);
-  if (input.status !== 'accepted') throw invalid('statusはacceptedです');
+  if (input?.status !== 'accepted') throw invalid('statusはacceptedです');
   requireVersion(current.version, version);
   if (current.status === 'accepted') return current;
-  const result = db.prepare("UPDATE friendships SET status='accepted',version=version+1,updated_at=? WHERE id=? AND version=?")
-    .run(Date.now(), id, version);
+  const result = db.prepare("UPDATE friendships SET status='accepted',version=version+1,updated_at=? WHERE id=? AND version=? AND recipient_id=?")
+    .run(Date.now(), id, version, personId);
   if (!result.changes) throw new CommonError('VERSION_CONFLICT', '友達関係が変更されました', false, undefined, 412);
   return getFriendship(db, personId, id);
 }
@@ -104,6 +89,6 @@ export function acceptFriendship(db: DatabaseSync, personId: string, id: string,
 export function deleteFriendship(db: DatabaseSync, personId: string, id: string, version: number) {
   const current = getFriendship(db, personId, id);
   requireVersion(current.version, version);
-  const result = db.prepare('DELETE FROM friendships WHERE id=? AND version=?').run(id, version);
+  const result = db.prepare('DELETE FROM friendships WHERE id=? AND version=? AND (requester_id=? OR recipient_id=?)').run(id, version, personId, personId);
   if (!result.changes) throw new CommonError('VERSION_CONFLICT', '友達関係が変更されました', false, undefined, 412);
 }
