@@ -4382,7 +4382,7 @@
       }
     ]
   },
-  "revision": 26,
+  "revision": 27,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4509,22 +4509,17 @@
       "token": null
     },
     "MAP-CUSTOM": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 27,
       "landed_main": null,
       "note": "Worktree preparation failed during worktree hook installation: Existing core.hooksPath differs; inspect before replacing it: /dev/null",
       "owner": "kaiya",
-      "paths": [
-        "server/features/map-custom/",
-        "server/db/migrations/map-custom/",
-        "docs/01_requirements/04_api/fragments/MAP-CUSTOM.json",
-        "docs/evidence/MAP-CUSTOM/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "4040eee8bc4d43c8a68998f5969e06dd"
+      "token": null
     },
     "PILGRIMAGE": {
       "actor": null,
