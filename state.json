@@ -33449,7 +33449,7 @@
     "VISUAL-SOCIAL",
     "VISUAL-PLUGINS"
   ],
-  "revision": 182,
+  "revision": 183,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34300,25 +34300,17 @@
       "token": "a289009a6e154c28b47e458b4befa827"
     },
     "VISUAL-SELF": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 176,
       "landed_main": null,
-      "note": "docs/evidence/VISUAL-SELF/README.md",
+      "note": "PR188 merged (5b39f2d). records/activity to #189, remaining 14 pages to #185. Worktree and commits preserved.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "src/features/reflection/",
-        "src/features/insights/",
-        "src/features/themes/",
-        "src/features/suggestions/",
-        "docs/evidence/VISUAL-SELF/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "5b39f2dad0cf669808adf283902a80d282712848",
-      "token": "53ab18654f51401f941605c7254b37bb"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
