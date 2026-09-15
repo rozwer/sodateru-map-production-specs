@@ -50,17 +50,20 @@ function SuggestionsScreen({ scopeKey, active = true }: ScreenProps) {
 }
 function Stopped({ item, remove, active }: { active: boolean; item: Settings['suggestions']['stopped'][number]; remove: () => void }) {
   const [name, setName] = useState<string | null>(null);
+  const [photo, setPhoto] = useState<{url:string; attribution:string|null} | null>(null);
   const placeId = 'placeId' in item ? item.placeId : null;
   const activity = 'activity' in item ? item.activity : null;
-  useEffect(() => { if (!active || !placeId) return; const controller = new AbortController(); api.request('getPlacesPlaceId', { path: { placeId }, signal: controller.signal }).then(r => setName(r.data.place.name)).catch(() => {}); return () => controller.abort(); }, [placeId, active]);
-  return <div className="settings-stopped"><span className="settings-stopped-picture" aria-label="場所の写真なし"><Glyph name="pin"/></span><div><small>{placeId ? name || `場所 ${placeId}` : 'すべての場所'}</small><strong>{activity || 'すべての活動'}</strong></div><button type="button" className="settings-pill" onClick={remove}>解除する</button></div>;
+  useEffect(() => { setName(null); setPhoto(null); if (!active || !placeId) return; const controller = new AbortController(); api.request('getPlacesPlaceId', { path: { placeId }, signal: controller.signal }).then(r => { if (controller.signal.aborted) return; setName(r.data.place.name); const photo = r.data.photos?.find(photo => /^https?:\/\//.test(photo.url)); setPhoto(photo ? {url:photo.url,attribution:photo.attribution} : null); }).catch(() => {}); return () => controller.abort(); }, [placeId, active]);
+  return <div className="settings-stopped"><span className="settings-stopped-picture">{photo ? <img src={photo.url} alt={name || '停止した場所'} title={photo.attribution || undefined} onError={() => setPhoto(null)}/> : <span aria-label="場所の写真なし"><Glyph name="pin"/></span>}</span><div><small>{placeId ? name || `場所 ${placeId}` : 'すべての場所'}</small><strong>{activity || 'すべての活動'}</strong></div><button type="button" className="settings-pill" onClick={remove}>解除する</button></div>;
 }
 const layout = { header: 'back', bottomNav: false, background: 'soft' } as const;
+// The 08_23_29 reference shows these three pages without an outer map.
+const referenceLayout = { ...layout, presentation: 'fullscreen' } as const;
 export const screens: ScreenDefinition[] = [
   { id:'$location-settings', title:'位置情報', component:LocationSettings, layout },
   { id:'$media-settings', title:'写真・マイク', component:MediaSettings, layout },
   { id:'$data-settings', title:'データの管理', component:DataSettings, layout },
-  { id:'settings', title:'設定', component:SettingsScreen, layout },
-  { id:'profile-settings', title:'プロフィールと表示', component:ProfileScreen, layout },
-  { id:'suggestion-settings', title:'提案とまとめの条件', component:SuggestionsScreen, layout },
+  { id:'settings', title:'設定', component:SettingsScreen, layout:referenceLayout },
+  { id:'profile-settings', title:'プロフィールと表示', component:ProfileScreen, layout:referenceLayout },
+  { id:'suggestion-settings', title:'提案とまとめの条件', component:SuggestionsScreen, layout:referenceLayout },
 ];
