@@ -1,6 +1,6 @@
 {
   "taskId": "MAP-CUSTOM",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "schemas": {
     "MapObjectCreate": {
       "type": "object",
@@ -17,12 +17,12 @@
         },
         "color": {
           "enum": [
-            "red",
+            "teal",
+            "pink",
             "orange",
             "yellow",
             "green",
-            "blue",
-            "purple"
+            "blue"
           ]
         },
         "size": {
@@ -76,12 +76,12 @@
         },
         "color": {
           "enum": [
-            "red",
+            "teal",
+            "pink",
             "orange",
             "yellow",
             "green",
-            "blue",
-            "purple"
+            "blue"
           ]
         },
         "size": {
@@ -147,12 +147,12 @@
         },
         "color": {
           "enum": [
-            "red",
+            "teal",
+            "pink",
             "orange",
             "yellow",
             "green",
-            "blue",
-            "purple"
+            "blue"
           ]
         },
         "size": {
@@ -456,6 +456,176 @@
       "properties": {
         "data": {
           "$ref": "#/components/schemas/MapSettings"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "MapSettingsPreviewCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "messageId"
+      ]
+    },
+    "MapSettingsPreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "messageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settingsId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "settingsVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "pluginSnapshot": {
+          "type": "string"
+        },
+        "proposal": {
+          "$ref": "#/components/schemas/MapCustomStyle"
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "state": {
+          "enum": [
+            "ready",
+            "cancelled",
+            "applied"
+          ]
+        },
+        "appliedVersion": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "updatedAt": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "messageId",
+        "settingsId",
+        "settingsVersion",
+        "pluginSnapshot",
+        "proposal",
+        "contentHash",
+        "explanation",
+        "state",
+        "appliedVersion",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "MapSettingsPreviewResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "$ref": "#/components/schemas/MapSettingsPreview"
+        }
+      },
+      "required": [
+        "data"
+      ]
+    },
+    "MapSettingsAppliedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "map-settings"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version",
+        "contentHash"
+      ]
+    },
+    "MapSettingsAdoptionResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "data": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "settings": {
+              "$ref": "#/components/schemas/MapSettings"
+            },
+            "preview": {
+              "$ref": "#/components/schemas/MapSettingsPreview"
+            },
+            "appliedRef": {
+              "$ref": "#/components/schemas/MapSettingsAppliedRef"
+            },
+            "alreadyApplied": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "settings",
+            "preview",
+            "appliedRef",
+            "alreadyApplied"
+          ]
         }
       },
       "required": [
@@ -1035,6 +1205,373 @@
               "$ref": "#/components/schemas/MapSettingsPatch"
             }
           }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/map-settings/previews",
+      "operationId": "postMapSettingsPreviews",
+      "tags": [
+        "MAP-CUSTOM"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Data-Mode",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapSettingsPreviewResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "401": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "403": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "404": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "409": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "412": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "422": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "428": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "503": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/MapSettingsPreviewCreate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/map-settings/previews/{previewId}",
+      "operationId": "getMapSettingsPreviewsPreviewId",
+      "tags": [
+        "MAP-CUSTOM"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Data-Mode",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "in": "path",
+          "name": "previewId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapSettingsPreviewResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "401": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "403": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "404": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "409": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "412": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "422": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "428": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "503": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/map-settings/previews/{previewId}/adopt",
+      "operationId": "postMapSettingsPreviewsPreviewIdAdopt",
+      "tags": [
+        "MAP-CUSTOM"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Data-Mode",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "in": "path",
+          "name": "previewId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true,
+          "description": "adoptは保存先地図設定version。cancelはpreview.version。",
+          "schema": {
+            "type": "string",
+            "pattern": "^\"[1-9][0-9]*\"$"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapSettingsAdoptionResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "401": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "403": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "404": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "409": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "412": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "422": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "428": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "503": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        }
+      },
+      "description": "サーバー保存previewの提案を明示採用。本文からproposalを受け取らない。設定更新とmessages採用参照を同一transactionで保存。同じ提案の再送は現在設定と既存appliedRefを返し二重適用しない。"
+    },
+    {
+      "method": "post",
+      "path": "/map-settings/previews/{previewId}/cancel",
+      "operationId": "postMapSettingsPreviewsPreviewIdCancel",
+      "tags": [
+        "MAP-CUSTOM"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "in": "header",
+          "name": "X-Data-Mode",
+          "required": true,
+          "schema": {
+            "enum": [
+              "live",
+              "demo"
+            ]
+          }
+        },
+        {
+          "in": "path",
+          "name": "previewId",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true,
+          "description": "adoptは保存先地図設定version。cancelはpreview.version。",
+          "schema": {
+            "type": "string",
+            "pattern": "^\"[1-9][0-9]*\"$"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MapSettingsPreviewResponse"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "401": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "403": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "404": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "409": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "412": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "422": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "428": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
+        },
+        "503": {
+          "description": "共通HTTPエラー。409 INPUT_CHANGEDはプラグイン状態変化、412は設定またはプレビュー版不一致。"
         }
       }
     }
