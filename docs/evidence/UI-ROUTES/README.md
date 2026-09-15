@@ -102,3 +102,8 @@ PR #63の正式修復を含むdevelop `2332231` を通常merge、`task:verify`�
 ### 相談候補の確定境界
 
 [#26の回答](https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673913499)を反映。相談由来地点はUI内でdialogue選択型を保持し、検索時に `postMapDialoguesSelect` を呼ぶ。成功応答の同じcandidateIdと固定origin、1件のrouteを検査し、route.previewIdを保存resultIdとして使う。場所検索resultIdへ変換しない。temporary経路は保存へ送信しない。変更した起点/移動手段/地点数を黙って除外しない。更新した対象7テストと全体型検査が成功した。
+
+
+### 共通layoutへの必要追従
+
+UI-BASE PR #81の正式提供を含むdevelop `a7ae5ef`へ追従し、3画面に `layout.header:none/contentPadding:none` を指定。固有headerと共通headerの重複、二重余白を解消する最小差分。新規機能追加や受入範囲の変更はない。実経路・位置共有・比較/条件/ターンの接続と残る幅別/地図描画の画面受入は、正式なUI/CONNECT分割の後に引き継ぐ。UI未達のままfinishしない。
