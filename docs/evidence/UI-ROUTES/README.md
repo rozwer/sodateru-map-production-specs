@@ -2,7 +2,7 @@
 
 ## 現在の状態
 
-2026-09-15。UI-ROUTES #9の先行画面部品。API/DB・共有Shell・実地図との接続は未確認で、Issueは未完了。
+2026-09-15。UI-ROUTES #9。先行部品PR #44はb77d390で統合済み。共通Shell/型付きclientの接続を追加したが、API保存往復・実地図の受入は未完了。
 
 - worktree: `/Users/roz/.codex/worktrees/ui-routes-9`
 - branch: `rozwer/9-route-screens`
@@ -59,3 +59,36 @@ mise exec -- node node_modules/vite/bin/vite.js --config docs/evidence/UI-ROUTES
 3. ROUTES.basic/navigation/conditionsの提供。詳細は[#9の契約差分](https://github.com/rozwer/sodateru-map-production-specs/issues/9#issuecomment-5673420905)。未対応条件を削除して検索成功にしない。
 4. 保存成功後の案内開始失敗・再送、版競合、区間失敗、案内閉じる/復帰、実測位置、明示終了と訪問非確定を実接続で確認。
 5. 1440×900、文字200%、ソフトキーボード、reduced motionと共通Sheet内の全操作到達を確認。PRレビュー/統合とtask:finishは全受入が揃ってから。
+
+
+## 共通ShellとAPI呼出しの接続（第2提供）
+
+基点 `6dac91f`（UI-BASE/CORE/PLACES先行提供を含む）。`screens.tsx`が3画面を登録し、共通apiから実operationIdを呼ぶ。全画面が同じ本人/modeのRouteFlowを使い、画面を閉じても保存route ID/再送intentを保持する。scope破棄では一時候補・通信を破棄する。ブラウザ保存は入力文字と条件のみ。
+
+- 条件検索→保存（固定id/再送キー）→案内開始→保存GET→明示終了を配線。開始失敗では作成済みrouteを保持し、応答不明の作成は固定IDのGETで照合する。
+- 保存済みの案内開始は最新GETから状態/版を確認し、応答不明でも新routeを作らない。終了失敗では案内状態を保持し、訪問書込みを送らない。
+- 提案の `destinationPlaceId`、共有の `sharedRouteId`、相談の `dialogueResultId/candidateId` を入口として登録。共有元をGETし、自分の起点+元地点順の新draftを作る。元routeをPATCHしない。
+- 相談のoriginを同じresultから保持する。未保存相談candidateはPLACESのresultIdと異なるため、pointに偽装せず未接続を表示する。保存placeIdのある候補はstored地点として検索へ渡す。
+- hidden画面は保存GET/地図focusを発生させず、MapPreviewをmountしない。MAP未統合のcheckoutでは共有登録口と同じglobで欠測表示し、独自地図を追加しない。
+
+### 検証範囲
+
+- 対象9テスト成功（`route-flow.test.ts` 7件、`routes-components.test.tsx` 2件）。保存/開始の通信切断、終了競合、条件黙殺防止、共有コピー、相談ID境界を含む。API応答を差し替えた単体証拠であり実保存証拠ではない。
+- UI固有のstrict型確認成功。統合版 `bun run typecheck` はPLACESのINFORMATION import未解決とservice.ts座標undefinedで失敗。担当へ [#5](https://github.com/rozwer/sodateru-map-production-specs/issues/5#issuecomment-5673898372) に連絡済み。
+- 実API: `http://127.0.0.1:5320`、UI: `http://127.0.0.1:5318/#/route-conditions`。
+- DBは同worktreeの `.local/ui-routes-live.sqlite` / `.local/ui-routes-demo.sqlite`、本人設定 `.local/ui-routes-profiles.json`。起動ログ `features:[]`。PLACES/ROUTES登録前、Shellはscope unresolvedで本人開始未接続。検索は401を返した。
+- 390×844の実ブラウザで入力→失敗→再試行後も入力保持を確認。空リストを隠すCSSがエラー部品まで隠していた点を修正。[失敗画面](conditions-390-shell-error.png)。document横幅390、横はみ出しなし。元画像との全体一致証拠ではない。
+
+### 接続待ち
+
+1. BASE: 本人/modeセッション接続、固有headerを持つ画面向けheaderなし設定（現状は重複を実画面で確認）。
+2. MAP: MapPreview/単一測位状態の統合版で道路・精度・進行方向・paddingを確認。
+3. PLACES/ROUTES: 機能登録、基本経路保存往復、候補期限/条件/複数経路/turn情報の確定Schema。
+4. 相談未保存候補の元検索ID解決とroute preview対応、共有GETの公開範囲、定期券画面の正式入口。
+
+Issue #9はclaimed/openを維持する。部分提供を全画面完成やtask:finishの根拠にはしない。
+
+
+### 提出を止めている共通ガード
+
+`task:verify`はclaimed/取得path一致で成功し、Vite production buildも成功した。通常commitは`Changed paths outside claim`で拒否された。HEADは `6dac91f4fba8bb28506c73efd39c4db1518a963d`、実際のstageは取得範囲内の10ファイルのみ。`production_guard.py`がclaim起点からstageを比較し、developから取込済みの共通変更まで担当外として判定する。オーケストレーターへ報告済み。hook迂回・共通修正・receipt変更はせずstageを保持する。第2提供は未commit/未PR。

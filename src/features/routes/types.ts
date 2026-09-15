@@ -14,6 +14,8 @@ export interface PlaceOption {
   address?: string;
   imageUrl?: string;
   coordinates?: Coordinates;
+  expiresAt?: number;
+  retention?: 'storable' | 'temporary';
   selection: WaypointSelection;
 }
 
