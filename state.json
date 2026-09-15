@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 249,
+  "revision": 250,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34409,13 +34409,13 @@
       "generation": 1,
       "issue_number": 221,
       "landed_main": null,
-      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
+      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/applied.json",
       "owner": "rozwer",
       "paths": [
         "docs/evidence/ISSUE-CLOSE-REPAIRS/"
       ],
       "status": "submitted",
-      "submitted_commit": "e1d7546e45afc1c5b154258c8f8a780105b4d418",
+      "submitted_commit": "a57067e66c4b8d2563443dc210267596973909ba",
       "token": "11ae7aa85958484c98cba9d3f321742e"
     },
     "ISSUE-CLOSE-UI": {
