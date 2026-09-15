@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 86,
+  "revision": 87,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -5007,14 +5007,14 @@
       "generation": 1,
       "issue_number": 14,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-FRIENDS/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/friends/",
         "docs/evidence/UI-FRIENDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "f3949e75440241339371f76257622e7a067cda5b",
       "token": "cebf208ed964440a9048e91bc82fef04"
     },
     "UI-INSIGHTS": {
