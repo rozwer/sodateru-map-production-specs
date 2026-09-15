@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useMapBridge, useMapSnapshot } from '../../app/useMapBridge';
 import { useScreenState } from '../../app/useScreenState';
@@ -9,6 +9,7 @@ import { mapDisplay, useMapDisplay } from '../../map/display-state';
 import { mapMessages as m } from './messages';
 import { candidatePresentation, detailPresentation, useMapSession } from './map-state';
 import { PlaceDetailPanel, PlacePhoto, NearbyCards, ObjectEditPanel, type DecorationDraft } from './MapPanels';
+import { subscribeGrowthChanges } from '../activity/growth-refresh';
 import { BuildingGrowthPanel } from './BuildingGrowthPanel';
 import './map-feature.css';
 
@@ -16,6 +17,7 @@ type Props = ScreenProps & { active?: boolean };
 export function MapToolbar({ route, navigate, scopeKey }: ScreenProps) {
   const bridge = useMapBridge();
   const [state, session] = useMapSession(scopeKey);
+  useEffect(() => subscribeGrowthChanges(changedScope => { if (changedScope === scopeKey) void session.loadGrowth(bridge); }), [bridge, session, scopeKey]);
   useEffect(() => { if (route.pageId === 'map' || route.pageId === 'personal-map') void session.loadGrowth(bridge); }, [route.pageId, scopeKey, bridge, session]);
   if (!['map', 'personal-map', 'map-layers', 'object-place'].includes(route.pageId)) return null;
   if (route.pageId === 'personal-map') return <div className="map-personal-toolbar"><h1>{m.personalTitle}</h1><p>{m.personalLead}</p><div className="map-theme-filters"><button type="button" aria-pressed={!state.themeId} onClick={() => void session.loadPersonal(bridge, null)}>{m.all}</button>{state.themes.map(theme => <button type="button" key={theme.id} aria-pressed={state.themeId === theme.id} onClick={() => void session.loadPersonal(bridge, theme.id)}><MapIcon name="cup"/>{theme.name}</button>)}</div></div>;
@@ -26,6 +28,7 @@ export function MapToolbar({ route, navigate, scopeKey }: ScreenProps) {
 function MapScreen({ route, navigate, scopeKey, active = true }: Props) {
   const bridge = useMapBridge(); const [state, session] = useMapSession(scopeKey);
   const display = useMapDisplay(bridge);
+  const focusedPlace = useRef<string | null>(null);
   const [ui, setUi] = useScreenState({ tab: 'results' as 'results' | 'place', more: false });
   const [now, setNow] = useState(Date.now());
   useEffect(() => { if (!active) return; const timer = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(timer); }, [active]);
@@ -39,7 +42,7 @@ function MapScreen({ route, navigate, scopeKey, active = true }: Props) {
     if (!active || !state.detail) return;
     const place = state.detail.place;
     bridge.showPlaces('map-search', { places: [{ id: place.id, placeId: place.id, coordinates: place.coordinates, label: place.name }], selectedPlaceId: place.id });
-    bridge.focus('map-search', { center: place.coordinates, zoom: 16 });
+    if (focusedPlace.current !== place.id) { focusedPlace.current = place.id; bridge.focus('map-search', { center: place.coordinates, zoom: 16 }); }
     void session.loadNearby(place.coordinates);
   }, [active, state.detail?.place.id]);
   useEffect(() => {
@@ -76,6 +79,8 @@ function MapScreen({ route, navigate, scopeKey, active = true }: Props) {
       {candidate?.retention === 'temporary' && <p className="map-muted map-small">{m.temporary}</p>}
       {state.detail?.ownRecords.status === 'failed' && <Status kind="error" onRetry={session.retryDetail}>本人の記録を取得できませんでした。</Status>}
       {state.detail?.ownRecords.items.length ? <section className="map-own-records"><h3>この場所での体験</h3>{state.detail.ownRecords.items.map(record => <button type="button" className="map-inline-place" key={record.id} onClick={() => navigate('record-detail', { recordId: record.id })}>{record.body || record.purposes.join('・') || '体験の記録'} ›</button>)}</section> : null}
+      {state.detail?.visits.status === 'failed' && <Status kind="error" onRetry={session.retryDetail}>訪問の確認状態を取得できませんでした。</Status>}
+      {state.detail?.visits.items.length ? <section><h3>この場所の訪問</h3>{state.detail.visits.items.map(visit => <button type="button" className="map-inline-place" key={visit.id} onClick={() => navigate('visit-confirm', { visitId: visit.id })}>{visit.status === 'confirmed' ? '確認済みの訪問' : visit.status === 'candidate' ? '未確認の訪問候補' : '取り消した訪問'}{visit.startedAt === null ? '（日時未指定）' : `（${new Date(visit.startedAt).toLocaleDateString('ja-JP')}）`} ›</button>)}</section> : null}
       {state.detail?.colocated.length ? <section><h3>同じ建物の場所</h3>{state.detail.colocated.map(item => <button className="map-inline-place" type="button" key={item.id} onClick={() => navigate('map', { placeId: item.id })}>{item.name} ›</button>)}</section> : null}
       {ui.more && <div className="map-inline-menu" onKeyDown={event => { if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); setUi(value => ({ ...value, more: false })); } }}><button type="button" onClick={routeTo}><MapIcon name="locate"/>{m.route}</button><button type="button" onClick={() => navigate('record-create', state.selectedPlaceId ? { placeId: state.selectedPlaceId } : {})}><MapIcon name="pen"/>この場所の体験を記録</button><button type="button" onClick={() => navigate('object-edit', { longitude: String(state.detail?.place.coordinates[0] ?? candidate?.position.longitude ?? bridge.getSnapshot().camera.longitude), latitude: String(state.detail?.place.coordinates[1] ?? candidate?.position.latitude ?? bridge.getSnapshot().camera.latitude) })}><MapIcon name="cube"/>目印を追加</button><button type="button" onClick={() => setUi(value => ({ ...value, more: false }))}>閉じる</button></div>}
       {state.nearbyLoading && <Status kind="loading">周辺の候補を読み込み中…</Status>}
