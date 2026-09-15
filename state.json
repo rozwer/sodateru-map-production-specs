@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 90,
+  "revision": 91,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4525,7 +4525,7 @@
       "generation": 1,
       "issue_number": 29,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/BIKE/README.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/bike/",
@@ -4533,8 +4533,8 @@
         "docs/01_requirements/04_api/fragments/BIKE.json",
         "docs/evidence/BIKE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "782eaa044f9dd90c1a254702b2376979a745235c",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "COMMUNITY": {
