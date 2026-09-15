@@ -77,6 +77,8 @@ export interface MapRendererProps { bridge: MapBridge }
 export type MapRendererComponent = ComponentType<MapRendererProps>;
 
 const initialCamera: MapCamera = { longitude: 136.9638, latitude: 35.1668, zoom: 14, bearing: 0, pitch: 0 };
+const demoCamera: MapCamera = { longitude: 139.64985, latitude: 35.441, zoom: 14.2, bearing: 0, pitch: 55 };
+const cameraForScope = (scopeKey: string) => scopeKey.startsWith('demo:') ? demoCamera : initialCamera;
 const initialView: MapView = { dimension: '2d', lens: 'personal', lightPreset: 'day', following: false };
 
 /** One in-memory bridge, one renderer. Temporary results never enter browser storage. */
@@ -87,7 +89,7 @@ export class MapBridge {
   private state: MapSnapshot;
   constructor(scopeKey = 'unresolved') {
     this.state = {
-      scopeKey, camera: { ...initialCamera }, view: { ...initialView },
+      scopeKey, camera: { ...cameraForScope(scopeKey) }, view: { ...initialView, dimension: scopeKey.startsWith('demo:') ? '3d' : initialView.dimension },
       padding: { top: 24, right: 24, bottom: 104, left: 24 },
       candidates: {}, places: {}, tracks: {}, routes: {}, selection: null, focus: null,
     };
@@ -105,8 +107,13 @@ export class MapBridge {
   private restorePreferences() {
     try {
       const saved = JSON.parse(localStorage.getItem(`sodateru.map:${this.state.scopeKey}`) ?? 'null');
+      // Migrate the shipped Nagoya presets once; user-panned cameras remain valid.
+      if (this.state.scopeKey.startsWith('demo:') && saved?.camera && (
+        (Math.abs(saved.camera.longitude - 136.9638) < 0.00001 && Math.abs(saved.camera.latitude - 35.1668) < 0.00001) ||
+        (Math.abs(saved.camera.longitude - 136.969655) < 0.00001 && Math.abs(saved.camera.latitude - 35.169524) < 0.00001)
+      )) return;
       if (saved && Number.isFinite(saved.camera?.longitude) && Number.isFinite(saved.camera?.latitude)) {
-        this.state = { ...this.state, camera: { ...initialCamera, ...saved.camera }, view: { ...initialView, ...saved.view } };
+        this.state = { ...this.state, camera: { ...this.state.camera, ...saved.camera }, view: { ...initialView, ...saved.view } };
       }
     } catch { /* Private browsing may disable preference storage. */ }
   }
@@ -176,7 +183,7 @@ export class MapBridge {
   };
   resetScope = (scopeKey: string) => {
     this.expiry.forEach(clearTimeout); this.expiry.clear();
-    this.state = { ...this.state, scopeKey, camera: { ...initialCamera }, view: { ...initialView }, candidates: {}, places: {}, tracks: {}, routes: {}, selection: null, focus: null };
+    this.state = { ...this.state, scopeKey, camera: { ...cameraForScope(scopeKey) }, view: { ...initialView, dimension: scopeKey.startsWith('demo:') ? '3d' : initialView.dimension }, candidates: {}, places: {}, tracks: {}, routes: {}, selection: null, focus: null };
     this.restorePreferences();
     this.update({});
   };

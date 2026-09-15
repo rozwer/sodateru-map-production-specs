@@ -137,6 +137,14 @@ export class MapSession {
       for (const result of missing) if (result.status === 'fulfilled') places.set(result.value.id, result.value);
       this.update({ places: [...new Map([...this.state.places, ...places.values()].map(place => [place.id, place])).values()], personalError: missing.some(result => result.status === 'rejected') ? '一部の場所を取得できませんでした。記録は表示できます。' : null });
       bridge.showPlaces('personal-map', { places: [...places.values()].map(place => ({ id: place.id, placeId: place.id, coordinates: place.coordinates, label: place.name, recordIds: records.filter(record => record.effectivePlaceId === place.id).map(record => record.id) })), selectedPlaceId: this.state.selectedPlaceId || undefined });
+      const camera = bridge.getSnapshot().camera;
+      const timeline = records.filter(record => {
+        if (!record.effectivePlaceId || record.effectiveStartedAt === null) return false;
+        const place = places.get(record.effectivePlaceId); if (!place) return false;
+        return Math.abs(place.coordinates[0] - camera.longitude) < 0.3 && Math.abs(place.coordinates[1] - camera.latitude) < 0.3;
+      }).sort((a, b) => (a.effectiveStartedAt ?? 0) - (b.effectiveStartedAt ?? 0));
+      const points = timeline.map((record, index) => { const place = places.get(record.effectivePlaceId!)!; return { id: record.id, coordinates: place.coordinates, label: place.name, number: index + 1 }; });
+      bridge.showTrack('personal-map', { points, segments: points.length > 1 ? [{ id: 'personal-timeline', coordinates: points.map(point => point.coordinates) }] : [] });
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ personalLoading: false, personalError: message(error) }); }
   }
   async loadThemes() { try { const data = await api.request('getThemes', { query: { limit: 100 }, signal: this.lifetime.signal }); this.update({ themes: data.items }); } catch (error) { if (!aborted(error)) this.update({ personalError: message(error) }); } }
@@ -158,7 +166,17 @@ export function useMapSession(scopeKey: string) {
   useEffect(() => { session.consumers++; return () => { session.consumers--; queueMicrotask(() => { if (session.consumers === 0) { session.dispose(); sessions.delete(scopeKey); } }); }; }, [session, scopeKey]);
   return [useSyncExternalStore(session.subscribe, session.getSnapshot), session] as const;
 }
-export function candidatePresentation(candidate: Candidate): PlacePresentation { return { id: candidate.candidateId, name: candidate.name, address: candidate.address, categories: candidate.categories, attribution: candidate.attribution, sourceUrl: candidate.sourceUrl }; }
+// Official photographs for the nearby Yokohama venue shops.
+const nearbyOfficialPhotos: Record<string, { photoUrl: string; sourceUrl: string }> = {
+  'ワンダリアカフェ': { photoUrl: 'https://wonderia.jp/images/pages/top/cafe/img1@sp.jpg', sourceUrl: 'https://wonderia.jp/' },
+  'CARAVAN COFFEE ベースゲート横浜関内タワー': { photoUrl: 'https://www.caravan-coffee.com/common/corporate/images/shoplist_kannai.png', sourceUrl: 'https://www.caravan-coffee.com/shop/' },
+  'HORIGUCHI COFFEE & GELATO': { photoUrl: 'https://www.basegate-yokohama-kannai.com/uploads/images/resized/832x0/basegate/000002/000002/e80fff1a.jpg', sourceUrl: 'https://www.basegate-yokohama-kannai.com/shop/detail/?cd=000023' },
+};
+export function candidatePresentation(candidate: Candidate): PlacePresentation {
+  const photo = Math.abs(candidate.position.longitude - 139.638) < 0.02 && Math.abs(candidate.position.latitude - 35.444) < 0.02 ? nearbyOfficialPhotos[candidate.name] : undefined;
+  return { id: candidate.candidateId, name: candidate.name, address: candidate.address, categories: candidate.categories, attribution: candidate.attribution, sourceUrl: candidate.sourceUrl, ...(photo ? { ...photo, attribution: '写真：公式サイト' } : {}) };
+}
 export function detailPresentation(detail: PlaceDetail): PlacePresentation {
-  return { ...detail.place };
+  const photo = detail.ownRecords.items.flatMap(record => record.media).find(media => media.kind === 'photo' && media.status === 'ready' && media.contentUrl);
+  return { ...detail.place, photoUrl: photo?.contentUrl };
 }

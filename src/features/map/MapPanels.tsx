@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { api } from '../../app/api';
 import { mapMessages as m } from './messages';
 import { MapIcon } from './MapIcon';
 import { Icon } from '../../ui/Icon';
@@ -9,12 +10,23 @@ import './map-feature.css';
 export type PlacePresentation = { id: string; name: string; address: string | null; categories: string[]; description?: string | null; photoUrl?: string | null; photoAlt?: string; durationMinutes?: number | null; distanceMeters?: number | null; attribution?: string; sourceUrl?: string | null };
 export function PlacePhoto({ place, className = '' }: { place: PlacePresentation; className?: string }) {
   const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [place.photoUrl]);
-  return place.photoUrl && !failed ? <img className={`map-place-photo ${className}`} src={place.photoUrl} alt={place.photoAlt || place.name} onError={() => setFailed(true)} /> : <div className={`map-photo-missing ${className}`}><MapIcon name="cup"/><span>{m.photoMissing}</span></div>;
+  const [source, setSource] = useState<string | null>(null);
+  useEffect(() => {
+    setFailed(false); setSource(null);
+    const match = place.photoUrl?.match(/\/api\/v1\/media\/([^/]+)\/content/);
+    if (!match) { setSource(place.photoUrl || null); return; }
+    const abort = new AbortController(); let objectUrl: string | undefined;
+    void api.request('getMediaMediaIdContent', { path: { mediaId: decodeURIComponent(match[1]!) }, signal: abort.signal }).then(blob => {
+      if (abort.signal.aborted) return;
+      objectUrl = URL.createObjectURL(blob); setSource(objectUrl);
+    }).catch(() => { if (!abort.signal.aborted) setFailed(true); });
+    return () => { abort.abort(); if (objectUrl) URL.revokeObjectURL(objectUrl); };
+  }, [place.photoUrl]);
+  return source && !failed ? <img className={`map-place-photo ${className}`} src={source} alt={place.photoAlt || place.name} onError={() => setFailed(true)} /> : <div className={`map-photo-missing ${className}`}><MapIcon name="cup"/><span>{m.photoMissing}</span></div>;
 }
 export function NearbyCards({ places, onSelect, onMore }: { places: PlacePresentation[]; onSelect: (id: string) => void; onMore: () => void }) {
   return <section className="map-nearby"><div className="map-section-heading"><h3>{m.nearby}</h3><button type="button" onClick={onMore}>{m.nearbyMore} <span aria-hidden="true">›</span></button></div>
-    <ul>{places.map(place => <li key={place.id}><button type="button" className="map-nearby-card" onClick={() => onSelect(place.id)}><PlacePhoto place={place}/><strong>{place.name}</strong><span className="map-small">{place.categories.join('・')}</span>{place.durationMinutes != null && <span className="map-small map-icon-line"><MapIcon name="walk"/>徒歩 約{place.durationMinutes}分</span>}</button></li>)}</ul>
+    <ul>{places.map(place => <li key={place.id}><button type="button" className="map-nearby-card" onClick={() => onSelect(place.id)}><PlacePhoto place={place}/><strong>{place.name}</strong><span className="map-small">{place.categories.join('・')}</span>{place.durationMinutes != null && <span className="map-small map-icon-line"><MapIcon name="walk"/>徒歩 約{place.durationMinutes}分</span>}</button>{place.photoUrl && place.sourceUrl && <a href={place.sourceUrl} target="_blank" rel="noreferrer" className="map-small map-muted">写真：公式サイト</a>}</li>)}</ul>
     {places.length === 0 && <p className="map-muted">周辺の候補はまだありません。</p>}
   </section>;
 }

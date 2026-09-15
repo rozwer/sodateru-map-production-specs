@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ScreenDefinition, ScreenProps } from "../../app/contracts";
 import { useScreenState } from "../../app/useScreenState";
 import { useMapBridge } from "../../app/useMapBridge";
+import { MapBridge } from "../../app/map-bridge";
 import { api } from "../../app/api";
 import { Icon } from "../../ui/Icon";
 import { MapPreview } from "../../map/MapPreview";
@@ -285,7 +286,8 @@ function FriendsMap(props: Props) {
     },
     !!personId && props.active !== false,
   );
-  const bridge = useMapBridge();
+  // Keep personal-map layers out of the selected friend preview.
+  const [bridge] = useState(() => new MapBridge(props.scopeKey));
   useEffect(() => {
     if (!shared.data || props.active === false) {
       bridge.clear("friends-map");

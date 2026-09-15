@@ -42,7 +42,7 @@
 .activity-growth-links .records-secondary { border: 5px solid #fff; min-height: 58px; box-shadow: 0 2px 8px #15465a13; }
 @media (max-width: 350px) { .activity-growth-card .records-place-photo { width: 90px; height: 96px; flex-basis: 90px; } .activity-visit-place .records-place-photo { width: 86px; flex-basis: 86px; } .activity-growth-card .records-place-copy strong { font-size: 18px; } }
 
-.activity-daily { position: relative; background: transparent; }
+.records-screen.activity-daily { position: relative; background: transparent; max-width: none; }
 .activity-daily-heading { position: absolute; z-index: 2; left: 0; right: 0; top: 0; display: flex; align-items: center; gap: 12px; padding: 14px; color: #083e47; }
 .activity-daily-heading h2 { flex: 1; font-size: 27px; font-weight: 700; }
 .activity-daily-heading .records-icon-button { background: #fff; box-shadow: 0 2px 7px #28546518; width: 42px; height: 42px; }
