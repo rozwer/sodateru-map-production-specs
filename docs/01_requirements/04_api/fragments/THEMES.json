@@ -1,0 +1,828 @@
+{
+  "taskId": "THEMES",
+  "version": "1.0.0",
+  "replaceSchemas": [
+    "Theme",
+    "ThemeCreate",
+    "ThemePatch",
+    "RecordCreate",
+    "RecordPatch",
+    "RecordView"
+  ],
+  "schemas": {
+    "Theme": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "テーマを作った人物"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "テーマを作った人物"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "description": "テーマ名"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100,
+          "description": "説明"
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "description": "テーマに含める記録ID"
+        },
+        "colorKey": {
+          "$ref": "#/components/schemas/ThemeColorKey"
+        },
+        "coverMediaId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "本人のready写真の非複製参照。元媒体削除後はnull。"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "name",
+        "description",
+        "recordIds",
+        "colorKey",
+        "coverMediaId"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/13_themes.json。API別名・非公開項目はschemas/README.md。"
+    },
+    "ThemeCreate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "description": "テーマ名"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100,
+          "description": "説明"
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "description": "テーマに含める記録ID"
+        },
+        "colorKey": {
+          "$ref": "#/components/schemas/ThemeColorKey"
+        },
+        "coverMediaId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "本人のready写真の非複製参照。元媒体削除後はnull。"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "recordIds"
+      ],
+      "additionalProperties": false
+    },
+    "ThemePatch": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20,
+          "description": "テーマ名"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 100,
+          "description": "説明"
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "description": "テーマに含める記録ID"
+        },
+        "colorKey": {
+          "$ref": "#/components/schemas/ThemeColorKey"
+        },
+        "coverMediaId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "本人のready写真の非複製参照。元媒体削除後はnull。"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "ThemeColorKey": {
+      "type": "string",
+      "enum": [
+        "teal",
+        "pink",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "purple"
+      ],
+      "description": "青緑、ピンク、オレンジ、黄、緑、青、紫。省略時teal。"
+    },
+    "MemoOrigin": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "record",
+            "suggestion"
+          ]
+        },
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version"
+      ],
+      "additionalProperties": false,
+      "description": "由来表示用の参照。AI SourceRefとは別。削除時は参照だけ除去しメモ本文を保持。"
+    },
+    "MemoPresentation": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "originRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/MemoOrigin"
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "maxItems": 50,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "originRefs",
+        "keywords"
+      ],
+      "additionalProperties": false
+    },
+    "RecordCreate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "保存開始時に発行し、再送・編集で使い続けるID。1〜80文字"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "experience",
+            "diary",
+            "memo"
+          ],
+          "description": "記録の種類"
+        },
+        "visitId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "関連する訪問"
+        },
+        "placeId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "訪問を伴わず場所に付けた記録の関連先"
+        },
+        "occurredAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "体験・日記の対象日時。不明はNULL"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "終了日時。不明はNULL"
+        },
+        "timePrecision": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "approximate",
+            "unknown"
+          ],
+          "description": "日時の精度"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000,
+          "description": "入力した本文。媒体だけの記録は空文字"
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "description": "この場所での用途"
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "description": "実際にした活動と、その活動ごとの結果"
+        },
+        "impression": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000,
+          "description": "体験全体の感想"
+        },
+        "periodAnswers": {
+          "$ref": "#/components/schemas/PeriodAnswers",
+          "description": "期間集計に使う任意の確認項目"
+        },
+        "bookmarked": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "useForSuggestions": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "topicKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "地域投稿の話題キー。通常記録はNULL"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ],
+          "description": "表示する範囲"
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "selectedで共有する人物IDの配列"
+        },
+        "memo": {
+          "$ref": "#/components/schemas/MemoPresentation"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "visitId",
+        "placeId",
+        "occurredAt",
+        "endedAt",
+        "timePrecision",
+        "body",
+        "purposes",
+        "activities",
+        "impression",
+        "periodAnswers",
+        "bookmarked",
+        "useForSuggestions",
+        "topicKey",
+        "visibility",
+        "sharedWith"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "memo"
+            ]
+          },
+          "then": {
+            "properties": {
+              "kind": {
+                "const": "memo"
+              },
+              "body": {
+                "maxLength": 200
+              }
+            }
+          }
+        }
+      ]
+    },
+    "RecordPatch": {
+      "type": "object",
+      "properties": {
+        "visitId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "関連する訪問"
+        },
+        "placeId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "訪問を伴わず場所に付けた記録の関連先"
+        },
+        "occurredAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "体験・日記の対象日時。不明はNULL"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "終了日時。不明はNULL"
+        },
+        "timePrecision": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "approximate",
+            "unknown"
+          ],
+          "description": "日時の精度"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000,
+          "description": "入力した本文。媒体だけの記録は空文字"
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "description": "この場所での用途"
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "description": "実際にした活動と、その活動ごとの結果"
+        },
+        "impression": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000,
+          "description": "体験全体の感想"
+        },
+        "periodAnswers": {
+          "$ref": "#/components/schemas/PeriodAnswers",
+          "description": "期間集計に使う任意の確認項目"
+        },
+        "bookmarked": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "useForSuggestions": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "topicKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "地域投稿の話題キー。通常記録はNULL"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ],
+          "description": "表示する範囲"
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "selectedで共有する人物IDの配列"
+        },
+        "memo": {
+          "$ref": "#/components/schemas/MemoPresentation"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "RecordView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "記録した人物"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "保存内容の版。編集時に1増やす。初期値1"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時。UTC Unixミリ秒"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "記録した人物"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "experience",
+            "diary",
+            "memo"
+          ],
+          "description": "記録の種類"
+        },
+        "visitId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "関連する訪問"
+        },
+        "placeId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "訪問を伴わず場所に付けた記録の関連先"
+        },
+        "occurredAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "体験・日記の対象日時。不明はNULL"
+        },
+        "endedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "終了日時。不明はNULL"
+        },
+        "timePrecision": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "approximate",
+            "unknown"
+          ],
+          "description": "日時の精度"
+        },
+        "body": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 20000,
+          "description": "入力した本文。媒体だけの記録は空文字"
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "minItems": 0,
+          "maxItems": 20,
+          "description": "この場所での用途"
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Activity"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "description": "実際にした活動と、その活動ごとの結果"
+        },
+        "impression": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 4000,
+          "description": "体験全体の感想"
+        },
+        "periodAnswers": {
+          "$ref": "#/components/schemas/PeriodAnswers",
+          "description": "期間集計に使う任意の確認項目"
+        },
+        "bookmarked": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "useForSuggestions": {
+          "type": "boolean",
+          "description": "提案でこの記録を参照する設定"
+        },
+        "topicKey": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "地域投稿の話題キー。通常記録はNULL"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ],
+          "description": "表示する範囲"
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "minItems": 0,
+          "maxItems": 100,
+          "uniqueItems": true,
+          "description": "selectedで共有する人物IDの配列"
+        },
+        "effectivePlaceId": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Id"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effectiveStartedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effectiveEndedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "effectiveTimePrecision": {
+          "type": "string",
+          "enum": [
+            "exact",
+            "approximate",
+            "unknown"
+          ],
+          "description": "日時の精度"
+        },
+        "memo": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/MemoPresentation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "kind",
+        "visitId",
+        "placeId",
+        "occurredAt",
+        "endedAt",
+        "timePrecision",
+        "body",
+        "purposes",
+        "activities",
+        "impression",
+        "periodAnswers",
+        "bookmarked",
+        "useForSuggestions",
+        "topicKey",
+        "visibility",
+        "sharedWith",
+        "effectivePlaceId",
+        "effectiveStartedAt",
+        "effectiveEndedAt",
+        "effectiveTimePrecision",
+        "memo"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": []
+}
