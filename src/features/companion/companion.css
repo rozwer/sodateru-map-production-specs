@@ -50,6 +50,7 @@
 .companion-button:disabled { background: #c7d0d7; border-color: #c7d0d7; color: #fff; opacity: 1; }
 .companion-primary { border-color: var(--companion-accent); background: var(--companion-accent); color: #fff; border-radius: 25px; min-height: 49px; font-size: 16px; }
 .companion-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.companion-actions--single { grid-template-columns: 1fr; }
 .companion-actions > .companion-button { min-width: 0; font-size: 12px; }
 .companion-current-body .companion-button { min-height: 36px; padding: 5px; font-size: 13px; }
 .companion-file { position: relative; display: flex; gap: 13px; align-items: center; padding: 8px; cursor: pointer; }

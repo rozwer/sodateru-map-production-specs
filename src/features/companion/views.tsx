@@ -37,7 +37,7 @@ function Toggle({ label, checked, onChange, disabled }: { label: string; checked
 
 export function SettingsView({ pets, currentId, currentVisible = true, form, onChange, onSave, onImport, onCreate, busy, notice, dirty, loading = false, extra }: {
   pets: CompanionCard[]; currentId: string | null; form: SettingsForm; onChange: (next: SettingsForm) => void;
-  onSave: () => void; onImport: () => void; onCreate: () => void; busy?: boolean; notice?: Notice; dirty?: boolean; loading?: boolean; currentVisible?: boolean; extra?: ReactNode;
+  onSave: () => void; onImport: () => void; onCreate?: () => void; busy?: boolean; notice?: Notice; dirty?: boolean; loading?: boolean; currentVisible?: boolean; extra?: ReactNode;
 }) {
   const current = pets.find(pet => pet.id === currentId);
   const patch = (next: Partial<SettingsForm>) => onChange({ ...form, ...next });
@@ -56,7 +56,7 @@ export function SettingsView({ pets, currentId, currentVisible = true, form, onC
       <div className="companion-option"><Glyph name="moon"/><span>動きを減らす</span><Toggle label="動きを減らす" checked={form.reducedMotion} onChange={reducedMotion => patch({ reducedMotion })} disabled={busy}/></div>
       <small>移動やリアクションの動きを控えめにします。</small>
     </section>
-    <div className="companion-actions"><button type="button" className="companion-button" onClick={onImport}><Glyph name="file"/>ファイルから追加</button><button type="button" className="companion-button" onClick={onCreate}><Glyph name="plus"/>相棒を作る</button></div>
+    <div className={`companion-actions${onCreate ? '' : ' companion-actions--single'}`}><button type="button" className="companion-button" onClick={onImport}><Glyph name="file"/>ファイルから追加</button>{onCreate && <button type="button" className="companion-button" onClick={onCreate}><Glyph name="plus"/>相棒を作る</button>}</div>
     <Message notice={notice}/>{dirty && <small role="status">未保存の変更があります。</small>}
     {extra}
     <button type="button" className="companion-button companion-primary" onClick={onSave} disabled={busy || loading}>{busy ? '保存しています…' : '保存'}</button>
@@ -74,7 +74,7 @@ export function ImportView({ form, onChange, onFile, actions, confirmed, onViewe
   return <div className="companion-page companion-import">
     <Intro title={candidate ? '制作した相棒を確認する' : 'ペットのファイルを選ぶ'}>{candidate ? '候補の動きを確認して、相棒として採用できます。現在の相棒は、管理画面で別に選びます。' : <>作成したペットのファイル（.zip）を選んで<br/>相棒として追加できます。</>}</Intro>
     {!candidate && <label className="companion-file companion-card"><span className="companion-circle"><Glyph name="file"/></span><span><strong>ファイルを選択</strong><small>.zip ファイル（最大50MB）</small></span><Glyph name="next"/><input type="file" accept=".zip,application/zip" aria-label="ZIPファイルを選択（最大50MB）" disabled={busy} onChange={e => { const file = e.target.files?.[0]; if (file) onFile(file); e.target.value = ''; }}/></label>}
-    {form.file && <div className="companion-selected-file"><span className="companion-circle small"><Glyph name={inspected ? 'check' : 'file'}/></span><span><strong>{form.file.name}</strong><small>{(form.file.size / 1_000_000).toLocaleString('ja-JP', { maximumFractionDigits: 2 })} MB</small></span><button type="button" aria-label="選択を外す" className="companion-icon-button" disabled={busy} onClick={() => onFile(null)}><Glyph name="close"/></button></div>}
+    {form.file && <div className="companion-selected-file"><span className="companion-circle small"><Glyph name={inspected ? 'check' : 'file'}/></span><span><strong>{form.file.name}</strong><small>{(form.file.size / 1_000_000).toLocaleString('ja-JP', { maximumFractionDigits: form.file.size > 50_000_000 ? 6 : 2 })} MB</small></span><button type="button" aria-label="選択を外す" className="companion-icon-button" disabled={busy} onClick={() => onFile(null)}><Glyph name="close"/></button></div>}
     <section className="companion-preview-section"><h3>プレビュー</h3>{actions.length ? <><ActionPreviews actions={actions.slice(0, 3)} onViewed={onViewed}/>{actions.length > 3 && <details className="companion-more-actions"><summary>ほかの動作・視線を確認する（{actions.length - 3}）</summary><ActionPreviews actions={actions.slice(3)} onViewed={onViewed}/></details>}<small aria-live="polite">プレビュー表示済み {viewedCount} / {actions.length}</small></> : <div className="companion-preview-empty">{busy ? 'ファイルを確認しています…' : 'ファイルを選ぶと、検査後に動きを確認できます。'}</div>}</section>
     {inspected && <><Message notice={{ kind: 'success', text: 'ファイルの内容を読み込みました。すべての動きを確認してください。' }}/><label className="companion-checkbox"><input type="checkbox" checked={confirmed} onChange={onConfirm} disabled={busy}/><span><strong>動作を確認しました</strong><small>表示されたすべての動きを見て確認します。</small></span></label></>}
     <Message notice={notice}/>

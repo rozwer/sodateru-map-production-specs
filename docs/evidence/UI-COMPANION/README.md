@@ -2,7 +2,7 @@
 
 ## 現在の範囲
 
-管理・ZIP取込・制作の3画面と、単一地図に重ねる`MapCompanion`を実装中。共有shell・CORE型・COMPANION実APIの統合確認前で、Issueの受入は未完了。
+利用者の範囲変更（#19の2026-09-15コメント）により、完成対象は既存ペットの管理・ZIP取込・表示・選択。製品は2画面と単一地図に重ねる`MapCompanion`を提供する。制作コードは保全し、入口/画面登録から外した。共有shell・CORE型・COMPANION実APIの統合確認前で、Issueの受入は未完了。
 
 - 指定画像：`docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_23_36.png`を実際に開いて照合した。
 - ブラウザ：Codex内ブラウザ、127.0.0.1:5219、390×844。確認ページはAPI未接続のテスト表示。
@@ -34,7 +34,9 @@ mise exec -- node node_modules/vite/bin/vite.js --config docs/evidence/UI-COMPAN
 - COMPANION v0.2の共通型・multipart/file・data envelopeへの確定反映と実API。
 - 正しいZIP→25動作確認→登録→任意選択→設定GET→同じ本人/live DBで再読込した地図の描画。
 - サイズ超過/構造不正/通信失敗/版競合で既存の相棒と入力を保持。
-- 下書き保存/参考画像/再開、生成先設定、実生成・取消・候補採用。採用は現在選択を変更しない。
+- 新規制作・生成・生成先設定は今回対象外。以前の制作部品と制御コードは保全し、実生成を実装済みとは数えない。
 - 320px/広い画面/文字200%/共通Sheet内の最終照合。
 
 API未接続・未提供の状態やこの技術fixtureだけをlive完了として扱わない。PR統合、board done、ロック解放、Issue closeは通過条件が揃った後に行う。
+
+共有shellで実際の`companion-import`登録を開き、50,000,001バイトのZIPを選択。サイズ超過を表示し、登録が無効のままであることを確認した。ファイルの解除も実入力を対象にする。

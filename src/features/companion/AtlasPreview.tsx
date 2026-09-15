@@ -24,6 +24,7 @@ export function AtlasPreview({ clip, label, reducedMotion = false, onViewed }: {
     const paint = () => {
       if (stopped || !visible || document.hidden) return;
       const frame = clip.frames[index];
+      if (!frame) return;
       if (frame.x + frame.width > asset.naturalWidth || frame.y + frame.height > asset.naturalHeight) { setFailed(true); return; }
       context.clearRect(0, 0, element.width, element.height);
       const scale = Math.min(element.width / frame.width, element.height / frame.height);
