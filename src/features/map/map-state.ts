@@ -137,6 +137,9 @@ export class MapSession {
       for (const result of missing) if (result.status === 'fulfilled') places.set(result.value.id, result.value);
       this.update({ places: [...new Map([...this.state.places, ...places.values()].map(place => [place.id, place])).values()], personalError: missing.some(result => result.status === 'rejected') ? '一部の場所を取得できませんでした。記録は表示できます。' : null });
       bridge.showPlaces('personal-map', { places: [...places.values()].map(place => ({ id: place.id, placeId: place.id, coordinates: place.coordinates, label: place.name, recordIds: records.filter(record => record.effectivePlaceId === place.id).map(record => record.id) })), selectedPlaceId: this.state.selectedPlaceId || undefined });
+      const timeline = records.filter(record => record.effectivePlaceId && record.effectiveStartedAt !== null && places.has(record.effectivePlaceId)).sort((a, b) => (a.effectiveStartedAt ?? 0) - (b.effectiveStartedAt ?? 0));
+      const points = timeline.map((record, index) => { const place = places.get(record.effectivePlaceId!)!; return { id: record.id, coordinates: place.coordinates, label: place.name, number: index + 1 }; });
+      bridge.showTrack('personal-map', { points, segments: points.length > 1 ? [{ id: 'personal-timeline', coordinates: points.map(point => point.coordinates) }] : [] });
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ personalLoading: false, personalError: message(error) }); }
   }
   async loadThemes() { try { const data = await api.request('getThemes', { query: { limit: 100 }, signal: this.lifetime.signal }); this.update({ themes: data.items }); } catch (error) { if (!aborted(error)) this.update({ personalError: message(error) }); } }
