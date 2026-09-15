@@ -27,6 +27,7 @@
         "SETTINGS": 24,
         "SUGGESTIONS": 36,
         "THEMES": 37,
+        "TOOL-ISSUE-COMMENT": 49,
         "TOOL-WORKTREE-SETUP": 41,
         "TRANSFER": 32,
         "UI-BASE": 4,
@@ -4421,14 +4422,29 @@
           "tools/task_worktree.py",
           "tools/test_hooks_worktree.py"
         ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P0",
+        "hard_dependencies": [],
+        "id": "TOOL-ISSUE-COMMENT",
+        "kind": "support",
+        "priority": "P0",
+        "title": "担当間Issueコメントのhook誤拒否を修復",
+        "write_paths": [
+          "scripts/codex-task-hook.mjs",
+          "scripts/codex-task-hook.test.mjs",
+          "mise.toml"
+        ]
       }
     ]
   },
   "inline_tasks": [
     "QA-VISUAL",
-    "TOOL-WORKTREE-SETUP"
+    "TOOL-WORKTREE-SETUP",
+    "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 55,
+  "revision": 56,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4812,6 +4828,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "14e61585ae1448878c4762a06df0ff45"
+    },
+    "TOOL-ISSUE-COMMENT": {
+      "actor": "rozwer",
+      "base_commit": "ea87c015ce549d61d2088b896971ef82e02d7bf5",
+      "generation": 1,
+      "issue_number": 49,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "scripts/codex-task-hook.mjs",
+        "scripts/codex-task-hook.test.mjs",
+        "mise.toml"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "fd66e0495bfd479c8d6f0935849376a9"
     },
     "TOOL-WORKTREE-SETUP": {
       "actor": "rozwer",
