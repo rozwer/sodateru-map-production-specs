@@ -4,7 +4,7 @@ import type { DatabaseSync } from "node:sqlite";
 import { CommonError } from "../../core/errors.ts";
 import { getPluginState, registerPlugin } from "../../features/plugins/index.ts";
 import { placesService } from "../../features/places/service.ts";
-import { createRoutesService } from "../../features/routes/index.ts";
+import { createMotorbikeRoutesService, createRoutesService } from "../../features/routes/index.ts";
 import { BikeService, type RouteSnapshot, type RoutesBoundary } from "./service.ts";
 import { assessCommonRoute } from "./route-evidence.ts";
 import { bikeRelease, bikeSegmentRelease } from "./release.ts";
@@ -37,6 +37,12 @@ export function assessBikeReleaseRoute(db: DatabaseSync, context: RequestContext
 export function createBikeService(db: DatabaseSync) {
   const routes = createRoutesService(db);
   const boundary: RoutesBoundary = {
+    previewRoute: async (context, input, settings) => {
+      const applied = common(() => getPluginState(db, context)).plugins.find(p => p.pluginId === "bike");
+      if (!applied?.enabled || !applied.resolvedDeclarations.some(d => d.targetKey === "feature:bike:segment-evidence" && d.property === "enabled" && d.value === true)) throw new CommonError("STATE_CONFLICT", "二輪区間経路はバイク1.1.0を導入・有効化してから検索してください。");
+      const options = { profile: settings.vehicle.class === "moped" ? "motor_scooter" as const : "motorcycle" as const, useHighways: settings.highwayPolicy === "avoid" ? 0 : 0.5, ...(settings.vehicle.class === "moped" ? { topSpeed: 30 } : {}) };
+      return createMotorbikeRoutesService(db, options).previewRoute(context, { title: input.title, waypoints: input.waypoints, mode: "driving", conditions: { departAt: input.departAt, timeZone: input.timeZone, ...(input.returnBy === undefined ? {} : { returnBy: input.returnBy }), avoidMotorways: settings.highwayPolicy === "avoid" } });
+    },
     assess: (context, route, settings) => assessBikeReleaseRoute(db, context, route, settings),
     revalidatePreview: (...args) => common(() => routes.revalidatePreview(...args)),
     saveRoute: (...args) => common(() => routes.saveRoute(...args)),

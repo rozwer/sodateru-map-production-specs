@@ -1,3 +1,4 @@
+import type { RouteInput } from "../../features/routes/index.ts";
 import type { SegmentEvidence, RouteResultEvaluation } from "./segment-evidence.ts";
 import { randomUUID } from "node:crypto";
 import type { DatabaseSync } from "node:sqlite";
@@ -19,7 +20,10 @@ export interface RouteSnapshot {
   conditionEvaluations?: { key: string; status: string; reason: string; provider: string; sourceUrl: string; fetchedAt: number }[];
 }
 /** Implemented only by server-owned common ROUTES adapter, never accepted in an HTTP request. */
+export type BikeRouteInput = Pick<RouteInput, "title" | "waypoints"> & { departAt: number; timeZone: string; returnBy?: number };
+export interface BikeRoutePreview extends Binding { previewId: string; geometry: RouteSnapshot["geometry"]; fetchedAt: number; expiresAt: number }
 export interface RoutesBoundary {
+  previewRoute?(context: RequestContext, input: BikeRouteInput, settings: BikeSettings): Promise<RouteSnapshot>;
   revalidatePreview(context: RequestContext, previewId: string, forSave?: boolean): RouteSnapshot;
   saveRoute(context: RequestContext, input: { id: string; previewId: string; title: string }): { data: { id: string }; created: boolean };
   getSavedRoute(context: RequestContext, id: string, own?: boolean): { id: string; geometry: unknown };
@@ -69,6 +73,24 @@ export class BikeService {
     const result: SearchResult = { ...data, ...binding, id: randomUUID(), kind: "search", dataKind: "real", fetchedAt, expiresAt: fetchedAt + 900_000 };
     transaction(this.db, () => { this.recheck(context, binding); this.put(context, result); onSaved?.(result); });
     return result;
+  }
+  async previewRoute(context: RequestContext, input: BikeRouteInput): Promise<BikeRoutePreview> {
+    const binding = this.binding(context);
+    if (!input || Object.keys(input).some(k => !["title", "waypoints", "departAt", "timeZone", "returnBy"].includes(k))) throw new CommonError("VALIDATION_FAILED", "二輪経路の入力を確認してください。");
+    if (!this.routes.previewRoute) throw new CommonError("DEPENDENCY_UNAVAILABLE", "二輪経路の取得口が利用できません。", true, {}, 503);
+    const route = await this.routes.previewRoute(context, input, binding.settings);
+    this.recheck(context, binding);
+    const profile = binding.settings.vehicle.class === "moped" ? "motor_scooter" : "motorcycle";
+    if (route.mode !== "driving" || route.segmentEvidence?.provider !== "valhalla" || route.segmentEvidence.profile !== profile || route.segmentEvidence.geometryHash !== geometryHash(route.geometry)) throw new CommonError("SOURCE_CHANGED", "二輪設定と同一形状の区間根拠が一致しません。");
+    if (route.geometry.coordinates.some(p => !inside(p, binding.settings.region.bounds))) throw new CommonError("RANGE_NOT_SATISFIABLE", "二輪経路全体が設定地域に収まるようにしてください。");
+    return { ...binding, previewId: route.previewId, geometry: route.geometry, fetchedAt: route.fetchedAt, expiresAt: route.expiresAt };
+  }
+  replayRoutePreview(context: RequestContext, data: BikeRoutePreview): BikeRoutePreview {
+    this.recheck(context, data);
+    if (data.expiresAt <= Date.now()) throw new CommonError("RESULT_EXPIRED", "新しい操作IDで二輪経路を再検索してください。");
+    const route = this.routes.revalidatePreview(context, data.previewId, true);
+    if (geometryHash(route.geometry) !== geometryHash(data.geometry) || route.fetchedAt !== data.fetchedAt) throw new CommonError("SOURCE_CHANGED", "二輪経路の取得結果が変わりました。");
+    return data;
   }
   private candidateSearch(context: RequestContext, searchId: string): SearchResult {
     const search = this.get(context, searchId);
