@@ -33495,7 +33495,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-RECORDS-CAMERA"
   ],
-  "revision": 209,
+  "revision": 210,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -33898,7 +33898,8 @@
       "owner": "rozwer",
       "paths": [
         "qa/manual/",
-        "docs/evidence/QA-VISUAL/"
+        "docs/evidence/QA-VISUAL/",
+        "tools/local/dev.ts"
       ],
       "status": "submitted",
       "submitted_commit": "260184da07891ffd7f172e0f40d18a43dc5ba67b",
