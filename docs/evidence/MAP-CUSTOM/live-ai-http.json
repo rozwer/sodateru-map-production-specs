@@ -1,0 +1,58 @@
+{
+  "requestId": "57753851-6e72-436c-8a1c-afcce3afa36a",
+  "model": "gpt-5.6-luna",
+  "status": "complete",
+  "databaseDirectory": "/var/folders/ld/27nlsc7d4c58y3lgbpdsx17c0000gn/T/map-custom-ai-WKDrtJ",
+  "contract": "official CORE merger in isolated directory; shared generated client pending",
+  "permissionOff": {
+    "httpAccepted": 202,
+    "runStatus": "failed",
+    "error": "FORBIDDEN"
+  },
+  "ai": {
+    "durationMs": 50183,
+    "conversationId": "c-57753851-6e72-436c-8a1c-afcce3afa36a",
+    "userMessageId": "u-57753851-6e72-436c-8a1c-afcce3afa36a",
+    "assistantMessageId": "a-57753851-6e72-436c-8a1c-afcce3afa36a",
+    "attempt": 1,
+    "promptVersion": "map-custom-v1",
+    "result": {
+      "proposal": {
+        "theme": "default",
+        "lightPreset": "night",
+        "showPedestrianRoads": true,
+        "showAdminBoundaries": false,
+        "showIndoor": false,
+        "colors": {
+          "water": "#0000FF",
+          "greenspace": "#7FB069",
+          "roads": "#B0B7C3",
+          "buildings": "#D6D1C4"
+        }
+      },
+      "explanation": "本人の希望「夜の水辺を見やすくしたい。夜の照明にして水面を青くしてください。」に合わせ、lightPresetをnightへ変更し、水面を青（#0000FF）にします。theme、歩行者道路、行政境界、屋内表示は希望がないため現在値を維持します。colorsは4色指定が必要なため、水面以外は見やすい既定相当の色を指定しています。source_payloadのevidenceは空で、引用IDはありません。"
+    }
+  },
+  "previewDidNotSave": true,
+  "adoption": {
+    "previewId": "8e87ac73-89b0-4e01-a437-de8f0442ace8",
+    "settingsId": "640dfe80-e46e-42ff-a60d-b0ea29facb36",
+    "beforeVersion": 1,
+    "afterVersion": 2,
+    "appliedRef": {
+      "type": "map-settings",
+      "id": "640dfe80-e46e-42ff-a60d-b0ea29facb36",
+      "version": 2,
+      "contentHash": "ccf464bcb115e75270d2ce71baedbe7bc1cbea54a1eb5f39513cb93bf149e03a"
+    },
+    "layersUnchanged": true,
+    "replayDidNotReapply": true
+  },
+  "restart": {
+    "settingsEqual": true,
+    "resultEqual": true,
+    "appliedRefEqualInSql": true,
+    "previewApplied": true,
+    "replayDidNotReapply": true
+  }
+}

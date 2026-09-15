@@ -1,0 +1,16 @@
+{
+  "date": "2026-09-15T02:46:54.066Z",
+  "core": "413598b",
+  "plugins": "a4820c1 (published PR46, not yet integrated)",
+  "testDeclaration": "map-custom-e2e-layer",
+  "realPluginStorage": true,
+  "realSettingsHttp": true,
+  "checks": [
+    "installed requested declaration visible",
+    "ownerKey uses installId",
+    "disable retains wishes and settings version",
+    "disabled plugin stays disabled after settings save",
+    "remove clears effective owner and retains display wish"
+  ],
+  "scope": "Test-only declaration through the real PLUGINS service. Not real BIKE data or PLUGINS lifecycle HTTP acceptance."
+}
