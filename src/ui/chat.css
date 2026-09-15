@@ -1,0 +1,10 @@
+.sm-chat { display: grid; gap: 16px; min-width: 0; }
+.sm-chat__messages { display: grid; align-content: start; gap: 16px; }
+.sm-chat__message { padding: 14px 16px; border-radius: 18px; border: 1px solid var(--color-border); background: white; max-width: 94%; }
+.sm-chat__message p { white-space: pre-wrap; margin: 0; }
+.sm-chat__message--user { justify-self: end; background: var(--color-soft); border-color: transparent; }
+.sm-chat__message--assistant { justify-self: start; }
+.sm-chat__status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; color: var(--color-muted); }
+.sm-chat__composer { position: sticky; bottom: 0; display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; padding: 12px 0 max(12px,env(safe-area-inset-bottom)); background: white; }
+.sm-chat__composer textarea { resize: vertical; min-height: 64px; max-height: 30dvh; border: 1px solid var(--color-border); border-radius: 14px; padding: 12px; }
+.sm-chat__toolbar { grid-column: 1 / -1; display: flex; gap: 8px; flex-wrap: wrap; }
