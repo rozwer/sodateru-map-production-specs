@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 37,
+  "revision": 38,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4653,12 +4653,23 @@
       "token": "01e546c746074999b9f479175c6aa02b"
     },
     "RECORDS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "koshiro",
+      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
+      "generation": 1,
+      "issue_number": 20,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "koshiro",
+      "paths": [
+        "server/features/records/",
+        "server/features/media/",
+        "server/db/migrations/records/",
+        "docs/01_requirements/04_api/fragments/RECORDS.json",
+        "docs/evidence/RECORDS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "2979fdccbcfb4035ab67bca91e5aabb0"
     },
     "REFLECTION": {
       "actor": null,
