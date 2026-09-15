@@ -1,0 +1,40 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { DatabaseSync } from "node:sqlite";
+import { createInsightsService } from "./service.ts";
+import { migration } from "./migration.ts";
+
+const ddl = `CREATE TABLE insights (id TEXT PRIMARY KEY,person_id TEXT,kind TEXT,input_key TEXT,source_refs_json TEXT,range_start INTEGER,range_end INTEGER,timezone TEXT,generator_version TEXT,model TEXT,summary TEXT,result_json TEXT,review TEXT,review_note TEXT,reviewed_at INTEGER,version INTEGER,created_at INTEGER,updated_at INTEGER, UNIQUE(person_id,kind,input_key)); CREATE TABLE messages (id TEXT PRIMARY KEY,insight_id TEXT);`;
+const ctx={personId:"p",dataMode:"live" as const,requestId:"r",signal:new AbortController().signal};
+const input={id:"i1",conditions:{left:"r1",right:"r2",manual:{common:"本人原文",differences:"違い"}},sourceRefs:[{type:"record" as const,id:"r1",version:1}],timeZone:"Asia/Tokyo",generatorVersion:"manual-v1",model:null,summary:"",result:{common:["本人原文"],differences:["違い"],unknown:["2体験からの仮説"]},rangeStart:null,rangeEnd:null};
+test("保存adapterは同じ入力の本人判断を保持し、根拠変更・削除後再送・他本人を拒否",async()=>{
+ const db=new DatabaseSync(":memory:");db.exec(ddl);db.exec(migration.sql);
+ let state:"current"|"changed"|"unavailable"="current";
+ const service=createInsightsService(db,{checkSources: (_context,{refs})=>refs.map(ref=>({ref,state,currentVersion:state==="unavailable"?null:state==="changed"?2:1}))});
+ const first=await service.saveComparison(ctx,input);assert.equal(first.created,true);
+ const reviewed=await service.review(ctx,"i1",1,{review:"disagree",reviewNote:"本人の理由"});
+ const same=await service.saveComparison(ctx,{...input,id:"ignored-new-id"});
+ assert.equal(same.created,false);assert.equal(same.insight.id,"i1");assert.equal(same.insight.reviewNote,"本人の理由");
+ assert.equal(same.insight.version,reviewed.version);
+ await assert.rejects(async()=>service.get({...ctx,personId:"other"},"i1"),{code:"NOT_FOUND"});
+ await assert.rejects(async()=>service.review(ctx,"i1",1,{review:"agree"}),{code:"VERSION_CONFLICT"});
+ state="changed";await assert.rejects(async()=>service.get(ctx,"i1"),{code:"SOURCE_CHANGED"});
+ assert.deepEqual((await service.list(ctx,{})).items,[]);
+ state="unavailable";await assert.rejects(async()=>service.get(ctx,"i1"),{code:"NOT_FOUND"});
+ state="current";await service.remove(ctx,"i1",2);
+ await assert.rejects(async()=>service.saveComparison(ctx,{...input,id:"ignored-new-id"}),{code:"NOT_FOUND"});
+ await assert.rejects(async()=>service.saveComparison(ctx,input),{code:"NOT_FOUND"});
+ db.close();
+});
+test("根拠照合が不完全なら保存しない・評価理由200文字・本人取消",async()=>{
+ const db=new DatabaseSync(":memory:");db.exec(ddl);db.exec(migration.sql);
+ const incomplete=createInsightsService(db,{checkSources:()=>[]});
+ await assert.rejects(async()=>incomplete.saveComparison(ctx,input));
+ assert.equal(db.prepare("SELECT COUNT(*) AS n FROM insights").get()?.n,0);
+ const service=createInsightsService(db,{checkSources:(_,{refs})=>refs.map(ref=>({ref,state:"current" as const,currentVersion:ref.version}))});
+ await service.saveComparison(ctx,input);
+ await assert.rejects(async()=>service.review(ctx,"i1",1,{review:"agree",reviewNote:"あ".repeat(201)}),{code:"INVALID_INPUT"});
+ const controller=new AbortController();controller.abort();
+ await assert.rejects(async()=>service.saveComparison({...ctx,signal:controller.signal},{...input,id:"i2"}));
+ db.close();
+});

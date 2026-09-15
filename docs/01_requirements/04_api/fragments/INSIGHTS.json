@@ -1,0 +1,613 @@
+{
+  "taskId": "INSIGHTS",
+  "version": "insights-evidence-1",
+  "replaceSchemas": [
+    "InsightPatch",
+    "Insight"
+  ],
+  "schemas": {
+    "InsightPatch": {
+      "type": "object",
+      "properties": {
+        "review": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "agree",
+                "disagree",
+                "unsure",
+                "edit"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": ""
+        },
+        "reviewNote": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "判断・訂正の原文"
+        }
+      },
+      "required": [],
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "Insight": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id",
+          "description": "この分析・比較を開く人物"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version",
+          "description": "初期値1。判断・訂正の保存時に1増やす"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp",
+          "description": "更新日時"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id",
+          "description": "この分析・比較を開く人物"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "analysis",
+            "comparison"
+          ],
+          "description": ""
+        },
+        "inputKey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "集計・説明生成の定義版"
+        },
+        "sourceRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/SourceRef"
+          },
+          "minItems": 0,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "description": "入力に使った記録・訪問・場所・回答・ルートのIDと版"
+        },
+        "rangeStart": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "分析対象期間の開始"
+        },
+        "rangeEnd": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "分析対象期間の終端"
+        },
+        "timeZone": {
+          "$ref": "#/components/schemas/TimeZone",
+          "description": "集計に使ったIANA timezone"
+        },
+        "generatorVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "集計・説明生成の定義版"
+        },
+        "model": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "AIによる説明生成で指定したモデル"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000,
+          "description": "説明文"
+        },
+        "result": {
+          "oneOf": [
+            {
+              "$ref": "#/components/schemas/AnalysisResult"
+            },
+            {
+              "$ref": "#/components/schemas/ComparisonResult"
+            }
+          ],
+          "description": "下記の分析・比較の構造化結果"
+        },
+        "review": {
+          "anyOf": [
+            {
+              "type": "string",
+              "enum": [
+                "agree",
+                "disagree",
+                "unsure",
+                "edit"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": ""
+        },
+        "reviewNote": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 200
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "判断・訂正の原文"
+        },
+        "reviewedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "判断した日時"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "kind",
+        "inputKey",
+        "sourceRefs",
+        "rangeStart",
+        "rangeEnd",
+        "timeZone",
+        "generatorVersion",
+        "model",
+        "summary",
+        "result",
+        "review",
+        "reviewNote",
+        "reviewedAt"
+      ],
+      "additionalProperties": false,
+      "description": "保存結果DTO。列の意味は ../01_DB/16_insights.json。API別名・非公開項目はschemas/README.md。"
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/insights",
+      "replaceOperation": true,
+      "operationId": "getInsights",
+      "summary": "分析・比較一覧",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。cursorは本人・検索条件・順序に束縛し、条件不一致は400。閲覧・検索条件を適用してからページ分割。 from/toはcreatedAtへ適用。 読取/本人評価の前にSourceRefを照合。変更済みはSOURCE_CHANGED、削除/権限なしはNOT_FOUND。一覧は現在有効な結果のみ返す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/query_from"
+        },
+        {
+          "$ref": "#/components/parameters/query_to"
+        },
+        {
+          "$ref": "#/components/parameters/query_cursor"
+        },
+        {
+          "$ref": "#/components/parameters/query_limit"
+        },
+        {
+          "name": "kind",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "analysis",
+              "comparison"
+            ]
+          }
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        },
+        {
+          "name": "rangeStart",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "description": "対象期間開始の完全一致。rangeEndと組で指定。from/toはcreatedAtのまま。"
+        },
+        {
+          "name": "rangeEnd",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "description": "対象期間終端の完全一致。rangeStartと組で指定。"
+        },
+        {
+          "name": "timeZone",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/TimeZone"
+          },
+          "description": "集計timezoneの完全一致。"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功。本文は下記Schema。",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsightPage"
+              },
+              "example": {
+                "items": [],
+                "nextCursor": null
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-13",
+      "x-sort": "createdAt DESC, id DESC"
+    },
+    {
+      "method": "get",
+      "path": "/insights/{insightId}",
+      "replaceOperation": true,
+      "operationId": "getInsightsInsightId",
+      "summary": "分析・比較詳細",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: なし。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。 元の入力版が変更済みなら409 INPUT_CHANGED、削除・非公開化なら404。 読取/本人評価の前にSourceRefを照合。変更済みはSOURCE_CHANGED、削除/権限なしはNOT_FOUND。一覧は現在有効な結果のみ返す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_insightId"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getInsightsInsightId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "description": "現在状態と操作が競合",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "enum": [
+                          "INPUT_CHANGED",
+                          "STATE_CONFLICT",
+                          "BUSY",
+                          "SOURCE_CHANGED",
+                          "REQUEST_CONFLICT"
+                        ]
+                      },
+                      "message": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 10000
+                      },
+                      "requestId": {
+                        "$ref": "#/components/schemas/Id"
+                      },
+                      "details": {
+                        "type": "object",
+                        "properties": {
+                          "currentVersion": {
+                            "$ref": "#/components/schemas/Version"
+                          },
+                          "fields": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "path": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 300
+                                },
+                                "reason": {
+                                  "type": "string",
+                                  "minLength": 0,
+                                  "maxLength": 10000
+                                }
+                              },
+                              "required": [
+                                "path",
+                                "reason"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "minItems": 1,
+                            "maxItems": 100
+                          },
+                          "retryAfterSec": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 9007199254740991
+                          },
+                          "retryable": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "code",
+                      "message",
+                      "requestId"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "error"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "error": {
+                  "code": "INPUT_CHANGED",
+                  "message": "現在状態と操作が競合",
+                  "requestId": "123e4567-e89b-42d3-a456-426614174000"
+                }
+              }
+            }
+          },
+          "headers": {
+            "X-Request-Id": {
+              "schema": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "description": "要求と同じUUID。"
+            }
+          }
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-14"
+    },
+    {
+      "method": "patch",
+      "path": "/insights/{insightId}",
+      "replaceOperation": true,
+      "operationId": "patchInsightsInsightId",
+      "summary": "分析への判断・訂正",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: insights。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。根拠のID・version・現在の共有権限を照合し、読めない根拠を含む結果は返さない。 review非nullならreviewedAtをサーバー時刻へ。review=nullならreviewNote/reviewedAtもnull。判断は同じ結果IDへ保存し元の記録を変更しない。 読取/本人評価の前にSourceRefを照合。変更済みはSOURCE_CHANGED、削除/権限なしはNOT_FOUND。一覧は現在有効な結果のみ返す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_insightId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "200": {
+          "$ref": "#/components/responses/Response200_getInsightsInsightId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "422": {
+          "$ref": "#/components/responses/Response422_postVisits"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-15",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InsightPatch"
+            },
+            "example": {
+              "review": null
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "delete",
+      "path": "/insights/{insightId}",
+      "replaceOperation": true,
+      "operationId": "deleteInsightsInsightId",
+      "summary": "分析結果削除",
+      "tags": [
+        "振り返り・分析・テーマ"
+      ],
+      "description": "権限: 本人。保存先: insights削除、messagesの参照解除。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。 messages.insightIdをnullにする。 読取/本人評価の前にSourceRefを照合。変更済みはSOURCE_CHANGED、削除/権限なしはNOT_FOUND。一覧は現在有効な結果のみ返す。",
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/path_insightId"
+        },
+        {
+          "$ref": "#/components/parameters/header_If-Match"
+        },
+        {
+          "$ref": "#/components/parameters/header_X-Request-Id"
+        }
+      ],
+      "responses": {
+        "204": {
+          "$ref": "#/components/responses/Response204_deleteVisitsVisitId"
+        },
+        "400": {
+          "$ref": "#/components/responses/Response400_getPlaces"
+        },
+        "401": {
+          "$ref": "#/components/responses/Response401_getPlaces"
+        },
+        "403": {
+          "$ref": "#/components/responses/Response403_getPlaces"
+        },
+        "404": {
+          "$ref": "#/components/responses/Response404_getPlaces"
+        },
+        "500": {
+          "$ref": "#/components/responses/Response500_getPlaces"
+        },
+        "409": {
+          "$ref": "#/components/responses/Response409_patchVisitsVisitId"
+        },
+        "412": {
+          "$ref": "#/components/responses/Response412_patchPlacesPlaceId"
+        },
+        "428": {
+          "$ref": "#/components/responses/Response428_patchPlacesPlaceId"
+        }
+      },
+      "x-open-questions": [],
+      "x-common-open-questions": [
+        "Q01"
+      ],
+      "x-api-id": "04-16"
+    }
+  ]
+}
