@@ -9,3 +9,5 @@ PC1280幅ではフォームが横全幅になり原本446px幅から乖離。rec
 原本：docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_07_53.png のeditor/確認画面。リハーサルからのコード流用なし。実ブラウザ修正後確認は統合commit反映後に実施する。
 
 検証：vite build成功。全体tscは既存エラー（COREのFeatureRequestCreate、exploration requestId、records testのRecordCreate unknown、reflection version、tools/local/devのundefined）で失敗。今回CSS/表示条件の変更による型エラーなし。後続保存PRで担当testのunknownを修復する。
+
+修正後：QA #217が4a73522固定で1536/390のカメラ→写真→本文→確認→編集を成功。PC446px中央配置、390横溢れなし。消失は配信切替/HMRと一致しており通常入力不能と判定しない。詳細はverification.md。
