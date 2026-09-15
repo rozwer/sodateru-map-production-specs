@@ -1,0 +1,35 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-15T03:38:44.758Z",
+  "entry": "server/app/main.ts",
+  "dataMode": "demo",
+  "externalProviders": "actual PLACES / Mapbox / shared AI",
+  "checks": [
+    "real HTTP answer save and reload",
+    "actual place search, Mapbox seconds and AI explanation persisted",
+    "same-person same-place confirmed completion and ACTIVITY cancellation",
+    "full suggestion snapshot and saved rank survive process restart",
+    "current stop setting prevents new presentation"
+  ],
+  "candidate": {
+    "id": "7686e897-8182-4ca0-bb6e-e19927c2d0d2",
+    "placeId": "demo-place",
+    "reason": "現在は「ゆっくり過ごしたい」という希望があるため、皇居外苑を自分のペースで過ごす場所として結び付けられます。",
+    "travelMinutes": 14.416666666666666,
+    "stayMinutes": 30,
+    "totalMinutes": 44.416666666666664,
+    "model": "gpt-5.6-luna"
+  },
+  "sourceRefs": [
+    {
+      "type": "checkin",
+      "id": "demo-answer",
+      "version": 1
+    },
+    {
+      "type": "place",
+      "id": "demo-place",
+      "version": 1
+    }
+  ]
+}
