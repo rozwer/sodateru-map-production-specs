@@ -33955,7 +33955,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 248,
+  "revision": 249,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34436,15 +34436,13 @@
       "base_commit": "54683e72014242ad4f512d99b4ff700dc008cfc0",
       "generation": 1,
       "issue_number": 229,
-      "landed_main": null,
-      "note": "docs/evidence/ISSUE-CLOSE-REPAIRS/README.md; PR242; #234 real manifest dry-run: only 2 source states change, 84 preserved, 22/21 pages retained",
+      "landed_main": "ae70bc896f82becefdf30cde40c3e43df36ebe97",
+      "note": "PR242 head a51f9f8 preserved at e02850c; standard CAS revision248/86e4b43 changes only VISUAL-COMMUNITY and VISUAL-SELF, other84 states preserved; #173 -> #184+#186 and #176 -> #185+#189 CLOSED/NOT_PLANNED; task:ready excludes both; docs/evidence/ISSUE-CLOSE-REPAIRS/README.md",
       "owner": "rozwer",
-      "paths": [
-        "TASK_GRAPH.json"
-      ],
-      "status": "submitted",
-      "submitted_commit": "a51f9f89e6161b9748328003ae52d6e6b969d65b",
-      "token": "9acfc65243c042c3a97d1e49443c0673"
+      "paths": [],
+      "status": "done",
+      "submitted_commit": "e02850c39190e1859b9a183ac2da88ac49c90c9d",
+      "token": null
     },
     "ISSUE-SUPERSESSION-FIX": {
       "actor": "rozwer",
