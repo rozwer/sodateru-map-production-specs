@@ -1,4 +1,5 @@
-import { randomUUID, createHash } from "node:crypto";
+import { randomUUID } from "node:crypto";
+import { requestHash } from "../../core/idempotency.ts";
 import type { DatabaseSync } from "node:sqlite";
 import type { RequestContext } from "../../core/context.ts";
 import { CommonError } from "../../core/errors.ts";
@@ -9,12 +10,7 @@ const invalid = (message = "場所の入力を確認してください。") => n
 const id = (v:unknown): v is string => typeof v==="string" && !!v.trim() && [...v].length<=80;
 const str = (v:unknown,max:number): v is string => typeof v==="string" && !!v.trim() && [...v].length<=max;
 const optional = (v:unknown,max:number) => v===null || (typeof v==="string" && [...v].length<=max);
-export function canonical(value:any):string {
-  if(Array.isArray(value))return `[${value.map(canonical).join(",")}]`;
-  if(value!==null && typeof value==="object")return `{${Object.keys(value).sort().map(k=>JSON.stringify(k)+":"+canonical(value[k])).join(",")}}`;
-  return JSON.stringify(value);
-}
-export const hash = (value:unknown) => createHash("sha256").update(canonical(value)).digest("hex");
+export const hash = requestHash;
 export function validateCreate(value:any):PlaceCreate {
   if(!value || typeof value!=="object" || !id(value.id))throw invalid();
   const keys=value.mode==="candidate"?["id","mode","resultId","candidateId"]:["id","mode","name","position","address","buildingKey"];
@@ -108,8 +104,8 @@ export function listPlaces(context:RequestContext,db:DatabaseSync,input:Record<s
   if(input.q!==undefined&&!str(input.q,200)||input.buildingKey!==undefined&&!str(input.buildingKey,400))throw invalid();
   const limit=input.limit===undefined?50:Number(input.limit);
   if(!Number.isInteger(limit)||limit<1||limit>100)throw invalid();
-  let bbox:number[]|undefined;
-  if(input.bbox!==undefined){bbox=input.bbox.split(",").map(Number);if(bbox.length!==4||!isPosition(bbox.slice(0,2))||!isPosition(bbox.slice(2))||bbox[0]>=bbox[2]||bbox[1]>=bbox[3])throw invalid();}
+  let bbox:[number,number,number,number]|undefined;
+  if(input.bbox!==undefined){bbox=input.bbox.split(",").map(Number) as [number,number,number,number];if(bbox.length!==4||!isPosition(bbox.slice(0,2))||!isPosition(bbox.slice(2))||bbox[0]>=bbox[2]||bbox[1]>=bbox[3])throw invalid();}
   const queryHash=hash({personId:context.personId,dataMode:context.dataMode,q:normalize(input.q??""),bbox:bbox??null,buildingKey:input.buildingKey??null,order:"name,id"});
   let after:any=null;
   if(input.cursor){try{after=JSON.parse(Buffer.from(input.cursor,"base64url").toString());}catch{throw invalid("ページ位置が不正です。");}if(after.queryHash!==queryHash||!id(after.id)||typeof after.name!=="string")throw invalid("検索条件が変更されています。");}
