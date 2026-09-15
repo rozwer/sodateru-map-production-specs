@@ -19,6 +19,7 @@
         "MAP-CUSTOM": 27,
         "PILGRIMAGE": 38,
         "PLACES": 5,
+        "PLAN-UI-CONNECTIONS": 72,
         "PLUGINS": 28,
         "QA-VISUAL": 40,
         "RECORDS": 20,
@@ -4452,6 +4453,22 @@
           "tools/test_hooks_guard.py",
           "tools/test_taskctl.py"
         ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "PLAN-UI-CONNECTIONS",
+        "kind": "coordination",
+        "lane": "A",
+        "priority": "P0",
+        "title": "UI完了と実接続受入を13組へ分割",
+        "write_paths": [
+          "docs/03_issue/",
+          "TASK_GRAPH.json",
+          "tools/sync_graph.py",
+          "tools/test_sync_graph.py",
+          "docs/evidence/PLAN-UI-CONNECTIONS/"
+        ]
       }
     ]
   },
@@ -4459,9 +4476,10 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT",
-    "TOOL-UPSTREAM-GUARD"
+    "TOOL-UPSTREAM-GUARD",
+    "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 81,
+  "revision": 82,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4705,6 +4723,25 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "f2c8681b601241ae9a2f423a9d1f4f11"
+    },
+    "PLAN-UI-CONNECTIONS": {
+      "actor": "rozwer",
+      "base_commit": "560c97600352b03e09e02f80d25f79950656a83f",
+      "generation": 1,
+      "issue_number": 72,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "docs/03_issue/",
+        "TASK_GRAPH.json",
+        "tools/sync_graph.py",
+        "tools/test_sync_graph.py",
+        "docs/evidence/PLAN-UI-CONNECTIONS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "32dc3aabd6f14a18aa77b9edb4e796f8"
     },
     "PLUGINS": {
       "actor": "kaiya",
