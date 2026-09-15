@@ -4494,7 +4494,7 @@
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION"
   ],
-  "revision": 135,
+  "revision": 136,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4852,7 +4852,7 @@
       "generation": 1,
       "issue_number": 37,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/THEMES/closeout.md",
       "owner": "mattsun",
       "paths": [
         "server/features/themes/",
@@ -4860,8 +4860,8 @@
         "docs/01_requirements/04_api/fragments/THEMES.json",
         "docs/evidence/THEMES/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "e427bae86ca03a2c0e3e8adc18f99e268944c4e3",
       "token": "14e61585ae1448878c4762a06df0ff45"
     },
     "TOOL-ISSUE-COMMENT": {
