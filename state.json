@@ -4444,7 +4444,7 @@
     "TOOL-WORKTREE-SETUP",
     "TOOL-ISSUE-COMMENT"
   ],
-  "revision": 60,
+  "revision": 61,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4553,12 +4553,22 @@
       "token": null
     },
     "DISASTER": {
-      "actor": null,
-      "generation": 0,
+      "actor": "kaiya",
+      "base_commit": "6d1b08a6b5814cdf4a764f9e31d7458e38be8df3",
+      "generation": 1,
+      "issue_number": 30,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "kaiya",
+      "paths": [
+        "server/plugins/disaster/",
+        "server/db/migrations/disaster/",
+        "docs/01_requirements/04_api/fragments/DISASTER.json",
+        "docs/evidence/DISASTER/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "ec30c52f4ebc4cb4a851cbe948b6a616"
     },
     "EXPLORATION": {
       "actor": "mattsun",
