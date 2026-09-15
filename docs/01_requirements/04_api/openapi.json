@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "育てる地図 本番API契約案",
-    "version": "0.2.0",
-    "description": "実装済みAPIではない。認証方式(Q01)を全操作の未解決依存として持つ。操作固有の未解決依存はx-open-questionsを参照。"
+    "version": "0.3.0",
+    "description": "機能別契約の合成結果。契約の存在は各APIの実装完了を意味しない。COREのローカル本人開始方式はQ01/Q02仕様を参照。"
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "servers": [
@@ -45,6 +45,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -103,11 +106,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "01-01",
-        "x-sort": "name ASC, id ASC"
+        "x-sort": "name ASC, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postPlaces",
@@ -122,6 +132,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -294,10 +307,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "01-03",
         "requestBody": {
           "required": true,
@@ -314,7 +324,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/place-candidates": {
@@ -362,6 +381,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -441,10 +463,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "01-02",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "01-02"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/places/{placeId}": {
@@ -461,6 +490,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -570,10 +602,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "01-04",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "01-04"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchPlacesPlaceId",
@@ -591,6 +630,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -690,9 +732,7 @@
         "x-open-questions": [
           "Q03"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "01-05",
         "requestBody": {
           "required": true,
@@ -706,7 +746,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/map/growth": {
@@ -729,6 +778,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -789,11 +841,18 @@
         "x-open-questions": [
           "Q11"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "01-06",
-        "x-sort": "place.id ASC"
+        "x-sort": "place.id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/visits": {
@@ -835,6 +894,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -878,11 +940,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-01",
-        "x-sort": "startedAt DESC NULLS LAST, id DESC"
+        "x-sort": "startedAt DESC NULLS LAST, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postVisits",
@@ -897,6 +966,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -981,10 +1053,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-02",
         "requestBody": {
           "required": true,
@@ -1003,7 +1072,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/visits/{visitId}": {
@@ -1020,6 +1098,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1043,10 +1124,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-03",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-03"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchVisitsVisitId",
@@ -1064,6 +1152,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1099,9 +1190,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-04",
         "requestBody": {
           "required": true,
@@ -1115,7 +1204,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteVisitsVisitId",
@@ -1133,6 +1231,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1165,10 +1266,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-05",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-05"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/records": {
@@ -1224,6 +1332,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1267,11 +1378,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-06",
-        "x-sort": "effectiveStartedAt DESC NULLS LAST, id ASC"
+        "x-sort": "effectiveStartedAt DESC NULLS LAST, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postRecords",
@@ -1286,6 +1404,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1386,10 +1507,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-07",
         "requestBody": {
           "required": true,
@@ -1421,7 +1539,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/records/{recordId}": {
@@ -1438,6 +1565,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1533,10 +1663,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-08",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-08"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchRecordsRecordId",
@@ -1554,6 +1691,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1652,9 +1792,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-09",
         "requestBody": {
           "required": true,
@@ -1669,7 +1807,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteRecordsRecordId",
@@ -1687,6 +1834,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1719,10 +1869,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-10",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-10"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/records/{recordId}/media": {
@@ -1745,6 +1902,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -1768,11 +1928,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-11",
-        "x-sort": "position ASC, id ASC"
+        "x-sort": "position ASC, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postRecordsRecordIdMedia",
@@ -1793,6 +1960,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2083,10 +2253,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-12",
         "requestBody": {
           "required": true,
@@ -2102,7 +2269,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/records/{recordId}/media/reorder": {
@@ -2125,6 +2301,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2160,10 +2339,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-13",
         "requestBody": {
           "required": true,
@@ -2177,7 +2353,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/media/{mediaId}": {
@@ -2194,6 +2379,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2264,10 +2452,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-14",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-14"
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteMediaMediaId",
@@ -2285,6 +2480,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2317,10 +2515,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-16",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-16"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/media/{mediaId}/content": {
@@ -2348,6 +2553,9 @@
               "maxLength": 200
             },
             "description": "単一bytes範囲。複数・不正・範囲外は416。"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2730,10 +2938,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-15",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-15"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/track-points": {
@@ -2767,6 +2982,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2810,11 +3028,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-17",
-        "x-sort": "observedAt ASC, id ASC"
+        "x-sort": "observedAt ASC, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postTrackPoints",
@@ -2829,6 +3054,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -2916,10 +3144,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-18",
         "requestBody": {
           "required": true,
@@ -2957,7 +3182,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/track-points/{pointId}": {
@@ -2979,6 +3213,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3049,10 +3286,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "02-19",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "02-19"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/track-points/delete-range": {
@@ -3069,6 +3313,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3131,10 +3378,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "02-20",
         "requestBody": {
           "required": true,
@@ -3156,7 +3400,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/conversations": {
@@ -3190,6 +3443,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3248,11 +3504,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-01",
-        "x-sort": "updatedAt DESC, id DESC"
+        "x-sort": "updatedAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postConversations",
@@ -3267,6 +3530,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3357,10 +3623,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-02",
         "requestBody": {
           "required": true,
@@ -3377,7 +3640,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/conversations/{conversationId}": {
@@ -3394,6 +3666,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3432,10 +3707,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "03-03",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "03-03"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchConversationsConversationId",
@@ -3453,6 +3735,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3497,9 +3782,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-04",
         "requestBody": {
           "required": true,
@@ -3513,7 +3796,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteConversationsConversationId",
@@ -3531,6 +3823,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3575,10 +3870,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "03-05",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "03-05"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/conversations/{conversationId}/messages": {
@@ -3601,6 +3903,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3659,11 +3964,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-06",
-        "x-sort": "message.position ASC, message.id ASC"
+        "x-sort": "message.position ASC, message.id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postConversationsConversationIdMessages",
@@ -3681,6 +3993,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3790,10 +4105,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-07",
         "requestBody": {
           "required": true,
@@ -3824,7 +4136,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/messages/{messageId}": {
@@ -3841,6 +4162,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -3933,10 +4257,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "03-08",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "03-08"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/messages/{messageId}/cancel": {
@@ -3959,6 +4290,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4053,10 +4387,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-09",
         "requestBody": {
           "required": true,
@@ -4070,7 +4401,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/messages/{messageId}/retry": {
@@ -4093,6 +4433,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4192,10 +4535,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-10",
         "requestBody": {
           "required": true,
@@ -4209,7 +4549,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/reflection/days/{date}": {
@@ -4234,6 +4583,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4311,10 +4663,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-01",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-01"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/self-checkins": {
@@ -4342,6 +4701,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4385,11 +4747,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-02",
-        "x-sort": "localDate DESC, createdAt DESC, id DESC"
+        "x-sort": "localDate DESC, createdAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postSelfCheckins",
@@ -4404,6 +4773,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4492,10 +4864,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-03",
         "requestBody": {
           "required": true,
@@ -4519,7 +4888,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/self-checkins/{checkinId}": {
@@ -4536,6 +4914,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4559,10 +4940,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-04",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-04"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchSelfCheckinsCheckinId",
@@ -4580,6 +4968,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4615,9 +5006,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-05",
         "requestBody": {
           "required": true,
@@ -4631,7 +5020,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteSelfCheckinsCheckinId",
@@ -4649,6 +5047,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4681,10 +5082,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-06",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-06"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/themes": {
@@ -4704,6 +5112,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4747,11 +5158,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-07",
-        "x-sort": "updatedAt DESC, id DESC"
+        "x-sort": "updatedAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postThemes",
@@ -4766,6 +5184,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4847,10 +5268,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-08",
         "requestBody": {
           "required": true,
@@ -4867,7 +5285,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/themes/{themeId}": {
@@ -4884,6 +5311,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4907,10 +5337,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-09",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-09"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchThemesThemeId",
@@ -4928,6 +5365,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -4963,9 +5403,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-10",
         "requestBody": {
           "required": true,
@@ -4979,7 +5417,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteThemesThemeId",
@@ -4997,6 +5444,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5029,10 +5479,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-11",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-11"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/reflection/summary": {
@@ -5065,6 +5522,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5141,10 +5601,17 @@
         "x-open-questions": [
           "Q05"
         ],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-12",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-12"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/insights": {
@@ -5182,6 +5649,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5225,11 +5695,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-13",
-        "x-sort": "createdAt DESC, id DESC"
+        "x-sort": "createdAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postInsights",
@@ -5244,6 +5721,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5424,10 +5904,7 @@
         "x-open-questions": [
           "Q05"
         ],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-18",
         "requestBody": {
           "required": true,
@@ -5465,7 +5942,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/insights/{insightId}": {
@@ -5482,6 +5968,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5609,10 +6098,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-14",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-14"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchInsightsInsightId",
@@ -5630,6 +6126,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5665,9 +6164,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-15",
         "requestBody": {
           "required": true,
@@ -5681,7 +6178,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteInsightsInsightId",
@@ -5699,6 +6205,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5731,10 +6240,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-16",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-16"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/source-checks": {
@@ -5751,6 +6267,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -5817,10 +6336,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-17",
         "requestBody": {
           "required": true,
@@ -5834,7 +6350,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/suggestion-batches": {
@@ -5851,6 +6376,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6033,10 +6561,7 @@
         "x-open-questions": [
           "Q05"
         ],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-01",
         "requestBody": {
           "required": true,
@@ -6059,7 +6584,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/suggestions": {
@@ -6103,6 +6637,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6146,11 +6683,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-02",
-        "x-sort": "createdAt DESC, batchId ASC, position ASC, id ASC"
+        "x-sort": "createdAt DESC, batchId ASC, position ASC, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/suggestions/{suggestionId}": {
@@ -6167,6 +6711,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6190,10 +6737,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "05-03",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "05-03"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchSuggestionsSuggestionId",
@@ -6211,6 +6765,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6246,9 +6803,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-04",
         "requestBody": {
           "required": true,
@@ -6262,7 +6817,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/route-searches": {
@@ -6279,6 +6843,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6515,10 +7082,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-05",
         "requestBody": {
           "required": true,
@@ -6547,7 +7111,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/saved-routes": {
@@ -6567,6 +7140,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6605,11 +7181,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-06",
-        "x-sort": "updatedAt DESC, id DESC"
+        "x-sort": "updatedAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postSavedRoutes",
@@ -6624,6 +7207,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6892,10 +7478,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-07",
         "requestBody": {
           "required": true,
@@ -6911,7 +7494,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/saved-routes/{routeId}": {
@@ -6928,6 +7520,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -6966,10 +7561,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "05-08",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "05-08"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchSavedRoutesRouteId",
@@ -6987,6 +7589,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7034,9 +7639,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-09",
         "requestBody": {
           "required": true,
@@ -7050,7 +7653,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteSavedRoutesRouteId",
@@ -7068,6 +7680,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7112,10 +7727,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "05-10",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "05-10"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/transit-passes": {
@@ -7135,6 +7757,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7178,11 +7803,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-11",
-        "x-sort": "validFrom DESC, id DESC"
+        "x-sort": "validFrom DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postTransitPasses",
@@ -7197,6 +7829,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7287,10 +7922,7 @@
         "x-open-questions": [
           "Q07"
         ],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-12",
         "requestBody": {
           "required": true,
@@ -7314,7 +7946,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/transit-passes/{passId}": {
@@ -7331,6 +7972,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7354,10 +7998,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "05-13",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "05-13"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchTransitPassesPassId",
@@ -7375,6 +8026,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7412,9 +8066,7 @@
         "x-open-questions": [
           "Q07"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "05-14",
         "requestBody": {
           "required": true,
@@ -7428,7 +8080,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteTransitPassesPassId",
@@ -7446,6 +8107,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7478,10 +8142,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "05-15",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "05-15"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/me": {
@@ -7491,10 +8162,13 @@
         "tags": [
           "人物・共有"
         ],
-        "description": "権限: 本人。保存先: なし。認証層の本人IDからpeopleを取得。初回作成方法はQ01。",
+        "description": "権限: 本人。保存先: なし。COREのmode別ローカルセッションから本人IDを解決しpeopleを取得。初回作成とセッション開始は07_core-runtime.md。",
         "parameters": [
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7518,10 +8192,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "06-01",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "06-01"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchMe",
@@ -7536,6 +8217,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7573,9 +8257,7 @@
         "x-open-questions": [
           "Q06"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-02",
         "requestBody": {
           "required": true,
@@ -7589,7 +8271,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/people": {
@@ -7612,6 +8303,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7657,11 +8351,18 @@
         "x-open-questions": [
           "Q01"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-03",
-        "x-sort": "name ASC, id ASC"
+        "x-sort": "name ASC, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/people/{personId}": {
@@ -7683,6 +8384,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7708,10 +8412,17 @@
         "x-open-questions": [
           "Q01"
         ],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "06-04",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "06-04"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/friendships": {
@@ -7743,6 +8454,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7786,11 +8500,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-05",
-        "x-sort": "updatedAt DESC, id DESC"
+        "x-sort": "updatedAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postFriendships",
@@ -7805,6 +8526,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7885,10 +8609,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-06",
         "requestBody": {
           "required": true,
@@ -7903,7 +8624,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/friendships/{friendshipId}": {
@@ -7920,6 +8650,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7943,10 +8676,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "06-07",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "06-07"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchFriendshipsFriendshipId",
@@ -7964,6 +8704,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -7999,9 +8742,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-08",
         "requestBody": {
           "required": true,
@@ -8024,7 +8765,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteFriendshipsFriendshipId",
@@ -8042,6 +8792,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8074,10 +8827,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "06-09",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "06-09"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/shared-records": {
@@ -8136,6 +8896,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8174,11 +8937,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-10",
-        "x-sort": "effectiveAt DESC NULLS LAST, id ASC"
+        "x-sort": "effectiveAt DESC NULLS LAST, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/shared-records/map": {
@@ -8231,6 +9001,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8300,10 +9073,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "06-11",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "06-11"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/places/{placeId}/voices": {
@@ -8377,6 +9157,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8415,11 +9198,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-12",
-        "x-sort": "effectiveAt DESC NULLS LAST, id ASC"
+        "x-sort": "effectiveAt DESC NULLS LAST, id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/shared-routes": {
@@ -8455,6 +9245,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8478,11 +9271,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "06-13",
-        "x-sort": "updatedAt DESC, id DESC"
+        "x-sort": "updatedAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/plugins": {
@@ -8496,6 +9296,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8554,10 +9357,17 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "07-01",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "07-01"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/plugin-settings": {
@@ -8577,6 +9387,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8622,11 +9435,18 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-02",
-        "x-sort": "id ASC"
+        "x-sort": "id ASC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postPluginSettings",
@@ -8641,6 +9461,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8722,10 +9545,7 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-03",
         "requestBody": {
           "required": true,
@@ -8741,7 +9561,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/plugin-settings/{pluginId}": {
@@ -8758,6 +9587,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8783,10 +9615,17 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "07-04",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "07-04"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchPluginSettingsPluginId",
@@ -8804,6 +9643,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8841,9 +9683,7 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-05",
         "requestBody": {
           "required": true,
@@ -8857,7 +9697,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deletePluginSettingsPluginId",
@@ -8875,6 +9724,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8909,10 +9761,17 @@
         "x-open-questions": [
           "Q09"
         ],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "07-06",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "07-06"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/feature-requests": {
@@ -8947,6 +9806,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -8990,11 +9852,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-07",
-        "x-sort": "createdAt DESC, id DESC"
+        "x-sort": "createdAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "post": {
         "operationId": "postFeatureRequests",
@@ -9009,6 +9878,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9090,10 +9962,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-08",
         "requestBody": {
           "required": true,
@@ -9110,7 +9979,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/feature-requests/{requestId}": {
@@ -9127,6 +10005,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9150,10 +10031,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "07-09",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "07-09"
+        "x-core-contract-version": "0.3.0"
       },
       "patch": {
         "operationId": "patchFeatureRequestsRequestId",
@@ -9171,6 +10059,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9206,9 +10097,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "07-10",
         "requestBody": {
           "required": true,
@@ -9222,7 +10111,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteFeatureRequestsRequestId",
@@ -9240,6 +10138,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9272,10 +10173,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "07-11",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "07-11"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/map-dialogues": {
@@ -9292,6 +10200,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9339,10 +10250,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-11",
         "requestBody": {
           "required": true,
@@ -9364,7 +10272,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/map-dialogues/select": {
@@ -9381,6 +10298,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9428,10 +10348,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-12",
         "requestBody": {
           "required": true,
@@ -9446,7 +10363,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/map-dialogues/cancel": {
@@ -9463,6 +10389,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9510,10 +10439,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "03-13",
         "requestBody": {
           "required": true,
@@ -9527,7 +10453,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/map-dialogues/results/{resultId}": {
@@ -9549,6 +10484,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9596,10 +10534,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "03-14",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "03-14"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/discovery-cards": {
@@ -9616,6 +10561,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9716,10 +10664,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-19",
         "requestBody": {
           "required": true,
@@ -9754,7 +10699,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "get": {
         "operationId": "getDiscoveryCards",
@@ -9781,6 +10735,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9839,11 +10796,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-20",
-        "x-sort": "createdAt DESC, id DESC"
+        "x-sort": "createdAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/discovery-cards/{cardId}": {
@@ -9860,6 +10824,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -9952,10 +10919,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-21",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-21"
+        "x-core-contract-version": "0.3.0"
       },
       "delete": {
         "operationId": "deleteDiscoveryCardsCardId",
@@ -9973,6 +10947,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -10017,10 +10994,17 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-22",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-22"
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/discovery-cards/{cardId}/reactions": {
@@ -10040,6 +11024,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -10120,10 +11107,7 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01",
-          "Q02"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-23",
         "requestBody": {
           "required": true,
@@ -10158,7 +11142,16 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       },
       "get": {
         "operationId": "getDiscoveryCardsCardIdReactions",
@@ -10179,6 +11172,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -10237,11 +11233,18 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
-        ],
+        "x-common-open-questions": [],
         "x-api-id": "04-24",
-        "x-sort": "createdAt DESC, id DESC"
+        "x-sort": "createdAt DESC, id DESC",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-core-contract-version": "0.3.0"
       }
     },
     "/discovery-cards/{cardId}/reactions/{reactionId}": {
@@ -10266,6 +11269,9 @@
           },
           {
             "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
           }
         ],
         "responses": {
@@ -10338,10 +11344,337 @@
           }
         },
         "x-open-questions": [],
-        "x-common-open-questions": [
-          "Q01"
+        "x-common-open-questions": [],
+        "x-api-id": "04-25",
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
         ],
-        "x-api-id": "04-25"
+        "x-core-contract-version": "0.3.0"
+      }
+    },
+    "/session/profiles": {
+      "get": {
+        "operationId": "getSessionProfiles",
+        "summary": "ローカルで選択できる本人",
+        "x-local-session-bootstrap": true,
+        "description": "サーバー設定で許可したprofileKeyと名前のみ。人物検索や公開プロフィールとは別。",
+        "responses": {
+          "200": {
+            "description": "選択肢",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/LocalProfile"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "401": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "403": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "404": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "500": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
+          }
+        ],
+        "tags": [
+          "CORE"
+        ],
+        "x-contract-fragment": {
+          "file": "fragments/CORE.json",
+          "taskId": "CORE",
+          "version": "0.3.0"
+        },
+        "security": [],
+        "x-common-open-questions": [],
+        "x-core-contract-version": "0.3.0"
+      }
+    },
+    "/session": {
+      "post": {
+        "operationId": "postSession",
+        "summary": "ローカル本人セッション開始",
+        "x-local-session-bootstrap": true,
+        "description": "登録済みprofileKeyから本人を解決し、X-Data-Modeに対応するHttpOnly cookieを発行する。Idempotency-Keyは初回から固定し、終了後の同じキーは404。",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "開始",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LocalSession"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "同じ入力の再送",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LocalSession"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "入力衝突",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "入力不正",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "401": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "403": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "404": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "500": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
+          },
+          {
+            "$ref": "#/components/parameters/header_Idempotency-Key"
+          }
+        ],
+        "tags": [
+          "CORE"
+        ],
+        "x-contract-fragment": {
+          "file": "fragments/CORE.json",
+          "taskId": "CORE",
+          "version": "0.3.0"
+        },
+        "security": [],
+        "x-common-open-questions": [],
+        "x-core-contract-version": "0.3.0"
+      },
+      "get": {
+        "operationId": "getSession",
+        "summary": "現在の本人セッション",
+        "responses": {
+          "200": {
+            "description": "現在の本人",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "data"
+                  ],
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/LocalSession"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "401": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "403": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "404": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "500": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
+          }
+        ],
+        "tags": [
+          "CORE"
+        ],
+        "x-contract-fragment": {
+          "file": "fragments/CORE.json",
+          "taskId": "CORE",
+          "version": "0.3.0"
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-common-open-questions": [],
+        "x-core-contract-version": "0.3.0"
+      },
+      "delete": {
+        "operationId": "deleteSession",
+        "summary": "本人セッション終了",
+        "responses": {
+          "204": {
+            "description": "終了"
+          },
+          "412": {
+            "description": "版競合",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "428": {
+            "description": "版未指定",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "401": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "403": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "404": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          },
+          "500": {
+            "$ref": "#/components/responses/Response400_getSessionProfiles"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/header_X-Request-Id"
+          },
+          {
+            "$ref": "#/components/parameters/header_X-Data-Mode"
+          },
+          {
+            "$ref": "#/components/parameters/header_If-Match"
+          }
+        ],
+        "tags": [
+          "CORE"
+        ],
+        "x-contract-fragment": {
+          "file": "fragments/CORE.json",
+          "taskId": "CORE",
+          "version": "0.3.0"
+        },
+        "security": [
+          {
+            "localLiveSession": []
+          },
+          {
+            "localDemoSession": []
+          }
+        ],
+        "x-common-open-questions": [],
+        "x-core-contract-version": "0.3.0"
       }
     }
   },
@@ -20222,6 +21555,84 @@
           "nextCursor"
         ],
         "additionalProperties": false
+      },
+      "LocalProfile": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profileKey",
+          "name"
+        ],
+        "properties": {
+          "profileKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "SessionInput": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "profileKey"
+        ],
+        "properties": {
+          "profileKey": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        }
+      },
+      "LocalSession": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "person",
+          "dataMode",
+          "version",
+          "expiresAt"
+        ],
+        "properties": {
+          "person": {
+            "$ref": "#/components/schemas/Person"
+          },
+          "dataMode": {
+            "$ref": "#/components/schemas/DataMode"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "expiresAt": {
+            "type": "integer"
+          }
+        }
+      },
+      "DataMode": {
+        "type": "string",
+        "enum": [
+          "live",
+          "demo"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "localLiveSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sodateru_session_live"
+      },
+      "localDemoSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sodateru_session_demo"
       }
     },
     "parameters": {
@@ -20274,7 +21685,19 @@
           "type": "string",
           "format": "uuid"
         },
-        "description": "新しいHTTP要求のUUID。dataModeはサーバーの本人解決contextから渡す。"
+        "description": "新しいHTTP要求のUUID。X-Data-Modeとmode別セッションを検査して本人contextを作る。"
+      },
+      "header_X-Data-Mode": {
+        "name": "X-Data-Mode",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": [
+            "live",
+            "demo"
+          ]
+        }
       },
       "header_Idempotency-Key": {
         "name": "Idempotency-Key",
@@ -20285,7 +21708,7 @@
           "minLength": 1,
           "maxLength": 128
         },
-        "description": "本人と操作に束縛した再送識別子。照合記録の保存方式はQ02。読取POSTでも指定する。"
+        "description": "本人・mode・HTTP操作に束縛した再送識別子。COREの永続受付を使用。読取POSTでも指定し一時結果の期限を保持する。"
       },
       "query_longitude": {
         "name": "longitude",
@@ -23305,8 +24728,30 @@
             "description": "要求と同じUUID。"
           }
         }
+      },
+      "Response400_getSessionProfiles": {
+        "description": "共通エラー",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorEnvelope"
+            }
+          }
+        }
       }
     }
   },
-  "x-authentication-status": "Q01: 未確定。securityの未記載は公開APIを意味しない。"
+  "x-authentication-status": "CORE: server-registered local profile session; cookie must match X-Data-Mode. Public-service authentication and profile lifecycle remain separate Q01 scope.",
+  "x-contract-fragments": [
+    {
+      "file": "fragments/CORE.json",
+      "taskId": "CORE",
+      "version": "0.3.0"
+    },
+    {
+      "file": "fragments/common.json",
+      "taskId": "common",
+      "version": "0.3.0"
+    }
+  ]
 }
