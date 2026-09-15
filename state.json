@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 95,
+  "revision": 96,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4557,7 +4557,7 @@
       "generation": 1,
       "issue_number": 35,
       "landed_main": null,
-      "note": null,
+      "note": "https://github.com/rozwer/sodateru-map-production-specs/issues/35",
       "owner": "mattsun",
       "paths": [
         "server/features/companion/",
@@ -4565,8 +4565,8 @@
         "docs/01_requirements/04_api/fragments/COMPANION.json",
         "docs/evidence/COMPANION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "aa9f8c58f629ecdbdea28f37ce4999e0d408d624",
       "token": "55951bfb17884a9092571685f97731a9"
     },
     "CORE": {
