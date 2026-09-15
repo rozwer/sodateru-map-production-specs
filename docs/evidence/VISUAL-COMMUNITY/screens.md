@@ -5,7 +5,7 @@
 | 画面 | 参照画像・原本状態 | 実ブラウザURL・commit・幅・状態 | 差分 | 修正 | 未確認 |
 |---|---|---|---|---|---|
 | community-home | Codex 画像 2026年9月15日 07_41_00.png / home | 未確認 | Shellの430px側面枠＋背景地図と埋込Mapが重複 | 原本に基づくfullscreen指定、単一地図、地図高を画面幅に追従 | Shell契約統合後の再表示、写真/共有記録通常状態 |
-| friends-map | Codex 画像 2026年9月15日 07_41_08.png / friend-selected | 未確認 | Shellの430px側面枠＋背景地図と埋込Mapが重複 | 原本に基づくfullscreen指定、単一地図、地図高を画面幅に追従 | Shell契約統合後の再表示、写真/共有記録通常状態 |
+| friends-map | Codex 画像 2026年9月15日 07_41_08.png / friend-selected | http://127.0.0.1:5173/#/friends-map / QA d264c15（PR193 40a940b包含）/ 390×844・853×1844 / demo友達0件 | 変更前内外2枚→表示Mapbox1枚、Sheet x0/y0/width853、横overflowなし | fullscreen明示・地図高285〜640px、原本幅の友達/記録拡大 | 友達選択/写真/複数共有カード通常状態はAPI0件のため未確認 |
 | friend-profile | Codex 画像 2026年9月15日 08_17_57.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
 | friend-compare | Codex 画像 2026年9月15日 08_17_57.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
 | shared-route | Codex 画像 2026年9月15日 08_17_57.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
@@ -24,6 +24,16 @@
 | plugin-conflict | Codex 画像 2026年9月15日 08_23_21.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
 | feature-requests | feature-request-flow-v2.png / main; feature-request-flow-v2.png / submitted | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
 | feature-request-edit | feature-request-flow-v2.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
-| companion-settings | Codex 画像 2026年9月15日 08_23_36.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
-| companion-import | Codex 画像 2026年9月15日 08_23_36.png / main | 未確認 | 未判定 | 未着手 | 通常状態・原本幅・390px |
+| companion-settings | Codex 画像 2026年9月15日 08_23_36.png / main | http://127.0.0.1:5173/#/companion-settings / QA d264c15 / 390×844 / demo相棒0件 | 原本選択済み2体との差はデータ不足。初期設定/大小選択/保存導線表示 | 未着手 | 登録済み通常状態・原本幅 |
+| companion-import | Codex 画像 2026年9月15日 08_23_36.png / main | http://127.0.0.1:5173/#/companion-import / QA d264c15 / 390×844 / ファイル未選択 | 原本プレビュー3動作との差は入力未選択。登録不可を正しく表示 | 未着手 | ZIP検査後の通常状態・原本幅 |
 | companion-create | Codex 画像 2026年9月15日 08_23_36.png / main | 対象外 | ユーザー対象外 | 制作しない | 一致対象外 |
+
+## 検証境界
+
+PR193提出40a940b、通常merge a96cbc8。QA担当がHEAD d264c15へ5173/API3002を更新したreceiptを受領。担当friends/knowledge/companionのTypeScript検査とproduction build成功。全体tscはCORE/records/reflection/explorationの既存型エラーあり。相棒の内部idempotencyKey付与は保持したままhelperの入力型を修正。
+
+既存UI-FRIENDS fixtureへ到達する専用HTMLだけ追加し、写真/座標/複数記録の既存模擬応答を再利用する。新しいmock基盤や起動サーバーは追加しない。実API保存完了の証拠には使わない。
+
+## 地域の知toolbar
+
+QA d264c15 / 390×844でtoolbarが地図に透け、戻る/メニューがブラウザ標準の四角ボタンになっていることを実見。原本07_41_04は白い全幅header＋左戻る＋右丸メニュー。featureのtoolbarを独立クラスにして白背景、44pxのアイコン操作へ修正。API・MapBridge・Sheet高さ58%を維持。変更後の実表示はQA反映後確認する。

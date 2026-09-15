@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { api } from '../../app/api';
+import { Icon } from '../../ui/Icon';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useMapBridge } from '../../app/useMapBridge';
 import { useScreenState } from '../../app/useScreenState';
@@ -61,7 +62,7 @@ function Local(props: ScreenProps) {
   }, [data.items, props.active, bridge]);
   return <><KnowledgeStatus loading={data.loading}/><KnowledgePlaceView name={data.items[0]?.place?.name ?? '地域の知'} records={data.items} totalCount={data.total} timeZone={timeZone} onClose={props.back} onVoices={() => props.navigate('knowledge-list', props.route.params)} onOpen={recordId => props.navigate('knowledge-detail', { recordId })} error={data.error} active={props.active} loadMedia={loadMedia}/></>;
 }
-function Toolbar(props: ScreenProps) { return <header className="knowledge-header"><button onClick={props.back}>戻る</button><h2>地域の知</h2><button onClick={() => props.navigate('navigation', { mode: 'main' })}>メニュー</button></header>; }
+function Toolbar(props: ScreenProps) { return <header className="knowledge-map-toolbar"><button type="button" aria-label="戻る" onClick={props.back}><Icon name="back"/></button><h2>地域の知</h2><button type="button" aria-label="メニュー" onClick={() => props.navigate('navigation', { mode: 'main' })}><Icon name="menu"/></button></header>; }
 export const screens: ScreenDefinition[] = [
   { id: 'knowledge-list', title: '地域の声', component: List, layout: { header: 'none', contentPadding: 'none', bottomNav: false } },
   { id: 'knowledge-filter', title: '検索条件', component: Filter, layout: { header: 'none', contentPadding: 'none', bottomNav: false } },

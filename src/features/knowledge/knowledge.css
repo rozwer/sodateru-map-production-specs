@@ -16,3 +16,30 @@
 .knowledge-area-help{font-size:.8125rem;color:#697e8b;margin:6px 0 10px!important}.knowledge-area-results{list-style:none;padding:0;margin:8px 0;display:grid;gap:5px}.knowledge-area-results button{display:flex;align-items:center;gap:10px;width:100%;border:1px solid #dbe8eb;border-radius:12px;background:white;padding:10px;text-align:left}.knowledge-area-results button span{flex:1}.knowledge-area-results svg{color:#249e9f;width:20px}
 
 .knowledge-list>.knowledge-header{margin-bottom:28px}.knowledge-list .knowledge-search{padding-top:7px;padding-bottom:7px}.knowledge-list>.knowledge-search-row{margin-bottom:16px}
+
+/* Page toolbar sits above the map, outside .knowledge-panel's scoped reset. */
+.knowledge-map-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 16px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, .98);
+  color: var(--color-ink, #103442);
+}
+.knowledge-map-toolbar h2 { margin: 0; flex: 1; font-size: 20px; line-height: 1.4; }
+.knowledge-map-toolbar button {
+  border: 0;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: #f2f6f6;
+  color: inherit;
+  cursor: pointer;
+}
+.knowledge-map-toolbar button:first-child { background: transparent; }
+.knowledge-map-toolbar button:focus-visible { outline: 3px solid #145e74; outline-offset: 2px; }

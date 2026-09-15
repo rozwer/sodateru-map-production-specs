@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { MapBridge } from '../../../src/app/map-bridge';
-import { MapPreview } from '@knowledge-map-preview';
+import { MapPreview } from '../../../src/map/MapPreview';
 import type { KnowledgeFilters } from '../../../src/features/knowledge/types';
 
 export function KnowledgeFixtureMap({ filters, onReady, full = false }: {
