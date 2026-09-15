@@ -1,6 +1,6 @@
 # UI-FRIENDS 実装・接続状況
 
-2026-09-15。Issue #14。作業途中であり、live受入は未完了。
+2026-09-15。Issue #14。Draft PR #89。7画面の先行提供。意味比較の実AI・共有ルート再計算等の全受入は未完了。
 
 ## 実装範囲
 
@@ -41,11 +41,39 @@ mise exec -- /Users/roz/Desktop/sodateru-worktrees/koshiro-3-core/node_modules/.
 
 独立したテスト写真：[shche\_ teamのコーヒー写真](https://unsplash.com/ko/%EC%82%AC%EC%A7%84/%EC%A0%91%EC%8B%9C%EC%97%90-%EC%BB%A4%ED%94%BC-%ED%95%9C%EC%9E%94-heKg-V9yHwc)、[qian zhuiの公園写真](https://unsplash.com/photos/a-pathway-in-a-park-with-lots-of-trees-MiKI-lXv9JI)。外部写真はfixtureだけで参照し、実在の名古屋の場所の写真とは主張しない。
 
-## 接続待ち・残る確認
+## 実API・SQLite・実画面確認
 
-- COMMUNITYの共有テーマoperation/DTOは提供済みだが、共通生成型と実HTTP統合待ち。友人地図の用途は現在共有記録から、成長表現はACTIVITY境界に従う。
-- 意味比較の共通API送信は接続済み。REFLECTION/AIの実実行と共有取消後の引用再検証を待つ。
-- sharedRouteId→UI-ROUTESの自分用条件は#9と合意済み。滞在・合計・作者の言葉/写真・元記録の関連はROUTESの正式DTO補完待ち。
-- BASEのheader:none/contentPadding:none、UI-MAPのMapPreviewは先行提供ソースで接続済み。develop統合待ち。
-- 1440px・二人のprivate/selected/public・共有解除後の本文/媒体/比較引用・自分用経路取得の実API検査は未完了。
-- PR、develop統合、board done/lock解放、Issue closeは未実施。部分提供だけでは完了しない。
+`live-audit.json` と `sharing-live-selected-390.png` が証拠。`live-seed.json` は専用の検証入力ID。テスト媒体は明示した1ピクセルPNGで、実写真ではない。
+
+- 専用DB `.local/live-acceptance/live.sqlite`、API 3114、Vite 5214 `/live.html`。
+- 二人の本人で公開プロフィール検索 → 友達申請 → 相手本人の承認をブラウザー操作。
+- 承認だけではprivate記録0件。共有選択 → 確定PATCH → GET → 相手で本文・地点・Blob媒体を確認。
+- API OSプロセス20519を終了、35192で同じDBを再起動。record版3、同じfriendship ID/版2、指定相手、媒体68bytesが一致。ブラウザー再読込でも共有記録を表示。
+- 友達解除をブラウザー操作。friendship0件でもselected/版3を保持し、相手の本文・媒体は200。
+- ブラウザーからpublic/版4へ変更。関係なしの相手も本文・媒体200。
+- ブラウザーからprivate/版5へ変更。相手の一覧0、記録詳細404、媒体404。相手画面の記録カード0・媒体要素0。
+
+### 組合せた提供ソース
+
+- 自分のbranchに統合したdevelop `364f8ef`（RECORDS、SETTINGS、ROUTES、THEMES、PLACESを含む）。
+- COMMUNITY `ca562f44f1c20804413869f244b2651871a217d1`、INFORMATION `d2201571fe47012f909ddf9ed2be548aec5cb245` は提供branchから確認環境へコピー。担当worktreeのソースは編集していない。
+- UI-BASE/UI-MAPは `stage-preview.py` の提供worktreeからコピー。header:none/contentPadding:noneとMapPreviewを利用。
+- 共通OpenAPIに提供fragmentを確認環境だけで合成した。通常の共通生成物への反映・develop上での同一確認は未完。
+
+```sh
+mise exec -- python3 docs/evidence/UI-FRIENDS/stage-live.py
+mise exec -- node --experimental-transform-types /private/tmp/ui-friends-qa-14/docs/evidence/UI-FRIENDS/live-server.ts
+# 別ターミナル、初期データ作成
+mise exec -- node --experimental-transform-types /private/tmp/ui-friends-qa-14/docs/evidence/UI-FRIENDS/live-seed.mjs
+```
+
+live.htmlの本人切替は実session APIを呼ぶ検証専用入口。HTTP応答を差し替えない。製品はこの入口をimportしない。
+
+## 統合・後続の必要条件
+
+- PR #89 の7 screensを共通自動登録で取り込む。UI-BASE `header:none/contentPadding:none` とUI-MAP `src/map/MapPreview.tsx` が必要。
+- COMMUNITY v1.1.0 の `CommunitySharedTheme/getSharedThemes/getSharedThemesThemeId` をCORE共通clientへ生成する。プロフィールのテーマカード→themeId付きfriends-mapで同じ閲覧可能なrecordsを表示。fixture操作・strict型検査済み。
+- REFLECTION/AI: 比較の会話作成/送信/取得/insight照合UIは接続。実AI成功・取消後の比較引用404を含む同一build検証は未完。
+- ROUTES/UI-ROUTES: sharedRouteId→自分用条件は #9 と合意済み。実経路取得と元ルート不変のUI検証は未完。滞在/作者の言葉・媒体/元記録関連の正式DTO補完が必要。
+- 本番相当の共通Shell・生成client・提供APIが同じdevelopへ揃った時点の受入を #72 の後続CONNECTへ移す予定。正式移管の反映前にIssue #14を閉じない。
+- boardはsubmitted。未完の機能を完成扱いせず、通常のclaim整理によって引き継ぐ。

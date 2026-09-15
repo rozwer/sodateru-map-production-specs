@@ -1,0 +1,18 @@
+{
+  "kind": "actual API test data",
+  "actors": [
+    {
+      "key": "alice",
+      "personId": "friends-live-alice",
+      "recordId": "ui-friends-live-record-alice",
+      "placeId": "ui-friends-live-place-alice"
+    },
+    {
+      "key": "bob",
+      "personId": "friends-live-bob",
+      "recordId": "ui-friends-live-record-bob",
+      "placeId": "ui-friends-live-place-bob"
+    }
+  ],
+  "media": "explicit one-pixel PNG test attachment; no real photograph claim"
+}
