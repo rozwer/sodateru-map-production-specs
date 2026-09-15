@@ -1,6 +1,14 @@
 # COMMUNITY v1.1 接続契約
 
-実装中。API接続・永続化の通過証拠は検証後に追記する。
+## 提出範囲と後続
+
+Issue #22はユーザー承認により、検証済みの友達HTTP・しおり保存層と、地域の知・共有API実装/契約の統合を納品単位とする。元の受入条件全体や画面完成を意味しない。
+
+- デモ必須の画面接続・通し確認: #106（koshiro担当、UI変更はrozwerと調整）。
+- 共有ルート・比較引用・実候補期限の通し確認: #107（koshiro担当、デモ後）。
+- PR: https://github.com/rozwer/sodateru-map-production-specs/pull/60
+
+実API全体の通過証拠は依存INFORMATION統合後に追記する。
 
 ## 人物・友達
 
