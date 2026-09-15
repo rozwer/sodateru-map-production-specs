@@ -22,6 +22,7 @@ const screens: ScreenDefinition[] = [{
   },
 }, {
   id: 'fixture-chat', title: 'UI動作確認用の会話',
+  layout: { header: 'back', bottomNav: false, background: 'soft' },
   component: () => {
     const [value, setValue] = useScreenState('');
     const [busy, setBusy] = useState(false);

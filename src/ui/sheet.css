@@ -3,6 +3,9 @@
 .sm-sheet--right { right: 0; }
 .sm-sheet__header { display: flex; align-items: center; min-height: 66px; padding: 10px 16px 2px; gap: 4px; flex: 0 0 auto; }
 .sm-sheet__header h1 { font-size: 1.25rem; line-height: 1.4; margin: 0; }
+.sm-sheet__header--centered { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px; }
+.sm-sheet__header--centered h1 { grid-column: 2; text-align: center; }
+.sm-sheet--soft { background: linear-gradient(160deg,#f2f9f9,#eaf7f6); }
 .sm-sheet__close { margin-left: auto; flex-shrink: 0; }
 .sm-sheet__body { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 16px 20px calc(var(--bottom-nav-height,80px) + 20px + env(safe-area-inset-bottom)); scrollbar-width: thin; }
 .sm-sheet--navigation { width: min(286px, 64%); border-radius: 18px 18px 0 0; }

@@ -12,6 +12,8 @@ export interface ScreenProps {
   back: () => void;
   /** Changes when the server-resolved person or live/demo context changes. */
   scopeKey: string;
+  /** False while this cached screen is behind another page. */
+  active?: boolean;
 }
 
 /** Feature screens render the content of the one shared Sheet. */
@@ -19,6 +21,12 @@ export interface ScreenDefinition {
   id: string;
   title: string;
   component: ComponentType<ScreenProps>;
+  /** Select only the chrome shown in this page's reference image. */
+  layout?: {
+    header?: 'back' | 'close' | 'back-close';
+    bottomNav?: boolean;
+    background?: 'surface' | 'soft';
+  };
 }
 
 export interface ProfileView {

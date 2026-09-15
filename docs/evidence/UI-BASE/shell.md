@@ -6,6 +6,7 @@
 ## 提供する入口
 
 - `src/app/contracts.ts`: `ScreenDefinition` と `ScreenProps`。機能は取得pathの `screens.tsx` から `screens` をexportする。共通入口が自動登録し重複IDを拒否する。
+- 画面固有の外枠は `layout:{header:'back'|'close'|'back-close',bottomNav:boolean,background:'surface'|'soft'}` で参照に合わせる。backは中央見出し/戻るのみ。非表示のcache画面には `ScreenProps.active=false` を渡す。
 - `src/app/useScreenState.ts`: `[value,setValue]`。画面/paramsと本人scopeで分離し、画面往復時に値を保持する。一画面の入力は一つのオブジェクトへまとめる。
 - `src/app/api.ts`: COREの `createApiClient` を一度生成した `api`。型・HTTP・再送規約はCOREの所有。CORE未統合時点では利用不能で、独自の通信処理は用意していない。
 - `src/app/map-bridge.ts`、`useMapBridge.ts`: 常時mountするrendererと共有するcamera/view/padding、候補、保存場所、経路、区間を分けた軌跡、選択購読。rendererはUI-MAP所有。

@@ -11,9 +11,11 @@ export interface SheetProps {
   onBack?: () => void;
   side?: 'left' | 'right';
   kind?: 'screen' | 'navigation';
+  header?: 'back' | 'close' | 'back-close';
+  background?: 'surface' | 'soft';
   onRect?: (rect: DOMRect | null) => void;
 }
-export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', onRect }: SheetProps) {
+export function Sheet({ open, title, children, onClose, onBack, side = 'left', kind = 'screen', header = 'back-close', background = 'surface', onRect }: SheetProps) {
   const ref = useRef<HTMLElement>(null);
   const closeRef = useRef(onClose); closeRef.current = onClose;
   useLayoutEffect(() => {
@@ -29,13 +31,13 @@ export function Sheet({ open, title, children, onClose, onBack, side = 'left', k
       if (source?.isConnected) source.focus({ preventScroll: true });
     };
   }, [open, side, kind, onRect]);
-  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind}`} role="dialog" aria-label={title} onKeyDown={event => {
+  return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background}`} role="dialog" aria-label={title} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); event.stopPropagation(); closeRef.current(); }
   }}>
-    <header className="sm-sheet__header">
-      {onBack && <button className="sm-icon-button" type="button" onClick={onBack} aria-label={messages.back}><Icon name="back"/></button>}
+    <header className={`sm-sheet__header${header === 'back' && kind !== 'navigation' ? ' sm-sheet__header--centered' : ''}`}>
+      {header !== 'close' && onBack && <button className="sm-icon-button" type="button" onClick={onBack} aria-label={messages.back}><Icon name="back"/></button>}
       {kind === 'screen' && <h1>{title}</h1>}
-      <button className="sm-icon-button sm-sheet__close" type="button" onClick={onClose} aria-label={messages.close}><Icon name="close" size={22}/></button>
+      {(header !== 'back' || kind === 'navigation') && <button className="sm-icon-button sm-sheet__close" type="button" onClick={onClose} aria-label={messages.close}><Icon name="close" size={22}/></button>}
     </header>
     <div className="sm-sheet__body" data-sheet-scroll>{children}</div>
   </aside>;

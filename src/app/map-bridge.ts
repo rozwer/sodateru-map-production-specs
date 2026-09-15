@@ -3,7 +3,8 @@ import type { ComponentType } from 'react';
 export type LngLat = [longitude: number, latitude: number];
 export type MapOwnerKey = 'map-search' | 'map-dialogue' | 'record-place-picker' |
   'suggestion' | 'route-planner' | 'route-navigation' | 'daily-track' | 'knowledge' |
-  'personal-map' | 'map-objects' | 'map-building' | 'map-poi' | `plugin:${string}`;
+  'personal-map' | 'map-objects' | 'map-building' | 'map-poi' |
+  'friends-map' | 'friend-compare' | 'shared-route' | 'community-home' | `plugin:${string}`;
 export interface MapPadding { top: number; right: number; bottom: number; left: number }
 export interface MapCamera {
   longitude: number;

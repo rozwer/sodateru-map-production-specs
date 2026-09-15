@@ -40,6 +40,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolv
   const isMap = current.route.pageId === 'map';
   const mapControlsCovered = !isMap && menuMode !== 'self' && menuMode !== 'community';
   const screen = screens.find(item => item.id === current.route.pageId);
+  const showBottomNav = menuMode !== null || screen?.layout?.bottomNav !== false;
   const title = menuMode ? messages.menu : screen?.title || ({ 'self-home': messages.self, 'community-home': messages.community, settings: messages.settings, 'plugin-store': messages.plugins, '$start': messages.start }[current.route.pageId] ?? current.route.pageId);
   const go = useCallback((pageId: string, params: Record<string, string> = {}) => {
     if (contentRef.current) current.scrollTop = contentRef.current.querySelector<HTMLElement>('[data-sheet-scroll]')?.scrollTop ?? 0;
@@ -83,13 +84,13 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolv
     return () => cancelAnimationFrame(frame);
   }, [current.key, entries.length]);
   const onRect = useCallback((rect: DOMRect | null) => {
-    const padding = { top: 24, right: 24, bottom: navHeight + 24, left: 24 };
+    const padding = { top: 24, right: 24, bottom: (showBottomNav ? navHeight : 0) + 24, left: 24 };
     if (rect && rect.width < window.innerWidth * .85) {
       if (rect.left < window.innerWidth / 2) padding.left = rect.right + 24;
       else padding.right = window.innerWidth - rect.left + 24;
     } else if (rect) padding.bottom = window.innerHeight - rect.top + 24;
     bridge.setPadding(padding);
-  }, [bridge, navHeight]);
+  }, [bridge, navHeight, showBottomNav]);
   const locate = () => {
     setLocationError(null);
     if (!navigator.geolocation) { setLocationError(messages.locationDenied); return; }
@@ -98,9 +99,9 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolv
       bridge.focus('map-search', { center: [position.coords.longitude, position.coords.latitude], zoom: Math.max(bridge.getSnapshot().camera.zoom, 15) });
     }, () => setLocationError(messages.locationDenied), { enableHighAccuracy: true, timeout: 10000 });
   };
-  const screenProps: ScreenProps = { route: current.route, navigate: go, back, scopeKey };
+  const screenProps: ScreenProps = { route: current.route, navigate: go, back, scopeKey, active: !mapControlsCovered };
   return <MapBridgeContext.Provider value={bridge}><ScreenStateContext.Provider value={saved}>
-    <main className="sm-app" style={{ '--bottom-nav-height': `${navHeight}px` } as CSSProperties} onClickCapture={event => {
+    <main className="sm-app" style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
       // WebKit may leave focus on the dialog after a pointer activation. Record the real trigger.
       const button = (event.target as Element).closest<HTMLButtonElement>('button');
       if (button && !button.disabled) button.focus({ preventScroll: true });
@@ -113,17 +114,17 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, scopeKey = 'unresolv
       {locationError && <div className="sm-location-error"><Status kind="error" onRetry={locate}>{locationError}</Status></div>}
       {dataMode === 'demo' && <span className="sm-demo-badge">{messages.demo}</span>}
       <div ref={contentRef}>
-        <Sheet open={!isMap} title={title} onClose={back} onBack={!menuMode && entries.length > 1 ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} onRect={onRect}>
+        <Sheet open={!isMap} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} header={screen?.layout?.header} background={screen?.layout?.background} onRect={onRect}>
           {menuMode && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
           {!menuMode && !screen && (current.route.pageId === 'self-home' || current.route.pageId === 'community-home') && <NavigationMenu mode={current.route.pageId === 'self-home' ? 'self' : 'community'} profile={profile} navigate={go}/>}
           {!menuMode && !screen && !['self-home','community-home','map'].includes(current.route.pageId) && <Status kind="unavailable">{messages.unavailable}</Status>}
           {[...visited.entries()].filter(([,route]) => screens.some(item => item.id === route.pageId)).map(([key,route]) => {
             const Component = screens.find(item => item.id === route.pageId)!.component;
-            return <div key={key} hidden={key !== current.key} inert={key !== current.key} className="sm-screen-content"><ScreenKeyContext.Provider value={routeKey(route)}><Component route={route} navigate={go} back={back} scopeKey={scopeKey}/></ScreenKeyContext.Provider></div>;
+            return <div key={key} hidden={key !== current.key} inert={key !== current.key} className="sm-screen-content"><ScreenKeyContext.Provider value={routeKey(route)}><Component route={route} navigate={go} back={back} scopeKey={scopeKey} active={key === current.key}/></ScreenKeyContext.Provider></div>;
           })}
         </Sheet>
       </div>
-      <nav ref={navRef} className="sm-bottom-nav" aria-label="画面の切替">
+      <nav ref={navRef} hidden={!showBottomNav} className="sm-bottom-nav" aria-label="画面の切替">
         <button type="button" aria-pressed={menuMode === 'self' || current.route.pageId === 'self-home'} onClick={() => go('navigation', { mode: 'self' })}><Icon name="person" size={25}/><span>{messages.self}</span></button>
         <button type="button" className="sm-bottom-nav__map" aria-label={messages.map} onClick={() => go('map')}><Icon name="map" size={29}/></button>
         <button type="button" aria-pressed={menuMode === 'community' || current.route.pageId === 'community-home'} onClick={() => go('navigation', { mode: 'community' })}><Icon name="people" size={27}/><span>{messages.communityMap}</span></button>
