@@ -23,3 +23,6 @@ connected-http.json / server/features/insights/connected-http.test.ts。
 
 ## 共有デモUI確認
 共有UI http://127.0.0.1:5173 / API3001、起動537a15cc、demo/selfへ担当識別付き合成記録を1件追加（shared-demo-seed.json）。自分を知る→タイプ診断→根拠記録→まだ分からない→理由入力→保存成功を実ブラウザーで確認。reload後の選択保持を確認。理由欄はchoice付きrouteで空に戻るUI問題を#13へ報告。title/axes固定のUI mappingも未解消で、API5軸1/1を画面グラフ表示成功とは扱わない。
+
+## 定義版2
+疑問符で終わる文を体験ありに数えない修正を加え、集計generatorVersionをinsights-fixed-five-2へ更新。同じ参照の旧定義結果を誤って再利用しない。関連日別テスト2件成功。
