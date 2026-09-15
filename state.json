@@ -121,6 +121,7 @@
         "CONNECT-SETTINGS": 145,
         "CONNECT-SUGGESTIONS": 141,
         "CORE": 3,
+        "DEMO-MEDIA": 270,
         "DISASTER": 30,
         "DISASTER-DATA": 214,
         "DISASTER-UI": 219,
@@ -7730,6 +7731,19 @@
         "write_paths": [
           "server/features/routes-transit/",
           "docs/evidence/ROUTES-TRANSIT-GTFS/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "effective_priority": "P0",
+        "hard_dependencies": [],
+        "id": "DEMO-MEDIA",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "デモの空写真を生成画像で補完",
+        "write_paths": [
+          "tools/local/demo-media/",
+          "docs/evidence/DEMO-MEDIA/"
         ]
       }
     ],
@@ -33984,9 +33998,10 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL",
     "OMO7-EXPERIENCE",
-    "ROUTES-TRANSIT-GTFS"
+    "ROUTES-TRANSIT-GTFS",
+    "DEMO-MEDIA"
   ],
-  "revision": 274,
+  "revision": 275,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34228,6 +34243,22 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "DEMO-MEDIA": {
+      "actor": "rozwer",
+      "base_commit": "f78e77bccf2b19dc9b0e7579b0729eb46e05a6e7",
+      "generation": 1,
+      "issue_number": 270,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "tools/local/demo-media/",
+        "docs/evidence/DEMO-MEDIA/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "904b047b9fa64090bb1a6403e6652428"
     },
     "DISASTER": {
       "actor": "kaiya",
