@@ -2,7 +2,7 @@
 
 ## 現在の範囲
 
-利用者の範囲変更（#19の2026-09-15コメント）により、完成対象は既存ペットの管理・ZIP取込・表示・選択。製品は2画面と単一地図に重ねる`MapCompanion`を提供する。制作コードは保全し、入口/画面登録から外した。共有shell・CORE型・COMPANION実APIの統合確認前で、Issueの受入は未完了。
+利用者の範囲変更（#19の2026-09-15コメント）により、完成対象は既存ペットの管理・ZIP取込・表示・選択。製品は2画面と単一地図に重ねる`MapCompanion`を提供する。制作コードは保全し、入口/画面登録から外した。COMPANION実APIと共有shellはdevelopへ統合済み。CORE生成型の反映と共有アプリの起動修復を待っており、実保存を含む受入は未完了。
 
 - 指定画像：`docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_23_36.png`を実際に開いて照合した。
 - ブラウザ：Codex内ブラウザ、127.0.0.1:5219、390×844。確認ページはAPI未接続のテスト表示。
@@ -31,7 +31,7 @@ mise exec -- node node_modules/vite/bin/vite.js --config docs/evidence/UI-COMPAN
 
 ## 実接続の残件
 
-- COMPANION v0.2の共通型・multipart/file・data envelopeへの確定反映と実API。
+- COMPANION v0.2の共通型・operationへの確定反映。実APIはPR55/3f1d659で統合済み。
 - 正しいZIP→25動作確認→登録→任意選択→設定GET→同じ本人/live DBで再読込した地図の描画。
 - サイズ超過/構造不正/通信失敗/版競合で既存の相棒と入力を保持。
 - 新規制作・生成・生成先設定は今回対象外。以前の制作部品と制御コードは保全し、実生成を実装済みとは数えない。
@@ -40,3 +40,10 @@ mise exec -- node node_modules/vite/bin/vite.js --config docs/evidence/UI-COMPAN
 API未接続・未提供の状態やこの技術fixtureだけをlive完了として扱わない。PR統合、board done、ロック解放、Issue closeは通過条件が揃った後に行う。
 
 共有shellで実際の`companion-import`登録を開き、50,000,001バイトのZIPを選択。サイズ超過を表示し、登録が無効のままであることを確認した。ファイルの解除も実入力を対象にする。
+
+## 組込みへの提供（2026-09-15 12:13 JST）
+
+- PR64、機能提出628c4b5。`screens.tsx`の`export screens`は管理/取込のみ。`MapCompanion({scopeKey,onActivate,active?})`はBASEが1個mountし、AI相談へ接続する。
+- 非表示/未選択/媒体取得失敗のときもAIボタンを残す。全体が非activeの間は表示と読み込みを止める。409の構造検査/未確認エラーを版競合メッセージに置換しない。
+- develop a080b3dを通常merge。公式`bun run dev`をAPI `127.0.0.1:3091`、Vite `127.0.0.1:5175`で起動。live DBは担当worktreeの`.local/app.sqlite`、demoは`.local/demo.sqlite`、本人設定は`.local/profiles.json`。共有環境ファイルは変更していない。
+- ブラウザでrootを開くと`src/features/activity/screens.tsx`から`../../map/display-state`を解決できずViteエラーになった。組込み担当へ通知済み。本人選択/ZIP保存/再読込のlive確認はこの時点で未実施であり、API単体証拠とは区別する。

@@ -4,7 +4,7 @@ import { api } from '../../app/api';
 import type { ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
 import { useMapBridge } from '../../app/useMapBridge';
-import { MapPreview } from '../../map/MapPreview';
+import { RecordMapPreview as MapPreview } from './map-preview';
 import { RecordComposer } from './RecordComposer';
 import { PlacePicker } from './PlacePicker';
 import { blankDraft, type PlaceChoice, type RecordDraft } from './form-types';

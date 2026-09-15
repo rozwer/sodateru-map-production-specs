@@ -2,6 +2,8 @@
 
 Issue #25 / branch `kaiya/25-routes`。基本経路・案内状態・全行程比較の部分提供。追加交通条件は未完了。
 
+PR #68は提出commit `19386893491c5a4a80c1bf6ecba4e47b5a55cd33`への独立レビュー後、通常merge `ddb8614d2de8017ae8e66f4cffdd01a4171097c4`でdevelopへ統合済み。Issue全体は未完了。
+
 ## 実APIで確認済み
 
 `http-smoke.json`（2026-09-15T02:42:09Z）は正式 `server/app/main.ts` を2つのOSプロセスで起動し、共通client→本人session→実Mapbox→共通SQLiteを通した結果。
@@ -20,6 +22,19 @@ mise exec -- env ROUTES_ENV_FILE=/path/to/configured/.env node --experimental-tr
 
 専用の一時live/demo DBと本人設定を作り、終了時に片付ける。既存利用者DBを使わない。トークン値/URL/cookieは証拠へ保存しない。
 
+## PLACESとの実接続（追補）
+
+`places-http.json`（2026-09-15T03:04:29Z）はPLACES PR #61統合`2332231`を含むdevelop `e4da1c8`で、正式起動口・共通clientを使用した検証。
+
+- 実Nominatim検索候補から実Mapboxの2区間を計算。プレビューでは地点/経路のDB行は増えない。
+- 保存操作でPLACES候補を採用し同じtransactionで経路を保存。地点1件/経路1件、再送でも増えない。
+- OSプロセス停止・再起動後に全保存snapshot（採用placeId含む）が一致。保存再送でも一致。保存placeIdを使った次の経路検索も成功。
+- 実Mapboxのtemporary候補は経路プレビュー可能だが、経路保存は409。地点/経路の追加書込なし。
+
+```sh
+mise exec -- env ROUTES_ENV_FILE=/path/to/configured/.env node --experimental-transform-types docs/evidence/ROUTES/places-http.ts
+```
+
 ## 必要範囲の検証
 
 ```sh
@@ -33,7 +48,7 @@ mise exec -- node --experimental-transform-types --test server/features/routes/m
 - `live-provider.json`: 実walking 798.634m/671秒/steps11+8、実driving 1617.807m/459秒/steps10+3。
 - `live-comparison.json`: 同じ地点順の実2候補。1617.807m/459秒、1645.75m/516秒。全2区間、形状重複なし。
 - `live-motorway-avoidance.json`: 全2区間にexclude=motorwayを送信しprovider違反通知/道路分類を検査した実取得。要求条件と根拠を保存snapshotへ保持。
-- 全体typecheckのROUTES由来指摘は解消。PLACESのINFORMATION未統合importと添字型の指摘を#5へ報告済み。全体成功とはしていない。
+- develop `e4da1c8`で全体typecheckを確認。ROUTES/PLACESの指摘はなく、THEMESテストとDISASTERの未統合PLUGINS import・添字型などで失敗。全体成功とはしていない。
 
 ## 公開口
 
@@ -55,9 +70,8 @@ DBのwaypoints_jsonに名前も保持し、route_jsonにmode/各区間geometry/s
 
 ## 未達
 
-- PLACES候補検索→候補解決→場所採用→経路保存の実HTTP一連確認はPLACES HTTP登録の提供待ち。pointによるROUTES.basicの実HTTPは成功。
 - ROUTES fragment v1.2.0の共通Schema/client反映、比較と高速回避のHTTP入力確認は未完了。provider/固有serviceは実装済み。
 - 階段/屋根/公共交通/出発帰着/運賃/定期券の実取得は、交通API契約なしとのユーザー回答により未達。未対応条件は501で拒否し適用済みと表示しない。Q07不足をfragmentへ具体化済み。
-- UIとの画面接続、短い独立レビュー、PR統合は後続。部分提供のためIssueを閉じずtask:finishしない。
+- UIとの画面接続は後続。基本経路・案内の独立レビューとPR #68統合は完了。部分提供のためIssueを閉じずtask:finishしない。
 
 [Mapbox Directions公式仕様](https://docs.mapbox.com/api/navigation/directions/)に従い、同一応答stepsを形状に束縛。motorwayはbest-effort除外のため違反通知と道路分類を確認し、違反を含む経路は採用用previewにしない。

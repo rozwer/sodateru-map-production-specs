@@ -21,6 +21,8 @@ export interface ScreenDefinition {
   id: string;
   title: string;
   component: ComponentType<ScreenProps>;
+  /** Page-owned header above an exposed map; render its back/menu controls here. */
+  toolbar?: ComponentType<ScreenProps>;
   /** Select only the chrome shown in this page's reference image. */
   layout?: {
     header?: 'back' | 'close' | 'back-close' | 'none';

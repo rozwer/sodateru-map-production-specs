@@ -1,0 +1,110 @@
+[
+  {
+    "headRefOid": "d35a12e98fddf928ec0acc645598c00f1099df4d",
+    "mergeCommit": {
+      "oid": "ca88f2ead49cb8c6753ca6a37098edfa5160096e"
+    },
+    "number": 81,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/81"
+  },
+  {
+    "headRefOid": "1cfac6dd01efc90444c5690856e80a9a1b6c30df",
+    "mergeCommit": {
+      "oid": "6f762df12556efcd86c3ecbec01b647556e3e57e"
+    },
+    "number": 70,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/70"
+  },
+  {
+    "headRefOid": "0e7297d8cc9178e8ef4741eac8950a3e6c73c74d",
+    "mergeCommit": {
+      "oid": "e5cf7e0b53eea48800a2f19effe6bb29125059ed"
+    },
+    "number": 71,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/71"
+  },
+  {
+    "headRefOid": "ef82a2d9a7a2a167e24fd849ec90d554587bc57e",
+    "mergeCommit": {
+      "oid": "7814fedb3c08b3f0162addde4dafc770e454719a"
+    },
+    "number": 74,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/74"
+  },
+  {
+    "headRefOid": "c0edf6a34e11960dc9e71b968a55f185872105ca",
+    "mergeCommit": {
+      "oid": "24bd0983a49a9e0497fbe8a12864560f2ff1497f"
+    },
+    "number": 75,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/75"
+  },
+  {
+    "headRefOid": "d179aba9a37d234161b177abb4c39c22843f1e35",
+    "mergeCommit": {
+      "oid": "46dc986e8469d5744e7b39102a6a90e846987850"
+    },
+    "number": 92,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/92"
+  },
+  {
+    "headRefOid": "df69eafb38b3c90e24b963aaf55c09fabfda3c66",
+    "mergeCommit": {
+      "oid": "b7e909f01bff7d6c837f9b6c3763e41708096540"
+    },
+    "number": 69,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/69"
+  },
+  {
+    "headRefOid": "f3949e75440241339371f76257622e7a067cda5b",
+    "mergeCommit": {
+      "oid": "b2db4a00ceca1d780aa26dd3a0a88eb2c5c9da17"
+    },
+    "number": 89,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/89"
+  },
+  {
+    "headRefOid": "e1228a676de64340560ef382323cbb57b1e1deb5",
+    "mergeCommit": {
+      "oid": "025fbbca07bba8b4420de4397a01819d812b7384"
+    },
+    "number": 66,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/66"
+  },
+  {
+    "headRefOid": "2fffd8f8db0395db686ecab0b36072c88356be15",
+    "mergeCommit": {
+      "oid": "89e9bd017d9cd0122aac0da5c583955d666bdee8"
+    },
+    "number": 45,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/45"
+  },
+  {
+    "headRefOid": "0efd86bffc100aabca4ed3c24181a73d448c8f92",
+    "mergeCommit": {
+      "oid": "ae2b997c4f2430dde6fe9f7261303c7fd9be4756"
+    },
+    "number": 73,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/73"
+  },
+  {
+    "headRefOid": "9a9c16390c8abf701abe77c1d79908aee97e75f2",
+    "mergeCommit": {
+      "oid": "8600dd543f343c79ef0501bc1e3d640f84a5796b"
+    },
+    "number": 64,
+    "state": "MERGED",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/64"
+  }
+]

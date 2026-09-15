@@ -48,7 +48,7 @@ describe('回答だけ保存の操作', () => {
     await act(async () => { (host.querySelector('input[value="120+"]') as HTMLInputElement).click(); (host.querySelector('input[value="children"]') as HTMLInputElement).click(); });
     await act(async () => button('回答だけ残す').click());
     expect(request.mock.calls.map(call => call[0])).toEqual(['getSelfCheckins', 'postSelfCheckins', 'getSelfCheckinsCheckinId']);
-    const body = request.mock.calls[1][1].body;
+    const body = request.mock.calls[1]![1].body;
     expect(body.answers).toMatchObject({ timeBudget:{kind:'atLeast',minutes:120}, minutes:null, companion:'children' });
     expect(navigate).toHaveBeenCalledWith('self-checkin', expect.objectContaining({checkinId:body.id,saved:'1'}));
     expect(host.textContent).toContain('回答を保存しました');

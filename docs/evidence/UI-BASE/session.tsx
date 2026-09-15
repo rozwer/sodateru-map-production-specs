@@ -20,7 +20,13 @@ function SessionMap() {
 function MapToolbar({ navigate }: ScreenProps) {
   return <button className="sm-button" onClick={() => navigate('map', { state: 'search-place-selected' })}>検索結果を開く（検査用）</button>;
 }
+function PlaceToolbar({ back, navigate }: ScreenProps) {
+  return <header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 12, background: '#fff' }}>
+    <button className="sm-button" onClick={back}>戻る</button><h1>地域の知のヘッダー検査</h1><button className="sm-button" onClick={() => navigate('navigation', { mode: 'main' })}>メニュー</button>
+  </header>;
+}
 createRoot(document.getElementById('root')!).render(<SessionRoot MapRenderer={SessionMap} MapToolbar={MapToolbar} screens={[
   { id: 'settings', title: 'セッション検査', component: Draft, layout: { header: 'none', contentPadding: 'none', bottomNav: false } },
   { id: 'map', title: '検索結果のSheet検査', component: () => <p>検査用の結果表示。業務検索はUI-MAPで確認します。</p>, layout: { header: 'close', mobileHeight: 45, mapControls: true } },
+  { id: 'local-knowledge', title: '地域の知の枠検査', toolbar: PlaceToolbar, component: () => <p>検査用の場所シート</p>, layout: { header: 'none', contentPadding: 'none', mobileHeight: 58, mapControls: true } },
 ]}/>);

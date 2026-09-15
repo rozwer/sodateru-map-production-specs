@@ -114,7 +114,7 @@ function NavigationScreen({ route, navigate, back, scopeKey, active = true }: Sc
 }
 
 export const screens: ScreenDefinition[] = [
-  { id: 'route-conditions', title: m.conditions, component: ConditionsScreen, layout: { header: 'back', bottomNav: false, background: 'soft' } },
-  { id: 'route-results', title: m.results, component: ResultsScreen, layout: { header: 'back', bottomNav: false, background: 'soft' } },
-  { id: 'route-navigation', title: m.walkingNavigation, component: NavigationScreen, layout: { header: 'close', bottomNav: false, background: 'soft' } },
+  { id: 'route-conditions', title: m.conditions, component: ConditionsScreen, layout: { header: 'none', contentPadding: 'none', bottomNav: false, background: 'soft' } },
+  { id: 'route-results', title: m.results, component: ResultsScreen, layout: { header: 'none', contentPadding: 'none', bottomNav: false, background: 'soft' } },
+  { id: 'route-navigation', title: m.walkingNavigation, component: NavigationScreen, layout: { header: 'none', contentPadding: 'none', bottomNav: false, background: 'soft' } },
 ];

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { regionMask } from './mask.ts';
+import { validatePng } from './png.ts';
 import { JAPAN, definitions } from './catalog.ts';
 import type { Bounds, Tile, Layer, LayerId, DisasterSettings, DataStatus } from './types.ts';
 
@@ -50,7 +51,7 @@ export class DisasterProvider {
       if (r.status === 404 || r.status === 204) return {...base,status:'missing',error:'提供元に該当タイルがありません。安全を意味しません。'};
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
       const bytes = Buffer.from(await r.arrayBuffer());
-      if (bytes.length > 2_000_000 || bytes.length < 33 || !bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])) || bytes.readUInt32BE(16)!==256 || bytes.readUInt32BE(20)!==256) throw new Error('Invalid PNG tile');
+      validatePng(bytes);
       return {...base,status:'available',sha256:createHash('sha256').update(bytes).digest('hex'),imageDataUrl:`data:image/png;base64,${bytes.toString('base64')}`};
     } catch (error) {
       signal.throwIfAborted();
@@ -64,7 +65,7 @@ export class DisasterProvider {
     const definition = definitions[id];
     const {template: unused, ...metadata} = definition;
     const layer: Layer = {...metadata,layerId:id,bounds:[...bounds],status:'missing',fetchedAt:this.now(),sourceUpdatedAt:null,
-      sourceUpdatedAtMeaning:'配信ファイルのLast-Modified。ハザード策定日・地形測量日ではありません。不明はnull。',
+      sourceUpdatedAtMeaning:'取得タイルのLast-Modifiedの最大値（タイルごとの時刻も保持）。ハザード策定日・地形測量日ではありません。不明を含む場合はnull。',
       validAt:null,issuedAt:null,coverage:{envelope:[...JAPAN],description:'日本周辺の配信候補範囲。範囲内でも未整備・欠測・非掲載があり、タイル取得は全地点のデータ存在を保証しません。'},
       tiles:[],noDataMask:null,unknowns:['現在の浸水状況は提供しません。未着色・透明画素・欠測を安全やゼロとして扱いません。']};
     if (bounds[2] <= JAPAN[0] || bounds[0] >= JAPAN[2] || bounds[3] <= JAPAN[1] || bounds[1] >= JAPAN[3]) {
@@ -86,7 +87,7 @@ export class DisasterProvider {
           .sort((a,b) => String(b.validtime).localeCompare(String(a.validtime)))[0];
         if (!current) throw new Error('No analysis time with no-data mask');
         layer.validAt=jmaTime(current.validtime);layer.issuedAt=jmaTime(current.basetime);
-        layer.sourceUpdatedAtMeaning='タイル配信ファイルのLast-Modified。validAtは降水解析対象、issuedAtはbasetime（解析基準時刻）です。';
+        layer.sourceUpdatedAtMeaning='取得タイルのLast-Modifiedの最大値（個別時刻も保持）。validAtは降水解析対象、issuedAtはbasetime（解析基準時刻）です。';
         template=`https://www.jma.go.jp/bosai/jmatile/data/nowc/${current.basetime}/none/${current.validtime}/surf/hrpns/{z}/{x}/{y}.png`;
         const sourceUrl=template.replace('/hrpns/{z}/{x}/{y}.png','/hrpns_nd/data.geojson');
         const maskResponse=await this.response(sourceUrl,signal);

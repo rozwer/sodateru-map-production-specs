@@ -113,3 +113,6 @@
 .activity-calendar-records .activity-entry-toggle strong { font-size: 16px; }
 .activity-calendar-records .activity-entry-toggle > .records-icon { background: #f0f8f7; width: 36px; height: 36px; border-radius: 50%; padding: 8px; }
 @media (max-width: 350px) { .activity-day-row { gap: 2px; flex-wrap: wrap; } .activity-day-row > span { margin-left: auto; padding: 6px 4px 0; } .activity-day-select { font-size: 16px !important; } .activity-track-sheet { padding-left: 12px; padding-right: 12px; } .activity-timeline > li { grid-template-columns: 43px minmax(0,1fr); gap: 7px; } .activity-entry-toggle { padding: 10px; } .activity-entry-detail { padding: 0 10px 10px; } .activity-entry-toggle strong { font-size: 17px; } .activity-calendar-records .records-place-photo { width: 75px; height: 80px; flex-basis: 75px; } }
+
+.activity-calendar-menu { margin: 0 18px 12px auto; width: max-content; max-width: calc(100% - 36px); border: 1px solid #d8e9e7; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px #153f5010; overflow: hidden; }
+.activity-calendar-menu button { display: block; padding: 12px 18px; border: 0; color: #164b58; background: #fff; width: 100%; text-align: left; }

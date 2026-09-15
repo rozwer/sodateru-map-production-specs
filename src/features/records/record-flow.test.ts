@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { createApiClient, type Media, type RecordCreate, type RecordView } from '../../../packages/api-client/index';
+import { createApiClient, type Media, type RecordCreate, type RecordView, type Visit } from '../../../packages/api-client/index';
 import { blankDraft } from './form-types';
 import { createSaveSession, saveNewRecord, recordPatch, draftFromRecord } from './record-flow';
 import { localDay } from '../activity/activity-data';
 
 function transport({loseCreate=false,failSecondPhoto=false}={}) {
- const records=new Map<string,RecordView>(), media:Media[]=[];
+ const records=new Map<string,RecordView>(), visits=new Map<string,Visit>(), media:Media[]=[];
  const calls:{method:string;path:string;key:string|null;version:string|null;body:unknown}[]=[];
  let createLost=loseCreate, mediaFailed=false;
  const fetcher=async(input:RequestInfo|URL,init?:RequestInit)=>{
@@ -13,6 +13,13 @@ function transport({loseCreate=false,failSecondPhoto=false}={}) {
   const body=init?.body instanceof FormData?Object.fromEntries(init.body.entries()):init?.body?JSON.parse(String(init.body)):undefined;
   calls.push({method,path,key:headers.get('Idempotency-Key'),version:headers.get('If-Match'),body});
   const json=(data:unknown,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
+  if(path==='/api/v1/visits' && method==='POST'){
+   const value=body as Visit;
+   const visit={...value,version:1,status:'candidate' as const,createdAt:1,updatedAt:1,personId:'test-person'};visits.set(visit.id,visit);return json({data:visit},201);
+  }
+  if(path.startsWith('/api/v1/visits/') && method==='PATCH'){
+   const visit=visits.get(path.split('/')[4]!)!;const patch=body as {status:Visit['status']};visit.status=patch.status;visit.version++;return json({data:visit});
+  }
   if(path==='/api/v1/records'&&method==='POST'){
    const value=body as RecordCreate;
    const record=records.get(value.id)??{...value,personId:'test-person',version:1,createdAt:1,updatedAt:1,effectivePlaceId:value.placeId,effectiveStartedAt:value.occurredAt,effectiveEndedAt:value.endedAt,effectiveTimePrecision:value.timePrecision};
@@ -32,7 +39,7 @@ function transport({loseCreate=false,failSecondPhoto=false}={}) {
   }
   throw new Error(`Unexpected request ${method} ${path}`);
  };
- return {client:createApiClient({fetch:fetcher}),records,media,calls};
+ return {client:createApiClient({fetch:fetcher}),records,visits,media,calls};
 }
 
 describe('record UI save calls',()=>{
@@ -60,6 +67,15 @@ describe('record UI save calls',()=>{
   expect(uploads.map(call=>call.key)).toEqual(['photo-0','photo-1','photo-1']);
   expect(uploads.map(call=>call.version)).toEqual(['"1"','"2"','"2"']);
   expect(harness.media.map(item=>item.id)).toEqual(['photo-0','photo-1']);
+ });
+ it('explicitly confirms a newly created candidate only when the user checked visited',async()=>{
+  const harness=transport();
+  const place={id:'saved-place',source:'saved' as const,name:'確認用の場所',address:null,longitude:136.9,latitude:35.1};
+  const session=createSaveSession({...blankDraft(),body:'訪問を自分で確認した体験',visited:true},place);
+  const saved=await saveNewRecord(harness.client,session,()=>{});
+  expect(harness.visits.get(session.visitId!)?.status).toBe('confirmed');
+  expect(saved.visitId).toBe(session.visitId);
+  expect(harness.calls.filter(call=>call.method!=='GET').map(call=>`${call.method} ${call.path}`)).toEqual(['/api/v1/visits','/api/v1/visits/'+session.visitId,'/api/v1/records'].map((path,index)=>`${index===1?'PATCH':'POST'} ${path}`));
  });
  it('does not round persisted timestamps when only the text changes',async()=>{
   const harness=transport();
