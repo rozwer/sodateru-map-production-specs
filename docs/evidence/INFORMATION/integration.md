@@ -34,6 +34,8 @@ RecordQuery uses UTC millisecond range endpoints and a validated IANA timezone. 
 
 Internal `kind`, `themeId` and `bbox: [minLon,minLat,maxLon,maxLat]` narrow the query before pagination. Bbox uses exact inclusive coordinate bounds and requires min <= max. COMMUNITY owns its HTTP bbox contract. GET /records forces audience own and preserves the existing no-totalCount response shape.
 
+Internal `rangeMatch: 'startsWithin'` selects by start date before pagination for ACTIVITY's day detail; the default remains interval overlap. It participates in cursor condition binding. `ownMaterials` has typed Activity and PeriodAnswers fields for aggregation.
+
 `canReadShared(context,{personId,visibility,sharedWith})` is for current database values in feature-owned sharing tables. Do not pass user-provided claims of ownership or sharing. Theme persistence/listing remains COMMUNITY/THEMES-owned. Transient candidate resolution remains PLACES-owned.
 
 ## References

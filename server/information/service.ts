@@ -5,6 +5,8 @@ import { comparePosition, distanceM, invalid, normalizeQuery, normalizeText, ove
 
 export type SourceRef = { type: 'record' | 'visit' | 'place' | 'checkin' | 'route'; id: string; version: number };
 export type SourceCheck = { ref: SourceRef; state: 'current' | 'changed' | 'unavailable'; currentVersion: number | null };
+export type Activity = {id: string; name: string; purpose: string | null; outcome: string | null; satisfaction: 'met' | 'partial' | 'not_met' | null; repeatIntent: boolean | null};
+export type PeriodAnswers = Partial<Record<'detour' | 'newPlace' | 'rest' | 'alone' | 'longStay' | 'farTrip', boolean | null>>;
 type Row = Record<string, any>;
 const notFound = (): never => { throw new CommonError('NOT_FOUND', 'The requested item is not available'); };
 const parse = <T>(value: string): T => JSON.parse(value) as T;
@@ -59,8 +61,8 @@ export function editableRecordView(row: Row) {
     id: row.id, version: row.version, createdAt: row.created_at, updatedAt: row.updated_at,
     personId: row.person_id, kind: row.kind, visitId: row.visit_id, placeId: row.place_id,
     occurredAt: row.occurred_at, endedAt: row.ended_at, timePrecision: row.time_precision,
-    body: row.body, purposes: parse<string[]>(row.purposes_json), activities: parse<unknown[]>(row.activities_json),
-    impression: row.impression, periodAnswers: parse<Record<string, boolean | null>>(row.period_answers_json),
+    body: row.body, purposes: parse<string[]>(row.purposes_json), activities: parse<Activity[]>(row.activities_json),
+    impression: row.impression, periodAnswers: parse<PeriodAnswers>(row.period_answers_json),
     bookmarked: row.bookmarked === 1, useForSuggestions: row.use_for_suggestions === 1,
     topicKey: row.topic_key, visibility: row.visibility, sharedWith: parse<string[]>(row.shared_with_json),
     effectivePlaceId: row.effective_place_id, effectiveStartedAt: row.effective_at,
@@ -153,8 +155,8 @@ export function createInformationService(db: DatabaseSync) {
     if (q.cursor) invalid('ownMaterials does not accept a cursor');
     const rows = matchingRows(context, q);
     const views = withMedia(context, rows);
-    return rows.map((row, index) => ({...views[index]!, activities: parse<unknown[]>(row.activities_json),
-      periodAnswers: parse<Record<string, boolean | null>>(row.period_answers_json),
+    return rows.map((row, index) => ({...views[index]!, activities: parse<Activity[]>(row.activities_json),
+      periodAnswers: parse<PeriodAnswers>(row.period_answers_json),
       useForSuggestions: row.use_for_suggestions === 1, bookmarked: row.bookmarked === 1}));
   }
   function searchTopics(context: RequestContext, query: RecordQuery & {topicKey: string}) {
@@ -202,7 +204,7 @@ export function createInformationService(db: DatabaseSync) {
     const refs = validateRefs(input);
     const records = new Map<string, Row | undefined>();
     for (const ref of refs) if (ref.type === 'record') records.set(ref.id, readableRow(context, ref.id));
-    const projectedVisits = new Set([...records.values()].filter(Boolean).map(row => row!.visit_id).filter(Boolean));
+    const projectedVisits = new Set([...records.values()].filter(row => row?.visit_version != null).map(row => row!.visit_id).filter(Boolean));
     return refs.map(ref => {
       let row: Row | undefined;
       if (ref.type === 'record') row = records.get(ref.id);

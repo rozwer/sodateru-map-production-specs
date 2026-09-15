@@ -12,6 +12,7 @@ export type RecordQuery = {
   // Internal extension used by GET /records. These only narrow the result.
   kind?: 'experience' | 'diary' | 'memo'; themeId?: string;
   bbox?: [number, number, number, number];
+  rangeMatch?: 'overlap' | 'startsWithin';
 };
 export const invalid = (message: string): never => { throw new CommonError('INVALID_INPUT', message); };
 export const normalizeText = (value: string) => value.normalize('NFKC').trim().toLowerCase();
@@ -54,6 +55,7 @@ export function normalizeQuery(input: RecordQuery = {}) {
     if (typeof q.radiusM !== 'number' || !Number.isFinite(q.radiusM) || q.radiusM < 1 || q.radiusM > 100000) invalid('Invalid radiusM');
   }
   if (q.kind !== undefined && !['experience', 'diary', 'memo'].includes(q.kind)) invalid('Invalid kind');
+  if (q.rangeMatch !== undefined && !['overlap', 'startsWithin'].includes(q.rangeMatch)) invalid('Invalid rangeMatch');
   if (q.themeId !== undefined && !validId(q.themeId)) invalid('Invalid themeId');
   if (q.bbox !== undefined && (!Array.isArray(q.bbox) || q.bbox.length !== 4 || !q.bbox.every(Number.isFinite)
     || Math.abs(q.bbox[0]) > 180 || Math.abs(q.bbox[2]) > 180 || Math.abs(q.bbox[1]) > 90 || Math.abs(q.bbox[3]) > 90
@@ -64,6 +66,7 @@ export type NormalQuery = ReturnType<typeof normalizeQuery>;
 export function overlaps(start: number | null, end: number | null, q: NormalQuery) {
   if (!q.range) return true;
   if (start === null) return q.includeUndated;
+  if (q.rangeMatch === 'startsWithin') return start >= q.range.startAt && start < q.range.endAt;
   return end !== null && end > start
     ? start < q.range.endAt && end > q.range.startAt
     : start >= q.range.startAt && start < q.range.endAt;

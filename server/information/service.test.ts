@@ -70,6 +70,8 @@ test('equal timestamps, unknown dates, effective visit fields and interval bound
     const range = {startAt: 2000, endAt: 3000, timezone: 'Asia/Tokyo'};
     assert.deepEqual(info.allRecords(a, {range}).map(r => r.id), ['d']);
     assert.deepEqual(info.allRecords(a, {range, includeUndated: true}).map(r => r.id), ['d', 'c']);
+    assert.deepEqual(info.ownRecordsPage(a, {range: {startAt: 1500, endAt: 2500, timezone: 'Asia/Tokyo'}, rangeMatch: 'startsWithin'}).items.map(r => r.id), ['d']);
+    assert.deepEqual(info.ownMaterials(a, {range: {startAt: 1500, endAt: 2500, timezone: 'Asia/Tokyo'}}).map(r => r.id), ['d', 'a']);
     const view = info.getRecord(a, 'a');
     assert.equal(view.place?.id, 'place'); assert.equal(view.effectiveAt, 1000); assert.equal(view.endedAt, 2000);
     assert.equal(view.timePrecision, 'approximate'); assert.equal(view.visitStatus, 'rejected'); assert.equal(view.body, 'ordinary');
@@ -121,11 +123,16 @@ test('source checks distinguish change from unavailable and survive reopening SQ
     seed(db);
     insert(db, 'visits', {id: 'visit', person_id: 'person-a', place_id: 'place', started_at: 1000, ended_at: null, time_precision: 'exact', origin: 'manual', status: 'confirmed'});
     record(db, 'shared', {visit_id: 'visit', place_id: null, occurred_at: null, time_precision: 'unknown', visibility: 'selected', shared_with_json: '["person-b"]'});
+    insert(db, 'self_checkins', {id: 'checkin', person_id: 'person-a', local_date: '2026-09-15', answers_json: '{"state":"","wishes":[],"minutes":null,"note":""}', valid_until: 100000});
+    insert(db, 'saved_routes', {id: 'route', person_id: 'person-a', title: 'Test route', waypoints_json: '[{"lng":139,"lat":35},{"lng":139.1,"lat":35.1}]', route_json: '{"geometry":null,"legs":[]}', distance_m: null, duration_sec: null, provider: null, source_url: null, fetched_at: null, status: 'saved', current_leg: 0, visibility: 'public', shared_with_json: '[]'});
     let info = createInformationService(db);
     const refs = info.getRecord(b, 'shared').sourceRefs;
     assert.ok(info.checkSources(b, {refs}).every(r => r.state === 'current'));
     const visitRef: SourceRef = {type: 'visit', id: 'visit', version: 1};
     assert.equal(info.checkSources(b, {refs: [visitRef]})[0]?.state, 'unavailable');
+    const otherRefs: SourceRef[] = [{type: 'checkin', id: 'checkin', version: 1}, {type: 'route', id: 'route', version: 1}];
+    assert.deepEqual(info.checkSources(a, {refs: otherRefs}).map(r => r.state), ['current', 'current']);
+    assert.deepEqual(info.checkSources(b, {refs: otherRefs}).map(r => r.state), ['unavailable', 'current']);
     db.exec("UPDATE visits SET version=2,ended_at=2000 WHERE id='visit'");
     assert.equal(info.checkSources(b, {refs}).find(r => r.ref.type === 'visit')?.state, 'changed');
     db.exec("UPDATE records SET body='corrected',version=2 WHERE id='shared'");
