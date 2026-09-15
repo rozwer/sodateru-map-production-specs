@@ -32837,7 +32837,7 @@
     "TOOL-WORKTREE-SETUP",
     "UI-INTEGRATION"
   ],
-  "revision": 157,
+  "revision": 158,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -32891,7 +32891,7 @@
       "generation": 1,
       "issue_number": 29,
       "landed_main": null,
-      "note": "docs/evidence/BIKE/README.md",
+      "note": "docs/evidence/BIKE/place-candidates.md",
       "owner": "kaiya",
       "paths": [
         "server/plugins/bike/",
@@ -32900,7 +32900,7 @@
         "docs/evidence/BIKE/"
       ],
       "status": "submitted",
-      "submitted_commit": "4a74e630dde9f3a89139f40df6613e60d190e008",
+      "submitted_commit": "5d97be2edebc8202965995a974bf3f668679a811",
       "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
     },
     "COMMUNITY": {
