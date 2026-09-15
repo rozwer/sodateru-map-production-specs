@@ -6,6 +6,7 @@
       "issue_numbers": {
         "ACTIVITY": 21,
         "AI": 7,
+        "AI-INTEGRATION": 103,
         "BIKE": 29,
         "COMMUNITY": 22,
         "COMPANION": 35,
@@ -4644,6 +4645,108 @@
           "docs/01_requirements/04_api/fragments/SUGGESTIONS.json",
           "docs/evidence/SUGGESTIONS/"
         ]
+      },
+      {
+        "acceptance_ids": [
+          "conversation-history-C1",
+          "conversation-history-FC01",
+          "conversation-history-FC02",
+          "conversation-history-FC03"
+        ],
+        "connect_after": [
+          "CORE",
+          "INFORMATION"
+        ],
+        "connect_inputs": [
+          {
+            "issue": "CORE",
+            "outputs": [
+              "CORE.runtime"
+            ],
+            "required_output": "同一origin起動・本人context・DB・再送/版"
+          },
+          {
+            "issue": "INFORMATION",
+            "outputs": [
+              "INFORMATION.refs"
+            ],
+            "required_output": "根拠解決・閲覧判定・版/更新/削除照合"
+          }
+        ],
+        "contract_gates": {
+          "common": [
+            "本人context・共通HTTP・登録/型の境界"
+          ],
+          "feature_gaps": [
+            "voice"
+          ],
+          "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
+        },
+        "early_release": "用途登録・SourceRef解決・実行/取消/結果取得の署名を共有する。用途別プロンプトと保存適用は各機能が持つ。",
+        "effective_priority": "P0",
+        "github_issue": 103,
+        "hard_dependencies": [],
+        "id": "AI-INTEGRATION",
+        "issue_file": "https://github.com/rozwer/sodateru-map-production-specs/issues/103",
+        "kind": "domain",
+        "lane": "D",
+        "owned_gaps": [
+          "voice"
+        ],
+        "owned_operations": [
+          "getConversations",
+          "postConversations",
+          "getConversationsConversationId",
+          "patchConversationsConversationId",
+          "deleteConversationsConversationId",
+          "getConversationsConversationIdMessages",
+          "postConversationsConversationIdMessages",
+          "getMessagesMessageId",
+          "postMessagesMessageIdCancel",
+          "postMessagesMessageIdRetry"
+        ],
+        "pages": [
+          "conversation-history"
+        ],
+        "priority": "P0",
+        "provides": [
+          "AI.engine",
+          "AI.refs",
+          "AI.voice"
+        ],
+        "read_set": [
+          "AGENTS.md",
+          "docs/03_issue/execution.md",
+          "docs/01_requirements/04_api/conventions/",
+          "server/ai/",
+          "server/features/conversations/",
+          "server/db/migrations/ai/",
+          "docs/01_requirements/04_api/fragments/AI.json",
+          "docs/evidence/AI/"
+        ],
+        "references": [
+          "../01_requirements/02_common/01_ai/README.md",
+          "../01_requirements/02_common/01_ai/05_acceptance.md"
+        ],
+        "requirement_ids": [
+          "conversation-history-R1",
+          "conversation-history-F01",
+          "conversation-history-F02",
+          "conversation-history-F03"
+        ],
+        "source_issue": 7,
+        "source_task_ids": [
+          "AI"
+        ],
+        "status": "registered",
+        "title": "AI｜根拠・音声と用途接続の残件",
+        "write_paths": [
+          "server/ai/",
+          "server/features/conversations/",
+          "server/db/migrations/ai/",
+          "docs/01_requirements/04_api/fragments/AI.json",
+          "docs/evidence/AI/"
+        ]
       }
     ]
   },
@@ -4654,9 +4757,10 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS",
     "UI-INTEGRATION",
-    "SUGGESTIONS-INTEGRATION"
+    "SUGGESTIONS-INTEGRATION",
+    "AI-INTEGRATION"
   ],
-  "revision": 138,
+  "revision": 139,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4684,6 +4788,25 @@
       "status": "done",
       "submitted_commit": "dc3717d051faa2c9ed13576ce6386e8bf52ed70f",
       "token": null
+    },
+    "AI-INTEGRATION": {
+      "actor": "mattsun",
+      "base_commit": "df5e5073085eddda1e6598664e00881e12b25d81",
+      "generation": 1,
+      "issue_number": 103,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "server/ai/",
+        "server/features/conversations/",
+        "server/db/migrations/ai/",
+        "docs/01_requirements/04_api/fragments/AI.json",
+        "docs/evidence/AI/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "d94625bfd37b4a47abc0e11cd35c55d1"
     },
     "BIKE": {
       "actor": "kaiya",
