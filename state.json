@@ -4479,7 +4479,7 @@
     "TOOL-UPSTREAM-GUARD",
     "PLAN-UI-CONNECTIONS"
   ],
-  "revision": 83,
+  "revision": 84,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4754,7 +4754,7 @@
       "generation": 5,
       "issue_number": 28,
       "landed_main": null,
-      "note": "Preserve worktree and staged PLUGINS changes; renew own claim at integrated CORE/develop base",
+      "note": "docs/evidence/PLUGINS/http-integration.md",
       "owner": "kaiya",
       "paths": [
         "server/features/plugins/",
@@ -4762,8 +4762,8 @@
         "docs/01_requirements/04_api/fragments/PLUGINS.json",
         "docs/evidence/PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "625ff67c1dc3b9abbf0c524047edae2c9be690dc",
       "token": "30a5c79a3d5d495a805dd2040d30d824"
     },
     "QA-VISUAL": {
