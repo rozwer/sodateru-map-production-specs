@@ -1,0 +1,74 @@
+{
+  "personId": "0f40f7ee-ed3e-493a-a904-a2a72bd585e2",
+  "dataMode": "demo",
+  "places": [
+    {
+      "id": "yokohama-20260915-omo7",
+      "name": "OMO7横浜 by 星野リゾート"
+    },
+    {
+      "id": "yokohama-20260915-beach",
+      "name": "THE BEACH YOKOHAMA"
+    },
+    {
+      "id": "yokohama-20260915-yamashita",
+      "name": "山下公園"
+    },
+    {
+      "id": "yokohama-20260915-cafe",
+      "name": "象の鼻カフェ"
+    }
+  ],
+  "records": [
+    {
+      "id": "yokohama-20260915-record-breakfast",
+      "placeId": "yokohama-20260915-omo7",
+      "body": "OMO7が宿泊場所でパンが美味しかったし、非常に高級感がありました。\n\n横浜で迎える朝。添付は朝食の生成イメージです。表示時刻は朝の流れに合わせた目安です。",
+      "media": [
+        {
+          "id": "yokohama-20260915-breakfast-image",
+          "status": "ready"
+        }
+      ]
+    },
+    {
+      "id": "yokohama-20260915-record-venue",
+      "placeId": "yokohama-20260915-beach",
+      "body": "今は会場に居ます。\n\nTHE BEACH YOKOHAMAで開発中。受付9:00、開発10:15–15:30、提出15:30、審査16:00–18:15、交流・ディナー18:15–20:30、終了21:00。開始時刻は公式日程に沿った目安です。",
+      "media": []
+    },
+    {
+      "id": "yokohama-20260915-record-plans",
+      "placeId": "yokohama-20260915-yamashita",
+      "body": "これからの予定\n21:00 会場を出発 → 山下公園の海辺を短く散歩 → OMO7横浜へ。疲れていたら散歩を省いて直接戻る。\n明日10:00ごろ 象の鼻カフェで港を眺めながらひと休み。空席・営業時間は出発前に確認。\nこれからの移動プランで、訪問済みの記録ではありません。",
+      "media": []
+    },
+    {
+      "id": "yokohama-20260915-record-morning-plan",
+      "placeId": "yokohama-20260915-omo7",
+      "body": "朝の移動プラン\n08:15 OMO7横浜を出発 → 約33分、2.7km歩いてTHE BEACH YOKOHAMAへ。9:00の受付前に到着する流れです。\n道路経路から組んだ移動イメージです。本人のGPS計測ではありません。",
+      "media": []
+    }
+  ],
+  "visits": [
+    {
+      "id": "yokohama-20260915-visit-breakfast",
+      "placeId": "yokohama-20260915-omo7"
+    },
+    {
+      "id": "yokohama-20260915-visit-venue",
+      "placeId": "yokohama-20260915-beach"
+    }
+  ],
+  "route": {
+    "id": "yokohama-20260915-morning-route",
+    "distanceM": 2747.938,
+    "durationSec": 1921,
+    "provider": "mapbox-directions"
+  },
+  "track": {
+    "segmentId": "yokohama-20260915-synthetic-morning",
+    "count": 91,
+    "provenance": "synthetic timeline along Mapbox walking route; not measured GPS; accuracyM 100000 means unmeasured"
+  }
+}

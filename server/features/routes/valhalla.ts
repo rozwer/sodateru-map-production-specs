@@ -27,27 +27,27 @@ export function decodePolyline6(shape: unknown): Coordinates[] {
   if(points.length<2 || !points.some(p=>!samePoint(p,points[0]!))) return invalid('経路形状が空です');
   return points;
 }
-function localMinute(epoch: number, timeZone: string) {
+export function localMinute(epoch: number, timeZone: string) {
   const parts=new Intl.DateTimeFormat('sv-SE',{timeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(epoch);
   const part=(key:string)=>parts.find(p=>p.type===key)!.value;
   return `${part('year')}-${part('month')}-${part('day')}T${part('hour')}:${part('minute')}`;
 }
-function steps(raw: any, points: Coordinates[]): RouteStep[] {
+function steps(raw: any, points: Coordinates[], profile: 'bicycle'|'motorcycle'|'motor_scooter'): RouteStep[] {
   if(!Array.isArray(raw) || !raw.length) return invalid('ターン案内が欠落しています');
   const modifiers: Record<number,string>={9:'slight right',10:'right',11:'sharp right',12:'uturn',13:'uturn',14:'sharp left',15:'left',16:'slight left',17:'straight',18:'right',19:'left',20:'right',21:'left',22:'straight',23:'right',24:'left',37:'right',38:'left'};
   return raw.map(m=>{
     const begin=m?.begin_shape_index,end=m?.end_shape_index;
     if(!Number.isInteger(begin)||!Number.isInteger(end)||begin<0||end<begin||end>=points.length||!Number.isInteger(m.type)||typeof m.instruction!=='string') return invalid('ターン案内の形状参照が不正です');
-    if(m.travel_mode !== 'bicycle' && m.travel_mode !== 'pedestrian') return invalid('自転車以外の交通経路が混入しています');
+    if(profile === 'bicycle' ? m.travel_mode !== 'bicycle' && m.travel_mode !== 'pedestrian' : m.travel_mode !== 'drive' || m.travel_type !== profile) return invalid('自転車以外の交通経路が混入しています');
     const coordinates=points.slice(begin,end+1);if(coordinates.length===1)coordinates.push(coordinates[0]!);
     return {geometry:{type:'LineString',coordinates},location:points[begin]!,distanceM:number(m.length,true)*1000,durationSec:Math.round(number(m.time,true)),type:m.type>=1&&m.type<=3?'depart':m.type>=4&&m.type<=6?'arrive':`valhalla:${m.type}`,modifier:modifiers[m.type]??null,instruction:m.instruction,name:Array.isArray(m.street_names)?m.street_names.filter((n:unknown)=>typeof n==='string').join(' / '):''};
   });
 }
-export function parseValhalla(body: any, points: Coordinates[], conditions: Conditions | undefined, endpoint: string, strategy: 'balanced'|'shortest', fetchedAt: number): RoadResult {
+export function parseValhalla(body: any, points: Coordinates[], conditions: Conditions | undefined, endpoint: string, strategy: 'balanced'|'shortest', fetchedAt: number, profile: 'bicycle'|'motorcycle'|'motor_scooter' = 'bicycle'): RoadResult {
   const trip=body?.trip;
   if ((body?.warnings !== undefined && !Array.isArray(body.warnings)) || (trip?.warnings !== undefined && !Array.isArray(trip.warnings))) return invalid('provider警告の形式が不正です');
   const warnings=[...(Array.isArray(body?.warnings)?body.warnings:[]),...(Array.isArray(trip?.warnings)?trip.warnings:[])];
-  if(warnings.length) throw new RouteFault('MODE_UNSUPPORTED','providerが条件の警告を返したため採用できません',501,{warnings,applied:false});
+  if(warnings.some((w:any)=>!Number.isInteger(w?.code)||typeof w.text!=='string') || warnings.length && (profile==='bicycle' || !conditions?.avoidMotorways || warnings.some((w:any)=>w.code!==208))) throw new RouteFault('MODE_UNSUPPORTED','providerが条件の警告を返したため採用できません',501,{warnings,applied:false});
   if(trip?.status!==0||trip.units!=='kilometers'||!Array.isArray(trip.locations)||trip.locations.length!==points.length||!Array.isArray(trip.legs)||trip.legs.length!==points.length-1) return invalid('自転車経路の全区間が揃いません');
   trip.locations.forEach((l:any,i:number)=>{if(l.original_index!==i||!samePoint([l.lon,l.lat],providerPoint(points[i]!)))return invalid('地点順・座標が要求と一致しません');});
   const coordinates: Coordinates[]=[];
@@ -55,7 +55,7 @@ export function parseValhalla(body: any, points: Coordinates[], conditions: Cond
     const line=decodePolyline6(l.shape);
     if(i && !samePoint(coordinates.at(-1)!,line[0]!)) return invalid('経路区間の境界が連続していません');
     coordinates.push(...(i?line.slice(1):line));
-    return {fromIndex:i,toIndex:i+1,geometry:{type:'LineString',coordinates:line},distanceM:number(l.summary?.length)*1000,durationSec:Math.round(number(l.summary?.time)),steps:steps(l.maneuvers,line)};
+    return {fromIndex:i,toIndex:i+1,geometry:{type:'LineString',coordinates:line},distanceM:number(l.summary?.length)*1000,durationSec:Math.round(number(l.summary?.time)),steps:steps(l.maneuvers,line,profile)};
   });
   const distanceM=legs.reduce((sum,l)=>sum+l.distanceM,0),durationSec=legs.reduce((sum,l)=>sum+l.durationSec,0);
   // Valhalla rounds kilometre summaries to 3 decimals; tolerate only that rounding.
@@ -84,7 +84,8 @@ export function parseValhalla(body: any, points: Coordinates[], conditions: Cond
     timing={departureAt,arrivalAt,timeZone:conditions.timeZone!,providerTimePrecisionSec:60,locations};
     for(const key of ['departAt','returnBy'] as const)if(conditions[key]!==undefined)evaluations.push({key,status:'applied',reason:'同一応答の指定端点日時・時間帯を照合し、区間秒合計で出発/到着予定と期限を評価（推定値）',provider:'valhalla',sourceUrl,fetchedAt});
   }
-  return {geometry,legs,distanceM,durationSec,provider:'valhalla',sourceUrl,fetchedAt,...(conditions?{requestedConditions:structuredClone(conditions),conditionEvaluations:evaluations}:{}),...(timing?{timing}:{}),providerEvidence:{endpoint,attribution:'© OpenStreetMap contributors (ODbL); routing by Valhalla',geometryHash:createHash('sha256').update(JSON.stringify(geometry)).digest('hex'),strategy,warnings:[]}};
+  if(profile!=='bicycle' && conditions?.avoidMotorways) evaluations.push({key:'avoidMotorways',status:warnings.some((w:any)=>w.code===208)?'ignored':'unknown',reason:'要求の適用状態と同一形状の道路属性評価を分離。警告なしでも高速強制除外の適用を保証しない',provider:'valhalla',sourceUrl,fetchedAt});
+  return {geometry,legs,distanceM,durationSec,provider:'valhalla',sourceUrl,fetchedAt,...(conditions?{requestedConditions:structuredClone(conditions),conditionEvaluations:evaluations}:{}),...(timing?{timing}:{}),providerEvidence:{endpoint,attribution:'© OpenStreetMap contributors (ODbL); routing by Valhalla',geometryHash:createHash('sha256').update(JSON.stringify(geometry)).digest('hex'),strategy,warnings:structuredClone(warnings)}};
 }
 export class ValhallaCyclingProvider implements RoadProvider {
   constructor(private endpoint: string, private fetcher: typeof fetch=fetch) {}

@@ -1,0 +1,4250 @@
+{
+  "checkedAt": "2026-09-15T05:04:14.130Z",
+  "mode": "demo/self in isolated temporary SQLite; no shared server used",
+  "transport": "localhost HTTP ephemeral port",
+  "providerInvoked": false,
+  "existingRecordPreserved": true,
+  "uniqueRecordCount": 15,
+  "sourceBodiesUnchanged": true,
+  "checks": [
+    {
+      "method": "POST",
+      "path": "/session",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-02",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-03",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-05",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-06",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-08",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-rehearsal-0910-home",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-rehearsal-0910-cafe",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-rehearsal-0910-book",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-rehearsal-0910-park",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-rehearsal-0910-dinner",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-11",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-12",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-14",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/records",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/insights-grounded-v2-supplement-2026-09-15",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/reflection/summary?from=1788274800000&to=1789484400000&timeZone=Asia%2FTokyo",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/reflection/summary?from=1788274800000&to=1788879600000&timeZone=Asia%2FTokyo",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/reflection/summary?from=1788879600000&to=1789484400000&timeZone=Asia%2FTokyo",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "/insights",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "/records/preexisting-kept",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/insights/insights-grounded-v2-whole",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/insights/insights-grounded-v2-previous",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/insights/insights-grounded-v2-current",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/records?limit=100&includeUndated=true",
+      "status": 200
+    }
+  ],
+  "periodResults": [
+    {
+      "request": {
+        "id": "insights-grounded-v2-whole",
+        "from": 1788274800000,
+        "to": 1789484400000,
+        "timeZone": "Asia/Tokyo"
+      },
+      "insight": {
+        "id": "insights-grounded-v2-whole",
+        "sourceRefs": [
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-book",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-cafe",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-dinner",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-home",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-park",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-02",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-03",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-05",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-06",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-08",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-11",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-12",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-14",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-15",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "preexisting-kept",
+            "version": 1
+          }
+        ],
+        "rangeStart": 1788274800000,
+        "rangeEnd": 1789484400000,
+        "timeZone": "Asia/Tokyo",
+        "generatorVersion": "insights-fixed-five-4",
+        "model": null,
+        "summary": "この期間に明記された体験を日単位で集計しました。記録のない日は不明です。",
+        "result": {
+          "axes": [
+            {
+              "key": "nature",
+              "numerator": 6,
+              "denominator": 10,
+              "value": 0.6,
+              "unknownDays": 4
+            },
+            {
+              "key": "books",
+              "numerator": 8,
+              "denominator": 10,
+              "value": 0.8,
+              "unknownDays": 4
+            },
+            {
+              "key": "cafe",
+              "numerator": 6,
+              "denominator": 10,
+              "value": 0.6,
+              "unknownDays": 4
+            },
+            {
+              "key": "walk",
+              "numerator": 8,
+              "denominator": 10,
+              "value": 0.8,
+              "unknownDays": 4
+            },
+            {
+              "key": "social",
+              "numerator": 4,
+              "denominator": 10,
+              "value": 0.4,
+              "unknownDays": 4
+            }
+          ],
+          "daily": [
+            {
+              "date": "2026-09-02",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "walk",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-04",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-05",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "books",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-07",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-08",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "walk",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-09",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-10",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-park"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-book"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-cafe"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-park"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-dinner"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "books",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-13",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-14",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            }
+          ],
+          "evidence": {
+            "selfReports": [
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-book",
+                "date": "2026-09-10",
+                "key": "books",
+                "quote": "気になっていた本を発見",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-book",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-cafe",
+                "date": "2026-09-10",
+                "key": "cafe",
+                "quote": "カフェで過ごす",
+                "field": "activities",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-cafe",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-dinner",
+                "date": "2026-09-10",
+                "key": "social",
+                "quote": "友達と合流してごはん",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-dinner",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-park",
+                "date": "2026-09-10",
+                "key": "walk",
+                "quote": "少し散歩してリフレッシュ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-park",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-park",
+                "date": "2026-09-10",
+                "key": "nature",
+                "quote": "自然に触れる",
+                "field": "activities",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-park",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "nature",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "books",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "walk",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "books",
+                "quote": "カフェで本を読み、気になった言葉をノートに書き留めた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "cafe",
+                "quote": "カフェで本を読み、気になった言葉をノートに書き留めた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "walk",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "social",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "nature",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "walk",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "social",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "books",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "cafe",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "books",
+                "quote": "書店で気になる本を見つけ、カフェで少し読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "cafe",
+                "quote": "書店で気になる本を見つけ、カフェで少し読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "nature",
+                "quote": "帰りは公園を散歩してひと息ついた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "walk",
+                "quote": "帰りは公園を散歩してひと息ついた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "social",
+                "quote": "今日は人と過ごす時間は取らず、自分のペースで動いた",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "books",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "cafe",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "social",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "nature",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "walk",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "nature",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "books",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "walk",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "cafe",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "walk",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "social",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "nature",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "books",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "nature",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "books",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "walk",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "social",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "books",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "cafe",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "walk",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "social",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "key": "nature",
+                "text": "判断可能な10日のうち体験ありは6日。不明は4日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08",
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "books",
+                "text": "判断可能な10日のうち体験ありは8日。不明は4日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08",
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "cafe",
+                "text": "判断可能な10日のうち体験ありは6日。不明は4日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08",
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "walk",
+                "text": "判断可能な10日のうち体験ありは8日。不明は4日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08",
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "social",
+                "text": "判断可能な10日のうち体験ありは4日。不明は4日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08",
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              }
+            ],
+            "inferences": [],
+            "counterexamples": [
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "walk",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "social",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "books",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "cafe",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "social",
+                "quote": "今日は人と過ごす時間は取らず、自分のペースで動いた",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "nature",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "walk",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "nature",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "books",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "social",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "social",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "unknown": [
+              {
+                "key": null,
+                "date": null,
+                "reason": "体験の日時が不明のため日別判定に使っていません。",
+                "recordIds": [
+                  "preexisting-kept"
+                ]
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              }
+            ]
+          },
+          "unknown": [
+            "体験の日時が不明のため日別判定に使っていません。",
+            "日全体を判断できる明示的な記録がありません。",
+            "明示的な体験の記録から集計した暫定結果です。記録のない日は不明で、人格や検証済みの傾向を示しません。"
+          ],
+          "provisionalName": "この期間に記録された体験（暫定）"
+        },
+        "personId": "8bb2181d-2956-47ab-aeaa-ad09e956eda6",
+        "kind": "analysis",
+        "inputKey": "f84940afe2d74e9dbf99b0f6b22063361f3d4786c2531fd5303e93569562de80",
+        "review": null,
+        "reviewNote": null,
+        "reviewedAt": null,
+        "version": 1,
+        "createdAt": 1789448652569,
+        "updatedAt": 1789448652569
+      }
+    },
+    {
+      "request": {
+        "id": "insights-grounded-v2-previous",
+        "from": 1788274800000,
+        "to": 1788879600000,
+        "timeZone": "Asia/Tokyo"
+      },
+      "insight": {
+        "id": "insights-grounded-v2-previous",
+        "sourceRefs": [
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-02",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-03",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-05",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-06",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-08",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "preexisting-kept",
+            "version": 1
+          }
+        ],
+        "rangeStart": 1788274800000,
+        "rangeEnd": 1788879600000,
+        "timeZone": "Asia/Tokyo",
+        "generatorVersion": "insights-fixed-five-4",
+        "model": null,
+        "summary": "この期間に明記された体験を日単位で集計しました。記録のない日は不明です。",
+        "result": {
+          "axes": [
+            {
+              "key": "nature",
+              "numerator": 3,
+              "denominator": 5,
+              "value": 0.6,
+              "unknownDays": 2
+            },
+            {
+              "key": "books",
+              "numerator": 4,
+              "denominator": 5,
+              "value": 0.8,
+              "unknownDays": 2
+            },
+            {
+              "key": "cafe",
+              "numerator": 3,
+              "denominator": 5,
+              "value": 0.6,
+              "unknownDays": 2
+            },
+            {
+              "key": "walk",
+              "numerator": 3,
+              "denominator": 5,
+              "value": 0.6,
+              "unknownDays": 2
+            },
+            {
+              "key": "social",
+              "numerator": 2,
+              "denominator": 5,
+              "value": 0.4,
+              "unknownDays": 2
+            }
+          ],
+          "daily": [
+            {
+              "date": "2026-09-02",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-02",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-02"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "walk",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-03",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-03"
+              ]
+            },
+            {
+              "date": "2026-09-04",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-04",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-05",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "books",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-05",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-05"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-06",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-06"
+              ]
+            },
+            {
+              "date": "2026-09-07",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-07",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-08",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "walk",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            },
+            {
+              "date": "2026-09-08",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-08"
+              ]
+            }
+          ],
+          "evidence": {
+            "selfReports": [
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "nature",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "books",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "walk",
+                "quote": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "books",
+                "quote": "カフェで本を読み、気になった言葉をノートに書き留めた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "cafe",
+                "quote": "カフェで本を読み、気になった言葉をノートに書き留めた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "walk",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "social",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "nature",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "walk",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "social",
+                "quote": "友人と公園を散歩しながら近況を話した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "books",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "cafe",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "books",
+                "quote": "書店で気になる本を見つけ、カフェで少し読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "cafe",
+                "quote": "書店で気になる本を見つけ、カフェで少し読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "nature",
+                "quote": "帰りは公園を散歩してひと息ついた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "walk",
+                "quote": "帰りは公園を散歩してひと息ついた",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "social",
+                "quote": "今日は人と過ごす時間は取らず、自分のペースで動いた",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "books",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "cafe",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "social",
+                "quote": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "nature",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "walk",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "key": "nature",
+                "text": "判断可能な5日のうち体験ありは3日。不明は2日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08"
+                ]
+              },
+              {
+                "key": "books",
+                "text": "判断可能な5日のうち体験ありは4日。不明は2日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08"
+                ]
+              },
+              {
+                "key": "cafe",
+                "text": "判断可能な5日のうち体験ありは3日。不明は2日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08"
+                ]
+              },
+              {
+                "key": "walk",
+                "text": "判断可能な5日のうち体験ありは3日。不明は2日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08"
+                ]
+              },
+              {
+                "key": "social",
+                "text": "判断可能な5日のうち体験ありは2日。不明は2日。",
+                "dates": [
+                  "2026-09-02",
+                  "2026-09-03",
+                  "2026-09-05",
+                  "2026-09-06",
+                  "2026-09-08"
+                ]
+              }
+            ],
+            "inferences": [],
+            "counterexamples": [
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-02",
+                "date": "2026-09-02",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-02",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "walk",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-03",
+                "date": "2026-09-03",
+                "key": "social",
+                "quote": "今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-03",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "books",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-05",
+                "date": "2026-09-05",
+                "key": "cafe",
+                "quote": "本を読む・探すことと、カフェへの立ち寄りはしなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-05",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-06",
+                "date": "2026-09-06",
+                "key": "social",
+                "quote": "今日は人と過ごす時間は取らず、自分のペースで動いた",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-06",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "nature",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-08",
+                "date": "2026-09-08",
+                "key": "walk",
+                "quote": "今日は散歩や自然に触れる時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-08",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "unknown": [
+              {
+                "key": null,
+                "date": null,
+                "reason": "体験の日時が不明のため日別判定に使っていません。",
+                "recordIds": [
+                  "preexisting-kept"
+                ]
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-04",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-07",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              }
+            ]
+          },
+          "unknown": [
+            "体験の日時が不明のため日別判定に使っていません。",
+            "日全体を判断できる明示的な記録がありません。",
+            "明示的な体験の記録から集計した暫定結果です。記録のない日は不明で、人格や検証済みの傾向を示しません。"
+          ],
+          "provisionalName": "この期間に記録された体験（暫定）"
+        },
+        "personId": "8bb2181d-2956-47ab-aeaa-ad09e956eda6",
+        "kind": "analysis",
+        "inputKey": "0d66e5b2aed495c03284f0fb7fa9b1dc924576e7ed87cff73a25909809f5df05",
+        "review": null,
+        "reviewNote": null,
+        "reviewedAt": null,
+        "version": 1,
+        "createdAt": 1789448652587,
+        "updatedAt": 1789448652587
+      }
+    },
+    {
+      "request": {
+        "id": "insights-grounded-v2-current",
+        "from": 1788879600000,
+        "to": 1789484400000,
+        "timeZone": "Asia/Tokyo"
+      },
+      "insight": {
+        "id": "insights-grounded-v2-current",
+        "sourceRefs": [
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-book",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-cafe",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-dinner",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-home",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-rehearsal-0910-park",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-11",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-12",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-14",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "insights-grounded-v2-supplement-2026-09-15",
+            "version": 1
+          },
+          {
+            "type": "record",
+            "id": "preexisting-kept",
+            "version": 1
+          }
+        ],
+        "rangeStart": 1788879600000,
+        "rangeEnd": 1789484400000,
+        "timeZone": "Asia/Tokyo",
+        "generatorVersion": "insights-fixed-five-4",
+        "model": null,
+        "summary": "この期間に明記された体験を日単位で集計しました。記録のない日は不明です。",
+        "result": {
+          "axes": [
+            {
+              "key": "nature",
+              "numerator": 3,
+              "denominator": 5,
+              "value": 0.6,
+              "unknownDays": 2
+            },
+            {
+              "key": "books",
+              "numerator": 4,
+              "denominator": 5,
+              "value": 0.8,
+              "unknownDays": 2
+            },
+            {
+              "key": "cafe",
+              "numerator": 3,
+              "denominator": 5,
+              "value": 0.6,
+              "unknownDays": 2
+            },
+            {
+              "key": "walk",
+              "numerator": 5,
+              "denominator": 5,
+              "value": 1,
+              "unknownDays": 2
+            },
+            {
+              "key": "social",
+              "numerator": 2,
+              "denominator": 5,
+              "value": 0.4,
+              "unknownDays": 2
+            }
+          ],
+          "daily": [
+            {
+              "date": "2026-09-09",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-09",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-10",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-park"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-book"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-cafe"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-park"
+              ]
+            },
+            {
+              "date": "2026-09-10",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-rehearsal-0910-dinner"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-11",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-11"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "books",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-12",
+              "key": "social",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-12"
+              ]
+            },
+            {
+              "date": "2026-09-13",
+              "key": "nature",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "books",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "cafe",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "walk",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-13",
+              "key": "social",
+              "value": null,
+              "recordIds": []
+            },
+            {
+              "date": "2026-09-14",
+              "key": "nature",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "cafe",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-14",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-14"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "nature",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "books",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "cafe",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "walk",
+              "value": true,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            },
+            {
+              "date": "2026-09-15",
+              "key": "social",
+              "value": false,
+              "recordIds": [
+                "insights-grounded-v2-supplement-2026-09-15"
+              ]
+            }
+          ],
+          "evidence": {
+            "selfReports": [
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-book",
+                "date": "2026-09-10",
+                "key": "books",
+                "quote": "気になっていた本を発見",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-book",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-cafe",
+                "date": "2026-09-10",
+                "key": "cafe",
+                "quote": "カフェで過ごす",
+                "field": "activities",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-cafe",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-dinner",
+                "date": "2026-09-10",
+                "key": "social",
+                "quote": "友達と合流してごはん",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-dinner",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-park",
+                "date": "2026-09-10",
+                "key": "walk",
+                "quote": "少し散歩してリフレッシュ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-park",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-rehearsal-0910-park",
+                "date": "2026-09-10",
+                "key": "nature",
+                "quote": "自然に触れる",
+                "field": "activities",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-rehearsal-0910-park",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "nature",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "books",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "walk",
+                "quote": "公園を散歩して、木陰で本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "cafe",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "walk",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "social",
+                "quote": "友人とカフェで話し、そのあと商店街を散歩した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "nature",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "books",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "nature",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "books",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "walk",
+                "quote": "公園を散歩したあと、ベンチで本を読んだ",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "social",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "books",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "cafe",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "walk",
+                "quote": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した",
+                "field": "body",
+                "value": true,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "social",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "observations": [
+              {
+                "key": "nature",
+                "text": "判断可能な5日のうち体験ありは3日。不明は2日。",
+                "dates": [
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "books",
+                "text": "判断可能な5日のうち体験ありは4日。不明は2日。",
+                "dates": [
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "cafe",
+                "text": "判断可能な5日のうち体験ありは3日。不明は2日。",
+                "dates": [
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "walk",
+                "text": "判断可能な5日のうち体験ありは5日。不明は2日。",
+                "dates": [
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              },
+              {
+                "key": "social",
+                "text": "判断可能な5日のうち体験ありは2日。不明は2日。",
+                "dates": [
+                  "2026-09-10",
+                  "2026-09-11",
+                  "2026-09-12",
+                  "2026-09-14",
+                  "2026-09-15"
+                ]
+              }
+            ],
+            "inferences": [],
+            "counterexamples": [
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-11",
+                "date": "2026-09-11",
+                "key": "social",
+                "quote": "カフェには寄らず、人と過ごす時間も取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-11",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "nature",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-12",
+                "date": "2026-09-12",
+                "key": "books",
+                "quote": "本を読む・探すことや、自然に触れる時間はなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-12",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "cafe",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-14",
+                "date": "2026-09-14",
+                "key": "social",
+                "quote": "カフェには寄らず、人とも過ごさなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-14",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "nature",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              },
+              {
+                "recordId": "insights-grounded-v2-supplement-2026-09-15",
+                "date": "2026-09-15",
+                "key": "social",
+                "quote": "今日は自然に触れる時間と、人と過ごす時間は取らなかった",
+                "field": "body",
+                "value": false,
+                "sourceRefs": [
+                  {
+                    "type": "record",
+                    "id": "insights-grounded-v2-supplement-2026-09-15",
+                    "version": 1
+                  }
+                ]
+              }
+            ],
+            "unknown": [
+              {
+                "key": null,
+                "date": null,
+                "reason": "体験の日時が不明のため日別判定に使っていません。",
+                "recordIds": [
+                  "preexisting-kept"
+                ]
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-09",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "nature",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "books",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "cafe",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "walk",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              },
+              {
+                "key": "social",
+                "date": "2026-09-13",
+                "reason": "日全体を判断できる明示的な記録がありません。",
+                "recordIds": []
+              }
+            ]
+          },
+          "unknown": [
+            "体験の日時が不明のため日別判定に使っていません。",
+            "日全体を判断できる明示的な記録がありません。",
+            "明示的な体験の記録から集計した暫定結果です。記録のない日は不明で、人格や検証済みの傾向を示しません。"
+          ],
+          "provisionalName": "この期間に記録された体験（暫定）"
+        },
+        "personId": "8bb2181d-2956-47ab-aeaa-ad09e956eda6",
+        "kind": "analysis",
+        "inputKey": "d747c918fc4d1688f5db6e11da32caf10fc2c8edad9fbd4475a63d917f3c0f99",
+        "review": null,
+        "reviewNote": null,
+        "reviewedAt": null,
+        "version": 1,
+        "createdAt": 1789448652600,
+        "updatedAt": 1789448652600
+      }
+    }
+  ]
+}

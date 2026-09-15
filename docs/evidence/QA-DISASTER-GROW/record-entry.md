@@ -22,3 +22,18 @@
 共有checkoutのread-only reflogを後から確認。13:27:14 JSTに2155430→54683e7、13:28:53にc0b446eへ切替。ブラウザのReact再初期化ログは04:27:33Z。入力消失の観測中に配信更新があったため、viewport単独の不具合や通常操作での再現とは判定しない。配信切替/HMRでの未保存状態喪失の可能性を含む。
 
 [担当へ観測条件を訂正](https://github.com/rozwer/sodateru-map-production-specs/issues/228#issuecomment-5674749582)。次回は修正commit反映後の同一HEADで入口を再確認する。
+
+## PR #240 修正後の確定確認
+
+配信HEAD `4a73522d86ed59cd1decab2678e527a4d6325d5c`（PR240を含む）を運用担当に固定してもらい、開始・終了のHEAD一致をread-only確認。運用担当は共有IABを操作しない条件へ移行した。前の再初期化は外部reload/配信更新の干渉を含み、通常操作の製品不具合とは判定しない。
+
+| 実測幅 | フォーム実測 | 操作結果 |
+|---|---|---|
+| 1536×1024 | 幅446、左545（中央） | 中央カメラ→coffee.jpg→本文19文字→確認→戻って編集で同写真/本文保持。 |
+| 390×844 | 幅390、document scrollWidth=390 | 同写真→本文15文字→確認→戻って編集で保持。横はみ出しなし。 |
+
+両タブconsole error/warnなし。写真はloaded=true、naturalWidth=160。画像は `record-240-editor-1536.png`、`record-240-confirm-1536.png`、`record-240-editor-390.png`。
+
+viewport設定の対象が選択タブで、別タブ計測と一致しない場面があったため、最終判定は1536と390の固定タブのinnerWidth/innerHeight・フォーム矩形で確定した。製品のリサイズ不具合として数えない。
+
+[担当へ確定結果](https://github.com/rozwer/sodateru-map-production-specs/issues/228#issuecomment-5674855864)。記録UI入口・PC幅の修復を確認済み。保存/削除は実施しておらず、PR249の訪問・建物成長は別の受入。今回の一時入力のみであり、既存保存データの削除による回避はしていない。運用担当へ次batch切替可能と連絡した。

@@ -1,0 +1,1132 @@
+{
+  "format": "self-type-diagnosis-grounded-demo-v2",
+  "createdAt": "2026-09-15",
+  "dataKind": "composed_demo",
+  "notAnApiPayload": true,
+  "provenance": {
+    "sourceMode": "sample",
+    "basis": "既存の9月10日の5場面原文＋ユーザー許可で作成した9日分の補完記録",
+    "copiedRecordCount": 5,
+    "supplementalRecordCount": 9,
+    "realAiGenerated": false,
+    "scoreMethod": "文章に明示された実施/不実施を日別に集計。不明・無記録を分母から除外。補完記録を含むデモデータ内での実集計。",
+    "displayBadgeRequested": false,
+    "originalFilesUnchanged": true
+  },
+  "profile": {
+    "id": "reading-walking-explorer",
+    "provisionalName": "本と散歩で整える探求家",
+    "subtitle": "気になる一冊と、いつもより少し長い寄り道",
+    "description": "本との出会いを楽しみながら、歩く時間で気分を整える過ごし方が中心です。カフェや公園を組み合わせると、自分のペースで考えたり、読んだ内容を振り返ったりしやすそうです。",
+    "tags": [
+      "本との出会い",
+      "散歩でリセット",
+      "カフェ",
+      "緑でひと息"
+    ],
+    "periodLabel": "9月2日〜15日の傾向",
+    "range": {
+      "from": "2026-09-02",
+      "toInclusive": "2026-09-15",
+      "timeZone": "Asia/Tokyo"
+    },
+    "recordedDays": 10,
+    "noRecordDays": 4,
+    "axes": [
+      {
+        "key": "nature",
+        "label": "自然",
+        "numerator": 6,
+        "denominator": 10,
+        "value": 0.6,
+        "unknownDays": 4,
+        "displayLabel": "6/10日",
+        "percentage": 60
+      },
+      {
+        "key": "books",
+        "label": "本",
+        "numerator": 8,
+        "denominator": 10,
+        "value": 0.8,
+        "unknownDays": 4,
+        "displayLabel": "8/10日",
+        "percentage": 80
+      },
+      {
+        "key": "cafe",
+        "label": "カフェ",
+        "numerator": 6,
+        "denominator": 10,
+        "value": 0.6,
+        "unknownDays": 4,
+        "displayLabel": "6/10日",
+        "percentage": 60
+      },
+      {
+        "key": "walk",
+        "label": "散歩",
+        "numerator": 8,
+        "denominator": 10,
+        "value": 0.8,
+        "unknownDays": 4,
+        "displayLabel": "8/10日",
+        "percentage": 80
+      },
+      {
+        "key": "social",
+        "label": "人との時間",
+        "numerator": 4,
+        "denominator": 10,
+        "value": 0.4,
+        "unknownDays": 4,
+        "displayLabel": "4/10日",
+        "percentage": 40
+      }
+    ],
+    "trends": [
+      {
+        "title": "本と散歩のある日が多い",
+        "detail": "記録がある10日のうち、本に触れた日と散歩した日はそれぞれ8日。",
+        "keys": [
+          "books",
+          "walk"
+        ],
+        "origin": "computed_from_records"
+      },
+      {
+        "title": "緑とカフェでひと息",
+        "detail": "自然に触れた日とカフェに寄った日はそれぞれ6日。本や散歩に休憩を組み合わせています。",
+        "keys": [
+          "nature",
+          "cafe"
+        ],
+        "origin": "computed_from_records"
+      },
+      {
+        "title": "友人との時間も楽しむ",
+        "detail": "人と過ごした日は4日。会話や食事を楽しんだ記録も残っています。",
+        "keys": [
+          "social"
+        ],
+        "origin": "computed_from_records"
+      },
+      {
+        "title": "最近は散歩のある日が増えた",
+        "detail": "前の7日間は記録のある5日中3日、直近7日間は5日とも散歩の記録があります。",
+        "keys": [
+          "walk"
+        ],
+        "origin": "computed_from_records"
+      }
+    ],
+    "advice": "次のお出かけは「本屋 → カフェ → 海辺の散歩」の順に。気になる一冊を見つけたあと、歩きながら印象に残った言葉を思い返してみましょう。",
+    "recommendations": [
+      {
+        "name": "LOCAL BOOK STORE kita.",
+        "reason": "棚ごとの選書から、予定になかった一冊に出会う寄り道に。",
+        "sourceUrl": "https://kitabooks.jp/info/"
+      },
+      {
+        "name": "象の鼻カフェ",
+        "reason": "本を見つけたあと、海辺でひと息つく候補に。",
+        "sourceUrl": "https://zounohana.com/cafe/"
+      },
+      {
+        "name": "大さん橋 屋上広場",
+        "reason": "最後は港を眺めながら、今日の発見を振り返る散歩へ。",
+        "sourceUrl": "https://osanbashi.jp/floorguide/rooftop"
+      }
+    ],
+    "editorialProvenance": "タイプ名・説明・アドバイス・候補との相性は、デモ記録を踏まえた編集上の提案。実AI診断や実在人物の性格評価ではない。"
+  },
+  "periodComparison": {
+    "previous": {
+      "label": "9月2日〜8日",
+      "axes": [
+        {
+          "key": "nature",
+          "label": "自然",
+          "numerator": 3,
+          "denominator": 5,
+          "value": 0.6,
+          "unknownDays": 2,
+          "displayLabel": "3/5日",
+          "percentage": 60
+        },
+        {
+          "key": "books",
+          "label": "本",
+          "numerator": 4,
+          "denominator": 5,
+          "value": 0.8,
+          "unknownDays": 2,
+          "displayLabel": "4/5日",
+          "percentage": 80
+        },
+        {
+          "key": "cafe",
+          "label": "カフェ",
+          "numerator": 3,
+          "denominator": 5,
+          "value": 0.6,
+          "unknownDays": 2,
+          "displayLabel": "3/5日",
+          "percentage": 60
+        },
+        {
+          "key": "walk",
+          "label": "散歩",
+          "numerator": 3,
+          "denominator": 5,
+          "value": 0.6,
+          "unknownDays": 2,
+          "displayLabel": "3/5日",
+          "percentage": 60
+        },
+        {
+          "key": "social",
+          "label": "人との時間",
+          "numerator": 2,
+          "denominator": 5,
+          "value": 0.4,
+          "unknownDays": 2,
+          "displayLabel": "2/5日",
+          "percentage": 40
+        }
+      ]
+    },
+    "current": {
+      "label": "9月9日〜15日",
+      "axes": [
+        {
+          "key": "nature",
+          "label": "自然",
+          "numerator": 3,
+          "denominator": 5,
+          "value": 0.6,
+          "unknownDays": 2,
+          "displayLabel": "3/5日",
+          "percentage": 60
+        },
+        {
+          "key": "books",
+          "label": "本",
+          "numerator": 4,
+          "denominator": 5,
+          "value": 0.8,
+          "unknownDays": 2,
+          "displayLabel": "4/5日",
+          "percentage": 80
+        },
+        {
+          "key": "cafe",
+          "label": "カフェ",
+          "numerator": 3,
+          "denominator": 5,
+          "value": 0.6,
+          "unknownDays": 2,
+          "displayLabel": "3/5日",
+          "percentage": 60
+        },
+        {
+          "key": "walk",
+          "label": "散歩",
+          "numerator": 5,
+          "denominator": 5,
+          "value": 1,
+          "unknownDays": 2,
+          "displayLabel": "5/5日",
+          "percentage": 100
+        },
+        {
+          "key": "social",
+          "label": "人との時間",
+          "numerator": 2,
+          "denominator": 5,
+          "value": 0.4,
+          "unknownDays": 2,
+          "displayLabel": "2/5日",
+          "percentage": 40
+        }
+      ]
+    },
+    "note": "比較対象は同じ補完済みデモ記録。前月の履歴は無いため前月比較は作らない。"
+  },
+  "records": [
+    {
+      "id": "supplement-2026-09-02",
+      "date": "2026-09-02",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "公園をゆっくり散歩してから、ベンチで気になっていた本を読んだ。カフェには寄らず、人と過ごす時間も取らずに、一人で落ち着いて過ごした。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-03",
+      "date": "2026-09-03",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "カフェで本を読み、気になった言葉をノートに書き留めた。今日は自然に触れる時間や散歩の時間は取らず、人とも過ごさなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-05",
+      "date": "2026-09-05",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "友人と公園を散歩しながら近況を話した。緑を見ながら話すと気持ちが軽くなった。本を読む・探すことと、カフェへの立ち寄りはしなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-06",
+      "date": "2026-09-06",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "書店で気になる本を見つけ、カフェで少し読んだ。帰りは公園を散歩してひと息ついた。今日は人と過ごす時間は取らず、自分のペースで動いた。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-08",
+      "date": "2026-09-08",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "友人とカフェで最近読んだ本の話をし、その場で本を開いて好きな一節を紹介した。今日は散歩や自然に触れる時間は取らなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "rehearsal-0910-home",
+      "date": "2026-09-10",
+      "time": "08:30",
+      "placeName": "自宅",
+      "area": null,
+      "text": "いつもの朝。いい天気で気持ちのいいスタート！",
+      "provenance": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "home",
+        "modified": false
+      }
+    },
+    {
+      "id": "rehearsal-0910-cafe",
+      "date": "2026-09-10",
+      "time": "11:20",
+      "placeName": "やすらぎカフェ",
+      "area": "覚王山",
+      "text": "お気に入りのラテ。今日も落ち着く空間だった☕",
+      "provenance": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "cafe",
+        "modified": false
+      }
+    },
+    {
+      "id": "rehearsal-0910-book",
+      "date": "2026-09-10",
+      "time": "14:10",
+      "placeName": "三省堂書店",
+      "area": "名古屋駅",
+      "text": "気になっていた本を発見！つい2冊も買ってしまった。",
+      "provenance": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "book",
+        "modified": false
+      }
+    },
+    {
+      "id": "rehearsal-0910-park",
+      "date": "2026-09-10",
+      "time": "16:30",
+      "placeName": "鶴舞公園",
+      "area": null,
+      "text": "少し散歩してリフレッシュ。緑の中でぼーっとする時間が好き。",
+      "provenance": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "park",
+        "modified": false
+      }
+    },
+    {
+      "id": "rehearsal-0910-dinner",
+      "date": "2026-09-10",
+      "time": "19:05",
+      "placeName": "ビストロ ルポ",
+      "area": "栄",
+      "text": "友達と合流してごはん。美味しくて楽しい時間だった！",
+      "provenance": {
+        "kind": "rehearsal_sample_text",
+        "sourceFile": "rehearsal-self-sample-texts.json",
+        "sourceId": "dinner",
+        "modified": false
+      }
+    },
+    {
+      "id": "supplement-2026-09-11",
+      "date": "2026-09-11",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "公園を散歩して、木陰で本を読んだ。昨日より予定を減らすと、文章がゆっくり頭に入ってきた。カフェには寄らず、人と過ごす時間も取らなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-12",
+      "date": "2026-09-12",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "友人とカフェで話し、そのあと商店街を散歩した。気になる店先を一緒に眺めるのが楽しかった。本を読む・探すことや、自然に触れる時間はなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-14",
+      "date": "2026-09-14",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "公園を散歩したあと、ベンチで本を読んだ。少し歩いてから読むと、気分を切り替えやすかった。カフェには寄らず、人とも過ごさなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    },
+    {
+      "id": "supplement-2026-09-15",
+      "date": "2026-09-15",
+      "time": null,
+      "placeName": null,
+      "area": null,
+      "text": "カフェで本を読み、帰りは街を散歩して気になった言葉を思い返した。今日は自然に触れる時間と、人と過ごす時間は取らなかった。",
+      "provenance": {
+        "kind": "authored_supplement",
+        "reason": "ユーザー許可に基づき期間傾向を具体化するため追加した架空の記録"
+      }
+    }
+  ],
+  "daily": [
+    {
+      "date": "2026-09-02",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-02"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-02",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-02"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-02",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-02"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-02",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-02"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-02",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-02"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-03",
+      "key": "nature",
+      "label": "自然",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-03"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-03",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-03"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-03",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-03"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-03",
+      "key": "walk",
+      "label": "散歩",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-03"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-03",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-03"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-04",
+      "key": "nature",
+      "label": "自然",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-04",
+      "key": "books",
+      "label": "本",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-04",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-04",
+      "key": "walk",
+      "label": "散歩",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-04",
+      "key": "social",
+      "label": "人との時間",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-05",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-05"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-05",
+      "key": "books",
+      "label": "本",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-05"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-05",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-05"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-05",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-05"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-05",
+      "key": "social",
+      "label": "人との時間",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-05"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-06",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-06"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-06",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-06"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-06",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-06"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-06",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-06"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-06",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-06"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-07",
+      "key": "nature",
+      "label": "自然",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-07",
+      "key": "books",
+      "label": "本",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-07",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-07",
+      "key": "walk",
+      "label": "散歩",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-07",
+      "key": "social",
+      "label": "人との時間",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-08",
+      "key": "nature",
+      "label": "自然",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-08"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-08",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-08"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-08",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-08"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-08",
+      "key": "walk",
+      "label": "散歩",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-08"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-08",
+      "key": "social",
+      "label": "人との時間",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-08"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-09",
+      "key": "nature",
+      "label": "自然",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-09",
+      "key": "books",
+      "label": "本",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-09",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-09",
+      "key": "walk",
+      "label": "散歩",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-09",
+      "key": "social",
+      "label": "人との時間",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-10",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "rehearsal-0910-park"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-10",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "rehearsal-0910-book"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-10",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "rehearsal-0910-cafe"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-10",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "rehearsal-0910-park"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-10",
+      "key": "social",
+      "label": "人との時間",
+      "value": true,
+      "recordIds": [
+        "rehearsal-0910-dinner"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-11",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-11"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-11",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-11"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-11",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-11"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-11",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-11"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-11",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-11"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-12",
+      "key": "nature",
+      "label": "自然",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-12"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-12",
+      "key": "books",
+      "label": "本",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-12"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-12",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-12"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-12",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-12"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-12",
+      "key": "social",
+      "label": "人との時間",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-12"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-13",
+      "key": "nature",
+      "label": "自然",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-13",
+      "key": "books",
+      "label": "本",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-13",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-13",
+      "key": "walk",
+      "label": "散歩",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-13",
+      "key": "social",
+      "label": "人との時間",
+      "value": null,
+      "recordIds": [],
+      "basis": "記録なし"
+    },
+    {
+      "date": "2026-09-14",
+      "key": "nature",
+      "label": "自然",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-14"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-14",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-14"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-14",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-14"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-14",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-14"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-14",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-14"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-15",
+      "key": "nature",
+      "label": "自然",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-15"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-15",
+      "key": "books",
+      "label": "本",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-15"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-15",
+      "key": "cafe",
+      "label": "カフェ",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-15"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-15",
+      "key": "walk",
+      "label": "散歩",
+      "value": true,
+      "recordIds": [
+        "supplement-2026-09-15"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    },
+    {
+      "date": "2026-09-15",
+      "key": "social",
+      "label": "人との時間",
+      "value": false,
+      "recordIds": [
+        "supplement-2026-09-15"
+      ],
+      "basis": "文章内の明示的な体験・不実施"
+    }
+  ],
+  "originalDaySummary": {
+    "date": "2026-09-10",
+    "highlight": {
+      "placeName": "やすらぎカフェ",
+      "label": "一番印象に残った場所",
+      "text": "「落ち着く空間で、\nゆっくり考えることができた」"
+    },
+    "note": "好きな場所に囲まれて、\n充実した1日だった。また行きたい場所が増えた！",
+    "sourceFile": "rehearsal-self-sample-texts.json",
+    "includedInCounts": false
+  },
+  "archiveReference": {
+    "sourceFile": "rehearsal-self-db-data.json",
+    "namespaceId": "ns_demo_1bda8cb0-fa85-4d72-b0f5-de74a85899c1",
+    "actorId": "actor_ao_demo",
+    "recordCount": 20,
+    "purposeCounts": {
+      "reading": 8,
+      "conversation": 8,
+      "rest": 2,
+      "dining": 2
+    },
+    "includedInProfileCounts": false,
+    "note": "別出典の保存件数。体験日時が不明のため、このプロフィールの期間集計と合算しない。"
+  },
+  "usageNotes": [
+    "画面にはタイプ名・説明・具体値を表示。『デモ用サンプル』の見出しやdisplayBadgeは付けない。内部の出所情報は保持する。",
+    "この人物像は既存の表示サンプルと補完記録を組み合わせたデモ用。既存actor本人の実体験と取り違えない。",
+    "9月10日の5場面は文章・時刻・地名を変更せず継承。その他9日分は新規補完。",
+    "自然・本・カフェ・散歩・人との時間の5軸。本文で明示された不実施だけfalse。9/4・7・9・13は全軸null。",
+    "dailyとrecordsに根拠がある値を集計し、点数だけ別に変更しない。割合は人格の強さではなく、このデモ記録内での体験日の割合。",
+    "旧3タイプの任意点数を含むself-type-diagnosis-mock.jsonは中間稿。このv2を最終素材とする。",
+    "コード移植・アプリ変更・DB投入はこのJSONに含まない。"
+  ]
+}
