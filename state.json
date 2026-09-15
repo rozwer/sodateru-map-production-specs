@@ -33839,7 +33839,7 @@
     "BUILDING-RECORDS",
     "ISSUE-REPAIR-SUPERSESSIONS"
   ],
-  "revision": 232,
+  "revision": 233,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34115,14 +34115,14 @@
       "generation": 1,
       "issue_number": 214,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/DISASTER-DATA/acceptance.md",
       "owner": "rozwer",
       "paths": [
         "src/features/disaster/data/",
         "docs/evidence/DISASTER-DATA/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "d886812fa7ec121b1d2809cac053215a3a02ae2c",
       "token": "b7a845b224db43eabc65f4de7c69e9e2"
     },
     "DISASTER-UI": {
