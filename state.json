@@ -33839,7 +33839,7 @@
     "BUILDING-RECORDS",
     "ISSUE-REPAIR-SUPERSESSIONS"
   ],
-  "revision": 236,
+  "revision": 237,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34515,7 +34515,7 @@
       "generation": 7,
       "issue_number": 25,
       "landed_main": null,
-      "note": "docs/evidence/ROUTES/valhalla-probe.md",
+      "note": "docs/evidence/ROUTES/cycling-integration.md",
       "owner": "kaiya",
       "paths": [
         "server/features/routes/",
@@ -34524,7 +34524,7 @@
         "docs/evidence/ROUTES/"
       ],
       "status": "submitted",
-      "submitted_commit": "7842303dbb54ed5fa47c48d75a5fbf9d752d444c",
+      "submitted_commit": "c4b5226ded26138f0959ea4628c500f71f5fcc19",
       "token": "6e0fd1b0833542f086e43376c7dce057"
     },
     "SETTINGS": {
