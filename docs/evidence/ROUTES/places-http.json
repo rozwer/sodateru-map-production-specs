@@ -1,0 +1,55 @@
+{
+  "result": "PASS",
+  "checkedAt": "2026-09-15T03:04:29.375Z",
+  "entry": "server/app/main.ts",
+  "processStarts": 2,
+  "integratedDevelop": "e4da1c8",
+  "placesMerge": "2332231",
+  "routesMerge": "ddb8614",
+  "checks": [
+    "real Nominatim HTTP candidate resolved into actual Mapbox two-leg route; preview writes no place or route",
+    "route save adopts candidate and saves route in common transaction; same-key replay creates no duplicates",
+    "full saved snapshot and adopted placeId identical after OS process restart and save replay",
+    "persisted PLACES id resolves through real route HTTP after restart",
+    "actual Mapbox temporary candidate can preview but save rejects 409; no extra place or saved route"
+  ],
+  "source": {
+    "provider": "nominatim",
+    "sourceUrl": "https://www.openstreetmap.org/way/1361180595",
+    "fetchedAt": 1789441466787
+  },
+  "route": {
+    "id": "route-from-candidate",
+    "placeId": "route-place-88d5a02ce3c5dfa23f568d0cd79eed509a26e493b26602c1",
+    "waypoints": [
+      {
+        "coordinates": [
+          139.7651878,
+          35.677652
+        ],
+        "name": "東京駅;地下2階",
+        "placeId": "route-place-88d5a02ce3c5dfa23f568d0cd79eed509a26e493b26602c1"
+      },
+      {
+        "coordinates": [
+          139.769,
+          35.682
+        ],
+        "name": "経由地",
+        "placeId": null
+      },
+      {
+        "coordinates": [
+          139.771,
+          35.684
+        ],
+        "name": "目的地",
+        "placeId": null
+      }
+    ],
+    "legs": 2,
+    "distanceM": 1211.606,
+    "durationSec": 968,
+    "fetchedAt": 1789441467339
+  }
+}

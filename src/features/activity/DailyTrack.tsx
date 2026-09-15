@@ -3,6 +3,7 @@ import type { MediaDraft } from '../records/form-types';
 import { MediaGallery, RecordHeading, RecordIcon, RecordNotice } from '../records/RecordParts';
 import { activityMessages as m } from './messages';
 import './activity.css';
+import { MediaContent } from '../records/MediaContent';
 
 export type TimelineEntry = {
  id: string; recordId?: string; visitId?: string; name: string; time: string; duration: string;
@@ -27,12 +28,14 @@ export function DailyTrack({ date, onDate, entries, expandedId, onExpand, onEdit
  confirmedPlaces:number; duration:string; missingTrack:boolean; calendar?:boolean; onCalendar:(open:boolean)=>void; recordedDates:Set<string>; onMonth?:(month:string)=>void;
 }) {
  const [month,setMonth] = useState(date.slice(0,7));
+ const [menuOpen,setMenuOpen]=useState(false);
  const first = new Date(`${month}-01T12:00:00Z`);
  const days = new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();
  const changeMonth = (offset:number) => { const next = new Date(first);next.setUTCMonth(next.getUTCMonth()+offset);const nextMonth=next.toISOString().slice(0,7);setMonth(nextMonth);onMonth?.(nextMonth); };
  const selectedEntry = entries.find(entry=>entry.id===expandedId);
  return <section className={`records-screen activity-daily ${calendar ? 'activity-calendar-screen' : ''}`}>
-   {calendar ? <RecordHeading title={m.dailyTitle} onBack={onBack} end={<button type="button" className="records-icon-button" aria-label="メニュー" onClick={onMenu}><RecordIcon name="more"/></button>}/> : <header className="activity-daily-heading"><button type="button" className="records-icon-button" aria-label="戻る" onClick={onBack}><RecordIcon name="back"/></button><h2>{m.dailyTitle}</h2><button type="button" className="records-icon-button" aria-label="メニュー" onClick={onMenu}><RecordIcon name="menu"/></button></header>}
+   {calendar ? <RecordHeading title={m.dailyTitle} onBack={onBack} end={<button type="button" className="records-icon-button" aria-label="メニュー" aria-expanded={menuOpen} onClick={()=>setMenuOpen(!menuOpen)}><RecordIcon name="more"/></button>}/> : <header className="activity-daily-heading"><button type="button" className="records-icon-button" aria-label="戻る" onClick={onBack}><RecordIcon name="back"/></button><h2>{m.dailyTitle}</h2><button type="button" className="records-icon-button" aria-label="メニュー" onClick={onMenu}><RecordIcon name="menu"/></button></header>}
+   {calendar && menuOpen && <div className="activity-calendar-menu" role="menu"><button type="button" role="menuitem" onClick={()=>{setMenuOpen(false);onCalendar(false);}}>この日の軌跡を見る</button><button type="button" role="menuitem" onClick={()=>{setMenuOpen(false);onRecord();}}>体験を残す</button></div>}
    {calendar && <p className="records-lead">{m.byDate}</p>}
    {!calendar && <div className="activity-track-map">{map}</div>}
    <div className="activity-track-sheet">
@@ -47,7 +50,7 @@ export function DailyTrack({ date, onDate, entries, expandedId, onExpand, onEdit
          {!calendar && <div className="activity-timeline-time"><time>{entry.time || m.noTime}</time><i className="activity-cube"/></div>}
          <article className={`activity-timeline-card activity-status-${entry.status}`}>
            <button type="button" className="activity-entry-toggle" onClick={()=>onExpand(entry.id)} aria-expanded={expandedId===entry.id}>
-             {calendar && <div className="records-place-photo">{entry.media.find(media=>media.kind==='photo' && media.url)?.url ? <img src={entry.media.find(media=>media.kind==='photo' && media.url)!.url!} alt="記録の写真"/> : <RecordIcon name="document"/>}</div>}
+             {calendar && <div className="records-place-photo">{entry.media.find(media=>media.kind==='photo' && media.url)?.url ? <MediaContent item={entry.media.find(media=>media.kind==='photo' && media.url)!} photoOnly/> : <RecordIcon name="document"/>}</div>}
              <span><strong>{entry.name || m.noPlace}</strong>{calendar ? <small>{entry.time || m.noTime}</small> : entry.duration && <small><RecordIcon name="clock"/>{entry.duration}</small>}{entry.undated && <small>日時未指定の記録</small>}{entry.status!=='record' && entry.status!=='confirmed' && <small className="activity-visit-state">{entry.status==='candidate' ? '訪問は確認待ち' : '行っていない'}</small>}</span><RecordIcon name="next"/>
            </button>
            {expandedId===entry.id && <div className="activity-entry-detail">

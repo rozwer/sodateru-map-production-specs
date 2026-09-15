@@ -1,0 +1,32 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { DatabaseSync } from 'node:sqlite';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { QuestionStore, migrationSql } from './questions.ts';
+
+test('questions preserve identity, state and answer record across restart without repeating reasons', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'reflection-'));
+  const path = join(dir, 'db.sqlite');
+  let db = new DatabaseSync(path);
+  db.exec(migrationSql);
+  let store = new QuestionStore(db);
+  const input = { id: 'q1', targetRecordId: 'r1', topic: 'reason', questionText: 'なぜ落ち着きましたか？', sourceRefs: [{ type: 'record', id: 'r1', version: 1 }], generatorVersion: 'v1' };
+  const first = store.create('p1', input);
+  assert.equal(first.status, 'pending');
+  assert.equal(store.create('p1', { ...input, id: 'q2', generatorVersion: 'v2' }).id, 'q1');
+  assert.equal(store.update('p1', 'q1', 1, { status: 'later' })?.version, 2);
+  assert.equal(store.update('p1', 'q1', 1, { status: 'skipped' }), null);
+  assert.equal(store.update('p2', 'q1', 2, { status: 'skipped' }), null);
+  store.update('p1', 'q1', 2, { status: 'answered', answerRecordId: 'answer1' });
+  db.close();
+  db = new DatabaseSync(path); store = new QuestionStore(db);
+  assert.equal(store.get('p1', 'q1')?.answerRecordId, 'answer1');
+  assert.equal(store.list('p1', { status: 'answered' }).items.length, 1);
+  assert.equal(store.list('p2', {}).items.length, 0);
+  assert.equal(store.get('p2', 'q1'), null);
+  assert.equal(store.create('p1', { ...input, id: 'q3' }).id, 'q1');
+  assert.equal(store.create('p1', { ...input, id: 'q4', sourceRefs: [{ type: 'record', id: 'r1', version: 2 }] }).id, 'q4');
+  db.close(); rmSync(dir, { recursive: true });
+});

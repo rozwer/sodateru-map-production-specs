@@ -33,6 +33,8 @@ export type PlaceChoice = {
   name: string;
   address: string | null;
   photoUrl?: string | null;
+  photoMediaId?: string;
+  photoMediaVersion?: number;
   longitude: number;
   latitude: number;
   source: 'saved' | 'candidate';

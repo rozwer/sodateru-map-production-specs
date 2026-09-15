@@ -1,0 +1,2009 @@
+{
+  "taskId": "COMMUNITY",
+  "version": "1.1.0",
+  "schemas": {
+    "CommunityBookmarkTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "record"
+            },
+            "id": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "place"
+            },
+            "id": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "required": [
+            "type",
+            "id"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "candidate"
+            },
+            "resultId": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "candidateId": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          "required": [
+            "type",
+            "resultId",
+            "candidateId"
+          ]
+        }
+      ]
+    },
+    "CommunityBookmarkCreate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "target": {
+          "$ref": "#/components/schemas/CommunityBookmarkTarget"
+        }
+      },
+      "required": [
+        "id",
+        "target"
+      ]
+    },
+    "CommunityBookmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "target": {
+          "$ref": "#/components/schemas/CommunityBookmarkTarget"
+        },
+        "expiresAt": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Timestamp"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "available",
+            "expired",
+            "unavailable"
+          ]
+        },
+        "resource": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonInfoRecordView"
+            },
+            {
+              "$ref": "#/components/schemas/CommonMapPlace"
+            },
+            {
+              "$ref": "#/components/schemas/CommonMapPlaceCandidate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "target",
+        "expiresAt",
+        "status",
+        "resource"
+      ]
+    },
+    "CommunityTopic": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "topicKey": {
+          "enum": [
+            "food",
+            "rest",
+            "walk"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "topicKey",
+        "title",
+        "purposes"
+      ]
+    },
+    "CommunityThemeSharing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "visibility": {
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ]
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "visibility",
+        "sharedWith"
+      ]
+    },
+    "CommunityThemeSharingPatch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visibility": {
+          "enum": [
+            "private",
+            "selected",
+            "public"
+          ]
+        },
+        "sharedWith": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "maxItems": 100,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "visibility",
+        "sharedWith"
+      ]
+    },
+    "CommunitySharedTheme": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "version": {
+          "$ref": "#/components/schemas/Version"
+        },
+        "createdAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "updatedAt": {
+          "$ref": "#/components/schemas/Timestamp"
+        },
+        "personId": {
+          "$ref": "#/components/schemas/Id"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "recordIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommonInfoRecordView"
+          }
+        },
+        "sharing": {
+          "$ref": "#/components/schemas/CommunityThemeSharing"
+        },
+        "colorKey": {
+          "enum": [
+            "teal",
+            "pink",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple"
+          ]
+        },
+        "coverMedia": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonInfoMediaView"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "createdAt",
+        "updatedAt",
+        "personId",
+        "name",
+        "description",
+        "recordIds",
+        "records",
+        "sharing",
+        "colorKey",
+        "coverMedia"
+      ]
+    },
+    "CommunityBookmarkPage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommunityBookmark"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ]
+    },
+    "CommunitySharedThemePage": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommunitySharedTheme"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ]
+    },
+    "CommunityKnowledgeCategory": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "enum": [
+            "tips",
+            "experiences",
+            "people"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "entity": {
+          "enum": [
+            "record",
+            "person"
+          ]
+        },
+        "topicKey": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "purposes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "kind": {
+          "enum": [
+            "experience",
+            null
+          ]
+        }
+      },
+      "required": [
+        "key",
+        "title",
+        "entity",
+        "topicKey",
+        "purposes",
+        "kind"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "method": "get",
+      "path": "/bookmarks",
+      "operationId": "getBookmarks",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommunityBookmarkPage"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "post",
+      "path": "/bookmarks",
+      "operationId": "postBookmarks",
+      "description": "対象一意。元の閲覧権限/期限を再確認。同じ対象は既存の一件を返し場所採用は行わない。",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "header",
+          "name": "Idempotency-Key",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "201": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityBookmark"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "412": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "428": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityBookmark"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CommunityBookmarkCreate"
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/bookmarks/{bookmarkId}",
+      "operationId": "getBookmarksBookmarkId",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "bookmarkId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityBookmark"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "delete",
+      "path": "/bookmarks/{bookmarkId}",
+      "operationId": "deleteBookmarksBookmarkId",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "bookmarkId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "成功"
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "412": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "428": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "元の候補が期限切れ（RESULT_EXPIRED）。以前の本文は返さない",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/knowledge/topics",
+      "operationId": "getKnowledgeTopics",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CommunityTopic"
+                    }
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/CommunityKnowledgeCategory"
+                    }
+                  }
+                },
+                "required": [
+                  "items",
+                  "categories"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/knowledge",
+      "operationId": "getKnowledge",
+      "description": "分類辞書で正規化後INFORMATIONの同じ条件で検索。全条件適用後にページ分割。",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "placeId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "longitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        {
+          "name": "latitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          }
+        },
+        {
+          "name": "radiusM",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        },
+        {
+          "name": "from",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "timeZone",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/TimeZone"
+          }
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "name": "audience",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "enum": [
+              "own",
+              "visible",
+              "public",
+              "selected",
+              "friends"
+            ],
+            "default": "visible"
+          }
+        },
+        {
+          "name": "personIds",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "minItems": 0,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "purposes",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 0,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "topicKey",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        {
+          "name": "includeUndated",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        {
+          "in": "query",
+          "name": "category",
+          "required": false,
+          "schema": {
+            "enum": [
+              "tips",
+              "experiences",
+              "food",
+              "rest",
+              "walk"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "description": "minLon,minLat,maxLon,maxLat。経度・緯度順序必須、日付変更線横断は422。中心/半径と併用不可。"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommonInfoRecordPage"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/knowledge/map",
+      "operationId": "getKnowledgeMap",
+      "description": "一覧と同じ条件。最大2000件、超過413。場所なしはtotalCountのみ。",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "q",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        {
+          "name": "placeId",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "name": "longitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -180,
+            "maximum": 180
+          }
+        },
+        {
+          "name": "latitude",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": -90,
+            "maximum": 90
+          }
+        },
+        {
+          "name": "radiusM",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 100000
+          }
+        },
+        {
+          "name": "from",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "to",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Timestamp"
+          }
+        },
+        {
+          "name": "timeZone",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/TimeZone"
+          }
+        },
+        {
+          "name": "audience",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "enum": [
+              "own",
+              "visible",
+              "public",
+              "selected",
+              "friends"
+            ],
+            "default": "visible"
+          }
+        },
+        {
+          "name": "personIds",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80,
+              "pattern": "\\S"
+            },
+            "minItems": 0,
+            "maxItems": 100,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "purposes",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "minItems": 0,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "default": []
+          },
+          "style": "form",
+          "explode": true
+        },
+        {
+          "name": "topicKey",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        {
+          "name": "includeUndated",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        {
+          "in": "query",
+          "name": "category",
+          "required": false,
+          "schema": {
+            "enum": [
+              "tips",
+              "experiences",
+              "food",
+              "rest",
+              "walk"
+            ]
+          }
+        },
+        {
+          "in": "query",
+          "name": "bbox",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "description": "minLon,minLat,maxLon,maxLat。経度・緯度順序必須、日付変更線横断は422。中心/半径と併用不可。"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommonInfoRecordMap"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/shared-records/{recordId}",
+      "operationId": "getSharedRecordsRecordId",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "recordId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommonInfoRecordView"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/shared-themes",
+      "operationId": "getSharedThemes",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "limit",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 50
+          }
+        },
+        {
+          "in": "query",
+          "name": "cursor",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "query",
+          "name": "personId",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "in": "query",
+          "name": "audience",
+          "required": false,
+          "schema": {
+            "enum": [
+              "visible",
+              "own",
+              "public",
+              "selected",
+              "friends"
+            ]
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommunitySharedThemePage"
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/shared-themes/{themeId}",
+      "operationId": "getSharedThemesThemeId",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "themeId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunitySharedTheme"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "get",
+      "path": "/themes/{themeId}/sharing",
+      "operationId": "getThemesThemeIdSharing",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "themeId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityThemeSharing"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "patch",
+      "path": "/themes/{themeId}/sharing",
+      "operationId": "patchThemesThemeIdSharing",
+      "description": "",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "X-Request-Id",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "in": "path",
+          "name": "themeId",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Id"
+          }
+        },
+        {
+          "in": "header",
+          "name": "If-Match",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/CommunityThemeSharing"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "403": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "412": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "428": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/CommunityThemeSharingPatch"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
