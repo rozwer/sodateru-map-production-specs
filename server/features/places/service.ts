@@ -35,7 +35,7 @@ export function validateSearch(value:any):CandidateInput {
   if(!isPosition(position,85))throw invalid();
   return {category:value.category,longitude:position[0],latitude:position[1]};
 }
-type StoredResult = {personId:string;dataMode:string;input:CandidateInput;result:SearchResult};
+type StoredResult = {personId:string;dataMode:string;input:CandidateInput|null;result:SearchResult};
 export class PlacesService {
   private results=new Map<string,StoredResult>();
   constructor(private now:()=>number=Date.now){}
@@ -45,7 +45,7 @@ export class PlacesService {
     const now=this.now();
     for(const [key,value] of this.results)if(value.result.expiresAt<=now)this.results.delete(key);
     // Reuse live in-memory provider results for identical conditions; no persistent candidate cache.
-    for(const cached of this.results.values())if(cached.personId===context.personId&&cached.dataMode===context.dataMode&&hash(cached.input)===hash(input)) {
+    for(const cached of this.results.values())if(cached.personId===context.personId&&cached.dataMode===context.dataMode&&cached.input!==null&&hash(cached.input)===hash(input)) {
       if(!("q" in input)||(cached.result.items.every(item=>item.placeId===null)&&savedCandidates(db,input.q,input.limit??10).length===0))return structuredClone(cached.result);
     }
     context.signal.throwIfAborted();
@@ -58,6 +58,34 @@ export class PlacesService {
     const result={resultId:randomUUID(),items:items.map((item,i)=>({...item,candidateId:`candidate-${i+1}`})),expiresAt:this.now()+15*60_000};
     this.results.set(result.resultId,{personId:context.personId,dataMode:context.dataMode,input,result});
     setTimeout(()=>this.results.delete(result.resultId),Math.max(0,result.expiresAt-this.now())).unref();
+    return structuredClone(result);
+  }
+  // Server adapters only: retain provenance and scope; never expose this as a client POST.
+  registerCandidates(context:RequestContext,input:{items:PlaceCandidate[];expiresAt:number}):SearchResult {
+    context.signal.throwIfAborted();
+    const now=this.now();
+    if(!input||!Array.isArray(input.items)||input.items.length>1000||!Number.isSafeInteger(input.expiresAt)||input.expiresAt<=now)throw invalid("候補の期限または件数が不正です。");
+    const items=structuredClone(input.items);
+    const seen=new Set<string>();
+    for(const item of items) {
+      if(!item||!id(item.candidateId)||seen.has(item.candidateId)||item.placeId!==null||!str(item.name,200)||!optional(item.address,2000)
+        ||!isPosition(item.coordinates)||!Array.isArray(item.categories)||item.categories.length>100||!item.categories.every(category=>str(category,200))
+        ||!optional(item.buildingKey,300)||!str(item.attribution,2000)||typeof item.sourceUrl!=="string"||item.sourceUrl.length>2048
+        ||!/^https?:\/\//.test(item.sourceUrl)||typeof item.fetchedAt!=="number"||!Number.isSafeInteger(item.fetchedAt)||item.fetchedAt<0||item.fetchedAt>now
+        ||!(item.retention==="storable"||item.retention==="temporary"))throw invalid("外部候補の取得元・属性が不正です。");
+      if(item.provider==="openstreetmap") {
+        if(typeof item.externalId!=="string"||!/^(node|way|relation)\/[1-9]\d*$/.test(item.externalId))throw invalid("OSM地点IDが不正です。");
+        // Reuse PLACES' canonical OSM identity so Nominatim and Overpass cannot double-adopt it.
+        item.externalId=item.externalId[0]!.toUpperCase()+item.externalId.split("/")[1];
+        item.provider="nominatim";
+      } else if(item.provider==="nominatim") {
+        if(typeof item.externalId!=="string"||!/^[NWR][1-9]\d*$/.test(item.externalId))throw invalid("OSM地点IDが不正です。");
+      } else if(item.provider!=="mapbox"||!str(item.externalId,500)||item.retention!=="temporary")throw invalid("外部候補の保存条件が不正です。");
+      seen.add(item.candidateId);
+    }
+    const result={resultId:randomUUID(),items,expiresAt:Math.min(input.expiresAt,now+15*60_000)};
+    this.results.set(result.resultId,{personId:context.personId,dataMode:context.dataMode,input:null,result});
+    setTimeout(()=>this.results.delete(result.resultId),result.expiresAt-now).unref();
     return structuredClone(result);
   }
   resolveCandidate(context:RequestContext,resultId:string,candidateId:string):PlaceCandidate {

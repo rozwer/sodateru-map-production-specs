@@ -40,7 +40,8 @@ export function useCompanionRequests(active: boolean) {
     catch (error) {
       if (!current.signal.aborted && !(error instanceof DOMException && error.name === 'AbortError')) {
         const conflict = error instanceof ApiError && (error.status === 412 || error.code === 'VERSION_CONFLICT');
-        setNotice({ kind: 'error', text: conflict ? '保存済みの情報が更新されています。入力は残しています。最新の情報を確認してから保存してください。' : error instanceof Error ? error.message : '処理に失敗しました。入力は残っています。', retry: () => void run(action) });
+        const unavailable = error instanceof Error && error.message.startsWith('Unknown operation:');
+        setNotice({ kind: 'error', text: conflict ? '保存済みの情報が更新されています。入力は残しています。最新の情報を確認してから保存してください。' : unavailable ? '相棒の機能にまだ接続できません。入力は残っています。' : error instanceof Error ? error.message : '処理に失敗しました。入力は残っています。', retry: () => void run(action) });
       }
     } finally { if (controller.current === current) { running.current = false; setBusy(false); } }
   }

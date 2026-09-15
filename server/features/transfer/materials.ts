@@ -46,6 +46,8 @@ export function searchQuery(region: string, meaning: string): string {
     [/パン|ベーカリー|bakery/i,'bakery'],
   ] as const;
   const matched = category.find(([pattern])=>pattern.test(meaning));
+  // Nominatim's free-text "cafe in 京都" can resolve to pubs; require its actual cafe category.
+  if (matched?.[1] === 'cafe') return `[amenity=cafe] ${region}`.slice(0,200);
   return matched ? `${matched[1]} in ${region}`.slice(0,200) : `${region} ${meaning}`.slice(0,200);
 }
 

@@ -51,7 +51,7 @@ function SettingsScreen({ active = true, navigate }: ScreenProps) {
     void request.run(async signal => { try { await load(signal); } finally { if (!signal.aborted) setLoading(false); } });
   }, [active, revision]);
   useEffect(() => () => { atlasUrls.current.forEach(url => URL.revokeObjectURL(url)); atlasUrls.current = []; }, [active]);
-  return <SettingsView pets={active ? pets : []} currentId={state.saved?.selectedCompanionId ?? null} currentVisible={state.saved?.visible} form={state.form} loading={loading} busy={request.busy} dirty={state.dirty} notice={request.notice}
+  return <SettingsView pets={active ? pets : []} currentId={state.saved?.selectedCompanionId ?? null} currentVisible={state.saved?.visible} form={state.form} loading={loading} unavailable={!state.saved && request.notice?.kind === 'error'} busy={request.busy} dirty={state.dirty} notice={request.notice}
     extra={(request.notice?.kind === 'error' || state.dirty) && <details><summary>保存済みの設定を確認</summary><p>{state.saved ? `表示：${state.saved.visible ? 'ON' : 'OFF'}、サイズ：${state.saved.size === 'small' ? '小' : '中'}、動きを減らす：${state.saved.reducedMotion ? 'ON' : 'OFF'}` : '設定を取得できていません。'}</p><button className="companion-button" disabled={request.busy} onClick={() => void request.run(load)}>最新の保存値を確認</button></details>}
     onChange={form => setState(previous => ({ ...previous, form, dirty: true }))}
     onImport={() => navigate('companion-import')}

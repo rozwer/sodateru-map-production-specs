@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-09-15T03:40:11.702Z",
+  "result": "PASS",
+  "entry": "server/app/main.ts",
+  "processStarts": 2,
+  "checks": [
+    "actual application startup and session",
+    "real RECORDS source → recipe POST/GET/replay",
+    "same recipe after OS process restart",
+    "original record unchanged"
+  ],
+  "remaining": [
+    "two-plan adoption and Q10 UI acceptance"
+  ]
+}

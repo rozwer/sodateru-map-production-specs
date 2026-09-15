@@ -266,6 +266,67 @@ window.fetch = async (input, init) => {
     document.querySelector("#fixture-network")!.textContent = log.join("\n");
     return response;
   }
+  if (path.startsWith("/shared-themes")) {
+    const items = [
+      {
+        id: "fixture-theme-0",
+        name: "カフェで過ごす、わたしの時間",
+        description: "コーヒーと本のある暮らし",
+        colorKey: "teal",
+        recordId: "fixture-record-2",
+      },
+      {
+        id: "fixture-theme-1",
+        name: "公園のある毎日",
+        description: "緑の中で気持ちを整える",
+        colorKey: "green",
+        recordId: "fixture-record-3",
+      },
+    ]
+      .flatMap((t) => {
+        const record = records.find((r) => r.id === t.recordId)!;
+        if (
+          !(
+            record.personId === person.id ||
+            record.visibility === "public" ||
+            (record.visibility === "selected" &&
+              record.sharedWith.includes(person.id))
+          )
+        )
+          return [];
+        return [
+          {
+            id: t.id,
+            name: t.name,
+            description: t.description,
+            colorKey: t.colorKey,
+            personId: record.personId,
+            version: 1,
+            createdAt: record.createdAt,
+            updatedAt: record.updatedAt,
+            recordIds: [record.id],
+            records: [sharedView(record)],
+            coverMedia: media(record)[0],
+            sharing: {
+              id: t.id,
+              visibility: "public",
+              sharedWith: [],
+              version: 1,
+              createdAt: record.createdAt,
+              updatedAt: record.updatedAt,
+            },
+          },
+        ];
+      })
+      .filter(
+        (t) =>
+          !url.searchParams.has("personId") ||
+          t.personId === url.searchParams.get("personId"),
+      );
+    if (path === "/shared-themes") return respond({ items, nextCursor: null });
+    const item = items.find((t) => t.id === path.split("/")[2]);
+    return item ? respond({ data: item }) : fail();
+  }
   if (path === "/me") return respond({ data: person });
   if (path === "/people")
     return respond({

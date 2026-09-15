@@ -45,7 +45,7 @@ export function registerConversationRoutes(api:Hono<any>,helpers:Helpers){
   await dependencies.assertSourceRefs(db,ctx,JSON.parse(row.source_refs_json));
   const run=row.role==='assistant'?runDto(row):null;
   c.header('ETag','"'+row.version+'"');
-  return c.json({data:{message:httpMessage(row),run,output:run?.status==='complete'?{use:taskToUse[run.task]??run.task,value:run.result}:null}});
+  return c.json({data:{message:httpMessage(row),run,output:run?.status==='complete'?{use:taskToUse[run.task]??run.task,value:run.result}:null,appliedRefs:JSON.parse(row.applied_refs_json)}});
  });
  for(const action of ['cancel','retry'] as const)api.post('/messages/:messageId/'+action,async c=>{
   const input=await body(c,['attempt']),db=c.get('db'),ctx=c.get('context'),id=c.req.param('messageId')!,version=helpers.expectedVersion(c.req.header('If-Match'));

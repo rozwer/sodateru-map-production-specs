@@ -1,7 +1,86 @@
 {
   "taskId": "AI",
-  "version": 1,
-  "schemas": {},
+  "version": "1.1.0",
+  "schemas": {
+    "MessageResult": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "$ref": "#/components/schemas/Message"
+        },
+        "run": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CommonAIRun"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "output": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/AIOutput"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "appliedRefs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/CommonAIAppliedRef"
+          }
+        }
+      },
+      "required": [
+        "message",
+        "run",
+        "output",
+        "appliedRefs"
+      ],
+      "additionalProperties": false
+    },
+    "CommonAIAppliedRef": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "record",
+            "theme",
+            "insight",
+            "discovery",
+            "map-settings",
+            "transfer-plan-set",
+            "pilgrimage-plan"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "contentHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version",
+        "contentHash"
+      ],
+      "additionalProperties": false
+    }
+  },
   "operations": [
     {
       "operationId": "getConversations",
@@ -168,5 +247,8 @@
       "path": "/conversations",
       "replaceOperation": true
     }
+  ],
+  "replaceSchemas": [
+    "MessageResult"
   ]
 }
