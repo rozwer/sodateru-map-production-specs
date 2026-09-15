@@ -1,0 +1,130 @@
+{
+  "board_commit": "86e4b43b2583dec857769d36917631f22b745bdf",
+  "revision": 248,
+  "changed_tasks": [
+    "VISUAL-COMMUNITY",
+    "VISUAL-SELF"
+  ],
+  "unchanged_task_count": 84,
+  "states": {
+    "VISUAL-COMMUNITY": {
+      "actor": null,
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 2,
+      "issue_number": 173,
+      "landed_main": null,
+      "note": "ユーザー指示で分割。全成果origin/rozwer/173-visual-community HEAD66f7091保全。plugins変更0b0d02aを新担当へ、friends差分66f7091とevidenceをVISUAL-SOCIAL #184へ移す。旧Taskは再claimしない。",
+      "owner": "rozwer",
+      "paths": [],
+      "status": "superseded",
+      "submitted_commit": null,
+      "superseded_at_revision": 248,
+      "superseded_by": [
+        "VISUAL-SOCIAL",
+        "VISUAL-PLUGINS"
+      ]
+    },
+    "VISUAL-SELF": {
+      "actor": null,
+      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
+      "generation": 2,
+      "issue_number": 176,
+      "landed_main": null,
+      "note": "PR188 merged (5b39f2d). records/activity to #189, remaining 14 pages to #185. Worktree and commits preserved.",
+      "owner": "rozwer",
+      "paths": [],
+      "status": "superseded",
+      "submitted_commit": null,
+      "superseded_at_revision": 248,
+      "superseded_by": [
+        "VISUAL-SELF-CONTINUE",
+        "VISUAL-RECORDS-CAMERA"
+      ]
+    }
+  },
+  "issues": [
+    {
+      "number": 98,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/98"
+    },
+    {
+      "number": 173,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/173"
+    },
+    {
+      "number": 174,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/174"
+    },
+    {
+      "number": 176,
+      "state": "CLOSED",
+      "stateReason": "NOT_PLANNED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/176"
+    },
+    {
+      "number": 184,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/184"
+    },
+    {
+      "number": 185,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/185"
+    },
+    {
+      "number": 186,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/186"
+    },
+    {
+      "number": 189,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/189"
+    },
+    {
+      "number": 191,
+      "state": "OPEN",
+      "stateReason": "",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/191"
+    },
+    {
+      "number": 40,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/40"
+    },
+    {
+      "number": 72,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/72"
+    },
+    {
+      "number": 172,
+      "state": "CLOSED",
+      "stateReason": "COMPLETED",
+      "url": "https://github.com/rozwer/sodateru-map-production-specs/issues/172"
+    }
+  ],
+  "retired_tasks_absent_from_ready": true,
+  "graph_pr": {
+    "number": 242,
+    "submitted_commit": "a51f9f89e6161b9748328003ae52d6e6b969d65b",
+    "merge_commit": "e02850c39190e1859b9a183ac2da88ac49c90c9d"
+  },
+  "tool_fix_pr": {
+    "number": 244,
+    "submitted_commit": "4218ce4f6ef415620fdf1480b8464c74d3899f77",
+    "merge_commit": "adfaeae7204146e41a6fe827d55daff95c43e303"
+  }
+}

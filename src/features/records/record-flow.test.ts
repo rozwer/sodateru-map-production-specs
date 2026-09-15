@@ -21,7 +21,7 @@ function transport({loseCreate=false,failSecondPhoto=false}={}) {
    const visit=visits.get(path.split('/')[4]!)!;const patch=body as {status:Visit['status']};visit.status=patch.status;visit.version++;return json({data:visit});
   }
   if(path==='/api/v1/records'&&method==='POST'){
-   const value=body as RecordCreate;
+   const value=body as RecordView;
    const record=records.get(value.id)??{...value,personId:'test-person',version:1,createdAt:1,updatedAt:1,effectivePlaceId:value.placeId,effectiveStartedAt:value.occurredAt,effectiveEndedAt:value.endedAt,effectiveTimePrecision:value.timePrecision};
    records.set(value.id,record);
    if(createLost){createLost=false;throw new TypeError('Connection lost after commit');}
@@ -54,6 +54,14 @@ describe('record UI save calls',()=>{
   expect(posts.map(call=>call.path)).toEqual(['/api/v1/records','/api/v1/records']);
   expect(harness.records.size).toBe(1);
   expect(saved).toMatchObject({id:session.recordId,body:'日時も場所も不明の体験',visitId:null,placeId:null,occurredAt:null,timePrecision:'unknown'});
+ });
+ it('adds another record to an existing candidate without creating or confirming a visit',async()=>{
+  const harness=transport();
+  const visit={id:'existing-visit',placeId:'place-a',status:'candidate',version:1} as Visit;
+  const session=createSaveSession({...blankDraft(),body:'同じ訪問の追加記録'}, {id:'place-a',name:'場所A',address:null,longitude:136,latitude:35,source:'saved'},null,visit);
+  const saved=await saveNewRecord(harness.client,session,()=>{});
+  expect(saved.visitId).toBe(visit.id);
+  expect(harness.calls.some(call=>call.path.includes('/visits'))).toBe(false);
  });
  it('retries only the failed photo while retaining the record and first photo',async()=>{
   const harness=transport({failSecondPhoto:true});

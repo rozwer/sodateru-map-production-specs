@@ -1,9 +1,11 @@
+import { assessSegmentRoute } from "./segment-evidence.ts";
 import type { RequestContext } from "../../core/context.ts";
 import { geometryHash, settingsHash, type Assessment, type BikeSettings } from "./domain.ts";
-import type { RouteSnapshot } from "./service.ts";
+import type { RouteSnapshot, RoutesBoundary } from "./service.ts";
 
 /** Uses condition evidence attached to this exact common preview, without recalculation. */
-export function assessCommonRoute(_context: RequestContext, route: RouteSnapshot, settings: BikeSettings) {
+export function assessCommonRoute(_context: RequestContext, route: RouteSnapshot, settings: BikeSettings): ReturnType<NonNullable<RoutesBoundary["assess"]>> {
+  if (route.segmentEvidence) return assessSegmentRoute(route, settings);
   const checkedAt = Date.now();
   const vehicle: Assessment = { status: "unknown", reason: "Mapbox drivingは二輪車の車種・排気量別通行規制を確認していません。", sourceRefs: ["https://docs.mapbox.com/api/navigation/directions/"], checkedAt };
   const evidence = route.conditionEvaluations?.find(e => e.key === "avoidMotorways" && e.status === "applied" && e.provider === "mapbox-directions" && e.fetchedAt === route.fetchedAt && e.sourceUrl.startsWith("https://"));

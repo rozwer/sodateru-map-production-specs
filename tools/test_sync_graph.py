@@ -11,6 +11,9 @@ ROOT = Path(__file__).resolve().parents[1]
 class UiConnectionMigrationTest(unittest.TestCase):
     def setUp(self):
         self.graph = json.loads((ROOT/'TASK_GRAPH.json').read_text())
+        # Reconstruct the first split independently of later published retirements.
+        self.graph.pop('supersessions',None)
+        self.graph.pop('supersession_details',None)
         split = self.graph['ui_connection_split']
         old = copy.deepcopy(self.graph)
         old.pop('ui_connection_split')
@@ -83,5 +86,97 @@ class UiConnectionMigrationTest(unittest.TestCase):
         changed=copy.deepcopy(self.graph)
         changed['ui_connection_split']['source_commit']='different'
         with self.assertRaises(tc.BoardError):sg.migrate(migrated,changed)
+
+class SupersessionMigrationTest(unittest.TestCase):
+    def setUp(self):
+        self.graph=json.loads((ROOT/'TASK_GRAPH.json').read_text())
+        self.graph.pop('supersessions',None)
+        self.graph.pop('supersession_details',None)
+        self.source={'id':'TEST-OLD','title':'original','kind':'repair','priority':'P1',
+            'hard_dependencies':[],'write_paths':['docs/test/'],
+            'requirement_ids':['R1','R2'],'acceptance_ids':['A1','A2'],
+            'acceptance':['keep API','check mobile'],'pages':['one','two']}
+        self.graph['tasks'].append(self.source)
+        self.graph['task_policy']['issue_numbers']['TEST-OLD']=99001
+        self.board={'graph':copy.deepcopy(self.graph),'revision':80,'tasks':{
+            t['id']:{'status':'backlog','actor':None,'token':None,'paths':[],
+                'generation':3,'note':'preserved evidence','submitted_commit':'historical commit',
+                'custom':{'future':[1,2]}} for t in self.graph['tasks']}}
+        self.graph['supersessions']={'TEST-OLD':['TEST-ONE','TEST-TWO']}
+        for i,target in enumerate(['TEST-ONE','TEST-TWO']):
+            task=copy.deepcopy(self.source)
+            task.update(id=target,source_task_ids=['TEST-OLD'],requirement_ids=['R'+str(i+1)],
+                        acceptance_ids=['A'+str(i+1)],pages=[['one','two'][i]])
+            self.graph['tasks'].append(task)
+            self.graph['task_policy']['issue_numbers'][target]=99002+i
+        self.graph['supersession_details']={'TEST-OLD':{
+            'source_issue':99001,'authorization_issue':229,'reason':'split work',
+            'evidence':'docs/evidence/test.md','source_acceptance':['keep API','check mobile'],
+            'pages_by_successor':{'TEST-ONE':['one'],'TEST-TWO':['two']}}}
+
+    def task(self,id):return next(t for t in self.graph['tasks'] if t['id']==id)
+
+    def test_split_then_supersede_preserves_all_other_state_and_evidence(self):
+        original=copy.deepcopy(self.board)
+        result=sg.migrate(self.board,self.graph)
+        expected=copy.deepcopy(original['tasks'])
+        expected['TEST-OLD'].update(status='superseded',superseded_by=['TEST-ONE','TEST-TWO'],superseded_at_revision=81)
+        for id,state in expected.items():self.assertEqual(result['tasks'][id],state)
+        self.assertEqual(self.board,original)
+        self.assertEqual(sg.migrate(result,self.graph)['tasks'],result['tasks'])
+
+    def test_single_successor_is_backward_compatible(self):
+        self.graph['supersessions']['TEST-OLD']='TEST-ONE'
+        self.graph.pop('supersession_details')
+        self.task('TEST-ONE').update(requirement_ids=['R1','R2'],acceptance_ids=['A1','A2'])
+        result=sg.migrate(self.board,self.graph)
+        self.assertEqual(result['tasks']['TEST-OLD']['superseded_by'],'TEST-ONE')
+        self.assertEqual(sg.migrate(result,self.graph)['tasks'],result['tasks'])
+
+    def test_claimed_submitted_done_and_stale_lock_are_rejected(self):
+        for change in [{'status':x} for x in ['claimed','submitted','done']]+[{'token':'live'},{'paths':['docs/test/']}]:
+            with self.subTest(change=change):
+                board=copy.deepcopy(self.board);board['tasks']['TEST-OLD'].update(change)
+                with self.assertRaisesRegex(tc.BoardError,'Only unclaimed backlog'):sg.migrate(board,self.graph)
+
+    def test_invalid_successors_are_rejected(self):
+        for value in [[],{},None,3,['TEST-ONE','TEST-ONE'],['missing'],['TEST-OLD'],[['TEST-ONE']]]:
+            with self.subTest(value=value):
+                graph=copy.deepcopy(self.graph);graph['supersessions']['TEST-OLD']=value
+                with self.assertRaises(tc.BoardError):sg.migrate(self.board,graph)
+        self.graph['supersessions']['TEST-ONE']='TEST-TWO'
+        with self.assertRaisesRegex(tc.BoardError,'chained'):sg.migrate(self.board,self.graph)
+
+    def test_missing_acceptance_requirements_and_pages_are_rejected(self):
+        changes=[lambda g:g.pop('supersession_details'),
+            lambda g:g['supersession_details']['TEST-OLD'].update(source_acceptance=[]),
+            lambda g:g['supersession_details']['TEST-OLD']['source_acceptance'].pop(),
+            lambda g:g['supersession_details']['TEST-OLD']['pages_by_successor'].pop('TEST-TWO'),
+            lambda g:g['supersession_details']['TEST-OLD']['pages_by_successor'].update({'TEST-TWO':['wrong']}),
+            lambda g:g['supersession_details']['TEST-OLD'].update(source_issue=1)]
+        for field in ['requirement_ids','acceptance_ids','source_task_ids']:
+            changes.append(lambda g,f=field:next(t for t in g['tasks'] if t['id']=='TEST-TWO')[f].clear())
+        for change in changes:
+            graph=copy.deepcopy(self.graph);change(graph)
+            with self.subTest(graph=graph.get('supersession_details')):
+                with self.assertRaises(tc.BoardError):sg.migrate(self.board,graph)
+
+    def test_published_mapping_details_and_source_definition_are_immutable(self):
+        result=sg.migrate(self.board,self.graph)
+        graph=copy.deepcopy(self.graph);graph['supersession_details']['TEST-OLD']['source_acceptance'].append('changed')
+        with self.assertRaisesRegex(tc.BoardError,'published supersession details'):sg.migrate(result,graph)
+        graph=copy.deepcopy(self.graph);graph['supersessions']['TEST-OLD'].reverse()
+        with self.assertRaisesRegex(tc.BoardError,'published supersession'):sg.migrate(result,graph)
+        self.task('TEST-OLD')['title']='modified source'
+        with self.assertRaisesRegex(tc.BoardError,'source definition unchanged'):sg.migrate(self.board,self.graph)
+
+    def test_first_ui_split_still_rejects_any_existing_state_transition(self):
+        old=copy.deepcopy(self.board)
+        metadata=old['graph'].pop('ui_connection_split')
+        before={sid:pair['before'] for sid,pair in metadata['pairs'].items()}
+        before.update(COMPANION=metadata['domain_exclusions']['COMPANION']['before'],
+                      HEALTH=metadata['health_deferral']['domain_before'])
+        old['graph']['tasks']=[copy.deepcopy(before.get(t['id'],t)) for t in old['graph']['tasks']]
+        with self.assertRaisesRegex(tc.BoardError,'byte-for-byte'):sg.migrate(old,self.graph)
 
 if __name__=='__main__':unittest.main()

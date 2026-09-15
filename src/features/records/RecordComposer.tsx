@@ -24,6 +24,7 @@ export type RecordComposerProps = {
   moodControl?: ReactNode;
   sharingControl?: ReactNode;
   savedLocationLocked?: boolean;
+  editingActions?: ReactNode;
 };
 
 export function formatDraftDate(draft: RecordDraft): string {
@@ -47,7 +48,7 @@ function ReviewCard({ title, icon, children, onEdit }: { title: string; icon: Re
 }
 
 export function RecordComposer(props: RecordComposerProps) {
-  const { draft, setDraft, place, step, onStep, editing, busy, error, notice, onBack, onChoosePlace, onFiles, onRemove, onMove, onSave, onRetry, onReload, moodControl, sharingControl, savedLocationLocked } = props;
+  const { draft, setDraft, place, step, onStep, editing, busy, error, notice, onBack, onChoosePlace, onFiles, onRemove, onMove, onSave, onRetry, onReload, moodControl, sharingControl, savedLocationLocked, editingActions } = props;
   const [dateOpen, setDateOpen] = useState(false);
   const [help, setHelp] = useState<'visit' | 'sharing' | null>(null);
   const sharingSelect = useRef<HTMLSelectElement>(null);
@@ -59,7 +60,7 @@ export function RecordComposer(props: RecordComposerProps) {
     <RecordHeading title={editing ? m.editTitle : confirmation ? m.confirmTitle : m.createTitle} onBack={confirmation ? () => changeStep('editor') : onBack} close={!editing && !confirmation} />
     <fieldset className="records-body records-composer-fields" disabled={busy}>
       {!editing && <p className="records-lead">{confirmation ? m.confirmLead : m.createLead}</p>}
-      {error && <RecordNotice error retry={onRetry}>{error}<p>{m.retainDraft}</p>{onReload && <button type="button" className="records-text-button" onClick={onReload}>現在の内容を読み直す</button>}</RecordNotice>}
+      {error && <RecordNotice error retry={onRetry}>{error}{(draft.body || draft.media.length > 0) && <p>{m.retainDraft}</p>}{onReload && <button type="button" className="records-text-button" onClick={onReload}>現在の内容を読み直す</button>}</RecordNotice>}
       {notice && <RecordNotice>{notice}</RecordNotice>}
       {editing && <PlaceCard place={place} detail={<p><RecordIcon name="calendar" />{formatDraftDate(draft)} {draft.startTime}{draft.endTime && ` ～ ${draft.endTime}`}</p>} />}
       {!editing && <MediaGallery items={draft.media} onRemove={confirmation || busy ? undefined : onRemove} onMove={confirmation || busy ? undefined : onMove} />}
@@ -85,7 +86,7 @@ export function RecordComposer(props: RecordComposerProps) {
         </>}
         {!valid && <p className="records-draft-state">{m.noContent}</p>}
         <button type="button" disabled={busy || !valid} className="records-primary" onClick={editing ? onSave : () => changeStep('confirmation')}>{busy ? m.saving : editing ? m.saveChanges : m.confirm}{!editing && <RecordIcon name="next" />}</button>
-        {editing && <button type="button" className="records-text-button records-centered" onClick={onBack}>{m.returnList}</button>}
+        {editing && <button type="button" className="records-text-button records-centered" onClick={onBack}>{m.returnList}</button>}{editing && editingActions}
       </>}
       {confirmation && <>
         <ReviewCard title={m.text} icon="document" onEdit={() => changeStep('editor')}><p className="records-review-value">{draft.body || '本文なし（媒体のみの記録）'}</p></ReviewCard>

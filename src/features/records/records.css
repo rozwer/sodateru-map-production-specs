@@ -1,4 +1,4 @@
-.records-screen { color: var(--color-ink, #153b52); font-family: inherit; font-size: 16px; line-height: 1.55; background: var(--color-surface, #fff); min-width: 0; }
+.records-screen { color: var(--color-ink, #153b52); font-family: inherit; font-size: 16px; line-height: 1.55; background: var(--color-surface, #fff); min-width: 0; width: 100%; max-width: 446px; margin-inline: auto; }
 .records-screen *, .records-screen *::before, .records-screen *::after { box-sizing: border-box; }
 .records-screen button, .records-screen input, .records-screen textarea, .records-screen select { font: inherit; }
 .records-screen button { cursor: pointer; }
