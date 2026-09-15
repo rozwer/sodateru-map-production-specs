@@ -103,6 +103,7 @@
 .companion-page summary { cursor: pointer; font-weight: 700; }
 .companion-map { position: absolute; z-index: 9; right: 16px; bottom: calc(var(--bottom-nav-height, 80px) + 76px); border: 0; padding: 0; background: transparent; width: 96px; height: 104px; cursor: pointer; }
 .companion-map--small { width: 64px; height: 70px; }
+.companion-map--ai { width: 48px; height: 48px; border-radius: 50%; background: #2aa8a8; color: white; font-size: 16px; font-weight: 700; box-shadow: 0 2px 10px #15324424; }
 .companion-map .companion-atlas { background: transparent; }
-.companion-map-error { position: absolute; z-index: 9; right: 12px; bottom: calc(var(--bottom-nav-height, 80px) + 76px); max-width: 210px; padding: 8px 10px; font-size: 12px; color: #526e87; background: #fff; border-radius: 10px; pointer-events: none; }
+.companion-map-error { position: absolute; z-index: 9; right: 12px; bottom: calc(var(--bottom-nav-height, 80px) + 132px); max-width: 210px; padding: 8px 10px; font-size: 12px; color: #526e87; background: #fff; border-radius: 10px; pointer-events: none; }
 @media (max-width: 350px) { .companion-page { padding: 12px 8px; } .companion-page h2 { font-size: 20px; } .companion-current-body { gap: 8px; grid-template-columns: 34% minmax(0, 1fr); } .companion-actions { gap: 6px; } .companion-actions > .companion-button { gap: 4px; padding: 8px 5px; } .companion-segment label { padding-inline: 13px; } }
