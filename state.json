@@ -4428,7 +4428,7 @@
     "QA-VISUAL",
     "TOOL-WORKTREE-SETUP"
   ],
-  "revision": 46,
+  "revision": 47,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -4819,14 +4819,14 @@
       "generation": 1,
       "issue_number": 41,
       "landed_main": null,
-      "note": null,
+      "note": "Issue #41: targeted regression 2/2, mise run verify, git diff --check",
       "owner": "rozwer",
       "paths": [
         "tools/task_worktree.py",
         "tools/test_hooks_worktree.py"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "3658d7e4581cd7912f504b39c4479bfd927fe770",
       "token": "48fe4b75ae194b9eb1d03e1dc7da6941"
     },
     "TRANSFER": {
