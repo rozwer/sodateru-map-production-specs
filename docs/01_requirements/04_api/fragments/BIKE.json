@@ -1,6 +1,6 @@
 {
   "taskId": "BIKE",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "schemas": {
     "BikeSettings": {
       "type": "object",
@@ -1037,6 +1037,102 @@
           "$ref": "#/components/schemas/BikeAssessment"
         }
       }
+    },
+    "BikeRoutePreviewInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "waypoints",
+        "departAt",
+        "timeZone"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "waypoints": {
+          "$ref": "#/components/schemas/RouteSearchInput/properties/waypoints"
+        },
+        "departAt": {
+          "type": "integer",
+          "minimum": 0,
+          "multipleOf": 60000
+        },
+        "timeZone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "returnBy": {
+          "type": "integer",
+          "minimum": 0,
+          "multipleOf": 60000
+        }
+      }
+    },
+    "BikeRoutePreview": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "installId",
+        "settingsVersion",
+        "settingsHash",
+        "settings",
+        "previewId",
+        "geometry",
+        "expiresAt",
+        "fetchedAt"
+      ],
+      "properties": {
+        "installId": {
+          "type": "string"
+        },
+        "settingsVersion": {
+          "type": "integer"
+        },
+        "settingsHash": {
+          "type": "string"
+        },
+        "settings": {
+          "$ref": "#/components/schemas/BikeSettings"
+        },
+        "previewId": {
+          "type": "string"
+        },
+        "geometry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "coordinates"
+          ],
+          "properties": {
+            "type": {
+              "const": "LineString"
+            },
+            "coordinates": {
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        },
+        "expiresAt": {
+          "type": "integer"
+        },
+        "fetchedAt": {
+          "type": "integer"
+        }
+      }
     }
   },
   "operations": [
@@ -1941,6 +2037,145 @@
         }
       },
       "description": "本人/mode・導入・設定版・検索期限を照合し、出典付き実地点だけを共通PLACESへ登録。resultId/candidateIdは既存POST /places mode=candidateへ渡す。再起動で一時候補が失効した再送は拒否し、新しいIdempotency-Keyで再登録する。設定と取得snapshotはBIKEに保持。"
+    },
+    {
+      "method": "POST",
+      "path": "/bike/route-previews",
+      "operationId": "postBikeRoutePreview",
+      "summary": "保存された車種・高速設定で二輪経路を取得",
+      "parameters": [],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/BikeRoutePreviewInput"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "成功",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/BikeRoutePreview"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "409": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "410": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "416": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "429": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "502": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "503": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        },
+        "504": {
+          "description": "共通エラー",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ErrorEnvelope"
+              }
+            }
+          }
+        }
+      },
+      "description": "本人の保存済み車種・高速設定からserverがprofileを選択する。取得前後・再送で設定版を照合。previewIdを既存のBIKE経路評価へ渡す。providerの強制除外要求の成否と経路適合を混同しない。"
     }
   ]
 }
