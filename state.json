@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 296,
+  "revision": 297,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34550,22 +34550,17 @@
       "token": null
     },
     "PILGRIMAGE": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "560c97600352b03e09e02f80d25f79950656a83f",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 38,
       "landed_main": null,
-      "note": "docs/evidence/PILGRIMAGE/README.md",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "server/plugins/pilgrimage/",
-        "server/db/migrations/pilgrimage/",
-        "docs/01_requirements/04_api/fragments/PILGRIMAGE.json",
-        "docs/evidence/PILGRIMAGE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "7c10f9e88dec4444752c72851f5365d7fafb208f",
-      "token": "389837b8ffac41069b1239fad7e8d964"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "PLACES": {
       "actor": "kaiya",
