@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 293,
+  "revision": 294,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34360,22 +34360,17 @@
       "token": null
     },
     "EXPLORATION-FOLLOWUP": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 102,
       "landed_main": null,
-      "note": null,
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "mattsun",
-      "paths": [
-        "server/features/exploration/",
-        "server/db/migrations/exploration/",
-        "docs/01_requirements/04_api/fragments/EXPLORATION.json",
-        "docs/evidence/EXPLORATION/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "9ef3fbd9ff114d62b2e7f16a78138706"
+      "token": null
     },
     "FEATURE-REQUESTS": {
       "actor": "koshiro",
