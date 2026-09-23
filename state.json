@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 300,
+  "revision": 301,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34693,20 +34693,17 @@
       "token": null
     },
     "ROUTES-TRANSIT-GTFS": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "c849b4ce9beeadd6dedd80b09641574482a7e6fc",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 268,
       "landed_main": null,
-      "note": "docs/evidence/ROUTES-TRANSIT-GTFS/README.md",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "server/features/routes-transit/",
-        "docs/evidence/ROUTES-TRANSIT-GTFS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "6903a10e0f4cc457b885f9f4a77692c73c2a0a42",
-      "token": "8b299c1152b9488ebbd2d6f21679503e"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "SETTINGS": {
       "actor": "koshiro",
