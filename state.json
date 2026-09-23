@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 292,
+  "revision": 293,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34079,22 +34079,17 @@
       "token": null
     },
     "BIKE": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "6d1b08a6b5814cdf4a764f9e31d7458e38be8df3",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 29,
       "landed_main": null,
-      "note": "docs/evidence/BIKE/motorbike-http.md",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "server/plugins/bike/",
-        "server/db/migrations/bike/",
-        "docs/01_requirements/04_api/fragments/BIKE.json",
-        "docs/evidence/BIKE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "4e8d07067185ef1be1828f53822885dcddfb6c5f",
-      "token": "e34d2401ca7b4a02b365a4d3a7bf6432"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "BUILDING-GROWTH": {
       "actor": null,
