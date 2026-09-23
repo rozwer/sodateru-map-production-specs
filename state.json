@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 297,
+  "revision": 298,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34576,23 +34576,17 @@
       "token": null
     },
     "PLACES-YOKOHAMA-DEMO": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "fe4e4e6aa86285e29ac3da5a411676aa3c8dbf71",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 274,
       "landed_main": null,
-      "note": null,
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "docs/evidence/PLACES/yokohama-15-spots-source.json",
-        "docs/evidence/PLACES/yokohama-15-spots-resolved.json",
-        "docs/evidence/PLACES/yokohama-demo-import.ts",
-        "docs/evidence/PLACES/yokohama-demo-import.md",
-        "docs/evidence/PLACES/yokohama-demo-import.json"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "7feea632781c4593bb1f0cb310d57393"
+      "token": null
     },
     "PLAN-UI-CONNECTIONS": {
       "actor": "rozwer",
