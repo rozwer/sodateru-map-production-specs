@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 295,
+  "revision": 296,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34511,22 +34511,17 @@
       "token": null
     },
     "MAP-CUSTOM": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 27,
       "landed_main": null,
-      "note": "docs/evidence/MAP-CUSTOM/README.md",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "server/features/map-custom/",
-        "server/db/migrations/map-custom/",
-        "docs/01_requirements/04_api/fragments/MAP-CUSTOM.json",
-        "docs/evidence/MAP-CUSTOM/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "1e5033c0f0d47467ebd6bdebda9003fa1d537ec2",
-      "token": "20493242f5a642439f74d0886523512e"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "NAV-CARDS": {
       "actor": "rozwer",
