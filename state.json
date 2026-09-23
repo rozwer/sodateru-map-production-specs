@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 291,
+  "revision": 292,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34066,23 +34066,17 @@
       "token": null
     },
     "AI-INTEGRATION": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "df5e5073085eddda1e6598664e00881e12b25d81",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 103,
       "landed_main": null,
-      "note": null,
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "mattsun",
-      "paths": [
-        "server/ai/",
-        "server/features/conversations/",
-        "server/db/migrations/ai/",
-        "docs/01_requirements/04_api/fragments/AI.json",
-        "docs/evidence/AI/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "d94625bfd37b4a47abc0e11cd35c55d1"
+      "token": null
     },
     "BIKE": {
       "actor": "kaiya",
