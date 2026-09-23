@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 301,
+  "revision": 302,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34758,22 +34758,17 @@
       "token": null
     },
     "THEMES-INTEGRATION": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 105,
       "landed_main": null,
-      "note": "Shared demo checkout retained; resume implementation in separate worktree",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "mattsun",
-      "paths": [
-        "server/features/themes/",
-        "server/db/migrations/themes/",
-        "docs/01_requirements/04_api/fragments/THEMES.json",
-        "docs/evidence/THEMES/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "1d84645f003c4d7bb086edd8e44a15a0"
+      "token": null
     },
     "TOOL-ISSUE-COMMENT": {
       "actor": "rozwer",
