@@ -34036,7 +34036,7 @@
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE"
   ],
-  "revision": 299,
+  "revision": 300,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34680,22 +34680,17 @@
       "token": null
     },
     "ROUTES": {
-      "actor": "kaiya",
+      "actor": null,
       "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
-      "generation": 7,
+      "generation": 8,
       "issue_number": 25,
       "landed_main": null,
-      "note": "docs/evidence/ROUTES/toei-connection.md",
+      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
       "owner": "kaiya",
-      "paths": [
-        "server/features/routes/",
-        "server/db/migrations/routes/",
-        "docs/01_requirements/04_api/fragments/ROUTES.json",
-        "docs/evidence/ROUTES/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "494a9b80d7ff5872615f208663fad24422c82b7e",
-      "token": "6e0fd1b0833542f086e43376c7dce057"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "ROUTES-TRANSIT-GTFS": {
       "actor": "kaiya",
