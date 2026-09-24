@@ -48,9 +48,8 @@ export function MapRenderer({ bridge }: { bridge: MapBridge }) {
   const display = useMapDisplay(bridge);
   useEffect(() => {
     const camera = bridge.getSnapshot().camera;
-    // The bridge persists its country-scale default before this effect runs.
-    // Inspect that camera instead of treating the storage key as a valid saved view.
-    if (!Number.isFinite(camera.zoom) || camera.zoom < 7 || !Number.isFinite(camera.longitude) || !Number.isFinite(camera.latitude)) {
+    // A wide zoom can be an intentional saved view; only repair invalid camera values.
+    if (!Number.isFinite(camera.zoom) || !Number.isFinite(camera.longitude) || !Number.isFinite(camera.latitude)) {
       bridge.setCamera({ longitude: 139.6368, latitude: 35.4548, pitch: 55, zoom: 16, bearing: 0, bounds: undefined });
       bridge.setView({ dimension: '3d' });
     }
