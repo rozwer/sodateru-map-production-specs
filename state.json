@@ -34050,7 +34050,7 @@
     "DAILY-TRACK-ROUTE",
     "DAILY-TRACK-MARKER-REVEAL"
   ],
-  "revision": 309,
+  "revision": 310,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35097,17 +35097,21 @@
       "token": null
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": null,
-      "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
-      "generation": 2,
+      "actor": "mattsun",
+      "base_commit": "9a283775d1cb924f961f00b95b0022a7584c247e",
+      "generation": 3,
       "issue_number": 189,
       "landed_main": null,
       "note": "PR196 merged17c6360; camera demo save/reload verified. Full seven-screen data/map parity remains; Shell172/QA/orchestrator notified. Keep worktree and evidence.",
-      "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "owner": "mattsun",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/VISUAL-RECORDS-CAMERA/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "9b796787d4d24ac2926dde3abdcf2127"
     },
     "VISUAL-SELF": {
       "actor": null,
