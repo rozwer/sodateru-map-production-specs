@@ -6,7 +6,7 @@
 
 ## このIssueの完成結果
 
-[UI-SETTINGS](UI-SETTINGS.md)で完成した画面から実API・保存・再取得をつなぎ、以下の利用操作を同じIDで往復できる。元UIの未達をこのIssueへ押し出して完了にしない。
+[UI-SETTINGS](UI-SETTINGS.md)の対象操作が整った画面から実API・保存・再取得をつなぎ、以下の利用操作を同じIDで往復できる。元UIの未達をこのIssueへ押し出して完了にしない。
 
 ## 実接続する操作と失敗条件
 
@@ -56,16 +56,16 @@ ACTIVITY visitsと非健康集計の取得元/時点を実読取し、同じ日�
 
 ## 通過条件
 
-- 元UIのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。
+- 対象操作のUI証拠・既存API契約版・統合commitを引継ぎ、必要pathのlockが空いた範囲だけ取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。
 - 操作→method/path/params/body/status/条件付き呼出回数→実API/DB→再起動/再取得→同じ画面の再表示を照合する。mockの成功はこの受入に使わない。
 - 本人とlive/demoを分離し、取消は保存値不変、応答不明再送は同じID、版競合は現行値取得と入力保持、0件/部分失敗/利用不能/遅着を実通信で確認する。
 - 共有変更/削除がある操作は別本人の本文・媒体・引用・地図にも反映し、旧cacheから復活させない。指定画像/Mapbox/端末操作の未達を引継いでUI完了にしない。
 
 source/API要件ファイルを勝手に変更せず、各ページのapi.jsonとinteractions.jsonの条件付き呼出しを照合する。API不足の業務実装担当は[対応表](../coverage.md)どおりで、このIssueは画面からの接続責任を持つ。
 
-## 健康は別の余力枠
+## 健康は別の主要UI後の未実施項目
 
-health-connect / health-permissions / health-statusの3画面・入口、統計/取得元の健康面は[UI-HEALTH](UI-HEALTH.md)と[CONNECT-HEALTH](CONNECT-HEALTH.md)へ移管した。時間が余れば着手する未実施の範囲として追跡し、この非健康UI/実接続のcloseに必須依存させない。settings/profile/suggestion-settings、記録/訪問/軌跡の統計と取得元は必須に残す。健康を恒久除外・実装済みにせず、未実施の健康UIを実接続へ隠してUI合格にしない。
+health-connect / health-permissions / health-statusの3画面・入口、統計/取得元の健康面は[UI-HEALTH](UI-HEALTH.md)と[CONNECT-HEALTH](CONNECT-HEALTH.md)へ移管した。主要UIの後に着手する未実施の範囲として追跡し、この非健康UI/実接続のcloseに必須依存させない。settings/profile/suggestion-settings、記録/訪問/軌跡の統計と取得元は必須に残す。健康を恒久除外・実装済みにせず、未実施の健康UIを実接続へ隠してUI合格にしない。
 
 ## 元要件・受入の対応
 
@@ -84,7 +84,7 @@ health-connect / health-permissions / health-statusの3画面・入口、統計/
 
 ## 依存と提供物
 
-- 着手前：[UI-SETTINGS](UI-SETTINGS.md)。
+- 着手前：元UI全体のdoneは不要。[UI-SETTINGS](UI-SETTINGS.md)の対象操作について[接続handoff](../connect-start.md)の統合済み証拠を揃え、必要pathだけ取得する。
 - 実接続・完了前：[UI-BASE](UI-BASE.md)、[SETTINGS](SETTINGS.md)、[ACTIVITY](ACTIVITY.md)、[INSIGHTS](INSIGHTS.md)、[CORE](CORE.md)、[CONNECT-BASE](CONNECT-BASE.md)、[INFORMATION](INFORMATION.md)。
 
 - [UI-BASE](UI-BASE.md)：`UI-BASE.shell`。共通画面・地図/チャットの受渡し。

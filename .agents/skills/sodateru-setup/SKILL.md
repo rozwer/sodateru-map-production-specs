@@ -24,7 +24,7 @@ mise run verify
 
 ## linked worktree・hooks更新
 
-`mise run task:worktree` が作るworktreeはmiseの信頼とhooks導入を処理する。未導入またはhooks更新時は対象worktreeで `mise run hooks:install` を実行する。依存未導入なら `mise exec -- bun install --frozen-lockfile` を実行する。
+`mise run task:worktree` が作るworktreeはmiseの信頼とhooks導入を処理する。未導入またはhooks更新時は対象worktreeで `mise run hooks:install` を実行する。依存未導入なら対象worktreeのルートで `mise exec -- bun install --frozen-lockfile` を最初に実行する。Codexの未導入bootstrap hookはこの完全一致コマンドだけを通し、導入後は通常のmise/Task検査へ戻す。別worktreeのnode_modulesを前提にしない。
 
 Codexのhook信頼は内容ごとに記録される。初回・hook更新後は `/hooks` から内容をレビューして信頼する。UI操作が必要で実行できなければ、その操作だけを利用者に依頼する。
 

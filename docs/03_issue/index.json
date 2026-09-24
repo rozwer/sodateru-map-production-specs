@@ -14,7 +14,7 @@
     "workers": 4,
     "orchestrator": "調整・現状把握専任。4実装担当に加算しない。担当者はassigneesに定義する。",
     "ui_owner": "A",
-    "issue_completion": "uiは指定画像・実描画・画面/端末操作と状態の完了。connectionは元UI done後に実API・保存・再取得・実失敗/取消を確認。domainの提供も揃って利用者向け機能が完了する。user-excludedは未実施の対象外として原IDを保持する。",
+    "issue_completion": "uiは指定画像・実描画・画面/端末操作と状態の完了。connectionは操作単位の引継ぎ証拠を統合した後に実API・保存・再取得・実失敗/取消を確認。domainの提供も揃って利用者向け機能が完了する。user-excludedは未実施の対象外として原IDを保持する。",
     "hard_dependencies": "着手前にdoneが必要。",
     "connect_after": "完了までに利用する提供元の一覧。提供元Issue全体のdoneは待たず、connect_inputs.outputsの該当提供物と実接続証拠を確認する。",
     "ui_implementation": "全UIの設計・描画・端末操作・画面状態・実画面受入はrozwerに固定する。機能固有の業務判断/DTO変換/保存はB〜D。",
@@ -2258,7 +2258,7 @@
         "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       }
     },
@@ -4003,9 +4003,7 @@
       "pages": [
         "navigation"
       ],
-      "hard_dependencies": [
-        "UI-BASE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "CORE"
       ],
@@ -4062,6 +4060,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-BASE",
         "source_ui_task": "UI-BASE"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-BASE",
+        "handoff_path": "docs/evidence/UI-BASE/connect-handoff.json"
       }
     },
     {
@@ -4078,9 +4080,7 @@
         "object-edit",
         "object-place"
       ],
-      "hard_dependencies": [
-        "UI-MAP"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLACES",
@@ -4243,6 +4243,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-MAP",
         "source_ui_task": "UI-MAP"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-MAP",
+        "handoff_path": "docs/evidence/UI-MAP/connect-handoff.json"
       }
     },
     {
@@ -4261,9 +4265,7 @@
         "growth-result",
         "daily-track"
       ],
-      "hard_dependencies": [
-        "UI-RECORDS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "RECORDS",
@@ -4441,6 +4443,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-RECORDS",
         "source_ui_task": "UI-RECORDS"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-RECORDS",
+        "handoff_path": "docs/evidence/UI-RECORDS/connect-handoff.json"
       }
     },
     {
@@ -4458,9 +4464,7 @@
         "mist-detail",
         "quest-compass"
       ],
-      "hard_dependencies": [
-        "UI-EXPLORE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "AI",
@@ -4628,6 +4632,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-EXPLORE",
         "source_ui_task": "UI-EXPLORE"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-EXPLORE",
+        "handoff_path": "docs/evidence/UI-EXPLORE/connect-handoff.json"
       }
     },
     {
@@ -4642,9 +4650,7 @@
         "route-results",
         "route-navigation"
       ],
-      "hard_dependencies": [
-        "UI-ROUTES"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLACES",
@@ -4739,6 +4745,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-ROUTES",
         "source_ui_task": "UI-ROUTES"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-ROUTES",
+        "handoff_path": "docs/evidence/UI-ROUTES/connect-handoff.json"
       }
     },
     {
@@ -4756,9 +4766,7 @@
         "experience-compare",
         "memo-edit"
       ],
-      "hard_dependencies": [
-        "UI-REFLECTION"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "REFLECTION",
@@ -4913,6 +4921,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-REFLECTION",
         "source_ui_task": "UI-REFLECTION"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-REFLECTION",
+        "handoff_path": "docs/evidence/UI-REFLECTION/connect-handoff.json"
       }
     },
     {
@@ -4929,9 +4941,7 @@
         "themes",
         "theme-edit"
       ],
-      "hard_dependencies": [
-        "UI-INSIGHTS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "INSIGHTS",
@@ -5054,6 +5064,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-INSIGHTS",
         "source_ui_task": "UI-INSIGHTS"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-INSIGHTS",
+        "handoff_path": "docs/evidence/UI-INSIGHTS/connect-handoff.json"
       }
     },
     {
@@ -5068,9 +5082,7 @@
         "suggestions",
         "suggestion-detail"
       ],
-      "hard_dependencies": [
-        "UI-SUGGESTIONS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "SUGGESTIONS",
@@ -5192,6 +5204,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SUGGESTIONS",
         "source_ui_task": "UI-SUGGESTIONS"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-SUGGESTIONS",
+        "handoff_path": "docs/evidence/UI-SUGGESTIONS/connect-handoff.json"
       }
     },
     {
@@ -5210,9 +5226,7 @@
         "sharing",
         "friend-picker"
       ],
-      "hard_dependencies": [
-        "UI-FRIENDS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "INFORMATION",
@@ -5374,6 +5388,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-FRIENDS",
         "source_ui_task": "UI-FRIENDS"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-FRIENDS",
+        "handoff_path": "docs/evidence/UI-FRIENDS/connect-handoff.json"
       }
     },
     {
@@ -5389,9 +5407,7 @@
         "knowledge-filter",
         "knowledge-detail"
       ],
-      "hard_dependencies": [
-        "UI-KNOWLEDGE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "COMMUNITY",
@@ -5508,6 +5524,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-KNOWLEDGE",
         "source_ui_task": "UI-KNOWLEDGE"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-KNOWLEDGE",
+        "handoff_path": "docs/evidence/UI-KNOWLEDGE/connect-handoff.json"
       }
     },
     {
@@ -5528,9 +5548,7 @@
         "feature-requests",
         "feature-request-edit"
       ],
-      "hard_dependencies": [
-        "UI-PLUGINS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLUGINS",
@@ -5710,6 +5728,10 @@
         "phase": "connection",
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-PLUGINS",
         "source_ui_task": "UI-PLUGINS"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-PLUGINS",
+        "handoff_path": "docs/evidence/UI-PLUGINS/connect-handoff.json"
       }
     },
     {
@@ -5729,9 +5751,7 @@
         "activity-stats",
         "data-sources"
       ],
-      "hard_dependencies": [
-        "UI-SETTINGS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "SETTINGS",
@@ -5890,6 +5910,10 @@
         "mapping": "docs/03_issue/ui-connections.json#/pairs/UI-SETTINGS",
         "source_ui_task": "UI-SETTINGS",
         "deferred_health": "CONNECT-HEALTH"
+      },
+      "start_gate": {
+        "source_ui_task": "UI-SETTINGS",
+        "handoff_path": "docs/evidence/UI-SETTINGS/connect-handoff.json"
       }
     },
     {
@@ -5904,9 +5928,7 @@
         "companion-import",
         "companion-create"
       ],
-      "hard_dependencies": [
-        "UI-COMPANION"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "COMPANION",
@@ -5993,7 +6015,11 @@
       },
       "scope_exclusions": [
         "companion-create"
-      ]
+      ],
+      "start_gate": {
+        "source_ui_task": "UI-COMPANION",
+        "handoff_path": "docs/evidence/UI-COMPANION/connect-handoff.json"
+      }
     },
     {
       "id": "UI-HEALTH",
@@ -6107,7 +6133,7 @@
         "source_ui_task": "UI-SETTINGS"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       }
     },
@@ -6242,7 +6268,7 @@
         "source_ui_task": "UI-HEALTH"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       }
     }

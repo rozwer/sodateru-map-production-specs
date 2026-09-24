@@ -56,4 +56,4 @@ Issueを分割せず、次の利用操作ごとに先行統合する。部分提
 
 ## 着手時期と余力の受入
 
-ユーザー指定で時間が余れば着手する未実施の余力枠（P3）。HEALTH.complete、XML/iPhone取込・項目/期間/AI許可・状態・停止/保存分削除を保持し、恒久除外や完成にしない。画面は[UI-HEALTH](UI-HEALTH.md)、実接続は[CONNECT-HEALTH](CONNECT-HEALTH.md)。非健康の設定・記録/訪問/軌跡統計はこれを必須依存にしない。業務契約・担当・paths・既存状態は保持する。
+ユーザー指定で主要UIの後に着手する未実施の主要UI後の未実施項目（P3）。HEALTH.complete、XML/iPhone取込・項目/期間/AI許可・状態・停止/保存分削除を保持し、恒久除外や完成にしない。画面は[UI-HEALTH](UI-HEALTH.md)、実接続は[CONNECT-HEALTH](CONNECT-HEALTH.md)。非健康の設定・記録/訪問/軌跡統計はこれを必須依存にしない。業務契約・担当・paths・既存状態は保持する。

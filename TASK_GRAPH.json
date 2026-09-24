@@ -67,7 +67,15 @@
       "VISUAL-PLUGINS": 186,
       "VISUAL-SELF": 176,
       "VISUAL-SELF-CONTINUE": 185,
-      "VISUAL-RECORDS-CAMERA": 189
+      "VISUAL-RECORDS-CAMERA": 189,
+      "GROW-UI": 215,
+      "DISASTER-UI": 219,
+      "DISASTER-UI-SCREEN": 223,
+      "BUILDING-GROWTH": 222,
+      "UI-BASE-LAYOUT": 300,
+      "UI-MAP-CARD": 297,
+      "UI-MAP-RECORD-LINK": 298,
+      "UI-MAP-THEME-RETRY": 299
     }
   },
   "tasks": [
@@ -2193,7 +2201,7 @@
         "scope": "該当契約を利用する実装/接続だけ。独立した作業と他機能は止めない。"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       },
       "priority": "P3",
@@ -3974,9 +3982,7 @@
       "pages": [
         "navigation"
       ],
-      "hard_dependencies": [
-        "UI-BASE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "CORE"
       ],
@@ -4035,7 +4041,11 @@
         "source_ui_task": "UI-BASE"
       },
       "priority": "P0",
-      "effective_priority": "P0"
+      "effective_priority": "P0",
+      "start_gate": {
+        "source_ui_task": "UI-BASE",
+        "handoff_path": "docs/evidence/UI-BASE/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-MAP",
@@ -4051,9 +4061,7 @@
         "object-edit",
         "object-place"
       ],
-      "hard_dependencies": [
-        "UI-MAP"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLACES",
@@ -4218,7 +4226,11 @@
         "source_ui_task": "UI-MAP"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-MAP",
+        "handoff_path": "docs/evidence/UI-MAP/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-RECORDS",
@@ -4236,9 +4248,7 @@
         "growth-result",
         "daily-track"
       ],
-      "hard_dependencies": [
-        "UI-RECORDS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "RECORDS",
@@ -4418,7 +4428,11 @@
         "source_ui_task": "UI-RECORDS"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-RECORDS",
+        "handoff_path": "docs/evidence/UI-RECORDS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-EXPLORE",
@@ -4435,9 +4449,7 @@
         "mist-detail",
         "quest-compass"
       ],
-      "hard_dependencies": [
-        "UI-EXPLORE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "AI",
@@ -4607,7 +4619,11 @@
         "source_ui_task": "UI-EXPLORE"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-EXPLORE",
+        "handoff_path": "docs/evidence/UI-EXPLORE/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-ROUTES",
@@ -4621,9 +4637,7 @@
         "route-results",
         "route-navigation"
       ],
-      "hard_dependencies": [
-        "UI-ROUTES"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLACES",
@@ -4720,7 +4734,11 @@
         "source_ui_task": "UI-ROUTES"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-ROUTES",
+        "handoff_path": "docs/evidence/UI-ROUTES/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-REFLECTION",
@@ -4737,9 +4755,7 @@
         "experience-compare",
         "memo-edit"
       ],
-      "hard_dependencies": [
-        "UI-REFLECTION"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "REFLECTION",
@@ -4896,7 +4912,11 @@
         "source_ui_task": "UI-REFLECTION"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-REFLECTION",
+        "handoff_path": "docs/evidence/UI-REFLECTION/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-INSIGHTS",
@@ -4912,9 +4932,7 @@
         "themes",
         "theme-edit"
       ],
-      "hard_dependencies": [
-        "UI-INSIGHTS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "INSIGHTS",
@@ -5039,7 +5057,11 @@
         "source_ui_task": "UI-INSIGHTS"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-INSIGHTS",
+        "handoff_path": "docs/evidence/UI-INSIGHTS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-SUGGESTIONS",
@@ -5053,9 +5075,7 @@
         "suggestions",
         "suggestion-detail"
       ],
-      "hard_dependencies": [
-        "UI-SUGGESTIONS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "SUGGESTIONS",
@@ -5179,7 +5199,11 @@
         "source_ui_task": "UI-SUGGESTIONS"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-SUGGESTIONS",
+        "handoff_path": "docs/evidence/UI-SUGGESTIONS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-FRIENDS",
@@ -5197,9 +5221,7 @@
         "sharing",
         "friend-picker"
       ],
-      "hard_dependencies": [
-        "UI-FRIENDS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "INFORMATION",
@@ -5363,7 +5385,11 @@
         "source_ui_task": "UI-FRIENDS"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-FRIENDS",
+        "handoff_path": "docs/evidence/UI-FRIENDS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-KNOWLEDGE",
@@ -5378,9 +5404,7 @@
         "knowledge-filter",
         "knowledge-detail"
       ],
-      "hard_dependencies": [
-        "UI-KNOWLEDGE"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "COMMUNITY",
@@ -5499,7 +5523,11 @@
         "source_ui_task": "UI-KNOWLEDGE"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-KNOWLEDGE",
+        "handoff_path": "docs/evidence/UI-KNOWLEDGE/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-PLUGINS",
@@ -5519,9 +5547,7 @@
         "feature-requests",
         "feature-request-edit"
       ],
-      "hard_dependencies": [
-        "UI-PLUGINS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "PLUGINS",
@@ -5703,7 +5729,11 @@
         "source_ui_task": "UI-PLUGINS"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-PLUGINS",
+        "handoff_path": "docs/evidence/UI-PLUGINS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-SETTINGS",
@@ -5722,9 +5752,7 @@
         "activity-stats",
         "data-sources"
       ],
-      "hard_dependencies": [
-        "UI-SETTINGS"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "SETTINGS",
@@ -5885,7 +5913,11 @@
         "deferred_health": "CONNECT-HEALTH"
       },
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-SETTINGS",
+        "handoff_path": "docs/evidence/UI-SETTINGS/connect-handoff.json"
+      }
     },
     {
       "id": "CONNECT-COMPANION",
@@ -5899,9 +5931,7 @@
         "companion-import",
         "companion-create"
       ],
-      "hard_dependencies": [
-        "UI-COMPANION"
-      ],
+      "hard_dependencies": [],
       "connect_after": [
         "UI-BASE",
         "COMPANION",
@@ -5990,7 +6020,11 @@
         "companion-create"
       ],
       "priority": "P1",
-      "effective_priority": "P1"
+      "effective_priority": "P1",
+      "start_gate": {
+        "source_ui_task": "UI-COMPANION",
+        "handoff_path": "docs/evidence/UI-COMPANION/connect-handoff.json"
+      }
     },
     {
       "id": "UI-HEALTH",
@@ -6104,7 +6138,7 @@
         "source_ui_task": "UI-SETTINGS"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       }
     },
@@ -6239,7 +6273,7 @@
         "source_ui_task": "UI-HEALTH"
       },
       "scope_schedule": {
-        "mode": "if-time-remains",
+        "mode": "after-major-ui",
         "required_for_other_features": false
       }
     },
@@ -6341,6 +6375,145 @@
       "source_task_ids": [
         "VISUAL-SELF"
       ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "GROW-UI",
+      "kind": "ui",
+      "lane": "A",
+      "priority": "P0",
+      "title": "アプリを育てるの参照再現と導入管理の操作修復",
+      "write_paths": [
+        "src/features/plugins/views.tsx",
+        "src/features/plugins/screens.tsx",
+        "src/features/plugins/plugins.css",
+        "src/features/plugins/view-model.ts",
+        "src/features/plugins/messages.ts",
+        "src/features/plugins/usePreviewPhase.ts",
+        "src/features/plugins/PluginIconView.tsx",
+        "src/features/plugins/PluginGlyph.tsx",
+        "src/features/plugins/grow/",
+        "src/features/feature-requests/",
+        "docs/evidence/GROW-UI/"
+      ],
+      "source_task_ids": [
+        "VISUAL-PLUGINS"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "DISASTER-UI",
+      "kind": "implementation",
+      "priority": "P0",
+      "title": "防災専用地図と主要操作を本番へ接続",
+      "write_paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "src/map/MapRenderer.tsx",
+        "docs/evidence/DISASTER-UI/"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "DISASTER-UI-SCREEN",
+      "kind": "implementation",
+      "priority": "P0",
+      "title": "防災専用地図と主要操作を本番へ接続",
+      "write_paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "docs/evidence/DISASTER-UI/"
+      ],
+      "source_task_ids": [
+        "DISASTER-UI"
+      ]
+    },
+    {
+      "connect_after": [],
+      "hard_dependencies": [],
+      "id": "BUILDING-GROWTH",
+      "kind": "implementation",
+      "priority": "P0",
+      "title": "確認済み体験による実建物3D着色",
+      "write_paths": [
+        "src/map/growth-display.ts",
+        "src/map/growth-rules.ts",
+        "src/map/growth-rules.test.ts",
+        "src/map/MapScene.tsx",
+        "src/map/display-state.ts",
+        "src/map/map.css",
+        "src/features/map/",
+        "docs/evidence/BUILDING-GROWTH/"
+      ],
+      "source_task_ids": [
+        "DISASTER-UI"
+      ]
+    },
+    {
+      "id": "UI-BASE-LAYOUT",
+      "title": "共通Sheet・下部ナビ重なりと配置吹き出し欠けを修正",
+      "kind": "implementation",
+      "priority": "P0",
+      "owner": "mattsun",
+      "parent_completion_task": "UI-BASE",
+      "write_paths": [
+        "src/app/",
+        "src/ui/",
+        "docs/evidence/UI-BASE-LAYOUT/"
+      ],
+      "hard_dependencies": [],
+      "connect_after": []
+    },
+    {
+      "id": "UI-MAP-CARD",
+      "title": "個人地図の詳細カードを写真なし・長い地名でも読みやすくする",
+      "kind": "implementation",
+      "priority": "P1",
+      "owner": "mattsun",
+      "parent_completion_task": "UI-MAP",
+      "write_paths": [
+        "src/features/map/screens.tsx",
+        "src/features/map/MapPanels.tsx",
+        "src/features/map/map-feature.css",
+        "docs/evidence/UI-MAP-CARD/"
+      ],
+      "hard_dependencies": [],
+      "connect_after": []
+    },
+    {
+      "id": "UI-MAP-RECORD-LINK",
+      "title": "個人地図から訪れた記録へ選択と日時を引き継ぐ",
+      "kind": "implementation",
+      "priority": "P1",
+      "owner": "mattsun",
+      "parent_completion_task": "UI-MAP",
+      "write_paths": [
+        "src/features/map/screens.tsx",
+        "src/features/activity/screens.tsx",
+        "docs/evidence/UI-MAP-RECORD-LINK/"
+      ],
+      "hard_dependencies": [],
+      "connect_after": []
+    },
+    {
+      "id": "UI-MAP-THEME-RETRY",
+      "title": "個人地図のテーマ取得失敗を表示し再試行可能にする",
+      "kind": "implementation",
+      "priority": "P1",
+      "owner": "mattsun",
+      "parent_completion_task": "UI-MAP",
+      "write_paths": [
+        "src/features/map/map-state.ts",
+        "src/features/map/screens.tsx",
+        "docs/evidence/UI-MAP-THEME-RETRY/"
+      ],
+      "hard_dependencies": [],
+      "connect_after": []
     }
   ],
   "ui_connection_split": {
@@ -6356,7 +6529,7 @@
       "API提供前の応答は画面と証拠にmockと明記する。loading/empty/editing/saving/error/conflict/unavailableと遅着・取消の表示を制御可能な応答で確認し、実保存成功とは扱わない。"
     ],
     "connection_common": [
-      "元UIのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。",
+      "元UIが操作単位の引継ぎ証拠を統合し、その単位のfeature pathを取得した後、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。",
       "操作→method/path/params/body/status/条件付き呼出回数→実API/DB→再起動/再取得→同じ画面の再表示を照合する。mockの成功はこの受入に使わない。",
       "本人とlive/demoを分離し、取消は保存値不変、応答不明再送は同じID、版競合は現行値取得と入力保持、0件/部分失敗/利用不能/遅着を実通信で確認する。",
       "共有変更/削除がある操作は別本人の本文・媒体・引用・地図にも反映し、旧cacheから復活させない。指定画像/Mapbox/端末操作の未達を引継いでUI完了にしない。"
@@ -31273,7 +31446,7 @@
       ],
       "ui_issue": 146,
       "connection_issue": 148,
-      "scope": "時間が余れば着手する未実施の余力枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。",
+      "scope": "主要UIの後に着手する未実施の健康枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。",
       "evidence": [
         "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673678354",
         "https://github.com/rozwer/sodateru-map-production-specs/issues/23#issuecomment-5673678519"
@@ -32560,6 +32733,65 @@
         "priority": "P1",
         "effective_priority": "P1"
       }
+    },
+    "connection_start_policy": {
+      "version": 1,
+      "authorization_issue": 301,
+      "rule": "対象画面操作・統合済みUI証拠・既存API契約・必要pathの引継ぎ単位で着手判定。UI全体doneは不要。",
+      "handoffs": {
+        "CONNECT-BASE": {
+          "source_ui_task": "UI-BASE",
+          "handoff_path": "docs/evidence/UI-BASE/connect-handoff.json"
+        },
+        "CONNECT-MAP": {
+          "source_ui_task": "UI-MAP",
+          "handoff_path": "docs/evidence/UI-MAP/connect-handoff.json"
+        },
+        "CONNECT-RECORDS": {
+          "source_ui_task": "UI-RECORDS",
+          "handoff_path": "docs/evidence/UI-RECORDS/connect-handoff.json"
+        },
+        "CONNECT-EXPLORE": {
+          "source_ui_task": "UI-EXPLORE",
+          "handoff_path": "docs/evidence/UI-EXPLORE/connect-handoff.json"
+        },
+        "CONNECT-ROUTES": {
+          "source_ui_task": "UI-ROUTES",
+          "handoff_path": "docs/evidence/UI-ROUTES/connect-handoff.json"
+        },
+        "CONNECT-REFLECTION": {
+          "source_ui_task": "UI-REFLECTION",
+          "handoff_path": "docs/evidence/UI-REFLECTION/connect-handoff.json"
+        },
+        "CONNECT-INSIGHTS": {
+          "source_ui_task": "UI-INSIGHTS",
+          "handoff_path": "docs/evidence/UI-INSIGHTS/connect-handoff.json"
+        },
+        "CONNECT-SUGGESTIONS": {
+          "source_ui_task": "UI-SUGGESTIONS",
+          "handoff_path": "docs/evidence/UI-SUGGESTIONS/connect-handoff.json"
+        },
+        "CONNECT-FRIENDS": {
+          "source_ui_task": "UI-FRIENDS",
+          "handoff_path": "docs/evidence/UI-FRIENDS/connect-handoff.json"
+        },
+        "CONNECT-KNOWLEDGE": {
+          "source_ui_task": "UI-KNOWLEDGE",
+          "handoff_path": "docs/evidence/UI-KNOWLEDGE/connect-handoff.json"
+        },
+        "CONNECT-PLUGINS": {
+          "source_ui_task": "UI-PLUGINS",
+          "handoff_path": "docs/evidence/UI-PLUGINS/connect-handoff.json"
+        },
+        "CONNECT-SETTINGS": {
+          "source_ui_task": "UI-SETTINGS",
+          "handoff_path": "docs/evidence/UI-SETTINGS/connect-handoff.json"
+        },
+        "CONNECT-COMPANION": {
+          "source_ui_task": "UI-COMPANION",
+          "handoff_path": "docs/evidence/UI-COMPANION/connect-handoff.json"
+        }
+      }
     }
   },
   "supersessions": {
@@ -32570,6 +32802,11 @@
     "VISUAL-SELF": [
       "VISUAL-SELF-CONTINUE",
       "VISUAL-RECORDS-CAMERA"
+    ],
+    "VISUAL-PLUGINS": "GROW-UI",
+    "DISASTER-UI": [
+      "DISASTER-UI-SCREEN",
+      "BUILDING-GROWTH"
     ]
   },
   "supersession_details": {
@@ -32652,6 +32889,52 @@
           "record-delete",
           "growth-result",
           "daily-track"
+        ]
+      }
+    },
+    "VISUAL-PLUGINS": {
+      "source_issue": 186,
+      "authorization_issue": 301,
+      "reason": "重複する9画面の未完作業を#215へ移管。旧Issue closeは受入完了ではない。",
+      "evidence": "#186、#215、PR #203、docs/evidence/VISUAL-PLUGINS/screens.md",
+      "source_acceptance": [
+        "指定画像と原本状態を9画面で照合",
+        "通常データと入力保持・戻るを実操作",
+        "390pxと原本幅の証拠表を残し、mockを明示"
+      ],
+      "pages_by_successor": {
+        "GROW-UI": [
+          "plugin-store",
+          "plugin-detail",
+          "plugin-trial",
+          "plugin-install",
+          "plugin-manage",
+          "plugin-update",
+          "plugin-conflict",
+          "feature-requests",
+          "feature-request-edit"
+        ]
+      }
+    },
+    "DISASTER-UI": {
+      "source_issue": 219,
+      "authorization_issue": 301,
+      "reason": "防災画面を#223、共通renderer画像と欠測maskを#222へ分割。旧Issue closeは受入完了ではない。",
+      "evidence": "#219、#223、#222、PR #243/#250/#254、docs/evidence/DISASTER-UI/gaps.md",
+      "source_acceptance": [
+        "実地図・凡例・地域/災害種別/レイヤー・施設詳細・戻るを操作",
+        "導入/停止の地図反映",
+        "取得元/時点/mock/失敗を区別",
+        "390pxと原本幅を実ブラウザ確認"
+      ],
+      "pages_by_successor": {
+        "DISASTER-UI-SCREEN": [
+          "disaster-screen",
+          "facility-detail"
+        ],
+        "BUILDING-GROWTH": [
+          "map-renderer-imagery",
+          "missing-mask"
         ]
       }
     }

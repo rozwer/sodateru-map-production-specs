@@ -12,7 +12,7 @@
 
 ### settings
 
-プロフィール・位置・写真/マイク・AI・提案・本人データ・表示の入口と状態を実shellで操作する。健康の入口/状態はUI-HEALTHの余力枠に明示移管する。
+プロフィール・位置・写真/マイク・AI・提案・本人データ・表示の入口と状態を実shellで操作する。健康の入口/状態はUI-HEALTHの主要UI後の未実施項目に明示移管する。
 
 ### profile-settings
 
@@ -32,7 +32,7 @@
 
 ### ページをまたぐ受入・現状の残件
 
-- 健康3画面とその入口・健康統計/取得元の面はUI-HEALTHへ明示移管し、未実施の余力枠として追跡する。settings/profile/suggestion-settingsと非健康の記録・訪問・軌跡統計は必須。未達の健康UIを接続Issueへ隠して合格にしない。
+- 健康3画面とその入口・健康統計/取得元の面はUI-HEALTHへ明示移管し、未実施の主要UI後の未実施項目として追跡する。settings/profile/suggestion-settingsと非健康の記録・訪問・軌跡統計は必須。未達の健康UIを接続Issueへ隠して合格にしない。
 
 ## 通過条件
 
@@ -43,9 +43,9 @@
 
 同じsource IDの通信対象ID・永続保存・再起動/再取得・実取消/失敗の確認は後続の[CONNECT-SETTINGS](CONNECT-SETTINGS.md)へ移管する。UI側では確定済みの境界へ渡す入力/選択・表示・操作を確認し、mockの成功を実通信の証拠にしない。
 
-## 健康は別の余力枠
+## 健康は別の主要UI後の未実施項目
 
-health-connect / health-permissions / health-statusの3画面・入口、統計/取得元の健康面は[UI-HEALTH](UI-HEALTH.md)と[CONNECT-HEALTH](CONNECT-HEALTH.md)へ移管した。時間が余れば着手する未実施の範囲として追跡し、この非健康UI/実接続のcloseに必須依存させない。settings/profile/suggestion-settings、記録/訪問/軌跡の統計と取得元は必須に残す。健康を恒久除外・実装済みにせず、未実施の健康UIを実接続へ隠してUI合格にしない。
+health-connect / health-permissions / health-statusの3画面・入口、統計/取得元の健康面は[UI-HEALTH](UI-HEALTH.md)と[CONNECT-HEALTH](CONNECT-HEALTH.md)へ移管した。主要UIの後に着手する未実施の範囲として追跡し、この非健康UI/実接続のcloseに必須依存させない。settings/profile/suggestion-settings、記録/訪問/軌跡の統計と取得元は必須に残す。健康を恒久除外・実装済みにせず、未実施の健康UIを実接続へ隠してUI合格にしない。
 
 ## 元要件・受入の対応
 
