@@ -147,7 +147,9 @@ export class MapSession {
         return Math.abs(place.coordinates[0] - camera.longitude) < 0.3 && Math.abs(place.coordinates[1] - camera.latitude) < 0.3;
       }).sort((a, b) => (a.effectiveStartedAt ?? 0) - (b.effectiveStartedAt ?? 0));
       const points = timeline.map((record, index) => { const place = places.get(record.effectivePlaceId!)!; return { id: record.id, coordinates: place.coordinates, label: place.name, number: index + 1 }; });
-      bridge.showTrack('personal-map', { points, segments: points.length > 1 ? [{ id: 'personal-timeline', coordinates: points.map(point => point.coordinates) }] : [] });
+      // The place markers already represent these records; drawing track points here
+      // creates a second, unselectable marker at each place.
+      bridge.showTrack('personal-map', { points: [], segments: points.length > 1 ? [{ id: 'personal-timeline', coordinates: points.map(point => point.coordinates) }] : [] });
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ personalLoading: false, personalError: message(error) }); }
   }
   async loadThemes() { try { const data = await api.request('getThemes', { query: { limit: 100 }, signal: this.lifetime.signal }); this.update({ themes: data.items }); } catch (error) { if (!aborted(error)) this.update({ personalError: message(error) }); } }
