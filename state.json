@@ -34081,7 +34081,7 @@
     "DAILY-TRACK-MARKER-REVEAL",
     "FE-TASK-ALIGNMENT"
   ],
-  "revision": 312,
+  "revision": 313,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34455,7 +34455,12 @@
         "scripts/codex-mise-hook.mjs",
         "scripts/codex-mise-hook.test.mjs",
         ".agents/skills/sodateru-setup/SKILL.md",
-        ".agents/skills/sodateru-setup/references/hooks.md"
+        ".agents/skills/sodateru-setup/references/hooks.md",
+        ".codex/hooks.macos.json",
+        ".codex/hooks.windows.json",
+        ".codex/hooks.json",
+        "scripts/codex-bootstrap-hook.mjs",
+        "scripts/codex-bootstrap-hook.test.mjs"
       ],
       "status": "claimed",
       "submitted_commit": null,
