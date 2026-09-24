@@ -68,3 +68,5 @@
 .map-layer-shortcut svg { width: 16px; height: 16px; }
 .map-layer-shortcut:focus-visible { outline: 3px solid #247f85; outline-offset: 2px; }
 @media (min-width: 900px) { .sm-app:has(.map-layer-shortcut) .map-scene-message { top: 130px; } }
+.map-personal-purposes { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.map-personal-purposes span { border-radius: 999px; padding: 4px 10px; background: #e7f3f1; color: #246d72; font-size: 12px; font-weight: 700; }

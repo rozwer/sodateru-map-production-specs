@@ -4,10 +4,12 @@ import { MapScene, type ScenePoint, type SceneLine, type SceneCamera, type Scene
 import { MapIcon } from '../features/map/MapIcon';
 import { mapMessages as m } from '../features/map/messages';
 import { useDisasterMapDisplay } from '../features/disaster/ui/map-state';
-import { mapDisplay, useMapDisplay, type LayerPreview } from './display-state';
+import { mapDisplay, useMapDisplay, type LayerPreview, type MapOwnerFilter } from './display-state';
 
 const previewPadding = { top: 10, bottom: 28, left: 10, right: 10 };
-function layerVisible(ownerKey: string, preview: LayerPreview | null) {
+function layerVisible(ownerKey: string, preview: LayerPreview | null, ownerFilter: MapOwnerFilter) {
+  if (ownerFilter === 'personal' && ownerKey !== 'personal-map') return false;
+  if (ownerFilter === 'map' && ownerKey === 'personal-map') return false;
   if (!preview) return true;
   if (ownerKey === 'personal-map') return preview.themes;
   if (ownerKey === 'suggestion' || ownerKey === 'map-dialogue') return preview.suggestions;
@@ -20,15 +22,15 @@ export function BridgeMap({ bridge, interactive = true, label, preview = false, 
   const disaster = useDisasterMapDisplay(bridge);
   const display = useMapDisplay(bridge);
   const points = useMemo<ScenePoint[]>(() => [
-    ...Object.entries(snapshot.candidates).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display?.candidates.map(point => ({ ...point, ownerKey, selected: point.id === display.selectedCandidateId, kind: ownerKey === 'map-objects' ? 'object' : ownerKey === 'personal-map' ? 'place' : 'candidate' })) || []),
-    ...Object.entries(snapshot.places).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display?.places.map(point => ({ ...point, ownerKey, selected: point.id === display.selectedPlaceId, kind: ownerKey === 'map-objects' ? 'object' : 'place', color: ownerKey === 'friends-map' ? '#c9782e' : '#389fa0' })) || []),
-    ...Object.entries(snapshot.tracks).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display?.points.map(point => ({ ...point, ownerKey, kind: 'place', color: '#389fa0' })) || []),
-    ...Object.entries(snapshot.routes).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display?.waypoints.map(point => ({ ...point, ownerKey, color: '#319d9e', kind: 'place' })) || []),
-  ], [snapshot.candidates, snapshot.places, snapshot.routes, snapshot.tracks, display.layerPreview]);
-  const lines = useMemo<SceneLine[]>(() => [...Object.entries(snapshot.routes).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display ? [
+    ...Object.entries(snapshot.candidates).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display?.candidates.map(point => ({ ...point, ownerKey, selected: point.id === display.selectedCandidateId, kind: ownerKey === 'map-objects' ? 'object' : ownerKey === 'personal-map' ? 'place' : 'candidate' })) || []),
+    ...Object.entries(snapshot.places).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display?.places.map(point => ({ ...point, ownerKey, selected: point.id === display.selectedPlaceId, kind: ownerKey === 'map-objects' ? 'object' : 'place', color: ownerKey === 'friends-map' ? '#c9782e' : '#389fa0' })) || []),
+    ...Object.entries(snapshot.tracks).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display?.points.map(point => ({ ...point, ownerKey, kind: 'place', color: '#389fa0' })) || []),
+    ...Object.entries(snapshot.routes).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display?.waypoints.map(point => ({ ...point, ownerKey, color: '#319d9e', kind: 'place' })) || []),
+  ], [snapshot.candidates, snapshot.places, snapshot.routes, snapshot.tracks, display.layerPreview, display.ownerFilter]);
+  const lines = useMemo<SceneLine[]>(() => [...Object.entries(snapshot.routes).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display ? [
     { id: display.routeId || display.previewId || ownerKey, ownerKey, coordinates: display.geometry.coordinates, selected: true },
     ...(display.alternatives || []).filter(route => route.id !== display.selectedRouteId && route.id !== display.routeId).map(route => ({ id: route.id, ownerKey, coordinates: route.geometry.coordinates, selected: false, color: '#a0b6be' })),
-  ] : []), ...Object.entries(snapshot.tracks).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview)).flatMap(([ownerKey, display]) => display?.segments.map(segment => ({ id: segment.id, ownerKey, coordinates: segment.coordinates, selected: true })) || [])], [snapshot.routes, snapshot.tracks, display.layerPreview]);
+  ] : []), ...Object.entries(snapshot.tracks).filter(([ownerKey]) => layerVisible(ownerKey, display.layerPreview, display.ownerFilter)).flatMap(([ownerKey, display]) => display?.segments.map(segment => ({ id: segment.id, ownerKey, coordinates: segment.coordinates, selected: true })) || [])], [snapshot.routes, snapshot.tracks, display.layerPreview, display.ownerFilter]);
   const camera = useMemo<SceneCamera>(() => ({ ...snapshot.camera, bounds: snapshot.camera.bounds ? [...snapshot.camera.bounds[0], ...snapshot.camera.bounds[1]] : undefined }), [snapshot.camera]);
   const scenePadding = padding ?? (preview ? previewPadding : snapshot.padding);
   const focus = useMemo(() => snapshot.focus && preview ? { ...snapshot.focus, padding: scenePadding } : snapshot.focus, [snapshot.focus, preview, scenePadding]);
