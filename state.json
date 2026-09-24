@@ -130,6 +130,7 @@
         "DISASTER-UI-SCREEN": 223,
         "EXPLORATION": 26,
         "EXPLORATION-FOLLOWUP": 102,
+        "FE-TASK-ALIGNMENT": 301,
         "FEATURE-REQUESTS": 31,
         "GROW-DATA": 216,
         "GROW-UI": 215,
@@ -7790,6 +7791,35 @@
         "write_paths": [
           "src/features/activity/",
           "docs/evidence/DAILY-TRACK-MARKER-REVEAL/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "FE-TASK-ALIGNMENT",
+        "kind": "coordination",
+        "lane": "A",
+        "owner": "mattsun",
+        "priority": "P0",
+        "title": "Issue移管後のTask台帳・UI/CONNECT着手条件を整合する",
+        "write_paths": [
+          "TASK_GRAPH.json",
+          "docs/03_issue/",
+          "docs/evidence/FE-TASK-ALIGNMENT/",
+          "tools/sync_graph.py",
+          "tools/taskctl.py",
+          "tools/owner_policy.py",
+          "tools/task_worktree.py",
+          "tools/production_guard.py",
+          "tools/test_sync_graph.py",
+          "tools/test_taskctl.py",
+          "tools/test_task_worktree.py",
+          "scripts/task-policy.mjs",
+          "scripts/codex-task-hook.mjs",
+          "scripts/codex-mise-hook.mjs",
+          "scripts/codex-mise-hook.test.mjs",
+          ".agents/skills/sodateru-setup/SKILL.md",
+          ".agents/skills/sodateru-setup/references/hooks.md"
         ]
       }
     ],
@@ -34048,9 +34078,10 @@
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO",
     "DAILY-TRACK-ROUTE",
-    "DAILY-TRACK-MARKER-REVEAL"
+    "DAILY-TRACK-MARKER-REVEAL",
+    "FE-TASK-ALIGNMENT"
   ],
-  "revision": 311,
+  "revision": 312,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34398,6 +34429,37 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "FE-TASK-ALIGNMENT": {
+      "actor": "mattsun",
+      "base_commit": "9a283775d1cb924f961f00b95b0022a7584c247e",
+      "generation": 1,
+      "issue_number": 301,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "TASK_GRAPH.json",
+        "docs/03_issue/",
+        "docs/evidence/FE-TASK-ALIGNMENT/",
+        "tools/sync_graph.py",
+        "tools/taskctl.py",
+        "tools/owner_policy.py",
+        "tools/task_worktree.py",
+        "tools/production_guard.py",
+        "tools/test_sync_graph.py",
+        "tools/test_taskctl.py",
+        "tools/test_task_worktree.py",
+        "scripts/task-policy.mjs",
+        "scripts/codex-task-hook.mjs",
+        "scripts/codex-mise-hook.mjs",
+        "scripts/codex-mise-hook.test.mjs",
+        ".agents/skills/sodateru-setup/SKILL.md",
+        ".agents/skills/sodateru-setup/references/hooks.md"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "7f240472acba452c89dc7b505ac14f0e"
     },
     "FEATURE-REQUESTS": {
       "actor": "koshiro",
