@@ -34050,7 +34050,7 @@
     "DAILY-TRACK-ROUTE",
     "DAILY-TRACK-MARKER-REVEAL"
   ],
-  "revision": 306,
+  "revision": 307,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34283,20 +34283,17 @@
       "token": null
     },
     "DAILY-TRACK-MARKER-REVEAL": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "4083f52465f8d164625bf86bb5424483d2a13c61",
-      "generation": 2,
+      "generation": 3,
       "issue_number": 284,
       "landed_main": null,
-      "note": "Same-owner transfer to Desktop task 01a0d191-2e30-7213-bd86-d1379873e2bb; preserve worktree and untracked DailyTrack.test.tsx",
+      "note": "#189 priority temporary return; preserve WT and untracked DailyTrack.test.tsx",
       "owner": "mattsun",
-      "paths": [
-        "src/features/activity/",
-        "docs/evidence/DAILY-TRACK-MARKER-REVEAL/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "db51b70c3daf4e6ea4c8dc38081c1248"
+      "token": null
     },
     "DAILY-TRACK-ROUTE": {
       "actor": "mattsun",
