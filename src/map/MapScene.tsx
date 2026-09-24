@@ -93,6 +93,7 @@ function pointElement(point: ScenePoint) {
 export function MapScene(props: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+  const styleReady = useRef(false);
   const suppressCamera = useRef(false);
   const growthController = useRef<ReturnType<typeof attachGrowth> | null>(null);
   const latest = useRef(props); latest.current = props;
@@ -100,7 +101,7 @@ export function MapScene(props: Props) {
   const [retry, setRetry] = useState(0);
   const reloadStyle = () => {
     const map = mapRef.current;
-    if (map) { setLoading(true); setError(null); map.setStyle('mapbox://styles/mapbox/standard', { diff: false, localFontFamily: null, localIdeographFontFamily: 'sans-serif' }); }
+    if (map) { styleReady.current = false; setLoading(true); setError(null); map.setStyle('mapbox://styles/mapbox/standard', { diff: false, localFontFamily: null, localIdeographFontFamily: 'sans-serif' }); }
     else setRetry(value => value + 1);
   };
   const [selectionError, setSelectionError] = useState<string | null>(null);
@@ -112,7 +113,7 @@ export function MapScene(props: Props) {
     const accessToken = (import.meta as ImportMeta & { env: { VITE_MAPBOX_ACCESS_TOKEN?: string } }).env.VITE_MAPBOX_ACCESS_TOKEN;
     if (!accessToken) { setLoading(false); setError('地図の接続設定がありません'); return; }
     let map: mapboxgl.Map;
-    setLoading(true); setError(null);
+    styleReady.current = false; setLoading(true); setError(null);
     const current = latest.current;
     try {
       map = new mapboxgl.Map({ container: container.current, accessToken, style: 'mapbox://styles/mapbox/standard', center: [current.camera.longitude, current.camera.latitude], zoom: current.camera.zoom, pitch: current.view.dimension === '2d' ? 0 : current.camera.pitch, bearing: current.camera.bearing,
@@ -125,9 +126,9 @@ export function MapScene(props: Props) {
     map.on('moveend', cameraChanged);
     map.on('dragstart', () => latest.current.onManualMove?.());
     map.on('rotatestart', event => { if (event.originalEvent) latest.current.onManualMove?.(); });
-    map.on('error', event => { setLoading(false); setError(event.error?.message?.includes('401') ? '地図の接続設定を確認してください' : '地図を取得できませんでした'); });
+    map.on('error', event => { const detail = event.error?.message || ''; setLoading(false); setError(/401|403|unauthorized|forbidden/i.test(detail) ? '地図の接続設定を確認してください' : styleReady.current ? '地図の一部を取得できませんでした' : '地図を取得できませんでした'); });
     map.on('style.load', () => {
-      setLoading(false); setError(null);
+      styleReady.current = true; setLoading(false); setError(null);
       for (const [key, value] of Object.entries({ show3dLandmarks: false, show3dTrees: false, show3dFacades: false, showPointOfInterestLabels: false, showPlaceLabels: false, showTransitLabels: false, colorBuildings: UNVISITED_COLOR, colorBuildingSelect: UNVISITED_COLOR, colorBuildingHighlight: UNVISITED_COLOR, colorRoads: '#ffffff', colorMotorways: '#ffffff', colorTrunks: '#ffffff', colorLand: '#F2F0EC', colorGreenspace: '#DDE8D7', colorWater: '#D6E7ED' })) map.setConfigProperty('basemap', key, value);
       setReady(value => value + 1); cameraChanged();
       map.addSource('sodateru-routes', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });

@@ -8,7 +8,7 @@ import { showGrowth } from '../../map/display-state';
 type SearchState = {
   query: string; searchedQuery: string; result: CandidateResult | null; selectedCandidateId: string | null; selectedPlaceId: string | null;
   detail: PlaceDetail | null; places: Place[]; themes: Theme[]; records: RecordView[]; growth: GrowthItem[];
-  themeId: string | null; loading: boolean; detailLoading: boolean; saving: boolean; error: string | null; detailError: string | null;
+  themeId: string | null; loading: boolean; placesLoading: boolean; detailLoading: boolean; saving: boolean; error: string | null; detailError: string | null;
   personalError: string | null; personalLoading: boolean; nextPlaceCursor: string | null; nextRecordCursor: string | null;
   failedOperation: 'search' | 'save' | 'places' | null;
   nearby: CandidateResult | null; nearbyLoading: boolean; nearbyError: string | null;
@@ -23,6 +23,7 @@ export class MapSession {
   private listeners = new Set<() => void>();
   private searchAbort: AbortController | null = null;
   private detailAbort: AbortController | null = null;
+  private placesAbort: AbortController | null = null;
   private personalAbort: AbortController | null = null;
   private nearbyAbort: AbortController | null = null;
   private growthAbort: AbortController | null = null;
@@ -34,7 +35,7 @@ export class MapSession {
   private state: SearchState;
   constructor(readonly scopeKey: string) {
     let query = ''; try { query = localStorage.getItem(`sodateru.map-query:${scopeKey}`) || ''; } catch { /* The input remains editable. */ }
-    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
+    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, placesLoading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
   }
   getSnapshot = () => this.state;
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
@@ -113,14 +114,16 @@ export class MapSession {
     } catch (error) { if (!aborted(error)) this.update({ saving: false, error: message(error), failedOperation: 'save' }); return null; }
   }
   async loadPlaces(bridge: MapBridge, next = false) {
+    this.placesAbort?.abort();
+    const signal = (this.placesAbort = new AbortController()).signal;
+    this.update({ placesLoading: true, error: null, failedOperation: null });
     try {
-      this.update({ error: null, failedOperation: null });
-      const data = await api.request('getPlaces', { query: { limit: 100, cursor: next ? this.state.nextPlaceCursor || undefined : undefined }, signal: this.lifetime.signal });
-      if (this.lifetime.signal.aborted) return;
+      const data = await api.request('getPlaces', { query: { limit: 100, cursor: next ? this.state.nextPlaceCursor || undefined : undefined }, signal });
+      if (signal.aborted) return;
       const places = next ? [...this.state.places, ...data.items.filter(place => !this.state.places.some(old => old.id === place.id))] : data.items;
-      this.update({ places, nextPlaceCursor: data.nextCursor });
+      this.update({ places, nextPlaceCursor: data.nextCursor, placesLoading: false });
       bridge.showPlaces('personal-map', { places: places.map(place => ({ id: place.id, placeId: place.id, coordinates: place.coordinates, label: place.name })), selectedPlaceId: this.state.selectedPlaceId || undefined });
-    } catch (error) { if (!aborted(error)) this.update({ error: message(error), failedOperation: 'places' }); }
+    } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ placesLoading: false, error: message(error), failedOperation: 'places' }); }
   }
   async loadPersonal(bridge: MapBridge, themeId: string | null, next = false) {
     this.personalAbort?.abort(); const signal = (this.personalAbort = new AbortController()).signal;
@@ -158,7 +161,7 @@ export class MapSession {
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ growthError: message(error) }); }
   }
   closeSearch(bridge: MapBridge) { this.searchAbort?.abort(); this.generation++; bridge.clear('map-search'); this.update({ result: null, loading: false, selectedCandidateId: null }); }
-  dispose() { this.lifetime.abort(); this.searchAbort?.abort(); this.detailAbort?.abort(); this.personalAbort?.abort(); this.nearbyAbort?.abort(); this.growthAbort?.abort(); this.listeners.clear(); }
+  dispose() { this.lifetime.abort(); this.searchAbort?.abort(); this.detailAbort?.abort(); this.placesAbort?.abort(); this.personalAbort?.abort(); this.nearbyAbort?.abort(); this.growthAbort?.abort(); this.listeners.clear(); }
 }
 
 export function useMapSession(scopeKey: string) {

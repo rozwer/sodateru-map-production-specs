@@ -1,0 +1,44 @@
+# UI-MAP #8 地図 FE 仕上げ（2026-09-24）
+
+## 検証対象
+
+- 専用 worktree: `mattsun/8-map-fe-finish`。起点 `origin/develop` は `4083f52465f8d164625bf86bb5424483d2a13c61`。
+- 実画面 URL: `http://127.0.0.1:5173/docs/evidence/UI-MAP/browser.html`。`mise exec -- bun run dev` でローカル API と Vite を起動し、本人プロフィール「自分」を選択。API はこの worktree の `.local/app.sqlite` を使用した。
+- API 応答の差替え・fixture は使用していない。検索・保存・再取得はローカル実 API、地図タイルは Mapbox の公開設定トークンを使用。これは本番 API/外部設定の受入証拠ではない。
+- `mise exec -- bunx vite build` は成功。`mise exec -- bun run typecheck` は既存の他領域のエラーで失敗（`server/core/core.test.ts`、`exploration/flow.ts`、`friends/screens.tsx`、`reflection/DiaryScreen.tsx`、`tools/local/dev.ts`）。変更した地図ファイルの型エラーは出ていない。
+
+## 実操作
+
+| 対象 | 操作と結果 |
+| --- | --- |
+| 通常地図 | 「名古屋大学」を実 API 検索し 4 候補を表示。候補選択→詳細→検索結果へ戻るで検索語・候補と選択前のカメラを保持。東京駅検索では候補選択前 `139.766121/35.680424/15.35`、選択後 `139.765647/35.681987/16`、戻った後 `139.766121/35.680424/15.35` を Mapbox の表示リンクで確認。 |
+| 場所保存・再表示 | 候補を保存し `placeId=503ec737-84e1-4c3f-bc99-fefb15859b91` の詳細へ遷移。戻ると検索結果の詳細を保持。ページ再読込後も検索語と保存済み場所がローカル API から表示された。 |
+| 空・読込・失敗 | 保存済み場所の読込と空表示を分け、再試行可能な API エラー表示を保持。personal-map の記録なし表示を確認。周辺候補は API が「Mapboxの検索設定がありません」と返し、再試行導線を表示。 |
+| レイヤー | map-layers で「自分のテーマ」を OFF にすると地図上の保存済み地点が 1→0 件、ON で 0→1 件に即時変化。カメラは維持。プレビューは退出時に解除し、元データは削除しない。探索候補・友達も各 owner の点/線のみを同じ方法で制御する。 |
+| 目印 | 保存済み場所のメニュー→目印追加→名前/メモ入力→配置画面→取消で下書きが保持された。保存/削除は既存 UI が利用不可と明示するため、実保存成功とは扱わない。 |
+
+## 実画面画像
+
+| 幅・状態 | 画像 |
+| --- | --- |
+| 390px 検索結果 | [map-results-390](screenshots/map-results-390-2026-09-24.png) |
+| 390px 候補詳細 | [map-detail-390](screenshots/map-detail-390-2026-09-24.png) |
+| 1440px 詳細 | [map-detail-1440](screenshots/map-detail-1440-2026-09-24.png) |
+| 320px 保存済み場所 | [map-saved-320](screenshots/map-saved-320-2026-09-24.png) |
+| 390px / 1440px personal-map 空 | [390px](screenshots/personal-empty-390-2026-09-24.png) · [1440px](screenshots/personal-empty-1440-2026-09-24.png) |
+| 390px / 1440px レイヤー | [390px](screenshots/map-layers-390-2026-09-24.png) · [1440px](screenshots/map-layers-1440-2026-09-24.png) |
+| 390px 目印編集 | [object-edit-390](screenshots/object-edit-390-2026-09-24.png) |
+
+## 元受入との区別と残件
+
+- `map-R1/R2/R3`・`map-F01/F02/F03/F04/F05` のうち検索→候補→詳細/保存→戻る、読込/空/失敗、390px/PC の主要操作を今回確認。2D/3D・追従・レンズ・時間の全組合せ、全参照画像の同幅比較は未完。
+- `personal-map-R1/R2/F01/F02/F03` は記録なし状態と通常地図への往復、元記録入口のコード導線を確認。記録ありのテーマ切替・用途/成長・スクロール復元はデータ不足で未確認。
+- `map-layers-R1/F01/F02/F03` は保存済み地点の即時 preview を確認。保存設定・本人装飾・バイク専用データの表示は未接続。バイク switch は無効化し、画面で理由を表示。
+- `object-edit-R1/F01/F02/F03/F04` と `object-place-R1/F01/F02/F03` は下書き・配置/取消の UI を確認。実 CRUD、配置確定後の再取得、既存目印削除は未接続。成功扱いしない。
+- Mapbox タイルは描画できたが、追加リソースの取得エラーが発生した。style 読込済みのエラーは「地図の一部を取得できませんでした」と表示し、全地図取得不能と誤表示しない。失敗したリソースの外部設定/ネットワーク原因は未解決。
+- `#134` の実接続・保存再取得、`#27/#123` の設定保存、`#172` の共通 Shell 全画面照合、`#174` の原本差分は各 Issue の未完条件を保持する。今回のローカル UI 操作で各 Issue を完了扱いしない。
+- 文字 200%、ソフトキーボード、reduced motion、異なる 2 組の記録ありデータ、全 5 画面の原本同幅照合は未確認。
+
+## 実装範囲
+
+`src/features/map/` と `src/map/` の表示・状態制御、および本証拠のみ。server/API/schema/DB/migration/製品 AI 設定は変更していない。
