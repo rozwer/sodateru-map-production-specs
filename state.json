@@ -34081,7 +34081,7 @@
     "DAILY-TRACK-MARKER-REVEAL",
     "FE-TASK-ALIGNMENT"
   ],
-  "revision": 314,
+  "revision": 315,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34462,7 +34462,8 @@
         "scripts/codex-bootstrap-hook.mjs",
         "scripts/codex-bootstrap-hook.test.mjs",
         "tools/connect_start_gate.py",
-        "tools/test_connect_start_gate.py"
+        "tools/test_connect_start_gate.py",
+        "mise.toml"
       ],
       "status": "claimed",
       "submitted_commit": null,
