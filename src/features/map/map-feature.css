@@ -62,3 +62,9 @@
 @media (max-width: 899px) { .sm-app:has(.map-placement-help) .map-scene-message { top: auto; bottom: calc(35dvh + 16px); left: 16px; right: 84px; width: auto; max-width: none; margin: 0; } }
 @media (min-width: 900px) { .sm-app:has(.map-placement-help) .map-scene-message { top: 86px; } }
 @media (max-width: 350px) { .map-placement-help { padding: 6px 10px; gap: 8px; } }
+.map-search-toolbar { position: relative; }
+.map-layer-shortcut { position: absolute; top: 52px; left: 0; display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 5px 11px; border: 1px solid #b4d9d8; border-radius: 999px; background: #ffffffed; color: #246d72; font: inherit; font-size: 12px; font-weight: 700; box-shadow: 0 3px 12px #214d5924; cursor: pointer; white-space: nowrap; }
+.map-layer-shortcut[hidden] { display: none; }
+.map-layer-shortcut svg { width: 16px; height: 16px; }
+.map-layer-shortcut:focus-visible { outline: 3px solid #247f85; outline-offset: 2px; }
+@media (min-width: 900px) { .sm-app:has(.map-layer-shortcut) .map-scene-message { top: 130px; } }
