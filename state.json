@@ -34050,7 +34050,7 @@
     "DAILY-TRACK-ROUTE",
     "DAILY-TRACK-MARKER-REVEAL"
   ],
-  "revision": 310,
+  "revision": 311,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35097,21 +35097,17 @@
       "token": null
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "9a283775d1cb924f961f00b95b0022a7584c247e",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 189,
       "landed_main": null,
-      "note": "PR196 merged17c6360; camera demo save/reload verified. Full seven-screen data/map parity remains; Shell172/QA/orchestrator notified. Keep worktree and evidence.",
+      "note": "Paused for #301 migration and #300/#297-#299 priority. No code edits. Preserve worktree /Users/kmattsun/.codex/worktrees/visual-records-camera-189 and local DB /tmp/sodateru-189-live.sqlite. Date correction reproduction and seven-screen acceptance remain open.",
       "owner": "mattsun",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/VISUAL-RECORDS-CAMERA/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "9b796787d4d24ac2926dde3abdcf2127"
+      "token": null
     },
     "VISUAL-SELF": {
       "actor": null,
