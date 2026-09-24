@@ -121,6 +121,7 @@
         "CONNECT-SETTINGS": 145,
         "CONNECT-SUGGESTIONS": 141,
         "CORE": 3,
+        "DAILY-TRACK-MARKER-REVEAL": 284,
         "DAILY-TRACK-ROUTE": 277,
         "DEMO-MEDIA": 270,
         "DISASTER": 30,
@@ -7777,6 +7778,18 @@
           "src/features/activity/",
           "src/features/records/",
           "docs/evidence/DAILY-TRACK-ROUTE/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "DAILY-TRACK-MARKER-REVEAL",
+        "kind": "implementation",
+        "priority": "P0",
+        "title": "地図の番号から記録を見せる",
+        "write_paths": [
+          "src/features/activity/",
+          "docs/evidence/DAILY-TRACK-MARKER-REVEAL/"
         ]
       }
     ],
@@ -34034,9 +34047,10 @@
     "ROUTES-TRANSIT-GTFS",
     "DEMO-MEDIA",
     "PLACES-YOKOHAMA-DEMO",
-    "DAILY-TRACK-ROUTE"
+    "DAILY-TRACK-ROUTE",
+    "DAILY-TRACK-MARKER-REVEAL"
   ],
-  "revision": 302,
+  "revision": 303,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34267,6 +34281,22 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "DAILY-TRACK-MARKER-REVEAL": {
+      "actor": "mattsun",
+      "base_commit": "4083f52465f8d164625bf86bb5424483d2a13c61",
+      "generation": 1,
+      "issue_number": 284,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "src/features/activity/",
+        "docs/evidence/DAILY-TRACK-MARKER-REVEAL/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "071ab03029ee487faca4ca1ee4fdfbe8"
     },
     "DAILY-TRACK-ROUTE": {
       "actor": "mattsun",
