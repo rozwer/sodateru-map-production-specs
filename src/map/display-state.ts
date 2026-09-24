@@ -6,7 +6,7 @@ import type { GrowthItem } from '../../packages/api-client/index';
 
 export type MapDecoration = { id: string; coordinates: [number, number]; name: string; color: string; size: ObjectPreviewProps['size'] };
 export type LayerPreview = { themes: boolean; suggestions: boolean; friends: boolean };
-export type MapOwnerFilter = 'map' | 'personal' | null;
+export type MapOwnerFilter = 'map' | 'personal' | 'layers' | null;
 
 type DisplayState = { placement: Pick<ObjectPreviewProps, 'color' | 'size'> | null; decorations: MapDecoration[]; growth: GrowthItem[]; buildings: Building[]; styleRevision: number; layerPreview: LayerPreview | null; ownerFilter: MapOwnerFilter };
 class DisplayStore {

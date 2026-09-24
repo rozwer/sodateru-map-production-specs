@@ -10,6 +10,7 @@ const previewPadding = { top: 10, bottom: 28, left: 10, right: 10 };
 function layerVisible(ownerKey: string, preview: LayerPreview | null, ownerFilter: MapOwnerFilter) {
   if (ownerFilter === 'personal' && ownerKey !== 'personal-map') return false;
   if (ownerFilter === 'map' && ownerKey === 'personal-map') return false;
+  if (ownerFilter === 'layers' && ownerKey === 'map-search') return false;
   if (!preview) return true;
   if (ownerKey === 'personal-map') return preview.themes;
   if (ownerKey === 'suggestion' || ownerKey === 'map-dialogue') return preview.suggestions;
