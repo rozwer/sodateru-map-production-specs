@@ -16,6 +16,7 @@ type SearchState = {
 };
 function message(error: unknown) { return error instanceof Error ? error.message : '通信に失敗しました。'; }
 function aborted(error: unknown) { return error instanceof DOMException && error.name === 'AbortError'; }
+const limitQuery = (query: string) => { let result = ''; for (const char of query) { if (result.length + char.length > 200) break; result += char; } return result; };
 const sessions = new Map<string, MapSession>();
 
 /** Page state is temporary; saved places and records are always read from the API. */
@@ -35,13 +36,13 @@ export class MapSession {
   private savedCandidates = new Map<string, string>();
   private state: SearchState;
   constructor(readonly scopeKey: string) {
-    let query = ''; try { query = localStorage.getItem(`sodateru.map-query:${scopeKey}`) || ''; } catch { /* The input remains editable. */ }
+    let query = ''; try { query = limitQuery(localStorage.getItem(`sodateru.map-query:${scopeKey}`) || ''); } catch { /* The input remains editable. */ }
     this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, placesLoading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, themeError: null, themesLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
   }
   getSnapshot = () => this.state;
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
   private update(patch: Partial<SearchState>) { if (this.lifetime.signal.aborted) return; this.state = { ...this.state, ...patch }; this.listeners.forEach(listener => listener()); }
-  setQuery = (query: string) => { this.searchAbort?.abort(); this.generation++; this.update({ query, loading: false }); try { localStorage.setItem(`sodateru.map-query:${this.scopeKey}`, query); } catch { /* Only a draft. */ } };
+  setQuery = (value: string) => { const query = limitQuery(value); this.searchAbort?.abort(); this.generation++; this.update({ query, loading: false, ...(this.state.failedOperation === 'search' ? { error: null, failedOperation: null } : {}) }); try { localStorage.setItem(`sodateru.map-query:${this.scopeKey}`, query); } catch { /* Only a draft. */ } };
   async search(bridge: MapBridge, category?: 'coffee' | 'restaurant' | 'bakery' | 'park') {
     const query = this.state.query.trim(); if (!category && !query) return;
     this.searchAbort?.abort(); const signal = (this.searchAbort = new AbortController()).signal;
