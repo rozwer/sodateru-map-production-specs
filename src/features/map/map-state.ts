@@ -46,9 +46,10 @@ export class MapSession {
   async search(bridge: MapBridge, category?: 'coffee' | 'restaurant' | 'bakery' | 'park') {
     const query = this.state.query.trim(); if (!category && !query) return;
     this.searchAbort?.abort(); const signal = (this.searchAbort = new AbortController()).signal;
+    this.detailAbort?.abort();
     const generation = ++this.generation;
     const camera = bridge.getSnapshot().camera;
-    this.update({ loading: true, error: null, failedOperation: null, result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, searchedQuery: query });
+    this.update({ loading: true, error: null, detailError: null, detailLoading: false, failedOperation: null, result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, searchedQuery: query });
     bridge.clear('map-search');
     try {
       const { data } = await api.request('getPlaceCandidates', { query: category ? { category, longitude: camera.longitude, latitude: camera.latitude } : { q: query, limit: 10 }, signal });
