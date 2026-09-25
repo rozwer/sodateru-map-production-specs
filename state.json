@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 350,
+  "revision": 351,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35483,24 +35483,18 @@
       "token": null
     },
     "VISUAL-SELF-CONTINUE": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "f6493599a4b674d1d7b3416e611cf3f50b1b438a",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 185,
       "landed_main": null,
-      "note": "PR #314 merged. Fourteen-screen acceptance remains incomplete; see Issue #185 comment 5830935170 and docs/evidence/VISUAL-SELF/README.md.",
+      "note": "PR #315 merged as cb32b24. Reference-width evidence and three demo API round trips recorded; fourteen-screen acceptance remains incomplete in Issue #185.",
       "owner": "mattsun",
-      "paths": [
-        "src/features/reflection/",
-        "src/features/insights/",
-        "src/features/themes/",
-        "src/features/suggestions/",
-        "docs/evidence/VISUAL-SELF/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "afe0288ef8a94fd1bda62c43355780f1"
+      "token": null
     },
     "VISUAL-SETTINGS": {
       "actor": null,
