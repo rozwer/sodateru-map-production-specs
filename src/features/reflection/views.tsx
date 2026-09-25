@@ -1114,7 +1114,7 @@ export function MemoView({
         )}
         <Feedback notice={notice} busy={busy} />
         <div className="rf-actions">
-          <Action onClick={cancel}>キャンセル</Action>
+          <Action onClick={() => { setAddingKeyword(false); cancel(); }}>キャンセル</Action>
           <Action
             primary
             onClick={save}

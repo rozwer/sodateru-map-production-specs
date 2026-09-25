@@ -46,3 +46,66 @@ it('新規メモの保存後、再読込できる recordId 付き経路へ移る
   expect(request.mock.calls.map(call => call[0])).toContain('getRecordsRecordId');
   expect(navigate).toHaveBeenCalledWith('memo-edit', { recordId: 'memo-1' });
 });
+
+it('キャンセル後に未確定キーワードと削除確認を残さない', async () => {
+  const record = {
+    id: 'memo-1', kind: 'memo', body: '保存済みの本文', version: 1,
+    useForSuggestions: true,
+    memo: { name: '保存済みのメモ', originRefs: [], keywords: [] },
+  };
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getRecordsRecordId') return { data: { record } };
+    if (operation === 'getRecords' || operation === 'getSuggestions') return { items: [], nextCursor: null };
+    throw new Error(`Unexpected operation: ${operation}`);
+  });
+  const state = new Map<string, unknown>([['memo-fixture', {
+    id: 'memo-1', record, form: { name: '保存済みのメモ', body: '保存済みの本文', origins: [], keywords: [], useForSuggestions: true },
+    edited: false, keyword: '未確定', options: [], loaded: true, createKey: 'create-1',
+  }]]);
+  const back = vi.fn();
+  await act(async () => root.render(
+    <ScreenStateContext.Provider value={state}>
+      <ScreenKeyContext.Provider value="memo-fixture">
+        <MemoScreen route={{ pageId: 'memo-edit', params: { recordId: 'memo-1' } }} scopeKey="test:person-1"
+          active navigate={navigate} back={back} />
+      </ScreenKeyContext.Provider>
+    </ScreenStateContext.Provider>,
+  ));
+  const button = (label: string) => [...host.querySelectorAll('button')].find(item => item.textContent?.trim() === label)!;
+  await act(async () => button('＋ 追加する').click());
+  expect(host.querySelector<HTMLInputElement>('input[aria-label="追加するキーワード"]')?.value).toBe('未確定');
+  await act(async () => button('このメモを削除する').click());
+  expect(host.textContent).toContain('このメモの名前・本文・キーワードを削除します。');
+  await act(async () => button('キャンセル').click());
+  expect(back).toHaveBeenCalledOnce();
+  expect((state.get('memo-fixture') as { keyword: string }).keyword).toBe('');
+  expect(host.querySelector('input[aria-label="追加するキーワード"]')).toBeNull();
+  expect(host.textContent).not.toContain('このメモの名前・本文・キーワードを削除します。');
+});
+
+it('新規メモをキャンセルすると失敗した作成要求も破棄する', async () => {
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getRecords' || operation === 'getSuggestions') return { items: [], nextCursor: null };
+    throw new Error(`Unexpected operation: ${operation}`);
+  });
+  const state = new Map<string, unknown>([['memo-fixture', {
+    id: 'old-id', form: { name: '破棄するメモ', body: '下書き', origins: [], keywords: [], useForSuggestions: true },
+    edited: true, keyword: '未確定', options: [], loaded: true, createKey: 'old-key',
+    pendingCreate: { id: 'old-id', body: '下書き' },
+  }]]);
+  await act(async () => root.render(
+    <ScreenStateContext.Provider value={state}>
+      <ScreenKeyContext.Provider value="memo-fixture">
+        <MemoScreen route={{ pageId: 'memo-edit', params: {} }} scopeKey="test:person-1"
+          active navigate={navigate} back={vi.fn()} />
+      </ScreenKeyContext.Provider>
+    </ScreenStateContext.Provider>,
+  ));
+  const cancel = [...host.querySelectorAll('button')].find(button => button.textContent?.trim() === 'キャンセル');
+  await act(async () => cancel!.click());
+  const next = state.get('memo-fixture') as { id: string; createKey: string; pendingCreate?: unknown; keyword: string };
+  expect(next.id).not.toBe('old-id');
+  expect(next.createKey).not.toBe('old-key');
+  expect(next.pendingCreate).toBeUndefined();
+  expect(next.keyword).toBe('');
+});
