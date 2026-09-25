@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 337,
+  "revision": 338,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35451,17 +35451,21 @@
       "token": null
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": null,
-      "base_commit": "9a283775d1cb924f961f00b95b0022a7584c247e",
-      "generation": 4,
+      "actor": "mattsun",
+      "base_commit": "993f5a5b6b0b54caef48e8daff3aa77881702897",
+      "generation": 5,
       "issue_number": 189,
       "landed_main": null,
       "note": "Paused for #301 migration and #300/#297-#299 priority. No code edits. Preserve worktree /Users/kmattsun/.codex/worktrees/visual-records-camera-189 and local DB /tmp/sodateru-189-live.sqlite. Date correction reproduction and seven-screen acceptance remain open.",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/VISUAL-RECORDS-CAMERA/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "ee122e0e0e594a3cb37270887f50aa1e"
     },
     "VISUAL-SELF": {
       "actor": null,
