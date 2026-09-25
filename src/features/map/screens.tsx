@@ -100,7 +100,8 @@ function MapScreen({ route, navigate, back, scopeKey, active = true }: Props) {
 
 function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) {
   const bridge = useMapBridge(); const [state, session] = useMapSession(scopeKey);
-  useEffect(() => { if (active) { void session.loadThemes(); void session.loadPersonal(bridge, route.params.themeId || null); } }, [active, route.params.themeId]);
+  useEffect(() => { if (active) void session.loadThemes(); }, [active, session]);
+  useEffect(() => { if (active) void session.loadPersonal(bridge, route.params.themeId || null); }, [active, bridge, route.params.themeId, session]);
   useEffect(() => active ? bridge.onSelect('personal-map', selection => { void session.loadDetail(selection.id); }) : undefined, [active, bridge, session]);
   const detail = state.detail;
   const record = state.records.find(item => item.effectivePlaceId === state.selectedPlaceId);
@@ -109,6 +110,8 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
   const photoUrl = detailedRecord?.media.find(media => media.kind === 'photo' && media.status === 'ready')?.contentUrl;
   return <div className="map-feature map-personal-panel">
     {state.growthError && <Status kind="error" onRetry={() => void session.loadGrowth(bridge)}>地図の成長を取得できませんでした。{state.growthError}</Status>}
+    {state.themesLoading && <Status kind="loading">テーマを読み込み中…</Status>}
+    {state.themeError && <Status kind="error" onRetry={() => void session.loadThemes()}>{state.themeError}</Status>}
     {state.personalLoading && <Status kind="loading">体験のある場所を読み込み中…</Status>}
     {state.personalError && <Status kind="error" onRetry={() => void session.loadPersonal(bridge, state.themeId)}>{state.personalError}</Status>}
     {state.detailLoading && <Status kind="loading">場所の情報を読み込み中…</Status>}

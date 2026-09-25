@@ -9,7 +9,7 @@ type SearchState = {
   query: string; searchedQuery: string; result: CandidateResult | null; selectedCandidateId: string | null; selectedPlaceId: string | null;
   detail: PlaceDetail | null; places: Place[]; themes: Theme[]; records: RecordView[]; growth: GrowthItem[];
   themeId: string | null; loading: boolean; placesLoading: boolean; detailLoading: boolean; saving: boolean; error: string | null; detailError: string | null;
-  personalError: string | null; personalLoading: boolean; nextPlaceCursor: string | null; nextRecordCursor: string | null;
+  personalError: string | null; personalLoading: boolean; themeError: string | null; themesLoading: boolean; nextPlaceCursor: string | null; nextRecordCursor: string | null;
   failedOperation: 'search' | 'save' | 'places' | null;
   nearby: CandidateResult | null; nearbyLoading: boolean; nearbyError: string | null;
   growthError: string | null; growthLoaded: boolean;
@@ -25,6 +25,7 @@ export class MapSession {
   private detailAbort: AbortController | null = null;
   private placesAbort: AbortController | null = null;
   private personalAbort: AbortController | null = null;
+  private themesAbort: AbortController | null = null;
   private nearbyAbort: AbortController | null = null;
   private growthAbort: AbortController | null = null;
   private lifetime = new AbortController();
@@ -35,7 +36,7 @@ export class MapSession {
   private state: SearchState;
   constructor(readonly scopeKey: string) {
     let query = ''; try { query = localStorage.getItem(`sodateru.map-query:${scopeKey}`) || ''; } catch { /* The input remains editable. */ }
-    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, placesLoading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
+    this.state = { query, searchedQuery: '', result: null, selectedCandidateId: null, selectedPlaceId: null, detail: null, places: [], themes: [], records: [], growth: [], themeId: null, loading: false, placesLoading: false, detailLoading: false, saving: false, error: null, detailError: null, personalError: null, personalLoading: false, themeError: null, themesLoading: false, nextPlaceCursor: null, nextRecordCursor: null, failedOperation: null, nearby: null, nearbyLoading: false, nearbyError: null, growthError: null, growthLoaded: false };
   }
   getSnapshot = () => this.state;
   subscribe = (listener: () => void) => { this.listeners.add(listener); return () => { this.listeners.delete(listener); }; };
@@ -127,7 +128,7 @@ export class MapSession {
   }
   async loadPersonal(bridge: MapBridge, themeId: string | null, next = false) {
     this.personalAbort?.abort(); const signal = (this.personalAbort = new AbortController()).signal;
-    this.update({ themeId, personalLoading: true, personalError: null, records: next ? this.state.records : [] });
+    this.update({ themeId, personalLoading: true, personalError: null, records: next || themeId === this.state.themeId ? this.state.records : [] });
     try {
       const data = await api.request('getRecords', { query: { themeId: themeId || undefined, includeUndated: true, limit: 100, cursor: next ? this.state.nextRecordCursor || undefined : undefined }, signal });
       if (signal.aborted) return;
@@ -150,9 +151,16 @@ export class MapSession {
       // The place markers already represent these records; drawing track points here
       // creates a second, unselectable marker at each place.
       bridge.showTrack('personal-map', { points: [], segments: points.length > 1 ? [{ id: 'personal-timeline', coordinates: points.map(point => point.coordinates) }] : [] });
-    } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ personalLoading: false, personalError: message(error) }); }
+    } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ personalLoading: false, personalError: `体験記録を取得できませんでした。${message(error)}` }); }
   }
-  async loadThemes() { try { const data = await api.request('getThemes', { query: { limit: 100 }, signal: this.lifetime.signal }); this.update({ themes: data.items }); } catch (error) { if (!aborted(error)) this.update({ personalError: message(error) }); } }
+  async loadThemes() {
+    this.themesAbort?.abort(); const signal = (this.themesAbort = new AbortController()).signal;
+    this.update({ themesLoading: true, themeError: null });
+    try {
+      const data = await api.request('getThemes', { query: { limit: 100 }, signal });
+      if (!signal.aborted) this.update({ themes: data.items, themesLoading: false });
+    } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ themesLoading: false, themeError: `テーマを取得できませんでした。${message(error)}` }); }
+  }
   async loadGrowth(bridge: MapBridge) {
     this.growthAbort?.abort(); const signal = (this.growthAbort = new AbortController()).signal;
     this.update({ growthError: null });
@@ -163,7 +171,7 @@ export class MapSession {
     } catch (error) { if (!signal.aborted && !aborted(error)) this.update({ growthError: message(error) }); }
   }
   closeSearch(bridge: MapBridge) { this.searchAbort?.abort(); this.generation++; bridge.clear('map-search'); this.update({ result: null, loading: false, selectedCandidateId: null }); }
-  dispose() { this.lifetime.abort(); this.searchAbort?.abort(); this.detailAbort?.abort(); this.placesAbort?.abort(); this.personalAbort?.abort(); this.nearbyAbort?.abort(); this.growthAbort?.abort(); this.listeners.clear(); }
+  dispose() { this.lifetime.abort(); this.searchAbort?.abort(); this.detailAbort?.abort(); this.placesAbort?.abort(); this.personalAbort?.abort(); this.themesAbort?.abort(); this.nearbyAbort?.abort(); this.growthAbort?.abort(); this.listeners.clear(); }
 }
 
 export function useMapSession(scopeKey: string) {
