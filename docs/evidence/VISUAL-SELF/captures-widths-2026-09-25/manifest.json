@@ -1,0 +1,285 @@
+{
+  "mode": "display fixture; API disconnected",
+  "results": [
+    {
+      "name": "self-home",
+      "kind": "reference",
+      "width": 853,
+      "height": 1844,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 07_40_36.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/self-home.png",
+      "controls": 13,
+      "mapFailure": true
+    },
+    {
+      "name": "self-home",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 07_40_36.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/self-home.png",
+      "controls": 13,
+      "mapFailure": true
+    },
+    {
+      "name": "diary",
+      "kind": "reference",
+      "width": 463,
+      "height": 913,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/diary.png",
+      "controls": 21,
+      "mapFailure": false
+    },
+    {
+      "name": "diary",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/diary.png",
+      "controls": 21,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-question",
+      "kind": "reference",
+      "width": 463,
+      "height": 913,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/reflection-question.png",
+      "controls": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-question",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/reflection-question.png",
+      "controls": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-history",
+      "kind": "reference",
+      "width": 463,
+      "height": 913,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/reflection-history.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-history",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_05.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/reflection-history.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "experience-compare",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/experience-compare.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "experience-compare",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/experience-compare.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "memo-edit",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/memo-edit.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "memo-edit",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/memo-edit.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "type-diagnosis",
+      "kind": "reference",
+      "width": 853,
+      "height": 1844,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 07_40_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/type-diagnosis.png",
+      "controls": 19,
+      "mapFailure": false
+    },
+    {
+      "name": "type-diagnosis",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 07_40_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/type-diagnosis.png",
+      "controls": 19,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-evidence",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/trend-evidence.png",
+      "controls": 11,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-evidence",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/trend-evidence.png",
+      "controls": 11,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-review",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/trend-review.png",
+      "controls": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-review",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_42.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/trend-review.png",
+      "controls": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "themes",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/themes.png",
+      "controls": 15,
+      "mapFailure": false
+    },
+    {
+      "name": "themes",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/themes.png",
+      "controls": 15,
+      "mapFailure": false
+    },
+    {
+      "name": "theme-edit",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/theme-edit.png",
+      "controls": 24,
+      "mapFailure": false
+    },
+    {
+      "name": "theme-edit",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_58.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/theme-edit.png",
+      "controls": 24,
+      "mapFailure": false
+    },
+    {
+      "name": "self-checkin",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/self-checkin.png",
+      "controls": 33,
+      "mapFailure": false
+    },
+    {
+      "name": "self-checkin",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/self-checkin.png",
+      "controls": 33,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestions",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/suggestions.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestions",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/suggestions.png",
+      "controls": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestion-detail",
+      "kind": "reference",
+      "width": 1536,
+      "height": 1024,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/reference/suggestion-detail.png",
+      "controls": 18,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestion-detail",
+      "kind": "desktop",
+      "width": 1440,
+      "height": 900,
+      "source": "docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_11_47.png",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-widths-2026-09-25/desktop/suggestion-detail.png",
+      "controls": 18,
+      "mapFailure": false
+    }
+  ]
+}

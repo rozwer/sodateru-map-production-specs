@@ -79,3 +79,32 @@ QA報告commit: A=d264c1552b62be08729f8d2857dff25a677cf101、B=9c608b23ace7d19ef
 - `ReviewScreen` はrouteの `choice=unsure` と保存済み理由を同時に復元する。`screens.test.tsx` 1件成功、製品デモAPIで理由保存→reloadを目視。
 - 既存 `suggestions/screens.test.tsx` は jsdom 指定で2件成功。全体 `bun run typecheck` は scope外の CORE/exploration/friends/tools と、既報の diary AI採用 `If-Match` 型契約で失敗。今回変更ファイルの型エラーは出ていない。
 - 本worktreeには Mapbox 接続設定がなく、製品・fixtureとも実地図は表示できなかった。原本幅、PC幅、異なる2組の通常データ、空/読込/写真失敗/権限喪失/長文/競合、文字200%、ソフトキーボード、戻りscroll/focus、全14画面の実API保存・取消・再取得は未達。スクリーンショットの画面到達を完成扱いしない。
+
+## 2026-09-25 追加確認（#185）
+
+`mattsun/185-visual-self-followup` の Chromium で、14画面の**表示fixture/API未接続**を各 `page.json` の参照原本サイズとPC 1440×900で撮影した。撮影条件・参照元・結果28枚は[manifest](captures-widths-2026-09-25/manifest.json)、再実行手順は[capture-widths.mjs](capture-widths.mjs)。原本は複数端末を並べたレビューシートであるため、1536×1024のfixtureは中央の単一端末表示となる。構成の照合は可能だが、キャンバス全体の画像一致ではない。独立した写真素材も同一ではない。地図表示はMapbox設定不足で失敗した。
+
+|画面|原本寸法のfixture / PC 1440×900|原本との目視差分・範囲|
+|---|---|---|
+|self-home|[853×1844](captures-widths-2026-09-25/reference/self-home.png) / [PC](captures-widths-2026-09-25/desktop/self-home.png)|入口とレーダーの構成は表示。原本の実地図、4軸の実データ、製品のfeature画面到達は未達。|
+|diary|[463×913](captures-widths-2026-09-25/reference/diary.png) / [PC](captures-widths-2026-09-25/desktop/diary.png)|写真付きfixture本文を表示。原本写真と異なる。|
+|reflection-question|[463×913](captures-widths-2026-09-25/reference/reflection-question.png) / [PC](captures-widths-2026-09-25/desktop/reflection-question.png)|回答中の主要構成を表示。本人回答の実保存は未確認。|
+|reflection-history|[463×913](captures-widths-2026-09-25/reference/reflection-history.png) / [PC](captures-widths-2026-09-25/desktop/reflection-history.png)|複数カードを表示。実履歴の絞込・展開は未確認。|
+|experience-compare|[1536×1024](captures-widths-2026-09-25/reference/experience-compare.png) / [PC](captures-widths-2026-09-25/desktop/experience-compare.png)|中央1画面表示。異なる実記録2件の保存は未確認。|
+|memo-edit|[1536×1024](captures-widths-2026-09-25/reference/memo-edit.png) / [PC](captures-widths-2026-09-25/desktop/memo-edit.png)|中央1画面表示。原本写真と異なる。|
+|type-diagnosis|[853×1844](captures-widths-2026-09-25/reference/type-diagnosis.png) / [PC](captures-widths-2026-09-25/desktop/type-diagnosis.png)|5軸と根拠カードを表示。正式6軸契約との照合は残る。|
+|trend-evidence|[1536×1024](captures-widths-2026-09-25/reference/trend-evidence.png) / [PC](captures-widths-2026-09-25/desktop/trend-evidence.png)|中央1画面表示。実結果IDでの閲覧は未確認。|
+|trend-review|[1536×1024](captures-widths-2026-09-25/reference/trend-review.png) / [PC](captures-widths-2026-09-25/desktop/trend-review.png)|中央1画面表示。fixtureの選択内容は原本と同一データではない。|
+|themes|[1536×1024](captures-widths-2026-09-25/reference/themes.png) / [PC](captures-widths-2026-09-25/desktop/themes.png)|3テーマのカード構成を表示。原本と異なる写真、中央1画面表示。|
+|theme-edit|[1536×1024](captures-widths-2026-09-25/reference/theme-edit.png) / [PC](captures-widths-2026-09-25/desktop/theme-edit.png)|入力・色・関連記録・写真の構成を表示。原本写真と異なる。|
+|self-checkin|[1536×1024](captures-widths-2026-09-25/reference/self-checkin.png) / [PC](captures-widths-2026-09-25/desktop/self-checkin.png)|入力済みの選択状態を表示。原本は複数端末のレビューシート。|
+|suggestions|[1536×1024](captures-widths-2026-09-25/reference/suggestions.png) / [PC](captures-widths-2026-09-25/desktop/suggestions.png)|写真付き2候補fixture。実候補取得は下記provider設定で停止。|
+|suggestion-detail|[1536×1024](captures-widths-2026-09-25/reference/suggestion-detail.png) / [PC](captures-widths-2026-09-25/desktop/suggestion-detail.png)|fixture詳細を表示。実候補IDでの保存・再取得は未確認。|
+
+製品デモAPI（127.0.0.1:3001）でも次の操作を実施した。fixture撮影と区別する。
+
+- 日記: 2026-09-25の本文保存→再読み込み→9/24へ移動→9/25へ戻って同文を確認。[390px](diary-product-reload-390-2026-09-25.png)、[320px](diary-product-320.png)。写真追加・AI下書き採用は未確認。
+- テーマ: 名称・説明・関連記録1件を新規保存し、`themeId` 付き一覧を再読み込みして同文・件数を確認。編集画面にも同内容を復元。名称を一時変更してキャンセルすると保存済み名称が残った。[390px](themes-product-reload-390.png)、[1440px](themes-product-1440.png)。写真選択・削除・競合は未確認。
+- セルフチェックイン: 「今の状態」を保存し、POST 201→同じIDのGET 200→再読み込み後の復元を確認。[390px](self-checkin-product-reload-390.png)、[512px](self-checkin-product-512.png)。回答から「この条件で探す」は「道路providerの接続設定がありません」を表示し、実候補生成・詳細操作は未達。初回の画面外ボタンクリックはAPI要求が出ず、スクロールして再操作後に保存できたため、初回の入力は保存済みとは扱わない。
+
+今回の追加は撮影スクリプトと証拠のみ。製品コードは変更していない。既存の全体typecheck失敗は上記のままで、追加の受入完了を宣言しない。
