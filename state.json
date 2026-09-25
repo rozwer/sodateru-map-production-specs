@@ -34287,7 +34287,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 321,
+  "revision": 322,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35244,12 +35244,23 @@
       "token": null
     },
     "UI-MAP-CARD": {
-      "actor": null,
-      "generation": 0,
+      "actor": "mattsun",
+      "base_commit": "952b8c44a3c7696d8f0683903528ec81b8a36b75",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 297,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "mattsun",
+      "paths": [
+        "src/features/map/screens.tsx",
+        "src/features/map/MapPanels.tsx",
+        "src/features/map/map-feature.css",
+        "docs/evidence/UI-MAP-CARD/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "aef5f84be4cd4dbc90f1d55a3aea8e7f"
     },
     "UI-MAP-RECORD-LINK": {
       "actor": null,
