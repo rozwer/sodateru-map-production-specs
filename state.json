@@ -34287,7 +34287,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 317,
+  "revision": 318,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34646,39 +34646,13 @@
       "base_commit": "9a283775d1cb924f961f00b95b0022a7584c247e",
       "generation": 1,
       "issue_number": 301,
-      "landed_main": null,
+      "landed_main": "385bfd10c0544298481afedb66cbbbde056dd445",
       "note": "docs/evidence/FE-TASK-ALIGNMENT/validation.md",
       "owner": "mattsun",
-      "paths": [
-        "TASK_GRAPH.json",
-        "docs/03_issue/",
-        "docs/evidence/FE-TASK-ALIGNMENT/",
-        "tools/sync_graph.py",
-        "tools/taskctl.py",
-        "tools/owner_policy.py",
-        "tools/task_worktree.py",
-        "tools/production_guard.py",
-        "tools/test_sync_graph.py",
-        "tools/test_taskctl.py",
-        "tools/test_task_worktree.py",
-        "scripts/task-policy.mjs",
-        "scripts/codex-task-hook.mjs",
-        "scripts/codex-mise-hook.mjs",
-        "scripts/codex-mise-hook.test.mjs",
-        ".agents/skills/sodateru-setup/SKILL.md",
-        ".agents/skills/sodateru-setup/references/hooks.md",
-        ".codex/hooks.macos.json",
-        ".codex/hooks.windows.json",
-        ".codex/hooks.json",
-        "scripts/codex-bootstrap-hook.mjs",
-        "scripts/codex-bootstrap-hook.test.mjs",
-        "tools/connect_start_gate.py",
-        "tools/test_connect_start_gate.py",
-        "mise.toml"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "ec53a675342264769908ba19c1a701ae9c33c20e",
-      "token": "7f240472acba452c89dc7b505ac14f0e"
+      "token": null
     },
     "FEATURE-REQUESTS": {
       "actor": "koshiro",
