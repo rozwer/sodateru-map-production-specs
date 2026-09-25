@@ -2,6 +2,8 @@
 
 2026-09-25の追加実API・実ブラウザ検証と未達一覧: [2026-09-25-verification.md](2026-09-25-verification.md)。下記は2026-09-15の既存検証で、fixture・demoの保存範囲はそのまま記録する。
 
+同日夜の作成場所選択・編集媒体と取消/失敗/競合の追加修復: [2026-09-25-followup.md](2026-09-25-followup.md)。
+
 ## 第一修復: 画面外側の地図露出
 
 基点 daa6326（PR188の媒体受渡し5b39f2dを含む）。worktree `/Users/roz/.codex/worktrees/visual-records-camera-189`、branch `rozwer/189-visual-records-camera`。原本は `docs/01_requirements/03_pages/<page>/page.json` の参照regionと同梱画像をすべて開いて目視した。common.jsonの例示値を固定の製品データにはしない。
