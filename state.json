@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 324,
+  "revision": 325,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34402,7 +34402,7 @@
       "generation": 1,
       "issue_number": 304,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/CODEX-HOOK-BOOTSTRAP/validation.md",
       "owner": "mattsun",
       "paths": [
         "scripts/codex-bootstrap-hook.mjs",
@@ -34421,8 +34421,8 @@
         "scripts/codex-mise-hook.mjs",
         "scripts/codex-mise-hook.test.mjs"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "1a6e862b529a511b4f4752fce00519d76a7c8c00",
       "token": "86910c26fcab4c91bceea0f1b5891350"
     },
     "COMMUNITY": {
