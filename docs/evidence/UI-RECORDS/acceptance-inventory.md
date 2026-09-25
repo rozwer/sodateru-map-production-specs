@@ -2,7 +2,7 @@
 
 この一覧はUI面の観察と実装状態を整理する。元受入IDは`docs/03_issue/ui-connections.json`の対応を用いた。`今回一部`は本PRの実画面で該当操作の一部分だけ確認、`既存一部`は#189等の先行証拠だけ、`未確認`は実装の有無を含め通し操作未確認、`実装未達`は製品画面の無効化・一般案内または正式提供物不足が判明したもの。どの行も元live受入全体をPASSとはしない。通信・保存側はCONNECT-RECORDS #135と元source IDで照合する。
 
-参照: [今回の画面・操作証拠](2026-09-25-navigation.md)、[写真/7画面の#189実API証拠](../VISUAL-RECORDS-CAMERA/2026-09-25-verification.md)、[#284地図番号証拠](../DAILY-TRACK-MARKER-REVEAL/README.md)。
+参照: [今回の画面・操作証拠](2026-09-25-navigation.md)、[同日再読込の失敗表示](2026-09-25-reload-error.md)、[写真/7画面の#189実API証拠](../VISUAL-RECORDS-CAMERA/2026-09-25-verification.md)、[#284地図番号証拠](../DAILY-TRACK-MARKER-REVEAL/README.md)。
 
 | 原要件 / 元受入 | 判定 | 確認済み範囲と未達・必要成果物 |
 | --- | --- | --- |
@@ -39,8 +39,8 @@
 | growth-result-F02 / growth-result-FC02 | 未確認 | 元体験導線は実装されているが、保存済み対応IDで往復未確認。 |
 | growth-result-F03 / growth-result-FC03 | 未確認 | 次候補/通常地図導線は実装されているが、保存済み対応IDで往復未確認。 |
 | daily-track-R1 / daily-track-C1 | 今回一部 | 今回はdemo実API4地点・3経路区間と390/1440実Mapbox描画を確認。候補/否定/欠測の別データ組は未確認。#277の欠測を線で補わない既存証拠は維持。 |
-| daily-track-R2 / daily-track-C2 | 今回一部 | 今回、地図4番→カード展開、訪問確認/通常地図往復で日付・選択・scroll復元を確認。編集/振り返り往復、カレンダー変更後は未確認。#284証拠と連続。 |
-| daily-track-F01 / daily-track-FC01 | 未確認 | 前後日・カレンダーUIはあるが、今回の実API日付切替は未操作。別日データが必要。 |
+| daily-track-R2 / daily-track-C2 | 今回一部 | 今回、地図4番→カード展開、訪問確認/通常地図往復で日付・選択・scroll復元を確認。同日再表示の通信断で取得済み4件・選択カード保持を追加確認。編集/振り返り往復、カレンダー変更後は未確認。#284証拠と連続。 |
+| daily-track-F01 / daily-track-FC01 | 今回一部 | 9月15日の4件から通信断中に14日へ切替、前日データを混ぜずエラー/再試行を表示。実API別日データでの前後日・カレンダー操作は未確認。 |
 | daily-track-F02 / daily-track-FC02 | 今回一部 | 実座標3区間/4地点を地図と時系列で表示。候補/否定/欠測、別データ組、320pxの地図ポインターは未確認。 |
 | daily-track-F03 / daily-track-FC03 | 今回一部 | 今回、対応カードの場所・本文を展開。写真は#189の同一ID実API証拠。二組データでの時系列/媒体表示は未確認。 |
 | daily-track-F04 / daily-track-FC04 | 未確認 | 編集/振り返りボタン表示は確認。選択IDを渡す実往復と再取得は未操作。REFLECTION.recordが必要。 |

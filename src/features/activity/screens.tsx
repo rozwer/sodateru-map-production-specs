@@ -68,9 +68,16 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
  const includeUndated=route.params.includeUndated==='true';
  const moreController=useRef<AbortController|null>(null);
  const initialRecordReveal=useRef<string|null>(null);
+ const loadedQuery=useRef<string|null>(null);
  useEffect(()=>()=>moreController.current?.abort(),[state.date,timeZone,scopeKey,active,revision,route.params.recordId,includeUndated]);
  useEffect(()=>{
-  if(!active)return;const abort=new AbortController();setLoading(true);setError('');setRecords([]);setVisits([]);setTrack([]);setDetails(new Map());setPlaces(new Map());setCursor(null);bridge.clear('daily-track');
+  if(!active)return;
+  const abort=new AbortController();
+  const queryKey=[scopeKey,state.date,timeZone,includeUndated].join('|');
+  const preserve=loadedQuery.current===queryKey;
+  const previous={records,visits,track,places,details,cursor};
+  setLoading(true);setError('');
+  if(!preserve){setRecords([]);setVisits([]);setTrack([]);setDetails(new Map());setPlaces(new Map());setCursor(null);bridge.clear('daily-track');}
   const load=async()=>{
    const range=localDay(state.date,timeZone);
    const results=await Promise.allSettled([
@@ -78,22 +85,25 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
     allVisits(api,range,abort.signal),allTrackPoints(api,range,abort.signal),
    ]);
    if(abort.signal.aborted)return;
-   let recordRows=results[0].status==='fulfilled'?results[0].value.items:[];
-   const visitRows=results[1].status==='fulfilled'?results[1].value:[];
-   const points=results[2].status==='fulfilled'?results[2].value:[];
+   let recordRows=results[0].status==='fulfilled'?results[0].value.items:preserve?previous.records:[];
+   const visitRows=results[1].status==='fulfilled'?results[1].value:preserve?previous.visits:[];
+   const points=results[2].status==='fulfilled'?results[2].value:preserve?previous.track:[];
    const warnings=results.flatMap((result,index)=>result.status==='rejected'?[`${['記録','訪問','位置記録'][index]}：${errorText(result.reason)}`]:[]);
+   if(preserve&&warnings.length&&(previous.records.length||previous.visits.length||previous.track.length))warnings.push('前回読み込んだ内容を表示しています。');
    if(route.params.recordId&&!recordRows.some(record=>record.id===route.params.recordId)){
     try{const selected=await readRecord(api,route.params.recordId,abort.signal);const timestamp=selected.record.effectiveStartedAt;if(timestamp===null&&includeUndated||timestamp!==null&&timestamp>=range.from&&timestamp<range.to)recordRows=[...recordRows,selected.record];}catch(error){warnings.push(errorText(error));}
    }
    if(abort.signal.aborted)return;
-   setRecords(recordRows);setVisits(visitRows);setTrack(points);setCursor(results[0].status==='fulfilled'?results[0].value.nextCursor:null);
+   setRecords(recordRows);setVisits(visitRows);setTrack(points);setCursor(results[0].status==='fulfilled'?results[0].value.nextCursor:preserve?previous.cursor:null);
+   if(results.some(result=>result.status==='fulfilled'))loadedQuery.current=queryKey;
    const placeIds=[...new Set([...recordRows.flatMap(record=>record.effectivePlaceId?[record.effectivePlaceId]:[]),...visitRows.map(visit=>visit.placeId)])];
    const [placeResults,detailRows]=await Promise.all([Promise.allSettled(placeIds.map(placeId=>api.request('getPlacesPlaceId',{path:{placeId},signal:abort.signal}))),recordDetails(api,recordRows,abort.signal)]);
    if(abort.signal.aborted)return;
-   const placeMap=new Map<string,Place>(placeResults.flatMap(result=>result.status==='fulfilled'?[[result.value.data.place.id,result.value.data.place] as const]:[]));
-   setPlaces(placeMap);setDetails(detailRows);
+   const placeMap=new Map<string,Place>([...(preserve?previous.places:new Map<string,Place>()),...placeResults.flatMap(result=>result.status==='fulfilled'?[[result.value.data.place.id,result.value.data.place] as const]:[])]);
+   setPlaces(placeMap);setDetails(preserve?new Map([...previous.details,...detailRows]):detailRows);
    if(placeResults.some(result=>result.status==='rejected'))warnings.push('一部の場所を取得できません。記録本文は表示しています。');
-   if(detailRows.size<recordRows.length || [...detailRows.values()].some(detail=>detail.media.status==='failed'))warnings.push('一部の媒体を取得できません。記録本文は表示しています。');
+   if(recordRows.some(record=>!detailRows.has(record.id)))warnings.push(preserve?'一部の記録本文を再取得できません。前回の内容を表示しています。':'一部の記録本文を取得できません。');
+   if([...detailRows.values()].some(detail=>detail.media.status==='failed'))warnings.push('一部の媒体を取得できません。記録本文は表示しています。');
    setError(warnings.join(' '));
   };
   void load().catch(error=>{if(!abort.signal.aborted)setError(errorText(error));}).finally(()=>{if(!abort.signal.aborted)setLoading(false);});

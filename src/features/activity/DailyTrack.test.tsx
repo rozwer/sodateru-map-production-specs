@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { expect, it, vi } from 'vitest';
 import { DailyTrack, type TimelineEntry } from './DailyTrack';
 
@@ -64,4 +65,18 @@ it('reveals a map-selected card again without scrolling for manual expansion or 
   else delete (HTMLElement.prototype as { scrollBy?: unknown }).scrollBy;
   vi.unstubAllGlobals();
  }
+});
+
+
+it('shows an API failure without presenting unavailable data as an empty day', () => {
+ const props = { date: '2026-09-14', onDate: vi.fn(), entries: [] as TimelineEntry[], expandedId: null, onExpand: vi.fn(), onEdit: vi.fn(), onReflect: vi.fn(), onVisit: vi.fn(), onBack: vi.fn(), onMenu: vi.fn(), onRecord: vi.fn(), map: <div>地図</div>, onRetry: vi.fn(), confirmedPlaces: 0, duration: '', missingTrack: true, onCalendar: vi.fn(), recordedDates: new Set<string>() };
+ const failed = renderToStaticMarkup(<DailyTrack {...props} error='通信に失敗しました' />);
+ expect(failed).toContain('通信に失敗しました');
+ expect(failed).toContain('もう一度試す');
+ expect(failed).not.toContain('0か所');
+ expect(failed).not.toContain('移動経路は未記録');
+ expect(failed).not.toContain('この日の記録はまだありません');
+ const empty = renderToStaticMarkup(<DailyTrack {...props} />);
+ expect(empty).toContain('0か所');
+ expect(empty).toContain('移動経路は未記録');
 });
