@@ -59,7 +59,7 @@ function ThemeEditScreen({ route, navigate, back, scopeKey, active = true }: Scr
       const view = theme ? await themeView(theme, controller.signal) : null;
       if (controller.signal.aborted) return;
       setRecords(recordViews); setCursor(page.nextCursor);
-      setModel(previous => previous.draft ? previous : { draft: { name: theme?.name ?? '', description: theme?.description ?? '', color: theme?.colorKey ?? 'teal', recordIds: theme?.recordIds ?? [], photoFile: null, photoUrl: view?.photoUrl ?? null, coverMediaId: theme?.coverMediaId ?? null, photoRecordId: null }, baseline: theme, dirty: false });
+      setModel(previous => previous.dirty && previous.draft ? previous : { draft: { name: theme?.name ?? '', description: theme?.description ?? '', color: theme?.colorKey ?? 'teal', recordIds: theme?.recordIds ?? [], photoFile: null, photoUrl: view?.photoUrl ?? null, coverMediaId: theme?.coverMediaId ?? null, photoRecordId: null }, baseline: theme, dirty: false });
     })().catch(error => {
       if (!controller.signal.aborted && !isCancelled(error)) { setError(requestError(error)); if (error instanceof ApiError && [403, 404].includes(error.status)) setUnavailable(true); }
     }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
