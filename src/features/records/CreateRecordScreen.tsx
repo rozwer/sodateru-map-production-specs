@@ -34,6 +34,8 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
  },[route.params.visitId,scopeKey,active]);
  const [people,setPeople]=useState<Person[]>([]), [peopleError,setPeopleError]=useState('');
  const [searchRevision,setSearchRevision]=useState(0);
+ const [searchedQuery,setSearchedQuery]=useState<string|null>(null);
+ const placeController=useRef<AbortController|null>(null);
  const bridge=useMapBridge();
  const submitting=useRef(false);
  const receivedCapture=useRef<string|null>(null);
@@ -61,7 +63,7 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
  },[route.params.placeId,scopeKey,active]);
  useEffect(()=>{
    if(state.step!=='place-picker' || !active)return;
-   const controller=new AbortController();setPlaceBusy(true);setPlaceError('');
+   const controller=new AbortController();placeController.current=controller;setPlaceBusy(true);setPlaceError('');setPlaces([]);
    const load=async()=>{
      if(state.mode==='history'){
        const visits=await api.request('getVisits',{query:{limit:100,status:'confirmed'},signal:controller.signal});
@@ -72,6 +74,7 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
        if(results.some(result=>result.status==='rejected'))setPlaceError('一部の訪問先を取得できませんでした。取得できた場所は選べます。');
        bridge.showPlaces('record-place-picker',{places:items.map(item=>({id:item.id,placeId:item.id,coordinates:[item.longitude,item.latitude],label:item.name}))});
      }else{
+       if(state.mode==='search' && !state.query.trim())return;
        const camera=bridge.getSnapshot().camera;
        const query=state.query.trim()
          ? {q:state.query.trim(),limit:10}
@@ -84,7 +87,7 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
      }
    };
    void load().catch(error=>{if(!controller.signal.aborted)setPlaceError(errorText(error));}).finally(()=>{if(!controller.signal.aborted)setPlaceBusy(false);});
-   return ()=>{controller.abort();bridge.clear('record-place-picker');};
+   return ()=>{controller.abort();if(placeController.current===controller)placeController.current=null;bridge.clear('record-place-picker');};
  },[state.step,state.mode,searchRevision,scopeKey,active]);
  useEffect(()=>bridge.onSelect('record-place-picker',selection=>{const selected=places.find(item=>item.id===selection.id);if(selected)setState(previous=>({...previous,selected}));}),[bridge,places]);
  useEffect(()=>{
@@ -93,7 +96,7 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
    void api.request('getPeople',{query:{limit:100},signal:controller.signal}).then(page=>{if(!controller.signal.aborted)setPeople(page.items);}).catch(error=>{if(!controller.signal.aborted)setPeopleError(errorText(error));});
    return ()=>controller.abort();
  },[state.draft.visibility,scopeKey,active]);
- const changeDraft=(draft:RecordDraft)=>{setState(previous=>({...previous,draft}));setError('');};
+ const changeDraft=(draft:RecordDraft)=>{setState(previous=>({...previous,draft}));setError('');setNotice('');};
  const selectPlace=(selected:PlaceChoice|null)=>{
    setState(previous=>({...previous,selected}));
    if(selected){bridge.focus('record-place-picker',{center:[selected.longitude,selected.latitude],zoom:15});bridge.selectCandidate('record-place-picker',selected.id);}
@@ -121,7 +124,7 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
    if(!state.saveSession){
      try{draftTimes(state.draft);}catch(error){setError(errorText(error));return;}
    }
-   submitting.current=true;setBusy(true);setError('');
+   submitting.current=true;setBusy(true);setError('');setNotice('');
    const controller=new AbortController();saveController.current=controller;
    let session=state.saveSession;
    if(!session){session=createSaveSession(state.draft,state.place,route.params.topicKey || null,attachedVisit??undefined);setState(previous=>({...previous,saveSession:session}));}
@@ -150,10 +153,10 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
      setNotice('');
      if(route.params.returnPage==='knowledge-list'){back();return;}
      navigate('daily-track',{recordId:saved.id,date:state.draft.date || new Date().toLocaleDateString('sv-SE'),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,includeUndated:state.draft.date?'false':'true'});
-   }catch(error){if(!controller.signal.aborted)setError(`${session?.visit?.status === "confirmed" && !session.record ? "訪問の確認は保存済みです。記録の保存は完了していません。" : ""}${errorText(error)}`);}
+   }catch(error){if(!controller.signal.aborted){setNotice('');setError(`${session?.visit?.status === "confirmed" && !session.record ? "訪問の確認は保存済みです。記録の保存は完了していません。" : ""}${errorText(error)}`);}}
    finally{submitting.current=false;setBusy(false);}
  };
  const sharing=<div className="records-share-people">{peopleError&&<RecordNotice error>{peopleError}</RecordNotice>}{people.length===0&&!peopleError&&<p>共有する友達がいません。</p>}{people.map(person=><label key={person.id}><input type="checkbox" checked={state.draft.sharedWith.includes(person.id)} onChange={event=>changeDraft({...state.draft,sharedWith:event.target.checked?[...state.draft.sharedWith,person.id]:state.draft.sharedWith.filter(id=>id!==person.id)})}/>{person.name}</label>)}</div>;
- if(state.step==='place-picker')return <PlacePicker mode={state.mode} onMode={mode=>setState(previous=>({...previous,mode}))} query={state.query} onQuery={query=>setState(previous=>({...previous,query}))} onSearch={()=>setSearchRevision(value=>value+1)} items={places} selected={state.selected} onSelect={selectPlace} onUse={()=>setState(previous=>({...previous,place:previous.selected,step:previous.returnStep}))} onBack={()=>setState(previous=>({...previous,step:previous.returnStep}))} onLocate={()=>{navigator.geolocation.getCurrentPosition(position=>{bridge.focus('record-place-picker',{center:[position.coords.longitude,position.coords.latitude],zoom:15});bridge.setCamera({longitude:position.coords.longitude,latitude:position.coords.latitude});setSearchRevision(value=>value+1);},()=>setPlaceError('現在地を取得できませんでした。検索や訪問履歴から場所を選べます。'));}} map={active?<MapPreview bridge={bridge} label="体験の場所を選ぶ地図" interactive/>:null} busy={placeBusy} error={placeError}/>;
+ if(state.step==='place-picker')return <PlacePicker mode={state.mode} onMode={mode=>{if(mode===state.mode)return;setSearchedQuery(mode==='search'?state.query.trim():null);setState(previous=>({...previous,mode,selected:null}));}} query={state.query} onQuery={query=>{placeController.current?.abort();setPlaceBusy(false);setPlaces([]);setPlaceError('');setSearchedQuery(null);bridge.clear('record-place-picker');setState(previous=>({...previous,query,selected:null}));}} onSearch={()=>{setSearchedQuery(state.query.trim());setState(previous=>({...previous,selected:null}));setSearchRevision(value=>value+1);}} searchSubmitted={searchedQuery===state.query.trim() && !!searchedQuery} items={places} selected={state.selected} onSelect={selectPlace} onUse={()=>setState(previous=>({...previous,place:previous.selected,step:previous.returnStep}))} onBack={()=>setState(previous=>({...previous,step:previous.returnStep}))} onWithoutPlace={()=>setState(previous=>({...previous,place:null,selected:null,draft:{...previous.draft,visited:false},step:previous.returnStep}))} onLocate={()=>{navigator.geolocation.getCurrentPosition(position=>{bridge.focus('record-place-picker',{center:[position.coords.longitude,position.coords.latitude],zoom:15});bridge.setCamera({longitude:position.coords.longitude,latitude:position.coords.latitude});setSearchRevision(value=>value+1);},()=>setPlaceError('現在地を取得できませんでした。検索や訪問履歴から場所を選べます。'));}} map={active?<MapPreview bridge={bridge} label="体験の場所を選ぶ地図" interactive/>:null} busy={placeBusy} error={placeError}/>;
  return <RecordComposer draft={state.draft} setDraft={changeDraft} place={state.place} step={state.step} onStep={step=>setState(previous=>({...previous,step}))} onBack={back} onChoosePlace={()=>setState(previous=>({...previous,returnStep:previous.step==='confirmation'?'confirmation':'editor',step:'place-picker',selected:previous.place}))} onFiles={addFiles} onRemove={remove} onMove={move} onSave={()=>void save()} busy={busy} error={error} notice={notice} onRetry={()=>void save()} sharingControl={sharing} savedLocationLocked={state.saveSession!==null||!!route.params.visitId}/>;
 }

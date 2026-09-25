@@ -53,6 +53,7 @@ export function errorText(error: unknown): string {
     if (error.status === 415) return 'この媒体形式は保存できません。JPEG・PNG・WebP・MP4を選んでください。';
     return error.message;
   }
+  if (error instanceof TypeError && /Failed to fetch|NetworkError|Load failed/i.test(error.message)) return '通信に失敗しました。入力を保持しています。';
   return error instanceof Error ? error.message : '通信に失敗しました。入力を保持しています。';
 }
 
