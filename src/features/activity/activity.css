@@ -134,6 +134,9 @@
 .activity-route-endpoints i { height:7px; width:7px; background:#218c80; border-radius:50%; }
 .activity-route-endpoints > span:last-child i { background:#da725d; }
 .activity-track-sheet { padding-top:13px; box-shadow:0 -3px 16px #23403808; }
+@media (max-width:767px) {
+ .activity-daily:not(.activity-calendar-screen) .activity-track-sheet { padding-bottom:calc(24px + var(--bottom-nav-height,80px) + env(safe-area-inset-bottom)); }
+}
 .activity-sheet-handle { margin-bottom:12px; }
 .activity-day-row > span { font-size:11px; margin-left:5px; }
 .activity-day-select { font-size:16px !important; }
@@ -157,6 +160,7 @@
 .activity-track-map .map-scene-pin-head { width:32px; height:32px; font-size:13px; background:#228c84; }
 .activity-track-map .map-scene-pin-label { display:none; top:36px; padding:6px 9px; border-radius:8px; background:#fff; box-shadow:0 3px 10px #173f4b26; color:#244e4b; font-size:12px; text-shadow:none; max-width:170px; }
 .activity-track-map .map-scene-pin:hover,.activity-track-map .map-scene-pin:focus-visible { z-index:3; }
+.activity-track-map .map-scene-pin[data-point-id^="stop:"] { z-index:4; }
 .activity-track-map .map-scene-pin:hover .map-scene-pin-label,.activity-track-map .map-scene-pin:focus-visible .map-scene-pin-label { display:block; }
 .activity-track-map .map-scene-pin[data-point-id^="track-"] { width:26px; height:26px; }
 .activity-track-map .map-scene-pin[data-point-id^="track-"] .map-scene-pin-head { width:19px; height:19px; border-width:2px; border-radius:50%; transform:translate(17px,10px); font-size:9px; }
