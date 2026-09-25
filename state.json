@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 345,
+  "revision": 346,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35340,17 +35340,22 @@
       "token": null
     },
     "UI-RECORDS": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "mattsun",
+      "base_commit": "6eace54bc957ac4be773666fa1cf45a212a09de9",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 11,
       "landed_main": null,
       "note": "緊急引継ぎ: PR #75統合済、後続PR #153 / f5180bdはpush済。UI-BASE接続・保存後再表示・媒体headers・breakBefore修正を提供。worktree /Users/roz/.codex/worktrees/ui-records-11 を保持。UI未達: 実Mapbox/参照最終照合と端末選択撮影/キーボード。API未達: export/preview,気分/訪問日時,成長根拠接続。#98へ配送済。UI未達を完了扱いせず、取込担当が取得可能となるよう通常返却。証拠 docs/evidence/UI-RECORDS/README.md。",
-      "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "owner": "mattsun",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/UI-RECORDS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "f158b1c05d1546b3ad3bdc07a43e2ada"
     },
     "UI-REFLECTION": {
       "actor": null,
