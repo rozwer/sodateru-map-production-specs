@@ -34287,7 +34287,7 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL"
   ],
-  "revision": 319,
+  "revision": 320,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35137,15 +35137,15 @@
       "generation": 1,
       "issue_number": 300,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-BASE-LAYOUT/validation.md",
       "owner": "mattsun",
       "paths": [
         "src/app/",
         "src/ui/",
         "docs/evidence/UI-BASE-LAYOUT/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "8e4ff9d62d7ed45f25ef99d825a2ad0860ec2e19",
       "token": "22c29a2f370649e88d941576b06d72cd"
     },
     "UI-COMPANION": {
