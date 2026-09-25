@@ -46,6 +46,18 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
  const [state,setState]=useScreenState<DailyState>(()=>{const date=route.params.date||new Date().toLocaleDateString('sv-SE');return {date,calendar:route.params.view==='calendar',month:date.slice(0,7),expandedId:route.params.recordId??null};});
  const [revealEntry,setRevealEntry]=useState<{id:string;revision:number}|null>(null);
  const revealRevision=useRef(0);
+ const pendingReturnScroll=useRef<number|null>(null);
+ const lastScrollTop=useRef(0);
+ const wasLoading=useRef(false);
+ useEffect(()=>{
+  if(!active)return;
+  const scroll=document.querySelector<HTMLElement>('.sm-sheet__body');
+  if(!scroll)return;
+  const remember=()=>{if(scroll.querySelector('.sm-screen-content:not([hidden]) .activity-daily'))lastScrollTop.current=scroll.scrollTop;};
+  scroll.addEventListener('scroll',remember);
+  remember();
+  return()=>{scroll.removeEventListener('scroll',remember);pendingReturnScroll.current??=lastScrollTop.current;};
+ },[active]);
  const [records,setRecords]=useState<RecordView[]>([]),[visits,setVisits]=useState<Visit[]>([]),[track,setTrack]=useState<TrackPoint[]>([]);
  const [places,setPlaces]=useState(new Map<string,Place>()),[details,setDetails]=useState(new Map<string,RecordDetail>());
  const [loading,setLoading]=useState(false),[error,setError]=useState(''),[revision,setRevision]=useState(0),[cursor,setCursor]=useState<string|null>(null);
@@ -152,7 +164,22 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
   bridge.select({ownerKey:'daily-track',kind:'place',id:point.id,coordinates:point.coordinates});
  };
  const carry={date:state.date,timeZone,returnPage:'daily-track'};
- return <DailyTrack date={state.date} onDate={date=>{setRevealEntry(null);setState(previous=>({...previous,date,expandedId:null}));}} entries={selectedRecords} expandedId={state.expandedId} revealEntry={revealEntry} onExpand={id=>setState(previous=>({...previous,expandedId:previous.expandedId===id?null:id}))} onEdit={recordId=>navigate('record-edit',{...carry,recordId})} onReflect={recordId=>navigate('reflection-question',{...carry,recordId})} onVisit={visitId=>navigate('visit-confirm',{...carry,visitId})} onBack={back} onMenu={()=>navigate('navigation')} onRecord={()=>navigate('record-create',carry)} map={active?<MapPreview bridge={bridge} label="今日の軌跡と滞在地点" padding={trackPadding} interactive/>:null} onMapClickCapture={selectStopFromMapClick} onFitTrack={fitTrack} trackTimes={{start:trackMap.startTime,end:trackMap.endTime}} loading={loading} error={error} onRetry={()=>setRevision(value=>value+1)} onMore={cursor?()=>void more():undefined} confirmedPlaces={new Set(visits.filter(visit=>visit.status==='confirmed').map(visit=>visit.placeId)).size} duration={durationMs?displayDuration(0,durationMs):''} missingTrack={trackMap.display.segments.length===0} calendar={state.calendar} onCalendar={calendar=>{setRevealEntry(null);setState(previous=>({...previous,calendar,month:previous.date.slice(0,7)}));}} onMonth={month=>setState(previous=>({...previous,month}))} recordedDates={recordedDates}/>;
+ const openFromTrack=(pageId:string,params:Record<string,string>)=>{
+  pendingReturnScroll.current=document.querySelector<HTMLElement>('.sm-sheet__body')?.scrollTop??0;
+  navigate(pageId,params);
+ };
+ useEffect(()=>{
+  const finished=wasLoading.current&&!loading;
+  wasLoading.current=loading;
+  if(!active||!finished||pendingReturnScroll.current===null)return;
+  const frame=requestAnimationFrame(()=>{
+   const scroll=document.querySelector<HTMLElement>('.sm-sheet__body');
+   if(scroll)scroll.scrollTop=pendingReturnScroll.current??0;
+   pendingReturnScroll.current=null;
+  });
+  return()=>cancelAnimationFrame(frame);
+ },[active,loading]);
+ return <DailyTrack date={state.date} onDate={date=>{setRevealEntry(null);setState(previous=>({...previous,date,expandedId:null}));}} entries={selectedRecords} expandedId={state.expandedId} revealEntry={revealEntry} onExpand={id=>setState(previous=>({...previous,expandedId:previous.expandedId===id?null:id}))} onEdit={recordId=>openFromTrack('record-edit',{...carry,recordId})} onReflect={recordId=>openFromTrack('reflection-question',{...carry,recordId})} onVisit={visitId=>openFromTrack('visit-confirm',{...carry,visitId})} onBack={back} onMenu={()=>navigate('navigation')} onRecord={()=>navigate('record-create',carry)} map={active?<MapPreview bridge={bridge} label="今日の軌跡と滞在地点" padding={trackPadding} interactive/>:null} onMapClickCapture={selectStopFromMapClick} onFitTrack={fitTrack} trackTimes={{start:trackMap.startTime,end:trackMap.endTime}} loading={loading} error={error} onRetry={()=>setRevision(value=>value+1)} onMore={cursor?()=>void more():undefined} confirmedPlaces={new Set(visits.filter(visit=>visit.status==='confirmed').map(visit=>visit.placeId)).size} duration={durationMs?displayDuration(0,durationMs):''} missingTrack={trackMap.display.segments.length===0} calendar={state.calendar} onCalendar={calendar=>{setRevealEntry(null);setState(previous=>({...previous,calendar,month:previous.date.slice(0,7)}));}} onMonth={month=>setState(previous=>({...previous,month}))} recordedDates={recordedDates}/>;
 }
 
 export const screens:ScreenDefinition[]=[
