@@ -2,7 +2,10 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, existsSync, realpathSync } from 'node:fs';
 import { dirname, resolve, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import shellQuote from 'shell-quote';
+import { createRequire } from 'node:module';
+import { missingHookDependencies, missingDependencyResult, normalizedEvent } from './codex-hook-bootstrap-core.mjs';
+const dependencyRequire = createRequire(import.meta.url);
+const shellQuote = new Proxy({}, { get: (_, property) => dependencyRequire('shell-quote')[property] });
 import { shellParts } from './codex-mise-hook.mjs';
 import { currentBranch, ownerAt, verify, verifyShared, isSharedBranch, git } from './task-policy.mjs';
 
@@ -159,6 +162,10 @@ export function handle(event) {
   else throw new Error('編集先を明示してください。');
 }
 if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  try { handle(JSON.parse(readFileSync(0, 'utf8'))); }
+  try {
+    const event = JSON.parse(readFileSync(0, 'utf8'));
+    if (missingHookDependencies()) missingDependencyResult(event, 'task');
+    else handle(normalizedEvent(event));
+  }
   catch (error) { console.error(error.message); process.exit(2); }
 }

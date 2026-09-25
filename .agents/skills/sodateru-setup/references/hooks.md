@@ -24,3 +24,5 @@ boardがない間のbootstrapは二段階で扱う。`origin/develop` がない�
 Codexのmise/Task hookはnode_modulesに依存するため、新規linked worktreeでは軽量bootstrap入口が先に読み込まれる。未導入時に許されるシェル操作は対象worktreeルートでの完全一致 `mise exec -- bun install --frozen-lockfile` のみ。連結コマンド、引数追加、他のcheckout、編集は通さない。導入後は従来の両hookが全コマンドを検査する。SessionStartは導入コマンドを案内する。変更後は `mise run hooks:install` と `mise run verify` で確認する。
 
 新規Codex managed worktreeでhook依存が未導入の場合、PreToolUse入力の `tool_input.workdir` / `tool_input.cwd` が絶対pathなら `event.cwd` がなくても対象worktreeを判定する。完全一致の `mise exec -- bun install --frozen-lockfile` のみ許可し、通常コマンド・編集は拒否する。依存導入後は同じ対象worktreeで既存のmise/Task hookを実行する。
+
+保存済みprojectのcheckoutが古い場合、Codex appに登録済みのhook commandが新worktreeのhook設定より古いことがある。旧commandがmise/Task hook本体を直接起動しても、依存未導入時はNode標準モジュールだけで完全一致bootstrapを判定する。設定の内容変更後は通常の`/hooks`確認・信頼手順も行う。

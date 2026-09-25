@@ -12,7 +12,7 @@ function fixture(run) {
   const root = mkdtempSync(join(tmpdir(), "codex-bootstrap-"));
   try {
     mkdirSync(join(root, "scripts"));
-    for (const name of ["codex-bootstrap-hook.mjs", "codex-mise-hook.mjs", "codex-task-hook.mjs"])
+    for (const name of ["codex-bootstrap-hook.mjs", "codex-hook-bootstrap-core.mjs", "codex-mise-hook.mjs", "codex-task-hook.mjs", "task-policy.mjs"])
       copyFileSync(join(source, "scripts", name), join(root, "scripts", name));
     copyFileSync(join(source, "package.json"), join(root, "package.json"));
     copyFileSync(join(source, "mise.toml"), join(root, "mise.toml"));
@@ -87,4 +87,23 @@ test("Codex Bash payload accepts command and absolute cwd field", () => fixture(
   const denied = invoke(root, "task", { ...event, tool_input: {
     command: "mise run task:ready", cwd: root } });
   assert.equal(denied.status, 2);
+}));
+
+test("older direct hook commands bootstrap without node_modules", () => fixture(root => {
+  const event = { hook_event_name: "PreToolUse", tool_name: "exec_command",
+    tool_input: { cmd: command, workdir: root } };
+  for (const name of ["codex-mise-hook.mjs", "codex-task-hook.mjs"]) {
+    const run = tool_input => spawnSync(process.execPath, [join(root, "scripts", name)],
+      { cwd: root, input: JSON.stringify({ ...event, tool_input }), encoding: "utf8" });
+    const allowed = run(event.tool_input);
+    assert.equal(allowed.status, 0, name + ": " + allowed.stderr);
+    const denied = run({ cmd: "mise run task:ready", workdir: root });
+    assert.equal(denied.status, 2, name);
+    assert.match(denied.stderr, /Hook依存が未導入/);
+  }
+  const session = spawnSync(process.execPath, [join(root, "scripts", "codex-mise-hook.mjs")],
+    { cwd: root, input: JSON.stringify({ hook_event_name: "SessionStart" }),
+      encoding: "utf8" });
+  assert.equal(session.status, 0, session.stderr);
+  assert.match(session.stdout, /bun install --frozen-lockfile/);
 }));
