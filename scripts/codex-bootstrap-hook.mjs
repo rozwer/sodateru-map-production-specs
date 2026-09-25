@@ -1,61 +1,20 @@
-import { execFileSync } from "node:child_process";
 import { readFileSync, realpathSync } from "node:fs";
-import { isAbsolute, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { dependencyNames, missingHookDependencies, missingDependencyResult,
+  normalizedEvent } from "./codex-hook-bootstrap-core.mjs";
 
-const root = realpathSync(fileURLToPath(new URL("../", import.meta.url)));
-const dependencyNames = ["smol-toml", "shell-quote"];
-
-export function toolCwd(event) {
-  const input = event?.tool_input ?? {};
-  const workdir = input.workdir ?? input.cwd;
-  if (typeof workdir === "string" && isAbsolute(workdir)) return resolve(workdir);
-  if (typeof event?.cwd === "string" && isAbsolute(event.cwd) &&
-      (workdir === undefined || typeof workdir === "string"))
-    return resolve(event.cwd, workdir ?? ".");
-  return null;
-}
-
-export function isExactBootstrap(event) {
-  if (event?.hook_event_name !== "PreToolUse" ||
-      !["Bash", "exec_command"].includes(event.tool_name)) return false;
-  const input = event.tool_input ?? {};
-  if ((input.command ?? input.cmd) !== "mise exec -- bun install --frozen-lockfile") return false;
-  const cwd = toolCwd(event);
-  if (!cwd) return false;
-  try {
-    const target = realpathSync(execFileSync("git", ["-C", cwd, "rev-parse", "--show-toplevel"],
-      { encoding: "utf8" }).trim());
-    const manifest = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8"));
-    return target === root &&
-      /^bun@/.test(manifest.packageManager) &&
-      readFileSync(resolve(root, "mise.toml"), "utf8").includes('codex_package_manager = "bun"');
-  } catch {
-    return false;
-  }
-}
+export { isExactBootstrap, toolCwd } from "./codex-hook-bootstrap-core.mjs";
 
 export async function handle(event, role) {
   if (!["mise", "task"].includes(role)) throw new Error("Unknown hook role");
+  if (missingHookDependencies()) return missingDependencyResult(event, role);
   try {
     const module = await import(role === "mise" ? "./codex-mise-hook.mjs" : "./codex-task-hook.mjs");
-    const cwd = toolCwd(event);
-    const input = event?.tool_input;
-    const normalized = cwd ? {
-      ...event, cwd,
-      tool_input: input && typeof input === "object" && !Array.isArray(input)
-        ? { ...input, workdir: cwd } : input,
-    } : event;
-    return module.handle(normalized);
+    return module.handle(normalizedEvent(event));
   } catch (error) {
     if (error?.code !== "ERR_MODULE_NOT_FOUND" ||
         !dependencyNames.some(name => error.message?.includes("'" + name + "'"))) throw error;
-    if (isExactBootstrap(event)) return null;
-    if (role === "mise" && event?.hook_event_name === "SessionStart") {
-      return { hookSpecificOutput: { hookEventName: "SessionStart",
-        additionalContext: "このworktreeの依存を導入してください: mise exec -- bun install --frozen-lockfile" } };
-    }
-    throw new Error("Hook依存が未導入です。正規setup: mise exec -- bun install --frozen-lockfile");
+    return missingDependencyResult(event, role);
   }
 }
 

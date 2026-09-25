@@ -2,10 +2,14 @@ import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, realpathSync, renameSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
+import { createRequire } from "node:module";
 import { basename, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { parse as parseToml } from "smol-toml";
-import shellQuote from "shell-quote";
+import { missingHookDependencies, missingDependencyResult, normalizedEvent } from "./codex-hook-bootstrap-core.mjs";
+
+const dependencyRequire = createRequire(import.meta.url);
+const parseToml = source => dependencyRequire("smol-toml").parse(source);
+const shellQuote = new Proxy({}, { get: (_, property) => dependencyRequire("shell-quote")[property] });
 
 const managers = ["npm", "pnpm", "yarn", "bun"];
 const shells = ["sh", "bash", "zsh", "dash"];
@@ -214,7 +218,9 @@ export function handle(event, directory) {
 
 if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    const result = handle(JSON.parse(readFileSync(0, "utf8")));
+    const event = JSON.parse(readFileSync(0, "utf8"));
+    const result = missingHookDependencies()
+      ? missingDependencyResult(event, "mise") : handle(normalizedEvent(event));
     if (result) console.log(JSON.stringify(result));
   } catch (error) {
     console.error(error.message);
