@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 342,
+  "revision": 343,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34561,17 +34561,20 @@
       "token": null
     },
     "DAILY-TRACK-MARKER-REVEAL": {
-      "actor": null,
-      "base_commit": "4083f52465f8d164625bf86bb5424483d2a13c61",
-      "generation": 3,
+      "actor": "mattsun",
+      "base_commit": "ce763c7b4210520313505acf22aba38741c0b5a4",
+      "generation": 4,
       "issue_number": 284,
       "landed_main": null,
       "note": "#189 priority temporary return; preserve WT and untracked DailyTrack.test.tsx",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/activity/",
+        "docs/evidence/DAILY-TRACK-MARKER-REVEAL/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "2934bab35608423d9138965052751475"
     },
     "DAILY-TRACK-ROUTE": {
       "actor": "mattsun",
