@@ -1,0 +1,107 @@
+{
+  "viewport": [
+    390,
+    844
+  ],
+  "mode": "display fixture; API disconnected",
+  "results": [
+    {
+      "name": "self-home",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=self-home",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/self-home-390.png",
+      "interactive": 13,
+      "mapFailure": true
+    },
+    {
+      "name": "diary",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=diary",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/diary-390.png",
+      "interactive": 21,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-question",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=question",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/reflection-question-390.png",
+      "interactive": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "reflection-history",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=history",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/reflection-history-390.png",
+      "interactive": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "experience-compare",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=compare",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/experience-compare-390.png",
+      "interactive": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "memo-edit",
+      "route": "/docs/evidence/VISUAL-SELF/reflection.html?page=memo",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/memo-edit-390.png",
+      "interactive": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "type-diagnosis",
+      "route": "/docs/evidence/UI-INSIGHTS/preview/index.html?page=type-diagnosis",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/type-diagnosis-390.png",
+      "interactive": 19,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-evidence",
+      "route": "/docs/evidence/UI-INSIGHTS/preview/index.html?page=trend-evidence",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/trend-evidence-390.png",
+      "interactive": 11,
+      "mapFailure": false
+    },
+    {
+      "name": "trend-review",
+      "route": "/docs/evidence/UI-INSIGHTS/preview/index.html?page=trend-review",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/trend-review-390.png",
+      "interactive": 13,
+      "mapFailure": false
+    },
+    {
+      "name": "themes",
+      "route": "/docs/evidence/UI-INSIGHTS/preview/index.html?page=themes",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/themes-390.png",
+      "interactive": 15,
+      "mapFailure": false
+    },
+    {
+      "name": "theme-edit",
+      "route": "/docs/evidence/UI-INSIGHTS/preview/index.html?page=theme-edit",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/theme-edit-390.png",
+      "interactive": 24,
+      "mapFailure": false
+    },
+    {
+      "name": "self-checkin",
+      "route": "/docs/evidence/VISUAL-SELF/suggestions.html?page=checkin",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/self-checkin-390.png",
+      "interactive": 33,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestions",
+      "route": "/docs/evidence/VISUAL-SELF/suggestions.html?page=list",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/suggestions-390.png",
+      "interactive": 16,
+      "mapFailure": false
+    },
+    {
+      "name": "suggestion-detail",
+      "route": "/docs/evidence/VISUAL-SELF/suggestions.html?page=detail",
+      "screenshot": "docs/evidence/VISUAL-SELF/captures-2026-09-25/suggestion-detail-390.png",
+      "interactive": 18,
+      "mapFailure": false
+    }
+  ]
+}

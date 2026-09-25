@@ -241,6 +241,7 @@ export function MemoScreen({
         edited: JSON.stringify(s.form) !== JSON.stringify(form),
       }));
       setNotice({ text: "メモを保存し、保存先から読み直しました。" });
+      if (!route.params.recordId) navigate("memo-edit", { recordId: current.id });
     } catch (error) {
       if (!control.current.signal.aborted)
         setNotice(errorNotice(error, () => setRevision((x) => x + 1)));
