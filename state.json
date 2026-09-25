@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 361,
+  "revision": 362,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35491,18 +35491,24 @@
       "token": null
     },
     "VISUAL-SELF-CONTINUE": {
-      "actor": null,
-      "base_commit": "81ef4dac0e002a103a1a7eda42d3269860a292eb",
+      "actor": "mattsun",
+      "base_commit": "bbfb06186b28c480ad5b5cb07bdcad59265d2284",
       "claim_unit": null,
-      "generation": 12,
+      "generation": 13,
       "issue_number": 185,
       "landed_main": null,
       "note": "PR #324 merged; memo cancel fix recorded, #185 remains open for 14-screen acceptance",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "dacdd9f3f4c14ba39f6f78fadcebcef7"
     },
     "VISUAL-SETTINGS": {
       "actor": null,
