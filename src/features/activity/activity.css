@@ -135,6 +135,7 @@
 .activity-route-endpoints > span:last-child i { background:#da725d; }
 .activity-track-sheet { padding-top:13px; box-shadow:0 -3px 16px #23403808; }
 @media (max-width:767px) {
+ .sm-app:has(.sm-screen-content:not([hidden]) .activity-daily) .sm-sheet--fullscreen .sm-sheet__body { margin-bottom:calc(var(--bottom-nav-height,80px) + 8px); }
  .activity-daily:not(.activity-calendar-screen) .activity-track-sheet { padding-bottom:calc(24px + var(--bottom-nav-height,80px) + env(safe-area-inset-bottom)); }
 }
 .activity-sheet-handle { margin-bottom:12px; }
