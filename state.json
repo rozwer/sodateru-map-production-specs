@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 335,
+  "revision": 336,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35319,15 +35319,15 @@
       "generation": 1,
       "issue_number": 299,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-MAP-THEME-RETRY/verification.md",
       "owner": "mattsun",
       "paths": [
         "src/features/map/map-state.ts",
         "src/features/map/screens.tsx",
         "docs/evidence/UI-MAP-THEME-RETRY/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "d145e0b4c95c5e988a90fe1a8741672b96570487",
       "token": "fc068db25c9749509f3fe29109db38f0"
     },
     "UI-PLUGINS": {
