@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 351,
+  "revision": 352,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35483,18 +35483,24 @@
       "token": null
     },
     "VISUAL-SELF-CONTINUE": {
-      "actor": null,
-      "base_commit": "f6493599a4b674d1d7b3416e611cf3f50b1b438a",
+      "actor": "mattsun",
+      "base_commit": "cb32b241d39a87bd7406bfe99d1702a6d70bf8fc",
       "claim_unit": null,
-      "generation": 6,
+      "generation": 7,
       "issue_number": 185,
       "landed_main": null,
       "note": "PR #315 merged as cb32b24. Reference-width evidence and three demo API round trips recorded; fourteen-screen acceptance remains incomplete in Issue #185.",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/reflection/",
+        "src/features/insights/",
+        "src/features/themes/",
+        "src/features/suggestions/",
+        "docs/evidence/VISUAL-SELF/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "39f9caf4b3384c27a01dc8ed78aa3d24"
     },
     "VISUAL-SETTINGS": {
       "actor": null,
