@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 364,
+  "revision": 365,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35452,21 +35452,17 @@
       "token": null
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "d6f8d91906f9edeef55afc3bfdcfd65a7f00ce53",
-      "generation": 9,
+      "generation": 10,
       "issue_number": 189,
       "landed_main": null,
-      "note": "docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-25-followup.md",
+      "note": "PR #327 merged; #189 remains open for seven-screen acceptance and device/Mapbox checks. Evidence: docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-25-followup.md",
       "owner": "mattsun",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/VISUAL-RECORDS-CAMERA/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "33104b6687019afc9f6d71ecfa2ad309b3d362d6",
-      "token": "3efcd7efd58b485e988d628bcc27ac9e"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "VISUAL-SELF": {
       "actor": null,
