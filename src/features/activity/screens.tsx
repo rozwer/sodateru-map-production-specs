@@ -103,6 +103,11 @@ function DailyScreen({route,scopeKey,back,navigate,active=true}:ScreenProps & {a
   fitTrack();
  },[trackMap,active,bridge]);
  const entries=useMemo(()=>timelineEntries(records,visits,places,details,timeZone,track).map(entry=>({...entry,mapNumber:trackMap.stops.find(stop=>stop.id===entry.id||stop.visitId===entry.visitId&&entry.visitId!==undefined)?.number})),[records,visits,places,details,timeZone,track,trackMap]);
+ useEffect(()=>{
+  if(!active||loading||!route.params.recordId||!entries.some(entry=>entry.id===route.params.recordId))return;
+  const frame=requestAnimationFrame(()=>document.querySelector('.sm-screen-content:not([hidden]) .activity-timeline li.is-expanded')?.scrollIntoView({block:'center'}));
+  return()=>cancelAnimationFrame(frame);
+ },[active,loading,route.params.recordId,entries]);
  useEffect(()=>bridge.onSelect('daily-track',selection=>{
   if(!selection.id.startsWith('stop:'))return;
   const id=selection.id.slice(5);

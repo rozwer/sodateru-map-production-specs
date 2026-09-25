@@ -127,7 +127,16 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
     </div>
       <div className="map-personal-theme"><span>{m.theme}</span>{theme && <button type="button" className="map-theme-chip" onClick={() => navigate('personal-map', { themeId: theme.id })}><MapIcon name="cup"/>{theme.name}</button>}</div>
       {record && <button type="button" className="map-outline map-wide" onClick={() => navigate('record-detail', { recordId: record.id })}><MapIcon name="book"/>元の記録を見る</button>}
-      <button type="button" className="map-primary map-wide" onClick={() => navigate('daily-track', { placeId: detail.place.id, ...(record?.effectiveStartedAt != null ? { date: new Date(record.effectiveStartedAt).toLocaleDateString('sv-SE'), timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone } : {}) })}><MapIcon name="book"/>{m.records}<span aria-hidden="true">›</span></button>
+      <button type="button" className="map-primary map-wide" onClick={() => {
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        navigate('daily-track', {
+          placeId: detail.place.id,
+          ...(record ? { recordId: record.id } : {}),
+          ...(record?.effectiveStartedAt != null
+            ? { date: new Intl.DateTimeFormat('sv-SE', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(record.effectiveStartedAt), timeZone }
+            : record ? { includeUndated: 'true', timeZone } : {}),
+        });
+      }}><MapIcon name="book"/>{m.records}<span aria-hidden="true">›</span></button>
       {theme && <button type="button" className="map-outline map-wide" onClick={() => navigate('theme-edit', { themeId: theme.id })}><MapIcon name="pen"/>{m.editTheme}</button>}
     </> : !state.personalLoading && !state.personalError && !state.detailError && <><p className="map-muted">{state.records.length ? '地図の場所を選んで、記憶を見返しましょう。' : m.personalEmpty}</p><button type="button" className="map-outline" onClick={() => navigate('record-create')}>体験を記録する</button></>}
     {state.nextRecordCursor && <button type="button" className="map-outline" onClick={() => void session.loadPersonal(bridge, state.themeId, true)}>さらに表示</button>}
