@@ -93,6 +93,15 @@ describe('record UI save calls',()=>{
   const draft=draftFromRecord(precise,[]);
   expect(recordPatch(precise,{...draft,body:'追記した言葉'})).toEqual({body:'追記した言葉'});
  });
+ it('updates sharing scope and recipients together without changing saved times',async()=>{
+  const harness=transport();
+  const session=createSaveSession({...blankDraft(),body:'共有範囲の確認'},null);
+  const saved=await saveNewRecord(harness.client,session,()=>{});
+  const selected=recordPatch(saved,{...draftFromRecord(saved,[]),visibility:'selected',sharedWith:['friend-a']});
+  expect(selected).toEqual({visibility:'selected',sharedWith:['friend-a']});
+  const privateAgain=recordPatch({...saved,visibility:'selected',sharedWith:['friend-a']},{...draftFromRecord(saved,[]),visibility:'private',sharedWith:[]});
+  expect(privateAgain).toEqual({visibility:'private',sharedWith:[]});
+ });
  it('uses the selected local date boundaries, including a daylight-saving day',()=>{
   const tokyo=localDay('2026-09-15','Asia/Tokyo');
   expect(new Date(tokyo.from).toISOString()).toBe('2026-09-14T15:00:00.000Z');

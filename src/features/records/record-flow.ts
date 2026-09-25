@@ -154,6 +154,10 @@ export function recordPatch(original: RecordView, draft: RecordDraft): RecordPat
   if (original.impression!==draft.impression) patch.impression=draft.impression;
   if (JSON.stringify(original.purposes)!==JSON.stringify(draft.purposes)) patch.purposes=draft.purposes;
   if (original.bookmarked!==draft.bookmarked) patch.bookmarked=draft.bookmarked;
+  if (original.visibility!==draft.visibility || JSON.stringify(original.sharedWith)!==JSON.stringify(draft.sharedWith)) {
+    patch.visibility=draft.visibility;
+    patch.sharedWith=draft.sharedWith;
+  }
   const previous=draftFromRecord(original,[]);
   const changedTime=(['date','startTime','endTime','timePrecision'] as const).some(key=>previous[key]!==draft[key]);
   if (changedTime && original.visitId) throw new Error('訪問に紐付く滞在時刻の保存をまだ利用できません。入力は保持しています。');

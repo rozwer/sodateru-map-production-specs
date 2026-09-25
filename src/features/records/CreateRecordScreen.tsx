@@ -10,7 +10,7 @@ import { RecordComposer } from './RecordComposer';
 import { PlacePicker } from './PlacePicker';
 import { blankDraft, type PlaceChoice, type RecordDraft } from './form-types';
 import { RecordNotice } from './RecordParts';
-import { createSaveSession, createEditSession, errorText, readRecord, saveNewRecord, saveEditedRecord, type RecordSaveSession, type SaveProgress } from './record-flow';
+import { createSaveSession, createEditSession, draftTimes, errorText, readRecord, saveNewRecord, saveEditedRecord, type RecordSaveSession, type SaveProgress } from './record-flow';
 import { placeChoice } from './record-hooks';
 import { takeRecordCapture } from './capture-handoff';
 
@@ -73,7 +73,10 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
        bridge.showPlaces('record-place-picker',{places:items.map(item=>({id:item.id,placeId:item.id,coordinates:[item.longitude,item.latitude],label:item.name}))});
      }else{
        const camera=bridge.getSnapshot().camera;
-       const {data}=await api.request('getPlaceCandidates',{query:{...(state.query.trim()?{q:state.query.trim()}:{}),longitude:camera.longitude,latitude:camera.latitude,limit:20},signal:controller.signal});
+       const query=state.query.trim()
+         ? {q:state.query.trim(),limit:10}
+         : {category:'coffee' as const,longitude:camera.longitude,latitude:camera.latitude};
+       const {data}=await api.request('getPlaceCandidates',{query,signal:controller.signal});
        if(controller.signal.aborted)return;
        const items:PlaceChoice[]=data.items.map(item=>({id:item.placeId??item.candidateId,name:item.name,address:item.address,longitude:item.position.longitude,latitude:item.position.latitude,source:item.placeId?'saved':'candidate',resultId:data.resultId}));
        setPlaces(items);
@@ -114,7 +117,11 @@ export function CreateRecordScreen({route,navigate,back,scopeKey,active=true}:Sc
  };
  const save=async()=>{
    if(route.params.visitId&&!attachedVisit){setError('関連する訪問を取得できていません。訪問画面から開き直してください。');return;}
-   if(submitting.current)return;submitting.current=true;setBusy(true);setError('');
+   if(submitting.current)return;
+   if(!state.saveSession){
+     try{draftTimes(state.draft);}catch(error){setError(errorText(error));return;}
+   }
+   submitting.current=true;setBusy(true);setError('');
    const controller=new AbortController();saveController.current=controller;
    let session=state.saveSession;
    if(!session){session=createSaveSession(state.draft,state.place,route.params.topicKey || null,attachedVisit??undefined);setState(previous=>({...previous,saveSession:session}));}
