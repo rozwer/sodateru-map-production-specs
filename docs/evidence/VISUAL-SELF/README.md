@@ -116,3 +116,18 @@ QA報告commit: A=d264c1552b62be08729f8d2857dff25a677cf101、B=9c608b23ace7d19ef
 限定確認: 新規テスト1件成功、`bun run typecheck` 成功、`bunx vite build` 成功。以前のtypecheck失敗はこの基点 `cb32b24` では再現しなかった。
 
 環境の一度限りの照合: 元cloneの既存 `.env` からMapboxトークンを**値を出さずread-onlyでプロセス環境に渡して**390px製品を再確認した。地図領域は表示されたが「地図の一部を取得できませんでした」となった。同じ既存値をサーバーが要求する `MAPBOX_ACCESS_TOKEN` にも渡すと「道路providerの接続設定がありません」は解消したが、デフォルト地点の候補生成は「指定地点間の道路経路がありません」で失敗した。実候補・詳細・地図引継ぎの成功確認には至っていない。設定ファイル・秘密値・provider実装は変更していない。
+
+## 2026-09-25 比較2件の保存経路（#185）
+
+`origin/develop` の `d6f8d91` から専用worktreeで着手。390×844の製品デモ本人で `#/record-create` から本文の異なる体験記録2件（海辺・図書館）を保存した後、`#/experience-compare` に**直接到達**して比較を作成した。共通入口からの通常導線受入ではない。修正前はPOST/GETで比較保存成功を表示してもURLが `#/experience-compare` のままで、reload後に2件の選択・共通点・違いが空になった。
+
+`CompareScreen` は保存後のGETで得た `comparisonId` を経路に残すよう修正。再保存では既存IDを保つ。`CompareScreen.test.tsx` の再現テストは修正前に失敗、修正後に成功。実デモAPIでは異なる2件を再選択して保存→URL `comparisonId` 付与→reload後に同じ2件と両本文を再表示した。2件目のカードから本人の `recordId` 付き記録編集へ移動し、画面の戻る操作で同じ比較ID・本文へ復帰した。
+
+|幅・状態|製品画像|観察|
+|---|---|---|
+|390×844・保存再読込後の上部|[390px上部](compare-product-saved-390-top.png)|2件の実記録、写真なし・場所なしをそのまま表示。|
+|390×844・保存再読込後の下部|[390px下部](compare-product-saved-390-bottom.png)|保存済み共通点・違いと元記録の操作を表示。|
+|参照原本1536×1024|[製品1536px](compare-product-saved-reference-1536.png)|原本は複数端末のレビューシート、製品は左側の単一画面。実地図は設定なし。|
+|PC 1440×900|[製品1440px](compare-product-saved-pc-1440.png)|左側パネルを撮影。下部操作はスクロール領域の下方。|
+
+限定確認: `bunx vitest run src/features/reflection/CompareScreen.test.tsx --environment jsdom` 1件成功、`bun run typecheck` 成功、`bunx vite build` 成功。今回は比較保存・元記録往復に限定し、原本写真付きデータ、権限喪失・競合、共通入口、他13画面の受入は未達のまま。
