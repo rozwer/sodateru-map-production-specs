@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 341,
+  "revision": 342,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35451,21 +35451,17 @@
       "token": null
     },
     "VISUAL-RECORDS-CAMERA": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "ce763c7b4210520313505acf22aba38741c0b5a4",
-      "generation": 7,
+      "generation": 8,
       "issue_number": 189,
       "landed_main": null,
       "note": "PR #311 merged to develop; six record screens verified. DailyTrack #11/#284 and other documented acceptance remain open. Evidence: docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-25-verification.md",
       "owner": "mattsun",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/VISUAL-RECORDS-CAMERA/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "197d4eef284f4214b3ce25ddff60444c"
+      "token": null
     },
     "VISUAL-SELF": {
       "actor": null,
