@@ -58,5 +58,33 @@ test("an unrelated checkout cannot use this bootstrap", () => fixture(root => {
     const result = invoke(root, "task", { hook_event_name: "PreToolUse",
       tool_name: "exec_command", cwd: other, tool_input: { cmd: command } });
     assert.equal(result.status, 2);
+    const overridden = invoke(root, "task", { hook_event_name: "PreToolUse",
+      tool_name: "exec_command", cwd: root, tool_input: {
+        cmd: command, workdir: other } });
+    assert.equal(overridden.status, 2);
   } finally { rmSync(other, { recursive: true, force: true }); }
+}));
+
+test("Codex exec_command payload uses absolute tool workdir when event cwd is absent", () => fixture(root => {
+  for (const role of ["mise", "task"]) {
+    const event = { hook_event_name: "PreToolUse", tool_name: "exec_command",
+      tool_input: { cmd: command, workdir: root } };
+    assert.equal(invoke(root, role, event).status, 0);
+    assert.equal(invoke(root, role, { ...event, cwd: tmpdir() }).status, 0);
+    assert.equal(invoke(root, role, { ...event, tool_input: {
+      cmd: command, cwd: root } }).status, 0);
+    const relative = invoke(root, role, { ...event, tool_input: {
+      cmd: command, workdir: "." } });
+    assert.equal(relative.status, 2);
+    assert.match(relative.stderr, /Hook依存が未導入/);
+  }
+}));
+
+test("Codex Bash payload accepts command and absolute cwd field", () => fixture(root => {
+  const event = { hook_event_name: "PreToolUse", tool_name: "Bash",
+    tool_input: { command, cwd: root } };
+  assert.equal(invoke(root, "task", event).status, 0);
+  const denied = invoke(root, "task", { ...event, tool_input: {
+    command: "mise run task:ready", cwd: root } });
+  assert.equal(denied.status, 2);
 }));

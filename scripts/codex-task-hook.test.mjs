@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { issueAuthorizationBranch } from './codex-task-hook.mjs';
+import { inspectShell, issueAuthorizationBranch } from './codex-task-hook.mjs';
 
 test('comments use the posting Task branch for cross-owner contact', () => {
   assert.equal(
@@ -18,3 +18,9 @@ for (const action of ['edit', 'close', 'reopen']) {
     );
   });
 }
+
+test('inline JSON Task claim uses the existing guarded worktree entry', () => {
+  const definition = JSON.stringify({ id: "EXAMPLE", issue_number: 304 });
+  const command = `mise run task:worktree -- EXAMPLE /tmp/example --slug example --definition-json '${definition}'`;
+  assert.doesNotThrow(() => inspectShell(command, '/nonexistent-staging-worktree', 'mattsun'));
+});
