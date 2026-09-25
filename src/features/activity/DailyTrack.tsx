@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { MediaDraft } from '../records/form-types';
 import { MediaGallery, RecordHeading, RecordIcon, RecordNotice } from '../records/RecordParts';
 import { activityMessages as m } from './messages';
@@ -21,15 +21,47 @@ export function formatDay(date: string): string {
  return new Intl.DateTimeFormat('ja-JP',{month:'long',day:'numeric',weekday:'short',timeZone:'UTC'}).format(new Date(`${date}T12:00:00Z`));
 }
 
-export function DailyTrack({ date, onDate, entries, expandedId, onExpand, onEdit, onReflect, onVisit, onBack, onMenu, onRecord, map, loading, error, onRetry, onMore, confirmedPlaces, duration, missingTrack, calendar = false, onCalendar, recordedDates, onMonth, onFitTrack, trackTimes }: {
- date: string; onDate:(date:string)=>void; entries:TimelineEntry[]; expandedId:string|null; onExpand:(id:string)=>void;
+export function DailyTrack({ date, onDate, entries, expandedId, revealEntry, onExpand, onEdit, onReflect, onVisit, onBack, onMenu, onRecord, map, onMapClickCapture, loading, error, onRetry, onMore, confirmedPlaces, duration, missingTrack, calendar = false, onCalendar, recordedDates, onMonth, onFitTrack, trackTimes }: {
+ date: string; onDate:(date:string)=>void; entries:TimelineEntry[]; expandedId:string|null; revealEntry?:{id:string;revision:number}|null; onExpand:(id:string)=>void;
  onEdit:(id:string)=>void; onReflect:(id:string)=>void; onVisit:(id:string)=>void; onBack:()=>void; onMenu:()=>void; onRecord:()=>void;
- map:ReactNode; loading?:boolean; error?:string; onRetry:()=>void; onMore?:()=>void;
+ map:ReactNode; onMapClickCapture?:(event:MouseEvent)=>void; loading?:boolean; error?:string; onRetry:()=>void; onMore?:()=>void;
  onFitTrack?:()=>void; trackTimes?:{start:string;end:string};
  confirmedPlaces:number; duration:string; missingTrack:boolean; calendar?:boolean; onCalendar:(open:boolean)=>void; recordedDates:Set<string>; onMonth?:(month:string)=>void;
 }) {
  const [month,setMonth] = useState(date.slice(0,7));
  const [menuOpen,setMenuOpen]=useState(false);
+ const mapRef=useRef<HTMLDivElement>(null);
+ const timelineRef=useRef<HTMLOListElement>(null);
+ const revealedRevision=useRef<number|null>(null);
+ useEffect(()=>{
+  const element=mapRef.current;
+  if(!element||!onMapClickCapture)return;
+  element.addEventListener('click',onMapClickCapture,true);
+  return()=>element.removeEventListener('click',onMapClickCapture,true);
+ },[onMapClickCapture,calendar]);
+ useEffect(()=>{
+  if(calendar||!revealEntry||expandedId!==revealEntry.id||revealedRevision.current===revealEntry.revision)return;
+  revealedRevision.current=revealEntry.revision;
+  const frame=requestAnimationFrame(()=>{
+   const card=Array.from(timelineRef.current?.children??[]).find(child=>(child as HTMLElement).dataset.entryId===revealEntry.id) as HTMLElement|undefined;
+   const toggle=card?.querySelector<HTMLButtonElement>('.activity-entry-toggle');
+   if(!card||!toggle)return;
+   toggle.focus({preventScroll:true});
+   const scroller=card.closest<HTMLElement>('.sm-sheet__body');
+   const behavior=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+   if(!scroller){card.scrollIntoView({block:'nearest',behavior});return;}
+   const viewport=scroller.getBoundingClientRect();
+   const cardRect=card.getBoundingClientRect();
+   const nav=document.querySelector<HTMLElement>('.sm-bottom-nav')?.getBoundingClientRect();
+   const top=viewport.top+8;
+   const bottom=nav&&nav.left<cardRect.right&&nav.right>cardRect.left&&nav.top<viewport.bottom?Math.min(viewport.bottom-8,nav.top-12):viewport.bottom-8;
+   const fits=cardRect.height<=bottom-top;
+   const target=fits?cardRect:toggle.getBoundingClientRect();
+   const offset=target.top<top?target.top-top:target.bottom>bottom?(fits?target.bottom-bottom:target.top-top):0;
+   if(offset)scroller.scrollBy({top:offset,behavior});
+  });
+  return()=>cancelAnimationFrame(frame);
+ },[revealEntry?.revision,revealEntry?.id,expandedId,calendar]);
  const first = new Date(`${month}-01T12:00:00Z`);
  const days = new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();
  const changeMonth = (offset:number) => { const next = new Date(first);next.setUTCMonth(next.getUTCMonth()+offset);const nextMonth=next.toISOString().slice(0,7);setMonth(nextMonth);onMonth?.(nextMonth); };
@@ -38,7 +70,7 @@ export function DailyTrack({ date, onDate, entries, expandedId, onExpand, onEdit
    {calendar ? <RecordHeading title={m.dailyTitle} onBack={onBack} end={<button type="button" className="records-icon-button" aria-label="メニュー" aria-expanded={menuOpen} onClick={()=>setMenuOpen(!menuOpen)}><RecordIcon name="more"/></button>}/> : <header className="activity-daily-heading"><button type="button" className="records-icon-button" aria-label="戻る" onClick={onBack}><RecordIcon name="back"/></button><h2>{m.dailyTitle}</h2><button type="button" className="records-icon-button" aria-label="メニュー" onClick={onMenu}><RecordIcon name="menu"/></button></header>}
    {calendar && menuOpen && <div className="activity-calendar-menu" role="menu"><button type="button" role="menuitem" onClick={()=>{setMenuOpen(false);onCalendar(false);}}>この日の軌跡を見る</button><button type="button" role="menuitem" onClick={()=>{setMenuOpen(false);onRecord();}}>体験を残す</button></div>}
    {calendar && <p className="records-lead">{m.byDate}</p>}
-   {!calendar && <div className="activity-track-map">{map}
+   {!calendar && <div ref={mapRef} className="activity-track-map">{map}
      <div className="activity-map-caption"><span>{missingTrack?'立ち寄った場所':'一日の移動'}</span>{onFitTrack&&<button type="button" onClick={onFitTrack} aria-label="軌跡全体を表示"><RecordIcon name="map"/>全体を見る</button>}</div>
      {trackTimes?.start&&<div className="activity-route-endpoints"><span><i/>{missingTrack?'最初の記録':'出発'} <b>{trackTimes.start}</b></span><span aria-hidden="true">→</span><span><i/>{missingTrack?'最後の記録':'到着'} <b>{trackTimes.end}</b></span></div>}
    </div>}
@@ -49,8 +81,8 @@ export function DailyTrack({ date, onDate, entries, expandedId, onExpand, onEdit
      {calendar && <div className="activity-records-heading"><h3>{formatDay(date)}の記録</h3><span>{entries.filter(item=>item.recordId).length}件</span></div>}
      {!calendar && missingTrack && <p className="activity-missing-track"><RecordIcon name="info"/>立ち寄った場所を表示しています。移動経路は未記録です。</p>}
      {!loading && entries.length===0 && <div className="activity-empty"><p>{m.noRecords}</p><button type="button" className="records-outline" onClick={onRecord}>{m.newRecord}</button></div>}
-     <ol className={`activity-timeline ${calendar ? 'activity-calendar-records' : ''}`}>
-       {entries.map(entry => <li key={entry.id} className={`${entry.connectedToNext ? 'is-connected' : ''} ${entry.id===expandedId ? 'is-expanded' : ''}`} style={{'--entry-color':entry.color ?? '#50bdb7'} as React.CSSProperties}>
+     <ol ref={timelineRef} className={`activity-timeline ${calendar ? 'activity-calendar-records' : ''}`}>
+       {entries.map(entry => <li key={entry.id} data-entry-id={entry.id} className={`${entry.connectedToNext ? 'is-connected' : ''} ${entry.id===expandedId ? 'is-expanded' : ''}`} style={{'--entry-color':entry.color ?? '#50bdb7'} as React.CSSProperties}>
          {!calendar && <div className="activity-timeline-time"><time>{entry.time || m.noTime}</time>{entry.mapNumber?<i className="activity-stop-number">{entry.mapNumber}</i>:<i className="activity-unplaced-dot"/>}</div>}
          <article className={`activity-timeline-card activity-status-${entry.status}`}>
            <button type="button" className="activity-entry-toggle" onClick={()=>onExpand(entry.id)} aria-expanded={expandedId===entry.id}>
