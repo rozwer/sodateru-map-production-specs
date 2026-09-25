@@ -201,6 +201,8 @@ export function CompareScreen({
       setNotice({
         text: "比較を保存し、同じ2件の記録とともに読み直しました。",
       });
+      if (!route.params.comparisonId)
+        navigate("experience-compare", { ...route.params, comparisonId: current.id });
     } catch (error) {
       if (!control.current.signal.aborted)
         setNotice(errorNotice(error, () => setRevision((x) => x + 1)));
