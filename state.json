@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 330,
+  "revision": 331,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34401,30 +34401,13 @@
       "claim_unit": null,
       "generation": 1,
       "issue_number": 304,
-      "landed_main": null,
+      "landed_main": "2b51fe8cafe3185da07f3f5579fae9f2d10c75d0",
       "note": "docs/evidence/CODEX-HOOK-BOOTSTRAP/validation.md",
       "owner": "mattsun",
-      "paths": [
-        "scripts/codex-bootstrap-hook.mjs",
-        "scripts/codex-bootstrap-hook.test.mjs",
-        "scripts/codex-task-hook.mjs",
-        "scripts/codex-task-hook.test.mjs",
-        "tools/task_worktree.py",
-        "tools/taskctl.py",
-        "tools/test_task_worktree.py",
-        "tools/test_taskctl.py",
-        ".agents/skills/sodateru-setup/SKILL.md",
-        ".agents/skills/sodateru-setup/references/hooks.md",
-        ".agents/skills/sodateru-task/SKILL.md",
-        "mise.toml",
-        "docs/evidence/CODEX-HOOK-BOOTSTRAP/",
-        "scripts/codex-mise-hook.mjs",
-        "scripts/codex-mise-hook.test.mjs",
-        "scripts/codex-hook-bootstrap-core.mjs"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "3a2a75df1f18fcf8a4e8391013735123e08220dd",
-      "token": "86910c26fcab4c91bceea0f1b5891350"
+      "token": null
     },
     "COMMUNITY": {
       "actor": "koshiro",
