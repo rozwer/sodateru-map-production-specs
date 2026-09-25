@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 323,
+  "revision": 324,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34417,7 +34417,9 @@
         ".agents/skills/sodateru-setup/references/hooks.md",
         ".agents/skills/sodateru-task/SKILL.md",
         "mise.toml",
-        "docs/evidence/CODEX-HOOK-BOOTSTRAP/"
+        "docs/evidence/CODEX-HOOK-BOOTSTRAP/",
+        "scripts/codex-mise-hook.mjs",
+        "scripts/codex-mise-hook.test.mjs"
       ],
       "status": "claimed",
       "submitted_commit": null,
