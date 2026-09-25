@@ -19,8 +19,8 @@ beforeEach(() => {
 afterEach(async () => { await act(async () => root.unmount()); host.remove(); });
 
 it('異なる2件の比較を保存後、再読込できる comparisonId 付き経路へ移る', async () => {
-  const left = { id: 'record-a', version: 2, kind: 'experience', body: '海辺を歩いた', purposes: [], impression: '', effectiveStartedAt: null, effectivePlaceId: null } as RecordView;
-  const right = { id: 'record-b', version: 3, kind: 'experience', body: '図書館で読んだ', purposes: [], impression: '', effectiveStartedAt: null, effectivePlaceId: null } as RecordView;
+  const left = { id: 'record-a', version: 2, kind: 'experience', body: '海辺を歩いた', purposes: [], impression: '', effectiveStartedAt: null, effectivePlaceId: null } as unknown as RecordView;
+  const right = { id: 'record-b', version: 3, kind: 'experience', body: '図書館で読んだ', purposes: [], impression: '', effectiveStartedAt: null, effectivePlaceId: null } as unknown as RecordView;
   let saved: ReflectionComparison | undefined;
   request.mockImplementation(async (operation: string, input: { body?: Record<string, unknown>; path?: { recordId?: string } }) => {
     if (operation === 'getRecords') return { items: [left, right], nextCursor: null };

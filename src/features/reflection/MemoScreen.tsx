@@ -269,11 +269,13 @@ export function MemoScreen({
     }
   };
   const cancel = () => {
+    setConfirmDelete(false);
     if (state.record) {
       const m = state.record.memo;
       setState((s) => ({
         ...s,
         edited: false,
+        keyword: "",
         form: {
           name: m?.name || "",
           body: state.record!.body,
@@ -282,7 +284,15 @@ export function MemoScreen({
           useForSuggestions: state.record!.useForSuggestions,
         },
       }));
-    } else setState((s) => ({ ...s, form: { ...blank }, edited: false }));
+    } else setState((s) => ({
+      ...s,
+      id: crypto.randomUUID(),
+      createKey: crypto.randomUUID(),
+      pendingCreate: undefined,
+      form: { ...blank },
+      edited: false,
+      keyword: "",
+    }));
     back();
   };
   return (

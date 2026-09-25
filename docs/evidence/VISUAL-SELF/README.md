@@ -131,3 +131,11 @@ QA報告commit: A=d264c1552b62be08729f8d2857dff25a677cf101、B=9c608b23ace7d19ef
 |PC 1440×900|[製品1440px](compare-product-saved-pc-1440.png)|左側パネルを撮影。下部操作はスクロール領域の下方。|
 
 限定確認: `bunx vitest run src/features/reflection/CompareScreen.test.tsx --environment jsdom` 1件成功、`bun run typecheck` 成功、`bunx vite build` 成功。今回は比較保存・元記録往復に限定し、原本写真付きデータ、権限喪失・競合、共通入口、他13画面の受入は未達のまま。
+
+## 2026-09-25 メモのキャンセル状態（#185）
+
+メモのキャンセルは保存済みの名前・本文などのフォームだけを戻していた。画面は経路から離れても保持されるため、未確定キーワード入力欄・入力値と削除確認が同じ経路へ戻った際に残る。新規/既存メモとも未確定のキーワードを消し、入力欄と削除確認を閉じるよう修正した。保存済みキーワードはフォームとともに復元する。新規作成中の失敗済み要求もキャンセル時に破棄し、次の作成では新しいIDと冪等キーを使う。
+
+`MemoScreen.test.tsx` に既存メモの入力途中・削除確認→キャンセルと、新規メモの失敗済み作成要求→キャンセルの回帰テストを追加し、各テストの修正前の失敗、修正後の成功を確認した。390×844の製品デモ画面でも `#/memo-edit` へ直接到達し、未確定キーワードを入力→キャンセル→同一タブで同じ経路を再表示し、入力欄が閉じて値が消えた状態を[撮影](memo-cancel-reopen-390-2026-09-25.png)した。直接経路での確認であり、共通入口からの到達・保存済みメモの削除・キャンセル後の実API再取得は今回のブラウザ確認に含まない。
+
+限定確認: `MemoScreen.test.tsx` 3件、`CompareScreen.test.tsx` 1件成功、`bunx vite build` 成功。比較テストの部分的なrecord fixture型宣言を修正した。全体 `bun run typecheck` は `server/core/core.test.ts`、`exploration/flow.ts`、`friends/screens.tsx`、`reflection/DiaryScreen.tsx`、`tools/local/dev.ts` の既存型差分で失敗し、今回変更したメモ/比較ファイルのエラーは出ていない。
