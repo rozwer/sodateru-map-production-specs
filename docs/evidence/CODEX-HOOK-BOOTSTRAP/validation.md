@@ -28,4 +28,12 @@
 
 PR #305統合後、#298の新managed task `e4da` は完全一致installも `codex-mise-hook.mjs` の静的 `smol-toml` importで拒否した。保存済みprojectのprimary cloneは旧commit `c0d34be`、その `.codex/hooks.json` は `codex-mise-hook.mjs` を直接起動する。新worktreeのgit commitは最新でも、Codex appの登録hook commandはこの旧内容を引き継ぐ場合がある。primary cloneの未追跡ファイルは保持し、checkoutは変更していない。
 
-追加修正では直接呼出先の静的外部依存importを遅延し、依存未導入時は同じ完全一致bootstrap判定に渡す。依存なしfixtureで旧commandのmise/Task直接呼出しは完全一致installのみexit 0、通常コマンドはexit 2、SessionStartは案内を返す。依存導入後の通常hook検査も維持する。#298新taskでの再試験成功までは#304を完了扱いしない。
+追加修正では直接呼出先の静的外部依存importを遅延し、依存未導入時は同じ完全一致bootstrap判定に渡す。依存なしfixtureで旧commandのmise/Task直接呼出しは完全一致installのみexit 0、通常コマンドはexit 2、SessionStartは案内を返す。依存導入後の通常hook検査も維持する。実機の再試験結果は次節に記録する。
+
+## 最新developを含む新Codex managed taskでの受入
+
+受入専用Codex task `01a0d654-4b53-7bd2-b0ba-2d4caa9c87dc` の新managed worktree `/Users/kmattsun/.codex/worktrees/e9bd/sodateru-map-production-specs` はHEAD `c410eb89857f2f17ca7f8def9a5ad7a06a93e7e2`。これはPR #306のmerge commit `1f1eb25aff043123091ce9208ba074789ede3747` の子孫であり、修正した直接hookを含む。
+
+この新タスク自身のPreToolUseで、依存未導入時の通常read-only `cat .agents/skills/sodateru-setup/SKILL.md` と `git rev-parse HEAD` は正規setup案内とともに拒否。完全一致の `mise exec -- bun install --frozen-lockfile` はPreToolUseを通過してexit 0、174 packages導入。導入後の`cat`、`git rev-parse HEAD`、`git status --short --branch` と `mise run verify` はexit 0。製品Taskのclaimや編集は行っていない。
+
+`mise run task:ready` は依存導入後にhookを通過して起動したが、GitHubのDNS解決失敗（`Could not resolve hostname github.com`）でexit 2。これはこの実機確認時の外部通信条件であり、Task board結果の成功とは記録しない。#304専用claimed worktreeでは同コマンドと`task:verify`が成功済みで、取得外編集はguardで拒否済み。
