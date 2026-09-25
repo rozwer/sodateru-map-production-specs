@@ -19,3 +19,7 @@
 - 本Taskの新規専用worktree `/Users/kmattsun/.codex/worktrees/codex-hook-bootstrap-304` で、依存未導入状態から初期worktreeの正規`mise run task:exec -- <WT> mise exec -- bun install --frozen-lockfile`により導入成功。追加の利用者Terminal操作は不要だった。
 - 導入後、`event.cwd`なし・絶対`tool_input.workdir`のpayloadでmise/Task両hookの通常`task:ready`と完全一致install判定がexit 0。`task:ready`と`task:verify`も成功。取得外の`src/features/map/screens.tsx`編集payloadはTask guardがexit 2で拒否。
 - 正式inline claimではIssue #304のTask marker/label、owner、取得15 paths、guard、verifyを確認。#297の製品pathや#189/#284のworktreeは変更しない。
+
+## Codex managed worktreeで残る確認
+
+修正commit `a0085c9` から依存未導入の新managed worktree `bootstrap-304-repro` を作成した。この既存Codexタスクからworkdirだけを新WTへ変えた実行は、呼出元 `5a6c` の旧PreToolUse hookが `Use owner/Issue-number-description` と拒否した。新WT自身のhookを読み込む新Codexタスクでの試験結果ではないため、実 managed WTからのinstall成功とは記録しない。別ツールでその拒否を迂回していない。統合後に新Codexタスクを当該commit以降から起動し、完全一致install・通常コマンド拒否を確認する必要がある。
