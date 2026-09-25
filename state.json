@@ -34081,7 +34081,7 @@
     "DAILY-TRACK-MARKER-REVEAL",
     "FE-TASK-ALIGNMENT"
   ],
-  "revision": 315,
+  "revision": 316,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34436,7 +34436,7 @@
       "generation": 1,
       "issue_number": 301,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/FE-TASK-ALIGNMENT/validation.md",
       "owner": "mattsun",
       "paths": [
         "TASK_GRAPH.json",
@@ -34465,8 +34465,8 @@
         "tools/test_connect_start_gate.py",
         "mise.toml"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "ec53a675342264769908ba19c1a701ae9c33c20e",
       "token": "7f240472acba452c89dc7b505ac14f0e"
     },
     "FEATURE-REQUESTS": {
