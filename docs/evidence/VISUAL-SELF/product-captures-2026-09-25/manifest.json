@@ -1,0 +1,179 @@
+{
+  "viewport": [
+    390,
+    844
+  ],
+  "dataMode": "demo product",
+  "results": [
+    {
+      "name": "self-home",
+      "route": "#/self-home",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/self-home-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "diary",
+      "route": "#/diary",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/diary-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"地図の接続設定がありません\"",
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"3D\"",
+        "- StaticText \"N\"",
+        "- StaticText \"デモ\"",
+        "- StaticText \"その日の出来事や気持ちを、自由に書き留めましょう。\"",
+        "- StaticText \"‹\""
+      ]
+    },
+    {
+      "name": "reflection-question",
+      "route": "#/reflection-question",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/reflection-question-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "reflection-history",
+      "route": "#/reflection-history",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/reflection-history-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "experience-compare",
+      "route": "#/experience-compare",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/experience-compare-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"3D\"",
+        "- StaticText \"N\"",
+        "- StaticText \"デモ\"",
+        "- StaticText \"選んだ2つの記録を振り返り、共通点や違いを見つけましょう。\"",
+        "- StaticText \"気づきが、あなたのことをより深く知るヒントになります。\"",
+        "- StaticText \"1つ目の体験\"",
+        "- StaticText \"2つ目の体験\""
+      ]
+    },
+    {
+      "name": "memo-edit",
+      "route": "#/memo-edit",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/memo-edit-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "type-diagnosis",
+      "route": "#/type-diagnosis",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/type-diagnosis-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"3D\"",
+        "- StaticText \"N\"",
+        "- StaticText \"デモ\"",
+        "- StaticText \"記録から見える、最近の自分\"",
+        "- StaticText \"今週\"",
+        "- StaticText \"の仮の呼び名\"",
+        "- StaticText \"記録に基づく暫定的な傾向\"",
+        "- StaticText \"新しい場所と、落ち着ける\\n時間を大切にした一週間。\""
+      ]
+    },
+    {
+      "name": "trend-evidence",
+      "route": "#/trend-evidence",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/trend-evidence-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "trend-review",
+      "route": "#/trend-review",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/trend-review-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "themes",
+      "route": "#/themes",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/themes-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"デモ\""
+      ]
+    },
+    {
+      "name": "theme-edit",
+      "route": "#/theme-edit",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/theme-edit-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"青緑\"",
+        "- StaticText \"ピンク\"",
+        "- StaticText \"オレンジ\"",
+        "- StaticText \"黄\"",
+        "- StaticText \"緑\"",
+        "- StaticText \"青\"",
+        "- StaticText \"紫\"",
+        "- StaticText \"このテーマに関連する記録を選びましょう。（複数選択できます）\""
+      ]
+    },
+    {
+      "name": "self-checkin",
+      "route": "#/self-checkin",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/self-checkin-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"3D\"",
+        "- StaticText \"N\"",
+        "- StaticText \"デモ\"",
+        "- StaticText \"今の気持ちや希望を入力して\\nあなたに合う過ごし方を見つけましょう。\"",
+        "- StaticText \"今の状態\"",
+        "- StaticText \"（任意）\"",
+        "- StaticText \"どんなふうに過ごしたい？\"",
+        "- StaticText \"（任意）\""
+      ]
+    },
+    {
+      "name": "suggestions",
+      "route": "#/suggestions",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/suggestions-390.png",
+      "mapFailure": true,
+      "visibleText": [
+        "- StaticText \"地図の接続設定がありません\"",
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"3D\"",
+        "- StaticText \"N\"",
+        "- StaticText \"デモ\"",
+        "- StaticText \"希望条件の指定なし\"",
+        "- StaticText \"0件の候補があります\""
+      ]
+    },
+    {
+      "name": "suggestion-detail",
+      "route": "#/suggestion-detail",
+      "screenshot": "docs/evidence/VISUAL-SELF/product-captures-2026-09-25/suggestion-detail-390.png",
+      "mapFailure": false,
+      "visibleText": [
+        "- StaticText \"0件の地点\"",
+        "- StaticText \"デモ\""
+      ]
+    }
+  ]
+}

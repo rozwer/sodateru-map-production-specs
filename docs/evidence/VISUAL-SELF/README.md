@@ -51,3 +51,31 @@ QA報告commit: A=d264c1552b62be08729f8d2857dff25a677cf101、B=9c608b23ace7d19ef
 - SETTINGS #191: profile通常値/icon/停止place photos/非健康統計operation。RECORDS #189: Place/Visit/Track/Growth/Insight対応ID・写真・複数地点。
 - #189からShellへの報告ではdemo写真保存→再表示→編集を確認。これは他担当の報告であり本担当の実測ではない。実機撮影・OS拒否・live保存は未確認。
 - 締切指示により未着分を待たず公開してclaimを通常返却。未確認項目は再開担当が現行QA/Scopeで確認する。
+
+## 2026-09-25 再開確認（#185）
+
+基点は取得済み `origin/develop` の専用 worktree `mattsun/185-visual-self-continue`、修正 commit `16704c6`。390×844 Chromium、製品 URL `http://127.0.0.1:5173/#/<画面>`、ローカル API `127.0.0.1:3001` のデモ本人で確認した。画面別の製品画像は [product-captures-2026-09-25](product-captures-2026-09-25/manifest.json)、表示確認用の通常 fixture は [captures-2026-09-25](captures-2026-09-25/manifest.json)。後者は **API 未接続** であり、製品の保存・再取得の証拠ではない。両撮影スクリプトは同ディレクトリに保存した。製品直接 URL は必要 ID や日付を与えない状態も含むため、到達だけで受入完了とはしない。
+
+|画面|390px製品 / fixture|今回の実施と残件|
+|---|---|---|
+|self-home|[製品](product-captures-2026-09-25/self-home-390.png) / [fixture](captures-2026-09-25/self-home-390.png)|原本853×1844を再目視。製品は共通 `NavigationCards` に置換され feature の `SelfHomeScreen` が mount されない。Mapbox接続設定なし。#300の[記録](https://github.com/rozwer/sodateru-map-production-specs/issues/300#issuecomment-5830836984)と共通Shell #4へ[連絡](https://github.com/rozwer/sodateru-map-production-specs/issues/4#issuecomment-5830867736)。3入口はカード表示のみで原本の地図/診断プレビュー受入は未達。|
+|diary|[製品](product-captures-2026-09-25/diary-390.png) / [fixture](captures-2026-09-25/diary-390.png)|当日の空状態と写真3枚の表示fixtureを撮影。実写真選択/削除、AI採用、保存再取得、原本幅は未確認。|
+|reflection-question|[製品](product-captures-2026-09-25/reflection-question-390.png) / [fixture](captures-2026-09-25/reflection-question-390.png)|製品0問と回答済み表示fixtureを撮影。本人回答・あとで・スキップ・元記録の実API再取得は未確認。|
+|reflection-history|[製品](product-captures-2026-09-25/reflection-history-390.png) / [fixture](captures-2026-09-25/reflection-history-390.png)|製品0件と複数件fixtureを撮影。実データfilter/展開・原本幅は未確認。|
+|experience-compare|[製品](product-captures-2026-09-25/experience-compare-390.png) / [fixture](captures-2026-09-25/experience-compare-390.png)|製品の未選択と2件fixtureを撮影。異なる実recordIdでの保存・再取得は未確認。|
+|memo-edit|[製品](product-captures-2026-09-25/memo-edit-390.png) / [fixture](captures-2026-09-25/memo-edit-390.png)|デモAPIで新規保存→ `recordId` 付きURL→reload後に名前/本文を再表示。[reload画像](memo-edit-product-reload-390.png)。由来/キーワード/削除/競合/原本幅は未確認。|
+|type-diagnosis|[製品](product-captures-2026-09-25/type-diagnosis-390.png) / [fixture](captures-2026-09-25/type-diagnosis-390.png)|製品デモの5軸表示と根拠3件を[スクロール後](type-diagnosis-product-390.png)に撮影。原本853×1844、別本人データ、正式結果の軸契約は未確認。|
+|trend-evidence|[製品](product-captures-2026-09-25/trend-evidence-390.png) / [fixture](captures-2026-09-25/trend-evidence-390.png)|IDなし直接URLは通信失敗を表示。fixture通常状態を撮影。実結果ID・元記録の保存/閲覧権限喪失は未確認。|
+|trend-review|[製品](product-captures-2026-09-25/trend-review-390.png) / [fixture](captures-2026-09-25/trend-review-390.png)|タイプ診断から `choice=unsure` で遷移し、理由をデモAPI保存→reload後に同文を確認。[reload画像](trend-review-product-reload-390.png)。他の選択/競合/原本幅は未確認。|
+|themes|[製品](product-captures-2026-09-25/themes-390.png) / [fixture](captures-2026-09-25/themes-390.png)|製品0件と通常fixtureを撮影。同じthemeIdで一覧/地図を往復する実データ確認は未実施。|
+|theme-edit|[製品](product-captures-2026-09-25/theme-edit-390.png) / [fixture](captures-2026-09-25/theme-edit-390.png)|新規空フォームと通常fixtureを撮影。実写真/AI命名採用/取消/保存/競合は未確認。|
+|self-checkin|[製品](product-captures-2026-09-25/self-checkin-390.png) / [fixture](captures-2026-09-25/self-checkin-390.png)|製品空フォームと入力済fixtureを撮影。デモAPIでの回答のみ保存は限定テスト2件成功、実ブラウザでは未実施。|
+|suggestions|[製品](product-captures-2026-09-25/suggestions-390.png) / [fixture](captures-2026-09-25/suggestions-390.png)|条件なし0件と写真付き2候補fixtureを撮影。条件変更→実候補の一連操作は未確認。|
+|suggestion-detail|[製品](product-captures-2026-09-25/suggestion-detail-390.png) / [fixture](captures-2026-09-25/suggestion-detail-390.png)|IDなし直接URLと通常fixtureを撮影。実候補からの選択/保留/見送り/メモ/地図placeId引継ぎは未確認。|
+
+### 今回の限定検証と明示した未達
+
+- `MemoScreen` は新規保存後に `recordId` をURLへ残す。`MemoScreen.test.tsx` 1件成功、製品デモAPIで保存→reload後の同一ID本文再表示を目視。
+- `ReviewScreen` はrouteの `choice=unsure` と保存済み理由を同時に復元する。`screens.test.tsx` 1件成功、製品デモAPIで理由保存→reloadを目視。
+- 既存 `suggestions/screens.test.tsx` は jsdom 指定で2件成功。全体 `bun run typecheck` は scope外の CORE/exploration/friends/tools と、既報の diary AI採用 `If-Match` 型契約で失敗。今回変更ファイルの型エラーは出ていない。
+- 本worktreeには Mapbox 接続設定がなく、製品・fixtureとも実地図は表示できなかった。原本幅、PC幅、異なる2組の通常データ、空/読込/写真失敗/権限喪失/長文/競合、文字200%、ソフトキーボード、戻りscroll/focus、全14画面の実API保存・取消・再取得は未達。スクリーンショットの画面到達を完成扱いしない。
