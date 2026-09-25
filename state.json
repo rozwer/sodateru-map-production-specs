@@ -155,6 +155,7 @@
         "BIKE": 29,
         "BUILDING-GROWTH": 222,
         "BUILDING-RECORDS": 228,
+        "CODEX-HOOK-BOOTSTRAP": 304,
         "COMMUNITY": 22,
         "COMPANION": 35,
         "CONNECT-BASE": 137,
@@ -7971,6 +7972,31 @@
           "scripts/codex-mise-hook.test.mjs",
           ".agents/skills/sodateru-setup/SKILL.md",
           ".agents/skills/sodateru-setup/references/hooks.md"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "CODEX-HOOK-BOOTSTRAP",
+        "kind": "coordination",
+        "lane": "A",
+        "owner": "mattsun",
+        "priority": "P0",
+        "title": "Codex managed worktreeの依存未導入時bootstrapとTask定義準備を修復する",
+        "write_paths": [
+          "scripts/codex-bootstrap-hook.mjs",
+          "scripts/codex-bootstrap-hook.test.mjs",
+          "scripts/codex-task-hook.mjs",
+          "scripts/codex-task-hook.test.mjs",
+          "tools/task_worktree.py",
+          "tools/taskctl.py",
+          "tools/test_task_worktree.py",
+          "tools/test_taskctl.py",
+          ".agents/skills/sodateru-setup/SKILL.md",
+          ".agents/skills/sodateru-setup/references/hooks.md",
+          ".agents/skills/sodateru-task/SKILL.md",
+          "mise.toml",
+          "docs/evidence/CODEX-HOOK-BOOTSTRAP/"
         ]
       }
     ],
@@ -34285,9 +34311,10 @@
     "UI-INTEGRATION",
     "VISUAL-MAP-EXPLORE",
     "VISUAL-SETTINGS",
-    "VISUAL-SHELL"
+    "VISUAL-SHELL",
+    "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 322,
+  "revision": 323,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34367,6 +34394,34 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "CODEX-HOOK-BOOTSTRAP": {
+      "actor": "mattsun",
+      "base_commit": "952b8c44a3c7696d8f0683903528ec81b8a36b75",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 304,
+      "landed_main": null,
+      "note": null,
+      "owner": "mattsun",
+      "paths": [
+        "scripts/codex-bootstrap-hook.mjs",
+        "scripts/codex-bootstrap-hook.test.mjs",
+        "scripts/codex-task-hook.mjs",
+        "scripts/codex-task-hook.test.mjs",
+        "tools/task_worktree.py",
+        "tools/taskctl.py",
+        "tools/test_task_worktree.py",
+        "tools/test_taskctl.py",
+        ".agents/skills/sodateru-setup/SKILL.md",
+        ".agents/skills/sodateru-setup/references/hooks.md",
+        ".agents/skills/sodateru-task/SKILL.md",
+        "mise.toml",
+        "docs/evidence/CODEX-HOOK-BOOTSTRAP/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "86910c26fcab4c91bceea0f1b5891350"
     },
     "COMMUNITY": {
       "actor": "koshiro",
