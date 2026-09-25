@@ -70,7 +70,7 @@ function EvidenceScreen({ route, navigate, scopeKey, active = true }: ScreenProp
 
 function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps) {
   const initialChoice = route.params.choice as ReviewChoice | undefined;
-  const [model, setModel] = useScreenState<{ draft: ReviewDraft | null; creation: { id: string; key: string } | null }>({ draft: null, creation: null });
+  const [model, setModel] = useScreenState<{ draft: ReviewDraft | null; dirty: boolean; creation: { id: string; key: string } | null }>({ draft: null, dirty: false, creation: null });
   const [loaded, setLoaded] = useState<Loaded | null>(null), [loading, setLoading] = useState(true), [reload, setReload] = useState(0);
   const [busy, setBusy] = useState(false), [error, setError] = useState<string | null>(null), [notice, setNotice] = useState<string | null>(null);
   const [currentReview, setCurrentReview] = useState<ReviewDraft | null>(null);
@@ -82,7 +82,7 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
     void loadInsight(route.params, controller.signal).then(result => {
       if (controller.signal.aborted) return;
       const choice = initialChoice && ['agree', 'disagree', 'unsure'].includes(initialChoice) ? initialChoice : result.view.review;
-      setLoaded(result); setModel(previous => ({ ...previous, draft: previous.draft ?? { choice, note: choice === result.view.review ? result.view.reviewNote : '' } }));
+      setLoaded(result); setModel(previous => ({ ...previous, draft: previous.dirty ? previous.draft : { choice, note: choice === result.view.review ? result.view.reviewNote : '' } }));
     }).catch(error => { if (!controller.signal.aborted && !isCancelled(error)) { setLoaded(null); setError(requestError(error)); } }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   }, [route.params, scopeKey, reload, active]);
@@ -103,6 +103,7 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
       const result = await api.request('patchInsightsInsightId', { path: { insightId: raw.id }, body: { review: draft.choice, reviewNote: draft.note }, version: raw.version, signal: controller.signal });
       if (controller.signal.aborted) return;
       setLoaded({ ...loaded, raw: result.data, view: { ...loaded.view, id: result.data.id, version: result.data.version, review: draft.choice, reviewNote: draft.note } });
+      setModel(previous => ({ ...previous, dirty: false }));
       setNotice(m.saved); notifyInsightSaved(scopeKey);
     } catch (error) {
       if (controller.signal.aborted || isCancelled(error)) return;
@@ -111,7 +112,7 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
           const latest = (await api.request('getInsightsInsightId', { path: { insightId: raw.id }, signal: controller.signal })).data;
           if (controller.signal.aborted) return;
           setLoaded(previous => previous ? { ...previous, raw: latest } : previous);
-          if (latest.review === draft.choice && (latest.reviewNote ?? '') === draft.note) { setNotice(m.saved); notifyInsightSaved(scopeKey); return; }
+          if (latest.review === draft.choice && (latest.reviewNote ?? '') === draft.note) { setModel(previous => ({ ...previous, dirty: false })); setNotice(m.saved); notifyInsightSaved(scopeKey); return; }
           const latestChoice = latest.review === 'agree' || latest.review === 'disagree' || latest.review === 'unsure' ? latest.review : null;
           setCurrentReview({ choice: latestChoice, note: latest.reviewNote ?? '' });
         } catch (readError) { if (isCancelled(readError)) return; }
@@ -121,7 +122,7 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
   }
   return <>
     {currentReview && <section className="insights-ui insight-conflict"><h2>現在保存されている判断</h2><p>{currentReview.choice ? m.reviews[currentReview.choice] : 'まだ判断はありません'}</p><p>{currentReview.note}</p><p>入力中の判断と比べて、保存する内容を確認してください。</p></section>}
-    <ReviewView value={loaded?.view ?? null} draft={model.draft ?? { choice: null, note: '' }} onChange={draft => setModel({ ...model, draft })} status={{ busy, loading, error, notice }} onSave={() => void save()} onOriginal={() => navigate('trend-evidence', route.params)} onRetry={() => setReload(value => value + 1)}/>
+    <ReviewView value={loaded?.view ?? null} draft={model.draft ?? { choice: null, note: '' }} onChange={draft => setModel(previous => ({ ...previous, draft, dirty: true }))} status={{ busy, loading, error, notice }} onSave={() => void save()} onOriginal={() => navigate('trend-evidence', route.params)} onRetry={() => setReload(value => value + 1)}/>
   </>;
 }
 
