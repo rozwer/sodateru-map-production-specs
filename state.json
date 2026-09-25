@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 331,
+  "revision": 332,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35299,12 +35299,22 @@
       "token": null
     },
     "UI-MAP-RECORD-LINK": {
-      "actor": null,
-      "generation": 0,
+      "actor": "mattsun",
+      "base_commit": "2b51fe8cafe3185da07f3f5579fae9f2d10c75d0",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 298,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "mattsun",
+      "paths": [
+        "src/features/map/screens.tsx",
+        "src/features/activity/screens.tsx",
+        "docs/evidence/UI-MAP-RECORD-LINK/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "25c29aad0005417ebb9c8b9ab78289e9"
     },
     "UI-MAP-THEME-RETRY": {
       "actor": null,
