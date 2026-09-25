@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 352,
+  "revision": 353,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35340,18 +35340,22 @@
       "token": null
     },
     "UI-RECORDS": {
-      "actor": null,
-      "base_commit": "6eace54bc957ac4be773666fa1cf45a212a09de9",
+      "actor": "mattsun",
+      "base_commit": "cb32b241d39a87bd7406bfe99d1702a6d70bf8fc",
       "claim_unit": null,
-      "generation": 4,
+      "generation": 5,
       "issue_number": 11,
       "landed_main": null,
       "note": "PR #313 merged; UI #11 acceptance remains open; see docs/evidence/UI-RECORDS/acceptance-inventory.md and Issue #11 comment",
       "owner": "mattsun",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/records/",
+        "src/features/activity/",
+        "docs/evidence/UI-RECORDS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "49dc3aab2a5c45b3b5d1f322852e9ad1"
     },
     "UI-REFLECTION": {
       "actor": null,
