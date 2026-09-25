@@ -1,18 +1,28 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync, realpathSync } from "node:fs";
-import { resolve } from "node:path";
+import { isAbsolute, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = realpathSync(fileURLToPath(new URL("../", import.meta.url)));
 const dependencyNames = ["smol-toml", "shell-quote"];
+
+export function toolCwd(event) {
+  const input = event?.tool_input ?? {};
+  const workdir = input.workdir ?? input.cwd;
+  if (typeof workdir === "string" && isAbsolute(workdir)) return resolve(workdir);
+  if (typeof event?.cwd === "string" && isAbsolute(event.cwd) &&
+      (workdir === undefined || typeof workdir === "string"))
+    return resolve(event.cwd, workdir ?? ".");
+  return null;
+}
 
 export function isExactBootstrap(event) {
   if (event?.hook_event_name !== "PreToolUse" ||
       !["Bash", "exec_command"].includes(event.tool_name)) return false;
   const input = event.tool_input ?? {};
   if ((input.command ?? input.cmd) !== "mise exec -- bun install --frozen-lockfile") return false;
-  if (typeof event.cwd !== "string") return false;
-  const cwd = resolve(event.cwd, input.workdir ?? input.cwd ?? ".");
+  const cwd = toolCwd(event);
+  if (!cwd) return false;
   try {
     const target = realpathSync(execFileSync("git", ["-C", cwd, "rev-parse", "--show-toplevel"],
       { encoding: "utf8" }).trim());
@@ -29,7 +39,14 @@ export async function handle(event, role) {
   if (!["mise", "task"].includes(role)) throw new Error("Unknown hook role");
   try {
     const module = await import(role === "mise" ? "./codex-mise-hook.mjs" : "./codex-task-hook.mjs");
-    return module.handle(event);
+    const cwd = toolCwd(event);
+    const input = event?.tool_input;
+    const normalized = cwd ? {
+      ...event, cwd,
+      tool_input: input && typeof input === "object" && !Array.isArray(input)
+        ? { ...input, workdir: cwd } : input,
+    } : event;
+    return module.handle(normalized);
   } catch (error) {
     if (error?.code !== "ERR_MODULE_NOT_FOUND" ||
         !dependencyNames.some(name => error.message?.includes("'" + name + "'"))) throw error;

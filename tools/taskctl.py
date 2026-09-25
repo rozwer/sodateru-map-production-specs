@@ -29,6 +29,21 @@ def atomic_json(path,value):
         os.replace(temporary,path)
     finally:temporary.unlink(missing_ok=True)
 
+def load_claim_definition(path=None, value=None):
+    """Load an inline Task definition without requiring a pre-claim file."""
+    if path is not None and value is not None:
+        raise BoardError('Use either --definition or --definition-json')
+    if path is None and value is None:
+        return None
+    raw = Path(path).read_text(encoding='utf-8') if path is not None else value
+    try:
+        definition = json.loads(raw)
+    except (TypeError, ValueError) as error:
+        raise BoardError('Definition must be valid JSON') from error
+    if not isinstance(definition, dict):
+        raise BoardError('Definition must be a JSON object')
+    return definition
+
 def register_inline(board,task,definition):
     """Publish a new Issue definition in the same CAS as its first claim."""
     from sync_graph import validate
@@ -358,7 +373,7 @@ def main()->int:
     sub=parser.add_subparsers(dest='command',required=True)
     p=sub.add_parser('init');p.add_argument('--manifest',default='TASK_GRAPH.json')
     p=sub.add_parser('ready');p.add_argument('--all',action='store_true');p.add_argument('--json',action='store_true')
-    p=sub.add_parser('claim');p.add_argument('task');p.add_argument('--actor');p.add_argument('--path',action='append',default=[]);p.add_argument('--unit');p.add_argument('--receipt');p.add_argument('--definition')
+    p=sub.add_parser('claim');p.add_argument('task');p.add_argument('--actor');p.add_argument('--path',action='append',default=[]);p.add_argument('--unit');p.add_argument('--receipt');p.add_argument('--definition');p.add_argument('--definition-json')
     for cmd in ('release','handoff','submit','land','complete','add-lock'):
         p=sub.add_parser(cmd);p.add_argument('task');p.add_argument('--token',required=True)
         if cmd in ('release','handoff'):p.add_argument('--note',required=True)
@@ -399,8 +414,9 @@ def main()->int:
                     if not board:raise BoardError('Board missing; run init once')
                     if getattr(args,'task',None) and args.task.isdigit():
                         args.task=next((t for t,n in (op.policy_for(board) or {}).get('issue_numbers',{}).items() if n==int(args.task)),args.task)
-                    if args.command=='claim' and args.definition:
-                        register_inline(board,args.task,json.loads(Path(args.definition).read_text(encoding='utf-8')))
+                    if args.command=='claim':
+                        definition=load_claim_definition(args.definition,args.definition_json)
+                        if definition is not None:register_inline(board,args.task,definition)
                     if args.command=='claim':
                         ir.contact_registration(op.policy_for(board),args.task)
                     result=change(board,args)

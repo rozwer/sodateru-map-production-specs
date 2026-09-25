@@ -23,14 +23,18 @@ run = "python3 -X utf8 -m unittest discover -s tools -p \"test_hooks*.py\""
 run_windows = "python -X utf8 -m unittest discover -s tools -p \"test_hooks*.py\""
 
 [tasks."codex-hooks:test"]
-run = "node --test scripts/codex-mise-hook.test.mjs scripts/codex-subagent-model-hook.test.mjs scripts/codex-task-hook.test.mjs"
+run = "node --test scripts/codex-mise-hook.test.mjs scripts/codex-subagent-model-hook.test.mjs scripts/codex-task-hook.test.mjs scripts/codex-bootstrap-hook.test.mjs"
 
 [tasks.verify]
-depends = ["hooks:test", "codex-hooks:test", "issue-router:test", "task:alignment:test"]
+depends = ["hooks:test", "codex-hooks:test", "issue-router:test", "task:alignment:test", "task:bootstrap:test"]
 
 [tasks."task:alignment:test"]
 run = ["python3 -X utf8 -m unittest discover -s tools -p test_sync_graph.py", "python3 -X utf8 -m unittest discover -s tools -p test_connect_start_gate.py"]
 run_windows = ["python -X utf8 -m unittest discover -s tools -p test_sync_graph.py", "python -X utf8 -m unittest discover -s tools -p test_connect_start_gate.py"]
+
+[tasks."task:bootstrap:test"]
+run = ["python3 -X utf8 -m unittest discover -s tools -p test_taskctl.py", "python3 -X utf8 -m unittest discover -s tools -p test_task_worktree.py"]
+run_windows = ["python -X utf8 -m unittest discover -s tools -p test_taskctl.py", "python -X utf8 -m unittest discover -s tools -p test_task_worktree.py"]
 
 [tasks."issue-router:test"]
 run = ["node --test tools/issue_router_scope.test.mjs tools/vendor/codex-issue-router/test/*.test.mjs", "python3 -X utf8 -m unittest discover -s tools -p test_issue_router_bridge.py"]
