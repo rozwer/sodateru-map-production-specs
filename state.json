@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 326,
+  "revision": 327,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34423,7 +34423,7 @@
         "scripts/codex-hook-bootstrap-core.mjs"
       ],
       "status": "submitted",
-      "submitted_commit": "1a6e862b529a511b4f4752fce00519d76a7c8c00",
+      "submitted_commit": "d9aa7bb97004dea29dc9b603382b3750ea4b04ef",
       "token": "86910c26fcab4c91bceea0f1b5891350"
     },
     "COMMUNITY": {
