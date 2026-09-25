@@ -75,9 +75,10 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
-    const measure = () => setNavHeight(nav.getBoundingClientRect().height + 16);
+    const measure = () => setNavHeight(window.innerHeight - nav.getBoundingClientRect().top + 8);
     const observer = new ResizeObserver(measure); observer.observe(nav); measure();
-    return () => observer.disconnect();
+    window.addEventListener('resize', measure);
+    return () => { observer.disconnect(); window.removeEventListener('resize', measure); };
   }, []);
   useEffect(() => {
     if (!(onStart && parseRoute(location.hash).pageId === '$start')) history.replaceState({ sodateruDepth: entries.length }, '', routeHash(current.route));

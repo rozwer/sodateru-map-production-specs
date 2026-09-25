@@ -16,7 +16,16 @@
 .sm-sheet--navigation.sm-sheet--right .sm-sheet__body { padding-top: 42px; }
 .sm-sheet .sm-sheet__body--no-padding { padding-top: 0; padding-left: 0; padding-right: 0; }
 @media (max-width: 767px) {
-  .sm-sheet--mobile-height { top: auto; height: var(--sheet-mobile-height); }
+  .sm-sheet--mobile-height {
+    top: auto;
+    bottom: var(--bottom-nav-height, 0px);
+    width: 100%;
+    height: min(var(--sheet-mobile-height), calc(100dvh - var(--bottom-nav-height, 0px)));
+    min-height: min(300px, 45dvh);
+  }
+  .sm-sheet--mobile-height .sm-sheet__body {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+  }
 }
 @media (max-width: 359px) {
   .sm-sheet--navigation { width: 76%; }
