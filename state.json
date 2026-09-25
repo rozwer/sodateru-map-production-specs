@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 363,
+  "revision": 364,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35272,21 +35272,17 @@
       "token": null
     },
     "UI-MAP": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "d6f8d91906f9edeef55afc3bfdcfd65a7f00ce53",
-      "generation": 9,
+      "generation": 10,
       "issue_number": 8,
       "landed_main": null,
-      "note": "FE changes merged in PRs #289-#296; evidence at docs/evidence/UI-MAP/. Remaining: #172 shared Shell at 512px, #174 reference art, #134/#27/#123 APIs and layer data, real device text zoom/keyboard/reduced motion. Dedicated worktree /Users/kmattsun/Documents/01_Workspace/sodateru-map-production-specs-ui-map-8 at 9a283775; issue #8 stays open.",
+      "note": "UI-MAP #8 partial FE handoff: PRs 320, 321, 322, 323, 325, 326 merged; issue remains open. Unverified: populated and theme maps, layer markers, object CRUD and settings persistence, external map tile warning, original image and device accessibility checks. Clean worktree: /Users/kmattsun/Documents/01_Workspace/sodateru-map-production-specs-ui-map-8-night branch mattsun/8-map-fe-night.",
       "owner": "mattsun",
-      "paths": [
-        "src/features/map/",
-        "src/map/",
-        "docs/evidence/UI-MAP/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "b6c55700a6204bff81b7013b286c1a32"
+      "token": null
     },
     "UI-MAP-CARD": {
       "actor": "mattsun",
