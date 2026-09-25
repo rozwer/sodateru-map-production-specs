@@ -937,6 +937,7 @@ export function MemoView({
   confirmDelete,
   setConfirmDelete,
   busy,
+  saveDisabled,
   notice,
 }: {
   value: MemoForm;
@@ -950,6 +951,7 @@ export function MemoView({
   confirmDelete: boolean;
   setConfirmDelete: (v: boolean) => void;
   busy?: boolean;
+  saveDisabled?: boolean;
   notice?: Notice;
 }) {
   const [addingKeyword, setAddingKeyword] = useState(false);
@@ -1120,6 +1122,7 @@ export function MemoView({
             onClick={save}
             disabled={
               busy ||
+              saveDisabled ||
               !value.name.trim() ||
               Array.from(value.name).length > 20 ||
               Array.from(value.body).length > 200

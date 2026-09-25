@@ -109,3 +109,43 @@ it('新規メモをキャンセルすると失敗した作成要求も破棄す�
   expect(next.pendingCreate).toBeUndefined();
   expect(next.keyword).toBe('');
 });
+
+it('削除済みメモへ戻っても削除前の本文や操作を表示しない', async () => {
+  const record = {
+    id: 'memo-1', kind: 'memo', body: '削除前の本文', version: 1,
+    useForSuggestions: true,
+    memo: { name: '削除するメモ', originRefs: [], keywords: [] },
+  };
+  let deleted = false;
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getRecordsRecordId') {
+      if (deleted) throw new Error('このメモは見つかりません');
+      return { data: { record } };
+    }
+    if (operation === 'getRecords' || operation === 'getSuggestions') return { items: [], nextCursor: null };
+    if (operation === 'deleteRecordsRecordId') { deleted = true; return {}; }
+    throw new Error(`Unexpected operation: ${operation}`);
+  });
+  const state = new Map<string, unknown>([['memo-fixture', {
+    id: 'memo-1', record, form: { name: '削除するメモ', body: '削除前の本文', origins: [], keywords: [], useForSuggestions: true },
+    edited: false, keyword: '', options: [], loaded: true, createKey: 'create-1',
+  }]]);
+  const route = { pageId: 'memo-edit', params: { recordId: 'memo-1' } };
+  const render = async (active: boolean) => act(async () => root.render(
+    <ScreenStateContext.Provider value={state}>
+      <ScreenKeyContext.Provider value="memo-fixture">
+        <MemoScreen route={route} scopeKey="test:person-1" active={active} navigate={navigate} back={vi.fn()} />
+      </ScreenKeyContext.Provider>
+    </ScreenStateContext.Provider>,
+  ));
+  await render(true);
+  const button = (label: string) => [...host.querySelectorAll('button')].find(item => item.textContent?.trim() === label)!;
+  await act(async () => button('このメモを削除する').click());
+  await act(async () => button('このメモを削除').click());
+  expect(navigate).toHaveBeenCalledWith('personal-map');
+  await render(false);
+  await render(true);
+  expect((host.querySelector('textarea') as HTMLTextAreaElement).value).toBe('');
+  expect(host.textContent).not.toContain('このメモを削除する');
+  expect((button('保存') as HTMLButtonElement).disabled).toBe(true);
+});

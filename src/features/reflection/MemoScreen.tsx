@@ -260,6 +260,17 @@ export function MemoScreen({
         version: state.record.version,
         signal: control.current.signal,
       });
+      setConfirmDelete(false);
+      setState((s) => ({
+        ...s,
+        record: undefined,
+        form: { ...blank },
+        keyword: "",
+        options: [],
+        edited: false,
+        loaded: false,
+        pendingCreate: undefined,
+      }));
       navigate("personal-map");
     } catch (error) {
       setNotice(errorNotice(error, () => setRevision((x) => x + 1)));
@@ -308,6 +319,7 @@ export function MemoScreen({
       confirmDelete={confirmDelete}
       setConfirmDelete={setConfirmDelete}
       busy={busy}
+      saveDisabled={!state.loaded}
       notice={notice}
     />
   );
