@@ -7,9 +7,10 @@ import './map-feature.css';
 
 // Presentation values only. Provider data is supplied through the shared API client.
 export type PlacePresentation = { id: string; name: string; address: string | null; categories: string[]; description?: string | null; photoUrl?: string | null; photoAlt?: string; durationMinutes?: number | null; distanceMeters?: number | null; attribution?: string; sourceUrl?: string | null };
-export function PlacePhoto({ place, className = '' }: { place: PlacePresentation; className?: string }) {
+export function PlacePhoto({ place, className = '', hideWhenMissing = false }: { place: PlacePresentation; className?: string; hideWhenMissing?: boolean }) {
   const [failed, setFailed] = useState(false);
   useEffect(() => setFailed(false), [place.photoUrl]);
+  if ((!place.photoUrl || failed) && hideWhenMissing) return null;
   return place.photoUrl && !failed ? <img className={`map-place-photo ${className}`} src={place.photoUrl} alt={place.photoAlt || place.name} onError={() => setFailed(true)} /> : <div className={`map-photo-missing ${className}`}><MapIcon name="cup"/><span>{m.photoMissing}</span></div>;
 }
 export function NearbyCards({ places, onSelect, onMore }: { places: PlacePresentation[]; onSelect: (id: string) => void; onMore: () => void }) {

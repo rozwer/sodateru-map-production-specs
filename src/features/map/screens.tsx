@@ -106,13 +106,25 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
   const record = state.records.find(item => item.effectivePlaceId === state.selectedPlaceId);
   const detailedRecord = detail?.ownRecords.items.find(item => item.id === record?.id);
   const theme = state.themes.find(item => record && item.recordIds.includes(record.id) && (!state.themeId || item.id === state.themeId));
+  const photoUrl = detailedRecord?.media.find(media => media.kind === 'photo' && media.status === 'ready')?.contentUrl;
   return <div className="map-feature map-personal-panel">
     {state.growthError && <Status kind="error" onRetry={() => void session.loadGrowth(bridge)}>地図の成長を取得できませんでした。{state.growthError}</Status>}
     {state.personalLoading && <Status kind="loading">体験のある場所を読み込み中…</Status>}
     {state.personalError && <Status kind="error" onRetry={() => void session.loadPersonal(bridge, state.themeId)}>{state.personalError}</Status>}
     {state.detailLoading && <Status kind="loading">場所の情報を読み込み中…</Status>}
     {state.detailError && <Status kind="error" onRetry={session.retryDetail}>{state.detailError}</Status>}
-    {detail ? <><div className="map-personal-detail"><PlacePhoto place={{ ...detailPresentation(detail), photoUrl: detailedRecord?.media.find(media => media.kind === 'photo' && media.status === 'ready')?.contentUrl }}/><div><h2 className="map-icon-line"><MapIcon name="cup"/>{detail.place.name}</h2><button type="button" className="map-address-link" onClick={() => navigate('map', { placeId: detail.place.id })}><Icon name="pin"/>{detail.place.address || m.addressMissing}</button><p className="map-muted">{record?.impression}</p>{record?.purposes.length ? <div className="map-personal-purposes" aria-label="この記録の用途">{record.purposes.map(purpose => <span key={purpose}>{purpose}</span>)}</div> : null}<blockquote>{record?.body || (state.themeId ? 'このテーマに、この場所の記録はありません。' : 'この場所の記録を選んでください。')}</blockquote></div></div>
+    {detail ? <><div className="map-personal-detail">
+      <div className="map-personal-detail__header">
+        <PlacePhoto place={{ ...detailPresentation(detail), photoUrl }} hideWhenMissing />
+        <div className="map-personal-detail__place">
+          <h2 className="map-icon-line"><MapIcon name="cup"/><span>{detail.place.name}</span></h2>
+          <button type="button" className="map-address-link" onClick={() => navigate('map', { placeId: detail.place.id })}><Icon name="pin"/><span>{detail.place.address || m.addressMissing}</span></button>
+        </div>
+      </div>
+      {record?.impression && <p className="map-muted map-personal-detail__impression">{record.impression}</p>}
+      {record?.purposes.length ? <div className="map-personal-purposes" aria-label="この記録の用途">{record.purposes.map(purpose => <span key={purpose}>{purpose}</span>)}</div> : null}
+      <blockquote>{record?.body || (state.themeId ? 'このテーマに、この場所の記録はありません。' : 'この場所の記録を選んでください。')}</blockquote>
+    </div>
       <div className="map-personal-theme"><span>{m.theme}</span>{theme && <button type="button" className="map-theme-chip" onClick={() => navigate('personal-map', { themeId: theme.id })}><MapIcon name="cup"/>{theme.name}</button>}</div>
       {record && <button type="button" className="map-outline map-wide" onClick={() => navigate('record-detail', { recordId: record.id })}><MapIcon name="book"/>元の記録を見る</button>}
       <button type="button" className="map-primary map-wide" onClick={() => navigate('daily-track', { placeId: detail.place.id, ...(record?.effectiveStartedAt != null ? { date: new Date(record.effectiveStartedAt).toLocaleDateString('sv-SE'), timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone } : {}) })}><MapIcon name="book"/>{m.records}<span aria-hidden="true">›</span></button>
