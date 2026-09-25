@@ -11,7 +11,7 @@
     "API提供前の応答は画面と証拠にmockと明記する。loading/empty/editing/saving/error/conflict/unavailableと遅着・取消の表示を制御可能な応答で確認し、実保存成功とは扱わない。"
   ],
   "connection_common": [
-    "元UIのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。",
+    "元UIが操作単位の引継ぎ証拠を統合し、その単位のfeature pathを取得した後、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。",
     "操作→method/path/params/body/status/条件付き呼出回数→実API/DB→再起動/再取得→同じ画面の再表示を照合する。mockの成功はこの受入に使わない。",
     "本人とlive/demoを分離し、取消は保存値不変、応答不明再送は同じID、版競合は現行値取得と入力保持、0件/部分失敗/利用不能/遅着を実通信で確認する。",
     "共有変更/削除がある操作は別本人の本文・媒体・引用・地図にも反映し、旧cacheから復活させない。指定画像/Mapbox/端末操作の未達を引継いでUI完了にしない。"
@@ -24928,7 +24928,7 @@
     ],
     "ui_issue": 146,
     "connection_issue": 148,
-    "scope": "時間が余れば着手する未実施の余力枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。",
+    "scope": "主要UIの後に着手する未実施の健康枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。",
     "evidence": [
       "https://github.com/rozwer/sodateru-map-production-specs/issues/17#issuecomment-5673678354",
       "https://github.com/rozwer/sodateru-map-production-specs/issues/23#issuecomment-5673678519"
@@ -26214,6 +26214,65 @@
       },
       "priority": "P1",
       "effective_priority": "P1"
+    }
+  },
+  "connection_start_policy": {
+    "version": 1,
+    "authorization_issue": 301,
+    "rule": "対象画面操作・統合済みUI証拠・既存API契約・必要pathの引継ぎ単位で着手判定。UI全体doneは不要。",
+    "handoffs": {
+      "CONNECT-BASE": {
+        "source_ui_task": "UI-BASE",
+        "handoff_path": "docs/evidence/UI-BASE/connect-handoff.json"
+      },
+      "CONNECT-MAP": {
+        "source_ui_task": "UI-MAP",
+        "handoff_path": "docs/evidence/UI-MAP/connect-handoff.json"
+      },
+      "CONNECT-RECORDS": {
+        "source_ui_task": "UI-RECORDS",
+        "handoff_path": "docs/evidence/UI-RECORDS/connect-handoff.json"
+      },
+      "CONNECT-EXPLORE": {
+        "source_ui_task": "UI-EXPLORE",
+        "handoff_path": "docs/evidence/UI-EXPLORE/connect-handoff.json"
+      },
+      "CONNECT-ROUTES": {
+        "source_ui_task": "UI-ROUTES",
+        "handoff_path": "docs/evidence/UI-ROUTES/connect-handoff.json"
+      },
+      "CONNECT-REFLECTION": {
+        "source_ui_task": "UI-REFLECTION",
+        "handoff_path": "docs/evidence/UI-REFLECTION/connect-handoff.json"
+      },
+      "CONNECT-INSIGHTS": {
+        "source_ui_task": "UI-INSIGHTS",
+        "handoff_path": "docs/evidence/UI-INSIGHTS/connect-handoff.json"
+      },
+      "CONNECT-SUGGESTIONS": {
+        "source_ui_task": "UI-SUGGESTIONS",
+        "handoff_path": "docs/evidence/UI-SUGGESTIONS/connect-handoff.json"
+      },
+      "CONNECT-FRIENDS": {
+        "source_ui_task": "UI-FRIENDS",
+        "handoff_path": "docs/evidence/UI-FRIENDS/connect-handoff.json"
+      },
+      "CONNECT-KNOWLEDGE": {
+        "source_ui_task": "UI-KNOWLEDGE",
+        "handoff_path": "docs/evidence/UI-KNOWLEDGE/connect-handoff.json"
+      },
+      "CONNECT-PLUGINS": {
+        "source_ui_task": "UI-PLUGINS",
+        "handoff_path": "docs/evidence/UI-PLUGINS/connect-handoff.json"
+      },
+      "CONNECT-SETTINGS": {
+        "source_ui_task": "UI-SETTINGS",
+        "handoff_path": "docs/evidence/UI-SETTINGS/connect-handoff.json"
+      },
+      "CONNECT-COMPANION": {
+        "source_ui_task": "UI-COMPANION",
+        "handoff_path": "docs/evidence/UI-COMPANION/connect-handoff.json"
+      }
     }
   }
 }

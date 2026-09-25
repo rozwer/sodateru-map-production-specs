@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 import owner_policy as op
 import issue_router_bridge as ir
+import connect_start_gate as cg
 REF='refs/tags/codex-task-board'
 LEGACY_REF='refs/heads/coord/task-board'
 class BoardError(RuntimeError): pass
@@ -241,14 +242,29 @@ def require_token(state:dict[str,Any],token:str)->None:
     if state.get('token')!=token or state['status'] not in ('claimed','submitted'):
         raise BoardError('Stale/invalid claim token; no transition performed')
 
-def ready_rows(board:dict[str,Any])->list[dict[str,Any]]:
+def ready_rows(board:dict[str,Any],base:str|None=None)->list[dict[str,Any]]:
     rows=[]
     for t in board['graph']['tasks']:
-        s=board['tasks'][t['id']];why=blockers(board,t)
+        s=board['tasks'][t['id']]
+        if t.get('start_gate'):
+            units,errors=cg.ready_units(t,board['graph'],base,git) if base else ([],['integration-base-missing'])
+            candidates=[(unit,blockers(board,t,unit['paths'])) for unit in units]
+            selected=next((unit for unit,why in candidates if not why),None)
+            why=[] if selected else ([reason for _,problems in candidates for reason in problems] if candidates else errors)
+            paths=selected['paths'] if selected else t['write_paths']
+        else:
+            why=blockers(board,t);paths=t['write_paths']
         rows.append({'id':t['id'],'title':t['title'],'priority':t['priority'],'effective_priority':t.get('effective_priority',t['priority']),'kind':t['kind'],
           'state':s['status'],'can_claim':s['status']=='backlog' and not why,'blocked_by':why,
-          'write_paths':t['write_paths'],'assignee':s.get('owner') or s.get('actor')})
+          'write_paths':paths,'assignee':s.get('owner') or s.get('actor')})
     return sorted(rows,key=lambda r:(r['effective_priority'],r['id']))
+
+def integration_base(remote:str,branch:str)->str:
+    cache='refs/taskctl/base/'+uuid.uuid4().hex
+    try:
+        git('fetch','--no-tags','--no-write-fetch-head',remote,f'refs/heads/{branch}:{cache}')
+        return git('rev-parse',cache)
+    finally:git('update-ref','-d',cache,check=False)
 
 def check_main_ancestry(remote:str,main:str,commit:str)->str:
     cache='refs/taskctl/main/'+uuid.uuid4().hex
@@ -267,22 +283,30 @@ def change(board:dict[str,Any],args:argparse.Namespace)->dict[str,Any]:
         owner=op.owner_at() if policy else None
         if policy:op.verify_issue(policy,args.task,owner)
         if s['status']!='backlog':raise BoardError('Task is not unassigned backlog')
-        paths=list(dict.fromkeys([normalized(p) for p in t['write_paths']]+[normalized(p) for p in getattr(args,'path',[])]))
-        why=blockers(board,t,paths)
-        if why:raise BoardError('; '.join(why))
-        if policy:
-            cache='refs/taskctl/base/'+uuid.uuid4().hex
-            try:
-                git('fetch','--no-tags','--no-write-fetch-head',args.remote,f"refs/heads/{policy['integration_branch']}:{cache}")
-                base=git('rev-parse',cache)
-            finally:git('update-ref','-d',cache,check=False)
-        else:base=git('rev-parse','HEAD')
+        if t.get('start_gate'):
+            base=integration_base(args.remote,policy['integration_branch']) if policy else git('rev-parse','HEAD')
+            if getattr(args,'path',[]):raise BoardError('CONNECT start gate only locks the verified handoff unit')
+            units,errors=cg.ready_units(t,board['graph'],base,git)
+            requested=getattr(args,'unit',None)
+            if requested:units=[unit for unit in units if unit['id']==requested]
+            if not units:raise BoardError('; '.join(errors or ['handoff-unit-not-ready']))
+            chosen=next((unit for unit in units if not blockers(board,t,unit['paths'])),None)
+            if not chosen:
+                raise BoardError('; '.join(blockers(board,t,units[0]['paths'])))
+            paths=chosen['paths']
+        else:
+            chosen=None
+            paths=list(dict.fromkeys([normalized(p) for p in t['write_paths']]+[normalized(p) for p in getattr(args,'path',[])]))
+            why=blockers(board,t,paths)
+            if why:raise BoardError('; '.join(why))
+            base=integration_base(args.remote,policy['integration_branch']) if policy else git('rev-parse','HEAD')
         for dep in t['hard_dependencies']:
             depcommit=board['tasks'][dep].get('submitted_commit')
             if not depcommit or subprocess.run(['git','merge-base','--is-ancestor',depcommit,base],capture_output=True).returncode:
                 raise BoardError('Local HEAD lacks required dependency '+dep+'; fetch/pull develop before claiming')
         s.update(status='claimed',actor=args.actor or owner,token=uuid.uuid4().hex,paths=paths,
-                 generation=s['generation']+1,submitted_commit=None,landed_main=None,base_commit=base)
+                 generation=s['generation']+1,submitted_commit=None,landed_main=None,base_commit=base,
+                 claim_unit=chosen['id'] if chosen else None)
         if policy:s.update(owner=owner,issue_number=policy['issue_numbers'][args.task])
     elif args.command=='recover':
         if s['status'] not in ('claimed','submitted'):raise BoardError('Task has no active claim')
@@ -334,7 +358,7 @@ def main()->int:
     sub=parser.add_subparsers(dest='command',required=True)
     p=sub.add_parser('init');p.add_argument('--manifest',default='TASK_GRAPH.json')
     p=sub.add_parser('ready');p.add_argument('--all',action='store_true');p.add_argument('--json',action='store_true')
-    p=sub.add_parser('claim');p.add_argument('task');p.add_argument('--actor');p.add_argument('--path',action='append',default=[]);p.add_argument('--receipt');p.add_argument('--definition')
+    p=sub.add_parser('claim');p.add_argument('task');p.add_argument('--actor');p.add_argument('--path',action='append',default=[]);p.add_argument('--unit');p.add_argument('--receipt');p.add_argument('--definition')
     for cmd in ('release','handoff','submit','land','complete','add-lock'):
         p=sub.add_parser(cmd);p.add_argument('task');p.add_argument('--token',required=True)
         if cmd in ('release','handoff'):p.add_argument('--note',required=True)
@@ -348,7 +372,8 @@ def main()->int:
         if args.command=='ready':
             _,board=read_board(args.remote)
             if not board:raise BoardError('Board missing; run init once')
-            rows=ready_rows(board)
+            base=integration_base(args.remote,op.policy_for(board)['integration_branch']) if any(t.get('start_gate') for t in board['graph']['tasks']) else None
+            rows=ready_rows(board,base)
             if not args.all:rows=[r for r in rows if r['can_claim']]
             if args.json:print(json.dumps(rows,ensure_ascii=False,indent=2))
             else:

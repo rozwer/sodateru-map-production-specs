@@ -1,12 +1,12 @@
-# UI-HEALTH｜余力枠：健康の画面・許可・状態操作
+# UI-HEALTH｜主要UI後の未実施項目：健康の画面・許可・状態操作
 
 <!-- task-id: UI-HEALTH -->
 
 初期担当枠：A。担当者：rozwer。[GitHub #146](https://github.com/rozwer/sodateru-map-production-specs/issues/146)。[一覧](../README.md) · [完了の扱い](../execution.md#完了の扱い)。
 
-## 時間が余れば着手する範囲
+## 主要UIの後に着手する範囲
 
-時間が余れば着手する未実施の余力枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。
+主要UIの後に着手する未実施の主要UI後の未実施項目。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。
 
 元[UI-SETTINGS](UI-SETTINGS.md)の3健康画面とその入口、activity-stats/data-sources/settingsの健康面だけを引き受ける。非健康面は元UIと[CONNECT-SETTINGS](CONNECT-SETTINGS.md)に残す。健康の画面未達を接続へ隠してUI合格にしない。
 

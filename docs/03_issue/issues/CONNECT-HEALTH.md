@@ -1,12 +1,12 @@
-# CONNECT-HEALTH｜余力枠：健康の取込・保存・停止/削除の実接続
+# CONNECT-HEALTH｜主要UI後の未実施項目：健康の取込・保存・停止/削除の実接続
 
 <!-- task-id: CONNECT-HEALTH -->
 
 初期担当枠：A。担当者：rozwer。[GitHub #148](https://github.com/rozwer/sodateru-map-production-specs/issues/148)。[一覧](../README.md) · [完了の扱い](../execution.md#完了の扱い)。
 
-## 時間が余れば着手する範囲
+## 主要UIの後に着手する範囲
 
-時間が余れば着手する未実施の余力枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。
+主要UIの後に着手する未実施の主要UI後の未実施項目。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。
 
 元[UI-SETTINGS](UI-SETTINGS.md)の3健康画面とその入口、activity-stats/data-sources/settingsの健康面だけを引き受ける。非健康面は元UIと[CONNECT-SETTINGS](CONNECT-SETTINGS.md)に残す。健康の画面未達を接続へ隠してUI合格にしない。
 
@@ -56,7 +56,7 @@ ACTIVITY visitsとHEALTHの実取得元/時点を読取り、該当集計と同�
 
 ## 通過条件
 
-- 元UIのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。
+- UI-HEALTHのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。
 - 操作→method/path/params/body/status/条件付き呼出回数→実API/DB→再起動/再取得→同じ画面の再表示を照合する。mockの成功はこの受入に使わない。
 - 本人とlive/demoを分離し、取消は保存値不変、応答不明再送は同じID、版競合は現行値取得と入力保持、0件/部分失敗/利用不能/遅着を実通信で確認する。
 - 共有変更/削除がある操作は別本人の本文・媒体・引用・地図にも反映し、旧cacheから復活させない。指定画像/Mapbox/端末操作の未達を引継いでUI完了にしない。

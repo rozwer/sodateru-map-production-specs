@@ -22,6 +22,12 @@ def validate_ui_split(graph):
     check(split.get('version')==1 and split.get('authorization_issue')==72 and
           split.get('repository')=='rozwer/sodateru-map-production-specs', 'missing specific authorization')
     by={t['id']:t for t in graph['tasks']};pairs=split['pairs'];policy=graph['task_policy']
+    start=split.get('connection_start_policy')
+    if start:
+        check(start.get('version')==1 and start.get('authorization_issue')==301,
+              'connection start change needs #301 authorization')
+        check(set(start.get('handoffs',{}))=={p['connection_task'] for p in pairs.values()},
+              'connection handoff mapping incomplete')
     check(set(pairs)=={'UI-'+x for x in UI_SPLIT_IDS},'only the 13 approved sources')
     check(policy['owners']=={'A':'rozwer','B':'koshiro','C':'kaiya','D':'mattsun'},'owners changed')
     before={}
@@ -43,7 +49,13 @@ def validate_ui_split(graph):
         if sid=='UI-COMPANION':expected['title']='既存相棒の取込・管理・動作確認と選択'
         check(ui==expected,'source identity/paths/scope changed outside approval: '+sid)
         check(con.get('id')==cid and con.get('lane')==old['lane']=='A' and con.get('kind')==old['kind']=='ui','connection owner/kind')
-        check(con.get('hard_dependencies')==[sid],'connection must wait for source done: '+cid)
+        if start:
+            gate={'source_ui_task':sid,'handoff_path':'docs/evidence/'+sid+'/connect-handoff.json'}
+            check(start['handoffs'][cid]==gate and con.get('start_gate')==gate,
+                  'connection handoff mismatch: '+cid)
+            check(con.get('hard_dependencies')==[],'connection still has whole UI hard gate: '+cid)
+        else:
+            check(con.get('hard_dependencies')==[sid],'connection must wait for source done: '+cid)
         check(con.get('write_paths')==[p for p in old['write_paths'] if not p.startswith('docs/evidence/')]+['docs/evidence/'+cid+'/'],'connection expands paths')
         for key in ('requirement_ids','acceptance_ids','pages','owned_operations','owned_gaps'):
             check(con.get(key)==old[key],'connection drops original '+key+': '+cid)
@@ -86,12 +98,14 @@ def validate_ui_split(graph):
     health=split['health_deferral'];check(health['authorization_issue']==72 and health['pages']==HEALTH_PAGES,'health deferral')
     check(health['shared_pages']==['settings','activity-stats','data-sources'],'non-health pages excluded')
     old=health['domain_before'];expected=copy.deepcopy(old)
-    expected.update(scope_schedule={'mode':'if-time-remains','required_for_other_features':False},priority='P3',effective_priority='P3')
+    schedule={'mode':'after-major-ui' if start else 'if-time-remains','required_for_other_features':False}
+    expected.update(scope_schedule=schedule,priority='P3',effective_priority='P3')
     check(by['HEALTH']==expected,'health changes beyond priority/schedule');before['HEALTH']=old
     for tid,phase,dep in [('UI-HEALTH','deferred-ui','UI-SETTINGS'),('CONNECT-HEALTH','deferred-connection','UI-HEALTH')]:
         t=by[tid]
         check(t['lane']=='A' and t['kind']=='ui' and t['hard_dependencies']==[dep],'health identity/dependency')
-        check(t['priority']==t['effective_priority']=='P3' and t['scope_schedule']=={'mode':'if-time-remains','required_for_other_features':False},'health is optional')
+        check(t['priority']==t['effective_priority']=='P3' and t['scope_schedule']==schedule,
+              'health remains deferred after major UI')
         check(t['pages']==HEALTH_PAGES and t['shared_pages']==health['shared_pages'],'health page scope')
         check(t['write_paths']==[p for p in by['UI-SETTINGS']['write_paths'] if not p.startswith('docs/evidence/')]+['docs/evidence/'+tid+'/'],'health expands paths')
         check(t['completion_scope']=={'phase':phase,'mapping':'docs/03_issue/ui-connections.json#/health_deferral','source_ui_task':dep},'health scope reference')
@@ -155,8 +169,16 @@ def validate(graph):
     if not isinstance(details,dict) or set(details)-set(supersessions):raise tc.BoardError('Details must refer to superseded sources')
     for old,value in supersessions.items():
         targets=successors(value)
-        if old not in by or any(target not in by or old==target or target in supersessions for target in targets):
-            raise tc.BoardError('Invalid or chained successor: '+old)
+        def authorized_chain(target):
+            # #186 was already one of #173's successors before #301 moved its
+            # remaining nine screens to #215. Preserve both published edges.
+            return (old=='VISUAL-COMMUNITY' and target=='VISUAL-PLUGINS'
+                    and supersessions.get('VISUAL-PLUGINS')=='GROW-UI'
+                    and details.get('VISUAL-PLUGINS',{}).get('authorization_issue')==301)
+        if old not in by or any(target not in by or old==target or
+                                (target in supersessions and not authorized_chain(target))
+                                for target in targets):
+            raise tc.BoardError('Invalid or unauthorized chained successor: '+old)
         for target in targets:
             if old not in by[target].get('source_task_ids',[]):raise tc.BoardError('Successor must retain source scope: '+old)
         for field in ('requirement_ids','acceptance_ids'):
@@ -208,7 +230,18 @@ def migrate(board,graph,document_moves=None):
     split_before=validate_ui_split(graph)
     old_split=board['graph'].get('ui_connection_split')
     if old_split is not None and old_split!=graph.get('ui_connection_split'):
-        raise tc.BoardError('Cannot replace/remove published UI split metadata')
+        updated=copy.deepcopy(graph.get('ui_connection_split',{}))
+        start=updated.pop('connection_start_policy',None)
+        expected=copy.deepcopy(old_split)
+        old_common='元UIのdoneとlock返却後に同じfeature pathを取得し、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。'
+        new_common='元UIが操作単位の引継ぎ証拠を統合し、その単位のfeature pathを取得した後、提供済みの共通client・型・本人contextで実画面から呼ぶ。業務DTOや保存処理をUIへ複製しない。'
+        old_health='時間が余れば着手する未実施の余力枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。'
+        new_health='主要UIの後に着手する未実施の健康枠。恒久除外でも完了でもない。非健康設定・記録/訪問/軌跡の統計と取得元は必須。'
+        if expected['connection_common'][0]==old_common and expected['health_deferral']['scope']==old_health:
+            expected['connection_common'][0]=new_common
+            expected['health_deferral']['scope']=new_health
+        if updated!=expected or not isinstance(start,dict) or start.get('authorization_issue')!=301:
+            raise tc.BoardError('Cannot replace/remove published UI split metadata')
     permitted=set()
     if split_before and old_split is None:
         for id,before in split_before.items():

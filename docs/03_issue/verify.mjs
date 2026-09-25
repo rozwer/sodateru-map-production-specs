@@ -67,7 +67,9 @@ for (const [id, pair] of Object.entries(split.pairs)) {
   same(ui.requirement_ids, pair.criteria.map(c => c.source_requirement_id), `Mapped requirements: ${id}`);
   same(ui.acceptance_ids, pair.criteria.flatMap(c => c.source_acceptance_ids), `Mapped acceptance: ${id}`);
   same(connection.requirement_ids, ui.requirement_ids, `Connection retains source IDs: ${id}`);
-  assert.deepEqual(connection.hard_dependencies, [id]);
+  assert.deepEqual(connection.hard_dependencies, []);
+  assert.deepEqual(connection.start_gate, split.connection_start_policy.handoffs[pair.connection_task]);
+
   for (const criterion of pair.criteria) {
     const folder = path.join(pagesRoot, criterion.page);
     assert.deepEqual(criterion.source_requirement, read(path.join(folder, 'requirements.json')).find(x => x.id === criterion.source_requirement_id));
@@ -115,7 +117,7 @@ const overlaps = (a, b) => a === b || (a.endsWith('/') && b.startsWith(a)) || (b
 for (let i = 0; i < first.length; i++) for (let j = i + 1; j < first.length; j++)
   for (const a of first[i].write_paths) for (const b of first[j].write_paths)
     assert(!overlaps(a, b), `Initial path conflict: ${first[i].id}/${first[j].id}: ${a} ${b}`);
-const documents = ['README.md', 'execution.md', 'delivery.md', 'coverage.md', 'contract-gates.md', ...index.tasks.map(t => t.issue_file)];
+const documents = ['README.md', 'execution.md', 'delivery.md', 'connect-start.md', 'coverage.md', 'contract-gates.md', ...index.tasks.map(t => t.issue_file)];
 for (const relative of documents) {
   const file = path.join(root, relative), text = fs.readFileSync(file, 'utf8');
   for (const match of text.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)) {

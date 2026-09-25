@@ -72,4 +72,4 @@ voiceの本人設定はSETTINGS、端末操作はUI-EXPLOREが利用する。com
 
 ## #72のスコープ反映
 
-UIの実接続は各CONNECT-*へ移管する。健康health/health-importはHEALTHとUI-HEALTH/CONNECT-HEALTHの余力枠で未実施を保持する。petは既存ペットの取込/表示/管理/選択を対象とし、新規制作/生成はuser-excluded。元API不足の担当と原条件は削除しない。
+UIの実接続は各CONNECT-*へ移管する。健康health/health-importはHEALTHとUI-HEALTH/CONNECT-HEALTHの主要UI後の枠で未実施を保持する。petは既存ペットの取込/表示/管理/選択を対象とし、新規制作/生成はuser-excluded。元API不足の担当と原条件は削除しない。

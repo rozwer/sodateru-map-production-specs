@@ -18,3 +18,7 @@ hooks変更時の検証入口は `mise run verify`。製品の機能受入テス
 boardがない間のbootstrapは二段階で扱う。`origin/develop` がない最初だけ `main` の初期準備commitとfast-forward pushを許可する。`origin/develop` 作成後は `main` / `develop` をoriginへの同期専用とし、`origin/develop` から `bootstrap/<説明>` を作成して同名branchへpushし、PRで `develop` に統合する。直接 `develop` へpushしない。board導入後はpreparation Taskの状態が `main` 例外を制御し、bootstrap fallbackは使われない。
 
 既存の未コミット準備を `main` から移す場合もstashやhook無効化は不要である。`git fetch origin develop`、ローカルbranchがなければ `git branch develop origin/develop`、`git switch -m develop`、`git switch -c bootstrap/<説明>` の順で切り替える。`-m` は現在の差分を新しい基準へ三者マージして保持する。衝突する場合はその場で止めて確認し、解消を推測したり差分を破棄したりしない。
+
+## 依存未導入の新worktree
+
+Codexのmise/Task hookはnode_modulesに依存するため、新規linked worktreeでは軽量bootstrap入口が先に読み込まれる。未導入時に許されるシェル操作は対象worktreeルートでの完全一致 `mise exec -- bun install --frozen-lockfile` のみ。連結コマンド、引数追加、他のcheckout、編集は通さない。導入後は従来の両hookが全コマンドを検査する。SessionStartは導入コマンドを案内する。変更後は `mise run hooks:install` と `mise run verify` で確認する。

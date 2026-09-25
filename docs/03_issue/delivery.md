@@ -1,8 +1,8 @@
 # 提供と接続
 
-[一覧](README.md) · [完了と着手](execution.md)
+[一覧](README.md) · [完了と着手](execution.md) · [接続handoff](connect-start.md)
 
-提供者は提供物ID・統合commit・契約版・呼出例・実API/保存/再取得証拠・残条件をIssueにまとめる。branch上の提案やmoduleテストだけを統合提供済みにしない。受け手は同じdevelop・起動/DB/本人/dataModeで実接続する。
+提供者は提供物ID・統合commit・契約版・呼出例・実API/保存/再取得証拠・残条件をIssueにまとめる。13組のCONNECT着手は対象UI操作の[handoff](connect-start.md)を実検査し、unitのpathだけを取得する。branch上の提案やmoduleテストだけを統合提供済みにしない。受け手は同じdevelop・起動/DB/本人/dataModeで実接続する。
 
 UI-BASE.shellは実画面の部品/地図/チャット境界とshell操作。COREの実接続はCONNECT-BASE.integrationで別に提供する。UI-INTEGRATION #98の登録/組込みとAPI接続を混同せず、全体doneを新しいhard gateにしない。
 
@@ -44,4 +44,4 @@ UI-BASE.shellは実画面の部品/地図/チャット境界とshell操作。COR
 - SUGGESTIONS viewed:true/viewedAtはfragment v1.2の担当push・SQLite確認報告があるが、合成clientと統合commitの提供確認が必要（#15 comment5673934530）。GET/提示/選択/訪問を分ける。
 - REFLECTIONの根拠変更時questionText非表示と独立回答保持は次版提案として受領。統合/生成確認前は提供済みとしない（#12 comment5673930982）。
 - PLUGINSの6 glyph ID/iconOptionsは担当決定、次fragment v3の共通反映/統合を確認する（#18 comment5673927735）。
-- HEALTH.completeと健康UI/接続は時間が余れば着手するdeferred。新規相棒COMPANION.createはuser-excluded。どちらも実装済みとしない。
+- HEALTH.completeと健康UI/接続は主要UIの後に着手する未実施deferred。新規相棒COMPANION.createはuser-excluded。どちらも実装済みとしない。

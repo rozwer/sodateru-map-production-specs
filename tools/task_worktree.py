@@ -157,7 +157,7 @@ def repair_interrupted_start(root,task):
         write_receipt(receipt,json.loads(output))
     journal.unlink()
 
-def create_worktree(root, task, dest, branch, actor, paths=(), definition=None):
+def create_worktree(root, task, dest, branch, actor, paths=(), definition=None, unit=None):
     receipts = root / '.local/claims'
     receipts.mkdir(parents=True, exist_ok=True)
     receipt = receipts / (task + '.json')
@@ -168,6 +168,7 @@ def create_worktree(root, task, dest, branch, actor, paths=(), definition=None):
     options=['--receipt',str(candidate)]
     for path in paths:options+=['--path',path]
     if definition:options+=['--definition',str(Path(definition).resolve())]
+    if unit:options+=['--unit',unit]
     result = subprocess.run(
         [sys.executable, '-X', 'utf8', str(root / 'tools/taskctl.py'), 'claim', task,
          '--actor', actor,*options],
@@ -235,6 +236,7 @@ def main():
     command.add_argument('--slug')
     command.add_argument('--path',action='append',default=[])
     command.add_argument('--definition')
+    command.add_argument('--unit', help='CONNECT handoff operation unit to claim')
     command=sub.add_parser('submit')
     command.add_argument('--evidence',required=True)
     command.add_argument('--receipt')
@@ -334,7 +336,7 @@ def main():
         repair_interrupted_start(root,args.task)
         if dest.exists() or tc.git('show-ref', '--verify', 'refs/heads/' + branch, check=False):
             raise tc.BoardError('Destination or task branch exists; inspect it before claiming')
-        result = create_worktree(root, args.task, dest, branch, args.actor or op.owner_at(),args.path,args.definition)
+        result = create_worktree(root, args.task, dest, branch, args.actor or op.owner_at(),args.path,args.definition,args.unit)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 
