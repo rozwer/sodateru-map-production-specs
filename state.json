@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 354,
+  "revision": 355,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35340,22 +35340,18 @@
       "token": null
     },
     "UI-RECORDS": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "cb32b241d39a87bd7406bfe99d1702a6d70bf8fc",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 11,
       "landed_main": null,
-      "note": "PR #313 merged; UI #11 acceptance remains open; see docs/evidence/UI-RECORDS/acceptance-inventory.md and Issue #11 comment",
+      "note": "PR #317 merged to develop; #11 remains open with seven-screen acceptance gaps documented in docs/evidence/UI-RECORDS/; handing remaining FE to D1 for rozwer consolidation.",
       "owner": "mattsun",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/UI-RECORDS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "49dc3aab2a5c45b3b5d1f322852e9ad1"
+      "token": null
     },
     "UI-REFLECTION": {
       "actor": null,
