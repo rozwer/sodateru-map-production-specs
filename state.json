@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 360,
+  "revision": 361,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35491,24 +35491,18 @@
       "token": null
     },
     "VISUAL-SELF-CONTINUE": {
-      "actor": "mattsun",
+      "actor": null,
       "base_commit": "81ef4dac0e002a103a1a7eda42d3269860a292eb",
       "claim_unit": null,
-      "generation": 11,
+      "generation": 12,
       "issue_number": 185,
       "landed_main": null,
-      "note": "PR #319 merged as daa6857. Two-record product comparison now survives reload and original-record round trip; issue #185 remains OPEN.",
+      "note": "PR #324 merged; memo cancel fix recorded, #185 remains open for 14-screen acceptance",
       "owner": "mattsun",
-      "paths": [
-        "src/features/reflection/",
-        "src/features/insights/",
-        "src/features/themes/",
-        "src/features/suggestions/",
-        "docs/evidence/VISUAL-SELF/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "dfea9fc2c4514e1cb9c4ba214eabbb98"
+      "token": null
     },
     "VISUAL-SETTINGS": {
       "actor": null,
