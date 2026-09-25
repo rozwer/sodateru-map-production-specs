@@ -43,6 +43,7 @@
 .map-inline-menu { display: grid; margin: 12px 0; padding: 8px; border: 1px solid var(--color-border); border-radius: 14px; background: #fff; }.map-inline-menu button,.map-inline-place { border: 0; background: none; display: flex; align-items: center; gap: 10px; padding: 10px; text-align: left; }
 .map-personal-toolbar { margin-right: -60px; padding-right: 44px; background: linear-gradient(#f4f9f9ea,#f4f9f900); }.map-personal-toolbar h1 { font-size: 28px; margin: 0 0 4px; line-height: 1.25; color: #1c383b; }.map-personal-toolbar p { font-size: 13px; color: #677681; margin: 0 0 12px; }.map-theme-filters { display: flex; gap: 8px; overflow: auto; margin-right: -40px; padding: 4px 0 8px; }.map-theme-filters button { flex-shrink: 0; display: flex; align-items: center; gap: 8px; border: 0; border-radius: 35px; padding: 10px 20px; background: #ffffffed; font-size: 15px; color: #4c5c6e; }.map-theme-filters button[aria-pressed=true] { background: #50a3a3; color: white; }
 .map-personal-detail { min-width: 0; }
+.map-personal-empty { padding: 8px 14px 14px; }
 .map-personal-detail__header { min-width: 0; }
 .map-personal-detail__header:has(.map-place-photo) { display: grid; grid-template-columns: minmax(0, 116px) minmax(0, 1fr); align-items: start; gap: 14px; }
 .map-personal-detail__header > .map-place-photo { width: 100%; height: auto; max-height: 150px; aspect-ratio: 1.25; object-fit: cover; }
