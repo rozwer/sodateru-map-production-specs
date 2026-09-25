@@ -70,7 +70,7 @@ function EvidenceScreen({ route, navigate, scopeKey, active = true }: ScreenProp
 
 function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps) {
   const initialChoice = route.params.choice as ReviewChoice | undefined;
-  const [model, setModel] = useScreenState<{ draft: ReviewDraft | null; creation: { id: string; key: string } | null }>({ draft: initialChoice && ['agree', 'disagree', 'unsure'].includes(initialChoice) ? { choice: initialChoice, note: '' } : null, creation: null });
+  const [model, setModel] = useScreenState<{ draft: ReviewDraft | null; creation: { id: string; key: string } | null }>({ draft: null, creation: null });
   const [loaded, setLoaded] = useState<Loaded | null>(null), [loading, setLoading] = useState(true), [reload, setReload] = useState(0);
   const [busy, setBusy] = useState(false), [error, setError] = useState<string | null>(null), [notice, setNotice] = useState<string | null>(null);
   const [currentReview, setCurrentReview] = useState<ReviewDraft | null>(null);
@@ -81,7 +81,8 @@ function ReviewScreen({ route, navigate, scopeKey, active = true }: ScreenProps)
     const controller = new AbortController(); setLoading(true); setError(null);
     void loadInsight(route.params, controller.signal).then(result => {
       if (controller.signal.aborted) return;
-      setLoaded(result); setModel(previous => ({ ...previous, draft: previous.draft ?? { choice: result.view.review, note: result.view.reviewNote } }));
+      const choice = initialChoice && ['agree', 'disagree', 'unsure'].includes(initialChoice) ? initialChoice : result.view.review;
+      setLoaded(result); setModel(previous => ({ ...previous, draft: previous.draft ?? { choice, note: choice === result.view.review ? result.view.reviewNote : '' } }));
     }).catch(error => { if (!controller.signal.aborted && !isCancelled(error)) { setLoaded(null); setError(requestError(error)); } }).finally(() => { if (!controller.signal.aborted) setLoading(false); });
     return () => controller.abort();
   }, [route.params, scopeKey, reload, active]);
