@@ -5,7 +5,7 @@ export const mapMessages = {
   savePlace: 'この場所を保存', save: '保存', saved: '保存済み', saving: '保存中…', route: '経路を見る',
   photoMissing: '写真はまだありません', descriptionMissing: '紹介文は未取得です', addressMissing: '住所は未取得です',
   personalTitle: 'わたしの地図', personalLead: '大切な場所や、これから行ってみたい場所を地図に残していきましょう。',
-  all: 'すべて', personalEmpty: 'このテーマの記録はまだありません。', records: '訪れた記録を見る', editTheme: 'テーマを編集', theme: 'テーマ',
+  all: 'すべて', personalEmpty: 'このテーマの記録はまだありません。', personalAllEmpty: '地図の記録はまだありません。体験を記録すると、ここに場所が表示されます。', records: '訪れた記録を見る', editTheme: 'テーマを編集', theme: 'テーマ',
   layersTitle: '地図に重ねる情報の設定', themes: '自分のテーマ', themesHelp: '保存した場所と記録のピンを地図に表示します。',
   suggestions: '探索候補', suggestionsHelp: '興味に合いそうな場所の候補を地図に表示します。', friends: '友達の共有', friendsHelp: '友達の共有地点・経路を地図に表示します。',
   motorcycle: 'バイクマップ', motorcycleHelp: '導入したバイクマップのスポットを表示します。', backMap: '地図に戻る',

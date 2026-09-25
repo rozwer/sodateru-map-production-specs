@@ -141,7 +141,7 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
         });
       }}><MapIcon name="book"/>{m.records}<span aria-hidden="true">›</span></button>
       {theme && <button type="button" className="map-outline map-wide" onClick={() => navigate('theme-edit', { themeId: theme.id })}><MapIcon name="pen"/>{m.editTheme}</button>}
-    </> : !state.personalLoading && !state.personalError && !state.detailError && <><p className="map-muted">{state.records.length ? '地図の場所を選んで、記憶を見返しましょう。' : m.personalEmpty}</p><button type="button" className="map-outline" onClick={() => navigate('record-create')}>体験を記録する</button></>}
+    </> : !state.personalLoading && !state.personalError && !state.detailError && <div className="map-personal-empty"><p className="map-muted">{state.records.length ? '地図の場所を選んで、記憶を見返しましょう。' : state.themeId ? m.personalEmpty : m.personalAllEmpty}</p><button type="button" className="map-outline" onClick={() => navigate('record-create')}>体験を記録する</button></div>}
     {state.nextRecordCursor && <button type="button" className="map-outline" onClick={() => void session.loadPersonal(bridge, state.themeId, true)}>さらに表示</button>}
   </div>;
 }
