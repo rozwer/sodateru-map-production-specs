@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 325,
+  "revision": 326,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34419,7 +34419,8 @@
         "mise.toml",
         "docs/evidence/CODEX-HOOK-BOOTSTRAP/",
         "scripts/codex-mise-hook.mjs",
-        "scripts/codex-mise-hook.test.mjs"
+        "scripts/codex-mise-hook.test.mjs",
+        "scripts/codex-hook-bootstrap-core.mjs"
       ],
       "status": "submitted",
       "submitted_commit": "1a6e862b529a511b4f4752fce00519d76a7c8c00",
