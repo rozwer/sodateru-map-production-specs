@@ -1,0 +1,526 @@
+{
+  "schemaVersion": "places.yokohama-resolution.v1",
+  "sourceSha256": "6d1cfa4588aff91b77401a2525b9089b38e91b67289d358c4638308e4b1f9297",
+  "generatedAt": "2026-09-15T05:36:46.705611+00:00",
+  "provider": "nominatim",
+  "entries": [
+    {
+      "sourceId": "yokohama-red-brick",
+      "requestedName": "横浜赤レンガ倉庫",
+      "priority": 1,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "横浜赤レンガ倉庫",
+        "address": "横浜赤レンガ倉庫, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6429182,
+          35.4524046
+        ],
+        "categories": [
+          "tourism",
+          "attraction"
+        ],
+        "provider": "nominatim",
+        "externalId": "N10216454044",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/node/10216454044",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450379868,
+        "retention": "storable"
+      },
+      "query": "横浜赤レンガ倉庫",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.yokohama-akarenga.jp/about/",
+        "https://www.yokohama-akarenga.jp/access/"
+      ],
+      "openNow": null,
+      "visitNotes": "屋外景観と館内店舗を分けて扱う。店舗営業時間・イベントは別途確認。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey.",
+      "referenceDistanceM": 24.1
+    },
+    {
+      "sourceId": "yokohama-yamashita-park",
+      "requestedName": "山下公園",
+      "priority": 1,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "山下公園",
+        "address": "山下公園, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6499494,
+          35.4457103
+        ],
+        "categories": [
+          "leisure",
+          "park"
+        ],
+        "provider": "nominatim",
+        "externalId": "W35866698",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/35866698",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450378329,
+        "retention": "storable"
+      },
+      "query": "山下公園 横浜",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.city.yokohama.lg.jp/kurashi/machizukuri-kankyo/midori-koen/koen/koen/daihyoteki/kouen008.html"
+      ],
+      "openNow": null,
+      "visitNotes": "花の見頃・開花状態を現在の事実として断定しない。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-osanbashi",
+      "requestedName": "大さん橋 屋上広場",
+      "priority": 1,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "大さん橋",
+        "address": "大さん橋, 大さん橋通り, 山下町, 港町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6477606,
+          35.4516796
+        ],
+        "categories": [
+          "man_made",
+          "pier"
+        ],
+        "provider": "nominatim",
+        "externalId": "W504126759",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/504126759",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450377333,
+        "retention": "storable"
+      },
+      "query": "大さん橋",
+      "positionRole": "parent_pier_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://osanbashi.jp/floorguide/rooftop",
+        "https://osanbashi.jp/access"
+      ],
+      "openNow": null,
+      "visitNotes": "屋上は公式案内で24時間開放。客船が必ず停泊しているとは扱わない。",
+      "photoUrls": [],
+      "matchBasis": "The provider identifies the entire Osanbashi pier. The supplied rooftop spot uses this representative point; no roof entrance/height is established. Preserve provider place name on adoption."
+    },
+    {
+      "sourceId": "yokohama-zounohana-park",
+      "requestedName": "象の鼻パーク",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "象の鼻パーク",
+        "address": "象の鼻パーク, 港町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6433322,
+          35.4494415
+        ],
+        "categories": [
+          "leisure",
+          "park"
+        ],
+        "provider": "nominatim",
+        "externalId": "W37092453",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/37092453",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450419198,
+        "retention": "storable"
+      },
+      "query": "象の鼻パーク",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.city.yokohama.lg.jp/kanko-bunka/minato/yokohamako/gaiyo/zonohana/zounohana.html"
+      ],
+      "openNow": null,
+      "visitNotes": "公園とテラス内カフェは別スポットとして保持。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-zounohana-cafe",
+      "requestedName": "象の鼻カフェ",
+      "priority": 1,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "象の鼻カフェ",
+        "address": "象の鼻カフェ, 海岸通一丁目, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6431966,
+          35.4497297
+        ],
+        "categories": [
+          "amenity",
+          "cafe"
+        ],
+        "provider": "nominatim",
+        "externalId": "N985074546",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/node/985074546",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450376164,
+        "retention": "storable"
+      },
+      "query": "象の鼻カフェ",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://zounohana.com/cafe/"
+      ],
+      "openNow": null,
+      "visitNotes": "通常10:00–18:00、フードL.O.17:00・ドリンクL.O.17:30。公式掲載のソフトクリーム550円。変更時は公式優先。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-kita-books",
+      "requestedName": "LOCAL BOOK STORE kita.",
+      "priority": 1,
+      "status": "unresolved",
+      "candidate": null,
+      "query": null,
+      "positionRole": "not_confirmed",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://kitabooks.jp/info/",
+        "https://massmass.jp/project/kita_2025/",
+        "https://style100.city.yokohama.lg.jp/stylepartners/stylepartners-2131/"
+      ],
+      "openNow": null,
+      "visitNotes": "2024年に馬車道から日本大通りへ移転。旧住所を使わない。平日9:00–17:00、週末は営業カレンダー確認。",
+      "photoUrls": [],
+      "reason": "No matching Yokohama facility found yet; no location inferred from unrelated search results."
+    },
+    {
+      "sourceId": "yokohama-newspark",
+      "requestedName": "ニュースパーク（日本新聞博物館）",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "日本新聞博物館（ニュースパーク）",
+        "address": "日本新聞博物館（ニュースパーク）, 日本大通り, 日本大通, 港町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6427009,
+          35.4463516
+        ],
+        "categories": [
+          "tourism",
+          "museum"
+        ],
+        "provider": "nominatim",
+        "externalId": "N1420822762",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/node/1420822762",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450459595,
+        "retention": "storable"
+      },
+      "query": "ニュースパーク 横浜",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://newspark.jp/"
+      ],
+      "openNow": null,
+      "visitNotes": "通常10:00–17:00、最終入館16:30。月曜休館（祝日等は翌平日）。大人400円。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-literature-museum",
+      "requestedName": "神奈川近代文学館",
+      "priority": 2,
+      "status": "unresolved",
+      "candidate": null,
+      "query": null,
+      "positionRole": "not_confirmed",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.kanabun.or.jp/guidance/visit/info/",
+        "https://www.pref.kanagawa.jp/docs/yi4/cnt/f7788/index.html"
+      ],
+      "openNow": null,
+      "visitNotes": "展示室9:30–17:00、入館16:30まで。月曜休館（祝日開館）等。山手の高低差を考慮。",
+      "photoUrls": [],
+      "reason": "No matching Yokohama facility found yet; no location inferred from unrelated search results."
+    },
+    {
+      "sourceId": "yokohama-harbor-view-park",
+      "requestedName": "港の見える丘公園",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "港の見える丘公園",
+        "address": "港の見える丘公園, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6547043,
+          35.4401741
+        ],
+        "categories": [
+          "leisure",
+          "park"
+        ],
+        "provider": "nominatim",
+        "externalId": "W48117465",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/48117465",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450422460,
+        "retention": "storable"
+      },
+      "query": "港の見える丘公園",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.city.yokohama.lg.jp/kurashi/machizukuri-kankyo/midori-koen/koen/koen/daihyoteki/kouen007.html"
+      ],
+      "openNow": null,
+      "visitNotes": "公園は24時間、フランス山は夜間閉鎖あり。坂・階段がある地域。花の現在の開花は未確認。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey.",
+      "referenceDistanceM": 41.6
+    },
+    {
+      "sourceId": "yokohama-kanteibyo",
+      "requestedName": "横濱關帝廟",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "関帝廟",
+        "address": "関帝廟, 中山路, 山下町, 港町, 中区, 横浜市, 神奈川県, 231-0023, 日本",
+        "coordinates": [
+          139.6452218,
+          35.442453
+        ],
+        "categories": [
+          "amenity",
+          "place_of_worship"
+        ],
+        "provider": "nominatim",
+        "externalId": "N304562942",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/node/304562942",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450423456,
+        "retention": "storable"
+      },
+      "query": "横浜 関帝廟",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://yokohama-kanteibyo.com/hours-and-directions/"
+      ],
+      "openNow": null,
+      "visitNotes": "通常9:00–19:00。祭事などによる変更は公式確認。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-kurumicco-factory",
+      "requestedName": "Kurumicco Factory",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "鎌倉紅谷 Kurumicco Factory",
+        "address": "鎌倉紅谷 Kurumicco Factory, ハンマーヘッドウォーク, 横浜ハンマーヘッド, 真砂町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6422296,
+          35.456326
+        ],
+        "categories": [
+          "craft",
+          "confectionery"
+        ],
+        "provider": "nominatim",
+        "externalId": "N11062734997",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/node/11062734997",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450425392,
+        "retention": "storable"
+      },
+      "query": "Kurumicco Factory",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://beniya-ajisai.co.jp/kf/"
+      ],
+      "openNow": null,
+      "visitNotes": "見学予約不要。見学11:00–18:00、製造工程は15時頃まで。カフェ11:00–20:00（L.O.19:00）。稼働は状況で変動。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-cupnoodles-museum",
+      "requestedName": "カップヌードルミュージアム 横浜",
+      "priority": 3,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "安藤百福発明記念館 横浜",
+        "address": "安藤百福発明記念館 横浜, 4, 新港二丁目, 中区, 横浜市, 神奈川県, 231-0001, 日本",
+        "coordinates": [
+          139.6388891,
+          35.4554953
+        ],
+        "categories": [
+          "tourism",
+          "museum"
+        ],
+        "provider": "nominatim",
+        "externalId": "W72970880",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/72970880",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450427765,
+        "retention": "storable"
+      },
+      "query": "カップヌードルミュージアム 横浜",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.cupnoodles-museum.jp/ja/yokohama/guide/",
+        "https://www.cupnoodles-museum.jp/ja/yokohama/guide/admission/"
+      ],
+      "openNow": null,
+      "visitNotes": "確認日2026-09-15の公式表示は『本日は休館日』。今日開いている候補へ入れない。体験は予約・整理券等を個別確認。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-kishamichi",
+      "requestedName": "汽車道",
+      "priority": 2,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "汽車道",
+        "address": "汽車道, 北仲通六丁目, 真砂町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6344402,
+          35.4528729
+        ],
+        "categories": [
+          "highway",
+          "footway"
+        ],
+        "provider": "nominatim",
+        "externalId": "W35983482",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/35983482",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450426696,
+        "retention": "storable"
+      },
+      "query": "汽車道",
+      "positionRole": "linear_feature_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.city.yokohama.lg.jp/kanko-bunka/minato/taikan/zentai/kisyamiti.html",
+        "https://www.mm21railway.co.jp/enjoy/spot/photographing.html"
+      ],
+      "openNow": null,
+      "visitNotes": "線状のスポット。地図登録では代表点と経路の入口を区別。住所は周辺地域表記。",
+      "photoUrls": [],
+      "matchBasis": "One named Kisha-michi footway segment representative; not the entire path geometry or a confirmed entrance."
+    },
+    {
+      "sourceId": "yokohama-marine-walk",
+      "requestedName": "MARINE & WALK YOKOHAMA",
+      "priority": 3,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "マリンアンドウォーク",
+        "address": "マリンアンドウォーク, ハンマーヘッドウォーク, 横浜ハンマーヘッド, 真砂町, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6419801,
+          35.454713
+        ],
+        "categories": [
+          "shop",
+          "mall"
+        ],
+        "provider": "nominatim",
+        "externalId": "W72980138",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/72980138",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450428814,
+        "retention": "storable"
+      },
+      "query": "MARINE WALK YOKOHAMA",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://marineandwalk.jp/access/",
+        "https://www.kanagawa-kankou.or.jp/kanagawayokohamadc/spot/1763"
+      ],
+      "openNow": null,
+      "visitNotes": "物販11:00–20:00、飲食11:00–22:00が基本。店舗により異なる。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    },
+    {
+      "sourceId": "yokohama-hammerhead-park",
+      "requestedName": "ハンマーヘッドパーク",
+      "priority": 3,
+      "status": "resolved",
+      "candidate": {
+        "placeId": null,
+        "name": "ハンマーヘッドパーク",
+        "address": "ハンマーヘッドパーク, 中区, 横浜市, 神奈川県, 231-0017, 日本",
+        "coordinates": [
+          139.6424456,
+          35.4569216
+        ],
+        "categories": [
+          "leisure",
+          "park"
+        ],
+        "provider": "nominatim",
+        "externalId": "W995995788",
+        "buildingKey": null,
+        "sourceUrl": "https://www.openstreetmap.org/way/995995788",
+        "attribution": "© OpenStreetMap contributors (ODbL)",
+        "fetchedAt": 1789450429818,
+        "retention": "storable"
+      },
+      "query": "ハンマーヘッドパーク",
+      "positionRole": "facility_representative",
+      "entranceConfirmed": false,
+      "sourceUrls": [
+        "https://www.hammerhead.co.jp/facility/",
+        "https://www.hammerhead.co.jp/history/"
+      ],
+      "openNow": null,
+      "visitNotes": "施設と隣接する屋外広場を区別。住所は施設側の代表住所。",
+      "photoUrls": [],
+      "matchBasis": "Provider name/alias and Yokohama area agree with the supplied facility source; not an entrance survey."
+    }
+  ],
+  "sharedDemoImport": "not_performed",
+  "notes": [
+    "Original research is preserved separately; opening/closure notes are dated research, not live status.",
+    "No photo licensing or entrance accessibility is inferred."
+  ]
+}
