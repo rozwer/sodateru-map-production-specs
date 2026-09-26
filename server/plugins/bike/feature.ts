@@ -7,8 +7,10 @@ import { defineFeature } from "../../core/features.ts";
 import { CommonError } from "../../core/errors.ts";
 import { idempotentMutation, type StoredResult } from "../../core/idempotency.ts";
 import { bikeMigration } from "./migration.ts";
-import type { BikeService, PlaceCandidates } from "./service.ts";
+import type { BikeService, PlaceCandidates, BikeRouteInput, BikeRoutePreview } from "./service.ts";
 
+type PreviewJob = { state: "pending" | "complete" | "failed"; expiresAt: number; data?: BikeRoutePreview; error?: unknown };
+const previewJobs = new WeakMap<DatabaseSync, Map<string, PreviewJob>>();
 const active = new WeakMap<DatabaseSync, Set<string>>();
 function response(c: Context<CoreEnv>, result: StoredResult) {
   return c.body(JSON.stringify(result.body), result.status as ContentfulStatusCode, { "Content-Type": "application/json" });
@@ -53,6 +55,22 @@ export function createBikeFeature(serviceFor: (db: DatabaseSync) => BikeService)
         db.prepare("UPDATE bike_search_jobs SET state=?,error_json=? WHERE id=? AND state=?").run("failed", JSON.stringify({ code: e.code, message: e.message, retryable: e.retryable, details: e.details }), id, "pending");
         throw e;
       } finally { running.delete(id); }
+    });
+    api.post("/bike/route-previews", async c => {
+      const db = c.get("db"), context = c.get("context"), service = serviceFor(db), input = c.get("input").body as BikeRouteInput;
+      if (!previewJobs.has(db)) previewJobs.set(db, new Map());
+      const jobs = previewJobs.get(db)!;
+      for (const [id, job] of jobs) if (job.expiresAt <= Date.now()) jobs.delete(id);
+      let created = false;
+      const accepted = idempotentMutation(db, { context, operation: "POST /api/v1/bike/route-previews", key: c.req.header("Idempotency-Key")!, input }, {
+        execute() { const id = randomUUID(), expiresAt = Date.now() + 900000; created = true; jobs.set(id, { state: "pending", expiresAt }); return { status: 202, resource: { type: "bike-route-preview", id }, expiresAt }; }, replay: result => result,
+      });
+      const job = jobs.get(accepted.resource!.id);
+      if (!job) throw new CommonError("RESULT_EXPIRED", "二輪経路の一時結果がありません。新しい操作IDで検索してください。");
+      if (!created && job.state === "pending") throw new CommonError("BUSY", "同じ二輪経路を検索中です。", true);
+      if (created) { try { job.data = await service.previewRoute(context, input); job.expiresAt = Math.min(job.expiresAt, job.data.expiresAt); job.state = "complete"; } catch (error) { job.state = "failed"; job.error = error; } }
+      if (job.state === "failed") throw job.error;
+      return c.json({ data: service.replayRoutePreview(context, job.data!) });
     });
     api.post("/bike/place-candidates", c => {
       const db = c.get("db"), context = c.get("context"), service = serviceFor(db), input = c.get("input").body as { searchId: string };
