@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 462,
+  "revision": 463,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35233,21 +35233,18 @@
       "token": null
     },
     "UI-COMPANION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 19,
       "landed_main": null,
-      "note": "docs/evidence/UI-COMPANION/README.md",
+      "note": "PR #362 merged d661e18 retaining accae3a after independent review. #97 minimal acceptance complete via #338/#350/#362. #19 remains open for broader UI acceptance; no new APIs.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/companion/",
-        "docs/evidence/UI-COMPANION/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "accae3a8065532e9f5ae114ea84a0b4e1ad7e86f",
-      "token": "258462523e874e27859eeb3091eb9c37"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-EXPLORE": {
       "actor": null,
