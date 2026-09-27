@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 529,
+  "revision": 530,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34547,21 +34547,18 @@
       "token": null
     },
     "CONNECT-PLUGINS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "a748910b30f0f952881a27107d362563099c8d10",
       "claim_unit": "plugin-install",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 144,
       "landed_main": null,
-      "note": "お願い接続はPR353/359統合、独立レビューPASS、Issue113終了。PR359 merge 3e13988be52df8ea2549fb1c902019e55115e85d。証拠 docs/evidence/CONNECT-PLUGINS/requests-round2-20260927.md。WT /Users/roz/Documents/sodateru-requests-round2 は保持。Issue144全体はバイク/聖地等の実接続が未完のためfinishせず返却。",
+      "note": "消費抑制指示で未検証WIPを保全して返却。WT /Users/roz/Documents/sodateru-plugin-api-finish branch rozwer/144-plugin-api-finish commit b1916573c47ececd15bd336b3d1f51f033d72abb。docs/evidence/CONNECT-PLUGINS/wip-20260927.md参照。catalog/試用/聖地導入確認のみ、実検索/計画/競合/版変更/通常map接続は未検証、未統合。#144finishなし。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "docs/evidence/CONNECT-PLUGINS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "aa70562876734b6899c411b31ebf1cd3"
+      "token": null
     },
     "CONNECT-RECORDS": {
       "actor": null,
