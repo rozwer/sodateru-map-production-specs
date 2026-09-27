@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 495,
+  "revision": 496,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35471,17 +35471,21 @@
       "token": "66db6a794d344e298bfb6809948f29d5"
     },
     "UI-ROUTES": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "a9401cc6b63449a53ebefb76e94773382c465274",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 9,
       "landed_main": null,
       "note": "緊急統合へ委譲。PR157/a5c8361はheader/余白重複の最小修正、全差分push済・worktree clean。既存PR44/71統合済。UI残:3画面の実Mapbox画像照合/幅別確認・最新Shell内全状態。接続残:本人/経路API保存再取得、比較/conditions/steps、単一測位、定期券入口。UI未完のためfinishせず、#72正式分割後にCONNECTへ接続受入を移管。paths src/features/routes/ docs/evidence/UI-ROUTES/。worktree /Users/roz/.codex/worktrees/ui-routes-9。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/routes/",
+        "docs/evidence/UI-ROUTES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "8ae5dc524bbe437593fe507137759967"
     },
     "UI-SETTINGS": {
       "actor": null,
