@@ -34365,7 +34365,7 @@
     "UI-DEMO-EXTENSIONS",
     "UI-DEMO-PRESENTATION"
   ],
-  "revision": 576,
+  "revision": 577,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35333,7 +35333,7 @@
       "generation": 1,
       "issue_number": 399,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/UI-DEMO-PRESENTATION/README.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -35345,8 +35345,8 @@
         "src/features/plugins/views.tsx",
         "src/features/plugins/reference-data.ts"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "f8c66c434d35da1928ad00d7f85545a8eca45e30",
       "token": "03bcfb9a842e4386b6dcfd5d7e9c0ea7"
     },
     "UI-EXPLORE": {
