@@ -51,3 +51,30 @@ API未接続・未提供の状態やこの技術fixtureだけをlive完了とし
 ## 共通画面への到達（12:20 JST）
 
 develop 891c1cdを取り込み、上記display-state不足は解消。公式起動の本人選択→地図→相棒管理の共有Sheet表示へ到達した。相棒の共通生成operationが未反映のため`Unknown operation: listCompanions`を確認。失敗時は0件/未選択と断定せず「未確認」「一覧を読み込めていない」と表示し、保存無効・再試行ありになることを実ブラウザで確認した。地図で媒体取得に失敗しても「AIと話す」ボタンが残ることも確認済み。ZIP保存/設定再取得は引き続き未完了。
+
+
+## 2026-09-27 取消・選択解除の修復（#19）
+
+起点develop `db1e338`、公式worktree `companion-19-followup`、branch `rozwer/19-companion-actions`。取得範囲はsrc/features/companion/と本証拠ディレクトリのみ。
+
+### 修正
+
+- 取込の明示「キャンセル」は戻る前にファイル・検査結果・動作確認・現在選択フラグを破棄する。従来はuseScreenStateに残り、再訪時に取消済みファイルが復活していた。
+- 管理の「変更を取り消す」で未保存の選択/表示設定を保存値へ戻す。取消自体はAPIを更新しない。
+- 「現在の相棒の選択を解除」を既存selectedCompanionId:nullへ接続。保存するまでは下書き、明示保存後に反映する。登録一覧から相棒を削除する機能ではない。
+- 保存成功通知でrevisionが更新されたとき、すでに実行中で再読込がskipされてもloadingだけtrueになる問題を修復。実際に読込処理を開始したときだけloadingを更新する。
+
+### 確認
+
+- `mise exec -- node node_modules/vitest/vitest.mjs run src/features/companion/screens.test.tsx`: 2件PASS。取消後にキャッシュを再マウントしてもファイル/確認が復活せず登録無効、選択解除→取消はAPI書込なし、明示保存だけnullを送信し未選択/読込完了へ遷移。
+- screens.tsxとテスト入口strict tsc PASS（ES2022 / ESNext / Bundler / react-jsx / vite/client / allowImportingTsExtensions）。Vite production build PASS。
+- `http://companion19.localhost:5197`、Vite --strictPort、API3027。lsofでUI PID11889/API PID11880両cwd=`/Users/roz/.codex/worktrees/companion-19-followup`。API起動出力のDBは同worktreeの.local/app.sqlite / .local/demo.sqlite。固有hostnameで他担当のcookieと隔離し、共有環境は変更しない。
+- 実shellの管理→ファイルから追加→実ファイルchooserで既存fixtures/companion-ui-test.zipを選択。API検査とatlas表示（初期3/25）→キャンセル→管理は登録0件→再訪でファイル/プレビューなし・登録無効を確認。
+- 同ZIPを再取込し、追加プレビューを開いてスクロール。9動作+16視線を表示し25/25、明示確認チェック→今の相棒にする→登録で、管理に同じ技術fixtureの実atlas/表示中/選択済みが出ることを確認。この図形はテスト用と説明され、作画品質の合格証拠ではない。
+- 320×740で選択解除→変更取消が元の選択を復元。再度選択解除→保存で未選択に遷移し、保存ボタンが操作可能のままで読込中に張り付かない。390×844で再読込後も未選択で、登録済みatlasは一覧に残る。各scrollWidthは320/390。1440×900の取込画面も操作・目視確認。viewportは解除。
+
+### 未完
+
+登録済み相棒のDELETE operationは現行生成clientにない。選択解除やローカル取込取消をサーバー資産の削除とは扱わない。独自APIは追加しない。
+
+全指定画像との全状態比較、異なる2種類、文字200%、soft keyboard、reduced motionの総合確認、二本人/live-demo分離、実ネットワーク競合/失敗の全組合せ、通常地図での本人相棒とAI入口の全条件は未完。背景地図は一部取得失敗表示も残る。#19/#147全体をcloseする証拠ではなく部分修復として提出する。新規制作は対象外のまま。
