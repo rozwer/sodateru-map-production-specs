@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 509,
+  "revision": 510,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35290,22 +35290,18 @@
       "token": null
     },
     "UI-EXPLORE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 3,
+      "generation": 4,
       "issue_number": 10,
       "landed_main": null,
-      "note": "ユーザー終了指示。PR74統合済み、後続binding PR151/de12b77は全push済み。UI-INTEGRATION #98へ引継ぎ済み。未完UI/接続受入は#10と#72 comment5674183597に保持。worktree /Users/roz/.codex/worktrees/ui-explore-10 と全commitを保存し、完了扱いせず編集claimを返却。",
+      "note": "PR367 reviewed PASS and merged 8ee83e3. Real discovery consent cancellation preserves target URL/text, conversations=0. Remaining full visual/device and old-card redisplay acceptance stays OPEN; old proof DB on kmattsun unavailable locally. Worktree explore-finish-10 retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/exploration/",
-        "src/features/transfer/",
-        "docs/evidence/UI-EXPLORE/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "59be1c83806e49f793721b14a2e98161"
+      "token": null
     },
     "UI-FRIENDS": {
       "actor": "rozwer",
