@@ -1,0 +1,75 @@
+{
+  "source_ui_task": "UI-PLUGINS",
+  "connection_task": "CONNECT-PLUGINS",
+  "units": [
+    {
+      "id": "requests-list",
+      "page": "feature-requests",
+      "action": "main--public",
+      "api_operation_ids": [
+        "getFeatureRequests"
+      ],
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/"
+      ],
+      "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
+      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+    },
+    {
+      "id": "requests-drafts",
+      "page": "feature-requests",
+      "action": "main--drafts",
+      "api_operation_ids": [
+        "getFeatureRequests"
+      ],
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/"
+      ],
+      "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
+      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+    },
+    {
+      "id": "requests-save",
+      "page": "feature-request-edit",
+      "action": "main--submit",
+      "api_operation_ids": [
+        "postFeatureRequests",
+        "patchFeatureRequestsRequestId"
+      ],
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/"
+      ],
+      "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
+      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+    },
+    {
+      "id": "requests-delete",
+      "page": "feature-requests",
+      "action": "main--delete",
+      "api_operation_ids": [
+        "deleteFeatureRequestsRequestId"
+      ],
+      "write_paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/"
+      ],
+      "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
+      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+    }
+  ]
+}
