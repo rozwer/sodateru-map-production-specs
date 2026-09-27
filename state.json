@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 565,
+  "revision": 566,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35234,21 +35234,18 @@
       "token": null
     },
     "UI-COMPANION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "5ed3cdd61c47785bb7af73f488e92232d9a04d7b",
       "claim_unit": null,
-      "generation": 9,
+      "generation": 10,
       "issue_number": 19,
       "landed_main": null,
-      "note": "src/features/companion/screens.test.tsx; typecheck and 3 companion tests passed",
+      "note": "PR #394 merged; typecheck and 3 companion tests passed. Broad #19 UI visual, device, and state acceptance remains open.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/companion/",
-        "docs/evidence/UI-COMPANION/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "4922d9f03f4bf6b4487b13a29933947b8ee50cce",
-      "token": "60964fc09056441a85705dbdc1f01d76"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-EXPLORE": {
       "actor": null,
