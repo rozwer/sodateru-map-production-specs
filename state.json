@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 534,
+  "revision": 535,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34503,21 +34503,18 @@
       "token": null
     },
     "CONNECT-KNOWLEDGE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "bf49c053346fc4e9f2e8d61ec8f5c5843d275c47",
       "claim_unit": "knowledge-search-list-map",
-      "generation": 7,
+      "generation": 8,
       "issue_number": 143,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md",
+      "note": "PR382 merged after independent PASS. Remaining: media visual comparison/device controls, regional people contract, live bookmark failure/retry. Evidence map-detail.md. Worktree knowledge-place-media retained; user quota reduction, no next issue.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/knowledge/",
-        "docs/evidence/CONNECT-KNOWLEDGE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "05fa3588aba1cf20b430803716dd89c2f2d86129",
-      "token": "47c242a085924efc9a8a12a307f782ec"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-MAP": {
       "actor": null,
