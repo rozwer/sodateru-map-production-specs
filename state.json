@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 373,
+  "revision": 374,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35236,17 +35236,20 @@
       "token": null
     },
     "UI-FRIENDS": {
-      "actor": null,
-      "base_commit": "edf48a07d0e551b3052165401710298041883b7b",
-      "generation": 4,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 5,
       "issue_number": 14,
       "landed_main": null,
       "note": "PR255 merged 33b0e1f; scoped reference repair complete; UI-FRIENDS full acceptance remains open; evidence docs/evidence/UI-FRIENDS/reference-repair.md; worktree and branch preserved",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/friends/",
+        "docs/evidence/UI-FRIENDS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "b42adc8bf12743fcbc3d99c944d17abb"
     },
     "UI-HEALTH": {
       "actor": null,
