@@ -1,0 +1,203 @@
+[
+  {
+    "method": "PATCH",
+    "path": "/visits/08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+    "body": {
+      "status": "confirmed"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "confirmed",
+        "version": 6,
+        "createdAt": 1790501977982,
+        "updatedAt": 1790502648456
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/map/growth",
+    "body": null,
+    "status": 200,
+    "response": {
+      "items": [
+        {
+          "place": {
+            "id": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+            "name": "成長受入テスト棟A",
+            "address": null,
+            "coordinates": [
+              136.9656863808632,
+              35.164445974907984
+            ],
+            "categories": [],
+            "provider": "manual",
+            "externalId": null,
+            "buildingKey": "mapbox:basemap:buildings:building-A:3193162936458095",
+            "sourceUrl": null,
+            "attribution": "",
+            "fetchedAt": null,
+            "version": 1,
+            "createdAt": 1790501968994,
+            "updatedAt": 1790501968994
+          },
+          "confirmedVisitCount": 1,
+          "stage": 1,
+          "purposes": [
+            "読書"
+          ],
+          "sourceRefs": [
+            {
+              "type": "place",
+              "id": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+              "version": 1
+            },
+            {
+              "type": "visit",
+              "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+              "version": 6
+            },
+            {
+              "type": "record",
+              "id": "8a74f6ec-9080-4366-b614-910b1fe63732",
+              "version": 3
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  {
+    "method": "PATCH",
+    "path": "/visits/08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+    "body": {
+      "placeId": "3e906b40-1834-431c-a9f9-57bf3c098ae2"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "3e906b40-1834-431c-a9f9-57bf3c098ae2",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "confirmed",
+        "version": 7,
+        "createdAt": 1790501977982,
+        "updatedAt": 1790502648463
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/map/growth",
+    "body": null,
+    "status": 200,
+    "response": {
+      "items": [
+        {
+          "place": {
+            "id": "3e906b40-1834-431c-a9f9-57bf3c098ae2",
+            "name": "成長受入テスト棟B",
+            "address": null,
+            "coordinates": [
+              136.96636363863945,
+              35.164054574855896
+            ],
+            "categories": [],
+            "provider": "manual",
+            "externalId": null,
+            "buildingKey": "mapbox:basemap:buildings:building-A:4101292597516695",
+            "sourceUrl": null,
+            "attribution": "",
+            "fetchedAt": null,
+            "version": 1,
+            "createdAt": 1790502632715,
+            "updatedAt": 1790502632715
+          },
+          "confirmedVisitCount": 1,
+          "stage": 1,
+          "purposes": [
+            "読書"
+          ],
+          "sourceRefs": [
+            {
+              "type": "place",
+              "id": "3e906b40-1834-431c-a9f9-57bf3c098ae2",
+              "version": 1
+            },
+            {
+              "type": "visit",
+              "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+              "version": 7
+            },
+            {
+              "type": "record",
+              "id": "8a74f6ec-9080-4366-b614-910b1fe63732",
+              "version": 3
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/records/8a74f6ec-9080-4366-b614-910b1fe63732",
+    "body": null,
+    "status": 200,
+    "response": {
+      "data": {
+        "record": {
+          "id": "8a74f6ec-9080-4366-b614-910b1fe63732",
+          "personId": "c7704b32-e472-4954-b998-53011560eb66",
+          "version": 3,
+          "createdAt": 1790502040196,
+          "updatedAt": 1790502262887,
+          "kind": "experience",
+          "visitId": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+          "placeId": null,
+          "occurredAt": null,
+          "endedAt": null,
+          "timePrecision": "unknown",
+          "body": "建物成長受入の合成記録。用途を訂正しても本文は保持されます。",
+          "purposes": [
+            "読書"
+          ],
+          "activities": [],
+          "impression": "",
+          "periodAnswers": {},
+          "bookmarked": false,
+          "useForSuggestions": false,
+          "topicKey": null,
+          "visibility": "private",
+          "sharedWith": [],
+          "effectivePlaceId": "3e906b40-1834-431c-a9f9-57bf3c098ae2",
+          "effectiveStartedAt": null,
+          "effectiveEndedAt": null,
+          "effectiveTimePrecision": "unknown",
+          "memo": null
+        },
+        "media": {
+          "status": "ready",
+          "data": {
+            "items": [],
+            "nextCursor": null
+          }
+        }
+      }
+    }
+  }
+]

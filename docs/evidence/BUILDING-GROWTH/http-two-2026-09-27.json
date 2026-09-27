@@ -1,0 +1,130 @@
+[
+  {
+    "method": "PATCH",
+    "path": "/visits/ff4a522a-a9d2-4079-99c9-37cf03bec597",
+    "body": {
+      "status": "candidate"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "ff4a522a-a9d2-4079-99c9-37cf03bec597",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "candidate",
+        "version": 3,
+        "createdAt": 1790502378969,
+        "updatedAt": 1790502445269
+      }
+    }
+  },
+  {
+    "method": "PATCH",
+    "path": "/visits/9d0feae9-97af-41ed-bffc-01bfd00f5e59",
+    "body": {
+      "status": "candidate"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "9d0feae9-97af-41ed-bffc-01bfd00f5e59",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "candidate",
+        "version": 3,
+        "createdAt": 1790502378974,
+        "updatedAt": 1790502445272
+      }
+    }
+  },
+  {
+    "method": "PATCH",
+    "path": "/visits/fe05dc55-f1d2-4982-a849-3f15e19cebbd",
+    "body": {
+      "status": "candidate"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "fe05dc55-f1d2-4982-a849-3f15e19cebbd",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "candidate",
+        "version": 3,
+        "createdAt": 1790502378977,
+        "updatedAt": 1790502445274
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/map/growth",
+    "body": null,
+    "status": 200,
+    "response": {
+      "items": [
+        {
+          "place": {
+            "id": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+            "name": "成長受入テスト棟A",
+            "address": null,
+            "coordinates": [
+              136.9656863808632,
+              35.164445974907984
+            ],
+            "categories": [],
+            "provider": "manual",
+            "externalId": null,
+            "buildingKey": "mapbox:basemap:buildings:building-A:3193162936458095",
+            "sourceUrl": null,
+            "attribution": "",
+            "fetchedAt": null,
+            "version": 1,
+            "createdAt": 1790501968994,
+            "updatedAt": 1790501968994
+          },
+          "confirmedVisitCount": 2,
+          "stage": 2,
+          "purposes": [
+            "読書"
+          ],
+          "sourceRefs": [
+            {
+              "type": "place",
+              "id": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+              "version": 1
+            },
+            {
+              "type": "visit",
+              "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+              "version": 2
+            },
+            {
+              "type": "visit",
+              "id": "22030163-7a86-43f4-a101-8e1d292c431a",
+              "version": 2
+            },
+            {
+              "type": "record",
+              "id": "8a74f6ec-9080-4366-b614-910b1fe63732",
+              "version": 3
+            }
+          ]
+        }
+      ],
+      "nextCursor": null
+    }
+  }
+]

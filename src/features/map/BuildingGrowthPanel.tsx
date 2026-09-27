@@ -12,6 +12,7 @@ const activityColors = ['#d7e8f6', '#c9e4b4', '#ffe29a', '#ffb16d', '#ef7464', '
 function PersonalBuildingInsight({ title, purposes }: { title: string; purposes: string[] }) {
   const primary = purposes[0] || '休憩';
   return <div className="building-insight">
+    <p className="map-muted map-small" role="note">表示例（モック）：時間帯・滞在時間・説明は本人の記録から計算した結果ではありません。実際の確認済み訪問と根拠は下に表示します。</p>
     <div className="building-insight__head"><div><span className="building-insight__eyebrow">この建物の過ごされ方</span><h2>{title}</h2></div><span className="building-insight__badge">よく立ち寄る</span></div>
     <div className="building-insight__personal"><span aria-hidden="true">✦</span><div><small>あなたにとってここは</small><strong>{primary === '読書' ? '気持ちを切り替えて、静かに考えを深める場所' : 'ひと息ついて、次の予定を整える場所'}</strong><p>平日の昼下がりに立ち寄ることが多く、短い滞在でも気分転換につながっています。</p></div></div>
     <div className="building-insight__section-title"><strong>時間帯ごとの使われ方</strong><span>平日</span></div>

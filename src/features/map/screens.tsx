@@ -7,6 +7,7 @@ import { Status } from '../../ui/Status';
 import { Icon } from '../../ui/Icon';
 import { MapIcon } from './MapIcon';
 import { mapDisplay, useMapDisplay } from '../../map/display-state';
+import { reduceMapMotion } from '../../map/growth-display';
 import { mapMessages as m } from './messages';
 import { candidatePresentation, detailPresentation, useMapSession } from './map-state';
 import { PlaceDetailPanel, PlacePhoto, NearbyCards, ObjectEditPanel, type DecorationDraft } from './MapPanels';
@@ -20,12 +21,18 @@ export function MapToolbar({ route, navigate, scopeKey }: ScreenProps) {
   const [state, session] = useMapSession(scopeKey);
   const [playback, setPlayback] = useState<'idle' | 'playing' | 'done'>('idle');
   const playbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (playbackTimer.current) clearTimeout(playbackTimer.current); }, []);
+  useEffect(() => {
+    const changed = () => { if (reduceMapMotion() && playbackTimer.current) { clearTimeout(playbackTimer.current); playbackTimer.current = null; setPlayback('done'); } };
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    query.addEventListener('change', changed);
+    window.addEventListener('sodateru:display-settings-applied', changed);
+    return () => { if (playbackTimer.current) clearTimeout(playbackTimer.current); query.removeEventListener('change', changed); window.removeEventListener('sodateru:display-settings-applied', changed); };
+  }, []);
   useEffect(() => subscribeGrowthChanges(changedScope => { if (changedScope === scopeKey) void session.loadGrowth(bridge); }), [bridge, session, scopeKey]);
   useEffect(() => { if (route.pageId === 'map' || route.pageId === 'personal-map') void session.loadGrowth(bridge); }, [route.pageId, scopeKey, bridge, session]);
   useEffect(() => { mapDisplay(bridge).setOwnerFilter(route.pageId === 'personal-map' ? 'personal' : route.pageId === 'map' ? 'map' : route.pageId === 'map-layers' ? 'layers' : null); }, [bridge, route.pageId]);
   if (!['map', 'personal-map', 'map-layers', 'object-place'].includes(route.pageId)) return null;
-  if (route.pageId === 'personal-map') return <div className="map-personal-toolbar"><div className="map-personal-toolbar__title"><div><h1>{m.personalTitle}</h1><p>{m.personalLead}</p></div><button type="button" className="map-track-replay" disabled={playback === 'playing' || (!state.personalLoading && !state.records.length && !state.growth.length)} onClick={() => { window.dispatchEvent(new CustomEvent('sodateru:play-growth')); setPlayback('playing'); if (playbackTimer.current) clearTimeout(playbackTimer.current); playbackTimer.current = setTimeout(() => setPlayback('done'), window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 300 : 7600); }}><span aria-hidden="true">▶</span>{playback === 'playing' ? '軌跡を再生中…' : playback === 'done' ? 'もう一度再生' : '軌跡を再生'}</button></div>{!state.personalLoading && !state.records.length && !state.growth.length && <p className="map-track-empty">再生できる軌跡はまだありません。体験を記録すると、ここから街の変化を再生できます。</p>}<div className="map-theme-filters"><button type="button" aria-pressed={!state.themeId} onClick={() => navigate('personal-map')}>{m.all}</button>{state.themes.map(theme => <button type="button" key={theme.id} aria-pressed={state.themeId === theme.id} onClick={() => navigate('personal-map', { themeId: theme.id })}><MapIcon name="cup"/>{theme.name}</button>)}</div></div>;
+  if (route.pageId === 'personal-map') return <div className="map-personal-toolbar"><div className="map-personal-toolbar__title"><div><h1>{m.personalTitle}</h1><p>{m.personalLead}</p></div><button type="button" className="map-track-replay" disabled={playback === 'playing' || (!state.personalLoading && !state.records.length && !state.growth.length)} onClick={() => { window.dispatchEvent(new CustomEvent('sodateru:play-growth')); setPlayback('playing'); if (playbackTimer.current) clearTimeout(playbackTimer.current); playbackTimer.current = setTimeout(() => setPlayback('done'), reduceMapMotion() ? 300 : 7600); }}><span aria-hidden="true">▶</span>{playback === 'playing' ? '軌跡を再生中…' : playback === 'done' ? 'もう一度再生' : '軌跡を再生'}</button></div>{!state.personalLoading && !state.records.length && !state.growth.length && <p className="map-track-empty">再生できる軌跡はまだありません。体験を記録すると、ここから街の変化を再生できます。</p>}<div className="map-theme-filters"><button type="button" aria-pressed={!state.themeId} onClick={() => navigate('personal-map')}>{m.all}</button>{state.themes.map(theme => <button type="button" key={theme.id} aria-pressed={state.themeId === theme.id} onClick={() => navigate('personal-map', { themeId: theme.id })}><MapIcon name="cup"/>{theme.name}</button>)}</div></div>;
   if (route.pageId === 'object-place') return <div className="map-placement-help"><Icon name="pin"/><p>{m.placeHelp}</p></div>;
   return <div className="map-search-toolbar"><form onSubmit={event => { event.preventDefault(); if (!state.query.trim()) return; void session.search(bridge); navigate('map', { state: 'search-place-selected' }); }}><MapIcon name="search"/><input type="search" value={state.query} maxLength={200} placeholder={m.searchPlaceholder} aria-label="場所・お店を検索" onChange={event => session.setQuery(event.target.value)} /><button type="submit" disabled={state.loading || !state.query.trim()}>{m.search}</button></form><button type="button" className="map-ai-button" aria-label={m.ai} onClick={() => navigate('ai-explore')}><MapIcon name="robot"/></button><button type="button" className="map-layer-shortcut" hidden={route.pageId !== 'map'} onClick={() => navigate('map-layers')}><MapIcon name="layers"/>表示レイヤー</button></div>;
 }

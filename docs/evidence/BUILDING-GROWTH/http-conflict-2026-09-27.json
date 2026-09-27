@@ -1,0 +1,31 @@
+[
+  {
+    "method": "PATCH",
+    "path": "/visits/08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+    "body": {
+      "status": "confirmed"
+    },
+    "status": 412,
+    "response": {
+      "error": {
+        "code": "VERSION_CONFLICT",
+        "message": "保存後に内容が変更されています。",
+        "requestId": "44d8aaef-46d5-42bd-ab12-d83a29ccabaf",
+        "details": {
+          "currentVersion": 3,
+          "retryable": false
+        }
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/map/growth",
+    "body": null,
+    "status": 200,
+    "response": {
+      "items": [],
+      "nextCursor": null
+    }
+  }
+]

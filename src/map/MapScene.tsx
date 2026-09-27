@@ -3,7 +3,7 @@ import mapboxgl, { type GeoJSONSource, type TargetFeature } from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { ObjectPreview, type ObjectPreviewProps } from './ObjectPreview';
 import { decorationsLayer, type SceneDecoration } from './decorations-layer';
-import { attachGrowth, buildingIdentity, type GrowthDisplay } from './growth-display';
+import { attachGrowth, buildingIdentity, reduceMapMotion, type GrowthDisplay } from './growth-display';
 import { UNVISITED_COLOR, type Building } from './growth-rules';
 import './map.css';
 
@@ -164,8 +164,12 @@ export function MapScene(props: Props) {
         const line = (event.features?.[0] as unknown as { properties?: Record<string, unknown> } | undefined)?.properties;
         if (line && typeof line.ownerKey === 'string' && typeof line.lineId === 'string') latest.current.onSelect?.({ ownerKey: line.ownerKey, kind: 'route', id: line.lineId, coordinates: [event.lngLat.lng, event.lngLat.lat] });
       });
+    const displaySettingsChanged = () => { if (reduceMapMotion()) map.stop(); };
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    motionQuery.addEventListener('change', displaySettingsChanged);
+    window.addEventListener('sodateru:display-settings-applied', displaySettingsChanged);
     const observer = new ResizeObserver(() => map.resize()); observer.observe(container.current);
-    return () => { observer.disconnect(); map.remove(); mapRef.current = null; };
+    return () => { motionQuery.removeEventListener('change', displaySettingsChanged); window.removeEventListener('sodateru:display-settings-applied', displaySettingsChanged); observer.disconnect(); map.remove(); mapRef.current = null; };
   }, [retry]);
 
   useEffect(() => { if (props.styleRevision) reloadStyle(); }, [props.styleRevision]);
@@ -177,7 +181,7 @@ export function MapScene(props: Props) {
     const pitch = props.view.dimension === '2d' ? 0 : camera.pitch;
     if (Math.abs(current.longitude - camera.longitude) > 0.000001 || Math.abs(current.latitude - camera.latitude) > 0.000001 || Math.abs(current.zoom - camera.zoom) > 0.001 || Math.abs(current.bearing - camera.bearing) > 0.01 || Math.abs(current.pitch - pitch) > 0.01) {
       suppressCamera.current = true;
-      try { map.easeTo({ center: [camera.longitude, camera.latitude], zoom: camera.zoom, bearing: camera.bearing, pitch, duration: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 420 }); }
+      try { map.easeTo({ center: [camera.longitude, camera.latitude], zoom: camera.zoom, bearing: camera.bearing, pitch, duration: reduceMapMotion() ? 0 : 420 }); }
       finally { suppressCamera.current = false; }
     }
   }, [props.camera, props.view.dimension, ready]);
@@ -190,7 +194,7 @@ export function MapScene(props: Props) {
   useEffect(() => {
     const map = mapRef.current, focus = props.focus;
     if (!map || !ready || !focus) return;
-    const duration = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 450;
+    const duration = reduceMapMotion() ? 0 : 450;
     const pitch = latest.current.view.dimension === '2d' ? 0 : latest.current.camera.pitch, bearing = latest.current.camera.bearing;
     suppressCamera.current = true;
     try {
