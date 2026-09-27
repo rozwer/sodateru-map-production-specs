@@ -147,15 +147,15 @@ export function KnowledgeDetailView({ record, timeZone, center, onBack, onPlace,
   </article>;
 }
 
-export function KnowledgePlaceView({ name, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loadMedia, active = true }: {
+export function KnowledgePlaceView({ name, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loading, onRetry, loadMedia, active = true }: {
   name: string; records: KnowledgeRecord[]; totalCount: number; timeZone: string;
-  onClose: () => void; onVoices: () => void; onOpen: (id: string) => void; error?: string | null; loadMedia?: KnowledgeMediaLoader; active?: boolean;
+  onClose: () => void; onVoices: () => void; onOpen: (id: string) => void; error?: string | null; loading?: boolean; onRetry?: () => void; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
   const photo = records.flatMap(record => record.media).find(media => media.kind === 'photo' && media.status === 'ready');
   return <section className="knowledge-panel knowledge-local" data-testid="local-knowledge--place-sheet">
     <div className="knowledge-place-title"><h2>{name}</h2><IconButton icon="close" label="場所シートを閉じる" onClick={onClose} /></div><p className="knowledge-voice-count">{m.voice}　<output>{totalCount}件</output></p>
     {photo && <KnowledgeMediaView media={photo} description={`${name}に投稿された写真`} active={active} loadMedia={loadMedia} />}
-    <KnowledgeStatus error={error} empty={totalCount === 0} />
+    <KnowledgeStatus error={error} loading={loading} empty={totalCount === 0} retry={onRetry} />
     <ul className="knowledge-voices">{records.slice(0, 2).map(record => <li key={record.id}><KnowledgeAvatar src={record.person.iconPath} name={record.person.displayName} /><button type="button" onClick={() => onOpen(record.id)}><span>{record.person.displayName}・{formatKnowledgeDate(record.effectiveAt, timeZone)}</span><strong>「{record.body}」</strong></button></li>)}</ul>
     <button className="knowledge-voices-button" type="button" onClick={onVoices}>{m.voicesOpen}<KnowledgeIcon name="chevron" /></button>
   </section>;

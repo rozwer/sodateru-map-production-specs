@@ -1,0 +1,15 @@
+{
+  "recordId": "knowledge-map-000",
+  "authorPatchStatus": 200,
+  "readerGetStatus": 404,
+  "error": {
+    "error": {
+      "code": "NOT_FOUND",
+      "message": "The requested item is not available",
+      "requestId": "2705e175-2a88-4104-94dd-3d30eb351299",
+      "details": {
+        "retryable": false
+      }
+    }
+  }
+}
