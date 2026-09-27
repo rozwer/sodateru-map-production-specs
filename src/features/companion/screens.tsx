@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
 import { api } from '../../app/api';
-import type { Companion, CompanionImport, CompanionSettings } from '../../../packages/api-client/index';
+import type { Companion, CompanionImport, CompanionSettings, OperationInput } from '../../../packages/api-client/index';
 import { ImportView, SettingsView, type CompanionCard, type ImportForm, type PreviewAction, type SettingsForm } from './views';
 import { companionRevision, notifyCompanionSaved, subscribeCompanion, useCompanionRequests } from './requests';
 import { loadAtlas, v2Actions, v2Clip } from './atlas';
@@ -119,7 +119,11 @@ function ImportScreen({ active = true, navigate, back, route }: ScreenProps) {
       setState({ form: { file: null, register: true, makeCurrent: false }, inspected: null, confirmed: false, viewed: [] });
       setActions([]); uploadIdentity.current = undefined; request.setNotice(undefined); back();
     }}
-    onRegister={() => void request.run(async signal => {
+    onRegister={() => {
+      // A follow-up read can fail after registration already committed. Retrying
+      // that action must retain the original settings version and request key.
+      let registration: Omit<OperationInput<'registerCompanionImport'>, 'idempotencyKey' | 'signal'> | undefined;
+      void request.run(async signal => {
       if (!state.inspected || !state.confirmed || !state.form.register) return;
       if (route.params.generationId) {
         const { data: generation } = await api.request('getCompanionGeneration', { path: { generationId: route.params.generationId }, signal });
@@ -129,13 +133,17 @@ function ImportScreen({ active = true, navigate, back, route }: ScreenProps) {
         if (!signal.aborted) { notifyCompanionSaved(); navigate('companion-settings', { companionId: companion.id }); }
         return;
       }
-      const settings = state.form.makeCurrent ? (await api.request('getCompanionSettings', { signal })).data : null;
-      const result = await request.mutate('registerCompanionImport', { path: { importId: state.inspected.id }, version: state.inspected.version, body: { selectCurrent: state.form.makeCurrent, ...(settings ? { settingsVersion: settings.version } : {}) } });
+      if (!registration) {
+        const settings = state.form.makeCurrent ? (await api.request('getCompanionSettings', { signal })).data : null;
+        registration = { path: { importId: state.inspected.id }, version: state.inspected.version, body: { selectCurrent: state.form.makeCurrent, ...(settings ? { settingsVersion: settings.version } : {}) } };
+      }
+      const result = await request.mutate('registerCompanionImport', registration);
       await api.request('getCompanion', { path: { companionId: result.companion.id }, signal });
       if (signal.aborted) return;
       setState({ form: { file: null, register: true, makeCurrent: false }, inspected: null, confirmed: false, viewed: [] });
       notifyCompanionSaved(); navigate('companion-settings', { companionId: result.companion.id });
-    })}/>;
+      });
+    }}/>;
 }
 
 const layout = { header: 'back', contentPadding: 'none', bottomNav: false, background: 'soft' } as const;

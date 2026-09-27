@@ -54,3 +54,33 @@ it('discards an unselection locally and only saves null selection after explicit
   expect(host.textContent).toContain('現在の相棒は未選択です');
   await act(async () => root.unmount()); host.remove();
 });
+
+
+it('replays the identical registration after its follow-up read fails', async () => {
+  const cache = new Map<string, unknown>();
+  cache.set('uncertain-import', {form:{file:new File(['zip'],'retry.zip'),register:true,makeCurrent:true},inspected:{id:'import-retry',version:2,requiredActions:['idle']},confirmed:true,viewed:['idle']});
+  const request = vi.mocked(api.request); request.mockReset();
+  let settingsVersion = 1, reads = 0;
+  request.mockImplementation(async (operation, input: any) => {
+    if (operation === 'getCompanionSettings') return {data:{version:settingsVersion}} as any;
+    if (operation === 'registerCompanionImport') { settingsVersion = 2; return {data:{companion:{id:'registered-once'}}} as any; }
+    if (operation === 'getCompanion') { if (++reads === 1) throw new TypeError('connection lost after commit'); return {data:{id:'registered-once'}} as any; }
+    throw new Error('unexpected operation '+operation);
+  });
+  const navigate = vi.fn();
+  const host = document.createElement('div'); document.body.append(host); const root = createRoot(host);
+  const Screen = screens.find(screen => screen.id === 'companion-import')!.component;
+  await act(async () => root.render(<ScreenStateContext.Provider value={cache}><ScreenKeyContext.Provider value="uncertain-import"><Screen {...props} navigate={navigate} route={{pageId:'companion-import',params:{}}}/></ScreenKeyContext.Provider></ScreenStateContext.Provider>));
+  const button = (label: string) => [...host.querySelectorAll('button')].find(button => button.textContent === label)!;
+  await act(async () => button('登録する').click());
+  expect(host.textContent).toContain('connection lost after commit');
+  expect(navigate).not.toHaveBeenCalled();
+  await act(async () => button('再試行').click());
+  const calls = request.mock.calls.filter(([operation]) => operation === 'registerCompanionImport');
+  expect(calls).toHaveLength(2);
+  expect(calls[1][1]).toEqual(calls[0][1]);
+  expect(calls[1][1]).toMatchObject({body:{selectCurrent:true,settingsVersion:1}});
+  expect(request.mock.calls.filter(([operation]) => operation === 'getCompanionSettings')).toHaveLength(1);
+  expect(navigate).toHaveBeenCalledWith('companion-settings',{companionId:'registered-once'});
+  await act(async () => root.unmount()); host.remove();
+});
