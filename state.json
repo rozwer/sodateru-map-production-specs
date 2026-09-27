@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 422,
+  "revision": 423,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35066,15 +35066,15 @@
       "generation": 3,
       "issue_number": 268,
       "landed_main": null,
-      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
+      "note": "docs/evidence/ROUTES-TRANSIT-GTFS/current-check.json",
       "owner": "rozwer",
       "paths": [
         "server/features/routes-transit/",
         "docs/evidence/ROUTES-TRANSIT-GTFS/",
         "server/features/routes/toei_gtfs.py"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "31479f73abc372a2dce7a77b7ee1b8352f3ee814",
       "token": "740b9340e726464facaa4cb99142c63f"
     },
     "SETTINGS": {
