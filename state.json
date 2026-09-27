@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 438,
+  "revision": 439,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34516,18 +34516,22 @@
       "token": null
     },
     "CONNECT-PLUGINS": {
-      "actor": null,
-      "base_commit": "1552c4de9c3e53837b70e126455994911e274995",
+      "actor": "rozwer",
+      "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": "requests-save",
-      "generation": 2,
+      "generation": 3,
       "issue_number": 144,
       "landed_main": null,
       "note": "User five-minute first-pass stop. Submitted commit 3a83df1 preserved in draft PR; request API save/reload verified, independent review and edit restart check pending. Evidence docs/evidence/CONNECT-PLUGINS/requests-20260927.md. Worktree sodateru-connect-plugins-144 retained.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/plugins/",
+        "src/features/feature-requests/",
+        "docs/evidence/CONNECT-PLUGINS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "b61d2b5f8a3f4805a363e05bf534da0c"
     },
     "CONNECT-RECORDS": {
       "actor": null,
