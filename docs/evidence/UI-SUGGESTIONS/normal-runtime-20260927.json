@@ -1,0 +1,40 @@
+{
+  "entry": "server/app/main.ts",
+  "web": "http://suggestions-finish.localhost:5288",
+  "api": "http://127.0.0.1:3188",
+  "db": ".local/acceptance.sqlite",
+  "batchRuns": [
+    {
+      "id": "eaeeccf6-b111-4bf0-9c2a-45bfe1119fb1",
+      "status": "complete",
+      "error_json": null
+    },
+    {
+      "id": "a0446c58-86eb-4994-9d8c-ff819a9765a6",
+      "status": "failed",
+      "error_json": "{\"code\":\"INPUT_TOO_LARGE\",\"message\":\"候補・記録がAI入力上限を超えています。範囲を絞ってください。\",\"status\":413}"
+    },
+    {
+      "id": "9c5e6203-6664-48b9-b652-8684e8ede459",
+      "status": "complete",
+      "error_json": null
+    }
+  ],
+  "suggestion": {
+    "id": "d3b7c5c4-c352-42b2-a389-c07785252143",
+    "place_id": "a68dc108-cf72-4284-9f62-2b1bed836df2",
+    "presented_at": 1790502383867,
+    "viewed_at": 1790502480847,
+    "selected_at": null,
+    "status": "offered",
+    "memo": "実API保存・再起動確認用メモ"
+  },
+  "generator": {
+    "model": "gpt-5.6-luna",
+    "promptVersion": "common-ai-v1"
+  },
+  "visits": {
+    "count": 0
+  },
+  "notes": "Real generated candidate, before exact-budget lower-bound fix. Display/view distinct; no selected/visited claim."
+}

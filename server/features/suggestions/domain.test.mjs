@@ -56,3 +56,13 @@ test('detail viewing is independent of presentation and selection and retains it
   assert.equal(domain.changeSuggestion(viewed,{viewed:true},now+1).version,2);
   assert.throws(()=>domain.changeSuggestion(row,{viewed:false},now),{code:'VALIDATION_FAILED'});
 });
+
+test('known travel alone over an exact budget is excluded despite unknown stay',()=>{
+  const near={...candidate('near',20,30),stay:null};
+  const far={...candidate('far',80,30),stay:null};
+  const exact=domain.rankCandidates([near,far],{timeBudget:{kind:'exact',minutes:60}},now);
+  assert.deepEqual(exact.map(x=>x.placeId),['near']);
+  assert.equal(exact[0].totalMinutes,null);
+  assert.equal(exact[0].evaluations.find(x=>x.key==='timeBudget').status,'unknown');
+  assert.equal(domain.rankCandidates([far],{timeBudget:{kind:'atLeast',minutes:120}},now).length,1);
+});
