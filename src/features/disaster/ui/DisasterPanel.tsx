@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { DisasterLayer, DisasterLayerId, DisasterSettings, DisasterStatus, DisasterAttempt } from '../types';
+import type { DisasterLayer, DisasterLayerId, DisasterSettings, DisasterStatus, DisasterAttempt, DisasterSnapshot } from '../types';
 
 const labels: Record<DisasterLayerId, string> = { 'flood-hazard': '洪水の浸水想定', terrain: '地形と起伏', rainfall: '降水の状況' };
 const statuses: Record<DisasterStatus, string> = { available: '取得済み', partial: '一部未取得', missing: 'データなし', outOfCoverage: '収録範囲外', providerError: '提供元から取得できません' };
@@ -13,12 +13,14 @@ export function DisasterIcon({ name }: { name: 'shield' | 'pin' | 'rain' | 'refr
   const paths = { shield: 'M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Zm-4 9 3 3 5-6', pin: 'M12 3a7 7 0 0 0-7 7c0 6 7 11 7 11s7-5 7-11a7 7 0 0 0-7-7Zm0 5v4m-2-2h4', rain: 'M5 13a4 4 0 0 1-1-8 6 6 0 0 1 11-1 4 4 0 0 1 3 9M7 16l-2 4m7-4-2 4m7-4-2 4', refresh: 'M20 8a8 8 0 1 0 0 8m0-13v5h-5' };
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={paths[name]}/></svg>;
 }
-export function DisasterPanel({ settings, layers, lastAttempt, busy, error, notice, enabled, installed, demo, demoLabel, demoWarnings, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
-  settings: DisasterSettings; layers: DisasterLayer[]; lastAttempt?: DisasterAttempt | null; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean; demoLabel?: string; demoWarnings?: string[];
+export function DisasterPanel({ settings, layers, lastAttempt, savedResult, busy, error, notice, enabled, installed, demo, demoLabel, demoWarnings, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
+  settings: DisasterSettings; layers: DisasterLayer[]; lastAttempt?: DisasterAttempt | null; savedResult?: Pick<DisasterSnapshot, 'settings' | 'fetchedAt'> | null; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean; demoLabel?: string; demoWarnings?: string[];
   onSettings: (settings: DisasterSettings) => void; onRefresh: () => void; onEnabled: (value: boolean) => void; onInstall: () => void; onLayer: (layer: DisasterLayerId) => void; onFocus: () => void;
   tab: 'layers' | 'sources'; setTab: (tab: 'layers' | 'sources') => void;
 }) {
   const [detail, setDetail] = useState<DisasterLayerId | null>(null);
+  const savedRegion = savedResult?.settings.region;
+  const differentRegion = savedRegion && (savedRegion.id !== settings.region.id || savedRegion.bounds.some((value, index) => value !== settings.region.bounds[index]));
   return <>
     <nav aria-label="防災メニュー"><button aria-pressed={tab === 'layers'} onClick={() => setTab('layers')}><DisasterIcon name="pin"/>地図とレイヤー</button><button aria-pressed={tab === 'sources'} onClick={() => setTab('sources')}><DisasterIcon name="rain"/>取得状況・出典</button></nav>
     <div className="disaster-scroll">
@@ -31,6 +33,11 @@ export function DisasterPanel({ settings, layers, lastAttempt, busy, error, noti
         <p>{lastAttempt.settings.region.id} · {date(lastAttempt.attemptedAt)} に取得を試みました。</p>
         <p>下の保存情報とは取得時刻・地域が異なる場合があります。取得できなかった範囲を安全とは判断できません。</p>
         {lastAttempt.layers.map(layer => <details key={layer.layerId}><summary>{labels[layer.layerId]}：{statuses[layer.status]}</summary><LayerDetails layer={layer}/></details>)}
+      </section>}
+      {savedResult && <section className="disaster-message" aria-label="保存情報の対象地域">
+        <p>保存情報の地域：{savedResult.settings.region.id}</p>
+        <p>取得時刻：{date(savedResult.fetchedAt)}</p>
+        {differentRegion && <p>選択中の地域とは異なる保存情報です。選択中の地域の情報は、有効化して更新した後に確認できます。</p>}
       </section>}
       {tab === 'layers' ? <>
         <div className="disaster-section-title"><h3>わたしの街の防災</h3><button aria-label="防災情報を更新" disabled={busy || !installed || !enabled} onClick={onRefresh}><DisasterIcon name="refresh"/></button></div>
@@ -54,5 +61,5 @@ export function DisasterPanel({ settings, layers, lastAttempt, busy, error, noti
   </>;
 }
 function LayerDetails({ layer }: { layer: DisasterLayer }) {
-  return <><p>{layer.meaning}</p><dl><dt>取得状態</dt><dd>{statuses[layer.status]}</dd><dt>取得時刻</dt><dd>{date(layer.fetchedAt)}</dd><dt>提供元の更新時刻</dt><dd>{date(layer.sourceUpdatedAt)} · {layer.sourceUpdatedAtMeaning}</dd>{layer.validAt && <><dt>解析対象時刻</dt><dd>{date(layer.validAt)}</dd></>}<dt>収録範囲</dt><dd>{layer.coverage.description}</dd><dt>出典</dt><dd>{layer.attribution}</dd></dl><p>{layer.legend.description}</p><a href={layer.legend.url} target="_blank" rel="noreferrer">提供元の凡例 ↗</a>{layer.layerId === 'rainfall' && <img style={{maxWidth:'100%',marginTop:12}} src={layer.legend.url} alt="提供元の降水強度凡例"/>}<p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">提供元で詳しく確認 ↗</a></p>{layer.unknowns.map((unknown,i) => <p className="disaster-error" key={i}>{unknown}</p>)}</>;
+  return <><p>{layer.meaning}</p><dl><dt>取得状態</dt><dd>{statuses[layer.status]}</dd><dt>取得時刻</dt><dd>{date(layer.fetchedAt)}</dd><dt>提供元の更新時刻</dt><dd>{date(layer.sourceUpdatedAt)} · {layer.sourceUpdatedAtMeaning}</dd>{layer.layerId === 'rainfall' && <><dt>解析基準時刻</dt><dd>{date(layer.issuedAt)}</dd><dt>解析対象時刻</dt><dd>{date(layer.validAt)}</dd></>}<dt>収録範囲</dt><dd>{layer.coverage.description}</dd><dt>出典</dt><dd>{layer.attribution}</dd></dl><p>{layer.legend.description}</p><a href={layer.legend.url} target="_blank" rel="noreferrer">提供元の凡例 ↗</a>{layer.layerId === 'rainfall' && <img style={{maxWidth:'100%',marginTop:12}} src={layer.legend.url} alt="提供元の降水強度凡例"/>}<p><a href={layer.sourceUrl} target="_blank" rel="noreferrer">提供元で詳しく確認 ↗</a></p>{layer.unknowns.map((unknown,i) => <p className="disaster-error" key={i}>{unknown}</p>)}</>;
 }
