@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 374,
+  "revision": 375,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35532,15 +35532,15 @@
       "generation": 3,
       "issue_number": 191,
       "landed_main": null,
-      "note": "PR #206 merged 11422c8; partial reference repair delivered; statistics API/registration and remaining acceptance handed to #145; evidence docs/evidence/VISUAL-SETTINGS/README.md; deadline stop",
+      "note": "docs/evidence/VISUAL-SETTINGS/2026-09-27-profile-input.md",
       "owner": "rozwer",
       "paths": [
         "src/features/settings/",
         "src/features/health/",
         "docs/evidence/VISUAL-SETTINGS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "10d66d7626dcb72688a0a74aa0cd312fd29b395f",
       "token": "818f09d019d04f518c669bcb135b9027"
     },
     "VISUAL-SHELL": {
