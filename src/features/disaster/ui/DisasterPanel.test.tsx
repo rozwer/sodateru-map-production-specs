@@ -35,5 +35,21 @@ it('keeps a failed layer inspectable and supports region changes and stopping an
   await act(async () => root.render(<DisasterPanel settings={lastAttempt.settings} layers={[]} lastAttempt={{...lastAttempt,status:'partial'}} busy={false} error={null} enabled installed demo={false} onSettings={onSettings} onRefresh={onRefresh} onEnabled={onEnabled} onInstall={vi.fn()} onLayer={vi.fn()} onFocus={vi.fn()} tab="sources" setTab={vi.fn()}/>));
   expect(host.textContent).toContain('一部の情報を取得できませんでした');
   expect(host.textContent).toContain('取得した情報がありません');
+  const datedLayer = { ...savedLayer, issuedAt: 1789440900000, validAt: 1789441200000 };
+  const savedResult = { settings: {region: regions[0]!, layerIds: ['rainfall' as const]}, fetchedAt: 1789441500000 };
+  const renderSaved = (selectedRegion: typeof regions[number], issuedAt: number | null) => <DisasterPanel settings={{region:selectedRegion,layerIds:['rainfall']}} layers={[{...datedLayer,issuedAt}]} savedResult={savedResult} busy={false} error={null} enabled installed demo={false} onSettings={onSettings} onRefresh={onRefresh} onEnabled={onEnabled} onInstall={vi.fn()} onLayer={vi.fn()} onFocus={vi.fn()} tab="sources" setTab={vi.fn()}/>;
+  await act(async () => root.render(renderSaved(regions[1]!, datedLayer.issuedAt)));
+  expect(host.querySelector('[aria-label="保存情報の対象地域"]')?.textContent).toContain('保存情報の地域：江戸川周辺');
+  expect(host.textContent).toContain('選択中の地域とは異なる保存情報');
+  const definition = (name: string) => [...host.querySelectorAll('dt')].find(item => item.textContent === name)?.nextElementSibling?.textContent;
+  expect(definition('解析基準時刻')).toBe(new Date(datedLayer.issuedAt).toLocaleString('ja-JP'));
+  expect(definition('解析対象時刻')).toBe(new Date(datedLayer.validAt).toLocaleString('ja-JP'));
+  expect(definition('取得時刻')).toBe(new Date(datedLayer.fetchedAt).toLocaleString('ja-JP'));
+  // Map-center selections reuse the same name; changed bounds must still be distinguished.
+  await act(async () => root.render(renderSaved({...regions[0]!, bounds: regions[1]!.bounds}, null)));
+  expect(host.textContent).toContain('選択中の地域とは異なる保存情報');
+  expect(definition('解析基準時刻')).toBe('未確認');
+  await act(async () => root.render(renderSaved(regions[0]!, null)));
+  expect(host.textContent).not.toContain('選択中の地域とは異なる保存情報');
   await act(async () => root.unmount()); host.remove();
 });

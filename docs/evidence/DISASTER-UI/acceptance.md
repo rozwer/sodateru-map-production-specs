@@ -75,3 +75,27 @@ CODEX_OWNER=rozwer。共有5173/3002は操作していない。
 施設詳細/避難先、警報速報、雨雲時間軸、流域・津波は現行生成DTOにもない。既存不足表の未完条件を継続し、本Issueは閉じない。#217の独立QA・#222の共通描画検証を代行した扱いにしない。
 
 Mapbox背景地図の一部取得失敗表示がローカル実操作中に出た（背景地図そのものは表示された）。全タイル健全性と全欠測maskの見え方は今回の合格範囲外。最初の幅ではfitBounds padding警告も観測し、responsive変化時のfocus再計算を追加した。全体型検査と独立レビューが未充足のためマージしない。
+
+
+## 2026-09-27 第2修復: 解析基準時刻と保存地域
+
+第1修復PR #335は提出8a004c1を保持し33ec83beへ通常merge。独立レビューは同headでPanel DOM・対象strict型検査に合格。正式release/受信解除後、`origin/develop 33ec83be`から公式worktree `disaster-223-times`（branch `rozwer/223-disaster-source-times`）を新規claim。
+
+### 変更
+
+- 保存snapshotのregion.idとfetchedAtを両タブで表示。選択中のregionとidまたはboundsが異なる場合は、別地域の保存情報である旨を表示。同じ「地図の中心」名でもboundsが異なれば区別する。
+- rainfall.issuedAtを「解析基準時刻」、validAtを「解析対象時刻」として別表示。不明nullは「未確認」で、取得時刻/Last-Modifiedで補わない。
+- 生成済みDisasterSnapshot/DisasterLayerのみを使用。施設・警報・雨雲時間軸・流域の独自DTOは追加していない。
+
+### 確認
+
+- Panel DOM回帰テストPASS: 異なる地域/同名異なるbounds、同じ地域の案内非表示、issuedAt/validAt/fetchedAtの別値表示、issuedAt=nullを未確認として表示。
+- 対象strict型検査PASS: `mise exec -- node node_modules/typescript/bin/tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler --jsx react-jsx --allowImportingTsExtensions --lib ES2022,DOM --types vite/client src/features/disaster/screens.tsx`。
+- Vite production build PASS。全体typecheckの前節担当外診断は本変更で解消しておらず、全体PASSは主張しない。
+- 検証URL `http://disaster223.localhost:5197`。Vite `--strictPort`、API3027。lsofで5197 PID90490/API3027 PID90487、両cwd=`/Users/roz/.codex/worktrees/disaster-223-times`を確認。API起動出力のlive/demo DBは同worktreeの`.local/app.sqlite` / `.local/demo.sqlite`。
+- 第1修復検証はlocalhostだったためcookieの本人分離を証明しない。今回は担当固有hostnameで他セッションのcookieと隔離。製品コードに検証用ホストは追加していない。二本人live/demo分離全体のPASSは今回も対象外。
+- 実ブラウザで導入→情報更新。江戸川3layerが取得済み、snapshot取得2026-09-27 17:13:58 JST、気象庁issuedAt/validAtはそれぞれ17:10、Last-Modifiedは17:10:34を別項目で確認。
+- 京都へ地域変更後、選択地域「京都・鴨川」と保存地域「江戸川周辺」および地域相違の案内を確認。1536×960へ変更して再読込後も保持。
+- 390×844 / 1536×960でcanvas1、scrollWidthは各390/1536。表示を目視し、検証後viewportを解除。
+
+背景Mapboxの一部取得失敗と施設等の未提供API、独立QA、全欠測mask検証は前節どおり未完。#223は部分修復のためcloseしない。
