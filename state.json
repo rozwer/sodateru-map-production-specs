@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 398,
+  "revision": 399,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34599,7 +34599,7 @@
       "generation": 9,
       "issue_number": 3,
       "landed_main": null,
-      "note": "PR #169 merged at 6731fce; shared catalog regenerated and focused probes passed. Handoff delivered to integration. Parent Issue remains open; no integration waiting.",
+      "note": "docs/evidence/CORE/contract-refresh-20260927.md",
       "owner": "rozwer",
       "paths": [
         "server/app/",
@@ -34624,8 +34624,8 @@
         "docs/01_requirements/04_api/examples.md",
         "docs/evidence/CORE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "24311d4175ff28c1a42813fe479b93ed81172df5",
       "token": "1dc594f58376408282eef22a532b63c2"
     },
     "DAILY-TRACK-MARKER-REVEAL": {
