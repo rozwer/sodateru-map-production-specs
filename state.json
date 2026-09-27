@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 548,
+  "revision": 549,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35569,7 +35569,7 @@
       "generation": 17,
       "issue_number": 185,
       "landed_main": null,
-      "note": "PR #329 merged; deleted memo return recorded, #185 remains open for 14-screen acceptance",
+      "note": "docs/evidence/VISUAL-SELF/minimal-ui-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
@@ -35578,8 +35578,8 @@
         "src/features/suggestions/",
         "docs/evidence/VISUAL-SELF/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "7ca61396d86e6c577560470a50a1a38a0488f510",
       "token": "d1a216eb4088419585e3c66b246d414f"
     },
     "VISUAL-SETTINGS": {
