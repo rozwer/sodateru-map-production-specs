@@ -5,7 +5,7 @@ import park from '../features/feature-requests/assets/park.jpg';
 import hinata from '../features/companion/assets/hinata.webp';
 
 type Item = Record<string, any>;
-type DemoData = { places: Item[]; records: Item[]; deletedRecordIds: string[]; themes: Item[]; checkins: Item[]; suggestions: Item[]; batches: Item[]; media: Record<string, Item[]>; bookmarks: Item[]; routeResults: Item[]; routes: Item[]; dialogues: Item[]; conversations: Item[]; messages: Item[]; conversationResults: Record<string, string>; comparisons: Item[]; runs: Item[]; questions: Item[]; cards: Item[]; reactions: Item[]; recipes: Item[]; planSets: Item[]; companionSettings: Item };
+type DemoData = { places: Item[]; records: Item[]; visits: Item[]; deletedRecordIds: string[]; deletedMediaIds: string[]; themes: Item[]; checkins: Item[]; suggestions: Item[]; batches: Item[]; media: Record<string, Item[]>; bookmarks: Item[]; routeResults: Item[]; routes: Item[]; dialogues: Item[]; conversations: Item[]; messages: Item[]; conversationResults: Record<string, string>; comparisons: Item[]; runs: Item[]; questions: Item[]; cards: Item[]; reactions: Item[]; recipes: Item[]; planSets: Item[]; companionSettings: Item };
 const ids = {
   cafe: '0a10d000-0000-4000-8000-000000000001', park: '0a10d000-0000-4000-8000-000000000002',
   coffeeRecord: '0a10d000-0000-4000-8000-000000000011', parkRecord: '0a10d000-0000-4000-8000-000000000012',
@@ -39,9 +39,12 @@ const save = () => {
     if (previous) {
       const stored = JSON.parse(previous) as DemoData;
       data.deletedRecordIds = [...new Set([...(stored.deletedRecordIds ?? []), ...data.deletedRecordIds])];
+      data.deletedMediaIds = [...new Set([...(stored.deletedMediaIds ?? []), ...data.deletedMediaIds])];
       data.records = mergeById(stored.records ?? [], data.records).filter(record => !data!.deletedRecordIds.includes(record.id));
       for (const [recordId, items] of Object.entries(stored.media ?? {}))
         data.media[recordId] = mergeById(items, data.media[recordId] ?? []);
+      for (const recordId of Object.keys(data.media))
+        data.media[recordId] = data.media[recordId]!.filter(item => !data!.deletedMediaIds.includes(item.id));
     }
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) { console.warn('デモ例のブラウザ保存に失敗しました。', error); }
@@ -73,7 +76,7 @@ function makeData(owner: string): DemoData {
     { id: ids.theme, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '静かな寄り道', description: 'ゆっくり過ごせる場所（表示例）', recordIds: [ids.coffeeRecord], colorKey: 'teal', coverMediaId: media[ids.coffeeRecord][0].id },
     { id: ids.themePark, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '緑の中を歩く', description: '自然にふれる場所（表示例）', recordIds: [ids.parkRecord], colorKey: 'green', coverMediaId: media[ids.parkRecord][0].id },
   ];
-  return { places, records, deletedRecordIds: [], themes, checkins: [], suggestions: [], batches: [], media, bookmarks: [], routeResults: [], routes: [], dialogues: [], conversations: [], messages: [], conversationResults: {}, comparisons: [], runs: [], questions: [], cards: [], reactions: [], recipes: [], planSets: [],
+  return { places, records, visits: [], deletedRecordIds: [], deletedMediaIds: [], themes, checkins: [], suggestions: [], batches: [], media, bookmarks: [], routeResults: [], routes: [], dialogues: [], conversations: [], messages: [], conversationResults: {}, comparisons: [], runs: [], questions: [], cards: [], reactions: [], recipes: [], planSets: [],
     companionSettings: { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 } };
 }
 export function setDemoPerson(id: string | null) {
@@ -89,6 +92,8 @@ export function setDemoPerson(id: string | null) {
   data.cards ??= []; data.reactions ??= [];
   data.recipes ??= []; data.planSets ??= [];
   data.deletedRecordIds ??= [];
+  data.deletedMediaIds ??= [];
+  data.visits ??= [];
   data.companionSettings ??= { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 };
   data.records.forEach((record, index) => { if (record.kind === 'experience' && !record.visitId) record.visitId = `0a10d000-0000-4000-8000-00000000005${index + 1}`; });
 }
@@ -106,11 +111,11 @@ const detail = (place: Item, owner: string, records: Item[]) => ({
   description: { text: 'デモ用の場所です。実店舗情報ではありません。', sourceUrl: null, fetchedAt: now(), verificationStatus: 'unverified' },
   photos: [{ url: place.id === ids.cafe ? coffee : park, sourceUrl: '', attribution: '表示例', fetchedAt: now(), verificationStatus: 'unverified' }],
 });
-const visits = (d: DemoData, owner: string) => d.records.filter(r => r.kind === 'experience' && r.placeId).map((r, index) => ({
+const visits = (d: DemoData, owner: string) => [...d.records.filter(r => r.kind === 'experience' && r.placeId).map((r, index) => ({
   id: `0a10d000-0000-4000-8000-00000000005${index + 1}`, version: 1, createdAt: r.createdAt,
   updatedAt: r.updatedAt, personId: owner, placeId: r.placeId, startedAt: r.occurredAt, endedAt: r.endedAt,
   timePrecision: r.timePrecision, origin: 'manual', status: 'confirmed',
-}));
+})), ...d.visits];
 const demoFriend = () => ({ id: ids.friend, name: 'ゆう（表示例）', bio: '散歩と喫茶店が好きです。デモ用の友達です。',
   avatarUrl: null, version: 1, createdAt: now(), updatedAt: now() });
 export const demoCompanion = () => ({ id: ids.companion, importId: ids.import, name: 'ひなた（表示例）',
@@ -134,12 +139,21 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     case 'getReflectionDaysDate': {
       const date = path.date ?? new Date().toLocaleDateString('sv-SE');
       const from = Date.parse(`${date}T00:00:00+09:00`), to = from + 86400000;
-      const selected = d.records.filter(r => r.occurredAt !== null && r.occurredAt >= from && r.occurredAt < to);
+      const selected = d.records.filter(r => r.effectiveStartedAt !== null && r.effectiveStartedAt >= from && r.effectiveStartedAt < to);
       return { data: { date, timeZone: query.timeZone ?? 'Asia/Tokyo', from, to,
         visits: { status: 'ready', data: page(visits(d, owner).filter(v => v.startedAt >= from && v.startedAt < to)) },
         records: { status: 'ready', data: page(selected) }, checkins: { status: 'ready', data: page(d.checkins.filter(c => c.localDate === date)) } } };
     }
     case 'getVisits': return page(visits(d, owner).filter(v => (!query.from || v.startedAt >= query.from) && (!query.to || v.startedAt < query.to)));
+    case 'getVisitsVisitId': { const visit = visits(d, owner).find(v => v.id === path.visitId); return visit ? { data: visit } : undefined; }
+    case 'postVisits': {
+      const visit = { ...body, personId: owner, status: 'candidate', version: 1, createdAt: now(), updatedAt: now() };
+      d.visits.push(visit); save(); return { data: visit };
+    }
+    case 'patchVisitsVisitId': {
+      const visit = d.visits.find(v => v.id === path.visitId) ?? missing();
+      Object.assign(visit, body, { version: visit.version + 1, updatedAt: now() }); save(); return { data: visit };
+    }
     case 'getMapGrowth': return page(d.places.map(p => ({
       place: p, confirmedVisitCount: d.records.filter(r => r.placeId === p.id).length,
       purposes: d.records.filter(r => r.placeId === p.id).flatMap(r => r.purposes), sourceRefs: [], stage: 1,
@@ -285,7 +299,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
         provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '表示例',
         fetchedAt: null, retention: 'storable',
       })) } };
-    case 'getPlacesPlaceId': { const p = d.places.find(p => p.id === path.placeId); return { data: detail(p ?? missing(), owner, d.records) }; }
+    case 'getPlacesPlaceId': { const p = d.places.find(p => p.id === path.placeId); return p ? { data: detail(p, owner, d.records) } : undefined; }
     case 'getRecords': {
       const theme = d.themes.find(t => t.id === query.themeId);
       return page(d.records.filter(r => (!query.kind || r.kind === query.kind) && (!query.placeId || r.placeId === query.placeId)
@@ -315,6 +329,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       record.version++; record.updatedAt = now(); save(); return page(items.sort((a, b) => a.position - b.position));
     }
     case 'deleteMediaMediaId': {
+      d.deletedMediaIds.push(path.mediaId ?? '');
       for (const record of d.records) {
         const before = d.media[record.id] ?? [];
         if (before.some(m => m.id === path.mediaId)) { d.media[record.id] = before.filter(m => m.id !== path.mediaId); record.version++; save(); break; }
@@ -330,9 +345,12 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       return known ? fetch(isPark ? park : coffee, { signal: input.signal }).then(response => response.blob()) : missing();
     }
     case 'postRecords': {
+      const linkedVisit = d.visits.find(v => v.id === body.visitId);
       const r = { ...body, version: 1, personId: owner, createdAt: now(), updatedAt: now(),
-        effectivePlaceId: body.placeId ?? null, effectiveStartedAt: body.occurredAt ?? null, effectiveEndedAt: body.endedAt ?? null,
-        effectiveTimePrecision: body.timePrecision ?? 'unknown', memo: body.memo ?? null };
+        effectivePlaceId: linkedVisit?.placeId ?? body.placeId ?? null,
+        effectiveStartedAt: linkedVisit?.startedAt ?? body.occurredAt ?? null,
+        effectiveEndedAt: linkedVisit?.endedAt ?? body.endedAt ?? null,
+        effectiveTimePrecision: linkedVisit?.timePrecision ?? body.timePrecision ?? 'unknown', memo: body.memo ?? null };
       d.records.unshift(r); save(); return { data: r };
     }
     case 'patchRecordsRecordId': {
