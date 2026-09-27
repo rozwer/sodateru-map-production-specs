@@ -821,6 +821,19 @@ function Sharing(props: Props) {
     setError("");
     setSaved(false);
     try {
+      const addedRecipients = draft.visibility === "selected"
+        ? draft.sharedWith.filter((id) =>
+            value.record.visibility !== "selected" || !value.record.sharedWith.includes(id))
+        : [];
+      if (addedRecipients.length) {
+        const relations = await friendships(new AbortController().signal);
+        const accepted = new Set(relations
+          .filter((relation) => relation.status === "accepted")
+          .map((relation) => relation.requesterId === value.record.personId
+            ? relation.recipientId : relation.requesterId));
+        if (addedRecipients.some((id) => !accepted.has(id)))
+          throw new Error("友達関係が変更されています。共有する友達を選び直してください。下書きは保持しています。");
+      }
       const written = await api.request("patchRecordsRecordId", {
         path: { recordId },
         version: draft.version,

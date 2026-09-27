@@ -1,0 +1,81 @@
+[
+  {
+    "action": "restore",
+    "time": "2026-09-27T09:11:17.689Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 4,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": [
+      {
+        "id": "5f62e9ef-2cb4-4488-983f-766b1e16550c",
+        "status": "accepted",
+        "version": 2
+      }
+    ]
+  },
+  {
+    "action": "unlink",
+    "time": "2026-09-27T09:12:14.392Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 4,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": []
+  },
+  {
+    "action": "inspect",
+    "time": "2026-09-27T09:12:26.942Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 5,
+    "visibility": "selected",
+    "sharedWith": [
+      "friends-live-bob"
+    ],
+    "friendships": []
+  },
+  {
+    "action": "inspect",
+    "time": "2026-09-27T09:14:24.223Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 6,
+    "visibility": "selected",
+    "sharedWith": [
+      "friends-live-bob"
+    ],
+    "friendships": []
+  },
+  {
+    "action": "restore",
+    "time": "2026-09-27T09:14:50.808Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 7,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": [
+      {
+        "id": "6175c554-d8b1-4cc5-bc79-8630356c9fe1",
+        "status": "accepted",
+        "version": 2
+      }
+    ]
+  },
+  {
+    "action": "unlink",
+    "time": "2026-09-27T09:15:21.345Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 7,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": []
+  },
+  {
+    "action": "inspect",
+    "time": "2026-09-27T09:15:42.699Z",
+    "recordId": "ui-friends-live-record-alice",
+    "version": 7,
+    "visibility": "private",
+    "sharedWith": [],
+    "friendships": []
+  }
+]
