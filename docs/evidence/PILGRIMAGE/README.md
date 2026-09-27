@@ -39,7 +39,7 @@ mise exec -- node --experimental-transform-types --env-file-if-exists=.env docs/
 ## 提供単位と残件
 
 - #126 PILGRIMAGE.plan: 正式統合済みPLUGINS/ROUTES/PLACESによる実HTTP・実道路・保存・再取得を確認。PR #79を独立レビュー後にcommit保持統合。
-- #127 PILGRIMAGE.ai: SDKが拒否する出力SchemaのuniqueItemsだけを除去し、固有validateResultの完全並べ替え検証を維持。実共通AIの生成・実道路・計画/採用参照の保存・再取得が成功（live-ai-result.json）。この子PRの独立レビュー/commit保持統合が残る。
+- #127 PILGRIMAGE.ai: SDKが拒否する出力SchemaのuniqueItemsだけを除去し、固有validateResultの完全並べ替え検証を維持。実共通AIの生成・実道路・計画/採用参照の保存・再取得が成功（live-ai-result.json）。PR #165を独立レビュー後にcommit保持統合（537a15cc275b41ec98c1d25b9558ef9845fdcb07）し、子Issue #127を終了。
 - #128 PILGRIMAGE.connect: 共通生成物への合成とA #18/#8の通常地図による検索・順序変更・保存・再読込・停止表示の実操作が残る。全機能のregister.ts収集は成功、全体型検査は他担当範囲の未生成型等で未達。
 - 親 #38のtask:finish/closeは上記全体の受入後。子の先行統合だけでは行わない。
 
@@ -58,3 +58,13 @@ mise exec -- env CODEX_AI_MODEL=gpt-5.6-luna node --experimental-transform-types
 初回の失敗原因は `ai-provider-error.json` に記録したSDKの `invalid_json_schema`（出力orderedRelationIdsのuniqueItems非対応）。修正後も入力Schemaと固有意味検証で候補外/重複/欠落を拒否する。再現スクリプトのprovider wrapperは実SDKを呼び、失敗診断のみsecret値を伏せて保存する。
 
 実HTTP証拠は固有fragmentをメモリ上でCORE契約に合成し、PLUGINSの導入/停止は実serviceを呼ぶ。この証拠だけで共通生成物・全機能起動・OSプロセス再起動・通常地図UIまで受入済みとはしない（#128）。
+
+## #128 通常起動の接続確認（未完了）
+
+`process-probe.ts` は通常の `server/app/main.ts` を子プロセスで起動し、committed openapi.jsonをそのまま使う。実HTTPの本人選択・共通PLUGINS導入から、固有検索/保存、OSプロセス再起動後の再取得、HTTP停止/再有効化、mode分離を確認する入口。
+
+```sh
+mise exec -- node --experimental-transform-types --env-file-if-exists=.env docs/evidence/PILGRIMAGE/process-probe.ts
+```
+
+現行証拠 `process-contract-pending.json` はdevelop 537a15cc取り込み後。全featureを含む通常CORE起動、本人選択201、plugin-state 200、HTTP導入201までは成功。次のPOST /plugins/pilgrimage/searchesが正式生成契約に未反映で404となり中断した。complete=falseを保持し、この結果を保存/再起動/UIの成功証拠にしない。B #3への12操作の正式生成依頼後に再開する。A側の通常画面検索/順序変更/保存/再読込/地図/停止の受入はCONNECT-PLUGINS #144 / CONNECT-MAP #134と調整中。

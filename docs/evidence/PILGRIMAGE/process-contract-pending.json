@@ -1,0 +1,73 @@
+{
+  "checkedAt": "2026-09-15T03:45:53.386Z",
+  "entrypoint": "server/app/main.ts",
+  "contract": "committed openapi.json",
+  "providerDoubles": false,
+  "responses": [
+    {
+      "method": "POST",
+      "path": "/session",
+      "mode": "live",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "GET",
+      "path": "/plugin-state",
+      "mode": "live",
+      "status": 200,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugin-settings",
+      "mode": "live",
+      "status": 201,
+      "error": null
+    },
+    {
+      "method": "POST",
+      "path": "/plugins/pilgrimage/searches",
+      "mode": "live",
+      "status": 404,
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "API契約が見つかりません。",
+        "requestId": "5bd27e34-3053-4f97-8c6d-95f2b3756eea",
+        "details": {
+          "retryable": false
+        }
+      }
+    }
+  ],
+  "assertions": {},
+  "complete": false,
+  "features": [
+    "activity",
+    "community",
+    "companion",
+    "conversations",
+    "exploration",
+    "feature-requests",
+    "friends",
+    "insights",
+    "map-custom",
+    "PLACES",
+    "PLUGINS",
+    "records",
+    "reflection",
+    "routes",
+    "settings",
+    "suggestions",
+    "themes",
+    "transfer",
+    "information",
+    "BIKE",
+    "DISASTER",
+    "PILGRIMAGE"
+  ],
+  "error": {
+    "name": "Error",
+    "message": "POST /plugins/pilgrimage/searches: 404 NOT_FOUND: API契約が見つかりません。"
+  }
+}
