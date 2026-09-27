@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 445,
+  "revision": 446,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35417,17 +35417,21 @@
       "token": null
     },
     "UI-REFLECTION": {
-      "actor": null,
-      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "ed631383781039d292df0d2ed032f22286cc3dc2",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 12,
       "landed_main": null,
       "note": "緊急統合へ委譲。PR92/d179abaはdevelopへ統合済み。未commitなし。src/features/reflection/とdocs/evidence/UI-REFLECTION/の残UI照合・API型/REFLECTION新契約接続は未完。証拠README参照。専用worktree ui-reflection-12を保持。後続CONNECT正式反映前なのでfinishしない。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/reflection/",
+        "docs/evidence/UI-REFLECTION/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "2ac965438993478db823e25fa10c814c"
     },
     "UI-ROUTES": {
       "actor": null,
