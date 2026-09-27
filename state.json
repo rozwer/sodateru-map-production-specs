@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 498,
+  "revision": 499,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35264,23 +35264,18 @@
       "token": null
     },
     "UI-COMPANION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 7,
+      "generation": 8,
       "issue_number": 19,
       "landed_main": null,
-      "note": "docs/evidence/UI-COMPANION/connection-ready.md",
+      "note": "PR370 merged after independent PASS; dc86fcb ancestor origin/develop. #147 operation handoff ready. #19 remains open for broader UI matrix. Continue via CONNECT-COMPANION; worktree companion-19-completion retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/companion/",
-        "docs/evidence/UI-COMPANION/",
-        "docs/01_requirements/03_pages/companion-settings/interactions.json",
-        "docs/01_requirements/03_pages/companion-import/interactions.json"
-      ],
-      "status": "submitted",
-      "submitted_commit": "dc86fcbfd6d76c024814da7f6e343af8d843323f",
-      "token": "110fb2e42ad547f982aa8e158a4c464a"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-EXPLORE": {
       "actor": "rozwer",
