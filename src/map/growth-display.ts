@@ -1,12 +1,11 @@
 import mapboxgl, { type GeoJSONSource, type TargetFeature } from 'mapbox-gl';
 import type { GrowthItem } from '../../packages/api-client/index';
-import { aggregateBuildings, type Building, type BuildingGrowth } from './growth-rules';
+import { aggregateBuildings, UNVISITED_COLOR, type Building, type BuildingGrowth } from './growth-rules';
 
 export type GrowthDisplay = GrowthItem;
 // Standard namespace identifies the underlying building source/layer; retain the shipped key format.
 export const buildingIdentity = (feature: TargetFeature) => feature.id == null ? null : `mapbox:basemap:buildings:${feature.namespace ?? ''}:${feature.id}`;
 
-const AMBIENT_COLORS = ['#ff9d66', '#63d4bd', '#f47fa8', '#9294ef', '#f4cf58', '#65b9ee', '#b88ae0'];
 function buildingCenter(building: Building): [number, number] {
   const ring = building.geometry.type === 'Polygon' ? building.geometry.coordinates[0] : building.geometry.coordinates[0]?.[0];
   if (!ring?.length) return [0, 0];
@@ -19,12 +18,6 @@ function distance(a: [number, number], b: [number, number]) {
   const y = a[1] - b[1];
   return Math.hypot(x, y) * 111_320;
 }
-function ambientColor(key: string) {
-  let hash = 0;
-  for (const character of key) hash = ((hash << 5) - hash + character.charCodeAt(0)) | 0;
-  return AMBIENT_COLORS[Math.abs(hash) % AMBIENT_COLORS.length]!;
-}
-
 /** Keep provider geometry across viewport changes. The API snapshot alone controls growth. */
 export function attachGrowth(map: mapboxgl.Map, getItems: () => GrowthDisplay[], onSelect: (group: BuildingGrowth) => void, onBuildings: (buildings: Building[]) => void, interactive: boolean) {
   let markers: mapboxgl.Marker[] = [], previous = '', catalogSignature = '', playbackTimers: ReturnType<typeof setTimeout>[] = [], revealed: Set<string> | null = null;
@@ -40,7 +33,7 @@ export function attachGrowth(map: mapboxgl.Map, getItems: () => GrowthDisplay[],
     const visibleGroups = revealed ? groups.filter(group => revealed!.has(group.building.key)) : groups;
     const features = visibleBuildings.map(building => {
       const group = confirmed.get(building.key);
-      return { type: 'Feature' as const, id: building.key, geometry: building.geometry, properties: { buildingKey: building.key, height: building.height, base: building.base, color: group?.color ?? ambientColor(building.key), opacity: group ? 1 : 0.72, stage: group?.stage ?? 0, count: group?.count ?? 0, ambient: !group } };
+      return { type: 'Feature' as const, id: building.key, geometry: building.geometry, properties: { buildingKey: building.key, height: building.height, base: building.base, color: group?.color ?? UNVISITED_COLOR, opacity: group ? 1 : 0.72, stage: group?.stage ?? 0, count: group?.count ?? 0, ambient: !group } };
     });
     // A confirmed building can be just outside the nearest ambient catalog slice; never hide it.
     for (const group of visibleGroups) if (!features.some(feature => feature.id === group.building.key)) features.push({ type: 'Feature', id: group.building.key, geometry: group.building.geometry, properties: { buildingKey: group.building.key, height: group.building.height, base: group.building.base, color: group.color, opacity: 1, stage: group.stage, count: group.count, ambient: false } });
