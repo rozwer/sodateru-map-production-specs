@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 378,
+  "revision": 379,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35535,21 +35535,17 @@
       "token": null
     },
     "VISUAL-SETTINGS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 191,
       "landed_main": null,
-      "note": "docs/evidence/VISUAL-SETTINGS/2026-09-27-profile-input.md",
+      "note": "PR330 merged 0391e74; submitted 10d66d7 retained. Partial profile input repair only; full visual/device/API acceptance remains. Continue existing settings API verification under CONNECT-SETTINGS. Worktree /Users/roz/Documents/sodateru-settings-191 retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/settings/",
-        "src/features/health/",
-        "docs/evidence/VISUAL-SETTINGS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "10d66d7626dcb72688a0a74aa0cd312fd29b395f",
-      "token": "818f09d019d04f518c669bcb135b9027"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
