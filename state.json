@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 551,
+  "revision": 552,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35578,19 +35578,13 @@
       "claim_unit": null,
       "generation": 17,
       "issue_number": 185,
-      "landed_main": null,
+      "landed_main": "26cc8f0d8fc9ab10020402399226dc3056d3d3d7",
       "note": "docs/evidence/VISUAL-SELF/minimal-ui-2026-09-27.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/reflection/",
-        "src/features/insights/",
-        "src/features/themes/",
-        "src/features/suggestions/",
-        "docs/evidence/VISUAL-SELF/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "7ca61396d86e6c577560470a50a1a38a0488f510",
-      "token": "d1a216eb4088419585e3c66b246d414f"
+      "token": null
     },
     "VISUAL-SETTINGS": {
       "actor": "rozwer",
