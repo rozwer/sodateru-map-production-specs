@@ -1,0 +1,25 @@
+{
+  "source_ui_task": "UI-REFLECTION",
+  "connection_task": "CONNECT-REFLECTION",
+  "units": [
+    {
+      "id": "diary-save",
+      "page": "diary",
+      "action": "editor--save",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "ed631383781039d292df0d2ed032f22286cc3dc2",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/README.md",
+      "contract_commit": "ed631383781039d292df0d2ed032f22286cc3dc2",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "postRecords",
+        "patchRecordsRecordId",
+        "postRecordsRecordIdMedia",
+        "deleteMediaMediaId"
+      ]
+    }
+  ]
+}
