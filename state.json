@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 554,
+  "revision": 555,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35304,7 +35304,8 @@
       "paths": [
         "src/features/settings/",
         "src/features/health/",
-        "docs/evidence/UI-HEALTH/"
+        "docs/evidence/UI-HEALTH/",
+        "src/app/NavigationMenu.tsx"
       ],
       "status": "claimed",
       "submitted_commit": null,
