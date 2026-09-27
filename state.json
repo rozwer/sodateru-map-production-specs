@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 506,
+  "revision": 507,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35157,7 +35157,7 @@
       "generation": 9,
       "issue_number": 105,
       "landed_main": null,
-      "note": "PR360通常merge c627ca6、場所なしテーマの通常入口から本人採用reload成功。残は既存写真upload/友人公開の受入未検証。次最小操作:既存写真選択→対象記録→保存→reload保持確認。今回割当完了。",
+      "note": "docs/evidence/THEMES/photo-memo-20260927.md",
       "owner": "rozwer",
       "paths": [
         "server/features/themes/",
@@ -35168,8 +35168,8 @@
         "src/features/insights/InsightViews.tsx",
         "server/information/service.ts"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6e5d27d789e1d1758d06a39954eb5fa2da8d7d8a",
       "token": "268b6b4f48314b78829a9e3f8f8baef2"
     },
     "TOOL-ISSUE-COMMENT": {
