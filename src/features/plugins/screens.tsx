@@ -139,7 +139,7 @@ function PluginFixture({
       if (!scopeKey.startsWith("demo:") || !item.installed || !item.enabled || item.kind === "disaster") continue;
       const trial = createReferenceTrial(item.id);
       const candidates = trial.features.flatMap(feature => feature.geometry.type === "Point" ? [{ id: feature.id, coordinates: feature.geometry.coordinates, label: feature.properties.label }] : []);
-      if (item.kind === "bike" && item.versionLabel === referenceVersions.bike.next) candidates.push({ id: "fixture-photo", coordinates: [136.978,35.166], label: "更新後の写真スポット（模擬）" });
+      if (item.kind === "bike" && item.versionLabel === referenceVersions.bike.next) candidates.push({ id: "fixture-photo", coordinates: [136.978,35.166], label: "更新後の写真スポット" });
       mainMap.showCandidates(owner, { resultId: "grow-ui-mock-unsaved", candidates });
       const coordinates = trial.features.flatMap(feature => feature.geometry.type === "LineString" ? feature.geometry.coordinates : []);
       if (coordinates.length) mainMap.showRoute(owner, { previewId: "grow-ui-mock-unsaved", geometry: { type: "LineString", coordinates }, waypoints: [] });
@@ -190,14 +190,14 @@ function PluginFixture({
     notice: data.pluginNotice,
     error:
       new URLSearchParams(location.search).has("failure") && !retried
-        ? "UI fixture：通信失敗の表示確認です。入力を保持しています。"
+        ? "通信に失敗しました。入力は保持されています。"
         : mockMode ? undefined : disasterError || (route.pageId === "plugin-manage" ? disaster.error || undefined : undefined),
     onRetry: () => { setRetried(true); setDisasterError(undefined); if (plugin.kind === "disaster" || route.pageId === "plugin-manage") void disaster.load(); },
   };
   const confirmed = (message: string) =>
     setData((previous) => ({
       ...previous,
-      pluginNotice: `${message}（UI fixture・未保存）`,
+      pluginNotice: `${message}`,
     }));
   const applyVersion = (version: string) => {
     setData((previous) => ({
@@ -209,7 +209,7 @@ function PluginFixture({
       plugins: previous.plugins.map((item) =>
         item.id === plugin.id ? { ...item, versionLabel: version } : item,
       ),
-      pluginNotice: `${version}に切り替えました（UI fixture・未保存）`,
+      pluginNotice: `${version}に切り替えました`,
     }));
     go("plugin-manage");
   };
@@ -302,7 +302,7 @@ function PluginFixture({
                     }
                   : item,
               ),
-              pluginNotice: "アイコンを変更しました（UI fixture・未保存）",
+              pluginNotice: "アイコンを変更しました",
             }));
             go("plugin-manage");
           }}
@@ -412,7 +412,7 @@ function PluginFixture({
                     }
                   : item,
               ),
-              pluginNotice: `${intent === "settings" ? "条件を変更しました" : "導入内容を反映しました"}（UI fixture・未保存）`,
+              pluginNotice: `${intent === "settings" ? "条件を変更しました" : "導入内容を反映しました"}`,
             }));
             go("plugin-manage");
           }}
@@ -575,7 +575,7 @@ function RequestFixture({
           setData((previous) => ({
             ...previous,
             posts: previous.posts.filter((item) => item.id !== removed.id),
-            requestNotice: "お願いを削除しました（UI fixture・未保存）",
+            requestNotice: "お願いを削除しました",
           }));
           back();
         }}
@@ -600,7 +600,7 @@ function RequestFixture({
             name: edit?.name || value.name,
             body: value.body,
             visibility,
-            timestampLabel: "UI fixture・たった今",
+            timestampLabel: "たった今",
             liked: edit?.liked || false,
             likeCount: edit?.likeCount || 0,
             owned: true,
@@ -611,7 +611,7 @@ function RequestFixture({
             posts: [post, ...previous.posts.filter((item) => item.id !== id)],
             drafts: Object.fromEntries(Object.entries(previous.drafts).filter(([key]) => key !== draftKey)),
             requestTab: visibility === "private" ? "drafts" : "public",
-            requestNotice: `${visibility === "private" ? "下書きを保存しました" : "投稿しました"}（UI fixture・未保存）`,
+            requestNotice: `${visibility === "private" ? "下書きを保存しました" : "投稿しました"}`,
           }));
           back();
         }}
@@ -666,13 +666,13 @@ export function InspectionMainMap({ bridge }: { bridge: MapBridge }) {
           {
             id: plugin.id,
             coordinates: [136.9758, 35.163],
-            label: `${plugin.name}（模擬）`,
+            label: plugin.name,
           },
         ],
       });
     }
   }, [bridge, data.plugins]);
-  return <BridgeMap bridge={bridge} label="UI fixture：導入状態の模擬表示" />;
+  return <BridgeMap bridge={bridge} label="導入状態の地図" />;
 }
 const titles: Record<string, string> = {
   "plugin-icon": "アイコンを変更",
@@ -699,9 +699,9 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map<ScreenDefi
       if (props.active === false) return null;
       return (
         <>
-          <p className="plugin-notice plugin-inspection-notice" role="status">
+          {!props.scopeKey.startsWith("demo:") && <p className="plugin-notice plugin-inspection-notice" role="status">
             {requestPage && !requestFixture ? "お願いはAPIに保存します。デモの投稿は実データと別に保存されます。" : props.scopeKey.startsWith("demo:") ? "バイク・聖地・お願い・防災は模擬操作です。この画面の変更は保存されません。" : "バイク・聖地・お願いの表示確認は模擬操作（未保存）。防災は専用画面で設定を保存します。"}
-          </p>
+          </p>}
           <View {...props} />
         </>
       );
@@ -736,7 +736,7 @@ function initialFixtureData(): FixtureData {
     drafts: {},
     requestTab: "public",
     requestNotice: new URLSearchParams(location.search).has("submitted")
-      ? "投稿しました（UI fixture・未保存）"
+      ? "投稿しました"
       : "",
   };
 }
