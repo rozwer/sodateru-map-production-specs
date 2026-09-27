@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 522,
+  "revision": 523,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34452,7 +34452,7 @@
       "generation": 3,
       "issue_number": 137,
       "landed_main": null,
-      "note": "PR341 merged b953c93; real HTTP shell session acceptance passes. Remaining full-feature navigation/retry/conflict acceptance in docs/evidence/CONNECT-BASE/session-http-2026-09-27.md. Issue stays open; worktree connect-base-137-session and head9eb08d2 retained.",
+      "note": "docs/evidence/CONNECT-BASE/navigation-completion.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -34462,8 +34462,8 @@
         "vite.config.ts",
         "docs/evidence/CONNECT-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "99e3cb7fa55242feac802783259b8e49191f39cc",
       "token": "9d80f64fb3234afeadbab48258ee7dd4"
     },
     "CONNECT-COMPANION": {
