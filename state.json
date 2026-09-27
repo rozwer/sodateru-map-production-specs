@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 532,
+  "revision": 533,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34437,25 +34437,18 @@
       "token": null
     },
     "CONNECT-BASE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "7f10b80d2002620b3f48caf1be5697d707f7ecf1",
       "claim_unit": "navigation-context",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 137,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-BASE/navigation-completion.md",
+      "note": "PR381 merged after independent PASS; whole issue remains open: full checkActions/device conditions unverified. Next records gate needs UI-RECORDS handoff/owner alignment, no new work started.",
       "owner": "rozwer",
-      "paths": [
-        "src/app/",
-        "src/ui/",
-        "src/messages.ts",
-        "index.html",
-        "vite.config.ts",
-        "docs/evidence/CONNECT-BASE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "99e3cb7fa55242feac802783259b8e49191f39cc",
-      "token": "9d80f64fb3234afeadbab48258ee7dd4"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-COMPANION": {
       "actor": "rozwer",
