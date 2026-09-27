@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 420,
+  "revision": 421,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34550,14 +34550,14 @@
       "generation": 1,
       "issue_number": 139,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-REFLECTION/question-refresh-2026-09-27.md",
+      "note": "docs/evidence/CONNECT-REFLECTION/question-failure-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
         "docs/evidence/CONNECT-REFLECTION/"
       ],
       "status": "submitted",
-      "submitted_commit": "c5dcbe2f18de60c7f2ae2c20867bc0db29f65c05",
+      "submitted_commit": "801fe42db617bc76f12d3a114b6a84a525f88f16",
       "token": "47dc480ab8ff4d66bb8a48826000c7ed"
     },
     "CONNECT-ROUTES": {
