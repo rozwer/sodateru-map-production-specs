@@ -1,3 +1,4 @@
+import type { PlaceDetail } from '../../../packages/api-client/index';
 import React, { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { knowledgeMessages as m } from './messages';
 import { KnowledgeIcon, type KnowledgeIconName } from './Icon';
@@ -87,7 +88,7 @@ export function KnowledgeListView(props: {
         </li>;
       })}</ul>}
     {props.nextCursor && <button className="knowledge-secondary" type="button" onClick={props.onLoadMore} disabled={props.loading}>{m.loadMore}</button>}
-    <div className="knowledge-bottom"><button type="button" className="knowledge-primary" onClick={props.onMap} data-testid="knowledge-list--map"><KnowledgeIcon name="map" />{m.map}</button>
+    <div className="knowledge-bottom"><button type="button" className="knowledge-primary" onClick={props.onMap} disabled={props.kind === 'people'} data-testid="knowledge-list--map"><KnowledgeIcon name="map" />{m.map}</button>
       {props.onPost && <button type="button" className="knowledge-text-button" onClick={props.onPost}>{m.post}</button>}</div>
   </section>;
 }
@@ -124,36 +125,48 @@ export function KnowledgeFilterView({ initial, onApply, onClose, onAreaSearch, o
 
 export function KnowledgeDetailView({ record, timeZone, center, onBack, onPlace, onAuthor, onSource, onShare, onRetryMedia, topicLabel, loadMedia, active = true }: {
   record: KnowledgeRecord; timeZone: string; center?: [number, number] | null; onBack: () => void; onPlace: (id: string) => void;
-  onAuthor: (id: string) => void; onSource: () => void; onShare?: () => void;
+  onAuthor: (id: string) => void; onSource?: () => void; onShare?: () => void;
   onRetryMedia?: (id: string) => Promise<void>; topicLabel?: string; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
-  const [menu, setMenu] = useState(false);
+  const [menu, setMenu] = useState(false), [sourceOpen, setSourceOpen] = useState(false);
+  const original = useRef<HTMLHeadingElement>(null);
+  const showSource = () => { setSourceOpen(true); onSource?.(); original.current?.focus(); };
+  useEffect(() => { setSourceOpen(false); }, [record.id, active]);
   const menuTrigger = useRef<HTMLButtonElement>(null);
   const closeMenu = () => { setMenu(false); menuTrigger.current?.focus(); };
   useEffect(() => { if (!active) { setMenu(false); return; } if (!menu) return; const keydown = (event: KeyboardEvent) => { if (event.key === 'Escape') { event.stopPropagation(); setMenu(false); menuTrigger.current?.focus(); } }; document.addEventListener('keydown', keydown, true); return () => document.removeEventListener('keydown', keydown, true); }, [menu, active]);
   const [title = '', ...body] = record.body.split('\n');
   return <article className="knowledge-panel knowledge-detail" data-testid="knowledge-detail">
     <Header title={m.detail} back={onBack}><button className="knowledge-icon-button" ref={menuTrigger} type="button" aria-label={m.more} aria-expanded={menu} onClick={() => setMenu(value => !value)}><KnowledgeIcon name="more" /></button></Header>
-    {menu && <div className="knowledge-inline-menu"><button type="button" onClick={onSource}>{m.source}</button>{onShare && <button type="button" onClick={onShare}>{m.share}</button>}<button type="button" onClick={closeMenu}>{m.close}</button></div>}
+    {menu && <div className="knowledge-inline-menu"><button type="button" onClick={showSource}>{m.source}</button>{onShare && <button type="button" onClick={onShare}>{m.share}</button>}<button type="button" onClick={closeMenu}>{m.close}</button></div>}
     <div className="knowledge-visibility"><KnowledgeIcon name={record.visibility === 'public' ? 'globe' : 'lock'} />{record.visibility === 'public' ? m.published : record.visibility === 'selected' ? m.selected : m.private}</div>
     <div className="knowledge-gallery">{[...record.media].sort((a, b) => a.position - b.position).map(media => <KnowledgeMediaView key={media.id} media={media} description={title} active={active} onRetry={onRetryMedia} loadMedia={loadMedia} />)}</div>
-    <h3 className="knowledge-detail-title">{title || m.experience}</h3>{body.length > 0 && <p className="knowledge-body">{body.join('\n')}</p>}
+    <h3 ref={original} tabIndex={-1} className="knowledge-detail-title">{title || m.experience}</h3>{body.length > 0 && <p className="knowledge-body">{body.join('\n')}</p>}
+    {sourceOpen && <p className="knowledge-status" role="status">この情報は{record.person.displayName}さんが投稿した原文です。外部の出典URLは登録されていません。表示日時は体験の日時で、店舗の現在情報とは異なります。</p>}
     <RecordIdentity record={record} timeZone={timeZone} center={center} /><RecordTags record={record} topicLabel={topicLabel} />
     <nav className="knowledge-related" aria-label="投稿の関連情報">
       <button type="button" disabled={!record.place} onClick={() => record.place && onPlace(record.place.id)}><KnowledgeIcon name="map" /><span>{m.placeMap}{!record.place && <small>{m.noPlace}</small>}</span><KnowledgeIcon name="chevron" /></button>
       <button type="button" onClick={() => onAuthor(record.person.id)}><KnowledgeIcon name="person" /><span>{m.authorMap}</span><KnowledgeIcon name="chevron" /></button>
-      <button type="button" onClick={onSource}><KnowledgeIcon name="source" /><span>{m.source}<small>{m.sourceHelp}</small></span><KnowledgeIcon name="chevron" /></button>
+      <button type="button" onClick={showSource}><KnowledgeIcon name="source" /><span>{m.source}<small>{m.sourceHelp}</small></span><KnowledgeIcon name="chevron" /></button>
     </nav>
   </article>;
 }
 
-export function KnowledgePlaceView({ name, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loading, onRetry, loadMedia, active = true }: {
-  name: string; records: KnowledgeRecord[]; totalCount: number; timeZone: string;
+export function KnowledgePlaceView({ name, place, onRegion, records, totalCount, timeZone, onClose, onVoices, onOpen, error, loading, onRetry, loadMedia, active = true }: {
+  name: string; place?: PlaceDetail; onRegion?: () => void; records: KnowledgeRecord[]; totalCount: number; timeZone: string;
   onClose: () => void; onVoices: () => void; onOpen: (id: string) => void; error?: string | null; loading?: boolean; onRetry?: () => void; loadMedia?: KnowledgeMediaLoader; active?: boolean;
 }) {
   const photo = records.flatMap(record => record.media).find(media => media.kind === 'photo' && media.status === 'ready');
   return <section className="knowledge-panel knowledge-local" data-testid="local-knowledge--place-sheet">
     <div className="knowledge-place-title"><h2>{name}</h2><IconButton icon="close" label="場所シートを閉じる" onClick={onClose} /></div><p className="knowledge-voice-count">{m.voice}　<output>{totalCount}件</output></p>
+    {onRegion && <button className="knowledge-text-button" onClick={onRegion}>地域を選び直す</button>}
+    {place && <details className="knowledge-place-current"><summary>場所の現在情報</summary>
+      <p>{place.place.address ?? '住所の登録はありません。'}</p>
+      <p>{place.openingHours ? `営業時間：${place.openingHours.rawText}（${place.openingHours.verificationStatus === 'confirmed' ? '確認済み' : '未確認'}）` : '営業時間の登録はありません。'}</p>
+      {place.description && <p>{place.description.text}（未確認）</p>}
+      <p>取得元：{place.place.attribution || place.place.provider}／{place.place.fetchedAt ? formatKnowledgeDate(place.place.fetchedAt, timeZone) : '取得日時不明'}</p>
+      {place.place.sourceUrl && /^https?:\/\//.test(place.place.sourceUrl) && <a href={place.place.sourceUrl} target="_blank" rel="noreferrer">場所情報の出典を開く</a>}
+    </details>}
     {photo && <KnowledgeMediaView media={photo} description={`${name}に投稿された写真`} active={active} loadMedia={loadMedia} />}
     <KnowledgeStatus error={error} loading={loading} empty={totalCount === 0} retry={onRetry} />
     <ul className="knowledge-voices">{records.slice(0, 2).map(record => <li key={record.id}><KnowledgeAvatar src={record.person.iconPath} name={record.person.displayName} /><button type="button" onClick={() => onOpen(record.id)}><span>{record.person.displayName}・{formatKnowledgeDate(record.effectiveAt, timeZone)}</span><strong>「{record.body}」</strong></button></li>)}</ul>

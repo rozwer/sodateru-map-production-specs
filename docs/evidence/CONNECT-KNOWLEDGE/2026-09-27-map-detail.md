@@ -68,3 +68,16 @@ Mapboxトークン未設定につき「地図の接続設定がありません�
 - 自動テスト: screen12件（bbox期待値をwire仕様の文字列へ修正後、該当1件のみ再実行）、bookmark3件、typecheck。bookmarkテストは応答不明の同一ID/idempotencyKey再送、削除412後のversion再取得、本人切替による旧mutation abortを制御応答で検証したもの。これら異常系は実通信受入とは区別する。
 - Mapboxは読み込むが共通growth layerのopacity式エラーが表示される。地図担当#222で修正中のため、ここでは地図全体PASSにしない。
 - 残件: place現在情報/voicesと出典導線、媒体付きUIと取消の実通信、投稿UI経由の公開操作、画像照合/端末操作。地域人物はgetPeopleに地域queryがなく未提供。#143/#16全体は未完了。
+
+## 2026-09-27 selected place / author / media follow-through
+
+`knowledge-place-media` はPR374と共通地図修正PR373を含むdevelop起点。停止済み隔離DBとその `.media` を複写し、専用profilesへ別本人「知識検証の閲覧者」を追加。API3296/Vite5396のcwdを確認。
+
+- 選択placeIdの `getPlacesPlaceId` を読み、現在情報を投稿原文と分離。未選択の地域検索を先頭投稿の場所名で誤表示しない。場所失敗では旧情報/本文を残さない。閉じる操作は地図を保ってシートのみ閉じる。地域再選択も既存filterへ接続。
+- topic必須のPLACES voicesは、保存地点の休憩チップ（目的の追加指定/bboxなし）のとき辞書の休憩purposesとtopicKey=restで使用。同じ条件のCOMMUNITY tips mapと実UIで1件/unknown0を照合。他の分類/条件はcategory/bboxを扱えるknowledgeを使う。
+- 作者IDを一覧/地図のpersonIdsに共用。投稿者リンクは同じpersonIdのfriends-mapへ。出典ボタンは現在の投稿原文と作者へfocusし、外部出典なし・体験日時と店舗現在情報の区別を表示。人物はgetPeopleの名前検索を接続。地域等の人物条件は契約未提供として明示し、条件無視で検索しない。
+- 実UIのknowledge-list「体験を投稿する」→動画添付→公開保存→同じ一覧へ復帰。recordId `d5088eb9-3e7a-42fc-ade6-41c821248e49`。別host/別本人から同じ共有単体と実動画を取得し、再生中paused=false/currentTime>0、18秒durationを確認。
+- 投稿者のrecord-editで公開→自分だけに変更・保存。閲覧者再取得で「現在閲覧できません」、video要素0、旧本文なし。実GET共有単体404/実GET媒体404を別本人で照合。遠隔取消を開きっぱなし画面へ瞬時にpushする受入は含めない。
+- 二媒体の部分失敗: 写真を実multipart POST(201)で追加し再公開(200)、隔離DB配下の動画blobだけ一時退避して実503を発生。閲覧者UIは動画だけ失敗/再試行、本文と写真（naturalWidth1448）を維持。ファイル復元→媒体単独再試行で復旧。制御mockではない。DB複写直後のmedia未複写エラーは検証準備を修復した後に実施。
+- screen16件PASS。全体tscはknowledge外の `exploration/consent-navigation.test.tsx` 19/20の型エラー2件のみで停止、担当へ通知済み。knowledgeには型エラーなし。共通Mapbox警告はPR373取込み後消え、実地図/写真/動画を表示。
+- 未達は動画の音量/seek操作、指定画像との媒体あり比較、端末位置/keyboard等、地域人物の契約条件、しおり異常系の実通信等。#143/#16を完了扱いしない。
