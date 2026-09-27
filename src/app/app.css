@@ -54,3 +54,6 @@
 .sm-capture-picker h2 { margin: 0; font-size: 1.25rem; }
 .sm-capture-picker p { font-size: .9rem; }
 .sm-capture-picker .sm-button { display: flex; width: 100%; margin-top: 12px; }
+
+/* Reserve a separate strip so the demo label cannot cover a full-screen heading. */
+.sm-app--demo .sm-sheet--fullscreen { top: calc(1.2rem + 12px); height: auto; }
