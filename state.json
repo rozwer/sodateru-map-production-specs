@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 515,
+  "revision": 516,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35071,29 +35071,18 @@
       "token": null
     },
     "ROUTES": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 9,
+      "generation": 10,
       "issue_number": 25,
       "landed_main": null,
-      "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
+      "note": "PR368 direct HTTP and PR375 transfer HTTP integrated/review PASS. Tests/evidence preserved. UI9 continues separately. HTTP arbitrary access/egress walk, multiple-waypoint transfers, passes/rail/stairs/roof remain open. Release generated paths for DISASTER.",
       "owner": "rozwer",
-      "paths": [
-        "server/features/routes/",
-        "server/db/migrations/routes/",
-        "docs/01_requirements/04_api/fragments/ROUTES.json",
-        "docs/evidence/ROUTES/",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/conventions/06_shared-http.md",
-        "docs/01_requirements/04_api/endpoints/",
-        "packages/api-client/types.generated.ts",
-        "packages/api-client/operations.generated.ts"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "8d3e25232d2f4f07960af2e174fd4924"
+      "token": null
     },
     "ROUTES-TRANSIT-GTFS": {
       "actor": "rozwer",
