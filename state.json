@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 409,
+  "revision": 410,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35386,7 +35386,7 @@
       "generation": 5,
       "issue_number": 18,
       "landed_main": null,
-      "note": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
+      "note": "docs/evidence/UI-PLUGINS/connect-handoff.json",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
@@ -35394,7 +35394,7 @@
         "docs/evidence/UI-PLUGINS/"
       ],
       "status": "submitted",
-      "submitted_commit": "f3318f8afdc4c4f19589e5f33003ea09d345845f",
+      "submitted_commit": "5a88ed0d8529cabae865f37c875d439377046066",
       "token": "89c38600369747a29e0a7bcbe617efb6"
     },
     "UI-RECORDS": {
