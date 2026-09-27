@@ -293,7 +293,7 @@ Manual values override provider refresh. resetFields removes corrections and res
 | `geometry` | [CommonMapGeometry](../schemas/models.md#commonmapgeometry) | 必須 | — | — |
 | `distanceM` | number | 必須 | minimum=0 | 経路距離。未取得はNULL |
 | `durationSec` | integer | 必須 | minimum=0 | 所要時間。未取得はNULL |
-| `provider` | "mapbox-directions" | 必須 | — | 経路の提供元。未取得はNULL |
+| `provider` | mapbox-directions / valhalla / toei-gtfs | 必須 | — | — |
 | `sourceUrl` | string (uri) または null | 必須 | — | 出典URL。未取得はNULL |
 | `fetchedAt` | integer | 必須 | minimum=0 | 経路の取得時刻。未取得はNULL |
 | `status` | saved / navigating / finished | 必須 | — | 案内状態 |
@@ -305,6 +305,10 @@ Manual values override provider refresh. resetFields removes corrections and res
 | `updatedAt` | integer | 必須 | minimum=0 | 更新日時。UTC Unixミリ秒 |
 | `requestedConditions` | [RouteConditions](../schemas/models.md#routeconditions) | 省略可 | — | — |
 | `conditionEvaluations` | 配列<[RouteConditionEvaluation](../schemas/models.md#routeconditionevaluation)> | 省略可 | — | — |
+| `timing` | [RouteTiming](../schemas/models.md#routetiming) | 省略可 | — | — |
+| `providerEvidence` | [RouteProviderEvidence](../schemas/models.md#routeproviderevidence) | 省略可 | — | — |
+| `segmentEvidence` | [BikeSegmentEvidence](../schemas/models.md#bikesegmentevidence) | 省略可 | — | Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown. |
+| `transitEvidence` | [RouteTransitEvidence](../schemas/models.md#routetransitevidence) | 省略可 | — | — |
 
 `waypoints` の内部：
 
@@ -665,9 +669,11 @@ Manual values override provider refresh. resetFields removes corrections and res
 
 ## AnalysisAxis
 
+新規期間分析は自然/本/カフェ/散歩/人との時間の5軸。旧保存結果の読取互換のため旧キーも受理する。
+
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
-| `key` | detour / newPlace / rest / alone / longStay / farTrip | 必須 | — | — |
+| `key` | nature / books / cafe / walk / social / detour / newPlace / rest / alone / longStay / farTrip | 必須 | — | — |
 | `numerator` | integer | 必須 | minimum=0、maximum=9007199254740991 | — |
 | `denominator` | integer | 必須 | minimum=0、maximum=9007199254740991 | — |
 | `value` | number または null | 必須 | — | — |
@@ -675,10 +681,24 @@ Manual values override provider refresh. resetFields removes corrections and res
 
 ## AnalysisResult
 
+固定5軸 nature/books/cafe/walk/social。新規集計は5軸すべてを返す。旧保存結果の読取互換のため追加根拠項目はoptional。本人の明示記録に限定し、不明日は分母に含めない。
+
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
-| `axes` | 配列<[AnalysisAxis](../schemas/models.md#analysisaxis)> | 必須 | minItems=0、maxItems=6 | — |
+| `axes` | 配列<[AnalysisAxis](../schemas/models.md#analysisaxis)> | 必須 | minItems=0、maxItems=5 | — |
 | `unknown` | 配列<string> | 必須 | minItems=0、maxItems=1000 | — |
+| `provisionalName` | string | 省略可 | — | — |
+| `daily` | 配列<object> | 省略可 | — | — |
+| `evidence` | [InsightStructuredEvidence](../schemas/models.md#insightstructuredevidence) | 省略可 | — | — |
+
+`daily` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `date` | string | 必須 | — | — |
+| `key` | nature / books / cafe / walk / social | 必須 | — | — |
+| `value` | boolean または null | 必須 | — | — |
+| `recordIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
 
 ## ComparisonResult
 
@@ -719,8 +739,20 @@ Manual values override provider refresh. resetFields removes corrections and res
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
-| `axes` | 配列<[AnalysisAxis](../schemas/models.md#analysisaxis)> | 必須 | minItems=0、maxItems=6 | — |
+| `axes` | 配列<[AnalysisAxis](../schemas/models.md#analysisaxis)> | 必須 | minItems=0、maxItems=5 | — |
 | `unknown` | 配列<string> | 必須 | minItems=0、maxItems=1000 | — |
+| `provisionalName` | string | 省略可 | — | — |
+| `daily` | 配列<object> | 省略可 | — | — |
+| `evidence` | [InsightStructuredEvidence](../schemas/models.md#insightstructuredevidence) | 省略可 | — | — |
+
+`daily` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `date` | string | 必須 | — | — |
+| `key` | nature / books / cafe / walk / social | 必須 | — | — |
+| `value` | boolean または null | 必須 | — | — |
+| `recordIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
 
 分岐 2
 
@@ -975,12 +1007,17 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `geometry` | [CommonMapGeometry](../schemas/models.md#commonmapgeometry) | 必須 | — | — |
 | `distanceM` | number | 必須 | exclusiveMinimum=0 | — |
 | `durationSec` | integer | 必須 | minimum=0 | — |
-| `provider` | "mapbox-directions" | 必須 | — | — |
+| `provider` | mapbox-directions / valhalla / toei-gtfs | 必須 | — | — |
 | `fetchedAt` | integer | 必須 | minimum=0 | — |
 | `expiresAt` | integer | 必須 | minimum=0 | — |
 | `retention` | storable / temporary | 必須 | — | — |
 | `requestedConditions` | [RouteConditions](../schemas/models.md#routeconditions) | 省略可 | — | — |
 | `conditionEvaluations` | 配列<[RouteConditionEvaluation](../schemas/models.md#routeconditionevaluation)> | 省略可 | — | — |
+| `timing` | [RouteTiming](../schemas/models.md#routetiming) | 省略可 | — | — |
+| `providerEvidence` | [RouteProviderEvidence](../schemas/models.md#routeproviderevidence) | 省略可 | — | — |
+| `sourceUrl` | string (uri) | 省略可 | — | — |
+| `segmentEvidence` | [BikeSegmentEvidence](../schemas/models.md#bikesegmentevidence) | 省略可 | — | Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown. |
+| `transitEvidence` | [RouteTransitEvidence](../schemas/models.md#routetransitevidence) | 省略可 | — | — |
 
 `waypoints` の内部：
 
@@ -1394,6 +1431,7 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `message` | [Message](../schemas/models.md#message) | 必須 | — | — |
 | `run` | [CommonAIRun](../schemas/models.md#commonairun) または null | 必須 | — | — |
 | `output` | [AIOutput](../schemas/models.md#aioutput) または null | 必須 | — | — |
+| `appliedRefs` | 配列<[CommonAIAppliedRef](../schemas/models.md#commonaiappliedref)> | 必須 | — | — |
 
 ## RetryAccepted
 
@@ -2243,12 +2281,17 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `geometry` | [CommonMapGeometry](../schemas/models.md#commonmapgeometry) | 必須 | — | — |
 | `distanceM` | number | 必須 | exclusiveMinimum=0 | — |
 | `durationSec` | integer | 必須 | minimum=0 | — |
-| `provider` | "mapbox-directions" | 必須 | — | — |
+| `provider` | mapbox-directions / valhalla / toei-gtfs | 必須 | — | — |
 | `fetchedAt` | integer | 必須 | minimum=0 | — |
 | `expiresAt` | integer | 必須 | minimum=0 | — |
 | `retention` | storable / temporary | 必須 | — | — |
 | `requestedConditions` | [RouteConditions](../schemas/models.md#routeconditions) | 省略可 | — | — |
 | `conditionEvaluations` | 配列<[RouteConditionEvaluation](../schemas/models.md#routeconditionevaluation)> | 省略可 | — | — |
+| `timing` | [RouteTiming](../schemas/models.md#routetiming) | 省略可 | — | — |
+| `providerEvidence` | [RouteProviderEvidence](../schemas/models.md#routeproviderevidence) | 省略可 | — | — |
+| `sourceUrl` | string (uri) | 省略可 | — | — |
+| `segmentEvidence` | [BikeSegmentEvidence](../schemas/models.md#bikesegmentevidence) | 省略可 | — | Server-generated same-shape evidence; never accepted as route input. Japanese vehicle eligibility remains unknown. |
+| `transitEvidence` | [RouteTransitEvidence](../schemas/models.md#routetransitevidence) | 省略可 | — | — |
 
 `waypoints` の内部：
 
@@ -2449,6 +2492,15 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `items` | 配列<[DiscoveryReaction](../schemas/models.md#discoveryreaction)> | 必須 | minItems=0、maxItems=100 | — |
 | `nextCursor` | string または null | 必須 | — | — |
 
+## CommonAIAppliedRef
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | record / theme / insight / discovery / map-settings / transfer-plan-set / pilgrimage-plan | 必須 | — | — |
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `contentHash` | string | 必須 | pattern=^[a-f0-9]{64}$ | — |
+
 ## BikeSettings
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
@@ -2575,6 +2627,7 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `adoptable` | boolean | 必須 | — | — |
 | `checkedAt` | integer | 必須 | — | — |
 | `expiresAt` | integer | 必須 | — | — |
+| `resultEvaluation` | [BikeRouteResultEvaluation](../schemas/models.md#bikerouteresultevaluation) | 省略可 | — | — |
 
 `geometry` の内部：
 
@@ -2637,6 +2690,7 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `adoptable` | boolean | 必須 | — | — |
 | `checkedAt` | integer | 必須 | — | — |
 | `expiresAt` | integer | 必須 | — | — |
+| `resultEvaluation` | [BikeRouteResultEvaluation](../schemas/models.md#bikerouteresultevaluation) | 省略可 | — | — |
 
 `geometry` の内部：
 
@@ -2761,6 +2815,129 @@ openingHours=null and entrances=[] mean not acquired. No open-now or accessibili
 | `id` | string (uuid) | 必須 | — | — |
 | `assessmentId` | string | 必須 | minLength=1、maxLength=80 | — |
 | `title` | string | 必須 | minLength=1、maxLength=100 | — |
+
+## BikePlaceCandidatesInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+
+## BikePlaceCandidates
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+| `installId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+| `settingsVersion` | [Version](../schemas/models.md#version) | 必須 | — | — |
+| `settingsHash` | string | 必須 | — | — |
+| `settings` | [BikeSettings](../schemas/models.md#bikesettings) | 必須 | — | — |
+| `candidates` | object | 必須 | — | — |
+
+`candidates` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `resultId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+| `expiresAt` | [Timestamp](../schemas/models.md#timestamp) | 必須 | — | — |
+| `items` | 配列<[Candidate](../schemas/models.md#candidate)> | 必須 | maxItems=1000 | — |
+
+## BikeSegmentEvidence
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `provider` | "valhalla" | 必須 | — | — |
+| `profile` | motorcycle / motor_scooter | 必須 | — | — |
+| `geometryHash` | string | 必須 | — | — |
+| `routeFetchedAt` | integer | 必須 | — | — |
+| `fetchedAt` | integer | 必須 | — | — |
+| `sourceUrl` | string | 必須 | — | — |
+| `osmChangeset` | ['string', 'null'] | 必須 | — | — |
+| `options` | object | 必須 | — | — |
+| `warnings` | 配列<object> | 必須 | — | — |
+| `edges` | 配列<object> | 必須 | — | — |
+
+`options` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `excludeHighways` | boolean | 必須 | — | — |
+| `useHighways` | number | 必須 | — | — |
+| `topSpeed` | ['number', 'null'] | 必須 | — | — |
+| `departureLocal` | string | 必須 | — | — |
+
+`warnings` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `code` | integer | 必須 | — | — |
+| `text` | string | 必須 | — | — |
+
+`edges` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `wayId` | ['integer', 'null'] | 必須 | — | — |
+| `forward` | ['boolean', 'null'] | 必須 | — | — |
+| `beginShapeIndex` | integer | 必須 | — | — |
+| `endShapeIndex` | integer | 必須 | — | — |
+| `roadClass` | ['string', 'null'] | 必須 | — | — |
+| `use` | ['string', 'null'] | 必須 | — | — |
+| `motorroad` | ['boolean', 'null'] | 必須 | — | — |
+
+## BikeRouteResultEvaluation
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `evidence` | [BikeSegmentEvidence](../schemas/models.md#bikesegmentevidence) | 必須 | — | — |
+| `requestedExclusion` | object | 必須 | — | — |
+| `coverage` | object | 必須 | — | — |
+| `motorwayAssessment` | [BikeAssessment](../schemas/models.md#bikeassessment) | 必須 | — | — |
+
+`requestedExclusion` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `status` | not_requested / ignored / unknown | 必須 | — | — |
+| `reason` | string | 必須 | — | — |
+
+`coverage` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `complete` | boolean | 必須 | — | — |
+| `segmentCount` | integer | 必須 | — | — |
+| `coveredSegmentCount` | integer | 必須 | — | — |
+| `edgeCount` | integer | 必須 | — | — |
+
+## BikeRoutePreviewInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `title` | string | 必須 | minLength=1、maxLength=100 | — |
+| `waypoints` | [waypoints](../schemas/models.md#waypoints) | 必須 | — | — |
+| `departAt` | integer | 必須 | minimum=0 | — |
+| `timeZone` | string | 必須 | minLength=1 | — |
+| `returnBy` | integer | 省略可 | minimum=0 | — |
+
+## BikeRoutePreview
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `installId` | string | 必須 | — | — |
+| `settingsVersion` | integer | 必須 | — | — |
+| `settingsHash` | string | 必須 | — | — |
+| `settings` | [BikeSettings](../schemas/models.md#bikesettings) | 必須 | — | — |
+| `previewId` | string | 必須 | — | — |
+| `geometry` | object | 必須 | — | — |
+| `expiresAt` | integer | 必須 | — | — |
+| `fetchedAt` | integer | 必須 | — | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<number>> | 必須 | minItems=2 | — |
 
 ## CommunityBookmarkTarget
 
@@ -3295,6 +3472,732 @@ available / partial / missing / outOfCoverage / providerError。—
 | `title` | string | 必須 | — | — |
 | `url` | string (uri) | 必須 | — | — |
 
+## InsightStatementEvidence
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `recordId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+| `date` | string | 必須 | — | — |
+| `key` | nature / books / cafe / walk / social | 必須 | — | — |
+| `quote` | string | 必須 | — | — |
+| `field` | body / activities | 必須 | — | — |
+| `value` | boolean | 必須 | — | — |
+| `sourceRefs` | 配列<[SourceRef](../schemas/models.md#sourceref)> | 必須 | — | — |
+
+## InsightStructuredEvidence
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `selfReports` | 配列<[InsightStatementEvidence](../schemas/models.md#insightstatementevidence)> | 必須 | — | — |
+| `observations` | 配列<object> | 必須 | — | — |
+| `inferences` | 配列<object> | 必須 | — | — |
+| `counterexamples` | 配列<[InsightStatementEvidence](../schemas/models.md#insightstatementevidence)> | 必須 | — | — |
+| `unknown` | 配列<object> | 必須 | — | — |
+
+`observations` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `key` | nature / books / cafe / walk / social | 必須 | — | — |
+| `text` | string | 必須 | — | — |
+| `dates` | 配列<string> | 必須 | — | — |
+
+`inferences` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `text` | string | 必須 | — | — |
+| `evidenceIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+`unknown` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `key` | nature / books / cafe / walk / social または null | 必須 | — | — |
+| `date` | string または null | 必須 | — | — |
+| `reason` | string | 必須 | — | — |
+| `recordIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+## ActivityStatistics
+
+本人の保存済み観測から再計算する非健康統計。訪問回数と訪問した場所数を区別。日時不明件数は本人の全履歴で期間へ割り当てられない件数。GPSは観測線距離であり歩数・実際の移動距離の推定ではない。
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `from` | [Timestamp](../schemas/models.md#timestamp) | 必須 | — | — |
+| `to` | [Timestamp](../schemas/models.md#timestamp) | 必須 | — | — |
+| `timeZone` | [TimeZone](../schemas/models.md#timezone) | 必須 | — | — |
+| `confirmedVisits` | object | 必須 | — | — |
+| `confirmedPlaces` | object | 必須 | — | — |
+| `newPlaces` | object | 必須 | — | — |
+| `undatedVisits` | integer | 必須 | minimum=0 | — |
+| `recordCount` | integer | 必須 | minimum=0 | — |
+| `undatedRecords` | integer | 必須 | minimum=0 | — |
+| `activities` | 配列<object> | 必須 | — | — |
+| `daily` | 配列<object> | 必須 | — | — |
+| `sourceRefs` | 配列<[SourceRef](../schemas/models.md#sourceref)> | 必須 | — | — |
+| `lastUpdatedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `gpsDistanceMeters` | [GpsObservationStatistics](../schemas/models.md#gpsobservationstatistics) | 必須 | — | — |
+| `sources` | 配列<object> | 必須 | — | — |
+
+`confirmedVisits` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `value` | integer | 必須 | minimum=0 | — |
+| `unit` | visits | 必須 | — | — |
+| `source` | visits.confirmed | 必須 | — | — |
+| `visitIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+`confirmedPlaces` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `value` | integer | 必須 | minimum=0 | — |
+| `unit` | places | 必須 | — | — |
+| `source` | visits.confirmed | 必須 | — | — |
+| `placeIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+`newPlaces` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `value` | integer | 必須 | minimum=0 | — |
+| `unit` | places | 必須 | — | — |
+| `source` | visits.confirmed.firstStartedAt | 必須 | — | — |
+| `placeIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+| `unknownPlaceIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+`activities` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `name` | string | 必須 | — | — |
+| `count` | integer | 必須 | minimum=0 | — |
+| `recordIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+| `source` | records.activities | 必須 | — | — |
+
+`daily` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `date` | string | 必須 | — | — |
+| `confirmedVisits` | integer | 必須 | minimum=0 | — |
+| `recordIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+
+`sources` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | visits / records / gps | 必須 | — | — |
+| `label` | string | 必須 | — | — |
+| `itemCount` | integer | 必須 | minimum=0 | — |
+| `firstObservedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `lastObservedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `lastUpdatedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `status` | observed / empty / insufficient / unavailable | 必須 | — | — |
+| `description` | string | 必須 | — | — |
+
+## GpsObservationStatistics
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `value` | number または null | 必須 | — | — |
+| `unit` | m | 必須 | — | — |
+| `source` | track_points | 必須 | — | — |
+| `status` | observed / insufficient / unavailable | 必須 | — | — |
+| `pointCount` | integer | 必須 | minimum=0 | — |
+| `edgeCount` | integer | 必須 | minimum=0 | — |
+| `disconnectedEdges` | integer | 必須 | minimum=0 | — |
+| `maxAccuracyM` | number または null | 必須 | — | — |
+| `firstObservedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `lastObservedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `lastUpdatedAt` | [Timestamp](../schemas/models.md#timestamp) または null | 必須 | — | — |
+| `sourcePointIds` | 配列<[Id](../schemas/models.md#id)> | 必須 | — | — |
+| `description` | string | 必須 | — | — |
+
+## MapObjectCreate
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `name` | string | 必須 | minLength=1、maxLength=20 | — |
+| `memo` | string | 必須 | maxLength=200 | — |
+| `color` | teal / pink / orange / yellow / green / blue | 必須 | — | — |
+| `size` | small / medium / large | 必須 | — | — |
+| `position` | object | 必須 | — | — |
+
+`position` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `longitude` | number | 必須 | minimum=-180、maximum=180 | — |
+| `latitude` | number | 必須 | minimum=-90、maximum=90 | — |
+
+## MapObjectPatch
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `name` | string | 省略可 | minLength=1、maxLength=20 | — |
+| `memo` | string | 省略可 | maxLength=200 | — |
+| `color` | teal / pink / orange / yellow / green / blue | 省略可 | — | — |
+| `size` | small / medium / large | 省略可 | — | — |
+| `position` | object | 省略可 | — | — |
+
+`position` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `longitude` | number | 必須 | minimum=-180、maximum=180 | — |
+| `latitude` | number | 必須 | minimum=-90、maximum=90 | — |
+
+## MapObject
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `createdAt` | integer | 必須 | minimum=0 | — |
+| `updatedAt` | integer | 必須 | minimum=0 | — |
+| `name` | string | 必須 | minLength=1、maxLength=20 | — |
+| `memo` | string | 必須 | maxLength=200 | — |
+| `color` | teal / pink / orange / yellow / green / blue | 必須 | — | — |
+| `size` | small / medium / large | 必須 | — | — |
+| `position` | object | 必須 | — | — |
+
+`position` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `longitude` | number | 必須 | minimum=-180、maximum=180 | — |
+| `latitude` | number | 必須 | minimum=-90、maximum=90 | — |
+
+## MapCustomStyle
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `theme` | default / faded / monochrome | 必須 | — | — |
+| `lightPreset` | dawn / day / dusk / night | 必須 | — | — |
+| `showPedestrianRoads` | boolean | 必須 | — | — |
+| `showAdminBoundaries` | boolean | 必須 | — | — |
+| `showIndoor` | boolean | 必須 | — | — |
+| `colors` | object または null | 必須 | — | — |
+
+`colors` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `water` | string | 必須 | pattern=^#[0-9A-Fa-f]{6}$ | — |
+| `greenspace` | string | 必須 | pattern=^#[0-9A-Fa-f]{6}$ | — |
+| `roads` | string | 必須 | pattern=^#[0-9A-Fa-f]{6}$ | — |
+| `buildings` | string | 必須 | pattern=^#[0-9A-Fa-f]{6}$ | — |
+
+## MapCustomLayers
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `themes` | boolean | 必須 | — | — |
+| `exploration` | boolean | 必須 | — | — |
+| `friends` | boolean | 必須 | — | — |
+| `bike` | boolean | 必須 | — | — |
+| `plugins` | object | 必須 | — | — |
+
+`plugins` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+
+## MapSettingsPatch
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `style` | [MapCustomStyle](../schemas/models.md#mapcustomstyle) | 省略可 | — | — |
+| `layers` | [MapCustomLayers](../schemas/models.md#mapcustomlayers) | 省略可 | — | — |
+
+## MapSettings
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `createdAt` | integer | 必須 | minimum=0 | — |
+| `updatedAt` | integer | 必須 | minimum=0 | — |
+| `style` | [MapCustomStyle](../schemas/models.md#mapcustomstyle) | 必須 | — | — |
+| `layers` | [MapCustomLayers](../schemas/models.md#mapcustomlayers) | 必須 | — | — |
+| `effectiveLayers` | [MapCustomLayers](../schemas/models.md#mapcustomlayers) | 必須 | — | — |
+| `pluginSnapshot` | string | 必須 | — | — |
+| `pluginDisplays` | 配列<object> | 必須 | — | — |
+
+`pluginDisplays` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `pluginId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `ownerKey` | string | 必須 | — | — |
+| `visible` | boolean | 必須 | — | — |
+| `resolvedDeclarations` | 配列<object> | 必須 | — | — |
+
+`resolvedDeclarations` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `targetKey` | string | 必須 | — | — |
+| `property` | string | 必須 | — | — |
+| `value` | 未指定 | 必須 | — | — |
+| `pluginId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `pluginVersion` | string | 必須 | — | — |
+
+## MapObjectResponse
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `data` | [MapObject](../schemas/models.md#mapobject) | 必須 | — | — |
+
+## MapObjectList
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `items` | 配列<[MapObject](../schemas/models.md#mapobject)> | 必須 | — | — |
+| `nextCursor` | null | 必須 | — | — |
+
+## MapSettingsResponse
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `data` | [MapSettings](../schemas/models.md#mapsettings) | 必須 | — | — |
+
+## MapSettingsPreviewCreate
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `messageId` | string | 必須 | minLength=1、maxLength=80 | — |
+
+## MapSettingsPreview
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `messageId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `settingsId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+| `pluginSnapshot` | string | 必須 | — | — |
+| `proposal` | [MapCustomStyle](../schemas/models.md#mapcustomstyle) | 必須 | — | — |
+| `contentHash` | string | 必須 | pattern=^[0-9a-f]{64}$ | — |
+| `explanation` | string | 必須 | minLength=1、maxLength=1000 | — |
+| `state` | ready / cancelled / applied | 必須 | — | — |
+| `appliedVersion` | integer または null | 必須 | — | — |
+| `createdAt` | integer | 必須 | — | — |
+| `updatedAt` | integer | 必須 | — | — |
+
+## MapSettingsPreviewResponse
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `data` | [MapSettingsPreview](../schemas/models.md#mapsettingspreview) | 必須 | — | — |
+
+## MapSettingsAppliedRef
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "map-settings" | 必須 | — | — |
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `contentHash` | string | 必須 | pattern=^[0-9a-f]{64}$ | — |
+
+## MapSettingsAdoptionResponse
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `data` | object | 必須 | — | — |
+
+`data` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `settings` | [MapSettings](../schemas/models.md#mapsettings) | 必須 | — | — |
+| `preview` | [MapSettingsPreview](../schemas/models.md#mapsettingspreview) | 必須 | — | — |
+| `appliedRef` | [MapSettingsAppliedRef](../schemas/models.md#mapsettingsappliedref) | 必須 | — | — |
+| `alreadyApplied` | boolean | 必須 | — | — |
+
+## PilgrimageRegion
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `bounds` | 配列<number> | 必須 | minItems=4、maxItems=4 | — |
+
+## PilgrimageSource
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `url` | string (uri) | 必須 | pattern=^https?:// | — |
+| `title` | string | 必須 | minLength=1、maxLength=500 | — |
+| `fetchedAt` | integer | 必須 | minimum=0 | — |
+| `claimScope` | relation / coordinates | 必須 | — | — |
+| `attribution` | string | 必須 | minLength=1、maxLength=500 | — |
+
+## PilgrimageWork
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `title` | string | 必須 | minLength=1、maxLength=500 | — |
+| `aliases` | 配列<string> | 必須 | — | — |
+
+## PilgrimageRelation
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `workId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `name` | string | 必須 | minLength=1、maxLength=500 | — |
+| `address` | string または null | 必須 | — | — |
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `relationType` | model-location / filming-location / narrative-location / related-facility | 必須 | — | — |
+| `description` | string | 必須 | minLength=1、maxLength=2000 | — |
+| `sourceRefs` | 配列<[PilgrimageSource](../schemas/models.md#pilgrimagesource)> | 必須 | — | — |
+| `verificationStatus` | confirmed / unverified | 必須 | — | — |
+| `unknowns` | 配列<string> | 必須 | — | — |
+
+## PilgrimageSearchInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `workQuery` | string | 必須 | minLength=1、maxLength=200 | — |
+| `workId` | string | 省略可 | pattern=^Q[1-9][0-9]*$ | — |
+| `region` | [PilgrimageRegion](../schemas/models.md#pilgrimageregion) | 必須 | — | — |
+
+## PilgrimageSearch
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `input` | [PilgrimageSearchInput](../schemas/models.md#pilgrimagesearchinput) | 必須 | — | — |
+| `works` | 配列<[PilgrimageWork](../schemas/models.md#pilgrimagework)> | 必須 | — | — |
+| `relations` | 配列<[PilgrimageRelation](../schemas/models.md#pilgrimagerelation)> | 必須 | — | — |
+| `fetchedAt` | integer | 必須 | minimum=0 | — |
+| `warnings` | 配列<string> | 必須 | — | — |
+| `dataKind` | "live" | 必須 | — | — |
+
+## PilgrimageSelection
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `orderedRelationIds` | 配列<string> | 必須 | minItems=2、maxItems=10、uniqueItems=True | — |
+| `mode` | walking / driving | 必須 | — | — |
+| `title` | string | 必須 | minLength=1、maxLength=100 | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+| `acknowledgeUnverified` | boolean | 必須 | — | — |
+| `ai` | object | 省略可 | — | — |
+
+`ai` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `runId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `attempt` | integer | 必須 | minimum=1 | — |
+
+## PilgrimageRoutePreview
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `waypoints` | 配列<object> | 必須 | — | — |
+| `mode` | walking / driving / cycling / transit | 必須 | — | — |
+| `legs` | 配列<object> | 必須 | — | — |
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `provider` | "mapbox-directions" | 必須 | — | — |
+| `fetchedAt` | integer | 必須 | minimum=0 | — |
+| `previewId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `expiresAt` | integer | 必須 | minimum=0 | — |
+| `retention` | storable / temporary | 必須 | — | — |
+
+`waypoints` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `name` | string | 必須 | minLength=1、maxLength=500 | — |
+| `placeId` | string または null | 必須 | — | — |
+
+`legs` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fromIndex` | integer | 必須 | minimum=0 | — |
+| `toIndex` | integer | 必須 | minimum=0 | — |
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `steps` | 配列<object> | 省略可 | — | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+`steps` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `location` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `type` | string | 必須 | minLength=1、maxLength=200 | — |
+| `modifier` | string または null | 必須 | — | — |
+| `instruction` | string | 必須 | minLength=1、maxLength=2000 | — |
+| `name` | string | 必須 | — | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+## PilgrimageSavedRoute
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `waypoints` | 配列<object> | 必須 | — | — |
+| `mode` | walking / driving / cycling / transit | 必須 | — | — |
+| `legs` | 配列<object> | 必須 | — | — |
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `provider` | "mapbox-directions" | 必須 | — | — |
+| `fetchedAt` | integer | 必須 | minimum=0 | — |
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `personId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `title` | string | 必須 | minLength=1、maxLength=100 | — |
+| `sourceUrl` | string | 必須 | minLength=1、maxLength=2048 | — |
+| `status` | saved / navigating / finished | 必須 | — | — |
+| `currentLeg` | integer | 必須 | minimum=0 | — |
+| `visibility` | private / selected / public | 必須 | — | — |
+| `sharedWith` | 配列<string> | 必須 | — | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `createdAt` | integer | 必須 | minimum=0 | — |
+| `updatedAt` | integer | 必須 | minimum=0 | — |
+
+`waypoints` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `name` | string | 必須 | minLength=1、maxLength=500 | — |
+| `placeId` | string または null | 必須 | — | — |
+
+`legs` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fromIndex` | integer | 必須 | minimum=0 | — |
+| `toIndex` | integer | 必須 | minimum=0 | — |
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `steps` | 配列<object> | 省略可 | — | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+`steps` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `geometry` | object | 必須 | — | — |
+| `distanceM` | number | 必須 | — | — |
+| `durationSec` | integer | 必須 | minimum=0 | — |
+| `location` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `type` | string | 必須 | minLength=1、maxLength=200 | — |
+| `modifier` | string または null | 必須 | — | — |
+| `instruction` | string | 必須 | minLength=1、maxLength=2000 | — |
+| `name` | string | 必須 | — | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+`geometry` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+## PilgrimagePreview
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `selection` | [PilgrimageSelection](../schemas/models.md#pilgrimageselection) | 必須 | — | — |
+| `relations` | 配列<[PilgrimageRelation](../schemas/models.md#pilgrimagerelation)> | 必須 | — | — |
+| `route` | [PilgrimageRoutePreview](../schemas/models.md#pilgrimageroutepreview) | 必須 | — | — |
+| `pluginRevision` | string | 必須 | minLength=1、maxLength=200 | — |
+| `expiresAt` | integer | 必須 | minimum=0 | — |
+
+## PilgrimagePlan
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `personId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `dataMode` | live / demo | 必須 | — | — |
+| `title` | string | 必須 | minLength=1、maxLength=100 | — |
+| `workIds` | 配列<string> | 必須 | — | — |
+| `region` | [PilgrimageRegion](../schemas/models.md#pilgrimageregion) | 必須 | — | — |
+| `orderedRelationIds` | 配列<string> | 必須 | — | — |
+| `orderedPlaceIds` | 配列<string> | 必須 | — | — |
+| `routeId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `route` | [PilgrimageSavedRoute](../schemas/models.md#pilgrimagesavedroute) | 必須 | — | — |
+| `sourceSnapshot` | 配列<[PilgrimageRelation](../schemas/models.md#pilgrimagerelation)> | 必須 | — | — |
+| `settingsSnapshot` | object | 必須 | — | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+| `ai` | object または null | 必須 | — | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `createdAt` | integer | 必須 | minimum=0 | — |
+| `updatedAt` | integer | 必須 | minimum=0 | — |
+
+`settingsSnapshot` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+
+`ai` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `runId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `attempt` | integer | 必須 | minimum=1 | — |
+
+## PilgrimageCreate
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `previewId` | string | 必須 | minLength=1、maxLength=80 | — |
+
+## PilgrimageUpdate
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `previewId` | string | 必須 | minLength=1、maxLength=80 | — |
+
+## PilgrimageAiInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `relationIds` | 配列<string> | 必須 | minItems=2、maxItems=10、uniqueItems=True | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+
+## PilgrimageAiProposalInput
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `relationIds` | 配列<string> | 必須 | minItems=2、maxItems=10、uniqueItems=True | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+| `text` | string | 必須 | minLength=1、maxLength=20000 | — |
+
+## PilgrimageAiResult
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `searchId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `settingsVersion` | integer | 必須 | minimum=1 | — |
+| `orderedRelationIds` | 配列<string> | 必須 | minItems=2、maxItems=10、uniqueItems=True | — |
+| `explanation` | string | 必須 | minLength=1、maxLength=2000 | — |
+| `unknowns` | 配列<string> | 必須 | maxItems=20 | — |
+
+## PilgrimageRun
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
+| `conversationId` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
+| `userMessageId` | string | 必須 | minLength=1、maxLength=80、pattern=\S | — |
+| `status` | pending / running / complete / failed / cancelled | 必須 | — | — |
+| `attempt` | integer | 必須 | minimum=1 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+| `model` | string | 必須 | minLength=1、maxLength=200 | — |
+| `promptVersion` | string | 必須 | minLength=1、maxLength=100 | — |
+| `error` | [CommonAIError](../schemas/models.md#commonaierror) または null | 必須 | — | — |
+| `sourceRefs` | 配列<[CommonAISourceRef](../schemas/models.md#commonaisourceref)> | 必須 | minItems=0、maxItems=1000、uniqueItems=True | — |
+| `insightId` | string または null | 必須 | — | — |
+| `createdAt` | integer | 必須 | minimum=0 | — |
+| `updatedAt` | integer | 必須 | minimum=0 | — |
+| `task` | "pilgrimage" | 必須 | — | — |
+| `result` | [PilgrimageAiResult](../schemas/models.md#pilgrimageairesult) または null | 必須 | — | — |
+
+## PilgrimageOverlay
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `visible` | boolean | 必須 | — | — |
+| `dataKind` | "live" | 必須 | — | — |
+| `plans` | 配列<object> | 必須 | — | — |
+| `features` | 配列<object> | 必須 | — | — |
+
+`plans` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `id` | string | 必須 | minLength=1、maxLength=80 | — |
+| `title` | string | 必須 | minLength=1、maxLength=100 | — |
+| `routeId` | string | 必須 | minLength=1、maxLength=80 | — |
+| `version` | integer | 必須 | minimum=1 | — |
+
+`features` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "Feature" | 必須 | — | — |
+| `id` | string | 必須 | minLength=1、maxLength=200 | — |
+| `geometry` | object または object | 必須 | — | — |
+| `properties` | object | 必須 | — | — |
+
+`geometry` の内部：
+
+分岐 1
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "LineString" | 必須 | — | — |
+| `coordinates` | 配列<配列<座標2値>> | 必須 | minItems=2 | — |
+
+分岐 2
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `type` | "Point" | 必須 | — | — |
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+
+`properties` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+
 ## PlaceOpeningHours
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
@@ -3750,19 +4653,22 @@ extractはfieldsのみ採用しbodyを書き換えない。diaryは本人確認b
 
 ## RouteConditions
 
-指定条件を黙って除外しない。avoidMotorwaysはdrivingの実provider評価に対応。他の有効な条件指定は501 MODE_UNSUPPORTED。日時はUTC Unixミリ秒。
+walking/drivingは既存Mapbox。cyclingはValhallaでdepartAt/returnBy/timeZoneを評価。滞在/階段/屋根/交通/自転車の高速回避は未対応条件として拒否する。
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
-| `departAt` | integer | 省略可 | minimum=0 | 出発日時、UTC Unixミリ秒 |
-| `returnBy` | integer | 省略可 | minimum=0 | 行程終点への帰着期限、UTC Unixミリ秒 |
+| `departAt` | integer | 省略可 | minimum=0 | 出発日時、UTC Unixミリ秒。cyclingで使用する場合は60000の倍数、timeZone必須。 |
+| `returnBy` | integer | 省略可 | minimum=0 | 行程終点への帰着期限、UTC Unixミリ秒。cyclingで使用する場合は60000の倍数、timeZone必須。 |
 | `avoidStairs` | boolean | 省略可 | — | — |
 | `preferCovered` | boolean | 省略可 | — | — |
 | `transitPassIds` | 配列<[Id](../schemas/models.md#id)> | 省略可 | maxItems=100、uniqueItems=True | — |
 | `stayDurationSec` | integer | 省略可 | minimum=0 | — |
 | `avoidMotorways` | boolean | 省略可 | — | drivingのみ。全区間にexclude=motorwayを指定し、provider違反通知・道路分類を検査。違反は採用不可。 |
+| `timeZone` | string | 省略可 | minLength=1、maxLength=100 | IANA時間帯。cyclingのdepartAt/returnBy指定時に必須。日時は分単位のUTC Unixミリ秒。 |
 
 ## RouteComparisonResult
+
+同じ地点順と指定条件の全行程候補。cyclingは標準/距離優先を取得しgeometry重複を除去。時刻/複数経由地の非対応alternatesを捏造しない。
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
@@ -3772,12 +4678,135 @@ extractはfieldsのみ採用しbodyを書き換えない。diaryは本人確認b
 
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
-| `key` | "avoidMotorways" | 必須 | — | — |
-| `status` | "applied" | 必須 | — | — |
+| `key` | avoidMotorways / departAt / returnBy | 必須 | — | — |
+| `status` | applied / ignored / unknown | 必須 | — | — |
 | `reason` | string | 必須 | — | — |
-| `provider` | "mapbox-directions" | 必須 | — | — |
+| `provider` | mapbox-directions / valhalla / toei-gtfs | 必須 | — | — |
 | `sourceUrl` | string (uri) | 必須 | — | — |
 | `fetchedAt` | integer | 必須 | minimum=0 | — |
+
+## RouteTiming
+
+Valhallaは分精度、GTFSは秒精度の時刻表。予定時刻は到着保証ではない。直通バスのdepartAt入力は出発可能時刻で、実乗車時刻はtiming.departureAt、待ち時間はtransitEvidence.waitDurationSec。
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `departureAt` | integer | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `timeZone` | string | 必須 | — | — |
+| `providerTimePrecisionSec` | 1 / 60 | 必須 | — | — |
+| `locations` | 配列<object> | 必須 | minItems=2、maxItems=10 | — |
+
+`locations` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `waypointIndex` | integer | 必須 | minimum=0 | — |
+| `localDateTime` | string | 必須 | pattern=^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$ | — |
+| `timeZone` | string | 必須 | — | — |
+| `utcOffset` | string | 必須 | pattern=^[+-]\d{2}:\d{2}$ | — |
+
+## RouteProviderEvidence
+
+同一geometryの取得根拠。warningは取得失敗として返し、保存可能な結果には含めない。
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `endpoint` | string (uri) | 必須 | — | — |
+| `attribution` | string | 必須 | — | — |
+| `geometryHash` | string | 必須 | pattern=^[a-f0-9]{64}$ | — |
+| `strategy` | balanced / shortest | 必須 | — | — |
+| `warnings` | 配列<object> | 必須 | — | cycling success has no warnings; explicit motorbike evidence retains warning208 as ignored, never applied |
+| `profile` | motorcycle / motor_scooter | 省略可 | — | — |
+| `traceVehicleTypes` | 配列<['string', 'null']> | 省略可 | — | Actual trace vehicle_type values including missing/null. Never a Japanese vehicle eligibility certificate. |
+
+`warnings` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `code` | integer | 必須 | — | — |
+| `text` | string | 必須 | — | — |
+
+## RouteTransitEvidence
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `provider` | "toei-gtfs" | 必須 | — | — |
+| `scope` | "direct_bus_only" | 必須 | — | — |
+| `tripId` | string | 必須 | — | — |
+| `routeId` | string | 必須 | — | — |
+| `routeName` | string | 必須 | — | — |
+| `serviceId` | string | 必須 | — | — |
+| `serviceDate` | string | 必須 | — | — |
+| `shapeId` | string | 必須 | — | — |
+| `stops` | 配列<object> | 必須 | — | — |
+| `departureAt` | integer | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `waitDurationSec` | integer | 必須 | minimum=0 | — |
+| `rideDurationSec` | integer | 必須 | minimum=0 | — |
+| `fare` | object | 必須 | — | — |
+| `shapeMatching` | object | 必須 | — | — |
+| `source` | object | 必須 | — | — |
+
+`stops` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `stopId` | string | 必須 | — | — |
+| `parentId` | ['string', 'null'] | 必須 | — | — |
+| `name` | string | 必須 | — | — |
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `stopSequence` | integer | 必須 | minimum=0 | — |
+| `shapePosition` | number | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `departureAt` | integer | 必須 | minimum=0 | — |
+
+`fare` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fareId` | string | 必須 | — | — |
+| `currency` | "JPY" | 必須 | — | — |
+| `cash` | integer | 必須 | minimum=0 | — |
+| `ic` | ['integer', 'null'] | 必須 | minimum=0 | — |
+| `payment` | cash / ic | 必須 | — | — |
+| `amount` | integer | 必須 | minimum=0 | — |
+| `passEvaluation` | "not_applied" | 必須 | — | — |
+| `rules` | 配列<object> | 必須 | — | — |
+| `transfers` | string | 必須 | — | — |
+| `transferDurationSec` | integer | 必須 | minimum=0 | — |
+
+`rules` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fare_id` | string | 必須 | — | — |
+| `route_id` | string | 必須 | — | — |
+| `origin_id` | string | 必須 | — | — |
+| `destination_id` | string | 必須 | — | — |
+| `contains_id` | string | 必須 | — | — |
+
+`shapeMatching` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `method` | "monotonic_segment_projection_inference" | 必須 | — | — |
+| `maxSnapM` | number | 必須 | minimum=0 | — |
+
+`source` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `url` | string | 必須 | — | — |
+| `license` | string | 必須 | — | — |
+| `attribution` | string | 必須 | — | — |
+| `modification` | string | 必須 | — | — |
+| `sha256` | string | 必須 | — | — |
+| `version` | string | 必須 | — | — |
+| `validFrom` | string | 必須 | — | — |
+| `validThrough` | string | 必須 | — | — |
+| `lastModified` | ['string', 'null'] | 必須 | — | — |
+| `loadedAt` | integer | 必須 | minimum=0 | — |
 
 ## Settings
 
@@ -4020,6 +5049,16 @@ teal / pink / orange / yellow / green / blue / purple。—
 | `name` | string | 必須 | minLength=1、maxLength=20 | — |
 | `originRefs` | 配列<[MemoOrigin](../schemas/models.md#memoorigin)> | 必須 | maxItems=100、uniqueItems=True | — |
 | `keywords` | 配列<string> | 必須 | maxItems=50、uniqueItems=True | — |
+
+## ThemeNameAdoption
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `runId` | [Id](../schemas/models.md#id) | 必須 | — | — |
+| `expectedAttempt` | integer | 必須 | minimum=1 | — |
+| `expectedRunVersion` | [Version](../schemas/models.md#version) | 必須 | — | — |
+| `name` | string | 省略可 | minLength=1、maxLength=20 | — |
+| `description` | string | 省略可 | maxLength=100 | — |
 
 ## TransferRecipeInput
 

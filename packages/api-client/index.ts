@@ -37,8 +37,9 @@ export function createApiClient(options: { baseUrl?: string; fetch?: typeof glob
       if (operation === 'postSession' || operation === 'deleteSession') cancelPending();
       const meta = operations[operation];
       if (!meta) throw new TypeError(`Unknown operation: ${operation}`);
-      const values = input as { path?: Record<string, string>; query?: Record<string, unknown>; body?: unknown; version?: number; idempotencyKey?: string; signal?: AbortSignal };
-      const requestId = globalThis.crypto.randomUUID();
+      const values = input as { path?: Record<string, string>; query?: Record<string, unknown>; body?: unknown; version?: number; idempotencyKey?: string; signal?: AbortSignal; requestId?: string };
+      const requestId = values.requestId ?? globalThis.crypto.randomUUID();
+      if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(requestId)) throw new TypeError('A UUID requestId is required');
       const headers = new Headers({ 'X-Request-Id': requestId, 'X-Data-Mode': dataMode });
       const path = meta.path.replace(/\{([^}]+)\}/g, (_, name: string) => {
         if (values.path?.[name] === undefined) throw new TypeError(`Missing path parameter ${name}`);
@@ -49,7 +50,7 @@ export function createApiClient(options: { baseUrl?: string; fetch?: typeof glob
         if (value === undefined) continue;
         for (const item of Array.isArray(value) ? value : [value]) query.append(key, String(item));
       }
-      if (meta.requiresVersion) {
+      if (meta.requiresVersion || values.version !== undefined) {
         if (!Number.isSafeInteger(values.version) || values.version! < 1) throw new TypeError('A positive version is required');
         headers.set('If-Match', `"${values.version}"`);
       }
