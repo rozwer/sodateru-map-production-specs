@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 491,
+  "revision": 492,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35428,15 +35428,15 @@
       "generation": 7,
       "issue_number": 18,
       "landed_main": null,
-      "note": "PR339/344 merged after independent review. Request UI handoff only; nine-screen acceptance remains open. Continue #144 requests-save.",
+      "note": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
         "docs/evidence/UI-PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "027ce192029533c7270c877376298ceede175732",
       "token": "c993c8c101f5445b83aaa1ad46c048e7"
     },
     "UI-RECORDS": {
