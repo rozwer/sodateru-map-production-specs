@@ -222,6 +222,7 @@
         "UI-BASE": 4,
         "UI-BASE-LAYOUT": 300,
         "UI-COMPANION": 19,
+        "UI-DEMO-ALL": 395,
         "UI-EXPLORE": 10,
         "UI-FRIENDS": 14,
         "UI-HEALTH": 146,
@@ -7997,6 +7998,20 @@
           ".agents/skills/sodateru-task/SKILL.md",
           "mise.toml",
           "docs/evidence/CODEX-HOOK-BOOTSTRAP/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "UI-DEMO-ALL",
+        "kind": "ui",
+        "lane": "A",
+        "owner": "rozwer",
+        "priority": "P0",
+        "title": "通常デモから全主要モックを操作可能にする",
+        "write_paths": [
+          "src/app/",
+          "docs/evidence/UI-DEMO-ALL/"
         ]
       }
     ],
@@ -34312,9 +34327,10 @@
     "VISUAL-MAP-EXPLORE",
     "VISUAL-SETTINGS",
     "VISUAL-SHELL",
-    "CODEX-HOOK-BOOTSTRAP"
+    "CODEX-HOOK-BOOTSTRAP",
+    "UI-DEMO-ALL"
   ],
-  "revision": 566,
+  "revision": 567,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35246,6 +35262,23 @@
       "status": "backlog",
       "submitted_commit": null,
       "token": null
+    },
+    "UI-DEMO-ALL": {
+      "actor": "rozwer",
+      "base_commit": "17e3fccf04c5438c76ee2c3fc79cf08a45e2a100",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 395,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/app/",
+        "docs/evidence/UI-DEMO-ALL/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "81df4a7799a14a8cae2619e0a7939250"
     },
     "UI-EXPLORE": {
       "actor": null,
