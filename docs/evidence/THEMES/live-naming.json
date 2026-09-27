@@ -1,0 +1,47 @@
+{
+  "model": "gpt-5.6-luna",
+  "databaseDirectory": "/var/folders/96/5v9b5yzj1f31mv916yjyghr80000gn/T/themes-live-naming-Bsh1BV",
+  "fixture": "Explicit synthetic naming acceptance records; no user demo DB used",
+  "themeId": "c38a30c4-33d8-43fa-8796-df47414bfadd",
+  "conversationId": "6e395681-fb2e-4642-96db-cdddf379216d",
+  "runId": "bafa85e1-9da4-48e9-9ff0-2899096fb24d",
+  "proposal": {
+    "name": "散歩と窓辺の読書",
+    "description": "合成記録にある、公園の小道の散歩と書店の窓辺での読書をまとめたテーマ。",
+    "evidenceIds": [
+      "04cd7075-2c22-4f3d-972a-1c2cf15f21ce",
+      "8f7e7099-74de-42df-a58f-be0dcd856ee3"
+    ]
+  },
+  "sourceRefs": [
+    {
+      "type": "record",
+      "id": "04cd7075-2c22-4f3d-972a-1c2cf15f21ce",
+      "version": 1
+    },
+    {
+      "type": "record",
+      "id": "8f7e7099-74de-42df-a58f-be0dcd856ee3",
+      "version": 1
+    }
+  ],
+  "candidateDidNotSave": true,
+  "status": "complete",
+  "elapsedMs": 20544,
+  "editedName": "本人の静かな寄り道",
+  "themeVersion": 3,
+  "runAttempt": 1,
+  "runVersion": 4,
+  "appliedRefs": [
+    {
+      "type": "theme",
+      "id": "c38a30c4-33d8-43fa-8796-df47414bfadd",
+      "version": 3,
+      "contentHash": "a7036107a639a78880dc13b2db257fd90de979b7eefbc01619b9bbaadf460291"
+    }
+  ],
+  "staleThemeStatus": 412,
+  "replayStatus": 200,
+  "restartEqual": true,
+  "sameReceiptAfterRestart": true
+}
