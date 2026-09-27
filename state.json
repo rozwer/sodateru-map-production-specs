@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 558,
+  "revision": 559,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34691,18 +34691,13 @@
       "claim_unit": null,
       "generation": 7,
       "issue_number": 223,
-      "landed_main": null,
+      "landed_main": "8ac90960c7a82250a58a9d93e45b4f70a5b71ce3",
       "note": "docs/evidence/DISASTER-UI/acceptance.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/disaster/ui/",
-        "src/features/disaster/screens.tsx",
-        "src/features/disaster/types.ts",
-        "docs/evidence/DISASTER-UI/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "33987912e67828e27fe47b7d5f3a87291f1db9ac",
-      "token": "569443db9d59474cbc0fc9dc19374554"
+      "token": null
     },
     "EXPLORATION": {
       "actor": "mattsun",
