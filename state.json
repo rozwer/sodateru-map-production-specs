@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 563,
+  "revision": 564,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35234,18 +35234,21 @@
       "token": null
     },
     "UI-COMPANION": {
-      "actor": null,
-      "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "actor": "rozwer",
+      "base_commit": "5ed3cdd61c47785bb7af73f488e92232d9a04d7b",
       "claim_unit": null,
-      "generation": 8,
+      "generation": 9,
       "issue_number": 19,
       "landed_main": null,
       "note": "PR370 merged after independent PASS; dc86fcb ancestor origin/develop. #147 operation handoff ready. #19 remains open for broader UI matrix. Continue via CONNECT-COMPANION; worktree companion-19-completion retained.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/companion/",
+        "docs/evidence/UI-COMPANION/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "60964fc09056441a85705dbdc1f01d76"
     },
     "UI-EXPLORE": {
       "actor": null,
