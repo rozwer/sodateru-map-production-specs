@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 379,
+  "revision": 380,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35249,14 +35249,14 @@
       "generation": 5,
       "issue_number": 14,
       "landed_main": null,
-      "note": "PR255 merged 33b0e1f; scoped reference repair complete; UI-FRIENDS full acceptance remains open; evidence docs/evidence/UI-FRIENDS/reference-repair.md; worktree and branch preserved",
+      "note": "docs/evidence/UI-FRIENDS/picker-cancellation-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/friends/",
         "docs/evidence/UI-FRIENDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "f3973bb81213727b5755174c526255668f6f8fc6",
       "token": "b42adc8bf12743fcbc3d99c944d17abb"
     },
     "UI-HEALTH": {
