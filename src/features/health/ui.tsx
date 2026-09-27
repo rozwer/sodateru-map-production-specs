@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { Card, Entry, Glyph, Note, Toggle } from '../settings/ui';
+import { useSession } from '../../app/session';
 import './health.css';
 
 function HealthHeader({ back, parent, title }: { back: () => void; parent: string; title: string }) {
@@ -43,20 +44,28 @@ function HealthPermissions({ route, navigate, back }: ScreenProps) {
 }
 
 function HealthStatus({ route, navigate, back }: ScreenProps) {
-  const [stopped, setStopped] = useState(false);
+  const session = useSession();
+  const demo = session?.dataMode === 'demo';
+  const stopKey = `sodateru.health-example-stopped:${session?.session?.person.id ?? 'none'}`;
+  const [stopped, setStopped] = useState(() => demo && localStorage.getItem(stopKey) === 'true');
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleted, setDeleted] = useState(false);
   const preview = route.params.preview === 'selected' && !deleted;
+  const sampleMetric = route.params.items?.includes('歩数') ? '歩数' : route.params.items?.includes('歩行距離') ? '歩行距離' : '活動時間';
+  const sampleValues = sampleMetric === '歩数' ? ['6,420', '7,150', '5,830', '8,010', '6,760', '7,490', '6,980']
+    : sampleMetric === '歩行距離' ? ['4.3km', '4.8km', '3.9km', '5.4km', '4.5km', '5.0km', '4.7km']
+      : ['42分', '51分', '38分', '57分', '46分', '53分', '49分'];
   return <div className="settings-screen health-screen"><HealthHeader back={back} parent="自分を知る" title="健康データの連携"/>
     <p className="health-intro">連携の状況を確認したり、取り込みの停止や保存データの削除ができます。</p>
     <p className="health-preview" role="status">UI表示例・実取込なし。{preview ? '選択後の画面表示例です。' : '現在の連携は未設定です。'}</p>
     <Card><div className="settings-row"><strong>取得元</strong><span>{preview ? route.params.source === 'file' ? '選択したXML' : 'iPhoneアプリ（表示例）' : '未連携'}</span></div><div className="settings-row"><strong>最終取込み</strong><span>未取得</span></div><div className="settings-row"><strong>選択した項目</strong><span>{preview ? route.params.items : 'なし'}</span></div><button type="button" className="settings-detail-link" onClick={() => navigate('data-sources')}>データの取得元を確認<span aria-hidden="true">›</span></button></Card>
-    <Card title="データの取得状況（過去7日間）"><p className="health-days">{Array.from({length: 7}, (_, index) => <span key={index}><strong>—</strong><small>{index + 1}日前<br/>未取得</small></span>)}</p><Note>未取得は0ではありません。画面表示例のため健康データの値はありません。</Note></Card>
-    <button type="button" className="health-danger" disabled={!preview || stopped} onClick={() => setStopped(true)}>新しいデータの取り込みを停止 <span aria-hidden="true">›</span></button>
+    <Card title="データの取得状況（過去7日間）"><p className="health-days">{Array.from({length: 7}, (_, index) => <span key={index}><strong>{demo && preview ? sampleValues[index] : '—'}</strong><small>{index + 1}日前<br/>{demo && preview ? `${sampleMetric}・表示例` : '未取得'}</small></span>)}</p><Note>{demo && preview ? '表示例の数値です。実際の健康データは取り込んでいません。' : '未取得は0ではありません。画面表示例のため健康データの値はありません。'}</Note></Card>
+    <button type="button" className="health-danger" disabled={!preview || stopped} onClick={() => { setStopped(true); if (demo) localStorage.setItem(stopKey, 'true'); }}>新しいデータの取り込みを停止 <span aria-hidden="true">›</span></button>
     <small>停止すると新しいデータだけを取り込みません。すでに保存されたデータは残ります。{stopped && '（UI表示例で停止中）'}</small>
+    {preview && stopped && <button type="button" className="settings-pill" onClick={() => { setStopped(false); if (demo) localStorage.removeItem(stopKey); }}>表示例を再開</button>}
     <button type="button" className="health-danger" disabled={!preview} onClick={() => setConfirmDelete(true)}>このアプリの保存データを削除 <span aria-hidden="true">›</span></button>
     <small>iPhoneのヘルスケアアプリにある原本は削除されません。</small>
-    {confirmDelete && <div className="settings-status"><p>このアプリの健康データだけを削除しますか？ 実データは保存されていません。</p><div className="settings-actions"><button type="button" className="settings-pill" onClick={() => setConfirmDelete(false)}>取消</button><button type="button" className="settings-pill" onClick={() => { setDeleted(true); setConfirmDelete(false); }}>表示例を削除</button></div></div>}
+    {confirmDelete && <div className="settings-status"><p>このアプリの健康データだけを削除しますか？ 実データは保存されていません。</p><div className="settings-actions"><button type="button" className="settings-pill" onClick={() => setConfirmDelete(false)}>取消</button><button type="button" className="settings-pill" onClick={() => { setDeleted(true); setConfirmDelete(false); setStopped(false); if (demo) localStorage.removeItem(stopKey); }}>表示例を削除</button></div></div>}
     {!preview && <Note>未連携のため停止・削除はできません。実際の取込と権限確認は未接続です。</Note>}
   </div>;
 }
