@@ -267,6 +267,7 @@ export function FeatureRequestEditorView({
   onSave,
   nameLocked,
   editing,
+  inputDisabled,
   fieldErrors,
   ...status
 }: PluginViewStatus & {
@@ -275,6 +276,7 @@ export function FeatureRequestEditorView({
   onSave: (visibility: "private" | "public") => void;
   nameLocked?: boolean;
   editing?: boolean;
+  inputDisabled?: boolean;
   fieldErrors?: { name?: string; body?: string };
 }) {
   const id = useId();
@@ -301,7 +303,7 @@ export function FeatureRequestEditorView({
             autoComplete="nickname"
             value={value.name}
             readOnly={nameLocked}
-            disabled={status.busy}
+            disabled={status.busy || inputDisabled}
             onChange={(event) => update({ name: event.target.value })}
             aria-describedby={`${id}-name-help`}
             aria-invalid={Boolean(fieldErrors?.name)}
@@ -318,7 +320,7 @@ export function FeatureRequestEditorView({
           <textarea
             id={`${id}-body`}
             value={value.body}
-            disabled={status.busy}
+            disabled={status.busy || inputDisabled}
             onChange={(event) =>
               update({ body: limitRequestBody(event.target.value) })
             }
@@ -332,7 +334,7 @@ export function FeatureRequestEditorView({
             </p>
           )}
         </div>
-        <fieldset className="request-visibility-options" disabled={status.busy}>
+        <fieldset className="request-visibility-options" disabled={status.busy || inputDisabled}>
           <legend>{m.visibility}</legend>
           <div>
             {(["private", "public"] as const).map((visibility) => (

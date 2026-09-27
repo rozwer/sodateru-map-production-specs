@@ -10,6 +10,7 @@ import {
 } from "react";
 import { createReferencePlugins, createReferencePosts, createReferenceConditions, createReferenceLayers, createReferenceTrial, referencePhotos, referenceVersions } from "./reference-data";
 import { GrowPreview } from "./grow/GrowPreview";
+import { RequestApiScreen } from "../feature-requests/bindings";
 import { useDisasterData } from "../disaster/data";
 import { disasterScreens } from "../disaster/screens";
 import { disasterMapDisplay } from "../disaster/ui/map-state";
@@ -668,14 +669,16 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map<ScreenDefi
     id,
     title,
     component: function InspectionScreen(props: ScreenProps) {
-      const View = id.startsWith("feature-request")
-        ? RequestFixture
+      const requestPage = id.startsWith("feature-request");
+      const requestFixture = new URLSearchParams(location.search).get("uiFixture") === "plugins";
+      const View = requestPage
+        ? requestFixture ? RequestFixture : RequestApiScreen
         : PluginFixture;
       if (props.active === false) return null;
       return (
         <>
           <p className="plugin-notice plugin-inspection-notice" role="status">
-            バイク・聖地・お願いは模擬操作（未保存）。防災は専用画面で設定を保存します。
+            {requestPage && !requestFixture ? "お願いはAPIに保存します。デモの投稿は実データと別に保存されます。" : "バイク・聖地・お願いの表示確認は模擬操作（未保存）。防災は専用画面で設定を保存します。"}
           </p>
           <View {...props} />
         </>
