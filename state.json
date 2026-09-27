@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 443,
+  "revision": 444,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35274,14 +35274,14 @@
       "generation": 7,
       "issue_number": 14,
       "landed_main": null,
-      "note": "PR333 merged preserving f3973bb; picker partial repair verified. Full UI acceptance remains open. Continue CONNECT-FRIENDS after official claim. Evidence docs/evidence/UI-FRIENDS/picker-cancellation-20260927.md",
+      "note": "docs/evidence/UI-FRIENDS/connect-handoff.json",
       "owner": "rozwer",
       "paths": [
         "src/features/friends/",
         "docs/evidence/UI-FRIENDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "9b229d9f5c97e25517778c3b61e3da66d8175ff8",
       "token": "a28279b333134430964560746d355f4f"
     },
     "UI-HEALTH": {
