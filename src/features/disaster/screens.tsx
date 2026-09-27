@@ -64,7 +64,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     if (data.busy) return;
     if (!installed && session?.dataMode === 'demo' && !preview && !trial) setPreview(createDisasterDemo());
   }, [active,data.busy,installed,session?.dataMode]);
-  useEffect(() => { if (active) focusRegion(); }, [active, settings.region.id]);
+  useEffect(() => { if (active) focusRegion(); }, [active, settings.region.id, settings.region.bounds[0], settings.region.bounds[1], settings.region.bounds[2], settings.region.bounds[3], compact, wide]);
   useEffect(() => {
     const store = disasterMapDisplay(bridge);
     if (!active) { if (preview) store.clear(); return; }
@@ -111,7 +111,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     await data.load();
   });
   const leave = () => { if (preview) disasterMapDisplay(bridge).clear(); bridge.clear('plugin:disaster-ui'); bridge.setCamera(previousCamera.current); navigate('map'); };
-  const viewNotice = data.view?.stale ? '保存された情報は古いか、更新に失敗しています。取得時刻と状況を確認してください。' : data.view?.map.reason === 'settingsChanged' ? '地域・レイヤー設定が変わりました。情報を更新してください。' : installed && !enabled ? '防災レイヤーは停止中です。保存された情報は保持されています。' : '';
+  const viewNotice = installed && !enabled ? '防災レイヤーは停止中です。保存された情報は保持されています。' : data.view?.map.reason === 'settingsChanged' ? '地域・レイヤー設定が変わりました。情報を更新してください。' : data.view?.stale ? '保存された情報は古いか、更新に失敗しています。取得時刻と状況を確認してください。' : '';
   const toolbar = <section className="disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide} aria-label="防災マップ">
       <header className="disaster-header"><div className="disaster-brand"><DisasterIcon name="shield"/><div><small>わたしの街を、備える街に</small><h2>防災マップ</h2></div></div><button className="disaster-back" onClick={leave}>街の地図へ</button></header>
       <div className="disaster-area"><span><DisasterIcon name="pin"/><b>{settings.region.id}</b><small>選んだ地域の周辺</small></span><button disabled={busy} onClick={() => { const {longitude:x,latitude:y} = bridge.getSnapshot().camera; changeSettings({...settings,region:{id:'地図の中心',bounds:[x-.03,y-.025,x+.03,y+.025]}}); }}>地図の中心で調べる</button></div>
@@ -124,7 +124,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   return <div className="disaster-screen disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide}>
     {active && toolbarHost && createPortal(toolbar, toolbarHost)}
       <div className="disaster-panel"><div className="disaster-panel-size"><button onClick={() => {setWide(!wide);setExpanded(false);}}>{wide ? '情報を戻す ▴' : '地図を広く ▾'}</button><button onClick={() => {setExpanded(!expanded);setWide(false);}}>{expanded ? '情報をたたむ ▾' : '情報を広く ▴'}</button></div>
-        {trial ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => setTrial(null)}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。導入後に情報を取得します。</p><p className="disaster-caption">地域とレイヤーの設定を保存し、あなたの地図に追加します。</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => setTrial(null)}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} busy={busy} error={localError || data.error || renderError} notice={notice || viewNotice} installed={installed} enabled={enabled} demo={!!preview} demoLabel={preview?.label} demoWarnings={preview?.warnings} onSettings={changeSettings} onRefresh={() => {setNotice(''); void data.refresh();}} onEnabled={value => {disasterMapDisplay(bridge).clear();void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
+        {trial ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => setTrial(null)}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。導入後に情報を取得します。</p><p className="disaster-caption">地域とレイヤーの設定を保存し、あなたの地図に追加します。</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => setTrial(null)}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} lastAttempt={data.view?.lastAttempt} busy={busy} error={localError || data.error || renderError} notice={notice || viewNotice} installed={installed} enabled={enabled} demo={!!preview} demoLabel={preview?.label} demoWarnings={preview?.warnings} onSettings={changeSettings} onRefresh={() => {setNotice(''); void (data.view ? data.refresh() : data.load());}} onEnabled={value => {disasterMapDisplay(bridge).clear();void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
       </div>
   </div>;
 }

@@ -23,5 +23,17 @@ it('keeps a failed layer inspectable and supports region changes and stopping an
   expect(onEnabled).toHaveBeenCalledWith(false);
   await act(async () => [...host.querySelectorAll('button')].find(button => button.textContent === '再試行')!.click());
   expect(onRefresh).toHaveBeenCalledOnce();
+  const lastAttempt = { attemptedAt: 1789441200000, status: 'failed' as const, settings: {region: regions[1]!, layerIds: ['rainfall' as const]}, layers: [layer] };
+  const savedLayer = { ...layer, status: 'available' as const, unknowns: [] };
+  await act(async () => root.render(<DisasterPanel settings={{region:regions[0]!,layerIds:['rainfall']}} layers={[savedLayer]} lastAttempt={lastAttempt} busy={false} error={null} enabled installed demo={false} onSettings={onSettings} onRefresh={onRefresh} onEnabled={onEnabled} onInstall={vi.fn()} onLayer={vi.fn()} onFocus={vi.fn()} tab="sources" setTab={vi.fn()}/>));
+  const attempt = host.querySelector('[aria-label="直近の取得結果"]')!;
+  expect(attempt.textContent).toContain('名古屋・本山');
+  expect(attempt.textContent).toContain('直近の更新に失敗');
+  expect(attempt.querySelector('summary')?.textContent).toContain('提供元から取得できません');
+  expect(attempt.textContent).toContain('提供元との通信に失敗しました');
+  expect(host.querySelector('.disaster-layer-card')?.textContent).toContain('取得済み');
+  await act(async () => root.render(<DisasterPanel settings={lastAttempt.settings} layers={[]} lastAttempt={{...lastAttempt,status:'partial'}} busy={false} error={null} enabled installed demo={false} onSettings={onSettings} onRefresh={onRefresh} onEnabled={onEnabled} onInstall={vi.fn()} onLayer={vi.fn()} onFocus={vi.fn()} tab="sources" setTab={vi.fn()}/>));
+  expect(host.textContent).toContain('一部の情報を取得できませんでした');
+  expect(host.textContent).toContain('取得した情報がありません');
   await act(async () => root.unmount()); host.remove();
 });
