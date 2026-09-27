@@ -806,6 +806,13 @@ export function PluginManageView({
       {!plugins.length && !status.busy && !status.error && (
         <p className="plugin-empty">{m.emptyInstalled}</p>
       )}
+      {!plugins.some(plugin => plugin.kind === "bike") && (
+        <button className="plugin-companion" type="button" onClick={onCompanion}>
+          <PluginControlIcon name="person" />
+          <span><strong>{m.companion}</strong><small>{m.companionHelp}</small></span>
+          <PluginControlIcon name="arrow" />
+        </button>
+      )}
       <button type="button" className="plugin-button" onClick={onFind}>
         <span aria-hidden="true">＋</span>
         {m.findMore}
