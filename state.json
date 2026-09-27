@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 469,
+  "revision": 470,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35423,22 +35423,18 @@
       "token": null
     },
     "UI-SETTINGS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": null,
-      "generation": 3,
+      "generation": 4,
       "issue_number": 17,
       "landed_main": null,
-      "note": "docs/evidence/UI-SETTINGS/2026-09-27-photo-scope-roundtrip.md",
+      "note": "PR365 merged 86769d114fd5048650b73bef4d26d4bd4062768d; photo/scope evidence complete; #83 closed after independent review. #17 overall remains incomplete. Worktree sodateru-settings-photo-17 retained; evidence docs/evidence/UI-SETTINGS/2026-09-27-photo-scope-roundtrip.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/settings/",
-        "src/features/health/",
-        "docs/evidence/UI-SETTINGS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "d097e300616a2d98113b870b3a0527c9c7c14dd0",
-      "token": "d6c2a3af4ec64fe6ab382ac219ae8fcf"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-SUGGESTIONS": {
       "actor": null,
