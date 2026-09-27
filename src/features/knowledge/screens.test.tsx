@@ -8,7 +8,7 @@ import { screens } from './screens';
 import { ApiError } from '../../../packages/api-client/index';
 import { emptyFilters } from './types';
 const { request } = vi.hoisted(() => ({ request: vi.fn() }));
-vi.mock('../../app/api', () => ({ api: { request } }));
+vi.mock('../../app/api', () => ({ api: { request: (operation: string, ...args: unknown[]) => operation === 'getBookmarks' ? Promise.resolve({ items: [], nextCursor: null }) : request(operation, ...args) } }));
 vi.mock('../../map/MapPreview', () => ({ MapPreview: () => <div>map mock</div> }));
 let root: Root, host: HTMLDivElement, bridge: MapBridge;
 const navigate = vi.fn();
@@ -167,4 +167,29 @@ it('rest-tip selection uses tips for list and map, then returns to experiences',
   expect(request.mock.calls.at(-1)![1].query.category).toBe('experiences');
   expect(host.textContent).toContain('公園を歩いた体験');
   expect(host.textContent).not.toContain('日陰のベンチで休憩');
+});
+
+it('purpose dictionary and bbox stay identical across list and map', async () => {
+  request.mockImplementation(async operation => operation === 'getKnowledgeTopics' ? { items: [{ topicKey: 'rest', purposes: ['休憩', 'ひと休み'] }] } : operation === 'getKnowledgeMap' ? { data: { items: [], totalCount: 0 } } : { items: [], totalCount: 0, nextCursor: null });
+  const filters = { ...emptyFilters, purpose: 'rest', bounds: [139, 35, 140, 36] };
+  await render('knowledge-list', { filters: JSON.stringify(filters) });
+  const query = request.mock.calls.findLast(call => call[0] === 'getKnowledge')![1].query;
+  expect(query).toMatchObject({ purposes: ['休憩', 'ひと休み'], bbox: '139,35,140,36' });
+  await click('[data-testid="knowledge-list--map"]');
+  await render('local-knowledge', navigate.mock.calls.at(-1)![1]);
+  const { limit: _limit, cursor: _cursor, ...mapQuery } = query;
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledgeMap')![1].query).toEqual(mapQuery);
+});
+it('area selection applies coordinates while cancel leaves route conditions untouched', async () => {
+  request.mockResolvedValue({ data: { items: [{ candidateId: 'area', placeId: null, name: '港公園', position: { longitude: 139.64, latitude: 35.45 } }] } });
+  await render('knowledge-filter');
+  await search('港');
+  expect(navigate).not.toHaveBeenCalled();
+  await click('.knowledge-area-results button');
+  await click('[data-testid="knowledge-filter--apply"]');
+  expect(JSON.parse(navigate.mock.calls.at(-1)![1].filters)).toMatchObject({ areaText: '港公園', center: [139.64, 35.45], radiusM: 1000, bounds: null });
+  navigate.mockClear();
+  await click('[data-testid="knowledge-filter--purpose"] label:nth-of-type(1) input');
+  await act(async () => host.querySelector('section')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
+  expect(navigate).not.toHaveBeenCalled();
 });

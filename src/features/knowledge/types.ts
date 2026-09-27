@@ -16,7 +16,7 @@ export type KnowledgeRecord = {
 export type KnowledgeKind = 'rest-tip' | 'experience' | 'people';
 // UI draft values. Mapping to topicKey/purposes/bbox is supplied by COMMUNITY's dictionary.
 export type KnowledgeFilters = {
-  areaText: string; center: [number, number] | null; radiusM: 500 | 1000 | 3000 | null;
+  areaText: string; areaId?: string | null; center: [number, number] | null; radiusM: 500 | 1000 | 3000 | null;
   bounds: [number, number, number, number] | null;
   purpose: 'meal' | 'rest' | 'walk' | null; period: 'week' | 'month' | null;
   audience: 'visible' | 'friends' | 'public';
