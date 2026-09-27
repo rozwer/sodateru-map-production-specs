@@ -21,3 +21,8 @@
 ## 未達
 
 通常メニューからactivity-statsへの起点は未接続（共通/SELF担当へ共有済み）。参照08_08_01中央・右は実見したが起点リンクは描かれておらず、新造しない。本確認は本番route以降であり通常の入口からの全導線PASSではない。全viewport/参照差分・グラフ・写真・二本人切替・遅着の実通信試験は未完。Mapbox鍵なしのためdaily-track地図は未描画。元記録IDリンクの個別クリックは未確認。#145/#17/#191を閉じない。5分締切指示により現在差分を保全してreleaseする。
+
+## 最小の次タスク（新Issueは作らない）
+
+1. **入口不足**: src全体検索でactivity-statsへの通常入口がなく、原本08_08_01にも起点は描かれていない。統計APIは提供済みで、追加のAPI設計は不要。次は共通/SELF担当の既存メニューにnavigate('activity-stats')を1か所接続する（境界: SELF側src/features/reflection/views.tsx等、設定側2画面は再実装しない）。確認は「通常入口→統計→戻る」1往復。
+2. **写真の検証不足と環境誤認**: filechooser待機失敗と初回ポート誤認の復旧で実写真保存を確認できなかった。汎用アップロード基盤や追加スキーマは不要。次は専用hostname/strictPortで既存profile-settingsのPNG選択→保存を1回行い、reload後に同写真が表示されることを確認する（境界: src/features/settings/screens.tsxの既存写真操作、問題が再現した行だけ修正）。
