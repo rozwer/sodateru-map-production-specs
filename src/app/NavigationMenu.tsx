@@ -7,6 +7,8 @@ export function NavigationMenu({ mode, profile, navigate }: { mode: 'main' | 'se
   const main = mode === 'main';
   const rows: { page: string; icon: IconName; label: string; description?: string; active?: boolean; outlined?: boolean }[] = main ? [
     { page: 'map', icon: 'map', label: messages.map, active: true },
+    { page: 'discovery', icon: 'pin', label: '見方をひらく' },
+    { page: 'experience-transfer', icon: 'map', label: '別の街で試す' },
     { page: 'self-home', icon: 'person', label: messages.self },
     { page: 'activity-stats', icon: 'chart', label: '活動の統計' },
     { page: 'memo-edit', icon: 'clock', label: 'メモを書く' },
