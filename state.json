@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 477,
+  "revision": 478,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35223,18 +35223,25 @@
       "token": null
     },
     "UI-BASE": {
-      "actor": null,
-      "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
+      "actor": "rozwer",
+      "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 6,
+      "generation": 7,
       "issue_number": 4,
       "landed_main": null,
       "note": "PR357 merged 11f83a7, submitted1e3d128 preserved. Assigned activity-stats entry complete: one existing menu row; production build and real UI/API round trip pass; independent review PASS. Full UI-BASE acceptance remains open. Evidence docs/evidence/UI-BASE/stats-entry.md; worktree ui-base-4-stats-entry retained.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/app/",
+        "src/ui/",
+        "src/messages.ts",
+        "index.html",
+        "vite.config.ts",
+        "docs/evidence/UI-BASE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "0ea356985c6f4f1483cd0c34cd74673f"
     },
     "UI-BASE-LAYOUT": {
       "actor": "mattsun",
