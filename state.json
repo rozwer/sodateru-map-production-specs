@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 501,
+  "revision": 502,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34514,21 +34514,18 @@
       "token": null
     },
     "CONNECT-KNOWLEDGE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": "knowledge-search-list-map",
-      "generation": 5,
+      "generation": 6,
       "issue_number": 143,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md",
+      "note": "PR374 merged; continue place/source/media acceptance next. Issues remain open.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/knowledge/",
-        "docs/evidence/CONNECT-KNOWLEDGE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "1c5e0ebfb06efc24ab31103277e5d8646fdd6dbf",
-      "token": "211767026921459ba6d2d9cabdb92661"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-MAP": {
       "actor": null,
