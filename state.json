@@ -34346,7 +34346,7 @@
     "UI-DEMO-ALL",
     "UI-DEMO-EXTENSIONS"
   ],
-  "revision": 573,
+  "revision": 574,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35285,17 +35285,13 @@
       "claim_unit": null,
       "generation": 1,
       "issue_number": 395,
-      "landed_main": null,
+      "landed_main": "b8a6bf16e978d9e22d48b5b6b453d5c4c2f1308d",
       "note": "docs/evidence/UI-DEMO-ALL/README.md",
       "owner": "rozwer",
-      "paths": [
-        "src/app/",
-        "docs/evidence/UI-DEMO-ALL/",
-        "src/features/health/ui.tsx"
-      ],
-      "status": "submitted",
-      "submitted_commit": "1979a1b4677623a6b5920f04acdf5bef1c9d3dff",
-      "token": "81df4a7799a14a8cae2619e0a7939250"
+      "paths": [],
+      "status": "done",
+      "submitted_commit": "0591ee199f35186f7325736999151b493539d402",
+      "token": null
     },
     "UI-DEMO-EXTENSIONS": {
       "actor": "rozwer",
