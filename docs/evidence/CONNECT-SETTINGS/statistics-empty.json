@@ -1,0 +1,86 @@
+{
+  "data": {
+    "from": 1790434800000,
+    "to": 1790521200000,
+    "timeZone": "Asia/Tokyo",
+    "confirmedPlaces": {
+      "value": 0,
+      "unit": "places",
+      "source": "visits.confirmed",
+      "placeIds": []
+    },
+    "confirmedVisits": {
+      "value": 0,
+      "unit": "visits",
+      "source": "visits.confirmed",
+      "visitIds": []
+    },
+    "newPlaces": {
+      "value": 0,
+      "unit": "places",
+      "source": "visits.confirmed.firstStartedAt",
+      "placeIds": [],
+      "unknownPlaceIds": []
+    },
+    "undatedVisits": 0,
+    "recordCount": 0,
+    "undatedRecords": 0,
+    "activities": [],
+    "daily": [
+      {
+        "date": "2026-09-27",
+        "confirmedVisits": 0,
+        "recordIds": []
+      }
+    ],
+    "sourceRefs": [],
+    "sources": [
+      {
+        "id": "visits",
+        "label": "本人が確認した訪問",
+        "itemCount": 0,
+        "firstObservedAt": null,
+        "lastObservedAt": null,
+        "lastUpdatedAt": null,
+        "status": "empty",
+        "description": "期間内に開始した確定訪問を数えます。新しい場所の判定だけ全履歴を参照します。"
+      },
+      {
+        "id": "records",
+        "label": "本人の体験・日記・メモ",
+        "itemCount": 0,
+        "firstObservedAt": null,
+        "lastObservedAt": null,
+        "lastUpdatedAt": null,
+        "status": "empty",
+        "description": "実効日時が期間内にある本人の記録と、記録に保存された活動です。"
+      },
+      {
+        "id": "gps",
+        "label": "保存されたGPS観測",
+        "itemCount": 0,
+        "firstObservedAt": null,
+        "lastObservedAt": null,
+        "lastUpdatedAt": null,
+        "status": "unavailable",
+        "description": "保存されたGPS観測線の距離。測位間の移動や未取得区間は補間していません。"
+      }
+    ],
+    "lastUpdatedAt": null,
+    "gpsDistanceMeters": {
+      "value": null,
+      "unit": "m",
+      "source": "track_points",
+      "status": "unavailable",
+      "pointCount": 0,
+      "edgeCount": 0,
+      "disconnectedEdges": 0,
+      "maxAccuracyM": null,
+      "firstObservedAt": null,
+      "lastObservedAt": null,
+      "lastUpdatedAt": null,
+      "sourcePointIds": [],
+      "description": "保存されたGPS観測線の距離。測位間の移動や未取得区間は補間していません。"
+    }
+  }
+}
