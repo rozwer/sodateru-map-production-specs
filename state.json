@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 524,
+  "revision": 525,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35311,22 +35311,18 @@
       "token": null
     },
     "UI-INSIGHTS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "2fc7c01531501dfd66aaa3d62e67c8400a7a79b5",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 13,
       "landed_main": null,
-      "note": "診断デモ補完はPR #269/#272で統合、5173のChromeで写真3枚と再読込保持を確認。Issue全体の他受入は未検証のためopenを維持。worktree diagnosis-data。",
+      "note": "#105 PR378 merged/closed. User rate limit stop: #13 claimed only, no changes. #140 requires missing UI-INSIGHTS/connect-handoff.json; #13/#140/#101/#185 remain open.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/insights/",
-        "src/features/themes/",
-        "docs/evidence/UI-INSIGHTS/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "8396ea511bd645aea0cfad59eb0bdd33"
+      "token": null
     },
     "UI-INTEGRATION": {
       "actor": null,
