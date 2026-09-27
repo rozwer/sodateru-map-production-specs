@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 541,
+  "revision": 542,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35448,18 +35448,22 @@
       "token": null
     },
     "UI-SETTINGS": {
-      "actor": null,
-      "base_commit": "a9401cc6b63449a53ebefb76e94773382c465274",
+      "actor": "rozwer",
+      "base_commit": "f8608fc48fddeee08013d2b152472c9c9148e73b",
       "claim_unit": null,
-      "generation": 6,
+      "generation": 7,
       "issue_number": 17,
       "landed_main": null,
       "note": "PR379 merged e7b60726cbf58ec642445fb713405cc742717a01 after independent PASS; official handoff ready_units profile-save errors=[]; evidence docs/evidence/UI-SETTINGS/2026-09-27-conflict-handoff.md. #17 hardware software-keyboard verification remains; #145 remaining communications and #114 application not completed. User requested consumption reduction; no next issue started. Worktree sodateru-settings-final-17 retained clean.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/UI-SETTINGS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "4e15acb18693458692e3205c42d02a80"
     },
     "UI-SUGGESTIONS": {
       "actor": null,
