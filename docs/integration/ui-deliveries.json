@@ -6,7 +6,9 @@
     },
     "number": 81,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/81"
+    "title": "UI-BASE: 本人APIとlive/demo切替を共通入口へ接続",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/81",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "1cfac6dd01efc90444c5690856e80a9a1b6c30df",
@@ -15,7 +17,9 @@
     },
     "number": 70,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/70"
+    "title": "feat(map): share real map renderer and card previews",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/70",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "0e7297d8cc9178e8ef4741eac8950a3e6c73c74d",
@@ -24,7 +28,9 @@
     },
     "number": 71,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/71"
+    "title": "feat(routes): connect shared API flow and preserve saved navigation state",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/71",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "ef82a2d9a7a2a167e24fd849ec90d554587bc57e",
@@ -33,7 +39,9 @@
     },
     "number": 74,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/74"
+    "title": "feat(exploration): add consultation and exploration screen components",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/74",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "c0edf6a34e11960dc9e71b968a55f185872105ca",
@@ -42,7 +50,9 @@
     },
     "number": 75,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/75"
+    "title": "UI-RECORDS: 体験記録・訂正・訪問確認と日別軌跡の画面を追加",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/75",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "d179aba9a37d234161b177abb4c39c22843f1e35",
@@ -51,7 +61,9 @@
     },
     "number": 92,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/92"
+    "title": "UI-REFLECTION: 日記・振り返り・比較・メモの6画面を追加",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/92",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "df69eafb38b3c90e24b963aaf55c09fabfda3c66",
@@ -60,7 +72,9 @@
     },
     "number": 69,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/69"
+    "title": "feat(ui-insights): 傾向・根拠訂正とテーマ管理の5画面を追加",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/69",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "f3949e75440241339371f76257622e7a067cda5b",
@@ -69,7 +83,9 @@
     },
     "number": 89,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/89"
+    "title": "feat(friends): add sharing, friend maps and comparison screens",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/89",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "e1228a676de64340560ef382323cbb57b1e1deb5",
@@ -78,7 +94,9 @@
     },
     "number": 66,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/66"
+    "title": "UI-SUGGESTIONS: 希望入力と候補選択・詳細を追加",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/66",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "2fffd8f8db0395db686ecab0b36072c88356be15",
@@ -87,7 +105,9 @@
     },
     "number": 45,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/45"
+    "title": "feat(knowledge): add reference-based regional knowledge views",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/45",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "0efd86bffc100aabca4ed3c24181a73d448c8f92",
@@ -96,7 +116,9 @@
     },
     "number": 73,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/73"
+    "title": "feat(plugins): add reference-based plugin and request views",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/73",
+    "headInVerificationCommit": true
   },
   {
     "headRefOid": "9a9c16390c8abf701abe77c1d79908aee97e75f2",
@@ -105,6 +127,19 @@
     },
     "number": 64,
     "state": "MERGED",
-    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/64"
+    "title": "UI-COMPANION: 既存ペットの取込・管理・選択を追加",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/64",
+    "headInVerificationCommit": true
+  },
+  {
+    "headRefOid": "6dacd4fb1a22b51a02d4abbdff9397fe3ba417d7",
+    "mergeCommit": {
+      "oid": "448a857b203b46dfc2ae9da0b568d3d8ff62e706"
+    },
+    "number": 167,
+    "state": "MERGED",
+    "title": "feat(settings): 設定・プロフィールUIを先行提供",
+    "url": "https://github.com/rozwer/sodateru-map-production-specs/pull/167",
+    "headInVerificationCommit": true
   }
 ]
