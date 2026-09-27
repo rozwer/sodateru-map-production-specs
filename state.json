@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 418,
+  "revision": 419,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34503,14 +34503,14 @@
       "generation": 1,
       "issue_number": 143,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md",
       "owner": "rozwer",
       "paths": [
         "src/features/knowledge/",
         "docs/evidence/CONNECT-KNOWLEDGE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "12870a60a319e6786ed4119b26a6d4f8d6f6ab28",
       "token": "6111bf0d39014cd68bc53b93802d73a2"
     },
     "CONNECT-MAP": {
