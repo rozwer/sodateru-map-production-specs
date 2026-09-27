@@ -11,9 +11,13 @@ export type { RouteInput, RoutePreview, SavedRoute } from './types.ts';
 export function createRoutesService(db: DatabaseSync): RoutesService {
   const mapbox = new MapboxRoadProvider(process.env.MAPBOX_ACCESS_TOKEN ?? '');
   const cycling = new ValhallaCyclingProvider(process.env.ROUTES_VALHALLA_URL ?? 'https://valhalla1.openstreetmap.de/route');
+  const bus = process.env.ROUTES_TOEI_FEED_PATH && process.env.ROUTES_TOEI_METADATA_PATH
+    ? new ToeiDirectBusProvider({feedPath:process.env.ROUTES_TOEI_FEED_PATH,metadataPath:process.env.ROUTES_TOEI_METADATA_PATH}) : undefined;
+  const provider = (mode: string) => mode === 'transit' && bus ? bus : mode === 'cycling' ? cycling : mapbox;
   return new RoutesService(db, run => transaction(db, run), {
-    route: (points,mode,...args) => (mode === 'cycling' ? cycling : mapbox).route(points,mode,...args),
-    compare: (points,mode,...args) => (mode === 'cycling' ? cycling : mapbox).compare(points,mode,...args),
+    supportsTransit: Boolean(bus),
+    route: (points,mode,...args) => provider(mode).route(points,mode,...args),
+    compare: (points,mode,...args) => provider(mode).compare(points,mode,...args),
   }, placesBoundary(db));
 }
 
