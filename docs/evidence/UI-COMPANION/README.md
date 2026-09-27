@@ -85,3 +85,14 @@ develop 891c1cdを取り込み、上記display-state不足は解消。公式起�
 - 原因: `MapCompanion.tsx`のpet未取得時の同一fallbackが「表示OFF/未選択」と「読込失敗」をまとめてモックHinataを描画する。非表示なのにキャラが残るのは既存の状態分岐不足であり、新基盤が必要な問題ではない。
 - 次タスク: `src/features/companion/MapCompanion.tsx`だけで表示OFF/未選択時を区別し、既存`companion-map--ai`のAI入口だけを出す。新DTOや設定保存は作らない。
 - 完了確認: 管理で表示OFFを保存→通常地図に戻り、相棒のcanvasがなくAI入口が操作できることを1回確認する。
+
+
+## 第2周: 相棒非表示時のAI入口（#19 / #97）
+
+起点develop ed225d9、公式claim/UI-COMPANION、worktree companion-19-hidden。製品変更はMapCompanion.tsxのみ。petなし時のmock atlasを既存AI-onlyボタンへ置換し、取得失敗時だけ既存エラー表示を出す。OFF/未選択時に架空の相棒を表示しない。
+
+検証: 対象strict tsc PASS。companion19.localhost:5197（strictPort）/ API3027、PID23080/26926のcwdは本worktree、DBは本worktree.local。前回#350の実取込DB/本人bindingをSQLite backupで専用コピーし、取込の再試験はしない。コピー時はDBとprofilesを同時に合わせた（初回は不一致をCOREが拒否し、その後正常起動）。
+
+実操作1系列: 登録済み「動作確認用テスト相棒」を選択して保存→reloadで同じ相棒/表示ON/中/動き軽減OFF→通常mapで同じ図形atlas（相棒button内canvas1）→管理で表示OFF保存→通常mapで相棒canvas0、AIボタン1→クリックでai-exploreへ遷移。初回未選択時もAIのみを確認。相棒の図形はテスト専用と明示済み。
+
+#97最小受入の対応: 共通23operationはCORE #338で反映済み。ZIP chooser/atlas/25動作/登録/現在選択は前節#350の実API証拠を再利用。reload同相棒/設定と通常mapの選択媒体表示は今回確認。固有APIの致命的不具合はこの系列ではなく、追加API修正は不要。新規生成は対象外。独立レビュー後に#97の最小接続受入は完了可能。#19の全画像・200%等の広いUI受入とは区別する。
