@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 400,
+  "revision": 401,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34441,7 +34441,7 @@
       "generation": 1,
       "issue_number": 137,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/CONNECT-BASE/session-http-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -34451,8 +34451,8 @@
         "vite.config.ts",
         "docs/evidence/CONNECT-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "9eb08d257b9ce6e3384973d0e2a65c975a2be099",
       "token": "0212eebd9f634f799e9178d5ab53cccf"
     },
     "CONNECT-COMPANION": {
