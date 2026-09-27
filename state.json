@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 494,
+  "revision": 495,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35508,7 +35508,9 @@
       "owner": "rozwer",
       "paths": [
         "src/features/suggestions/",
-        "docs/evidence/UI-SUGGESTIONS/"
+        "docs/evidence/UI-SUGGESTIONS/",
+        "server/features/suggestions/generation.mjs",
+        "server/features/suggestions/generation.test.mjs"
       ],
       "status": "claimed",
       "submitted_commit": null,
