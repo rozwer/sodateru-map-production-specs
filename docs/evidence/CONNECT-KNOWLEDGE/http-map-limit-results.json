@@ -1,0 +1,14 @@
+{
+  "createdLocatedPosts": 2001,
+  "status": 413,
+  "body": {
+    "error": {
+      "code": "INPUT_TOO_LARGE",
+      "message": "Narrow the map area or period to at most 2000 located records",
+      "requestId": "3cc3f89c-8057-4f1b-903f-0d918d9a9c0d",
+      "details": {
+        "retryable": false
+      }
+    }
+  }
+}

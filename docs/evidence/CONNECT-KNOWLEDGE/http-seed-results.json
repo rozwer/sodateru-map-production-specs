@@ -1,0 +1,17 @@
+{
+  "postRecordStatusCounts": {
+    "201": 110
+  },
+  "list": {
+    "status": 200,
+    "page1": 100,
+    "page2Status": 200,
+    "page2": 10,
+    "total": 110
+  },
+  "map": {
+    "status": 200,
+    "located": 105,
+    "total": 110
+  }
+}
