@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 416,
+  "revision": 417,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34582,7 +34582,8 @@
       "paths": [
         "src/features/settings/",
         "src/features/health/",
-        "docs/evidence/CONNECT-SETTINGS/"
+        "docs/evidence/CONNECT-SETTINGS/",
+        "docs/evidence/VISUAL-SETTINGS/preview/main.tsx"
       ],
       "status": "submitted",
       "submitted_commit": "667940850babaa747bfa89f7b98ca0643ff8c065",
