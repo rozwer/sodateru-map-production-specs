@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 482,
+  "revision": 483,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35284,7 +35284,9 @@
       "owner": "rozwer",
       "paths": [
         "src/features/companion/",
-        "docs/evidence/UI-COMPANION/"
+        "docs/evidence/UI-COMPANION/",
+        "docs/01_requirements/03_pages/companion-settings/interactions.json",
+        "docs/01_requirements/03_pages/companion-import/interactions.json"
       ],
       "status": "claimed",
       "submitted_commit": null,
