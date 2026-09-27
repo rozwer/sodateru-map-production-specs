@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 464,
+  "revision": 465,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34465,21 +34465,18 @@
       "token": null
     },
     "CONNECT-FRIENDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "11f83a7a1b39523dc16f60234bf355ae47e24f99",
       "claim_unit": "sharing-save",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 142,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-FRIENDS/unlinked-recipient.md",
+      "note": "Round2 assigned picker-done/unlink-before-save path complete. PR364 reviewed and merged preserving42eb291 via1d32f492. New recipients rechecked; private/draft retained after unlink; existing selected grants preserved. Evidence docs/evidence/CONNECT-FRIENDS/unlinked-recipient.md. Full Issue142 remains incomplete (comparison/route acceptance), do not close. Worktree and dedicated DB retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "docs/evidence/CONNECT-FRIENDS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "42eb2917ca0d944d14cd61ed570c49a928801293",
-      "token": "c20891d02a7a44f8ab591dcfde042fc8"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-HEALTH": {
       "actor": null,
