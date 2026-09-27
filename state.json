@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 552,
+  "revision": 553,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34686,17 +34686,23 @@
       "token": null
     },
     "DISASTER-UI-SCREEN": {
-      "actor": null,
-      "base_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
-      "generation": 6,
+      "actor": "rozwer",
+      "base_commit": "33987912e67828e27fe47b7d5f3a87291f1db9ac",
+      "claim_unit": null,
+      "generation": 7,
       "issue_number": 223,
       "landed_main": null,
       "note": "PR #342 merged db1e338 retaining ac65362; #223 remains open: facility/warnings/timeline/basin APIs and independent mask/background QA incomplete. Moving to assigned #19.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "docs/evidence/DISASTER-UI/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "569443db9d59474cbc0fc9dc19374554"
     },
     "EXPLORATION": {
       "actor": "mattsun",
