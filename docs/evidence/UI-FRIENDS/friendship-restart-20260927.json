@@ -1,0 +1,68 @@
+{
+  "before": [
+    {
+      "profileKey": "alice",
+      "personId": "friends-live-alice",
+      "friendships": [
+        {
+          "id": "7b85047f-f121-4e2d-b8ea-4fc94e2056ce",
+          "version": 2,
+          "createdAt": 1790502361487,
+          "updatedAt": 1790502383409,
+          "requesterId": "friends-live-alice",
+          "recipientId": "friends-live-bob",
+          "status": "accepted"
+        }
+      ]
+    },
+    {
+      "profileKey": "bob",
+      "personId": "friends-live-bob",
+      "friendships": [
+        {
+          "id": "7b85047f-f121-4e2d-b8ea-4fc94e2056ce",
+          "version": 2,
+          "createdAt": 1790502361487,
+          "updatedAt": 1790502383409,
+          "requesterId": "friends-live-alice",
+          "recipientId": "friends-live-bob",
+          "status": "accepted"
+        }
+      ]
+    }
+  ],
+  "after": [
+    {
+      "profileKey": "alice",
+      "personId": "friends-live-alice",
+      "friendships": [
+        {
+          "id": "7b85047f-f121-4e2d-b8ea-4fc94e2056ce",
+          "version": 2,
+          "createdAt": 1790502361487,
+          "updatedAt": 1790502383409,
+          "requesterId": "friends-live-alice",
+          "recipientId": "friends-live-bob",
+          "status": "accepted"
+        }
+      ]
+    },
+    {
+      "profileKey": "bob",
+      "personId": "friends-live-bob",
+      "friendships": [
+        {
+          "id": "7b85047f-f121-4e2d-b8ea-4fc94e2056ce",
+          "version": 2,
+          "createdAt": 1790502361487,
+          "updatedAt": 1790502383409,
+          "requesterId": "friends-live-alice",
+          "recipientId": "friends-live-bob",
+          "status": "accepted"
+        }
+      ]
+    }
+  ],
+  "beforePID": 98620,
+  "afterPID": 3034
+}

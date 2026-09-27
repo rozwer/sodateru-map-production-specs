@@ -759,45 +759,52 @@
   z-index: 1;
 }
 
+/* Profile reference: a compact row of named themes above recent records. */
 .fr-theme-list {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.25rem), 1fr));
+  gap: 8px;
 }
 .fr-theme-card {
-  border: 0;
+  border: 1px solid var(--color-border, #dbe8eb);
   display: flex;
   width: 100%;
-  gap: 12px;
-  padding: 14px;
-  border-radius: 15px;
+  gap: 7px;
+  padding: 10px 8px;
+  border-radius: 14px;
   text-align: left;
   color: inherit;
-  background: #e0f0ea;
   align-items: center;
   min-width: 0;
 }
-.fr-theme-card > div:first-child {
+.fr-theme-card > div:last-child {
   flex: 1;
   min-width: 0;
 }
 .fr-theme-card strong {
-  font-size: 1rem;
+  display: block;
+  font-size: .8125rem;
+  line-height: 1.4;
 }
-.fr-theme-card p {
-  font-size: 0.8125rem;
-}
-.fr-theme-card .fr-media {
-  width: 80px;
-  height: 70px;
-  flex-shrink: 0;
-  border-radius: 10px;
-}
+.fr-theme-card .fr-media,
 .fr-theme-card .fr-theme-leaf {
-  width: 70px;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
+  border-radius: 50%;
   display: grid;
   place-items: center;
 }
+.fr-theme-list .fr-theme-card { background: white; }
+.fr-theme-list-expanded { grid-template-columns: 1fr; }
+.fr-theme-card p { font-size: .8125rem; }
+.fr-theme-card .fr-media img { min-height: 0; }
+.fr-record-compact > .fr-media {
+  width: 27%;
+  height: 94px;
+  align-self: start;
+}
+.fr-record-compact > .fr-media img { min-height: 0; }
 .fr-theme-pink {
   background: #f9e6e9;
 }
