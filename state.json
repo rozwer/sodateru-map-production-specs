@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 481,
+  "revision": 482,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35075,7 +35075,13 @@
         "server/features/routes/",
         "server/db/migrations/routes/",
         "docs/01_requirements/04_api/fragments/ROUTES.json",
-        "docs/evidence/ROUTES/"
+        "docs/evidence/ROUTES/",
+        "docs/01_requirements/04_api/openapi.json",
+        "docs/01_requirements/04_api/schemas/",
+        "docs/01_requirements/04_api/conventions/06_shared-http.md",
+        "docs/01_requirements/04_api/endpoints/",
+        "packages/api-client/types.generated.ts",
+        "packages/api-client/operations.generated.ts"
       ],
       "status": "claimed",
       "submitted_commit": null,
