@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 556,
+  "revision": 557,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34775,25 +34775,13 @@
       "claim_unit": null,
       "generation": 7,
       "issue_number": 215,
-      "landed_main": null,
+      "landed_main": "8ac90960c7a82250a58a9d93e45b4f70a5b71ce3",
       "note": "docs/evidence/GROW-UI/minimal-ui-20260927.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/views.tsx",
-        "src/features/plugins/screens.tsx",
-        "src/features/plugins/plugins.css",
-        "src/features/plugins/view-model.ts",
-        "src/features/plugins/messages.ts",
-        "src/features/plugins/usePreviewPhase.ts",
-        "src/features/plugins/PluginIconView.tsx",
-        "src/features/plugins/PluginGlyph.tsx",
-        "src/features/plugins/grow/",
-        "src/features/feature-requests/",
-        "docs/evidence/GROW-UI/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "6fc60e5430227838e297e734fa3a81e6230b6dc6",
-      "token": "ac9141e9a6444ac5b92a8a17888d37d2"
+      "token": null
     },
     "HEALTH": {
       "actor": null,
