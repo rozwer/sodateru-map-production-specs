@@ -548,6 +548,7 @@ export function QuestionView({
   openRecord,
   save,
   busy,
+  canSave = true,
   notice,
 }: {
   item?: QuestionCardData;
@@ -556,6 +557,7 @@ export function QuestionView({
   openRecord: () => void;
   save: (status: QuestionCardData["status"]) => void;
   busy?: boolean;
+  canSave?: boolean;
   notice?: Notice;
 }) {
   return (
@@ -592,21 +594,21 @@ export function QuestionView({
           <Action
             primary
             onClick={() => save("answered")}
-            disabled={busy || !answer.trim()}
+            disabled={busy || !canSave || !answer.trim()}
           >
             回答を保存
           </Action>
           <div className="rf-actions">
             <Action
               onClick={() => save("deferred")}
-              disabled={busy}
+              disabled={busy || !canSave}
               icon={<Mark name="clock" />}
             >
               あとで
             </Action>
             <Action
               onClick={() => save("skipped")}
-              disabled={busy}
+              disabled={busy || !canSave}
               icon={<Mark name="skip" />}
             >
               スキップ
@@ -715,7 +717,7 @@ export function HistoryView({
       </div>
       <Feedback busy={busy} notice={notice} />
       <div className="rf-history">
-        {items.length === 0 && !busy && (
+        {items.length === 0 && !busy && !notice?.error && (
           <p className="rf-card">この状態の振り返りはまだありません。</p>
         )}
         {items.map((item, index) => (
