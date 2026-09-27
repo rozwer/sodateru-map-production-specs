@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 521,
+  "revision": 522,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35311,17 +35311,22 @@
       "token": null
     },
     "UI-INSIGHTS": {
-      "actor": null,
-      "base_commit": "e12cfcaa829a384216e444567e891ef3ecc55eb3",
-      "generation": 4,
+      "actor": "rozwer",
+      "base_commit": "2fc7c01531501dfd66aaa3d62e67c8400a7a79b5",
+      "claim_unit": null,
+      "generation": 5,
       "issue_number": 13,
       "landed_main": null,
       "note": "診断デモ補完はPR #269/#272で統合、5173のChromeで写真3枚と再読込保持を確認。Issue全体の他受入は未検証のためopenを維持。worktree diagnosis-data。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/insights/",
+        "src/features/themes/",
+        "docs/evidence/UI-INSIGHTS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "8396ea511bd645aea0cfad59eb0bdd33"
     },
     "UI-INTEGRATION": {
       "actor": null,
