@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 381,
+  "revision": 382,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35193,24 +35193,17 @@
       "token": null
     },
     "UI-BASE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 4,
       "landed_main": null,
-      "note": "docs/evidence/UI-BASE/self-home-entry-2026-09-27.md",
+      "note": "PR #331 merged as 358eb63; self-home entry repaired, tests/build/browser verified. Remaining acceptance in docs/evidence/UI-BASE/self-home-entry-2026-09-27.md; Issue stays open. Worktree ui-base-4-self-home and commit 9784e8e retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/app/",
-        "src/ui/",
-        "src/messages.ts",
-        "index.html",
-        "vite.config.ts",
-        "docs/evidence/UI-BASE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "9784e8e77d80c8c9dba517c0bbfa7af6c1269e02",
-      "token": "1372b5ecc3f643a5a297a2241bb187b2"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-BASE-LAYOUT": {
       "actor": "mattsun",
