@@ -233,15 +233,14 @@ function PluginFixture({
   switch (route.pageId) {
     case "plugin-icon": {
       const options: PluginIconChoice[] = [
-        {
-          id: plugin.kind === "disaster" ? "shield" : plugin.kind === "pilgrimage" ? "star" : "motorcycle",
-          label: plugin.name,
-          icon: <PluginGlyph kind={plugin.kind} />,
-        },
         { id: "pin", label: "ピン", icon: <PluginControlIcon name="pin" /> },
+        { id: "motorcycle", label: "バイク", icon: <PluginGlyph kind="bike" /> },
+        { id: "shield", label: "防災", icon: <PluginGlyph kind="disaster" /> },
+        { id: "book", label: "作品", icon: <PluginControlIcon name="document" /> },
+        { id: "star", label: "星", icon: <PluginGlyph kind="other" /> },
         { id: "map", label: "地図", icon: <PluginControlIcon name="map" /> },
       ];
-      const selected = iconDraft || (plugin.kind === "disaster" ? disaster.view?.settings?.icon : data.icons[plugin.id]) || options[0]!.id;
+      const selected = iconDraft || (plugin.kind === "disaster" ? disaster.view?.settings?.icon : data.icons[plugin.id]) || (plugin.kind === "disaster" ? "shield" : plugin.kind === "pilgrimage" ? "star" : "motorcycle");
       return (
         <PluginIconView
           plugin={plugin}
@@ -258,7 +257,7 @@ function PluginFixture({
               if (!version) return;
               setDisasterMutation(true); setDisasterError(undefined);
               try {
-                await api.request("patchPluginSettingsPluginId", { path: { pluginId: "disaster" }, body: { icon: selected as "shield" | "pin" | "map" }, version });
+                await api.request("patchPluginSettingsPluginId", { path: { pluginId: "disaster" }, body: { icon: selected as "shield" | "pin" | "map" | "motorcycle" | "book" | "star" }, version });
                 await disaster.load();
                 setIconDraft(undefined);
                 go("plugin-manage");
