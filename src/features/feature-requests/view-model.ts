@@ -14,7 +14,13 @@ export type FeatureRequestDraft = {
   name: string;
   body: string;
   visibility: "private" | "public";
+  regionTags?: string;
+  purposeTags?: string;
 };
+
+export function parseRequestTags(value = ""): string[] {
+  return [...new Set(value.split(/[,、]/).map(tag => tag.trim()).filter(Boolean))];
+}
 
 export function requestCharacterCount(body: string): number {
   return Array.from(body).length;
