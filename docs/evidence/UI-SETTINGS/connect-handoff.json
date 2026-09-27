@@ -1,0 +1,23 @@
+{
+  "source_ui_task": "UI-SETTINGS",
+  "connection_task": "CONNECT-SETTINGS",
+  "units": [
+    {
+      "id": "profile-save",
+      "page": "profile-settings",
+      "action": "main--save",
+      "write_paths": [
+        "src/features/settings/",
+        "src/features/health/"
+      ],
+      "ui_commit": "7f10b80d2002620b3f48caf1be5697d707f7ecf1",
+      "ui_evidence": "docs/evidence/UI-SETTINGS/2026-09-27-photo-scope-roundtrip.md",
+      "contract_commit": "7f10b80d2002620b3f48caf1be5697d707f7ecf1",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "patchMe"
+      ]
+    }
+  ]
+}

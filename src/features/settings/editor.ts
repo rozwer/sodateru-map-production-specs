@@ -68,6 +68,7 @@ export function useSettingsEditor(scopeKey: string, active = true) {
       const changed = Object.entries(patch).some(([key, value]) => JSON.stringify(value) !== JSON.stringify(savedSettings[key as keyof Settings]));
       if (changed) { savedSettings = (await api.request('patchMeSettings', { body: patch, version: savedSettings.version, signal })).data; completed += '設定は保存済みです。再取得を確認してください。'; }
       const [person, settings] = await Promise.all([api.request('getMe', { signal }), api.request('getMeSettings', { signal })]);
+      if (signal?.aborted) return;
       setState({ savedPerson: person.data, savedSettings: settings.data, draft: { person: person.data, settings: settings.data, photo: null, removePhoto: false } });
       setConflict(false); setNotice('保存しました。保存済みの内容を再取得しました。');
       window.dispatchEvent(new Event('sodateru:settings-changed'));
@@ -75,7 +76,9 @@ export function useSettingsEditor(scopeKey: string, active = true) {
       if (signal?.aborted) return;
       setState(previous => ({ ...previous, savedPerson, savedSettings, draft: previous.draft ? { ...previous.draft, person: { ...previous.draft.person, version: savedPerson.version }, ...(photoSaved ? { photo: null, removePhoto: false } : {}) } : null }));
       setError(completed + errorText(e));
-      setConflict(typeof e === 'object' && e !== null && 'status' in e && [409, 412].includes(Number(e.status)));
+      const versionConflict = typeof e === 'object' && e !== null && 'status' in e && [409, 412].includes(Number(e.status));
+      setConflict(versionConflict);
+      if (versionConflict) setReload(value => value + 1);
     } finally { running.current = false; if (!signal?.aborted) setBusy(false); }
   }
   return { ...state, busy, error, notice, conflict, dirty, update, updateSettings, save, refresh: () => setReload(v => v + 1), reloadSaved: () => { setState(p => ({ ...p, draft: null })); setReload(v => v + 1); }, discard: () => { setState(p => ({ ...p, draft: p.savedPerson && p.savedSettings ? { person: p.savedPerson, settings: p.savedSettings, photo: null, removePhoto: false } : null })); setConflict(false); setNotice('保存済みの内容に戻しました。'); } };

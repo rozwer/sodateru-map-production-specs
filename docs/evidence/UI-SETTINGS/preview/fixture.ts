@@ -12,6 +12,13 @@ globalThis.fetch = async (input, options) => {
   const body = typeof options?.body === 'string' ? JSON.parse(options.body) : null;
   requests.push({method,path,body,version:headers.get('If-Match')});
   const json = (data: unknown, status = 200) => new Response(JSON.stringify(data), {status,headers:{'Content-Type':'application/json'}});
+  const scenario = new URLSearchParams(location.search).get('scenario');
+  if (scenario === 'slow' || scenario === 'unavailable') {
+    await new Promise<void>((resolve, reject) => { const timer = setTimeout(resolve, 2500); options?.signal?.addEventListener('abort', () => { clearTimeout(timer); reject(new DOMException('Aborted', 'AbortError')); }, { once: true }); });
+    if (options?.signal?.aborted) throw new DOMException('Aborted', 'AbortError');
+  }
+  if (scenario === 'unavailable') return json({error:{code:'UNAVAILABLE',message:'検査用：設定を取得できません。',requestId:'visual-request'}},503);
+
   if (sessionStorage.getItem('settings-preview-fail') === 'yes' && method === 'PATCH') return json({error:{code:'TEST_FAILURE',message:'検査用の通信失敗です。',requestId:'visual-request'}},500);
   if (path === '/me' && method === 'PATCH') { if (headers.get('If-Match') !== `"${person.version}"`) return json({error:{code:'VERSION_CONFLICT',message:'ほかの画面で更新されました。',requestId:'visual-request'}},412); person = {...person,...body,version:person.version+1,updatedAt:Date.now()}; }
   if (path === '/me/settings' && method === 'PATCH') { if (headers.get('If-Match') !== `"${settings.version}"`) return json({error:{code:'VERSION_CONFLICT',message:'ほかの画面で更新されました。',requestId:'visual-request'}},412); settings = {...settings,...body,version:settings.version+1,updatedAt:Date.now()}; }
