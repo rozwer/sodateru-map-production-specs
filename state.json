@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 432,
+  "revision": 433,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35048,22 +35048,18 @@
       "token": null
     },
     "ROUTES-TRANSIT-GTFS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "b16995b987f95c6e407f8e5e5539907b9304bf1d",
       "claim_unit": null,
-      "generation": 3,
+      "generation": 4,
       "issue_number": 268,
       "landed_main": null,
-      "note": "docs/evidence/ROUTES-TRANSIT-GTFS/current-check.json",
+      "note": "1周目締切: PR #351 HEAD31479f7保持。実feed直通一致・公開runner/TS乗継420円PASS。独立レビュー未着のため未merge/未close。次は本PR独立レビューと通常merge。worktree rozwer-268-transit-repair保持。",
       "owner": "rozwer",
-      "paths": [
-        "server/features/routes-transit/",
-        "docs/evidence/ROUTES-TRANSIT-GTFS/",
-        "server/features/routes/toei_gtfs.py"
-      ],
-      "status": "submitted",
-      "submitted_commit": "31479f73abc372a2dce7a77b7ee1b8352f3ee814",
-      "token": "740b9340e726464facaa4cb99142c63f"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "SETTINGS": {
       "actor": "koshiro",
