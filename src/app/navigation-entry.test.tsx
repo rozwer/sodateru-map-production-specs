@@ -22,3 +22,20 @@ it.each([['memo-edit','メモを書く'],['diary','日記'],['experience-compare
   expect(document.activeElement).toBe(button());
  }finally{await act(async()=>root.unmount());host.remove();vi.unstubAllGlobals();}
 });
+
+it('keeps Escape usable when the destination has cards instead of a Sheet', async () => {
+ vi.stubGlobal('ResizeObserver',class {observe(){} disconnect(){}});
+ vi.stubGlobal('requestAnimationFrame',(cb:()=>void)=>setTimeout(cb,0));
+ vi.stubGlobal('cancelAnimationFrame',(id:ReturnType<typeof setTimeout>)=>clearTimeout(id));
+ history.replaceState(null,'','#/navigation?mode=main');
+ const host=document.createElement('div');document.body.append(host);const root=createRoot(host);
+ try {
+  await act(async()=>root.render(<App/>));
+  await act(async()=>[...host.querySelectorAll<HTMLButtonElement>('.sm-navigation__links button')].find(b=>b.textContent==='みんなを知る')!.click());
+  await act(async()=>{await new Promise(resolve=>setTimeout(resolve,30));});
+  expect(location.hash).toContain('#/community-home');
+  expect(document.activeElement).toBe(host.querySelector('main'));
+  await act(async()=>{document.activeElement!.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));await new Promise(resolve=>setTimeout(resolve,30));});
+  expect(location.hash).toContain('#/navigation?');
+ } finally {await act(async()=>root.unmount());host.remove();vi.unstubAllGlobals();}
+});
