@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 397,
+  "revision": 398,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35406,15 +35406,15 @@
       "generation": 5,
       "issue_number": 18,
       "landed_main": null,
-      "note": "User requested immediate shutdown. All changes committed and pushed: PR73 and PR132 merged; registration PR160 head6648f06 handed to UI-INTEGRATION#98. Worktree and evidence retained. API/DB/real map acceptance remains CONNECT-PLUGINS#144; UI finish/close not performed before formal split and shared QA acceptance.",
+      "note": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
         "docs/evidence/UI-PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "f3318f8afdc4c4f19589e5f33003ea09d345845f",
       "token": "89c38600369747a29e0a7bcbe617efb6"
     },
     "UI-RECORDS": {
