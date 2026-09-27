@@ -1,0 +1,3648 @@
+{
+  "status": "passed",
+  "verifiedAt": "2026-09-15T14:39:19.262305+09:00",
+  "durationSec": 3.872,
+  "checks": [
+    "real feed multiple trips / ordered stop times / same-platform transfer buffer",
+    "each service day matches calendar and added/removed exception",
+    "fare rule route IDs and sum of separate non-transfer fares",
+    "provider shape on each ridden trip, no synthetic connector",
+    "no late-night trip within bounded window"
+  ],
+  "directOnlyStatus": "no_trip",
+  "lateNightStatus": "no_trip",
+  "request": {
+    "fromStopIds": [
+      "0966-02",
+      "0966-03",
+      "0966-04",
+      "0966-05"
+    ],
+    "toStopIds": [
+      "1025-01",
+      "1025-02",
+      "1025-03",
+      "1025-04",
+      "1025-05",
+      "1025-06",
+      "1025-07",
+      "1025-08",
+      "1025-09",
+      "1025-10",
+      "1025-11",
+      "1025-12",
+      "1025-13"
+    ],
+    "earliestDepartureAt": 1789426800000,
+    "maxTransfers": 2,
+    "maxJourneySec": 10800,
+    "payment": "cash"
+  },
+  "result": {
+    "status": "ok",
+    "journeys": [
+      {
+        "status": "ready",
+        "legs": [
+          {
+            "kind": "bus",
+            "tripId": "72301-2-06-170-0800",
+            "routeId": "026",
+            "routeName": "都０４",
+            "serviceId": "06-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72301-2",
+            "fromStop": {
+              "stopId": "0966-02",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.764696,
+                35.680858
+              ],
+              "parentId": "0966"
+            },
+            "toStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "departureAt": 1789426800000,
+            "arrivalAt": 1789427520000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.764715,
+                  35.68088
+                ],
+                [
+                  139.764715,
+                  35.680998
+                ],
+                [
+                  139.764781,
+                  35.681162
+                ],
+                [
+                  139.76485,
+                  35.681215
+                ],
+                [
+                  139.765129,
+                  35.681143
+                ],
+                [
+                  139.765125,
+                  35.681028
+                ],
+                [
+                  139.765062,
+                  35.680848
+                ],
+                [
+                  139.76506,
+                  35.680702
+                ],
+                [
+                  139.765107,
+                  35.680541
+                ],
+                [
+                  139.765088,
+                  35.6803
+                ],
+                [
+                  139.765292,
+                  35.680203
+                ],
+                [
+                  139.765717,
+                  35.679542
+                ],
+                [
+                  139.765722,
+                  35.679432
+                ],
+                [
+                  139.765628,
+                  35.679161
+                ],
+                [
+                  139.765054,
+                  35.677565
+                ],
+                [
+                  139.763415,
+                  35.677939
+                ],
+                [
+                  139.763064,
+                  35.67687
+                ],
+                [
+                  139.762279,
+                  35.674483
+                ],
+                [
+                  139.762022,
+                  35.673704
+                ],
+                [
+                  139.761843,
+                  35.673515
+                ],
+                [
+                  139.763292,
+                  35.672572
+                ],
+                [
+                  139.765073,
+                  35.671264
+                ],
+                [
+                  139.766126,
+                  35.670471
+                ],
+                [
+                  139.766628,
+                  35.670032
+                ],
+                [
+                  139.767114,
+                  35.669649
+                ],
+                [
+                  139.767911,
+                  35.66894
+                ],
+                [
+                  139.76913,
+                  35.667902
+                ],
+                [
+                  139.76923417122245,
+                  35.667816235731415
+                ]
+              ]
+            },
+            "distanceM": 2085,
+            "stops": [
+              {
+                "stopId": "0966-02",
+                "name": "東京駅丸の内南口",
+                "coordinates": [
+                  139.764696,
+                  35.680858
+                ],
+                "parentId": "0966",
+                "stopSequence": 1,
+                "shapePosition": 0,
+                "arrivalAt": 1789426800000,
+                "departureAt": 1789426800000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1008-03",
+                "name": "東京国際フォーラム前",
+                "coordinates": [
+                  139.763346,
+                  35.677469
+                ],
+                "parentId": "1008",
+                "stopSequence": 2,
+                "shapePosition": 15.423519177250919,
+                "arrivalAt": 1789426920000,
+                "departureAt": 1789426920000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1570-01",
+                "name": "有楽町駅前",
+                "coordinates": [
+                  139.762715,
+                  35.675401
+                ],
+                "parentId": "1570",
+                "stopSequence": 3,
+                "shapePosition": 16.60403712714513,
+                "arrivalAt": 1789426980000,
+                "departureAt": 1789426980000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0778-03",
+                "name": "数寄屋橋",
+                "coordinates": [
+                  139.762412,
+                  35.673234
+                ],
+                "parentId": "0778",
+                "stopSequence": 4,
+                "shapePosition": 19.355665724883078,
+                "arrivalAt": 1789427160000,
+                "departureAt": 1789427160000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0448-08",
+                "name": "銀座四丁目",
+                "coordinates": [
+                  139.766037,
+                  35.670623
+                ],
+                "parentId": "0448",
+                "stopSequence": 5,
+                "shapePosition": 21.865954228399595,
+                "arrivalAt": 1789427460000,
+                "departureAt": 1789427460000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 6,
+                "shapePosition": 26.067424739451347,
+                "arrivalAt": 1789427520000,
+                "departureAt": 1789427520000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "026",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72512-1-81-170-0810",
+            "routeId": "040",
+            "routeName": "業１０",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72512-1",
+            "fromStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "toStop": {
+              "stopId": "1026-02",
+              "name": "ＩＨＩ前",
+              "coordinates": [
+                139.79277,
+                35.658676
+              ],
+              "parentId": "1026"
+            },
+            "departureAt": 1789427700000,
+            "arrivalAt": 1789428480000,
+            "durationSec": 780.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76923246448348,
+                  35.66781592328758
+                ],
+                [
+                  139.770727,
+                  35.666559
+                ],
+                [
+                  139.773096,
+                  35.664193
+                ],
+                [
+                  139.773835,
+                  35.663489
+                ],
+                [
+                  139.775706,
+                  35.661433
+                ],
+                [
+                  139.777682,
+                  35.659399
+                ],
+                [
+                  139.782377,
+                  35.662711
+                ],
+                [
+                  139.783397,
+                  35.661768
+                ],
+                [
+                  139.784358,
+                  35.660866
+                ],
+                [
+                  139.785007,
+                  35.660218
+                ],
+                [
+                  139.786609,
+                  35.658659
+                ],
+                [
+                  139.78679,
+                  35.65872
+                ],
+                [
+                  139.78714,
+                  35.65877
+                ],
+                [
+                  139.79197,
+                  35.659177
+                ],
+                [
+                  139.792337,
+                  35.658958
+                ],
+                [
+                  139.79268391646397,
+                  35.65861801262652
+                ]
+              ]
+            },
+            "distanceM": 2940,
+            "stops": [
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 4,
+                "shapePosition": 9.243273156184713,
+                "arrivalAt": 1789427700000,
+                "departureAt": 1789427700000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0945-01",
+                "name": "築地三丁目",
+                "coordinates": [
+                  139.77036,
+                  35.666983
+                ],
+                "parentId": "0945",
+                "stopSequence": 5,
+                "shapePosition": 9.778254088535691,
+                "arrivalAt": 1789427760000,
+                "departureAt": 1789427760000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0946-02",
+                "name": "築地六丁目",
+                "coordinates": [
+                  139.773148,
+                  35.664239
+                ],
+                "parentId": "0946",
+                "stopSequence": 6,
+                "shapePosition": 10.997041277527627,
+                "arrivalAt": 1789427820000,
+                "departureAt": 1789427820000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 7,
+                "shapePosition": 13.416796215468754,
+                "arrivalAt": 1789427940000,
+                "departureAt": 1789427940000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0326-01",
+                "name": "勝どき駅前",
+                "coordinates": [
+                  139.778029,
+                  35.659714
+                ],
+                "parentId": "0326",
+                "stopSequence": 8,
+                "shapePosition": 14.083020657544992,
+                "arrivalAt": 1789428060000,
+                "departureAt": 1789428060000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0937-02",
+                "name": "月島三丁目",
+                "coordinates": [
+                  139.781815,
+                  35.662395
+                ],
+                "parentId": "0937",
+                "stopSequence": 9,
+                "shapePosition": 14.890739355385072,
+                "arrivalAt": 1789428120000,
+                "departureAt": 1789428120000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0938-01",
+                "name": "月島四丁目",
+                "coordinates": [
+                  139.783595,
+                  35.661627
+                ],
+                "parentId": "0938",
+                "stopSequence": 10,
+                "shapePosition": 16.177614735977528,
+                "arrivalAt": 1789428240000,
+                "departureAt": 1789428240000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1252-01",
+                "name": "晴海一丁目",
+                "coordinates": [
+                  139.785578,
+                  35.659746
+                ],
+                "parentId": "1252",
+                "stopSequence": 11,
+                "shapePosition": 18.324803490798363,
+                "arrivalAt": 1789428300000,
+                "departureAt": 1789428300000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 12,
+                "shapePosition": 21.72897146513496,
+                "arrivalAt": 1789428420000,
+                "departureAt": 1789428420000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 13,
+                "shapePosition": 23.46193936613898,
+                "arrivalAt": 1789428480000,
+                "departureAt": 1789428480000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "040",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72701-2-81-170-0823",
+            "routeId": "052",
+            "routeName": "門１９",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72701-2",
+            "fromStop": {
+              "stopId": "1026-02",
+              "name": "ＩＨＩ前",
+              "coordinates": [
+                139.79277,
+                35.658676
+              ],
+              "parentId": "1026"
+            },
+            "toStop": {
+              "stopId": "1025-10",
+              "name": "豊洲駅前",
+              "coordinates": [
+                139.797086,
+                35.654318
+              ],
+              "parentId": "1025"
+            },
+            "departureAt": 1789428660000,
+            "arrivalAt": 1789428900000,
+            "durationSec": 240.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.7927889234019,
+                  35.65868781644515
+                ],
+                [
+                  139.796612,
+                  35.654646
+                ],
+                [
+                  139.7969985204113,
+                  35.654260143522976
+                ]
+              ]
+            },
+            "distanceM": 622,
+            "stops": [
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 6,
+                "shapePosition": 13.114413574681887,
+                "arrivalAt": 1789428660000,
+                "departureAt": 1789428660000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1024-02",
+                "name": "豊洲二丁目",
+                "coordinates": [
+                  139.794522,
+                  35.65688
+                ],
+                "parentId": "1024",
+                "stopSequence": 7,
+                "shapePosition": 13.51250387618056,
+                "arrivalAt": 1789428660000,
+                "departureAt": 1789428660000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1025-10",
+                "name": "豊洲駅前",
+                "coordinates": [
+                  139.797086,
+                  35.654318
+                ],
+                "parentId": "1025",
+                "stopSequence": 8,
+                "shapePosition": 14.110655714661277,
+                "arrivalAt": 1789428900000,
+                "departureAt": 1789428900000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "052",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          }
+        ],
+        "departureAt": 1789426800000,
+        "arrivalAt": 1789428900000,
+        "waitDurationSec": 0.0,
+        "rideDurationSec": 1740.0,
+        "durationSec": 2100.0,
+        "transferCount": 2,
+        "fare": {
+          "status": "known",
+          "amount": 630,
+          "currency": "JPY",
+          "payment": "cash",
+          "passEvaluation": "not_applied",
+          "fareIds": [
+            "210_210_110_105",
+            "210_210_110_105",
+            "210_210_110_105"
+          ],
+          "warnings": []
+        },
+        "source": {
+          "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+          "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+          "version": "20260915_030753",
+          "validFrom": "20260915",
+          "validThrough": "20290914",
+          "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+          "fetchedAt": null,
+          "loadedAt": 1789450756747,
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "東京都交通局・公共交通オープンデータ協議会",
+          "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+        },
+        "warnings": []
+      },
+      {
+        "status": "ready",
+        "legs": [
+          {
+            "kind": "bus",
+            "tripId": "72301-2-06-170-0800",
+            "routeId": "026",
+            "routeName": "都０４",
+            "serviceId": "06-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72301-2",
+            "fromStop": {
+              "stopId": "0966-02",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.764696,
+                35.680858
+              ],
+              "parentId": "0966"
+            },
+            "toStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "departureAt": 1789426800000,
+            "arrivalAt": 1789427520000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.764715,
+                  35.68088
+                ],
+                [
+                  139.764715,
+                  35.680998
+                ],
+                [
+                  139.764781,
+                  35.681162
+                ],
+                [
+                  139.76485,
+                  35.681215
+                ],
+                [
+                  139.765129,
+                  35.681143
+                ],
+                [
+                  139.765125,
+                  35.681028
+                ],
+                [
+                  139.765062,
+                  35.680848
+                ],
+                [
+                  139.76506,
+                  35.680702
+                ],
+                [
+                  139.765107,
+                  35.680541
+                ],
+                [
+                  139.765088,
+                  35.6803
+                ],
+                [
+                  139.765292,
+                  35.680203
+                ],
+                [
+                  139.765717,
+                  35.679542
+                ],
+                [
+                  139.765722,
+                  35.679432
+                ],
+                [
+                  139.765628,
+                  35.679161
+                ],
+                [
+                  139.765054,
+                  35.677565
+                ],
+                [
+                  139.763415,
+                  35.677939
+                ],
+                [
+                  139.763064,
+                  35.67687
+                ],
+                [
+                  139.762279,
+                  35.674483
+                ],
+                [
+                  139.762022,
+                  35.673704
+                ],
+                [
+                  139.761843,
+                  35.673515
+                ],
+                [
+                  139.763292,
+                  35.672572
+                ],
+                [
+                  139.765073,
+                  35.671264
+                ],
+                [
+                  139.766126,
+                  35.670471
+                ],
+                [
+                  139.766628,
+                  35.670032
+                ],
+                [
+                  139.767114,
+                  35.669649
+                ],
+                [
+                  139.767911,
+                  35.66894
+                ],
+                [
+                  139.76913,
+                  35.667902
+                ],
+                [
+                  139.76923417122245,
+                  35.667816235731415
+                ]
+              ]
+            },
+            "distanceM": 2085,
+            "stops": [
+              {
+                "stopId": "0966-02",
+                "name": "東京駅丸の内南口",
+                "coordinates": [
+                  139.764696,
+                  35.680858
+                ],
+                "parentId": "0966",
+                "stopSequence": 1,
+                "shapePosition": 0,
+                "arrivalAt": 1789426800000,
+                "departureAt": 1789426800000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1008-03",
+                "name": "東京国際フォーラム前",
+                "coordinates": [
+                  139.763346,
+                  35.677469
+                ],
+                "parentId": "1008",
+                "stopSequence": 2,
+                "shapePosition": 15.423519177250919,
+                "arrivalAt": 1789426920000,
+                "departureAt": 1789426920000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1570-01",
+                "name": "有楽町駅前",
+                "coordinates": [
+                  139.762715,
+                  35.675401
+                ],
+                "parentId": "1570",
+                "stopSequence": 3,
+                "shapePosition": 16.60403712714513,
+                "arrivalAt": 1789426980000,
+                "departureAt": 1789426980000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0778-03",
+                "name": "数寄屋橋",
+                "coordinates": [
+                  139.762412,
+                  35.673234
+                ],
+                "parentId": "0778",
+                "stopSequence": 4,
+                "shapePosition": 19.355665724883078,
+                "arrivalAt": 1789427160000,
+                "departureAt": 1789427160000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0448-08",
+                "name": "銀座四丁目",
+                "coordinates": [
+                  139.766037,
+                  35.670623
+                ],
+                "parentId": "0448",
+                "stopSequence": 5,
+                "shapePosition": 21.865954228399595,
+                "arrivalAt": 1789427460000,
+                "departureAt": 1789427460000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 6,
+                "shapePosition": 26.067424739451347,
+                "arrivalAt": 1789427520000,
+                "departureAt": 1789427520000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "026",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72512-1-81-170-0810",
+            "routeId": "040",
+            "routeName": "業１０",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72512-1",
+            "fromStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "toStop": {
+              "stopId": "1025-09",
+              "name": "豊洲駅前",
+              "coordinates": [
+                139.797123,
+                35.65515
+              ],
+              "parentId": "1025"
+            },
+            "departureAt": 1789427700000,
+            "arrivalAt": 1789429020000,
+            "durationSec": 1320.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76923246448348,
+                  35.66781592328758
+                ],
+                [
+                  139.770727,
+                  35.666559
+                ],
+                [
+                  139.773096,
+                  35.664193
+                ],
+                [
+                  139.773835,
+                  35.663489
+                ],
+                [
+                  139.775706,
+                  35.661433
+                ],
+                [
+                  139.777682,
+                  35.659399
+                ],
+                [
+                  139.782377,
+                  35.662711
+                ],
+                [
+                  139.783397,
+                  35.661768
+                ],
+                [
+                  139.784358,
+                  35.660866
+                ],
+                [
+                  139.785007,
+                  35.660218
+                ],
+                [
+                  139.786609,
+                  35.658659
+                ],
+                [
+                  139.78679,
+                  35.65872
+                ],
+                [
+                  139.78714,
+                  35.65877
+                ],
+                [
+                  139.79197,
+                  35.659177
+                ],
+                [
+                  139.792337,
+                  35.658958
+                ],
+                [
+                  139.793088,
+                  35.658222
+                ],
+                [
+                  139.795206,
+                  35.656063
+                ],
+                [
+                  139.796571,
+                  35.654692
+                ],
+                [
+                  139.79718,
+                  35.655092
+                ],
+                [
+                  139.79718063975284,
+                  35.65509242283765
+                ]
+              ]
+            },
+            "distanceM": 3571,
+            "stops": [
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 4,
+                "shapePosition": 9.243273156184713,
+                "arrivalAt": 1789427700000,
+                "departureAt": 1789427700000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0945-01",
+                "name": "築地三丁目",
+                "coordinates": [
+                  139.77036,
+                  35.666983
+                ],
+                "parentId": "0945",
+                "stopSequence": 5,
+                "shapePosition": 9.778254088535691,
+                "arrivalAt": 1789427760000,
+                "departureAt": 1789427760000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0946-02",
+                "name": "築地六丁目",
+                "coordinates": [
+                  139.773148,
+                  35.664239
+                ],
+                "parentId": "0946",
+                "stopSequence": 6,
+                "shapePosition": 10.997041277527627,
+                "arrivalAt": 1789427820000,
+                "departureAt": 1789427820000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 7,
+                "shapePosition": 13.416796215468754,
+                "arrivalAt": 1789427940000,
+                "departureAt": 1789427940000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0326-01",
+                "name": "勝どき駅前",
+                "coordinates": [
+                  139.778029,
+                  35.659714
+                ],
+                "parentId": "0326",
+                "stopSequence": 8,
+                "shapePosition": 14.083020657544992,
+                "arrivalAt": 1789428060000,
+                "departureAt": 1789428060000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0937-02",
+                "name": "月島三丁目",
+                "coordinates": [
+                  139.781815,
+                  35.662395
+                ],
+                "parentId": "0937",
+                "stopSequence": 9,
+                "shapePosition": 14.890739355385072,
+                "arrivalAt": 1789428120000,
+                "departureAt": 1789428120000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0938-01",
+                "name": "月島四丁目",
+                "coordinates": [
+                  139.783595,
+                  35.661627
+                ],
+                "parentId": "0938",
+                "stopSequence": 10,
+                "shapePosition": 16.177614735977528,
+                "arrivalAt": 1789428240000,
+                "departureAt": 1789428240000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1252-01",
+                "name": "晴海一丁目",
+                "coordinates": [
+                  139.785578,
+                  35.659746
+                ],
+                "parentId": "1252",
+                "stopSequence": 11,
+                "shapePosition": 18.324803490798363,
+                "arrivalAt": 1789428300000,
+                "departureAt": 1789428300000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 12,
+                "shapePosition": 21.72897146513496,
+                "arrivalAt": 1789428420000,
+                "departureAt": 1789428420000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 13,
+                "shapePosition": 23.46193936613898,
+                "arrivalAt": 1789428480000,
+                "departureAt": 1789428480000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1024-02",
+                "name": "豊洲二丁目",
+                "coordinates": [
+                  139.794522,
+                  35.65688
+                ],
+                "parentId": "1024",
+                "stopSequence": 14,
+                "shapePosition": 24.643134759875384,
+                "arrivalAt": 1789428600000,
+                "departureAt": 1789428600000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1025-09",
+                "name": "豊洲駅前",
+                "coordinates": [
+                  139.797123,
+                  35.65515
+                ],
+                "parentId": "1025",
+                "stopSequence": 15,
+                "shapePosition": 27.0001278227452,
+                "arrivalAt": 1789429020000,
+                "departureAt": 1789429020000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "040",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          }
+        ],
+        "departureAt": 1789426800000,
+        "arrivalAt": 1789429020000,
+        "waitDurationSec": 0.0,
+        "rideDurationSec": 2040.0,
+        "durationSec": 2220.0,
+        "transferCount": 1,
+        "fare": {
+          "status": "known",
+          "amount": 420,
+          "currency": "JPY",
+          "payment": "cash",
+          "passEvaluation": "not_applied",
+          "fareIds": [
+            "210_210_110_105",
+            "210_210_110_105"
+          ],
+          "warnings": []
+        },
+        "source": {
+          "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+          "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+          "version": "20260915_030753",
+          "validFrom": "20260915",
+          "validThrough": "20290914",
+          "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+          "fetchedAt": null,
+          "loadedAt": 1789450756747,
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "東京都交通局・公共交通オープンデータ協議会",
+          "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+        },
+        "warnings": []
+      },
+      {
+        "status": "ready",
+        "legs": [
+          {
+            "kind": "bus",
+            "tripId": "72301-2-06-170-0800",
+            "routeId": "026",
+            "routeName": "都０４",
+            "serviceId": "06-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72301-2",
+            "fromStop": {
+              "stopId": "0966-02",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.764696,
+                35.680858
+              ],
+              "parentId": "0966"
+            },
+            "toStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "departureAt": 1789426800000,
+            "arrivalAt": 1789427520000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.764715,
+                  35.68088
+                ],
+                [
+                  139.764715,
+                  35.680998
+                ],
+                [
+                  139.764781,
+                  35.681162
+                ],
+                [
+                  139.76485,
+                  35.681215
+                ],
+                [
+                  139.765129,
+                  35.681143
+                ],
+                [
+                  139.765125,
+                  35.681028
+                ],
+                [
+                  139.765062,
+                  35.680848
+                ],
+                [
+                  139.76506,
+                  35.680702
+                ],
+                [
+                  139.765107,
+                  35.680541
+                ],
+                [
+                  139.765088,
+                  35.6803
+                ],
+                [
+                  139.765292,
+                  35.680203
+                ],
+                [
+                  139.765717,
+                  35.679542
+                ],
+                [
+                  139.765722,
+                  35.679432
+                ],
+                [
+                  139.765628,
+                  35.679161
+                ],
+                [
+                  139.765054,
+                  35.677565
+                ],
+                [
+                  139.763415,
+                  35.677939
+                ],
+                [
+                  139.763064,
+                  35.67687
+                ],
+                [
+                  139.762279,
+                  35.674483
+                ],
+                [
+                  139.762022,
+                  35.673704
+                ],
+                [
+                  139.761843,
+                  35.673515
+                ],
+                [
+                  139.763292,
+                  35.672572
+                ],
+                [
+                  139.765073,
+                  35.671264
+                ],
+                [
+                  139.766126,
+                  35.670471
+                ],
+                [
+                  139.766628,
+                  35.670032
+                ],
+                [
+                  139.767114,
+                  35.669649
+                ],
+                [
+                  139.767911,
+                  35.66894
+                ],
+                [
+                  139.76913,
+                  35.667902
+                ],
+                [
+                  139.76923417122245,
+                  35.667816235731415
+                ]
+              ]
+            },
+            "distanceM": 2085,
+            "stops": [
+              {
+                "stopId": "0966-02",
+                "name": "東京駅丸の内南口",
+                "coordinates": [
+                  139.764696,
+                  35.680858
+                ],
+                "parentId": "0966",
+                "stopSequence": 1,
+                "shapePosition": 0,
+                "arrivalAt": 1789426800000,
+                "departureAt": 1789426800000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1008-03",
+                "name": "東京国際フォーラム前",
+                "coordinates": [
+                  139.763346,
+                  35.677469
+                ],
+                "parentId": "1008",
+                "stopSequence": 2,
+                "shapePosition": 15.423519177250919,
+                "arrivalAt": 1789426920000,
+                "departureAt": 1789426920000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1570-01",
+                "name": "有楽町駅前",
+                "coordinates": [
+                  139.762715,
+                  35.675401
+                ],
+                "parentId": "1570",
+                "stopSequence": 3,
+                "shapePosition": 16.60403712714513,
+                "arrivalAt": 1789426980000,
+                "departureAt": 1789426980000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0778-03",
+                "name": "数寄屋橋",
+                "coordinates": [
+                  139.762412,
+                  35.673234
+                ],
+                "parentId": "0778",
+                "stopSequence": 4,
+                "shapePosition": 19.355665724883078,
+                "arrivalAt": 1789427160000,
+                "departureAt": 1789427160000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0448-08",
+                "name": "銀座四丁目",
+                "coordinates": [
+                  139.766037,
+                  35.670623
+                ],
+                "parentId": "0448",
+                "stopSequence": 5,
+                "shapePosition": 21.865954228399595,
+                "arrivalAt": 1789427460000,
+                "departureAt": 1789427460000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 6,
+                "shapePosition": 26.067424739451347,
+                "arrivalAt": 1789427520000,
+                "departureAt": 1789427520000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "026",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72512-1-81-170-0810",
+            "routeId": "040",
+            "routeName": "業１０",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72512-1",
+            "fromStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "toStop": {
+              "stopId": "2288-01",
+              "name": "春海橋",
+              "coordinates": [
+                139.790654,
+                35.659121
+              ],
+              "parentId": "2288"
+            },
+            "departureAt": 1789427700000,
+            "arrivalAt": 1789428420000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76923246448348,
+                  35.66781592328758
+                ],
+                [
+                  139.770727,
+                  35.666559
+                ],
+                [
+                  139.773096,
+                  35.664193
+                ],
+                [
+                  139.773835,
+                  35.663489
+                ],
+                [
+                  139.775706,
+                  35.661433
+                ],
+                [
+                  139.777682,
+                  35.659399
+                ],
+                [
+                  139.782377,
+                  35.662711
+                ],
+                [
+                  139.783397,
+                  35.661768
+                ],
+                [
+                  139.784358,
+                  35.660866
+                ],
+                [
+                  139.785007,
+                  35.660218
+                ],
+                [
+                  139.786609,
+                  35.658659
+                ],
+                [
+                  139.78679,
+                  35.65872
+                ],
+                [
+                  139.78714,
+                  35.65877
+                ],
+                [
+                  139.7906609321766,
+                  35.65906669138631
+                ]
+              ]
+            },
+            "distanceM": 2731,
+            "stops": [
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 4,
+                "shapePosition": 9.243273156184713,
+                "arrivalAt": 1789427700000,
+                "departureAt": 1789427700000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0945-01",
+                "name": "築地三丁目",
+                "coordinates": [
+                  139.77036,
+                  35.666983
+                ],
+                "parentId": "0945",
+                "stopSequence": 5,
+                "shapePosition": 9.778254088535691,
+                "arrivalAt": 1789427760000,
+                "departureAt": 1789427760000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0946-02",
+                "name": "築地六丁目",
+                "coordinates": [
+                  139.773148,
+                  35.664239
+                ],
+                "parentId": "0946",
+                "stopSequence": 6,
+                "shapePosition": 10.997041277527627,
+                "arrivalAt": 1789427820000,
+                "departureAt": 1789427820000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 7,
+                "shapePosition": 13.416796215468754,
+                "arrivalAt": 1789427940000,
+                "departureAt": 1789427940000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0326-01",
+                "name": "勝どき駅前",
+                "coordinates": [
+                  139.778029,
+                  35.659714
+                ],
+                "parentId": "0326",
+                "stopSequence": 8,
+                "shapePosition": 14.083020657544992,
+                "arrivalAt": 1789428060000,
+                "departureAt": 1789428060000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0937-02",
+                "name": "月島三丁目",
+                "coordinates": [
+                  139.781815,
+                  35.662395
+                ],
+                "parentId": "0937",
+                "stopSequence": 9,
+                "shapePosition": 14.890739355385072,
+                "arrivalAt": 1789428120000,
+                "departureAt": 1789428120000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0938-01",
+                "name": "月島四丁目",
+                "coordinates": [
+                  139.783595,
+                  35.661627
+                ],
+                "parentId": "0938",
+                "stopSequence": 10,
+                "shapePosition": 16.177614735977528,
+                "arrivalAt": 1789428240000,
+                "departureAt": 1789428240000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1252-01",
+                "name": "晴海一丁目",
+                "coordinates": [
+                  139.785578,
+                  35.659746
+                ],
+                "parentId": "1252",
+                "stopSequence": 11,
+                "shapePosition": 18.324803490798363,
+                "arrivalAt": 1789428300000,
+                "departureAt": 1789428300000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 12,
+                "shapePosition": 21.72897146513496,
+                "arrivalAt": 1789428420000,
+                "departureAt": 1789428420000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "040",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "73002-1-81-170-0812",
+            "routeId": "050",
+            "routeName": "東１６",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "73002-1",
+            "fromStop": {
+              "stopId": "2288-01",
+              "name": "春海橋",
+              "coordinates": [
+                139.790654,
+                35.659121
+              ],
+              "parentId": "2288"
+            },
+            "toStop": {
+              "stopId": "1025-11",
+              "name": "豊洲駅前",
+              "coordinates": [
+                139.797249,
+                35.654154
+              ],
+              "parentId": "1025"
+            },
+            "departureAt": 1789428600000,
+            "arrivalAt": 1789429020000,
+            "durationSec": 420.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.79066094400224,
+                  35.659065576478305
+                ],
+                [
+                  139.791996,
+                  35.659176
+                ],
+                [
+                  139.792413,
+                  35.658873
+                ],
+                [
+                  139.7971569185817,
+                  35.654093655006626
+                ]
+              ]
+            },
+            "distanceM": 855,
+            "stops": [
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 11,
+                "shapePosition": 28.64379509130825,
+                "arrivalAt": 1789428600000,
+                "departureAt": 1789428600000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 12,
+                "shapePosition": 30.043986722289006,
+                "arrivalAt": 1789428660000,
+                "departureAt": 1789428660000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1024-02",
+                "name": "豊洲二丁目",
+                "coordinates": [
+                  139.794522,
+                  35.65688
+                ],
+                "parentId": "1024",
+                "stopSequence": 13,
+                "shapePosition": 30.344495062131518,
+                "arrivalAt": 1789428720000,
+                "departureAt": 1789428720000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1025-11",
+                "name": "豊洲駅前",
+                "coordinates": [
+                  139.797249,
+                  35.654154
+                ],
+                "parentId": "1025",
+                "stopSequence": 14,
+                "shapePosition": 30.805145719908182,
+                "arrivalAt": 1789429020000,
+                "departureAt": 1789429020000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "050",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          }
+        ],
+        "departureAt": 1789426800000,
+        "arrivalAt": 1789429020000,
+        "waitDurationSec": 0.0,
+        "rideDurationSec": 1860.0,
+        "durationSec": 2220.0,
+        "transferCount": 2,
+        "fare": {
+          "status": "known",
+          "amount": 630,
+          "currency": "JPY",
+          "payment": "cash",
+          "passEvaluation": "not_applied",
+          "fareIds": [
+            "210_210_110_105",
+            "210_210_110_105",
+            "210_210_110_105"
+          ],
+          "warnings": []
+        },
+        "source": {
+          "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+          "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+          "version": "20260915_030753",
+          "validFrom": "20260915",
+          "validThrough": "20290914",
+          "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+          "fetchedAt": null,
+          "loadedAt": 1789450756747,
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "東京都交通局・公共交通オープンデータ協議会",
+          "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+        },
+        "warnings": []
+      },
+      {
+        "status": "ready",
+        "legs": [
+          {
+            "kind": "bus",
+            "tripId": "72301-2-06-170-0800",
+            "routeId": "026",
+            "routeName": "都０４",
+            "serviceId": "06-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72301-2",
+            "fromStop": {
+              "stopId": "0966-02",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.764696,
+                35.680858
+              ],
+              "parentId": "0966"
+            },
+            "toStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "departureAt": 1789426800000,
+            "arrivalAt": 1789427520000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.764715,
+                  35.68088
+                ],
+                [
+                  139.764715,
+                  35.680998
+                ],
+                [
+                  139.764781,
+                  35.681162
+                ],
+                [
+                  139.76485,
+                  35.681215
+                ],
+                [
+                  139.765129,
+                  35.681143
+                ],
+                [
+                  139.765125,
+                  35.681028
+                ],
+                [
+                  139.765062,
+                  35.680848
+                ],
+                [
+                  139.76506,
+                  35.680702
+                ],
+                [
+                  139.765107,
+                  35.680541
+                ],
+                [
+                  139.765088,
+                  35.6803
+                ],
+                [
+                  139.765292,
+                  35.680203
+                ],
+                [
+                  139.765717,
+                  35.679542
+                ],
+                [
+                  139.765722,
+                  35.679432
+                ],
+                [
+                  139.765628,
+                  35.679161
+                ],
+                [
+                  139.765054,
+                  35.677565
+                ],
+                [
+                  139.763415,
+                  35.677939
+                ],
+                [
+                  139.763064,
+                  35.67687
+                ],
+                [
+                  139.762279,
+                  35.674483
+                ],
+                [
+                  139.762022,
+                  35.673704
+                ],
+                [
+                  139.761843,
+                  35.673515
+                ],
+                [
+                  139.763292,
+                  35.672572
+                ],
+                [
+                  139.765073,
+                  35.671264
+                ],
+                [
+                  139.766126,
+                  35.670471
+                ],
+                [
+                  139.766628,
+                  35.670032
+                ],
+                [
+                  139.767114,
+                  35.669649
+                ],
+                [
+                  139.767911,
+                  35.66894
+                ],
+                [
+                  139.76913,
+                  35.667902
+                ],
+                [
+                  139.76923417122245,
+                  35.667816235731415
+                ]
+              ]
+            },
+            "distanceM": 2085,
+            "stops": [
+              {
+                "stopId": "0966-02",
+                "name": "東京駅丸の内南口",
+                "coordinates": [
+                  139.764696,
+                  35.680858
+                ],
+                "parentId": "0966",
+                "stopSequence": 1,
+                "shapePosition": 0,
+                "arrivalAt": 1789426800000,
+                "departureAt": 1789426800000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1008-03",
+                "name": "東京国際フォーラム前",
+                "coordinates": [
+                  139.763346,
+                  35.677469
+                ],
+                "parentId": "1008",
+                "stopSequence": 2,
+                "shapePosition": 15.423519177250919,
+                "arrivalAt": 1789426920000,
+                "departureAt": 1789426920000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1570-01",
+                "name": "有楽町駅前",
+                "coordinates": [
+                  139.762715,
+                  35.675401
+                ],
+                "parentId": "1570",
+                "stopSequence": 3,
+                "shapePosition": 16.60403712714513,
+                "arrivalAt": 1789426980000,
+                "departureAt": 1789426980000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0778-03",
+                "name": "数寄屋橋",
+                "coordinates": [
+                  139.762412,
+                  35.673234
+                ],
+                "parentId": "0778",
+                "stopSequence": 4,
+                "shapePosition": 19.355665724883078,
+                "arrivalAt": 1789427160000,
+                "departureAt": 1789427160000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0448-08",
+                "name": "銀座四丁目",
+                "coordinates": [
+                  139.766037,
+                  35.670623
+                ],
+                "parentId": "0448",
+                "stopSequence": 5,
+                "shapePosition": 21.865954228399595,
+                "arrivalAt": 1789427460000,
+                "departureAt": 1789427460000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 6,
+                "shapePosition": 26.067424739451347,
+                "arrivalAt": 1789427520000,
+                "departureAt": 1789427520000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "026",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72512-1-81-170-0810",
+            "routeId": "040",
+            "routeName": "業１０",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72512-1",
+            "fromStop": {
+              "stopId": "0939-01",
+              "name": "築地",
+              "coordinates": [
+                139.769295,
+                35.667865
+              ],
+              "parentId": "0939"
+            },
+            "toStop": {
+              "stopId": "2288-01",
+              "name": "春海橋",
+              "coordinates": [
+                139.790654,
+                35.659121
+              ],
+              "parentId": "2288"
+            },
+            "departureAt": 1789427700000,
+            "arrivalAt": 1789428420000,
+            "durationSec": 720.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.76923246448348,
+                  35.66781592328758
+                ],
+                [
+                  139.770727,
+                  35.666559
+                ],
+                [
+                  139.773096,
+                  35.664193
+                ],
+                [
+                  139.773835,
+                  35.663489
+                ],
+                [
+                  139.775706,
+                  35.661433
+                ],
+                [
+                  139.777682,
+                  35.659399
+                ],
+                [
+                  139.782377,
+                  35.662711
+                ],
+                [
+                  139.783397,
+                  35.661768
+                ],
+                [
+                  139.784358,
+                  35.660866
+                ],
+                [
+                  139.785007,
+                  35.660218
+                ],
+                [
+                  139.786609,
+                  35.658659
+                ],
+                [
+                  139.78679,
+                  35.65872
+                ],
+                [
+                  139.78714,
+                  35.65877
+                ],
+                [
+                  139.7906609321766,
+                  35.65906669138631
+                ]
+              ]
+            },
+            "distanceM": 2731,
+            "stops": [
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 4,
+                "shapePosition": 9.243273156184713,
+                "arrivalAt": 1789427700000,
+                "departureAt": 1789427700000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0945-01",
+                "name": "築地三丁目",
+                "coordinates": [
+                  139.77036,
+                  35.666983
+                ],
+                "parentId": "0945",
+                "stopSequence": 5,
+                "shapePosition": 9.778254088535691,
+                "arrivalAt": 1789427760000,
+                "departureAt": 1789427760000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0946-02",
+                "name": "築地六丁目",
+                "coordinates": [
+                  139.773148,
+                  35.664239
+                ],
+                "parentId": "0946",
+                "stopSequence": 6,
+                "shapePosition": 10.997041277527627,
+                "arrivalAt": 1789427820000,
+                "departureAt": 1789427820000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 7,
+                "shapePosition": 13.416796215468754,
+                "arrivalAt": 1789427940000,
+                "departureAt": 1789427940000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0326-01",
+                "name": "勝どき駅前",
+                "coordinates": [
+                  139.778029,
+                  35.659714
+                ],
+                "parentId": "0326",
+                "stopSequence": 8,
+                "shapePosition": 14.083020657544992,
+                "arrivalAt": 1789428060000,
+                "departureAt": 1789428060000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0937-02",
+                "name": "月島三丁目",
+                "coordinates": [
+                  139.781815,
+                  35.662395
+                ],
+                "parentId": "0937",
+                "stopSequence": 9,
+                "shapePosition": 14.890739355385072,
+                "arrivalAt": 1789428120000,
+                "departureAt": 1789428120000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0938-01",
+                "name": "月島四丁目",
+                "coordinates": [
+                  139.783595,
+                  35.661627
+                ],
+                "parentId": "0938",
+                "stopSequence": 10,
+                "shapePosition": 16.177614735977528,
+                "arrivalAt": 1789428240000,
+                "departureAt": 1789428240000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1252-01",
+                "name": "晴海一丁目",
+                "coordinates": [
+                  139.785578,
+                  35.659746
+                ],
+                "parentId": "1252",
+                "stopSequence": 11,
+                "shapePosition": 18.324803490798363,
+                "arrivalAt": 1789428300000,
+                "departureAt": 1789428300000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 12,
+                "shapePosition": 21.72897146513496,
+                "arrivalAt": 1789428420000,
+                "departureAt": 1789428420000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "040",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72116-2-81-170-0828",
+            "routeId": "046",
+            "routeName": "錦１３",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72116-2",
+            "fromStop": {
+              "stopId": "2288-01",
+              "name": "春海橋",
+              "coordinates": [
+                139.790654,
+                35.659121
+              ],
+              "parentId": "2288"
+            },
+            "toStop": {
+              "stopId": "1025-07",
+              "name": "豊洲駅前",
+              "coordinates": [
+                139.797318,
+                35.655265
+              ],
+              "parentId": "1025"
+            },
+            "departureAt": 1789428840000,
+            "arrivalAt": 1789429440000,
+            "durationSec": 600.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.7906607245597,
+                  35.65906489723777
+                ],
+                [
+                  139.791989,
+                  35.65917
+                ],
+                [
+                  139.792346,
+                  35.658945
+                ],
+                [
+                  139.79658,
+                  35.654701
+                ],
+                [
+                  139.7973633535405,
+                  35.65521978643971
+                ]
+              ]
+            },
+            "distanceM": 860,
+            "stops": [
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 8,
+                "shapePosition": 21.650821387935153,
+                "arrivalAt": 1789428840000,
+                "departureAt": 1789428840000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 9,
+                "shapePosition": 23.07795892514662,
+                "arrivalAt": 1789428900000,
+                "departureAt": 1789428900000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1024-02",
+                "name": "豊洲二丁目",
+                "coordinates": [
+                  139.794522,
+                  35.65688
+                ],
+                "parentId": "1024",
+                "stopSequence": 10,
+                "shapePosition": 23.49742055176226,
+                "arrivalAt": 1789428960000,
+                "departureAt": 1789428960000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1025-07",
+                "name": "豊洲駅前",
+                "coordinates": [
+                  139.797318,
+                  35.655265
+                ],
+                "parentId": "1025",
+                "stopSequence": 11,
+                "shapePosition": 24.139834619867518,
+                "arrivalAt": 1789429440000,
+                "departureAt": 1789429440000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "046",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          }
+        ],
+        "departureAt": 1789426800000,
+        "arrivalAt": 1789429440000,
+        "waitDurationSec": 0.0,
+        "rideDurationSec": 2040.0,
+        "durationSec": 2640.0,
+        "transferCount": 2,
+        "fare": {
+          "status": "known",
+          "amount": 630,
+          "currency": "JPY",
+          "payment": "cash",
+          "passEvaluation": "not_applied",
+          "fareIds": [
+            "210_210_110_105",
+            "210_210_110_105",
+            "210_210_110_105"
+          ],
+          "warnings": []
+        },
+        "source": {
+          "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+          "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+          "version": "20260915_030753",
+          "validFrom": "20260915",
+          "validThrough": "20290914",
+          "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+          "fetchedAt": null,
+          "loadedAt": 1789450756747,
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "東京都交通局・公共交通オープンデータ協議会",
+          "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+        },
+        "warnings": []
+      },
+      {
+        "status": "ready",
+        "legs": [
+          {
+            "kind": "bus",
+            "tripId": "72601-2-81-170-0801",
+            "routeId": "181",
+            "routeName": "都０５－２",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72601-2",
+            "fromStop": {
+              "stopId": "0966-05",
+              "name": "東京駅丸の内南口",
+              "coordinates": [
+                139.76482,
+                35.680679
+              ],
+              "parentId": "0966"
+            },
+            "toStop": {
+              "stopId": "0325-02",
+              "name": "勝どき橋南詰",
+              "coordinates": [
+                139.776576,
+                35.660615
+              ],
+              "parentId": "0325"
+            },
+            "departureAt": 1789426860000,
+            "arrivalAt": 1789427880000,
+            "durationSec": 1020.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.764825,
+                  35.680709
+                ],
+                [
+                  139.764721,
+                  35.680988
+                ],
+                [
+                  139.764786,
+                  35.681171
+                ],
+                [
+                  139.764836,
+                  35.681211
+                ],
+                [
+                  139.765134,
+                  35.681136
+                ],
+                [
+                  139.765126,
+                  35.681024
+                ],
+                [
+                  139.765065,
+                  35.680879
+                ],
+                [
+                  139.765056,
+                  35.680733
+                ],
+                [
+                  139.765102,
+                  35.680562
+                ],
+                [
+                  139.765112,
+                  35.680485
+                ],
+                [
+                  139.765084,
+                  35.680282
+                ],
+                [
+                  139.765314,
+                  35.680172
+                ],
+                [
+                  139.765739,
+                  35.679518
+                ],
+                [
+                  139.765061,
+                  35.677579
+                ],
+                [
+                  139.763416,
+                  35.677924
+                ],
+                [
+                  139.762664,
+                  35.675632
+                ],
+                [
+                  139.762269,
+                  35.674469
+                ],
+                [
+                  139.762201,
+                  35.674274
+                ],
+                [
+                  139.762158,
+                  35.67414
+                ],
+                [
+                  139.762013,
+                  35.67369
+                ],
+                [
+                  139.76187,
+                  35.673496
+                ],
+                [
+                  139.762362,
+                  35.673184
+                ],
+                [
+                  139.763195,
+                  35.672642
+                ],
+                [
+                  139.764036,
+                  35.67206
+                ],
+                [
+                  139.765097,
+                  35.671251
+                ],
+                [
+                  139.766116,
+                  35.670472
+                ],
+                [
+                  139.767237,
+                  35.669541
+                ],
+                [
+                  139.769148,
+                  35.667893
+                ],
+                [
+                  139.770043,
+                  35.66717
+                ],
+                [
+                  139.770825,
+                  35.666457
+                ],
+                [
+                  139.77308,
+                  35.664204
+                ],
+                [
+                  139.773686,
+                  35.663654
+                ],
+                [
+                  139.773828,
+                  35.663489
+                ],
+                [
+                  139.774512,
+                  35.662744
+                ],
+                [
+                  139.775723,
+                  35.661416
+                ],
+                [
+                  139.776457,
+                  35.660663
+                ],
+                [
+                  139.7765316826396,
+                  35.66058645611083
+                ]
+              ]
+            },
+            "distanceM": 3141,
+            "stops": [
+              {
+                "stopId": "0966-05",
+                "name": "東京駅丸の内南口",
+                "coordinates": [
+                  139.76482,
+                  35.680679
+                ],
+                "parentId": "0966",
+                "stopSequence": 1,
+                "shapePosition": 0,
+                "arrivalAt": 1789426860000,
+                "departureAt": 1789426860000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1008-03",
+                "name": "東京国際フォーラム前",
+                "coordinates": [
+                  139.763346,
+                  35.677469
+                ],
+                "parentId": "1008",
+                "stopSequence": 2,
+                "shapePosition": 14.191524262917655,
+                "arrivalAt": 1789426920000,
+                "departureAt": 1789426920000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1570-01",
+                "name": "有楽町駅前",
+                "coordinates": [
+                  139.762715,
+                  35.675401
+                ],
+                "parentId": "1570",
+                "stopSequence": 3,
+                "shapePosition": 15.17544123018086,
+                "arrivalAt": 1789426980000,
+                "departureAt": 1789426980000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0778-03",
+                "name": "数寄屋橋",
+                "coordinates": [
+                  139.762412,
+                  35.673234
+                ],
+                "parentId": "0778",
+                "stopSequence": 4,
+                "shapePosition": 21.000513206505904,
+                "arrivalAt": 1789427160000,
+                "departureAt": 1789427160000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0448-05",
+                "name": "銀座四丁目",
+                "coordinates": [
+                  139.766461,
+                  35.670244
+                ],
+                "parentId": "0448",
+                "stopSequence": 5,
+                "shapePosition": 25.275636116002076,
+                "arrivalAt": 1789427520000,
+                "departureAt": 1789427520000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0939-01",
+                "name": "築地",
+                "coordinates": [
+                  139.769295,
+                  35.667865
+                ],
+                "parentId": "0939",
+                "stopSequence": 6,
+                "shapePosition": 27.101842206367255,
+                "arrivalAt": 1789427580000,
+                "departureAt": 1789427580000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0945-01",
+                "name": "築地三丁目",
+                "coordinates": [
+                  139.77036,
+                  35.666983
+                ],
+                "parentId": "0945",
+                "stopSequence": 7,
+                "shapePosition": 28.325603603164684,
+                "arrivalAt": 1789427640000,
+                "departureAt": 1789427640000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0946-02",
+                "name": "築地六丁目",
+                "coordinates": [
+                  139.773148,
+                  35.664239
+                ],
+                "parentId": "0946",
+                "stopSequence": 8,
+                "shapePosition": 30.01459016659887,
+                "arrivalAt": 1789427760000,
+                "departureAt": 1789427760000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 9,
+                "shapePosition": 35.07755206602915,
+                "arrivalAt": 1789427880000,
+                "departureAt": 1789427880000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "181",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          },
+          {
+            "kind": "bus",
+            "tripId": "72201-2-81-170-0811",
+            "routeId": "049",
+            "routeName": "東１５",
+            "serviceId": "81-170",
+            "serviceDate": "20260915",
+            "agencyId": "8000020130001",
+            "agencyName": "都営バス",
+            "shapeId": "72201-2",
+            "fromStop": {
+              "stopId": "0325-02",
+              "name": "勝どき橋南詰",
+              "coordinates": [
+                139.776576,
+                35.660615
+              ],
+              "parentId": "0325"
+            },
+            "toStop": {
+              "stopId": "1025-11",
+              "name": "豊洲駅前",
+              "coordinates": [
+                139.797249,
+                35.654154
+              ],
+              "parentId": "1025"
+            },
+            "departureAt": 1789428540000,
+            "arrivalAt": 1789429560000,
+            "durationSec": 1020.0,
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+                [
+                  139.7765231885025,
+                  35.660579860684834
+                ],
+                [
+                  139.778675,
+                  35.658445
+                ],
+                [
+                  139.78015,
+                  35.656995
+                ],
+                [
+                  139.781781,
+                  35.65542
+                ],
+                [
+                  139.783494,
+                  35.656576
+                ],
+                [
+                  139.783672,
+                  35.656755
+                ],
+                [
+                  139.786442,
+                  35.658568
+                ],
+                [
+                  139.786777,
+                  35.65873
+                ],
+                [
+                  139.788292,
+                  35.658873
+                ],
+                [
+                  139.791971,
+                  35.659177
+                ],
+                [
+                  139.792337,
+                  35.658945
+                ],
+                [
+                  139.79715858319085,
+                  35.654094657365846
+                ]
+              ]
+            },
+            "distanceM": 2535,
+            "stops": [
+              {
+                "stopId": "0325-02",
+                "name": "勝どき橋南詰",
+                "coordinates": [
+                  139.776576,
+                  35.660615
+                ],
+                "parentId": "0325",
+                "stopSequence": 12,
+                "shapePosition": 26.0582881848968,
+                "arrivalAt": 1789428540000,
+                "departureAt": 1789428540000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "0326-02",
+                "name": "勝どき駅前",
+                "coordinates": [
+                  139.778522,
+                  35.658684
+                ],
+                "parentId": "0326",
+                "stopSequence": 13,
+                "shapePosition": 26.910016780016267,
+                "arrivalAt": 1789428660000,
+                "departureAt": 1789428660000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2442-01",
+                "name": "晴海トリトンスクエア前",
+                "coordinates": [
+                  139.78056,
+                  35.656745
+                ],
+                "parentId": "2442",
+                "stopSequence": 14,
+                "shapePosition": 28.197134427157216,
+                "arrivalAt": 1789428720000,
+                "departureAt": 1789428720000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1253-01",
+                "name": "晴海三丁目",
+                "coordinates": [
+                  139.782145,
+                  35.655767
+                ],
+                "parentId": "1253",
+                "stopSequence": 15,
+                "shapePosition": 29.24828478209632,
+                "arrivalAt": 1789429020000,
+                "departureAt": 1789429020000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1248-02",
+                "name": "晴海区民館前",
+                "coordinates": [
+                  139.783871,
+                  35.656933
+                ],
+                "parentId": "1248",
+                "stopSequence": 16,
+                "shapePosition": 31.0822061689829,
+                "arrivalAt": 1789429020000,
+                "departureAt": 1789429020000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1252-03",
+                "name": "晴海一丁目",
+                "coordinates": [
+                  139.785519,
+                  35.658038
+                ],
+                "parentId": "1252",
+                "stopSequence": 17,
+                "shapePosition": 31.682874660727904,
+                "arrivalAt": 1789429080000,
+                "departureAt": 1789429080000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "2288-01",
+                "name": "春海橋",
+                "coordinates": [
+                  139.790654,
+                  35.659121
+                ],
+                "parentId": "2288",
+                "stopSequence": 18,
+                "shapePosition": 34.643801142224916,
+                "arrivalAt": 1789429140000,
+                "departureAt": 1789429140000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1026-02",
+                "name": "ＩＨＩ前",
+                "coordinates": [
+                  139.79277,
+                  35.658676
+                ],
+                "parentId": "1026",
+                "stopSequence": 19,
+                "shapePosition": 36.0431512692677,
+                "arrivalAt": 1789429200000,
+                "departureAt": 1789429200000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1024-02",
+                "name": "豊洲二丁目",
+                "coordinates": [
+                  139.794522,
+                  35.65688
+                ],
+                "parentId": "1024",
+                "stopSequence": 20,
+                "shapePosition": 36.272947071469915,
+                "arrivalAt": 1789429260000,
+                "departureAt": 1789429260000,
+                "pickupType": 0,
+                "dropOffType": 0
+              },
+              {
+                "stopId": "1025-11",
+                "name": "豊洲駅前",
+                "coordinates": [
+                  139.797249,
+                  35.654154
+                ],
+                "parentId": "1025",
+                "stopSequence": 21,
+                "shapePosition": 36.62520528926936,
+                "arrivalAt": 1789429560000,
+                "departureAt": 1789429560000,
+                "pickupType": 0,
+                "dropOffType": 0
+              }
+            ],
+            "fare": {
+              "fareId": "210_210_110_105",
+              "currency": "JPY",
+              "cash": 210,
+              "ic": null,
+              "rules": [
+                {
+                  "fare_id": "210_210_110_105",
+                  "route_id": "049",
+                  "origin_id": "",
+                  "destination_id": "",
+                  "contains_id": ""
+                }
+              ],
+              "transfers": "0",
+              "transferDurationSec": 0,
+              "status": "known",
+              "amount": 210,
+              "payment": "cash",
+              "passEvaluation": "not_applied"
+            },
+            "source": {
+              "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+              "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+              "version": "20260915_030753",
+              "validFrom": "20260915",
+              "validThrough": "20290914",
+              "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+              "fetchedAt": null,
+              "loadedAt": 1789450756747,
+              "license": "https://creativecommons.org/licenses/by/4.0/",
+              "attribution": "東京都交通局・公共交通オープンデータ協議会",
+              "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+            },
+            "shapeMatching": {
+              "method": "monotonic_segment_projection_inference",
+              "maxSnapM": 60
+            },
+            "warnings": []
+          }
+        ],
+        "departureAt": 1789426860000,
+        "arrivalAt": 1789429560000,
+        "waitDurationSec": 60.0,
+        "rideDurationSec": 2040.0,
+        "durationSec": 2760.0,
+        "transferCount": 1,
+        "fare": {
+          "status": "known",
+          "amount": 420,
+          "currency": "JPY",
+          "payment": "cash",
+          "passEvaluation": "not_applied",
+          "fareIds": [
+            "210_210_110_105",
+            "210_210_110_105"
+          ],
+          "warnings": []
+        },
+        "source": {
+          "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+          "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+          "version": "20260915_030753",
+          "validFrom": "20260915",
+          "validThrough": "20290914",
+          "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+          "fetchedAt": null,
+          "loadedAt": 1789450756747,
+          "license": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "東京都交通局・公共交通オープンデータ協議会",
+          "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+        },
+        "warnings": []
+      }
+    ],
+    "source": {
+      "url": "https://api-public.odpt.org/api/v4/files/Toei/data/ToeiBus-GTFS.zip",
+      "sha256": "c5154ec76c7d125d34ee12aafa1b2ca437a798bdbb50987dbcaba85043806bc8",
+      "version": "20260915_030753",
+      "validFrom": "20260915",
+      "validThrough": "20290914",
+      "lastModified": "Mon, 14 Sep 2026 19:35:30 GMT",
+      "fetchedAt": null,
+      "loadedAt": 1789450756747,
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "attribution": "東京都交通局・公共交通オープンデータ協議会",
+      "modification": "既存ROUTES読込結果から予定便の乗継・区間・運賃を抽出。shape投影照合は既存ROUTES実装。"
+    },
+    "warnings": [
+      "都営バスの時刻表による予定。遅延・実運休は未確認です。",
+      "鉄道・他地域・定期券は未評価です。初終端の実道路徒歩はROUTES側で接続してください。"
+    ],
+    "scope": {
+      "maxTransfers": 2,
+      "maxJourneySec": 10800,
+      "minTransferSec": 120,
+      "walking": "trusted-road-edges-only",
+      "realTime": false
+    }
+  },
+  "limitations": [
+    "No real 24+ stop_times in this feed; explicit fixture boundary verifies rollover.",
+    "Initial/final walking and normal ROUTES HTTP/save are connected by #25.",
+    "No train/other-region/pass/realtime completion claim."
+  ]
+}
