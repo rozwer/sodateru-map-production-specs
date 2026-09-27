@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 479,
+  "revision": 480,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34370,17 +34370,27 @@
       "token": null
     },
     "BUILDING-GROWTH": {
-      "actor": null,
-      "base_commit": "71279ce6b36606f13d9bef3f9e8f5bd3775d407b",
-      "generation": 6,
+      "actor": "rozwer",
+      "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "claim_unit": null,
+      "generation": 7,
       "issue_number": 222,
       "landed_main": null,
       "note": "Track replay and Yokohama-only vicinity filter merged via PR #281/#282 (8841514, 91c3be7). Worktree /Users/roz/Desktop/sodateru-map-building-animation preserved. Broader Issue #222 acceptance remains open; recording is being completed from qa-visual-40 on shared 5173.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/map/growth-display.ts",
+        "src/map/growth-rules.ts",
+        "src/map/growth-rules.test.ts",
+        "src/map/MapScene.tsx",
+        "src/map/display-state.ts",
+        "src/map/map.css",
+        "src/features/map/",
+        "docs/evidence/BUILDING-GROWTH/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "1f516eae3cf241048fed5fa8be0e31e5"
     },
     "BUILDING-RECORDS": {
       "actor": null,
