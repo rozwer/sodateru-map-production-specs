@@ -5,6 +5,7 @@ import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
 import { useScreenState } from '../../app/useScreenState';
 import { InsightStatus } from '../insights/InsightViews';
 import { isCancelled, recordWithPhoto, requestError } from '../insights/data';
+import { ThemeNaming } from './ThemeNaming';
 import { ThemesView, ThemeEditView } from './ThemeViews';
 import { themesMessages as m } from './messages';
 import type { ThemeDraft, ThemeRecordView, ThemeView } from './types';
@@ -41,6 +42,7 @@ function ThemeEditScreen({ route, navigate, back, scopeKey, active = true }: Scr
   const [model, setModel] = useScreenState<{ draft: ThemeDraft | null; baseline: Theme | null; dirty: boolean }>({ draft: null, baseline: null, dirty: false });
   const [records, setRecords] = useState<ThemeRecordView[]>([]), [cursor, setCursor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true), [busy, setBusy] = useState(false), [error, setError] = useState<string | null>(null), [unavailable, setUnavailable] = useState(false), [reload, setReload] = useState(0);
+  const [namingBusy, setNamingBusy] = useState(false);
   const mutation = useRef<AbortController | null>(null), mutationBusy = useRef(false), moreBusy = useRef(false), moreController = useRef<AbortController | null>(null);
   const photoAttempt = useRef<PhotoAttempt | null>(null);
   const creation = useRef<{ id: string; key: string; signature: string } | null>(null);
@@ -141,7 +143,9 @@ function ThemeEditScreen({ route, navigate, back, scopeKey, active = true }: Scr
   return <>
     {conflict && <section className="themes-ui insight-conflict"><h2>現在保存されているテーマ</h2><p>{conflict.name}</p><p>{conflict.description}</p><p>{conflict.color ? m.colors[conflict.color] : ''}・{conflict.recordIds.length}件の記録</p><p>入力中の内容と比べて、保存する内容を確認してください。</p></section>}
     <ThemeEditView title={route.params.themeId ? m.edit : m.createTitle} draft={model.draft} records={records} dirty={model.dirty} onChange={draft => setModel({ ...model, draft, dirty: true })}
-    status={{ loading, busy, error }} onSave={() => void save()}
+    naming={model.baseline && <ThemeNaming key={`${scopeKey}:${model.baseline.id}`} theme={model.baseline} dirty={model.dirty} disabled={busy || loading} active={active}
+      onBusy={setNamingBusy} onSettings={() => navigate('settings')} onAdopted={saved => { setModel(previous => ({ ...previous, baseline: saved, dirty: false, draft: previous.draft ? { ...previous.draft, name: saved.name, description: saved.description } : null })); notifyThemeSaved(scopeKey); }}/>}
+    status={{ loading, busy: busy || namingBusy, error }} onSave={() => void save()}
     onCancel={() => { setModel({ draft: null, baseline: null, dirty: false }); photoAttempt.current = null; creation.current = null; setConflict(null); back(); }} onDelete={model.baseline ? () => void remove() : undefined}
     onRecord={recordId => navigate('record-edit', { recordId })} onMoreRecords={cursor ? () => void moreRecords() : undefined} onRetry={() => setReload(value => value + 1)}/></>;
 }

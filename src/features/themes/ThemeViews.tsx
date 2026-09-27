@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { InsightGlyph, InsightPhoto, InsightStatus } from '../insights/InsightViews';
 import type { ViewStatus } from '../insights/types';
 import { themesMessages as m } from './messages';
@@ -19,10 +19,10 @@ export function ThemesView({ themes, selectedId, onSelect, onCreate, onEdit, onM
   </div>;
 }
 
-export function ThemeEditView({ draft, onChange, records, title = m.edit, status = {}, dirty = false, onSave, onCancel, onDelete, onRecord, onMoreRecords, onRetry }: {
+export function ThemeEditView({ draft, onChange, records, title = m.edit, status = {}, dirty = false, onSave, onCancel, onDelete, onRecord, onMoreRecords, onRetry, naming }: {
   draft: ThemeDraft; onChange: (draft: ThemeDraft) => void; records: ThemeRecordView[]; title?: string; status?: ViewStatus;
   dirty?: boolean; onSave: () => void; onCancel: () => void; onDelete?: () => void; onRecord?: (id: string) => void;
-  onMoreRecords?: () => void; onRetry?: () => void;
+  onMoreRecords?: () => void; onRetry?: () => void; naming?: ReactNode;
 }) {
   const id = useId(); const fileInput = useRef<HTMLInputElement>(null); const deleteButton = useRef<HTMLButtonElement>(null);
   const [deleteOpen, setDeleteOpen] = useState(false); const [photoError, setPhotoError] = useState<string | null>(null);
@@ -49,6 +49,7 @@ export function ThemeEditView({ draft, onChange, records, title = m.edit, status
         <input ref={fileInput} type="file" accept="image/jpeg,image/png,image/webp" hidden disabled={status.busy} onChange={event => { const file = event.target.files?.[0]; if (!file) return; if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { setPhotoError(m.imageOnly); return; } setPhotoError(null); onChange({ ...draft, photoFile: file, photoRecordId: selectedPhotoRecord?.id ?? null }); setPhotoPickerOpen(false); event.target.value = ''; }}/>{photoError && <p role="alert" className="theme-validation">{photoError}</p>}
         {draft.photoFile && <div className="theme-photo-target"><label htmlFor={`${id}-photo-record`}>{m.photoRecord}</label><select id={`${id}-photo-record`} value={draft.photoRecordId ?? ''} disabled={status.busy} onChange={event => onChange({ ...draft, photoRecordId: event.target.value || null })}><option value="">{m.chooseRecord}</option>{records.filter(record => record.sourceState !== 'unavailable').map(record => <option key={record.id} value={record.id}>{record.title}</option>)}</select><p>{m.photoRecordHint}</p></div>}
       </section>
+      {naming}
       {onDelete && <button type="button" ref={deleteButton} className="theme-delete" disabled={status.busy} onClick={() => setDeleteOpen(true)}><InsightGlyph name="trash"/>{m.remove}</button>}
       {deleteOpen && <section className="theme-delete-confirm" role="group" aria-label={m.deleteTitle} onKeyDown={event => { if (event.key === 'Escape') { event.stopPropagation(); closeDelete(); } }}><h2>{m.deleteTitle}</h2><p>{m.deleteBody}</p><div><button type="button" onClick={closeDelete}>{m.cancel}</button><button type="button" disabled={status.busy} onClick={onDelete}>{m.deleteConfirm}</button></div></section>}
       <footer className="theme-edit-footer">{dirty && <span className="theme-dirty" aria-live="polite">{m.unsaved}</span>}<button type="button" className="theme-cancel" onClick={onCancel} disabled={status.busy}>{m.cancel}</button><button type="submit" className="insight-primary" disabled={!valid || status.busy}>{status.busy ? m.saving : m.save}</button></footer>
