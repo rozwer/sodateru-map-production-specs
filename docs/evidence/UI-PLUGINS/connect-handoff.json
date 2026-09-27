@@ -81,8 +81,8 @@
       "write_paths": [
         "src/features/plugins/"
       ],
-      "ui_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
-      "ui_evidence": "docs/evidence/GROW-UI/progress.md",
+      "ui_commit": "027ce192029533c7270c877376298ceede175732",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
       "contract_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
       "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
@@ -97,8 +97,8 @@
       "write_paths": [
         "src/features/plugins/"
       ],
-      "ui_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
-      "ui_evidence": "docs/evidence/GROW-UI/progress.md",
+      "ui_commit": "027ce192029533c7270c877376298ceede175732",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
       "contract_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
       "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
@@ -113,8 +113,8 @@
       "write_paths": [
         "src/features/plugins/"
       ],
-      "ui_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
-      "ui_evidence": "docs/evidence/GROW-UI/progress.md",
+      "ui_commit": "027ce192029533c7270c877376298ceede175732",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
       "contract_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
       "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
@@ -129,8 +129,8 @@
       "write_paths": [
         "src/features/plugins/"
       ],
-      "ui_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
-      "ui_evidence": "docs/evidence/GROW-UI/progress.md",
+      "ui_commit": "027ce192029533c7270c877376298ceede175732",
+      "ui_evidence": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
       "contract_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
       "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
