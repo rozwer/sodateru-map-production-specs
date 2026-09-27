@@ -791,6 +791,20 @@ function Sharing(props: Props) {
     )
       return;
     const current = value.record;
+    const sameRecipients =
+      current.sharedWith.length === draft.sharedWith.length &&
+      current.sharedWith.every((id) => draft.sharedWith.includes(id));
+    if (
+      current.version !== draft.version ||
+      current.visibility !== draft.visibility ||
+      !sameRecipients
+    ) {
+      update({ ...draft, dirty: true });
+      setVerificationPending(false);
+      setSaved(false);
+      setError("保存後に別の変更がありました。共有下書きを保持しています。現在の保存内容を確認してください。");
+      return;
+    }
     update({
       ...draft,
       visibility: current.visibility,

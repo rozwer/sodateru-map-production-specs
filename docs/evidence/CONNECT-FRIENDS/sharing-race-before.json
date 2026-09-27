@@ -1,0 +1,25 @@
+[
+  {
+    "kind": "first-write",
+    "version": 2
+  },
+  {
+    "kind": "concurrent-write",
+    "version": 3,
+    "visibility": "private"
+  },
+  {
+    "kind": "verification",
+    "recordId": "sharing-race-82c314d0-dac9-4804-bbc2-7c21e49a1f50",
+    "version": 3,
+    "visibility": "private",
+    "screen": "この内容を共有します選んだ相手に、下の内容が表示されます。写真はありません共有競合の検証専用記録公開範囲を選ぶ自分だけ自分のみが見られます選んだ友達特定の友達にのみ見せます0人 ›公開だれでも見ることができます見せる内容写真と本文この記録の写真と、あなたが書いた本文✓診断結果や過去の軌跡などは含まれません。共有範囲を保存し、再取得した内容を確認しました。自分だけにする戻る",
+    "draft": {
+      "visibility": "private",
+      "sharedWith": [],
+      "version": 3,
+      "dirty": false,
+      "selectedPeople": []
+    }
+  }
+]
