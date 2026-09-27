@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 391,
+  "revision": 392,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34703,22 +34703,17 @@
       "token": null
     },
     "DISASTER-UI-SCREEN": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 223,
       "landed_main": null,
-      "note": "docs/evidence/DISASTER-UI/acceptance.md",
+      "note": "PR #335 merged as 33ec83be; partial acceptance only, #223 remains open; next pass will show issuedAt and saved region via fresh official claim.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/disaster/ui/",
-        "src/features/disaster/screens.tsx",
-        "src/features/disaster/types.ts",
-        "docs/evidence/DISASTER-UI/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "8a004c1d9a1b34acd5bcca6a6418499bbf478fe8",
-      "token": "76e0cd29414d4b75a71caa62cc64a43b"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "EXPLORATION": {
       "actor": "mattsun",
