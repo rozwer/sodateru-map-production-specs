@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 447,
+  "revision": 448,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35426,14 +35426,14 @@
       "generation": 3,
       "issue_number": 12,
       "landed_main": null,
-      "note": "緊急統合へ委譲。PR92/d179abaはdevelopへ統合済み。未commitなし。src/features/reflection/とdocs/evidence/UI-REFLECTION/の残UI照合・API型/REFLECTION新契約接続は未完。証拠README参照。専用worktree ui-reflection-12を保持。後続CONNECT正式反映前なのでfinishしない。",
+      "note": "docs/evidence/UI-REFLECTION/connect-handoff.json",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
         "docs/evidence/UI-REFLECTION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "35429f4ae65a3c4392c9b2b6fc57a0a8f65479d0",
       "token": "2ac965438993478db823e25fa10c814c"
     },
     "UI-ROUTES": {
