@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 536,
+  "revision": 537,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35408,25 +35408,18 @@
       "token": null
     },
     "UI-REFLECTION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 12,
       "landed_main": null,
-      "note": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "note": "PR372/387 merged after independent review. WT reflection-complete-12 clean; evidence normal-save-2026-09-27.md. Remaining: all-screen reference/200%/keyboard and complete person-mode/conflict/late-response/partial-media/share-revoke coverage. Issues12/139/185 stay open; no servers running.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/reflection/",
-        "docs/evidence/UI-REFLECTION/",
-        "docs/01_requirements/03_pages/reflection-question/interactions.json",
-        "docs/01_requirements/03_pages/reflection-history/interactions.json",
-        "docs/01_requirements/03_pages/experience-compare/interactions.json",
-        "docs/01_requirements/03_pages/memo-edit/interactions.json"
-      ],
-      "status": "submitted",
-      "submitted_commit": "c80884ae2517d2c30f0e54edcf57890bc0df7797",
-      "token": "66db6a794d344e298bfb6809948f29d5"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-ROUTES": {
       "actor": "rozwer",
