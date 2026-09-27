@@ -47,3 +47,13 @@ Mapboxトークン未設定につき「地図の接続設定がありません�
 ## 残件
 
 部分接続であり、#143/#16は閉じない。COMMUNITY分類/目的/bbox、PLACES地域候補/現在情報、しおり保存・再送、UI投稿導線→公開→取消の一連操作、実媒体/別本人・dataMode切替の取消、Mapbox実描画と元UIの指定画像・端末条件は未達。今回の公開作成/取消は正式APIによる検証操作で、投稿画面の受入ではない。外部変更を閲覧中に自動配信する機構は追加しておらず、確認した公開取消反映は再取得・画面再入場時。
+
+## 第2周: 休憩チップの1操作接続
+
+原因はAPI未提供ではなく、screens.tsxがrest-tipで例外を投げていた接続不足。既存getKnowledge/getKnowledgeMapへcategory=tips（休憩）、experiences（体験）を渡すだけに変更した。カテゴリの定義は既存COMMUNITYに任せ、UIで再実装しない。
+
+2026-09-27、専用worktree knowledge-tips-round2、knowledge-tips.localhost:5396（Vite --strictPort）、API3296/当該worktreeの.local/app.sqlite。lsofでPID28267/28270のcwd/listen一致を確認。正式POST /recordsで休憩memo(topicKey=rest/purposes=休憩)、散歩experience、食事memoの3件を保存。
+通常のknowledge-listで体験→休憩チップ→体験を実クリックし、散歩1件→日陰ベンチ1件→散歩1件を確認。食事メモは両分類に混入せず、未接続エラーなし。実GET /knowledgeもtips/experiences各1件・200。
+
+`bunx vitest run src/features/knowledge/screens.test.tsx -t 'rest-tip selection'` は追加1件PASS（既存9件はskip）。同分類を地図へ渡すことも同テストで確認。`bun run typecheck` PASS。前回の全件地図/413試験は再実行していない。
+今回の休憩操作は完了。目的/bbox・しおり等、今回対象外の残操作があるため#143全体のfinish/closeは行わない。Mapbox実描画の未設定も今回対象外のまま。
