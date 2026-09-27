@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 492,
+  "revision": 493,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34511,14 +34511,14 @@
       "generation": 5,
       "issue_number": 143,
       "landed_main": null,
-      "note": "Round2 assigned rest-tip operation completed in reviewed/merged PR361 head1b2334d. Existing getKnowledge/getKnowledgeMap category binding; real screen experience -> tips -> experience shows correct separate records. Targeted1 test and typecheck PASS; previous map/413 not rerun. Overall #143 remains open for other operations (purpose/bbox/bookmarks etc); no new scope started. QA processes stopped, worktree knowledge-tips-round2 and commits preserved.",
+      "note": "docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md",
       "owner": "rozwer",
       "paths": [
         "src/features/knowledge/",
         "docs/evidence/CONNECT-KNOWLEDGE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "1c5e0ebfb06efc24ab31103277e5d8646fdd6dbf",
       "token": "211767026921459ba6d2d9cabdb92661"
     },
     "CONNECT-MAP": {
