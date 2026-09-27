@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 500,
+  "revision": 501,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34459,12 +34459,21 @@
       "token": null
     },
     "CONNECT-COMPANION": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "bf49c053346fc4e9f2e8d61ec8f5c5843d275c47",
+      "claim_unit": "companion-settings-save",
+      "generation": 1,
+      "issue_number": 147,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/companion/",
+        "docs/evidence/CONNECT-COMPANION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "b334aec139974436a9441d05ea913b9d"
     },
     "CONNECT-EXPLORE": {
       "actor": null,
