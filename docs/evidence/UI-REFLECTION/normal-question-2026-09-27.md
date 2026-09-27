@@ -21,5 +21,5 @@
 ## 自動確認
 
 - `bunx vitest run src/features/reflection/QuestionsScreen.test.tsx --environment jsdom`: 7件成功。初回明示生成、質問不要、根拠更新後の再整理、および既存の保存・再取得失敗時の引用破棄を確認。
-- `bunx tsc --noEmit` 成功、`bun run build` 成功（既存chunk-size警告あり）。
+- `bunx tsc --noEmit` 成功、`bunx vite build` 成功（既存chunk-size警告あり）。
 - その他の日記/比較/メモ/レスポンシブ全条件は既存証拠と別途の通常入口確認で扱う。本証拠だけで#12/#139/#185をcloseしない。

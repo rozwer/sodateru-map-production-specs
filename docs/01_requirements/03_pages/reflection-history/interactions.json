@@ -103,13 +103,18 @@
     "component": "answer-expanded--update-interpretation",
     "from": "answer-expanded",
     "event": "activate",
-    "effect": "選択回答の原文と版を根拠に解釈更新する。回答状態の契約を先に補う。",
+    "effect": "選択質問の解釈更新画面を開く。本人が生成を開始したときだけ現行record/answerRefからextractを実行し、完了結果を表示する。採用の明示操作時だけexpectedAttemptとrecord版を条件に保存・再取得する。旧質問引用は再投入せず、回答原文は保持する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "question-state"
+    "api": [
+      "getReflectionQuestionsQuestionId",
+      "getRecordsRecordId",
+      "postConversations",
+      "postConversationsConversationIdMessages",
+      "getMessagesMessageId",
+      "postReflectionAdoptions"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   },
   {

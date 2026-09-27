@@ -62,13 +62,15 @@
     "component": "main--save",
     "from": "main",
     "event": "activate",
-    "effect": "選択した2件のIDと共通点・違いを保存し再表示する。比較保存APIの追加が必要。",
+    "effect": "異なる2件のID・共通点・違い・本人判断を新規作成または同じcomparisonIdの版付き更新で保存し、同じIDで再取得する。応答不明の新規再送は同じIDと冪等キーを使い、再送後に入力差分がある場合だけ取得版で更新する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "comparison"
+    "api": [
+      "postReflectionComparisons",
+      "patchReflectionComparisonsComparisonId",
+      "getReflectionComparisonsComparisonId"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   }
 ]
