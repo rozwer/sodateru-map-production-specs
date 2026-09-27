@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 430,
+  "revision": 431,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34559,22 +34559,17 @@
       "token": null
     },
     "CONNECT-SETTINGS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "358eb63aa8329fce20b9ce9a48e43bc7be6f36d7",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 145,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-SETTINGS/2026-09-27-statistics.md",
+      "note": "5-minute first-pass cutoff. PR340 merged; PR352 head867c08f retained, review pending, do not close Issue. Worktree /Users/roz/Documents/sodateru-settings-145 retained. Next minimum: one normal entry link; one existing PNG save/reload verification. Details docs/evidence/CONNECT-SETTINGS/2026-09-27-statistics.md. Own test processes stopped.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/settings/",
-        "src/features/health/",
-        "docs/evidence/CONNECT-SETTINGS/",
-        "docs/evidence/VISUAL-SETTINGS/preview/main.tsx"
-      ],
-      "status": "submitted",
-      "submitted_commit": "867c08fca741e68eebb39a2718d70b94d8adfac2",
-      "token": "5208e9a0ee4a401eacaf5802a719243d"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-SUGGESTIONS": {
       "actor": null,
