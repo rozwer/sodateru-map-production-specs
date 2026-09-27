@@ -179,17 +179,13 @@ export function QuestionsScreen({
           signal: control.current.signal,
         })
       ).data;
+      const card = await questionCard(saved, timeZone, control.current.signal);
+      if (control.current.signal.aborted) return;
       setState((s) => ({
         ...s,
         question: saved,
         ai: undefined,
-        card: s.card
-          ? {
-              ...s.card,
-              answer: saved.answerText || "",
-              status: toStatus[saved.status],
-            }
-          : undefined,
+        card,
         edited: s.answer !== answer,
       }));
       setNotice({
