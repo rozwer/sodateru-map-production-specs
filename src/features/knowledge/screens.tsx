@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../../app/api';
 import { ApiError, type CommonInfoRecordMap } from '../../../packages/api-client/index';
 import { Icon } from '../../ui/Icon';
@@ -8,13 +8,20 @@ import { useScreenState } from '../../app/useScreenState';
 import { MapBridge } from '../../app/map-bridge';
 import { MapPreview } from '../../map/MapPreview';
 import { KnowledgeDetailView, KnowledgeFilterView, KnowledgeListView, KnowledgePlaceView, KnowledgeStatus } from './views';
-import { emptyFilters, type KnowledgeFilters, type KnowledgeKind, type KnowledgeRecord } from './types';
-import { sharedKnowledgeQuery } from './query';
+import { emptyFilters, type KnowledgeFilters, type KnowledgeKind, type KnowledgeRecord, type KnowledgeAreaOption } from './types';
+import { knowledgeQuery } from './query';
+import { useKnowledgeBookmarks } from './useKnowledgeBookmarks';
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const message = (error: unknown) => error instanceof Error ? error.message : '地域の声を読み込めませんでした。';
 function filtersOf(value?: string): KnowledgeFilters { try { return value ? { ...emptyFilters, ...JSON.parse(value) } : emptyFilters; } catch { return emptyFilters; } }
 function kindOf(value?: string): KnowledgeKind { return value === 'rest-tip' || value === 'people' ? value : 'experience'; }
 const loadMedia = (media: { id: string }, signal: AbortSignal) => api.request('getMediaMediaIdContent', { path: { mediaId: media.id }, signal });
+async function searchQuery(query: string, filters: KnowledgeFilters, kind: KnowledgeKind, signal: AbortSignal, placeId?: string) {
+  const topicKey = filters.purpose ? { meal: 'food', rest: 'rest', walk: 'walk' }[filters.purpose] : undefined;
+  const topics = topicKey ? await api.request('getKnowledgeTopics', { signal }) : null;
+  const purposes = topics?.items.find(topic => topic.topicKey === topicKey)?.purposes;
+  return knowledgeQuery({ query, filters, timeZone, placeId, purposes, category: kind === 'rest-tip' ? 'tips' : 'experiences' });
+}
 function useRecords(props: ScreenProps, query: string, filters: KnowledgeFilters, kind: KnowledgeKind) {
   const [state, set] = useState<{ items: KnowledgeRecord[]; total: number; cursor: string | null; loading: boolean; error: string }>({ items: [], total: 0, cursor: null, loading: true, error: '' });
   const [revision, refresh] = useState(0);
@@ -27,7 +34,7 @@ function useRecords(props: ScreenProps, query: string, filters: KnowledgeFilters
     const abort = new AbortController(); set(old => ({ ...old, items: cursor ? old.items : [], total: cursor ? old.total : 0, loading: true, error: '' }));
     void (async () => {
       if (kind === 'people') throw new Error('地域から人物を絞り込む機能は接続確認中です。友達はメニューから開けます。');
-      const filter = sharedKnowledgeQuery({ query, filters, timeZone, placeId: props.route.params.placeId });
+      const filter = await searchQuery(query, filters, kind, abort.signal, props.route.params.placeId);
       const page = await api.request('getKnowledge', { query: { ...filter, category: kind === 'rest-tip' ? 'tips' : 'experiences', limit: 100, cursor }, signal: abort.signal });
       if (!abort.signal.aborted) set(old => ({ items: cursor ? [...old.items, ...page.items.filter(item => !old.items.some(previous => previous.id === item.id))] : page.items, total: page.totalCount, cursor: page.nextCursor, loading: false, error: '' }));
     })().catch(error => { if (!abort.signal.aborted) set({ items: [], total: 0, cursor: null, loading: false, error: message(error) }); });
@@ -39,14 +46,46 @@ function List(props: ScreenProps) {
   const [draft, set] = useScreenState({ query: props.route.params.query ?? '', submitted: props.route.params.query ?? '', kind: kindOf(props.route.params.kind) });
   const filters = filtersOf(props.route.params.filters), data = useRecords(props, draft.submitted, filters, draft.kind);
   const conditions = { ...props.route.params, query: draft.submitted, kind: draft.kind, filters: JSON.stringify(filters) };
+  const bookmarks = useKnowledgeBookmarks(props.scopeKey, props.active !== false);
   const open = (id: string) => props.navigate('knowledge-detail', { recordId: id });
-  return <KnowledgeListView query={draft.query} onQuery={query => set(old => ({ ...old, query }))} onSearch={() => set(old => ({ ...old, submitted: old.query }))} onClear={() => set(old => ({ ...old, query: '', submitted: '' }))} kind={draft.kind} onKind={kind => set(old => ({ ...old, kind }))} records={data.items} totalCount={data.total} heading={draft.kind === 'rest-tip' ? '地域の休憩チップ' : '地域の共有体験'} timeZone={timeZone} center={filters.center} loading={data.loading} error={data.error} nextCursor={data.cursor} onLoadMore={data.more} onRetry={data.retry} onBack={props.back} onFilter={() => props.navigate('knowledge-filter', conditions)} onMap={() => props.navigate('local-knowledge', conditions)} onOpen={open} onPerson={personId => props.navigate('friend-profile', { personId })} onPost={() => props.navigate('record-create')} active={props.active} loadMedia={loadMedia}/>;
+  return <><KnowledgeStatus error={bookmarks.error} retry={bookmarks.retry}/><KnowledgeListView bookmarks={bookmarks.bookmarks} bookmarkBusy={bookmarks.ready ? bookmarks.busy : new Set(data.items.map(item => item.id))} onBookmark={bookmarks.toggle} query={draft.query} onQuery={query => set(old => ({ ...old, query }))} onSearch={() => set(old => ({ ...old, submitted: old.query }))} onClear={() => set(old => ({ ...old, query: '', submitted: '' }))} kind={draft.kind} onKind={kind => set(old => ({ ...old, kind }))} records={data.items} totalCount={data.total} heading={draft.kind === 'rest-tip' ? '地域の休憩チップ' : '地域の共有体験'} timeZone={timeZone} center={filters.center} loading={data.loading} error={data.error} nextCursor={data.cursor} onLoadMore={data.more} onRetry={data.retry} onBack={props.back} onFilter={() => props.navigate('knowledge-filter', conditions)} onMap={() => props.navigate('local-knowledge', conditions)} onOpen={open} onPerson={personId => props.navigate('friend-profile', { personId })} onPost={() => props.navigate('record-create', { returnPage: 'knowledge-list', ...(props.route.params.placeId ? { placeId: props.route.params.placeId } : {}), ...(draft.kind === 'rest-tip' ? { topicKey: 'rest' } : {}) })} active={props.active} loadMedia={loadMedia}/></>;
+}
+function FilterMap({ bridge, draft }: { bridge: MapBridge; draft: KnowledgeFilters }) {
+  useEffect(() => {
+    if (draft.bounds) bridge.focus('knowledge', { bounds: [[draft.bounds[0], draft.bounds[1]], [draft.bounds[2], draft.bounds[3]]] });
+    else if (draft.center) bridge.focus('knowledge', { center: draft.center, zoom: draft.radiusM === 3000 ? 12 : draft.radiusM === 500 ? 15 : 14 });
+  }, [bridge, JSON.stringify(draft.center), JSON.stringify(draft.bounds), draft.radiusM]);
+  return <MapPreview bridge={bridge} label="検索地域の地図" interactive center={draft.center ?? undefined} radiusM={draft.radiusM ?? undefined}/>;
 }
 function Filter(props: ScreenProps) {
   const bridge = useMemo(() => new MapBridge(`${props.scopeKey}:knowledge-filter`), [props.scopeKey]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''), [busy, setBusy] = useState(false);
+  const [areas, setAreas] = useState<KnowledgeAreaOption[]>([]), [areaLoading, setAreaLoading] = useState(false), [areaError, setAreaError] = useState('');
+  const areaRequest = useRef<AbortController | null>(null), applyRequest = useRef<AbortController | null>(null);
   useEffect(() => () => bridge.dispose(), [bridge]);
-  return <KnowledgeFilterView initial={filtersOf(props.route.params.filters)} onClose={props.back} onApply={filters => { try { sharedKnowledgeQuery({ query: '', filters, timeZone }); props.navigate('knowledge-list', { ...props.route.params, filters: JSON.stringify(filters) }); } catch (error) { setError(message(error)); } }} onAreaSearch={() => setError('地域検索の候補選択は接続確認中です。')} error={error} map={props.active === false ? null : <MapPreview bridge={bridge} label="検索地域の地図" interactive/>}/>;
+  useEffect(() => {
+    setBusy(false); setAreaLoading(false); setAreas([]); setAreaError(''); setError('');
+    return () => { areaRequest.current?.abort(); applyRequest.current?.abort(); };
+  }, [props.active, props.scopeKey]);
+  const searchArea = async (query: string) => {
+    areaRequest.current?.abort(); const abort = new AbortController(); areaRequest.current = abort;
+    setAreas([]); setAreaError(''); setAreaLoading(true);
+    try {
+      const result = await api.request('getPlaceCandidates', { query: { q: query, limit: 10 }, signal: abort.signal });
+      if (!abort.signal.aborted) setAreas(result.data.items.map(item => ({ id: item.placeId ?? item.candidateId, name: item.name, coordinates: [item.position.longitude, item.position.latitude] })));
+    } catch (error) { if (!abort.signal.aborted) setAreaError(message(error)); }
+    finally { if (!abort.signal.aborted) setAreaLoading(false); }
+  };
+  return <KnowledgeFilterView initial={filtersOf(props.route.params.filters)} onClose={props.back} busy={busy} onApply={async filters => {
+    applyRequest.current?.abort(); const abort = new AbortController(); applyRequest.current = abort; setBusy(true); setError('');
+    try { await searchQuery(props.route.params.query ?? '', filters, kindOf(props.route.params.kind), abort.signal); if (!abort.signal.aborted) props.navigate('knowledge-list', { ...props.route.params, filters: JSON.stringify(filters) }); }
+    catch (error) { if (!abort.signal.aborted) setError(message(error)); }
+    finally { if (!abort.signal.aborted) setBusy(false); }
+  }} onAreaSearch={searchArea} areas={areas} areaLoading={areaLoading} areaError={areaError} error={error} onUseMapBounds={() => {
+    const bounds = bridge.getSnapshot().camera.bounds;
+    if (!bounds) { setError('地図の範囲を取得できません。地図の読込み後に選び直してください。'); return null; }
+    setError(''); return [bounds[0][0], bounds[0][1], bounds[1][0], bounds[1][1]];
+  }} map={draft => props.active === false ? null : <FilterMap bridge={bridge} draft={draft}/>}/>;
 }
 function Detail(props: ScreenProps) {
   const [data, setData] = useState<{ key: string; record: KnowledgeRecord | null; loading: boolean; error: string }>({ key: '', record: null, loading: true, error: '' });
@@ -85,9 +124,11 @@ function Local(props: ScreenProps) {
     const abort = new AbortController();
     void (async () => {
       if (kind === 'people') throw new Error('この分類の地図表示は接続確認中です。');
-      const filter = sharedKnowledgeQuery({ query, filters, timeZone, placeId: props.route.params.placeId });
+      const filter = await searchQuery(query, filters, kind, abort.signal, props.route.params.placeId);
       const result = await api.request('getKnowledgeMap', { query: { ...filter, category: kind === 'rest-tip' ? 'tips' : 'experiences' }, signal: abort.signal });
       if (abort.signal.aborted) return;
+      if (filters.bounds) bridge.focus('knowledge', { bounds: [[filters.bounds[0], filters.bounds[1]], [filters.bounds[2], filters.bounds[3]]] });
+      else if (filters.center) bridge.focus('knowledge', { center: filters.center, zoom: filters.radiusM === 3000 ? 12 : filters.radiusM === 500 ? 15 : 14 });
       bridge.showPlaces('knowledge', { places: result.data.items.map(item => ({ id: item.recordId, placeId: item.placeId, recordIds: [item.recordId], coordinates: item.coordinates })) });
       setMap({ key, data: result.data, loading: false, error: '' });
     })().catch(error => {

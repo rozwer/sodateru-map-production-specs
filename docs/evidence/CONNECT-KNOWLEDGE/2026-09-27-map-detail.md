@@ -57,3 +57,14 @@ Mapboxトークン未設定につき「地図の接続設定がありません�
 
 `bunx vitest run src/features/knowledge/screens.test.tsx -t 'rest-tip selection'` は追加1件PASS（既存9件はskip）。同分類を地図へ渡すことも同テストで確認。`bun run typecheck` PASS。前回の全件地図/413試験は再実行していない。
 今回の休憩操作は完了。目的/bbox・しおり等、今回対象外の残操作があるため#143全体のfinish/closeは行わない。Mapbox実描画の未設定も今回対象外のまま。
+
+## 2026-09-27 purpose / area / bookmark connection
+
+専用worktree `knowledge-completion`、API 3296 / Vite 5396、host `knowledge-completion.localhost`、DB `.local/knowledge-completion.sqlite`。両プロセスのcwdを確認。既存Mapbox keyを必要な1項目だけ継承（値は証拠へ保存しない）。
+
+- COMMUNITY dictionary `getKnowledgeTopics` の purposes と、既存 `knowledgeQuery` のbboxを一覧/全件地図に共用。PLACES `getPlaceCandidates` の実候補を選択し、候補ID・座標と半径を下書き保持。適用/取消を分離。主地図にも中心/範囲を渡す。
+- 1保存地点・公開experience2件（休憩/散歩）を実POSTで作成。ブラウザーで「知識検証」の地域候補を検索→港公園選択→休憩を適用し、一覧1件/地図1件・場所不明0件を確認。表示中の地図範囲を選択後、center/radiusがnull・bboxが実カメラ範囲になり、同じ休憩1件を取得。
+- ブラウザーでしおり保存→ページ再読込→pressed維持→削除→再保存。専用APIを停止/同一DBで再起動して再取得を確認。Record.bookmarkedは書き換えずCOMMUNITY bookmark resourceを使用。
+- 自動テスト: screen12件（bbox期待値をwire仕様の文字列へ修正後、該当1件のみ再実行）、bookmark3件、typecheck。bookmarkテストは応答不明の同一ID/idempotencyKey再送、削除412後のversion再取得、本人切替による旧mutation abortを制御応答で検証したもの。これら異常系は実通信受入とは区別する。
+- Mapboxは読み込むが共通growth layerのopacity式エラーが表示される。地図担当#222で修正中のため、ここでは地図全体PASSにしない。
+- 残件: place現在情報/voicesと出典導線、媒体付きUIと取消の実通信、投稿UI経由の公開操作、画像照合/端末操作。地域人物はgetPeopleに地域queryがなく未提供。#143/#16全体は未完了。
