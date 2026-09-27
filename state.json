@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 467,
+  "revision": 468,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34517,22 +34517,18 @@
       "token": null
     },
     "CONNECT-PLUGINS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": "requests-save",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 144,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-PLUGINS/requests-round2-20260927.md",
+      "note": "お願い接続はPR353/359統合、独立レビューPASS、Issue113終了。PR359 merge 3e13988be52df8ea2549fb1c902019e55115e85d。証拠 docs/evidence/CONNECT-PLUGINS/requests-round2-20260927.md。WT /Users/roz/Documents/sodateru-requests-round2 は保持。Issue144全体はバイク/聖地等の実接続が未完のためfinishせず返却。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "src/features/feature-requests/",
-        "docs/evidence/CONNECT-PLUGINS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "751ed10910016730ad2514443de3a4c3341b120e",
-      "token": "b61d2b5f8a3f4805a363e05bf534da0c"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-RECORDS": {
       "actor": null,
