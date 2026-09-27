@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 503,
+  "revision": 504,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35241,7 +35241,7 @@
       "generation": 7,
       "issue_number": 4,
       "landed_main": null,
-      "note": "PR357 merged 11f83a7, submitted1e3d128 preserved. Assigned activity-stats entry complete: one existing menu row; production build and real UI/API round trip pass; independent review PASS. Full UI-BASE acceptance remains open. Evidence docs/evidence/UI-BASE/stats-entry.md; worktree ui-base-4-stats-entry retained.",
+      "note": "docs/evidence/UI-BASE/completion-entries-display.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -35251,8 +35251,8 @@
         "vite.config.ts",
         "docs/evidence/UI-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "5efe2b0d8605c4025bd05751458494ee6fc370bf",
       "token": "0ea356985c6f4f1483cd0c34cd74673f"
     },
     "UI-BASE-LAYOUT": {
