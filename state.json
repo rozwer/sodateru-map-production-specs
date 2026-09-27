@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 538,
+  "revision": 539,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35482,17 +35482,22 @@
       "token": null
     },
     "VISUAL-MAP-EXPLORE": {
-      "actor": null,
-      "base_commit": "28f3bf672084ef72b51888d6178fe4493497bd41",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "f8608fc48fddeee08013d2b152472c9c9148e73b",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 174,
       "landed_main": null,
       "note": "Deadline handoff: PR187 and PR208 normally merged; final 0f67816 reaches develop via 8e88859. Remaining full-page/live verification in docs/evidence/VISUAL-MAP-EXPLORE/handoff.md. Preserve worktree visual-map-explore and branch rozwer/174-visual-map-explore.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/map/",
+        "src/features/routes/",
+        "docs/evidence/VISUAL-MAP-EXPLORE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "b5be4a765891496094b7effa3419efb0"
     },
     "VISUAL-PLUGINS": {
       "actor": null,
