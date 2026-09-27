@@ -34365,7 +34365,7 @@
     "UI-DEMO-EXTENSIONS",
     "UI-DEMO-PRESENTATION"
   ],
-  "revision": 575,
+  "revision": 576,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35340,7 +35340,10 @@
         "src/features/plugins/screens.tsx",
         "src/features/disaster/screens.tsx",
         "src/features/health/ui.tsx",
-        "docs/evidence/UI-DEMO-PRESENTATION/"
+        "docs/evidence/UI-DEMO-PRESENTATION/",
+        "src/features/disaster/data/demo.ts",
+        "src/features/plugins/views.tsx",
+        "src/features/plugins/reference-data.ts"
       ],
       "status": "claimed",
       "submitted_commit": null,
