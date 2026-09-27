@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 424,
+  "revision": 425,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35248,14 +35248,14 @@
       "generation": 3,
       "issue_number": 19,
       "landed_main": null,
-      "note": "利用者の終了指示。HEAD660a19dをPR161へ公開済み、先行PR64/149統合済み。未完受入は実ZIP保存→25確認→登録/選択→再読込。共通生成型未反映。組込み担当へ引継ぎ、worktreeと成果を保持。",
+      "note": "docs/evidence/UI-COMPANION/README.md",
       "owner": "rozwer",
       "paths": [
         "src/features/companion/",
         "docs/evidence/UI-COMPANION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6768988d2f7b11fab0abcf7a7088c23edf3fdd2b",
       "token": "476ab7153b404df48f84fadbe9ed484b"
     },
     "UI-EXPLORE": {
