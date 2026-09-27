@@ -477,27 +477,30 @@ function FriendsMap(props: Props) {
 function ThemeCard({
   theme,
   open,
+  compact,
 }: {
   theme: CommunitySharedTheme;
   open: () => void;
+  compact: boolean;
 }) {
   return (
     <button
       className={`fr-theme-card fr-theme-${theme.colorKey}`}
       onClick={open}
+      title={theme.description || undefined}
     >
-      <div>
-        <strong>{theme.name}</strong>
-        <p>{theme.description}</p>
-        <small>閲覧できる記録 {theme.records.length}件</small>
-      </div>
       {theme.coverMedia ? (
         <Media items={[theme.coverMedia]} retryable={false} />
       ) : (
         <span className="fr-theme-leaf">
-          <Icon name="leaf" size={36} />
+          <Icon name="leaf" size={28} />
         </span>
       )}
+      <div>
+        <strong>{theme.name}</strong>
+        {!compact && <p>{theme.description}</p>}
+        <small>{theme.records.length}件</small>
+      </div>
     </button>
   );
 }
@@ -679,11 +682,12 @@ function FriendProfile(props: Props) {
             </button>
           </div>
           <ReadStatus state={themes} />
-          <div className="fr-theme-list">
+          <div className={`fr-theme-list${themeForm.expanded ? " fr-theme-list-expanded" : ""}`}>
             {themes.data?.items.map((theme) => (
               <ThemeCard
                 key={theme.id}
                 theme={theme}
+                compact={!themeForm.expanded}
                 open={() =>
                   props.navigate("friends-map", { personId, themeId: theme.id })
                 }
