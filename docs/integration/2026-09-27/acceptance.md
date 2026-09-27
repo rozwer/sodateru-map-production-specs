@@ -48,3 +48,10 @@
 #145担当との調整: 正式追加予定IDはactivity-stats / data-sources。基点HEADには未登録。設定担当が原本 `docs/01_requirements/03_pages/references/Codex 画像 2026年9月15日 08_08_01.png` を確認したが、活動の統計/取得元の画面のみで起点リンクはないと報告。SELF担当もself-home/reflection-historyの仕様・実装に入口を確認できないと報告。新しい設定/SELFリンクを発明せず、通常入口未接続を残す。screens.tsx exportが統合されれば既存globで登録できる。
 
 UI原本・Mapbox・端末操作・全データ状態・業務保存の受入は元UI/CONNECTに保持。旧提供数の訂正、到達確認、型検査成功だけでは完了扱いしない。
+
+## 1周目の未達原因と最小の次タスク（追加Issueは作らない）
+
+1. 経路入口: 実装不足は未確認。13担当の広い到達確認を一度に扱い、候補選択を必要とする経路導線まで検証できなかった（検証範囲の広がり・時間不足）。次は既存#98で、既存場所候補を1件選択→「ここへ行く」→route-conditionsだけを実操作する。修正がなければdocs/integrationの該当1行のみ更新、障害が出た場合だけsrc/features/map/screens.tsxの担当へその1不具合を返す。完了確認は選択したplaceId/candidateIdを引き継いだ経路条件画面を1回確認。新経路実装は不要。
+2. 統計入口: #145/SELF担当の原本・interactions確認で起点リンクの指定がなく、リンクをどこへ置くかが未確定（入口仕様不足。API未提供や過剰設計が原因という証拠はない）。次は既存#145でactivity-stats/data-sourcesの既存画面提供を保持し、原本担当と入口位置を1か所だけ確定する。確定先がSELFならsrc/features/reflection、設定ならsrc/features/settingsの既存画面1ファイルだけでnavigateを接続。完了確認は通常入口→activity-stats→data-sourcesの1往復。共通registry/新メニューは作らない。
+
+この1周目では次作業に着手せず、専用検証listener（5173/3246、前の5244/3244/3245）をcwd一致確認のうえ停止した。DBとworktreeは保全。
