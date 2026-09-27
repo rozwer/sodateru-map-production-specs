@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 553,
+  "revision": 554,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35625,18 +35625,13 @@
       "claim_unit": null,
       "generation": 3,
       "issue_number": 184,
-      "landed_main": null,
+      "landed_main": "33987912e67828e27fe47b7d5f3a87291f1db9ac",
       "note": "docs/evidence/VISUAL-COMMUNITY/screens.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "src/features/knowledge/",
-        "src/features/companion/",
-        "docs/evidence/VISUAL-COMMUNITY/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "5f5a8abf8944a798bccc6f72a0d1912f833b737d",
-      "token": "0fbcfc8a5f254838be38fe9ab0f3d2a1"
+      "token": null
     }
   }
 }
