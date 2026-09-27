@@ -1,0 +1,105 @@
+[
+  {
+    "method": "PATCH",
+    "path": "/visits/22030163-7a86-43f4-a101-8e1d292c431a",
+    "body": {
+      "status": "candidate"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "22030163-7a86-43f4-a101-8e1d292c431a",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "candidate",
+        "version": 3,
+        "createdAt": 1790502378980,
+        "updatedAt": 1790502482304
+      }
+    }
+  },
+  {
+    "method": "PATCH",
+    "path": "/visits/08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+    "body": {
+      "status": "candidate"
+    },
+    "status": 200,
+    "response": {
+      "data": {
+        "id": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+        "personId": "c7704b32-e472-4954-b998-53011560eb66",
+        "placeId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+        "startedAt": null,
+        "endedAt": null,
+        "timePrecision": "unknown",
+        "origin": "manual",
+        "status": "candidate",
+        "version": 3,
+        "createdAt": 1790501977982,
+        "updatedAt": 1790502482305
+      }
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/map/growth",
+    "body": null,
+    "status": 200,
+    "response": {
+      "items": [],
+      "nextCursor": null
+    }
+  },
+  {
+    "method": "GET",
+    "path": "/records/8a74f6ec-9080-4366-b614-910b1fe63732",
+    "body": null,
+    "status": 200,
+    "response": {
+      "data": {
+        "record": {
+          "id": "8a74f6ec-9080-4366-b614-910b1fe63732",
+          "personId": "c7704b32-e472-4954-b998-53011560eb66",
+          "version": 3,
+          "createdAt": 1790502040196,
+          "updatedAt": 1790502262887,
+          "kind": "experience",
+          "visitId": "08db0e48-a3e6-4c59-8fd9-1fa53d867d0b",
+          "placeId": null,
+          "occurredAt": null,
+          "endedAt": null,
+          "timePrecision": "unknown",
+          "body": "建物成長受入の合成記録。用途を訂正しても本文は保持されます。",
+          "purposes": [
+            "読書"
+          ],
+          "activities": [],
+          "impression": "",
+          "periodAnswers": {},
+          "bookmarked": false,
+          "useForSuggestions": false,
+          "topicKey": null,
+          "visibility": "private",
+          "sharedWith": [],
+          "effectivePlaceId": "b5628596-8ef2-4506-ad73-1b8ecac3510c",
+          "effectiveStartedAt": null,
+          "effectiveEndedAt": null,
+          "effectiveTimePrecision": "unknown",
+          "memo": null
+        },
+        "media": {
+          "status": "ready",
+          "data": {
+            "items": [],
+            "nextCursor": null
+          }
+        }
+      }
+    }
+  }
+]

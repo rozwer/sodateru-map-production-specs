@@ -3,6 +3,7 @@ import type { GrowthItem } from '../../packages/api-client/index';
 import { aggregateBuildings, UNVISITED_COLOR, type Building, type BuildingGrowth } from './growth-rules';
 
 export type GrowthDisplay = GrowthItem;
+export const reduceMapMotion = () => document.documentElement.dataset.reduceMotion === 'true' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Standard namespace identifies the underlying building source/layer; retain the shipped key format.
 export const buildingIdentity = (feature: TargetFeature) => feature.id == null ? null : `mapbox:basemap:buildings:${feature.namespace ?? ''}:${feature.id}`;
 
@@ -78,7 +79,7 @@ export function attachGrowth(map: mapboxgl.Map, getItems: () => GrowthDisplay[],
     const step = Math.max(1, Math.floor(raw.length / 12));
     const path = raw.filter((_, index) => index % step === 0).slice(0, 12);
     if (path[path.length - 1] !== raw[raw.length - 1]) path.push(raw[raw.length - 1]!);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { revealed = null; previous = ''; render(); return; }
+    if (reduceMapMotion()) { revealed = null; previous = ''; render(); return; }
     revealed = new Set(); previous = ''; render();
     path.forEach((point, index) => playbackTimers.push(setTimeout(() => {
       const nearest = [...catalog.values()].sort((a, b) => distance(buildingCenter(a), point) - distance(buildingCenter(b), point)).slice(0, 18);
@@ -88,6 +89,14 @@ export function attachGrowth(map: mapboxgl.Map, getItems: () => GrowthDisplay[],
       if (index === path.length - 1) playbackTimers.push(setTimeout(() => { revealed = null; previous = ''; render(); }, 700));
     }, index * 620)));
   };
+  const displaySettingsChanged = () => {
+    if (!reduceMapMotion()) return;
+    playbackTimers.forEach(clearTimeout); playbackTimers = [];
+    map.stop(); revealed = null; previous = ''; render();
+  };
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  motionQuery.addEventListener('change', displaySettingsChanged);
+  window.addEventListener('sodateru:display-settings-applied', displaySettingsChanged);
   map.on('idle', update); update();
-  return { update, play, dispose: () => { map.off('idle', update); playbackTimers.forEach(clearTimeout); markers.forEach(marker => marker.remove()); } };
+  return { update, play, dispose: () => { motionQuery.removeEventListener('change', displaySettingsChanged); window.removeEventListener('sodateru:display-settings-applied', displaySettingsChanged); map.off('idle', update); playbackTimers.forEach(clearTimeout); markers.forEach(marker => marker.remove()); } };
 }
