@@ -1,0 +1,28 @@
+{
+  "api": "http://127.0.0.1:3001",
+  "profileKey": "self",
+  "mode": "live",
+  "reason": "mistaken browser target 5195; excluded from acceptance",
+  "before": {
+    "personId": "96f759e4-5b73-466b-b222-62c350a7d1ba",
+    "personVersion": 2,
+    "settingsVersion": 2,
+    "name": "設定確認🌸",
+    "bio": "隔離DBで保存と再起動を確認しています。",
+    "display": {
+      "fontSize": "large",
+      "reduceMotion": true
+    }
+  },
+  "after": {
+    "personId": "96f759e4-5b73-466b-b222-62c350a7d1ba",
+    "personVersion": 3,
+    "settingsVersion": 3,
+    "name": "自分",
+    "bio": "",
+    "display": {
+      "fontSize": "standard",
+      "reduceMotion": false
+    }
+  }
+}
