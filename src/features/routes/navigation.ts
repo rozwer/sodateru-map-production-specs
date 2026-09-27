@@ -5,7 +5,7 @@ const metres=(a:number[],b:number[])=>Math.hypot((a[0]!-b[0]!)*111320*Math.cos(b
 const direction=(type:string,modifier:string|null):TurnDirection=>type==='arrive'?'arrive':modifier?.includes('uturn')?'uturn':modifier?.includes('left')?'left':modifier?.includes('right')?'right':'straight';
 /** Project only onto the saved current leg. Distances are estimates from that same provider geometry. */
 export function navigationView(route:SavedRoute,fix:Fix|null,now=Date.now()):NavigationView{
- const view:NavigationView={routeId:route.id,title:route.title,status:route.status,instruction:null,direction:null,turnDistanceM:null,remainingDistanceM:null,remainingDurationSec:null,accuracyM:fix?.accuracy??null,locationStatus:'idle',fetchedAt:route.fetchedAt};
+ const view:NavigationView={routeId:route.id,title:route.title,status:route.status,instruction:route.legs[route.currentLeg]?.steps?.length?'現在地を取得すると次の案内を表示します':null,direction:null,turnDistanceM:null,remainingDistanceM:null,remainingDurationSec:null,accuracyM:fix?.accuracy??null,locationStatus:'idle',fetchedAt:route.fetchedAt};
  if(!fix||now-fix.timestamp>30000||fix.timestamp>now+5000||fix.accuracy>50||!Number.isFinite(fix.accuracy))return {...view,locationStatus:fix?'unavailable':'idle'};
  const steps=route.legs[route.currentLeg]?.steps;
  if(!steps?.length||route.mode!=='walking'||route.status!=='navigating')return {...view,locationStatus:'available'};

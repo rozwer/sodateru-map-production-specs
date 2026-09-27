@@ -11,10 +11,10 @@
     "normal live session",
     "saved real Mapbox 821.855m 8-step route",
     "close via 地図へ戻る retained route overlay",
-    "same routeId reopened with 案内を終了 button; no automatic end"
+    "same routeId reopened with 案内を終了 button; no automatic end",
+    "after latest develop merge: actual Mapbox route rendered at 390x844 without previous shared renderer warning"
   ],
   "limitations": [
-    "device location fix not acquired; no fabricated GPS success",
-    "shared renderer warning known, pending latest develop merge"
+    "device location fix not acquired; no fabricated GPS success"
   ]
 }
