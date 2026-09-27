@@ -12,12 +12,15 @@ import { sharedKnowledgeQuery } from './query';
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const message = (error: unknown) => error instanceof Error ? error.message : '地域の声を読み込めませんでした。';
 function filtersOf(value?: string): KnowledgeFilters { try { return value ? { ...emptyFilters, ...JSON.parse(value) } : emptyFilters; } catch { return emptyFilters; } }
+function kindOf(value?: string): KnowledgeKind { return value === 'rest-tip' || value === 'people' ? value : 'experience'; }
 const loadMedia = (media: { id: string }, signal: AbortSignal) => api.request('getMediaMediaIdContent', { path: { mediaId: media.id }, signal });
 function useRecords(props: ScreenProps, query: string, filters: KnowledgeFilters, kind: KnowledgeKind) {
   const [state, set] = useState<{ items: KnowledgeRecord[]; total: number; cursor: string | null; loading: boolean; error: string }>({ items: [], total: 0, cursor: null, loading: true, error: '' });
-  const [revision, refresh] = useState(0), [cursor, setCursor] = useState<string | undefined>();
+  const [revision, refresh] = useState(0);
+  const [pagination, setPagination] = useState<{ key: string; cursor: string } | null>(null);
   const key = JSON.stringify([props.scopeKey, query, filters, kind, props.route.params.placeId, props.route.params.recordId]);
-  useEffect(() => { setCursor(undefined); }, [key]);
+  const cursor = pagination?.key === key ? pagination.cursor : undefined;
+  useEffect(() => { setPagination(null); }, [key]);
   useEffect(() => {
     if (props.active === false) return;
     const abort = new AbortController(); set(old => ({ ...old, items: cursor ? old.items : [], total: cursor ? old.total : 0, loading: true, error: '' }));
@@ -25,26 +28,27 @@ function useRecords(props: ScreenProps, query: string, filters: KnowledgeFilters
       if (kind === 'rest-tip') throw new Error('休憩チップの分類は接続確認中です。体験タブでは共有記録を取得できます。');
       if (kind === 'people') throw new Error('地域から人物を絞り込む機能は接続確認中です。友達はメニューから開けます。');
       const filter = sharedKnowledgeQuery({ query, filters, timeZone, placeId: props.route.params.placeId });
-      let page = await api.request('getSharedRecords', { query: { ...filter, includeUndated: true, limit: 100, cursor }, signal: abort.signal });
+      let page = await api.request('getSharedRecords', { query: { ...filter, limit: 100, cursor }, signal: abort.signal });
       const target = props.route.params.recordId;
-      while (target && !page.items.some(item => item.id === target) && page.nextCursor) page = await api.request('getSharedRecords', { query: { ...filter, includeUndated: true, limit: 100, cursor: page.nextCursor }, signal: abort.signal });
+      while (target && !page.items.some(item => item.id === target) && page.nextCursor) page = await api.request('getSharedRecords', { query: { ...filter, limit: 100, cursor: page.nextCursor }, signal: abort.signal });
       if (!abort.signal.aborted) set(old => ({ items: cursor ? [...old.items, ...page.items.filter(item => !old.items.some(previous => previous.id === item.id))] : page.items, total: page.totalCount, cursor: page.nextCursor, loading: false, error: target && !page.items.some(item => item.id === target) ? 'この投稿は現在閲覧できません。' : '' }));
     })().catch(error => { if (!abort.signal.aborted) set({ items: [], total: 0, cursor: null, loading: false, error: message(error) }); });
     return () => abort.abort();
   }, [key, props.active, cursor, revision]);
-  return { ...state, retry: () => refresh(v => v + 1), more: () => setCursor(state.cursor ?? undefined) };
+  return { ...state, retry: () => refresh(v => v + 1), more: () => { if (state.cursor) setPagination({ key, cursor: state.cursor }); } };
 }
 function List(props: ScreenProps) {
-  const [draft, set] = useScreenState({ query: '', submitted: '', kind: 'experience' as KnowledgeKind });
+  const [draft, set] = useScreenState({ query: props.route.params.query ?? '', submitted: props.route.params.query ?? '', kind: kindOf(props.route.params.kind) });
   const filters = filtersOf(props.route.params.filters), data = useRecords(props, draft.submitted, filters, draft.kind);
+  const conditions = { ...props.route.params, query: draft.submitted, kind: draft.kind, filters: JSON.stringify(filters) };
   const open = (id: string) => props.navigate('knowledge-detail', { recordId: id });
-  return <KnowledgeListView query={draft.query} onQuery={query => set(old => ({ ...old, query }))} onSearch={() => set(old => ({ ...old, submitted: old.query }))} onClear={() => set(old => ({ ...old, query: '', submitted: '' }))} kind={draft.kind} onKind={kind => set(old => ({ ...old, kind }))} records={data.items} totalCount={data.total} heading="地域の共有体験" timeZone={timeZone} center={filters.center} loading={data.loading} error={data.error} nextCursor={data.cursor} onLoadMore={data.more} onRetry={data.retry} onBack={props.back} onFilter={() => props.navigate('knowledge-filter', { filters: JSON.stringify(filters) })} onMap={() => props.navigate('local-knowledge', props.route.params)} onOpen={open} onPerson={personId => props.navigate('friend-profile', { personId })} onPost={() => props.navigate('record-create')} active={props.active} loadMedia={loadMedia}/>;
+  return <KnowledgeListView query={draft.query} onQuery={query => set(old => ({ ...old, query }))} onSearch={() => set(old => ({ ...old, submitted: old.query }))} onClear={() => set(old => ({ ...old, query: '', submitted: '' }))} kind={draft.kind} onKind={kind => set(old => ({ ...old, kind }))} records={data.items} totalCount={data.total} heading="地域の共有体験" timeZone={timeZone} center={filters.center} loading={data.loading} error={data.error} nextCursor={data.cursor} onLoadMore={data.more} onRetry={data.retry} onBack={props.back} onFilter={() => props.navigate('knowledge-filter', conditions)} onMap={() => props.navigate('local-knowledge', conditions)} onOpen={open} onPerson={personId => props.navigate('friend-profile', { personId })} onPost={() => props.navigate('record-create')} active={props.active} loadMedia={loadMedia}/>;
 }
 function Filter(props: ScreenProps) {
   const bridge = useMemo(() => new MapBridge(`${props.scopeKey}:knowledge-filter`), [props.scopeKey]);
   const [error, setError] = useState('');
   useEffect(() => () => bridge.dispose(), [bridge]);
-  return <KnowledgeFilterView initial={filtersOf(props.route.params.filters)} onClose={props.back} onApply={filters => { try { sharedKnowledgeQuery({ query: '', filters, timeZone }); props.navigate('knowledge-list', { filters: JSON.stringify(filters) }); } catch (error) { setError(message(error)); } }} onAreaSearch={() => setError('地域検索の候補選択は接続確認中です。')} error={error} map={props.active === false ? null : <MapPreview bridge={bridge} label="検索地域の地図" interactive/>}/>;
+  return <KnowledgeFilterView initial={filtersOf(props.route.params.filters)} onClose={props.back} onApply={filters => { try { sharedKnowledgeQuery({ query: '', filters, timeZone }); props.navigate('knowledge-list', { ...props.route.params, filters: JSON.stringify(filters) }); } catch (error) { setError(message(error)); } }} onAreaSearch={() => setError('地域検索の候補選択は接続確認中です。')} error={error} map={props.active === false ? null : <MapPreview bridge={bridge} label="検索地域の地図" interactive/>}/>;
 }
 function Detail(props: ScreenProps) {
   const data = useRecords(props, '', emptyFilters, 'experience');
@@ -54,7 +58,8 @@ function Detail(props: ScreenProps) {
   return <><KnowledgeStatus error={sourceNotice}/><KnowledgeDetailView record={record} timeZone={timeZone} onBack={props.back} onPlace={placeId => props.navigate('local-knowledge', { placeId })} onAuthor={personId => props.navigate('friend-profile', { personId })} onSource={() => setSourceNotice('原文の出典確認は接続確認中です。この表示は現在閲覧できる共有投稿です。')} active={props.active} loadMedia={loadMedia}/></>;
 }
 function Local(props: ScreenProps) {
-  const data = useRecords(props, '', emptyFilters, 'experience'), bridge = useMapBridge();
+  const filters = filtersOf(props.route.params.filters);
+  const data = useRecords(props, props.route.params.query ?? '', filters, kindOf(props.route.params.kind)), bridge = useMapBridge();
   useEffect(() => {
     if (props.active === false) return;
     bridge.showPlaces('knowledge', { places: data.items.flatMap(record => record.place ? [{ id: record.id, placeId: record.place.id, coordinates: record.place.coordinates, label: record.place.name }] : []) });
