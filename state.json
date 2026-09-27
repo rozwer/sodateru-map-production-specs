@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 370,
+  "revision": 371,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34644,17 +34644,22 @@
       "token": null
     },
     "DISASTER-UI-SCREEN": {
-      "actor": null,
-      "base_commit": "55a6ff215ceaf15e48729b06a08562c099e01324",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 3,
       "issue_number": 223,
       "landed_main": null,
       "note": "ユーザー収束指示。#243/#250/#254通常merge済み（最終a302728）。専用3layerUIと保存接続を提供。統合導線/実描画/停止再読込QAは#217、追加APIは#144へ未完を引継ぎ。worktree disaster-ui-223保全、未完Issueは閉じない。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/disaster/ui/",
+        "src/features/disaster/screens.tsx",
+        "src/features/disaster/types.ts",
+        "docs/evidence/DISASTER-UI/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "76e0cd29414d4b75a71caa62cc64a43b"
     },
     "EXPLORATION": {
       "actor": "mattsun",
