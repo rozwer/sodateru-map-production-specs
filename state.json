@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 562,
+  "revision": 563,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35523,17 +35523,13 @@
       "claim_unit": null,
       "generation": 11,
       "issue_number": 189,
-      "landed_main": null,
+      "landed_main": "5ed3cdd61c47785bb7af73f488e92232d9a04d7b",
       "note": "docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-27-ui-scope.md",
       "owner": "rozwer",
-      "paths": [
-        "src/features/records/",
-        "src/features/activity/",
-        "docs/evidence/VISUAL-RECORDS-CAMERA/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "bd465c98bff16408ff3c20069e9ae1e02d945cd3",
-      "token": "4b8f414b94ef47dfb166428901bc2ae2"
+      "token": null
     },
     "VISUAL-SELF": {
       "actor": null,
