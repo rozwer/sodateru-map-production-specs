@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {searchToeiTransfers} from '../../../server/features/routes-transit/index.ts';
+const options={feedPath:'/private/tmp/sodateru-c-toei-gtfs.zip',metadataPath:'/private/tmp/sodateru-c-toei-gtfs-metadata.json'};
+const request={fromStopIds:['0966-02'],toStopIds:['1025-09'],earliestDepartureAt:Date.parse('2026-09-15T08:00:00+09:00'),maxTransfers:1,maxJourneySec:10800};
+const result=await searchToeiTransfers(options,request);
+assert.equal(result.status,'ok');assert.ok(result.journeys.length);
+assert.ok(result.journeys.every(j=>j.transferCount===1&&j.fare.amount===420));
+const controller=new AbortController();controller.abort();
+await assert.rejects(searchToeiTransfers(options,request,controller.signal),{name:'AbortError'});
+const evidence={status:'passed',checkedAt:new Date().toISOString(),checks:['typed TS API -> Python process -> shared real feed loader -> one-transfer journey, 420 JPY','pre-aborted request never starts feed query'],request,result};
+writeFileSync(new URL('./bridge-check.json',import.meta.url),JSON.stringify(evidence,null,2)+'\n');
+console.log(JSON.stringify({status:evidence.status,journeys:result.journeys.length,fare:result.journeys[0]!.fare}));

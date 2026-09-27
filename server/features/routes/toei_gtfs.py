@@ -73,7 +73,8 @@ def fare_for(route,origin,destination,zones,rules,attributes):
     if not matches or len({(m['cash'],m['ic']) for m in matches})!=1: raise Fault('FARE_UNAVAILABLE','一意の適用運賃を確認できません')
     return matches[0]
 
-def run(feed_path,metadata_path,request):
+def load_feed(feed_path,metadata_path):
+    """Load the shared, source-checked Toei tables for direct and transfer routing."""
     with open(feed_path,'rb') as f: digest=hashlib.file_digest(f,'sha256').hexdigest()
     with open(metadata_path) as f: metadata=json.load(f)
     if metadata.get('sha256')!=digest or metadata.get('sourceUrl')!=SOURCE: raise Fault('SOURCE_CHANGED','GTFSと取得metadataが一致しません')
@@ -85,93 +86,109 @@ def run(feed_path,metadata_path,request):
         agency=list(rows('agency.txt'))
         if len(agency)!=1 or agency[0]['agency_timezone']!='Asia/Tokyo': raise Fault('MODE_UNSUPPORTED','提供済み都営feed以外は未接続です')
         stops={r['stop_id']:r for r in rows('stops.txt')}
-        def point(s): return [float(s['stop_lon']),float(s['stop_lat'])]
-        if request.get('action')=='stops':
-            q=request.get('q','');return {'items':[{'id':s['stop_id'],'name':s['stop_name'],'coordinates':point(s),'parentId':s['parent_station'] or None} for s in stops.values() if s['location_type'] in ('','0') and q in s['stop_name']][:50]}
-        earliest=request.get('earliestDepartureAt');latest=request.get('latestArrivalAt')
-        if type(earliest)!=int or earliest<0 or latest is not None and (type(latest)!=int or latest<=earliest): raise Fault('VALIDATION_FAILED','出発可能時刻・到着期限が不正です')
-        payment=request.get('payment','cash')
-        if payment not in ('cash','ic'): raise Fault('VALIDATION_FAILED','現金またはICを指定してください')
-        date=datetime.fromtimestamp(earliest/1000,ZONE).date();key=date.strftime('%Y%m%d')
-        if not feed['feed_start_date']<=key<=feed['feed_end_date']: raise Fault('FEED_EXPIRED','指定日はfeed有効期間外です')
-        choices=[]
-        if 'stopIds' in request:
-            if not isinstance(request['stopIds'],list) or not 2<=len(request['stopIds'])<=10 or any(not isinstance(s,str) for s in request['stopIds']): raise Fault('VALIDATION_FAILED','順序付き停留所を2〜10点指定してください')
-            for ident in request['stopIds']:
-                s=stops.get(ident)
-                if not s: raise Fault('NOT_FOUND','停留所がありません')
-                choices.append({ident} if s['location_type'] in ('','0') else {c['stop_id'] for c in stops.values() if c['parent_station']==ident and c['location_type'] in ('','0')})
-        else:
-            if not 2<=len(request.get('points',[]))<=10: raise Fault('VALIDATION_FAILED','順序付き停留所座標を2〜10点指定してください')
-            for p in request['points']:
-                if not isinstance(p,list) or len(p)!=2 or any(type(v) not in (int,float) or not math.isfinite(v) for v in p) or abs(p[0])>180 or abs(p[1])>90: raise Fault('VALIDATION_FAILED','停留所座標が不正です')
-                choices.append({s['stop_id'] for s in stops.values() if s['location_type'] in ('','0') and all(round(v,6)==round(w,6) for v,w in zip(point(s),p))})
-        if any(not c for c in choices): raise Fault('MODE_UNSUPPORTED','乗り場までの道路徒歩接続は未実装です。実停留所を指定してください')
-        calendars=list(rows('calendar.txt'));exceptions=list(rows('calendar_dates.txt'))
-        # Include previous service day for GTFS 24+ times and next day, with a bounded 24-hour departure horizon.
-        service_days=[]
-        for offset in (-1,0,1):
-            d=date+timedelta(days=offset)
-            if feed['feed_start_date']<=d.strftime('%Y%m%d')<=feed['feed_end_date']:
-                service_days.append((d,int(datetime.combine(d,datetime.min.time(),ZONE).timestamp()*1000),active_services(calendars,exceptions,d)))
-        ids=set().union(*(s for _,_,s in service_days))
         routes={r['route_id']:r for r in rows('routes.txt')}
-        trips={t['trip_id']:t for t in rows('trips.txt') if t['service_id'] in ids and routes[t['route_id']]['route_type']=='3'}
+        trips={r['trip_id']:r for r in rows('trips.txt')}
         schedules=defaultdict(list)
-        for st in rows('stop_times.txt'):
-            if st['trip_id'] in trips: schedules[st['trip_id']].append(st)
-        fares={r['fare_id']:r for r in rows('fare_attributes.txt')};rules=list(rows('fare_rules.txt'))
-        candidates=[]
-        for trip_id,events in schedules.items():
-            events.sort(key=lambda s:int(s['stop_sequence']))
-            if len({e['stop_sequence'] for e in events})!=len(events): continue
-            selections=[]
-            for first in (i for i,e in enumerate(events) if e['stop_id'] in choices[0]):
-                selected=[first];cursor=first+1
-                for allowed in choices[1:]:
-                    found=next((j for j in range(cursor,len(events)) if events[j]['stop_id'] in allowed),None)
-                    if found is None: break
-                    selected.append(found);cursor=found+1
-                if len(selected)==len(choices): selections.append(selected)
-            if not selections: continue
-            try:
-                times=[(seconds(e['arrival_time']),seconds(e['departure_time'])) for e in events]
-                if any(a>b or i and a<times[i-1][1] for i,(a,b) in enumerate(times)): continue
-                trip=trips[trip_id]
-                for selected in selections:
-                    if events[selected[0]]['pickup_type'] not in ('','0') or events[selected[-1]]['drop_off_type'] not in ('','0'): continue
-                    if any(events[i]['pickup_type'] not in ('','0') or events[i]['drop_off_type'] not in ('','0') for i in selected[1:-1]): continue
-                    for d,midnight,services in service_days:
-                        if trip['service_id'] not in services: continue
-                        departure=midnight+times[selected[0]][1]*1000;arrival=midnight+times[selected[-1]][0]*1000
-                        if departure<earliest or departure>=earliest+86400000 or arrival<=departure or latest is not None and arrival>latest: continue
-                        used=events[selected[0]:selected[-1]+1];fare=fare_for(trip['route_id'],stops[used[0]['stop_id']]['zone_id'],stops[used[-1]['stop_id']]['zone_id'],{stops[e['stop_id']]['zone_id'] for e in used},rules,fares)
-                        if fare[payment] is None: continue
-                        candidates.append((arrival,departure,trip_id,d,midnight,events,selected,times,fare))
-            except Fault: continue
-        candidates.sort(key=lambda c:(c[0],c[1],c[2]));shapes=defaultdict(list)
+        for r in rows('stop_times.txt'): schedules[r['trip_id']].append(r)
+        for events in schedules.values(): events.sort(key=lambda r:int(r['stop_sequence']))
+        shapes=defaultdict(list)
         for r in rows('shapes.txt'): shapes[r['shape_id']].append(r)
-        plans=[];matched={}
-        for arrival,departure,trip_id,d,midnight,events,selected,times,fare in candidates:
-            trip=trips[trip_id];shape_rows=sorted(shapes[trip['shape_id']],key=lambda r:int(r['shape_pt_sequence']))
-            shape=[[float(r['shape_pt_lon']),float(r['shape_pt_lat'])] for r in shape_rows]
-            if len(shape)<2: continue
-            pattern=(trip['shape_id'],tuple(e['stop_id'] for e in events))
-            try:
-                if pattern not in matched: matched[pattern]=match_shape(shape,[point(stops[e['stop_id']]) for e in events])
-                indices=matched[pattern];legs=[];geometry=[]
-                for i,(a,b) in enumerate(zip(selected,selected[1:])):
-                    start,end=indices[a],indices[b]
-                    if end<=start: raise Fault('GEOMETRY_UNAVAILABLE','乗り場のshape位置が重複しています')
-                    line=[interpolate(shape,start)]+shape[math.floor(start)+1:math.ceil(end)]+[interpolate(shape,end)];geometry.extend(line if i==0 else line[1:])
-                    duration=(midnight+times[b][0]*1000-(earliest if i==0 else midnight+times[a][0]*1000))//1000
-                    legs.append({'fromIndex':i,'toIndex':i+1,'geometry':{'type':'LineString','coordinates':line},'distanceM':round(sum(metres(p,q) for p,q in zip(line,line[1:]))),'durationSec':duration})
-                chosen=[events[i] for i in selected]
-                plans.append({'provider':'toei-gtfs','scope':'direct_bus_only','tripId':trip_id,'routeId':trip['route_id'],'routeName':routes[trip['route_id']]['route_short_name'],'serviceId':trip['service_id'],'serviceDate':d.strftime('%Y%m%d'),'shapeId':trip['shape_id'],'stops':[{'stopId':e['stop_id'],'parentId':stops[e['stop_id']]['parent_station'] or None,'name':stops[e['stop_id']]['stop_name'],'coordinates':point(stops[e['stop_id']]),'stopSequence':int(e['stop_sequence']),'shapePosition':indices[i],'arrivalAt':midnight+times[i][0]*1000,'departureAt':midnight+times[i][1]*1000} for e,i in zip(chosen,selected)],'geometry':{'type':'LineString','coordinates':geometry},'legs':legs,'distanceM':sum(l['distanceM'] for l in legs),'durationSec':sum(l['durationSec'] for l in legs),'departureAt':departure,'arrivalAt':arrival,'waitDurationSec':(departure-earliest)//1000,'rideDurationSec':(arrival-departure)//1000,'fare':{**fare,'payment':payment,'amount':fare[payment],'passEvaluation':'not_applied'},'shapeMatching':{'method':'monotonic_segment_projection_inference','maxSnapM':60},'source':{'url':SOURCE,'license':'https://creativecommons.org/licenses/by/4.0/','attribution':'東京都交通局・公共交通オープンデータ協議会','modification':'GTFSから運行日/便/区間/運賃を抽出しshapeと停留所を照合','sha256':digest,'version':feed['feed_version'],'validFrom':feed['feed_start_date'],'validThrough':feed['feed_end_date'],'lastModified':metadata.get('lastModified'),'loadedAt':int(datetime.now().timestamp()*1000)}})
-                if len(plans)==2: break
-            except Fault: continue
-        if not plans: raise Fault('NO_DIRECT_BUS','条件を満たす同一便のバス経路がありません。乗継・鉄道・道路徒歩は未接続です')
-        return {'plans':plans}
+        for points in shapes.values(): points.sort(key=lambda r:int(r['shape_pt_sequence']))
+        return {'feed':feed,'metadata':metadata,'sha256':digest,'agency':agency,'stops':stops,
+                'routes':routes,'trips':trips,'schedules':schedules,'shapes':shapes,
+                'fares':{r['fare_id']:r for r in rows('fare_attributes.txt')},
+                'rules':list(rows('fare_rules.txt')),'calendars':list(rows('calendar.txt')),
+                'exceptions':list(rows('calendar_dates.txt')),
+                'transfers':list(rows('transfers.txt')) if 'transfers.txt' in z.namelist() else []}
+
+
+def run(feed_path,metadata_path,request):
+    loaded=load_feed(feed_path,metadata_path)
+    feed=loaded['feed'];metadata=loaded['metadata'];digest=loaded['sha256'];stops=loaded['stops']
+    def point(s): return [float(s['stop_lon']),float(s['stop_lat'])]
+    if request.get('action')=='stops':
+        q=request.get('q','');return {'items':[{'id':s['stop_id'],'name':s['stop_name'],'coordinates':point(s),'parentId':s['parent_station'] or None} for s in stops.values() if s['location_type'] in ('','0') and q in s['stop_name']][:50]}
+    earliest=request.get('earliestDepartureAt');latest=request.get('latestArrivalAt')
+    if type(earliest)!=int or earliest<0 or latest is not None and (type(latest)!=int or latest<=earliest): raise Fault('VALIDATION_FAILED','出発可能時刻・到着期限が不正です')
+    payment=request.get('payment','cash')
+    if payment not in ('cash','ic'): raise Fault('VALIDATION_FAILED','現金またはICを指定してください')
+    date=datetime.fromtimestamp(earliest/1000,ZONE).date();key=date.strftime('%Y%m%d')
+    if not feed['feed_start_date']<=key<=feed['feed_end_date']: raise Fault('FEED_EXPIRED','指定日はfeed有効期間外です')
+    choices=[]
+    if 'stopIds' in request:
+        if not isinstance(request['stopIds'],list) or not 2<=len(request['stopIds'])<=10 or any(not isinstance(s,str) for s in request['stopIds']): raise Fault('VALIDATION_FAILED','順序付き停留所を2〜10点指定してください')
+        for ident in request['stopIds']:
+            s=stops.get(ident)
+            if not s: raise Fault('NOT_FOUND','停留所がありません')
+            choices.append({ident} if s['location_type'] in ('','0') else {c['stop_id'] for c in stops.values() if c['parent_station']==ident and c['location_type'] in ('','0')})
+    else:
+        if not 2<=len(request.get('points',[]))<=10: raise Fault('VALIDATION_FAILED','順序付き停留所座標を2〜10点指定してください')
+        for p in request['points']:
+            if not isinstance(p,list) or len(p)!=2 or any(type(v) not in (int,float) or not math.isfinite(v) for v in p) or abs(p[0])>180 or abs(p[1])>90: raise Fault('VALIDATION_FAILED','停留所座標が不正です')
+            choices.append({s['stop_id'] for s in stops.values() if s['location_type'] in ('','0') and all(round(v,6)==round(w,6) for v,w in zip(point(s),p))})
+    if any(not c for c in choices): raise Fault('MODE_UNSUPPORTED','乗り場までの道路徒歩接続は未実装です。実停留所を指定してください')
+    calendars=loaded['calendars'];exceptions=loaded['exceptions']
+    # Include previous service day for GTFS 24+ times and next day, with a bounded 24-hour departure horizon.
+    service_days=[]
+    for offset in (-1,0,1):
+        d=date+timedelta(days=offset)
+        if feed['feed_start_date']<=d.strftime('%Y%m%d')<=feed['feed_end_date']:
+            service_days.append((d,int(datetime.combine(d,datetime.min.time(),ZONE).timestamp()*1000),active_services(calendars,exceptions,d)))
+    ids=set().union(*(s for _,_,s in service_days))
+    routes=loaded['routes']
+    trips={ident:t for ident,t in loaded['trips'].items() if t['service_id'] in ids and routes[t['route_id']]['route_type']=='3'}
+    schedules={ident:events for ident,events in loaded['schedules'].items() if ident in trips}
+    fares=loaded['fares'];rules=loaded['rules']
+    candidates=[]
+    for trip_id,events in schedules.items():
+        events.sort(key=lambda s:int(s['stop_sequence']))
+        if len({e['stop_sequence'] for e in events})!=len(events): continue
+        selections=[]
+        for first in (i for i,e in enumerate(events) if e['stop_id'] in choices[0]):
+            selected=[first];cursor=first+1
+            for allowed in choices[1:]:
+                found=next((j for j in range(cursor,len(events)) if events[j]['stop_id'] in allowed),None)
+                if found is None: break
+                selected.append(found);cursor=found+1
+            if len(selected)==len(choices): selections.append(selected)
+        if not selections: continue
+        try:
+            times=[(seconds(e['arrival_time']),seconds(e['departure_time'])) for e in events]
+            if any(a>b or i and a<times[i-1][1] for i,(a,b) in enumerate(times)): continue
+            trip=trips[trip_id]
+            for selected in selections:
+                if events[selected[0]]['pickup_type'] not in ('','0') or events[selected[-1]]['drop_off_type'] not in ('','0'): continue
+                if any(events[i]['pickup_type'] not in ('','0') or events[i]['drop_off_type'] not in ('','0') for i in selected[1:-1]): continue
+                for d,midnight,services in service_days:
+                    if trip['service_id'] not in services: continue
+                    departure=midnight+times[selected[0]][1]*1000;arrival=midnight+times[selected[-1]][0]*1000
+                    if departure<earliest or departure>=earliest+86400000 or arrival<=departure or latest is not None and arrival>latest: continue
+                    used=events[selected[0]:selected[-1]+1];fare=fare_for(trip['route_id'],stops[used[0]['stop_id']]['zone_id'],stops[used[-1]['stop_id']]['zone_id'],{stops[e['stop_id']]['zone_id'] for e in used},rules,fares)
+                    if fare[payment] is None: continue
+                    candidates.append((arrival,departure,trip_id,d,midnight,events,selected,times,fare))
+        except Fault: continue
+    candidates.sort(key=lambda c:(c[0],c[1],c[2]));shapes=loaded['shapes']
+    plans=[];matched={}
+    for arrival,departure,trip_id,d,midnight,events,selected,times,fare in candidates:
+        trip=trips[trip_id];shape_rows=sorted(shapes[trip['shape_id']],key=lambda r:int(r['shape_pt_sequence']))
+        shape=[[float(r['shape_pt_lon']),float(r['shape_pt_lat'])] for r in shape_rows]
+        if len(shape)<2: continue
+        pattern=(trip['shape_id'],tuple(e['stop_id'] for e in events))
+        try:
+            if pattern not in matched: matched[pattern]=match_shape(shape,[point(stops[e['stop_id']]) for e in events])
+            indices=matched[pattern];legs=[];geometry=[]
+            for i,(a,b) in enumerate(zip(selected,selected[1:])):
+                start,end=indices[a],indices[b]
+                if end<=start: raise Fault('GEOMETRY_UNAVAILABLE','乗り場のshape位置が重複しています')
+                line=[interpolate(shape,start)]+shape[math.floor(start)+1:math.ceil(end)]+[interpolate(shape,end)];geometry.extend(line if i==0 else line[1:])
+                duration=(midnight+times[b][0]*1000-(earliest if i==0 else midnight+times[a][0]*1000))//1000
+                legs.append({'fromIndex':i,'toIndex':i+1,'geometry':{'type':'LineString','coordinates':line},'distanceM':round(sum(metres(p,q) for p,q in zip(line,line[1:]))),'durationSec':duration})
+            chosen=[events[i] for i in selected]
+            plans.append({'provider':'toei-gtfs','scope':'direct_bus_only','tripId':trip_id,'routeId':trip['route_id'],'routeName':routes[trip['route_id']]['route_short_name'],'serviceId':trip['service_id'],'serviceDate':d.strftime('%Y%m%d'),'shapeId':trip['shape_id'],'stops':[{'stopId':e['stop_id'],'parentId':stops[e['stop_id']]['parent_station'] or None,'name':stops[e['stop_id']]['stop_name'],'coordinates':point(stops[e['stop_id']]),'stopSequence':int(e['stop_sequence']),'shapePosition':indices[i],'arrivalAt':midnight+times[i][0]*1000,'departureAt':midnight+times[i][1]*1000} for e,i in zip(chosen,selected)],'geometry':{'type':'LineString','coordinates':geometry},'legs':legs,'distanceM':sum(l['distanceM'] for l in legs),'durationSec':sum(l['durationSec'] for l in legs),'departureAt':departure,'arrivalAt':arrival,'waitDurationSec':(departure-earliest)//1000,'rideDurationSec':(arrival-departure)//1000,'fare':{**fare,'payment':payment,'amount':fare[payment],'passEvaluation':'not_applied'},'shapeMatching':{'method':'monotonic_segment_projection_inference','maxSnapM':60},'source':{'url':SOURCE,'license':'https://creativecommons.org/licenses/by/4.0/','attribution':'東京都交通局・公共交通オープンデータ協議会','modification':'GTFSから運行日/便/区間/運賃を抽出しshapeと停留所を照合','sha256':digest,'version':feed['feed_version'],'validFrom':feed['feed_start_date'],'validThrough':feed['feed_end_date'],'lastModified':metadata.get('lastModified'),'loadedAt':int(datetime.now().timestamp()*1000)}})
+            if len(plans)==2: break
+        except Fault: continue
+    if not plans: raise Fault('NO_DIRECT_BUS','条件を満たす同一便のバス経路がありません。乗継・鉄道・道路徒歩は未接続です')
+    return {'plans':plans}
 
 if __name__=='__main__':
     try: print(json.dumps(run(sys.argv[1],sys.argv[2],json.load(sys.stdin)),ensure_ascii=False))
