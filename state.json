@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 516,
+  "revision": 517,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35511,7 +35511,9 @@
         "src/features/suggestions/",
         "docs/evidence/UI-SUGGESTIONS/",
         "server/features/suggestions/generation.mjs",
-        "server/features/suggestions/generation.test.mjs"
+        "server/features/suggestions/generation.test.mjs",
+        "server/features/suggestions/domain.mjs",
+        "server/features/suggestions/domain.test.mjs"
       ],
       "status": "claimed",
       "submitted_commit": null,
