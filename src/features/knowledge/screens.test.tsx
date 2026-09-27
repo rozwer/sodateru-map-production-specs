@@ -151,7 +151,7 @@ it('list re-entry invalidates pages and re-reads first page after public records
 it('rest-tip selection uses tips for list and map, then returns to experiences', async () => {
   const tip = { id: 'tip', person: { id: 'author', displayName: '作者', iconPath: null }, body: '日陰のベンチで休憩', place: null, effectiveAt: null, visibility: 'public', media: [], purposes: ['休憩'] };
   const experience = { ...tip, id: 'experience', body: '公園を歩いた体験', purposes: ['散歩'] };
-  request.mockImplementation(async (operation, input) => operation === 'getKnowledgeMap' ? { data: { items: [], totalCount: 1 } } : { items: [input.query.category === 'tips' ? tip : experience], totalCount: 1, nextCursor: null });
+  request.mockImplementation(async (operation, input) => operation === 'getKnowledgeTopics' ? { items: [{ topicKey: 'rest', purposes: ['休憩'] }] } : operation === 'getKnowledgeMap' ? { data: { items: [], totalCount: 1 } } : { items: [input.query.category === 'tips' ? tip : experience], totalCount: 1, nextCursor: null });
   await render('knowledge-list', { query: '公園' });
   await click('[data-testid="knowledge-list--kind"] label:nth-of-type(1) input');
   expect(request.mock.calls.at(-1)![0]).toBe('getKnowledge');
@@ -192,4 +192,54 @@ it('area selection applies coordinates while cancel leaves route conditions unto
   await click('[data-testid="knowledge-filter--purpose"] label:nth-of-type(1) input');
   await act(async () => host.querySelector('section')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
   expect(navigate).not.toHaveBeenCalled();
+});
+
+it('author conditions reach both list and map and author link opens that shared map', async () => {
+  await render('knowledge-list', { personId: 'author' });
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledge')![1].query.personIds).toEqual(['author']);
+  await click('[data-testid="knowledge-list--map"]');
+  await render('local-knowledge', navigate.mock.calls.at(-1)![1]);
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledgeMap')![1].query.personIds).toEqual(['author']);
+  request.mockResolvedValue({ data: { id: 'r', person: { id: 'author', displayName: '作者', iconPath: null }, body: '投稿原文', place: null, effectiveAt: null, visibility: 'public', media: [], purposes: [] } });
+  await render('knowledge-detail', { recordId: 'r' });
+  await click('.knowledge-related button:nth-child(2)');
+  expect(navigate).toHaveBeenLastCalledWith('friends-map', { personId: 'author' });
+  await click('.knowledge-related button:nth-child(3)');
+  expect(host.textContent).toContain('作者さんが投稿した原文');
+});
+it('selected place details clear on a failed change while a closed sheet keeps the map', async () => {
+  request.mockImplementation(async (operation, input) => {
+    if (operation === 'getPlacesPlaceId') {
+      if (input.path.placeId === 'missing') throw new ApiError(404, 'NOT_FOUND', '場所はありません', 'request');
+      return { data: { place: { id: 'park', name: '選択した公園', coordinates: [139, 35], address: '住所', attribution: '手動登録', fetchedAt: null }, openingHours: null } };
+    }
+    if (operation === 'getKnowledgeMap') return { data: { items: [], totalCount: 0 } };
+    return { items: [], totalCount: 0, nextCursor: null };
+  });
+  await render('local-knowledge', { placeId: 'park' });
+  expect(host.textContent).toContain('選択した公園');
+  expect(host.textContent).toContain('場所の現在情報');
+  await click('[aria-label="場所シートを閉じる"]');
+  expect(navigate).not.toHaveBeenCalled();
+  expect(host.textContent).toContain('地域の声を開く');
+  await render('local-knowledge', { placeId: 'missing' });
+  expect(host.textContent).not.toContain('選択した公園');
+  expect(host.textContent).toContain('場所はありません');
+});
+it('rest tips at a selected place use voices with the same dictionary and place', async () => {
+  request.mockImplementation(async operation => operation === 'getKnowledgeTopics' ? { items: [{ topicKey: 'rest', purposes: ['休憩'] }] } : { items: [], totalCount: 0, nextCursor: null });
+  await render('knowledge-list', { placeId: 'park', kind: 'rest-tip' });
+  const input = request.mock.calls.find(call => call[0] === 'getPlacesPlaceIdVoices')![1];
+  expect(input.path).toEqual({ placeId: 'park' });
+  expect(input.query).toMatchObject({ topicKey: 'rest', purposes: ['休憩'] });
+  expect(input.query).not.toHaveProperty('category');
+});
+it('people name search uses its contract without pretending region filtering exists', async () => {
+  request.mockResolvedValue({ items: [{ id: 'author', name: '作者', bio: '散歩好き', avatarUrl: null }], nextCursor: null });
+  await render('knowledge-list', { kind: 'people', query: '作者' });
+  expect(request.mock.calls.at(-1)![0]).toBe('getPeople');
+  expect(host.textContent).toContain('散歩好き');
+  await render('knowledge-list', { kind: 'people', query: '作者', filters: JSON.stringify({ ...emptyFilters, purpose: 'rest' }) });
+  expect(host.textContent).toContain('人物検索は未提供');
+  expect(host.textContent).not.toContain('散歩好き');
 });
