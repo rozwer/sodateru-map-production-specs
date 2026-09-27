@@ -34346,7 +34346,7 @@
     "UI-DEMO-ALL",
     "UI-DEMO-EXTENSIONS"
   ],
-  "revision": 568,
+  "revision": 569,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35303,14 +35303,14 @@
       "generation": 1,
       "issue_number": 396,
       "landed_main": null,
-      "note": null,
+      "note": "https://github.com/rozwer/sodateru-map-production-specs/pull/397",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/disaster/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "11bd1143f516920ceb659b5dbc70f32e798111c2",
       "token": "2db5fe770cb7412297cf8011c35516bc"
     },
     "UI-EXPLORE": {
