@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 372,
+  "revision": 373,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35283,17 +35283,20 @@
       "token": null
     },
     "UI-KNOWLEDGE": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 3,
       "issue_number": 16,
       "landed_main": null,
       "note": "Urgent 15-minute integration handoff: verified UI updates published in PR155, commit9841520/head0416714. Worktree clean and retained. UI remains incomplete: screens registration and local-knowledge shared bottom Sheet/cube/keyboard-scroll checks; API draft preserved for formal CONNECT successor. Release own paths so integration can claim and finish necessary wiring. Do not close Issue16 as complete.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/knowledge/",
+        "docs/evidence/UI-KNOWLEDGE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "b7c1f3bdd8974ff8b97b19eeaf56266a"
     },
     "UI-MAP": {
       "actor": null,
