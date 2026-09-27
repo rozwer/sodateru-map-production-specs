@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 403,
+  "revision": 404,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34598,35 +34598,13 @@
       "base_commit": "358eb63aa8329fce20b9ce9a48e43bc7be6f36d7",
       "generation": 9,
       "issue_number": 3,
-      "landed_main": null,
+      "landed_main": "eceba47be3fa5891561b01784085644fb6279590",
       "note": "docs/evidence/CORE/contract-refresh-20260927.md",
       "owner": "rozwer",
-      "paths": [
-        "server/app/",
-        "server/core/",
-        "server/db/connection.ts",
-        "server/db/migrate.ts",
-        "server/db/migrations/000-base.sql",
-        "tools/local/",
-        "package.json",
-        "bun.lock",
-        "tsconfig.json",
-        "docs/01_requirements/04_api/fragments/CORE.json",
-        "packages/api-client/",
-        "docs/01_requirements/04_api/tools/",
-        "docs/01_requirements/04_api/fragments/common.json",
-        "docs/01_requirements/04_api/openapi.json",
-        "docs/01_requirements/04_api/schemas/",
-        "docs/01_requirements/04_api/endpoints/",
-        "docs/01_requirements/04_api/conventions/",
-        "docs/01_requirements/04_api/README.md",
-        "docs/01_requirements/04_api/coverage.md",
-        "docs/01_requirements/04_api/examples.md",
-        "docs/evidence/CORE/"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "24311d4175ff28c1a42813fe479b93ed81172df5",
-      "token": "1dc594f58376408282eef22a532b63c2"
+      "token": null
     },
     "DAILY-TRACK-MARKER-REVEAL": {
       "actor": "mattsun",
