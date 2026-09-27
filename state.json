@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 368,
+  "revision": 369,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35497,17 +35497,21 @@
       "token": null
     },
     "VISUAL-SETTINGS": {
-      "actor": null,
-      "base_commit": "daa63267847821a3f99ba033d549e7cfe1451bf9",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 3,
       "issue_number": 191,
       "landed_main": null,
       "note": "PR #206 merged 11422c8; partial reference repair delivered; statistics API/registration and remaining acceptance handed to #145; evidence docs/evidence/VISUAL-SETTINGS/README.md; deadline stop",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/settings/",
+        "src/features/health/",
+        "docs/evidence/VISUAL-SETTINGS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "818f09d019d04f518c669bcb135b9027"
     },
     "VISUAL-SHELL": {
       "actor": "rozwer",
