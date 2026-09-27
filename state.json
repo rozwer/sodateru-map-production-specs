@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 442,
+  "revision": 443,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35057,16 +35057,13 @@
       "claim_unit": null,
       "generation": 5,
       "issue_number": 268,
-      "landed_main": null,
-      "note": "1周目締切: PR #351 HEAD31479f7保持。実feed直通一致・公開runner/TS乗継420円PASS。独立レビュー未着のため未merge/未close。次は本PR独立レビューと通常merge。worktree rozwer-268-transit-repair保持。",
+      "landed_main": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
+      "note": "PR #351 / ffe98d91feaf4d7771ff6d8058876988af742194; docs/evidence/ROUTES-TRANSIT-GTFS/current-check.json + README.md + fixture4/helper3 PASS; independent review provider acceptance PASS; handoff #25 https://github.com/rozwer/sodateru-map-production-specs/issues/25#issuecomment-5854495020 and #88 https://github.com/rozwer/sodateru-map-production-specs/issues/88#issuecomment-5854495198; no code changes or repeated tests",
       "owner": "rozwer",
-      "paths": [
-        "server/features/routes-transit/",
-        "docs/evidence/ROUTES-TRANSIT-GTFS/"
-      ],
-      "status": "claimed",
-      "submitted_commit": null,
-      "token": "06bc27a9f76740c49c2f9f5cfd4a9464"
+      "paths": [],
+      "status": "done",
+      "submitted_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
+      "token": null
     },
     "SETTINGS": {
       "actor": "koshiro",
