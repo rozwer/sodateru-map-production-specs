@@ -20,6 +20,120 @@
         "postRecordsRecordIdMedia",
         "deleteMediaMediaId"
       ]
+    },
+    {
+      "id": "question-save",
+      "page": "reflection-question",
+      "action": "answering--save",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "patchReflectionQuestionsQuestionId",
+        "getReflectionQuestionsQuestionId",
+        "getRecordsRecordId",
+        "getRecordsRecordIdMedia"
+      ]
+    },
+    {
+      "id": "question-later",
+      "page": "reflection-question",
+      "action": "answering--later",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "patchReflectionQuestionsQuestionId",
+        "getReflectionQuestionsQuestionId",
+        "getRecordsRecordId",
+        "getRecordsRecordIdMedia"
+      ]
+    },
+    {
+      "id": "question-skip",
+      "page": "reflection-question",
+      "action": "answering--skip",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "patchReflectionQuestionsQuestionId",
+        "getReflectionQuestionsQuestionId",
+        "getRecordsRecordId",
+        "getRecordsRecordIdMedia"
+      ]
+    },
+    {
+      "id": "answer-interpretation",
+      "page": "reflection-history",
+      "action": "answer-expanded--update-interpretation",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "getReflectionQuestionsQuestionId",
+        "getRecordsRecordId",
+        "postConversations",
+        "postConversationsConversationIdMessages",
+        "getMessagesMessageId",
+        "postReflectionAdoptions"
+      ]
+    },
+    {
+      "id": "comparison-save",
+      "page": "experience-compare",
+      "action": "main--save",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "postReflectionComparisons",
+        "patchReflectionComparisonsComparisonId",
+        "getReflectionComparisonsComparisonId"
+      ]
+    },
+    {
+      "id": "memo-save",
+      "page": "memo-edit",
+      "action": "main--save",
+      "write_paths": [
+        "src/features/reflection/"
+      ],
+      "ui_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "ui_evidence": "docs/evidence/UI-REFLECTION/normal-save-2026-09-27.md",
+      "contract_commit": "a454acc0ac65cc316d3eb816cbf2fdf025d55d39",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "postRecords",
+        "patchRecordsRecordId",
+        "getRecordsRecordId"
+      ]
     }
   ]
 }
