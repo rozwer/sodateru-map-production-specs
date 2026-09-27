@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 419,
+  "revision": 420,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34465,20 +34465,17 @@
       "token": null
     },
     "CONNECT-FRIENDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "3681e002433b69a30d57f5cfba59b5301913787f",
-      "generation": 1,
+      "generation": 2,
       "issue_number": 142,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-FRIENDS/sharing-race-20260927.md",
+      "note": "First pass ended by deadline. PR343 and PR346 merged; 58fd433 preserved via b6b6e219. Full Issue142 incomplete, do not close. Evidence sharing-race-20260927.md. Worktree /Users/roz/Documents/sodateru-connect-friends-0927 retains untracked friend-boundary.mjs/json (only unlink setup ran, no defect verdict); dedicated DB retained, test processes stopped.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "docs/evidence/CONNECT-FRIENDS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "58fd433fe1726833d54550486762008e9cac6686",
-      "token": "49fb22ec0d744816aadd308b794195be"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-HEALTH": {
       "actor": null,
