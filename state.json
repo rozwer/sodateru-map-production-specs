@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 435,
+  "revision": 436,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35048,18 +35048,21 @@
       "token": null
     },
     "ROUTES-TRANSIT-GTFS": {
-      "actor": null,
-      "base_commit": "b16995b987f95c6e407f8e5e5539907b9304bf1d",
+      "actor": "rozwer",
+      "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": null,
-      "generation": 4,
+      "generation": 5,
       "issue_number": 268,
       "landed_main": null,
       "note": "1周目締切: PR #351 HEAD31479f7保持。実feed直通一致・公開runner/TS乗継420円PASS。独立レビュー未着のため未merge/未close。次は本PR独立レビューと通常merge。worktree rozwer-268-transit-repair保持。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/routes-transit/",
+        "docs/evidence/ROUTES-TRANSIT-GTFS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "06bc27a9f76740c49c2f9f5cfd4a9464"
     },
     "SETTINGS": {
       "actor": "koshiro",
