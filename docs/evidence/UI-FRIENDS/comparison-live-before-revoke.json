@@ -1,0 +1,12 @@
+[
+  {
+    "id": "11777fab-c8fa-43be-ace1-cdc7a4bb987c",
+    "version": 9,
+    "status": "complete",
+    "attempt": 3,
+    "model": "gpt-5.6-luna",
+    "insight_id": "insight_2d1a96b715f9d0686d40527cdec0aed12752905589af3561",
+    "source_refs_json": "[{\"type\":\"place\",\"id\":\"ui-friends-live-place-alice\",\"version\":1},{\"type\":\"place\",\"id\":\"ui-friends-live-place-bob\",\"version\":1},{\"type\":\"record\",\"id\":\"ui-friends-live-record-alice\",\"version\":7},{\"type\":\"record\",\"id\":\"ui-friends-live-record-bob\",\"version\":2}]",
+    "result_json": "{\"mappings\":[{\"fromRecordId\":\"ui-friends-live-record-alice\",\"toRecordId\":\"ui-friends-live-record-bob\",\"relation\":\"different-place-same-role\",\"explanation\":\"どちらも用途は「休憩」で、木陰のベンチで本を読み、静かな場所だと感じています。一方、記録上の場所は「あかり」と「ひなた」で別の公園です。\",\"evidenceIds\":[\"src_1\",\"src_2\"],\"rejected\":false}]}"
+  }
+]
