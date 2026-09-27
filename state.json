@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 528,
+  "revision": 529,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34473,14 +34473,14 @@
       "generation": 1,
       "issue_number": 147,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/CONNECT-COMPANION/acceptance.md",
       "owner": "rozwer",
       "paths": [
         "src/features/companion/",
         "docs/evidence/CONNECT-COMPANION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "32af66c137c90b2b4d73684413c4741d6c8df623",
       "token": "b334aec139974436a9441d05ea913b9d"
     },
     "CONNECT-EXPLORE": {
