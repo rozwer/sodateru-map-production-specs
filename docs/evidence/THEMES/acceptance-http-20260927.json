@@ -1,0 +1,14 @@
+{
+  "checkedAt": "2026-09-27T09:42:44.329Z",
+  "origin": "http://127.0.0.1:64318",
+  "themeId": "c38a30c4-33d8-43fa-8796-df47414bfadd",
+  "mediaId": "4c295ca8-2aa0-41a2-9e2d-ee1e4a1f6a88",
+  "memoId": "9d633a20-a732-4ece-9c74-f950ea846898",
+  "checks": [
+    "private: owner 200, accepted friend and outsider 404",
+    "selected: friend sees theme but no private records/media/recipient IDs; outsider 404",
+    "selected record: friend gets only permitted record and cover; outsider media 404",
+    "public theme does not expose selected/private member records or photo",
+    "own memo list retains name/origin version/keywords and independent body"
+  ]
+}

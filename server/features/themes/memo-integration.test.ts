@@ -11,6 +11,7 @@ import records from '../records/register.ts';
 import { registerMemoExtension } from './record-extension.ts';
 import { themesMigration } from './register.ts';
 import { createTheme,getTheme,readMemoPresentation } from './service.ts';
+import { createInformationService } from '../../information/service.ts';
 
 test('RECORDS transaction saves memo presentation and keeps ordinary long answers and independent body',()=>{
   const dir=mkdtempSync(join(tmpdir(),'themes-records-'));
@@ -24,6 +25,9 @@ test('RECORDS transaction saves memo presentation and keeps ordinary long answer
     const input={...base,id:'memo',kind:'memo' as const,body:'屋内で休みたい',memo};
     transaction(db,()=>createRecord(db,'p',input));
     assert.deepEqual(readMemoPresentation(db,'p','memo'),memo);
+    const context={personId:'p',dataMode:'live' as const,requestId:'memo-list',signal:new AbortController().signal};
+    const listed=createInformationService(db).ownRecordsPage(context,{kind:'memo',includeUndated:true}).items;
+    assert.deepEqual(listed.find(item=>item.id==='memo')?.memo,memo);
     const ordinary=transaction(db,()=>createRecord(db,'p',{...base,id:'answer',kind:'memo',body:'あ'.repeat(300)}));
     assert.equal(ordinary.body.length,300);assert.equal(readMemoPresentation(db,'p','answer'),null);
     assert.throws(()=>transaction(db,()=>patchRecord(db,'p','memo',{body:'あ'.repeat(201)},1)),{code:'VALIDATION_FAILED'});
