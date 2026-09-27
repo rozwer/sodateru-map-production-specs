@@ -68,7 +68,8 @@ function presentStoredExamples(d: DemoData) {
     if (message.body.endsWith('（デモ表示）。')) message.body = message.body.replace('（デモ表示）。', '。');
     if (message.body.endsWith('（表示例）。')) message.body = message.body.replace('（表示例）。', '。');
   }
-  for (const route of d.routes) if (route.title?.endsWith('（表示例）')) route.title = route.title.replace('（表示例）', '');
+  const generatedRouteTitles = new Set(d.planSets.map(planSet => `${planSet.region}の体験移転（表示例）`));
+  for (const route of d.routes) if (generatedRouteTitles.has(route.title)) route.title = route.title.replace('（表示例）', '');
   for (const card of d.cards) {
     if (card.bridge === '見慣れた場所でも、視点を変えると違う発見があります（表示例）。') card.bridge = '見慣れた場所でも、視点を変えると違う発見があります。';
     if (card.knowledge === '形・色・音などを観察してみましょう（デモ用の説明）。') card.knowledge = '形・色・音などを観察してみましょう。';
