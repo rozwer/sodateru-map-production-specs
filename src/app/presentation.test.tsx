@@ -52,3 +52,32 @@ it('opens the map camera, cancels without navigation, and hands selected photos 
   expect(host.querySelector('dialog')).toBeNull();
   await act(async () => root.unmount()); host.remove(); vi.unstubAllGlobals();
 });
+
+
+it('opens the registered self home from direct links, the main menu, and the bottom tab', async () => {
+  vi.stubGlobal('ResizeObserver', class { observe() {} disconnect() {} });
+  vi.stubGlobal('requestAnimationFrame', () => 0); vi.stubGlobal('cancelAnimationFrame', () => {});
+  history.replaceState(null, '', '#/self-home');
+  let mounts = 0;
+  function SelfHome({navigate}: import('./contracts').ScreenProps) {
+    useEffect(() => { mounts++; }, []);
+    return <div data-self-home><button onClick={() => navigate('navigation', {mode: 'main'})}>open main menu</button></div>;
+  }
+  const host = document.createElement('div'); document.body.append(host); const root = createRoot(host);
+  await act(async () => root.render(<App screens={[{id: 'self-home', title: '自分を知る', component: SelfHome, layout: {header: 'none', bottomNav: true}}]}/>));
+  const home = host.querySelector('[data-self-home]');
+  expect(home).not.toBeNull();
+  expect(home!.closest('[hidden]')).toBeNull();
+  expect(host.querySelector('.sm-app--nav-cards')).toBeNull();
+  await act(async () => [...host.querySelectorAll('button')].find(button => button.textContent === 'open main menu')!.click());
+  await act(async () => [...host.querySelectorAll('.sm-navigation__links button')].find(button => button.textContent?.includes('自分を知る'))!.dispatchEvent(new MouseEvent('click', {bubbles: true})));
+  expect(location.hash).toBe('#/self-home');
+  expect(home!.closest('[hidden]')).toBeNull();
+  await act(async () => host.querySelector<HTMLButtonElement>('.sm-bottom-nav__map')!.click());
+  expect(location.hash).toBe('#/map');
+  await act(async () => host.querySelector<HTMLButtonElement>('.sm-bottom-nav button')!.click());
+  expect(location.hash).toBe('#/self-home');
+  expect(home!.closest('[hidden]')).toBeNull();
+  expect(mounts).toBe(1);
+  await act(async () => root.unmount()); host.remove(); vi.unstubAllGlobals();
+});
