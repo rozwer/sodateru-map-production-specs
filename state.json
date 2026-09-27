@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 465,
+  "revision": 466,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35433,15 +35433,15 @@
       "generation": 3,
       "issue_number": 17,
       "landed_main": null,
-      "note": "ユーザー緊急終了指示。PR #167 / 6dacd4fをUI-INTEGRATION #98へ引継ぎ。設定UI先行提供、統計接続・live受入・健康は未完。worktreeを保持しbacklogへ返却。",
+      "note": "docs/evidence/UI-SETTINGS/2026-09-27-photo-scope-roundtrip.md",
       "owner": "rozwer",
       "paths": [
         "src/features/settings/",
         "src/features/health/",
         "docs/evidence/UI-SETTINGS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "47cfed869739490084a2172e101184256dddf606",
       "token": "d6c2a3af4ec64fe6ab382ac219ae8fcf"
     },
     "UI-SUGGESTIONS": {
