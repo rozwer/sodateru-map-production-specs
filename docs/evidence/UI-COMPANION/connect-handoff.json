@@ -1,0 +1,22 @@
+{
+  "source_ui_task": "UI-COMPANION",
+  "connection_task": "CONNECT-COMPANION",
+  "units": [
+    {
+      "id": "companion-settings-save",
+      "page": "companion-settings",
+      "action": "main--save",
+      "write_paths": [
+        "src/features/companion/"
+      ],
+      "ui_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "ui_evidence": "docs/evidence/UI-COMPANION/README.md",
+      "contract_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "updateCompanionSettings"
+      ]
+    }
+  ]
+}

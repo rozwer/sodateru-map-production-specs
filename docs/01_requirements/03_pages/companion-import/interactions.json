@@ -24,10 +24,10 @@
     "effect": "ZIPを選んで形式と画像を検査し、成功時だけ動作プレビューを表示する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "pet"
+    "api": [
+      "importCompanionZip"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   },
   {
@@ -91,10 +91,24 @@
     "effect": "検査済みペットを登録し、今の相棒にするがONの場合だけ選択も更新する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "pet"
+    "api": [
+      "registerCompanionImport"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
+  },
+  {
+    "id": "main--confirm",
+    "component": "main--content--validation",
+    "from": "main",
+    "event": "change",
+    "effect": "検査済みZIPの25動作を表示した後の明示確認で、検査版と確認済み動作一覧を送信する。成功後にだけ登録可能にする。",
+    "destination": null,
+    "carry": [],
+    "api": [
+      "confirmCompanionImport"
+    ],
+    "apiGaps": [],
+    "completion": "確認成功で登録を有効化する。失敗は検査結果と表示済み動作を保持し再試行する。"
   }
 ]

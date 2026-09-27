@@ -127,10 +127,10 @@
     "effect": "選択petId・表示・サイズ・動き設定を保存し同じ設定で再表示する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "pet"
+    "api": [
+      "updateCompanionSettings"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   }
 ]
