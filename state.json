@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 406,
+  "revision": 407,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35296,17 +35296,21 @@
       "token": null
     },
     "UI-INTEGRATION": {
-      "actor": null,
-      "base_commit": "0216502b0fcba53a379fff9b7fdf8cc8da24b191",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "db1e338a83fb71e7dccf8111ec8303f954cc34ae",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 98,
       "landed_main": null,
       "note": "PR130/170 and 13 UI deliveries integrated; QA 448a857 verified. Reference-matching UI and remaining CONNECT acceptance handed off; worktree preserved.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/integration/",
+        "docs/integration/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "01f0184cde804776b4026e6b3edfe749"
     },
     "UI-KNOWLEDGE": {
       "actor": null,
