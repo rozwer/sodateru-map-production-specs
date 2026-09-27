@@ -122,7 +122,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   };
   const screenProps: ScreenProps = { route: current.route, navigate: go, back, scopeKey, active: active && !mapControlsCovered };
   return <MapBridgeContext.Provider value={bridge}><ScreenStateContext.Provider value={saved}>
-    <main className={`sm-app${cardMode ? ' sm-app--nav-cards' : ''}`} style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
+    <main className={`sm-app${dataMode === 'demo' ? ' sm-app--demo' : ''}${cardMode ? ' sm-app--nav-cards' : ''}`} style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
       // WebKit may leave focus on the dialog after a pointer activation. Record the real trigger.
       const button = (event.target as Element).closest<HTMLButtonElement>('button');
       if (button && !button.disabled) button.focus({ preventScroll: true });

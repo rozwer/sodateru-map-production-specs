@@ -115,3 +115,59 @@ it('履歴の再取得失敗時は古い質問・根拠カードを表示しな�
   expect(host.textContent).toContain('履歴の再取得に失敗');
   expect(host.textContent).not.toContain('この状態の振り返りはまだありません。');
 });
+
+it.each([true, false])('通常のrecordId入口から質問生成を明示開始する（質問あり=%s）', async hasQuestion => {
+  const navigate = vi.fn();
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getReflectionQuestions') return { items: [], nextCursor: null };
+    if (operation === 'getRecordsRecordId') return { data: { record: { id: 'r1', version: 2 } } };
+    if (operation === 'postConversations' || operation === 'postConversationsConversationIdMessages') return {};
+    if (operation === 'getMessagesMessageId') return { data: { run: { task: 'extract', status: 'complete', attempt: 1, result: { question: hasQuestion ? { topic: 'reason', text: 'なぜ？' } : null } } } };
+    if (operation === 'postReflectionQuestions') return { data: { id: 'generated-q' } };
+    throw new Error(operation);
+  });
+  await act(async () => root.render(
+    <ScreenStateContext.Provider value={new Map()}><ScreenKeyContext.Provider value="initial-question">
+      <QuestionsScreen route={{ pageId: 'reflection-question', params: { recordId: 'r1', timeZone: 'Asia/Tokyo' } }} scopeKey="test:person" active navigate={navigate} back={vi.fn()} />
+    </ScreenKeyContext.Provider></ScreenStateContext.Provider>,
+  ));
+  expect(request.mock.calls.some(call => call[0] === 'postConversations')).toBe(false);
+  const start = [...host.querySelectorAll('button')].find(button => button.textContent === 'この記録から振り返りを始める')!;
+  await act(async () => start.click());
+  expect(request).toHaveBeenCalledWith('postConversationsConversationIdMessages', expect.objectContaining({body: expect.objectContaining({
+    use: 'extract', context: { recordId: 'r1', answers: [] }, expectedRefs: [{ type: 'record', id: 'r1', version: 2 }],
+  })}));
+  if (hasQuestion) expect(navigate).toHaveBeenCalledWith('reflection-question', { recordId: 'r1', timeZone: 'Asia/Tokyo', questionId: 'generated-q' });
+  else {
+    expect(navigate).not.toHaveBeenCalled();
+    expect(host.textContent).toContain('この記録について追加の質問はありません。');
+    expect(request.mock.calls.some(call => call[0] === 'postReflectionQuestions')).toBe(false);
+  }
+});
+
+it('根拠更新で質問引用が無効になっても保存済み回答から再整理できる', async () => {
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getReflectionQuestionsQuestionId') return { data: {
+      id: 'q1', targetRecordId: 'r1', questionText: null, evidenceState: 'changed', createdAt: 1,
+      status: 'answered', answerText: '保存した回答原文', answerRef: { type: 'record', id: 'a1', version: 1 },
+    } };
+    if (operation === 'getRecordsRecordId') return { data: { record: { id: 'r1', version: 2, kind: 'experience', body: '更新済みの根拠', purposes: [] } } };
+    if (operation === 'getRecordsRecordIdMedia') return { items: [] };
+    if (operation === 'postConversations' || operation === 'postConversationsConversationIdMessages') return {};
+    if (operation === 'getMessagesMessageId') return { data: { run: { task: 'extract', status: 'complete', result: { purpose: '休憩', reason: '落ち着いた', question: null } } } };
+    throw new Error(operation);
+  });
+  await act(async () => root.render(
+    <ScreenStateContext.Provider value={new Map()}><ScreenKeyContext.Provider value="changed-question">
+      <QuestionsScreen route={{ pageId: 'reflection-question', params: { questionId: 'q1', interpret: 'true' } }} scopeKey="test:person" active navigate={vi.fn()} back={vi.fn()} />
+    </ScreenKeyContext.Provider></ScreenStateContext.Provider>,
+  ));
+  const generate = [...host.querySelectorAll('button')].find(button => button.textContent === 'AIで整理する')!;
+  expect(generate.disabled).toBe(false);
+  await act(async () => generate.click());
+  expect(request).toHaveBeenCalledWith('postConversationsConversationIdMessages', expect.objectContaining({ body: expect.objectContaining({
+    context: { recordId: 'r1', answers: [] }, expectedRefs: [{ type: 'record', id: 'r1', version: 2 }, { type: 'record', id: 'a1', version: 1 }],
+  }) }));
+  expect(host.querySelector('textarea')?.value).toBe('保存した回答原文');
+  expect(host.textContent).toContain('休憩');
+});

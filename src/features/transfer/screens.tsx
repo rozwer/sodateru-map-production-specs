@@ -104,7 +104,7 @@ function TransferScreen({ route, navigate, active = true }: ScreenProps) {
     }, ({ recipe, settings }) => {
       acceptRecipe(recipe);
       if (!settings.ai.enabled || !settings.ai.allowLocation || !settings.ai.allowRecords) {
-        flow.setConsent({ text: state.preferences || '元の体験の意味を大切にして、二つの案を比較してください。', textLimit: 4000, place: null, origin: { coordinates: [state.start.longitude, state.start.latitude], kind: 'selected', label: `${state.region}での起点` }, returnPage: 'experience-transfer', settings, recordsRequired: true, sourceSummary: [recipe.title, recipe.meaning, ...recipe.steps.map(step => step.meaning)], cancel: confirmed => change({ preferences: confirmed.text }), send: async (confirmed, signal) => { const start = confirmed.origin ? { longitude: confirmed.origin.coordinates[0], latitude: confirmed.origin.coordinates[1] } : state.start; await generate(recipe, confirmed.text, start, signal); } });
+        flow.setConsent({ text: state.preferences || '元の体験の意味を大切にして、二つの案を比較してください。', textLimit: 4000, place: null, origin: { coordinates: [state.start.longitude, state.start.latitude], kind: 'selected', label: `${state.region}での起点` }, returnPage: 'experience-transfer', returnParams: { ...route.params }, settings, recordsRequired: true, sourceSummary: [recipe.title, recipe.meaning, ...recipe.steps.map(step => step.meaning)], cancel: confirmed => change({ preferences: confirmed.text }), send: async (confirmed, signal) => { const start = confirmed.origin ? { longitude: confirmed.origin.coordinates[0], latitude: confirmed.origin.coordinates[1] } : state.start; await generate(recipe, confirmed.text, start, signal); } });
         navigate('ai-consent');
       } else void generate(recipe, state.preferences);
     });

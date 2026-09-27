@@ -22,7 +22,7 @@ test('real valid Toei feed → ordered three-stop comparison/fare → save → n
   const previews=await service.compareRoutes(context,input);assert.equal(previews.length,2);
   const snapshots=previews.map((p,i)=>{
    assert.equal(p.provider,'toei-gtfs');assert.equal(p.legs.length,2);assert.equal(p.transitEvidence!.source.version,'20260915_030753');
-   assert.deepEqual(p.transitEvidence!.stops.map(s=>s.stopId),['0966-03','0946-02','1249-01']);assert.equal(p.transitEvidence!.fare.amount,210);assert.equal(p.transitEvidence!.fare.payment,'cash');assert.equal(p.transitEvidence!.fare.passEvaluation,'not_applied');
+   assert.ok(p.transitEvidence?.scope==='direct_bus_only');assert.deepEqual(p.transitEvidence.stops.map(s=>s.stopId),['0966-03','0946-02','1249-01']);assert.equal(p.transitEvidence!.fare.amount,210);assert.equal(p.transitEvidence!.fare.payment,'cash');assert.equal(p.transitEvidence!.fare.passEvaluation,'not_applied');
    assert.equal(p.durationSec,p.transitEvidence!.waitDurationSec+p.transitEvidence!.rideDurationSec);
    assert.deepEqual(p.legs[0]!.geometry.coordinates.at(-1),p.legs[1]!.geometry.coordinates[0]);
    const save={id:'toei-'+i,previewId:p.previewId,title:'都営時刻表 '+i};const route=service.saveRoute(context,save).data;assert.deepEqual(route.transitEvidence,p.transitEvidence);return {input:save,route};

@@ -57,6 +57,12 @@ function Stopped({ item, remove, active }: { active: boolean; item: Settings['su
   useEffect(() => { setName(null); setPhoto(null); if (!active || !placeId) return; const controller = new AbortController(); api.request('getPlacesPlaceId', { path: { placeId }, signal: controller.signal }).then(r => { if (controller.signal.aborted) return; setName(r.data.place.name); const photo = r.data.photos?.find(photo => /^https?:\/\//.test(photo.url)); setPhoto(photo ? {url:photo.url,attribution:photo.attribution} : null); }).catch(() => {}); return () => controller.abort(); }, [placeId, active]);
   return <div className="settings-stopped"><span className="settings-stopped-picture">{photo ? <img src={photo.url} alt={name || '停止した場所'} title={photo.attribution || undefined} onError={() => setPhoto(null)}/> : <span aria-label="場所の写真なし"><Glyph name="pin"/></span>}</span><div><small>{placeId ? name || `場所 ${placeId}` : 'すべての場所'}</small><strong>{activity || 'すべての活動'}</strong></div><button type="button" className="settings-pill" onClick={remove}>解除する</button></div>;
 }
+function SettingsReferencePage({ title, back, children, menu = false }: { title: string; back: () => void; children: React.ReactNode; menu?: boolean }) {
+  return <><header className="settings-reference-header"><button type="button" onClick={back} aria-label="戻る"><Glyph name="back"/><span>わたしの設定</span></button><h1 className={menu ? 'settings-reference-title-menu' : undefined}>{title}</h1></header>{children}</>;
+}
+function SettingsReference(props: ScreenProps) { return <SettingsReferencePage title={props.route.params.section === 'ai' ? 'AIの利用' : '設定'} back={props.back} menu><SettingsScreen {...props}/></SettingsReferencePage>; }
+function ProfileReference(props: ScreenProps) { return <SettingsReferencePage title="プロフィールと表示" back={props.back}><ProfileScreen {...props}/></SettingsReferencePage>; }
+function SuggestionsReference(props: ScreenProps) { return <SettingsReferencePage title="提案とまとめの条件" back={props.back}><SuggestionsScreen {...props}/></SettingsReferencePage>; }
 const layout = { header: 'back', bottomNav: false, background: 'soft' } as const;
 // The 08_23_29 reference shows these three pages without an outer map.
 const referenceLayout = { ...layout, presentation: 'fullscreen' } as const;
@@ -66,7 +72,7 @@ export const screens: ScreenDefinition[] = [
   { id:'$location-settings', title:'位置情報', component:LocationSettings, layout },
   { id:'$media-settings', title:'写真・マイク', component:MediaSettings, layout },
   { id:'$data-settings', title:'データの管理', component:DataSettings, layout },
-  { id:'settings', title:'設定', component:SettingsScreen, layout:referenceLayout },
-  { id:'profile-settings', title:'プロフィールと表示', component:ProfileScreen, layout:referenceLayout },
-  { id:'suggestion-settings', title:'提案とまとめの条件', component:SuggestionsScreen, layout:referenceLayout },
+  { id:'settings', title:'設定', component:SettingsReference, layout:{...referenceLayout,header:'none'} },
+  { id:'profile-settings', title:'プロフィールと表示', component:ProfileReference, layout:{...referenceLayout,header:'none'} },
+  { id:'suggestion-settings', title:'提案とまとめの条件', component:SuggestionsReference, layout:{...referenceLayout,header:'none'} },
 ];

@@ -76,7 +76,7 @@ export function DiscoveryScreen({ route, active = true, navigate }: ScreenProps)
       const recordsNeeded = target.kind === 'photo';
       if (!settings.ai.enabled || (locationNeeded && !settings.ai.allowLocation) || (recordsNeeded && !settings.ai.allowRecords)) {
         const origin = target.place ? { kind: 'selected' as const, label: target.label, coordinates: target.place.coordinates } : null;
-        flow.setConsent({ text: state.feature, place: target.place, origin, settings, recordsRequired: recordsNeeded, returnPage: 'discovery', cancel: confirmed => change({ feature: confirmed.text, ...(target.place && !confirmed.place ? { targetId: '' } : {}) }), send: async (confirmed, signal) => {
+        flow.setConsent({ text: state.feature, place: target.place, origin, settings, recordsRequired: recordsNeeded, returnPage: 'discovery', returnParams: { ...route.params }, cancel: confirmed => change({ feature: confirmed.text, ...(target.place && !confirmed.place ? { targetId: '' } : {}) }), send: async (confirmed, signal) => {
           if (target.place && !confirmed.place) { change({ targetId: '', feature: confirmed.text }); request.setError('対象を外しました。別の対象を選んでください。'); return; }
           change({ feature: confirmed.text });
           let selectedTarget = target;

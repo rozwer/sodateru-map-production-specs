@@ -27,13 +27,16 @@ export function Sheet({ open, title, children, onClose, onBack, side = 'left', k
     const update = () => onRect?.(panel.getBoundingClientRect());
     const observer = new ResizeObserver(update); observer.observe(panel); update();
     window.addEventListener('resize', update);
-    const source = document.activeElement as HTMLElement | null;
-    panel.focus({ preventScroll: true });
     return () => {
       observer.disconnect(); window.removeEventListener('resize', update); onRect?.(null);
-      if (source?.isConnected) source.focus({ preventScroll: true });
     };
   }, [open, side, kind, presentation, onRect]);
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return;
+    const source = document.activeElement as HTMLElement | null;
+    ref.current.focus({ preventScroll: true });
+    return () => { if (source?.isConnected) source.focus({ preventScroll: true }); };
+  }, [open, side, kind, presentation]);
   return <aside ref={ref} hidden={!open} tabIndex={-1} className={`sm-sheet sm-sheet--${side} sm-sheet--${kind} sm-sheet--${background} sm-sheet--${presentation}${mobileHeight ? ' sm-sheet--mobile-height' : ''}`} style={mobileHeight ? { '--sheet-mobile-height': `${Math.max(20, Math.min(100, mobileHeight))}dvh` } as CSSProperties : undefined} role="dialog" aria-label={title} onKeyDown={event => {
     if (event.key === 'Escape' && !event.defaultPrevented) { event.preventDefault(); event.stopPropagation(); closeRef.current(); }
   }}>

@@ -38431,6 +38431,139 @@
         "description": "同一geometryの取得根拠。warningは取得失敗として返し、保存可能な結果には含めない。"
       },
       "RouteTransitEvidence": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/RouteDirectTransitEvidence"
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "provider",
+              "departureAt",
+              "arrivalAt",
+              "waitDurationSec",
+              "rideDurationSec",
+              "source",
+              "scope",
+              "segments",
+              "fare"
+            ],
+            "properties": {
+              "provider": {
+                "const": "toei-gtfs"
+              },
+              "departureAt": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "arrivalAt": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "waitDurationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "rideDurationSec": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "source": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "url",
+                  "license",
+                  "attribution",
+                  "modification",
+                  "sha256",
+                  "version",
+                  "validFrom",
+                  "validThrough",
+                  "lastModified",
+                  "loadedAt"
+                ],
+                "properties": {
+                  "url": {
+                    "type": "string"
+                  },
+                  "license": {
+                    "type": "string"
+                  },
+                  "attribution": {
+                    "type": "string"
+                  },
+                  "modification": {
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  },
+                  "validFrom": {
+                    "type": "string"
+                  },
+                  "validThrough": {
+                    "type": "string"
+                  },
+                  "lastModified": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "loadedAt": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "scope": {
+                "const": "bus_transfers"
+              },
+              "segments": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "$ref": "#/components/schemas/RouteDirectTransitEvidence"
+                }
+              },
+              "fare": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "amount",
+                  "currency",
+                  "payment",
+                  "passEvaluation"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "currency": {
+                    "const": "JPY"
+                  },
+                  "payment": {
+                    "enum": [
+                      "cash",
+                      "ic"
+                    ]
+                  },
+                  "passEvaluation": {
+                    "const": "not_applied"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RouteDirectTransitEvidence": {
         "type": "object",
         "additionalProperties": false,
         "required": [
