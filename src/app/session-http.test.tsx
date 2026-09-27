@@ -46,7 +46,7 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     headers.set('Cookie', [...cookies].map(([key,value]) => `${key}=${value}`).join('; '));
     const response = await fetch(origin + String(url), {...init, headers});
     requests.push({method: init?.method ?? 'GET', path: String(url), mode: headers.get('X-Data-Mode'), status: response.status});
-    for (const cookie of response.headers.getSetCookie()) { const pair = cookie.split(';')[0]; const at = pair.indexOf('='); cookies.set(pair.slice(0,at), pair.slice(at+1)); }
+    for (const cookie of response.headers.getSetCookie()) { const pair = cookie.split(';')[0]!; const at = pair.indexOf('='); cookies.set(pair.slice(0,at), pair.slice(at+1)); }
     if (holdMe && String(url).endsWith('/me')) {
       holdMe = false; heldSignal = init?.signal ?? undefined;
       // The response is from the real server; hold delivery to simulate a late transport.
@@ -69,7 +69,7 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     expect(controller.session).toBeNull();
     expect(requests.some(r=>r.path==='/api/v1/session' && r.status===401)).toBe(true);
     await act(async () => { await controller.start(); });
-    expect(controller.session!.person.id).toBe(identity.profiles[0].id);
+    expect(controller.session!.person.id).toBe(identity.profiles[0]!.id);
     const writes = () => requests.filter(r=>r.method!=='GET');
     const mutations = writes().length;
     await act(async () => host.querySelector<HTMLButtonElement>('.sm-bottom-nav button')!.click());
@@ -82,7 +82,7 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     await act(async () => { await controller.start(); });
     expect(heldSignal!.aborted).toBe(true); release!(); release=undefined;
     expect(await old).toBe('AbortError');
-    expect(controller.session!.person.id).toBe(identity.profiles[1].id);
+    expect(controller.session!.person.id).toBe(identity.profiles[1]!.id);
     holdMe = true;
     const oldMode = binding.client.request('getMe', {}).then(()=> 'accepted', error=>error.name);
     await until(() => !!release);
@@ -92,14 +92,14 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     expect(controller.session).toBeNull();
     await act(async () => { await controller.start(); });
     expect(controller.session!.dataMode).toBe('demo');
-    expect(controller.session!.person.id).toBe(identity.profiles[0].id);
+    expect(controller.session!.person.id).toBe(identity.profiles[0]!.id);
     await act(async () => controller.switchMode('live')); await until(() => !controller.busy);
-    expect(controller.session!.person.id).toBe(identity.profiles[1].id);
+    expect(controller.session!.person.id).toBe(identity.profiles[1]!.id);
     const countBeforeRestart = writes().length;
     await act(async () => root.unmount()); await stop();
     databases = openDatabases(paths); await boot();
     root = createRoot(host); await act(async () => root.render(<Probe/>)); await until(() => !controller.busy);
-    expect(controller.session!.person.id).toBe(identity.profiles[1].id);
+    expect(controller.session!.person.id).toBe(identity.profiles[1]!.id);
     expect(writes()).toHaveLength(countBeforeRestart);
     expect(writes().map(r=>[r.method,r.path,r.mode,r.status])).toEqual([
       ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','demo',201],

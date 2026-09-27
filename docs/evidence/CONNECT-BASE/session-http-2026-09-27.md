@@ -28,7 +28,7 @@ Node実HTTPサーバーに製品createApp/core DB migrationを接続し、一時
 SODATERU_PORT=3245 SODATERU_PROFILES_PATH=.local/connect-base-browser/profiles.json SODATERU_DB_PATH=.local/connect-base-browser/live.sqlite SODATERU_DEMO_DB_PATH=.local/connect-base-browser/demo.sqlite mise exec -- node --experimental-transform-types server/app/main.ts
 ```
 
-事前に`mise exec -- bunx vite build`成功。Chromeの通常製品入口でA→スタート画面→B切替とreloadを確認。並行セッションが同じ127.0.0.1でcookieを書き換え得るため、モード往復は専用host `http://connect-base.localhost:3245/` で再確認した（portだけではcookieを分離しない）。
+事前に`mise exec -- bunx vite build`成功。全体typecheckは既存のserver/exploration等の診断で失敗。追加テスト内の診断は修正し、対象fileに診断がないことを確認。Chromeの通常製品入口でA→スタート画面→B切替とreloadを確認。並行セッションが同じ127.0.0.1でcookieを書き換え得るため、モード往復は専用host `http://connect-base.localhost:3245/` で再確認した（portだけではcookieを分離しない）。
 
 専用originでlive本人B開始→メニュー表示→スタート画面→demo本人A開始→メニューの「デモ」と本人A→live復帰→「本人Bで続ける」→メニュー→reloadで本人Bを確認。
 
