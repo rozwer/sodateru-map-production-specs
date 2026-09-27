@@ -1,0 +1,20 @@
+{
+  "routeId": "routes9-live-navigation",
+  "statusAfterUiCloseAndReopen": "navigating",
+  "currentLeg": 0,
+  "version": 2,
+  "origin": "http://routes9.localhost:43210",
+  "apiPort": 43209,
+  "apiPid": 8567,
+  "webPid": 8568,
+  "uiObserved": [
+    "normal live session",
+    "saved real Mapbox 821.855m 8-step route",
+    "close via 地図へ戻る retained route overlay",
+    "same routeId reopened with 案内を終了 button; no automatic end",
+    "after latest develop merge: actual Mapbox route rendered at 390x844 without previous shared renderer warning"
+  ],
+  "limitations": [
+    "device location fix not acquired; no fabricated GPS success"
+  ]
+}

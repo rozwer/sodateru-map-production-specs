@@ -179,9 +179,15 @@ export class RouteFlow {
     if (draft.stops.length > 10 || draft.stops.length < 2) { this.update({ state: 'error', message: m.tooManyStops }); return false; }
     if (draft.stops.some(stop => !stop.place)) { this.update({ state: 'error', message: m.requiredPlaces }); return false; }
     if (draft.stops.some(stop => (stop.place?.selection.kind === 'candidate' || stop.place?.selection.kind === 'dialogue') && (stop.place.expiresAt ?? Infinity) <= Date.now())) { this.update({ state: 'error', message: m.expiredPlace }); return false; }
-    // Never silently drop conditions that the current HTTP Schema cannot carry.
-    if (draft.departure || draft.returnBy || draft.avoidStairs || draft.preferCovered) {
-      this.update({ state: 'unavailable', message: m.missingConditionsContract }); return false;
+    const conditions = {
+      ...(draft.departure ? { departAt: new Date(draft.departure).getTime() } : {}),
+      ...(draft.returnBy ? { returnBy: new Date(draft.returnBy).getTime() } : {}),
+      ...((draft.departure || draft.returnBy) ? { timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone } : {}),
+      ...(draft.avoidStairs ? { avoidStairs: true } : {}),
+      ...(draft.preferCovered ? { preferCovered: true } : {}),
+    };
+    if ([conditions.departAt, conditions.returnBy].some(at => at !== undefined && !Number.isFinite(at))) {
+      this.update({ state: 'error', message: '出発・帰着日時を確認してください。' }); return false;
     }
     this.searchAbort?.abort();
     const abort = this.searchAbort = new AbortController();
@@ -193,6 +199,7 @@ export class RouteFlow {
       const dialogue = selections.find(point => point.kind === 'dialogue');
       let previews: RouteSearchResult[];
       if (dialogue?.kind === 'dialogue') {
+        if (Object.keys(conditions).length) { this.update({state:'unavailable',message:m.dialogueConditionsPending}); return false; }
         const origin = selections[0];
         if (selections.length !== 2 || selections[1] !== dialogue || origin?.kind !== 'point') {
           this.update({ state: 'unavailable', message: m.dialogueConditionsPending }); return false;
@@ -211,7 +218,7 @@ export class RouteFlow {
         previews = [{ ...selectedRoute, resultId: selectedRoute.previewId }];
       } else {
         const waypoints = selections.filter((point): point is Exclude<WaypointSelection, { kind: 'dialogue' }> => point.kind !== 'dialogue');
-        previews = (await this.api.request('postRouteComparisons', { body: { waypoints, mode: draft.mode, title: draft.title }, idempotencyKey: this.searchKey, signal: abort.signal })).data.items;
+        previews = (await this.api.request('postRouteComparisons', { body: { waypoints, mode: draft.mode, title: draft.title, ...(Object.keys(conditions).length ? {conditions} : {}) }, idempotencyKey: this.searchKey, signal: abort.signal })).data.items;
       }
       if (generation !== this.generation || abort.signal.aborted) return false;
       this.saveIntents.clear();
@@ -282,6 +289,15 @@ export class RouteFlow {
       if (abort.signal.aborted || generation !== this.generation || isAbort(error)) return null;
       this.update({ state: 'error', message: m.routeMissing }); return null;
     }
+  };
+  advanceLeg = async (currentLeg:number) => {
+    const saved=this.value.saved;
+    if(!saved||saved.status!=='navigating'||this.value.state==='saving'||currentLeg!==saved.currentLeg+1||currentLeg>=saved.legs.length)return;
+    const abort=this.mutationAbort=new AbortController();this.update({state:'saving'});
+    try{
+      const response=await this.api.request('patchSavedRoutesRouteId',{path:{routeId:saved.id},body:{currentLeg},version:saved.version,signal:abort.signal});
+      if(!abort.signal.aborted)this.update({saved:response.data,state:'idle'});
+    }catch(error){if(!abort.signal.aborted)this.update({state:failureStatus(error)===412?'conflict':'error',message:failureStatus(error)===412?m.changedVersion:'現在の案内区間を保存できませんでした。'});}
   };
   finish = async (): Promise<boolean> => {
     const saved = this.value.saved;

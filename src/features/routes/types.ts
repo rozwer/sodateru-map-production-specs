@@ -100,4 +100,5 @@ export interface NavigationView {
   accuracyM: number | null;
   locationStatus: 'idle' | 'locating' | 'available' | 'denied' | 'unavailable';
   fetchedAt?: number;
+  nextLeg?: number;
 }
