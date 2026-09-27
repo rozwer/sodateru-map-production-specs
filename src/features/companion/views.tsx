@@ -49,6 +49,7 @@ export function SettingsView({ pets, currentId, currentVisible = true, form, onC
     </section>
     <fieldset className="companion-choices" id="companion-choices" tabIndex={-1} disabled={busy}><legend>相棒を選ぶ</legend>
       {pets.length ? <ul>{pets.map(pet => <li key={pet.id}><label className={form.selectedId === pet.id ? 'is-selected' : ''}><input type="radio" name="companion" value={pet.id} checked={form.selectedId === pet.id} onChange={() => patch({ selectedId: pet.id })}/><AtlasPreview clip={pet.clip} label={pet.name} reducedMotion={form.reducedMotion}/><strong>{pet.name}</strong></label></li>)}</ul> : <p className="companion-muted">{loading ? '読み込み中…' : unavailable ? '相棒の一覧を読み込めていません。' : '登録済みの相棒はありません。'}</p>}
+      {pets.length > 0 && <button type="button" className="companion-button" disabled={form.selectedId === null} onClick={() => patch({ selectedId: null })}>現在の相棒の選択を解除</button>}
     </fieldset>
     <section className="companion-card companion-options"><h3>相棒の設定</h3>
       <div className="companion-option"><Glyph name="eye"/><span>地図上に表示する</span><Toggle label="地図上に表示する" checked={form.visible} onChange={visible => patch({ visible })} disabled={busy}/></div>
