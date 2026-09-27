@@ -1,0 +1,165 @@
+[
+  {
+    "source": "src/features/activity/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "visit-confirm",
+      "growth-result",
+      "daily-track"
+    ]
+  },
+  {
+    "source": "src/features/companion/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "companion-settings",
+      "companion-import"
+    ]
+  },
+  {
+    "source": "src/features/disaster/screens.tsx",
+    "export": "disasterScreens (plugins/screens.tsxから連結)",
+    "ids": [
+      "disaster-map"
+    ]
+  },
+  {
+    "source": "src/features/exploration/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "ai-explore",
+      "voice-consultation",
+      "ai-consent",
+      "conversation-history",
+      "mist-detail",
+      "quest-compass",
+      "discovery"
+    ]
+  },
+  {
+    "source": "src/features/friends/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "community-home",
+      "friends-map",
+      "friend-profile",
+      "friend-compare",
+      "shared-route",
+      "sharing",
+      "friend-picker"
+    ]
+  },
+  {
+    "source": "src/features/insights/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "type-diagnosis",
+      "trend-evidence",
+      "trend-review"
+    ]
+  },
+  {
+    "source": "src/features/knowledge/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "knowledge-list",
+      "knowledge-filter",
+      "knowledge-detail",
+      "local-knowledge"
+    ]
+  },
+  {
+    "source": "src/features/map/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "map",
+      "personal-map",
+      "map-layers",
+      "object-edit",
+      "object-place"
+    ]
+  },
+  {
+    "source": "src/features/plugins/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "plugin-icon",
+      "plugin-store",
+      "plugin-detail",
+      "plugin-trial",
+      "plugin-install",
+      "plugin-manage",
+      "plugin-update",
+      "plugin-conflict",
+      "feature-requests",
+      "feature-request-edit"
+    ]
+  },
+  {
+    "source": "src/features/records/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "record-create",
+      "record-edit",
+      "interpretation-correction",
+      "record-delete"
+    ]
+  },
+  {
+    "source": "src/features/reflection/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "self-home",
+      "diary",
+      "reflection-question",
+      "reflection-history",
+      "experience-compare",
+      "memo-edit"
+    ]
+  },
+  {
+    "source": "src/features/routes/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "route-conditions",
+      "route-results",
+      "route-navigation"
+    ]
+  },
+  {
+    "source": "src/features/settings/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "$location-settings",
+      "$media-settings",
+      "$data-settings",
+      "settings",
+      "profile-settings",
+      "suggestion-settings"
+    ]
+  },
+  {
+    "source": "src/features/suggestions/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "self-checkin",
+      "suggestions",
+      "suggestion-detail"
+    ]
+  },
+  {
+    "source": "src/features/themes/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "themes",
+      "theme-edit"
+    ]
+  },
+  {
+    "source": "src/features/transfer/screens.tsx",
+    "export": "screens",
+    "ids": [
+      "experience-transfer"
+    ]
+  }
+]

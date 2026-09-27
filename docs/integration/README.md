@@ -8,11 +8,15 @@ Task: UI-INTEGRATION #98。担当: rozwer。編集境界: src/integration/ と d
 
 13担当へ各Issueから一度、提供commit/PR・提出阻害・登録export・残る実接続を問い合わせた。返答先は #98。公開済みの提供単位を通常mergeで統合し、UI担当Issueの完了処理は行わない。
 
+## 2026-09-27の統合・到達確認
+
+検証HEAD `db1e338a83fb71e7dccf8111ec8303f954cc34ae`。13担当の提供HEADが全て祖先到達することを確認し、通常入口から主要画面へ実操作した。[環境・入口対応・残件](2026-09-27/acceptance.md)を参照。最新CORE #338統合後の全体typecheckと共通Shell/実HTTP 4テストは成功。#98全体は未達を残すためcloseしない。
+
 ## 統合済み提供
 
-[ui-deliveries.json](ui-deliveries.json) に現時点のPR状態、提出HEAD、merge commitを記録。12 UI PRを取り込み済み。SETTINGS #17 はこの時点で公開PRなし。
+[ui-deliveries.json](ui-deliveries.json) に13担当の先行提供PR状態、提出HEAD、merge commit、検証HEADへの祖先到達を記録。SETTINGS #17 のPR #167（提出6dacd4f、merge448a857）も統合済み。各担当の後続PR・全機能受入とは区別する。
 
-画面部品のみの先行提供は EXPLORE #74、PLUGINS #73、KNOWLEDGE #45。MAP #70 は共通描画器。これらの機能固有screensは担当の後続提供待ちであり、統合だけでは全メニュー到達を意味しない。
+EXPLORE #74、PLUGINS #73、KNOWLEDGE #45は当初の部品提供、MAP #70は共通描画器。その後のscreens登録は下表のとおり統合済み。ただし登録存在は通常入口からの到達や実API成功を意味しない。
 
 ## 自動登録のソース
 
@@ -20,15 +24,26 @@ Task: UI-INTEGRATION #98。担当: rozwer。編集境界: src/integration/ と d
 | --- | --- |
 | `src/features/activity/screens.tsx` | `visit-confirm`, `growth-result`, `daily-track` |
 | `src/features/companion/screens.tsx` | `companion-settings`, `companion-import` |
+| `src/features/disaster/screens.tsx` | `disaster-map` |
+| `src/features/exploration/screens.tsx` | `ai-explore`, `voice-consultation`, `ai-consent`, `conversation-history`, `mist-detail`, `quest-compass`, `discovery` |
 | `src/features/friends/screens.tsx` | `community-home`, `friends-map`, `friend-profile`, `friend-compare`, `shared-route`, `sharing`, `friend-picker` |
 | `src/features/insights/screens.tsx` | `type-diagnosis`, `trend-evidence`, `trend-review` |
+| `src/features/knowledge/screens.tsx` | `knowledge-list`, `knowledge-filter`, `knowledge-detail`, `local-knowledge` |
+| `src/features/map/screens.tsx` | `map`, `personal-map`, `map-layers`, `object-edit`, `object-place` |
+| `src/features/plugins/screens.tsx` | `plugin-icon`, `plugin-store`, `plugin-detail`, `plugin-trial`, `plugin-install`, `plugin-manage`, `plugin-update`, `plugin-conflict`, `feature-requests`, `feature-request-edit` |
 | `src/features/records/screens.tsx` | `record-create`, `record-edit`, `interpretation-correction`, `record-delete` |
 | `src/features/reflection/screens.tsx` | `self-home`, `diary`, `reflection-question`, `reflection-history`, `experience-compare`, `memo-edit` |
 | `src/features/routes/screens.tsx` | `route-conditions`, `route-results`, `route-navigation` |
+| `src/features/settings/screens.tsx` | `$location-settings`, `$media-settings`, `$data-settings`, `settings`, `profile-settings`, `suggestion-settings` |
 | `src/features/suggestions/screens.tsx` | `self-checkin`, `suggestions`, `suggestion-detail` |
 | `src/features/themes/screens.tsx` | `themes`, `theme-edit` |
+| `src/features/transfer/screens.tsx` | `experience-transfer` |
 
-## 同じQA入口への反映
+静的な登録定義を検証HEADで照合。disasterは`disasterScreens`をpluginsが連結する。[登録一覧JSON](2026-09-27/screen-registration.json)。
+
+## 2026-09-15時点のQA入口（履歴）
+
+以下は当時の記録。現在の検証checkout/起動は[2026-09-27の証拠](2026-09-27/acceptance.md)を正本とし、旧共有runtimeを停止・置換していない。
 
 - URL: http://127.0.0.1:5173/
 - checkout: /Users/roz/.codex/worktrees/qa-visual-40
