@@ -4,7 +4,7 @@ import {createRoot} from 'react-dom/client';
 import {expect,it,vi} from 'vitest';
 import {App} from './App';
 Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});
-it.each([['diary','日記'],['experience-compare','2つの体験を比べる'],['reflection-history','振り返りの記録']])('opens %s with the current date and returns to its menu trigger',async(id,label)=>{
+it.each([['memo-edit','メモを書く'],['diary','日記'],['experience-compare','2つの体験を比べる'],['reflection-history','振り返りの記録']])('opens %s with the current date and returns to its menu trigger',async(id,label)=>{
  vi.stubGlobal('ResizeObserver',class {observe(){} disconnect(){}});
  vi.stubGlobal('requestAnimationFrame',(cb:()=>void)=>setTimeout(cb,0));
  vi.stubGlobal('cancelAnimationFrame',(id:ReturnType<typeof setTimeout>)=>clearTimeout(id));
