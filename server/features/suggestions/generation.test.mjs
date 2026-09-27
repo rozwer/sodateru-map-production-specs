@@ -19,3 +19,19 @@ test('AI output cannot add a place, a wish, or fabricated source IDs',()=>{
   assert.throws(()=>generation.validateExplanation({...output,candidates:[{...output.candidates[0],placeId:'invented'}]},input,['nature']),{code:'OUTPUT_INVALID'});
   assert.throws(()=>generation.validateExplanation({...output,candidates:[{...output.candidates[0],matchedWishes:['shopping']}]},input,['nature']),{code:'OUTPUT_INVALID'});
 });
+
+test('long real-route geometry does not exhaust explanation input while measured evidence survives',()=>{
+  const geometry={type:'LineString',coordinates:Array.from({length:12000},(_,i)=>[136+i/100000,35+i/100000])};
+  const routeEvidence={previewId:'preview',provider:'mapbox-directions',mode:'walking',durationSec:1200,distanceM:1500,fetchedAt:now,expiresAt:now+900000,retention:'storable',geometry,legs:[{geometry,steps:[{geometry}]}]};
+  const candidate={placeId:'park',name:'白川公園',travelMinutes:20,stay:null,sourceRefs:[{type:'place',id:'park',version:3}],routeEvidence};
+  const before=JSON.stringify(candidate);
+  assert.ok(Buffer.byteLength(before)>128*1024);
+  const prompt=generation.explanationPrompt({wishes:['公園']},[candidate],[]);
+  assert.ok(Buffer.byteLength(prompt)<8000);
+  const payload=JSON.parse(prompt.split('source_payload=')[1]);
+  assert.equal(payload.candidates[0].routeEvidence.durationSec,1200);
+  assert.equal(payload.candidates[0].routeEvidence.provider,'mapbox-directions');
+  assert.deepEqual(payload.candidates[0].sourceRefs,candidate.sourceRefs);
+  assert.equal(payload.candidates[0].stay,null);
+  assert.equal(JSON.stringify(candidate),before);
+});

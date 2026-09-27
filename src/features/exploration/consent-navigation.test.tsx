@@ -14,10 +14,11 @@ vi.mock('./screen-support', async importOriginal => {
 
 it.each(['discovery', 'experience-transfer'])('preserves %s route parameters on consent cancellation and confirmed send', async page => {
   (globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
-  const params = page === 'discovery' ? { kind: 'place', targetId: 'place-original' } : { recipeId: 'recipe-original' };
+  const params: Record<string, string> = page === 'discovery' ? { kind: 'place', targetId: 'place-original' } : { recipeId: 'recipe-original' };
   const send = vi.fn(async () => {}), cancel = vi.fn();
-  fixture.draft = { text: '確認した本文', origin: null, place: null, returnPage: page, returnParams: params, settings: { version: 1, ai: { enabled: true, allowLocation: false, allowRecords: false } } as ConsentDraft['settings'], send, cancel };
-  fixture.request.mockReset().mockResolvedValue({ data: fixture.draft.settings });
+  const draft: ConsentDraft = { text: '確認した本文', origin: null, place: null, returnPage: page, returnParams: params, settings: { version: 1, ai: { enabled: true, allowLocation: false, allowRecords: false } } as ConsentDraft['settings'], send, cancel };
+  fixture.draft = draft;
+  fixture.request.mockReset().mockResolvedValue({ data: draft.settings });
   const navigate = vi.fn();
   const host = document.createElement('div'); document.body.append(host);
   const root = createRoot(host);

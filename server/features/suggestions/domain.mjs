@@ -36,6 +36,8 @@ export function rankCandidates(candidates, input, now) {
     const stayMinutes=evidencedStay?stay.minutes:null;
     const totalMinutes=travelMinutes==null||stayMinutes==null?null:travelMinutes+stayMinutes;
     const budget=conditions.timeBudget;
+    // A known lower bound already exceeding the budget cannot fit, even when stay is unknown.
+    if (budget.kind==='exact' && (travelMinutes??0)+(stayMinutes??0)>budget.minutes) continue;
     const status=budget.kind==='exact'&&totalMinutes!=null?(totalMinutes<=budget.minutes?'matched':'unmatched'):'unknown';
     if (status==='unmatched') continue;
     evaluations.push({key:'timeBudget',hard:budget.kind==='exact',status,reason:budget.kind==='atLeast'?'Available time has no finite upper limit':totalMinutes==null?'Travel or evidenced stay is unavailable':budget.kind==='unspecified'?'No time limit specified':`${travelMinutes} + ${stayMinutes} = ${totalMinutes} minutes`});
