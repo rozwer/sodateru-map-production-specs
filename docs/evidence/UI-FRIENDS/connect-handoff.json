@@ -1,0 +1,22 @@
+{
+  "source_ui_task": "UI-FRIENDS",
+  "connection_task": "CONNECT-FRIENDS",
+  "units": [
+    {
+      "id": "sharing-save",
+      "page": "sharing",
+      "action": "main--share",
+      "write_paths": [
+        "src/features/friends/"
+      ],
+      "ui_commit": "f3973bb81213727b5755174c526255668f6f8fc6",
+      "ui_evidence": "docs/evidence/UI-FRIENDS/README.md",
+      "contract_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
+      "contract_path": "docs/01_requirements/04_api/openapi.json",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
+      "api_operation_ids": [
+        "patchRecordsRecordId"
+      ]
+    }
+  ]
+}
