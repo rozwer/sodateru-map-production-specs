@@ -1,0 +1,50 @@
+{
+  "time": "2026-09-27T09:42:53.494Z",
+  "outcomes": {
+    "getMessagesMessageId": {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    "getInsightsInsightId": {
+      "status": 404,
+      "code": "NOT_FOUND"
+    },
+    "getRecordsRecordId": {
+      "status": 404,
+      "code": "NOT_FOUND"
+    }
+  },
+  "sharedCount": 0,
+  "calls": [
+    {
+      "method": "POST",
+      "path": "/api/v1/session",
+      "status": 201,
+      "requestId": "e9c8eb98-6a33-483d-94e7-41c4e3b0bc2b"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/messages/11777fab-c8fa-43be-ace1-cdc7a4bb987c",
+      "status": 404,
+      "requestId": "cc4e8878-db99-4bc5-8ded-6f1e1f00fed4"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/insights/insight_2d1a96b715f9d0686d40527cdec0aed12752905589af3561",
+      "status": 404,
+      "requestId": "c09a833f-5545-44b6-baad-577cfd456872"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/records/ui-friends-live-record-bob",
+      "status": 404,
+      "requestId": "c3717186-4b16-4a39-9a94-dd6c3bb201bd"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/shared-records",
+      "status": 200,
+      "requestId": "e25f3eee-65a4-4f7e-a48e-b7d7b3a03be0"
+    }
+  ]
+}
