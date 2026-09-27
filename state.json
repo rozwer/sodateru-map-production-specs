@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 463,
+  "revision": 464,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34546,21 +34546,18 @@
       "token": null
     },
     "CONNECT-REFLECTION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "924dc0dcb307b79e9b0eac2d2595f757f23249cf",
       "claim_unit": "diary-save",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 139,
       "landed_main": null,
-      "note": "docs/evidence/CONNECT-REFLECTION/question-failure-2026-09-27.md",
+      "note": "第2周割当ての実AI日記案本人採用→同recordId再表示PASS、PR363通常merge。製品変更不要。既存証拠question-failure-2026-09-27.md末尾に実run/同ID/再起動結果。通常メニュー導線・比較/再生成等#139全条件は未完でopen維持。担当プロセス停止済み。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/reflection/",
-        "docs/evidence/CONNECT-REFLECTION/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "f4093ff0079269277400a9c567af204cb5fb820c",
-      "token": "82ec8757b8af439a926af3884c9a97a1"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "CONNECT-ROUTES": {
       "actor": null,
