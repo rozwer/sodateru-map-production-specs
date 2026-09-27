@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 497,
+  "revision": 498,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35460,14 +35460,14 @@
       "generation": 5,
       "issue_number": 12,
       "landed_main": null,
-      "note": "既存diary-save 1unit handoff PR358。UI全体未完を維持しCONNECT-REFLECTION実AI採用確認へ移る。",
+      "note": "docs/evidence/UI-REFLECTION/normal-question-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
         "docs/evidence/UI-REFLECTION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "e2b775f7a7e00bf41644a896d36263653196e11e",
       "token": "66db6a794d344e298bfb6809948f29d5"
     },
     "UI-ROUTES": {
