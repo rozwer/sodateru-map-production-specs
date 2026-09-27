@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 531,
+  "revision": 532,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34370,27 +34370,18 @@
       "token": null
     },
     "BUILDING-GROWTH": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 7,
+      "generation": 8,
       "issue_number": 222,
       "landed_main": null,
-      "note": "Track replay and Yokohama-only vicinity filter merged via PR #281/#282 (8841514, 91c3be7). Worktree /Users/roz/Desktop/sodateru-map-building-animation preserved. Broader Issue #222 acceptance remains open; recording is being completed from qa-visual-40 on shared 5173.",
+      "note": "PR373/383 reviewed and normally merged (789fcaa/3177bae). Confirmed building rendering, gray rollback, purpose/location correction, restart/style restoration, reduced motion delivered. Evidence docs/evidence/BUILDING-GROWTH/2026-09-27-renderer.md. Not closed: all-missing disaster mask integration acceptance and full conflict UI screenshot coverage remain. User rate-limit conservation: next issues not started; worktree map-growth-222-complete preserved; own 3222/5222 servers stopped.",
       "owner": "rozwer",
-      "paths": [
-        "src/map/growth-display.ts",
-        "src/map/growth-rules.ts",
-        "src/map/growth-rules.test.ts",
-        "src/map/MapScene.tsx",
-        "src/map/display-state.ts",
-        "src/map/map.css",
-        "src/features/map/",
-        "docs/evidence/BUILDING-GROWTH/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "1f516eae3cf241048fed5fa8be0e31e5"
+      "token": null
     },
     "BUILDING-RECORDS": {
       "actor": null,
