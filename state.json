@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 483,
+  "revision": 484,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34775,7 +34775,7 @@
       "generation": 5,
       "issue_number": 215,
       "landed_main": null,
-      "note": "PR #332 merged; navigation repair verified. Remaining 9-screen visual acceptance and API connection tracked in #215/#18/#144. Continue CONNECT-PLUGINS after handoff gate.",
+      "note": "docs/evidence/GROW-UI/icons-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/views.tsx",
@@ -34790,8 +34790,8 @@
         "src/features/feature-requests/",
         "docs/evidence/GROW-UI/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "517b0a79e04c4e008cfa5a577148ff1f6726608d",
       "token": "931ed3c526a548f58e485750e3b12f17"
     },
     "HEALTH": {
