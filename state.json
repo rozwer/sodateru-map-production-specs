@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 487,
+  "revision": 488,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35497,17 +35497,21 @@
       "token": null
     },
     "UI-SUGGESTIONS": {
-      "actor": null,
-      "base_commit": "34d1f31c2ec429c1b7ef17bb4d94fe730bfd176f",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 15,
       "landed_main": null,
       "note": "User requested end-of-session release. PR66 and PR150, all source/evidence and worktree ui-suggestions-15 retained. Remaining acceptance: normal generated contract, suggestion generation and route/visit/share integration; see docs/evidence/UI-SUGGESTIONS/README.md. No completion claim.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/suggestions/",
+        "docs/evidence/UI-SUGGESTIONS/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "b9b5eab0c3f0419fbca57993f35c7db0"
     },
     "VISUAL-COMMUNITY": {
       "actor": null,
