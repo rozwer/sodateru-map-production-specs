@@ -16,7 +16,7 @@ beforeEach(() => {
   Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
   host = document.createElement('div'); document.body.append(host); root = createRoot(host);
   bridge = new MapBridge('test'); navigate.mockReset(); request.mockReset();
-  request.mockImplementation(async operation => operation === 'getSharedRecordsMap' ? { data: { items: [], totalCount: 0 } } : { items: [], totalCount: 0, nextCursor: null });
+  request.mockImplementation(async operation => operation === 'getKnowledgeMap' ? { data: { items: [], totalCount: 0 } } : { items: [], totalCount: 0, nextCursor: null });
 });
 afterEach(async () => { await act(async () => root.unmount()); bridge.dispose(); host.remove(); });
 async function render(pageId: string, params: Record<string, string> = {}, active = true) {
@@ -40,9 +40,9 @@ it('search → map → list preserves submitted query, period, audience, place a
   await click('[data-testid="knowledge-list--map"]');
   const mapParams = navigate.mock.calls.at(-1)![1];
   await render('local-knowledge', mapParams);
-  expect(request.mock.calls.findLast(call => call[0] === 'getSharedRecords')![1].query).toEqual(listQuery);
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledge')![1].query).toEqual(listQuery);
   const { limit: _limit, cursor: _cursor, ...mapQuery } = listQuery;
-  expect(request.mock.calls.findLast(call => call[0] === 'getSharedRecordsMap')![1].query).toEqual(mapQuery);
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledgeMap')![1].query).toEqual(mapQuery);
   await click('.knowledge-voices-button');
   await render('knowledge-list', navigate.mock.calls.at(-1)![1]);
   expect(host.querySelector<HTMLInputElement>('input[type=search]')!.value).toBe('港');
@@ -88,11 +88,11 @@ it('returning A → B → A starts from page one instead of reviving an old A cu
 
 it('map uses all located results beyond the first list page and reports missing places', async () => {
   const items = Array.from({ length: 150 }, (_, index) => ({ recordId: `record-${index}`, personId: 'person', placeId: `place-${index}`, coordinates: [139, 35], mediaId: null }));
-  request.mockImplementation(async operation => operation === 'getSharedRecordsMap' ? { data: { items, totalCount: 155 } } : { items: [], totalCount: 155, nextCursor: 'page2' });
+  request.mockImplementation(async operation => operation === 'getKnowledgeMap' ? { data: { items, totalCount: 155 } } : { items: [], totalCount: 155, nextCursor: 'page2' });
   await render('local-knowledge', { query: '港' });
   expect(bridge.getSnapshot().places.knowledge!.places).toHaveLength(150);
   expect(host.textContent).toContain('地図に表示できる投稿 150件・場所不明 5件');
-  const query = request.mock.calls.find(call => call[0] === 'getSharedRecordsMap')![1].query;
+  const query = request.mock.calls.find(call => call[0] === 'getKnowledgeMap')![1].query;
   expect(query).not.toHaveProperty('cursor'); expect(query).not.toHaveProperty('limit');
   await act(async () => bridge.select({ ownerKey: 'knowledge', kind: 'place', id: 'record-149' }));
   expect(navigate).toHaveBeenCalledWith('knowledge-detail', { recordId: 'record-149' });
@@ -101,7 +101,7 @@ it('map uses all located results beyond the first list page and reports missing 
 });
 it('map 413 is an actionable failure and never an empty result', async () => {
   request.mockImplementation(async operation => {
-    if (operation === 'getSharedRecordsMap') throw new ApiError(413, 'INPUT_TOO_LARGE', 'too large', 'request');
+    if (operation === 'getKnowledgeMap') throw new ApiError(413, 'INPUT_TOO_LARGE', 'too large', 'request');
     return { items: [], totalCount: 2100, nextCursor: 'page2' };
   });
   await render('local-knowledge');
@@ -112,9 +112,9 @@ it('map 413 is an actionable failure and never an empty result', async () => {
 });
 it('late map results cannot repopulate a hidden screen', async () => {
   let finish!: (value: unknown) => void;
-  request.mockImplementation(operation => operation === 'getSharedRecordsMap' ? new Promise(resolve => { finish = resolve; }) : Promise.resolve({ items: [], totalCount: 0, nextCursor: null }));
+  request.mockImplementation(operation => operation === 'getKnowledgeMap' ? new Promise(resolve => { finish = resolve; }) : Promise.resolve({ items: [], totalCount: 0, nextCursor: null }));
   await render('local-knowledge');
-  const signal = request.mock.calls.find(call => call[0] === 'getSharedRecordsMap')![1].signal;
+  const signal = request.mock.calls.find(call => call[0] === 'getKnowledgeMap')![1].signal;
   await render('local-knowledge', {}, false);
   expect(signal.aborted).toBe(true);
   await act(async () => finish({ data: { items: [{ recordId: 'late', placeId: 'place', coordinates: [139, 35] }], totalCount: 1 } }));
@@ -146,4 +146,25 @@ it('list re-entry invalidates pages and re-reads first page after public records
   expect(request.mock.calls).toHaveLength(1);
   expect(request.mock.calls[0]![1].query.cursor).toBeUndefined();
   expect(host.textContent).not.toContain('取消対象の本文');
+});
+
+it('rest-tip selection uses tips for list and map, then returns to experiences', async () => {
+  const tip = { id: 'tip', person: { id: 'author', displayName: '作者', iconPath: null }, body: '日陰のベンチで休憩', place: null, effectiveAt: null, visibility: 'public', media: [], purposes: ['休憩'] };
+  const experience = { ...tip, id: 'experience', body: '公園を歩いた体験', purposes: ['散歩'] };
+  request.mockImplementation(async (operation, input) => operation === 'getKnowledgeMap' ? { data: { items: [], totalCount: 1 } } : { items: [input.query.category === 'tips' ? tip : experience], totalCount: 1, nextCursor: null });
+  await render('knowledge-list', { query: '公園' });
+  await click('[data-testid="knowledge-list--kind"] label:nth-of-type(1) input');
+  expect(request.mock.calls.at(-1)![0]).toBe('getKnowledge');
+  expect(request.mock.calls.at(-1)![1].query).toMatchObject({ category: 'tips', q: '公園' });
+  expect(host.textContent).toContain('日陰のベンチで休憩');
+  expect(host.textContent).not.toContain('公園を歩いた体験');
+  await click('[data-testid="knowledge-list--map"]');
+  const params = navigate.mock.calls.at(-1)![1];
+  await render('local-knowledge', params);
+  expect(request.mock.calls.findLast(call => call[0] === 'getKnowledgeMap')![1].query).toMatchObject({ category: 'tips', q: '公園' });
+  await render('knowledge-list', params);
+  await click('[data-testid="knowledge-list--kind"] label:nth-of-type(2) input');
+  expect(request.mock.calls.at(-1)![1].query.category).toBe('experiences');
+  expect(host.textContent).toContain('公園を歩いた体験');
+  expect(host.textContent).not.toContain('日陰のベンチで休憩');
 });
