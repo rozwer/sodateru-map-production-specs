@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 449,
+  "revision": 450,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35212,7 +35212,7 @@
       "generation": 5,
       "issue_number": 4,
       "landed_main": null,
-      "note": "PR #331 merged as 358eb63; self-home entry repaired, tests/build/browser verified. Remaining acceptance in docs/evidence/UI-BASE/self-home-entry-2026-09-27.md; Issue stays open. Worktree ui-base-4-self-home and commit 9784e8e retained.",
+      "note": "docs/evidence/UI-BASE/stats-entry.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -35222,8 +35222,8 @@
         "vite.config.ts",
         "docs/evidence/UI-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "1e3d1282b8328a590b7b7e7376b2c5613aedd2b4",
       "token": "029a96f6262b4ef8b11f318cc5631b81"
     },
     "UI-BASE-LAYOUT": {
