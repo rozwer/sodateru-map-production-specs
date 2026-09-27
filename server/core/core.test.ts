@@ -113,10 +113,10 @@ test('real HTTP: empty DB, local identity, live/demo isolation, replay, restart,
     const session = await client.request('postSession', { body: { profileKey: 'self' }, idempotencyKey: 'login-live' });
     assert.equal(session.data.person.id, identity.profiles[0]!.id);
     assert.equal((await client.request('getMe', {})).data.id, session.data.person.id);
-    const input = { id: 'fixture-live', title: '再起動で保持', body: 'live保存', visibility: 'private' as const };
+    const input = { id: 'fixture-live', title: '再起動で保持', body: 'live保存', displayName: 'CORE確認', visibility: 'private' as const };
     const [saved, replay] = await Promise.all([
       client.request('postFeatureRequests', { body: input, idempotencyKey: 'save-1' }),
-      client.request('postFeatureRequests', { body: { visibility: 'private', body: input.body, title: input.title, id: input.id }, idempotencyKey: 'save-1' }),
+      client.request('postFeatureRequests', { body: { displayName: input.displayName, visibility: 'private', body: input.body, title: input.title, id: input.id }, idempotencyKey: 'save-1' }),
     ]);
     assert.deepEqual(saved, replay);
     assert.equal(dbs!.live.prepare('SELECT count(*) AS n FROM core_test_documents').get()!.n, 1);

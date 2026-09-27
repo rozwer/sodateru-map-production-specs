@@ -50,6 +50,22 @@ ownerKeyはplugin:{installId}。停止・削除後はclearOwnerKeysだけを解�
 
 
 
+## postBikePlaceCandidates
+
+`POST /api/v1/bike/place-candidates`
+
+保存済みBIKE地点を共通地点候補へ登録
+
+本人/mode・導入・設定版・検索期限を照合し、出典付き実地点だけを共通PLACESへ登録。resultId/candidateIdは既存POST /places mode=candidateへ渡す。再起動で一時候補が失効した再送は拒否し、新しいIdempotency-Keyで再登録する。設定と取得snapshotはBIKEに保持。
+
+## postBikeRoutePreview
+
+`POST /api/v1/bike/route-previews`
+
+保存された車種・高速設定で二輪経路を取得
+
+本人の保存済み車種・高速設定からserverがprofileを選択する。取得前後・再送で設定版を照合。previewIdを既存のBIKE経路評価へ渡す。providerの強制除外要求の成否と経路適合を混同しない。
+
 ## getBookmarks
 
 `GET /api/v1/bookmarks`
@@ -498,6 +514,214 @@ PLUGINSの最新設定を利用。If-MatchはPluginSetting.version。全取得�
 
 権限: 本人。保存先: insights削除、messagesの参照解除。参照先は同じ本人のデータ。読取・更新前に所有者と存在を検査する。 messages.insightIdをnullにする。 読取/本人評価の前にSourceRefを照合。変更済みはSOURCE_CHANGED、削除/権限なしはNOT_FOUND。一覧は現在有効な結果のみ返す。
 
+## getReflectionSummary
+
+`GET /api/v1/reflection/summary`
+
+期間集計
+
+本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-3。本を見つけたも本に含む。
+
+## postInsights
+
+`POST /api/v1/insights`
+
+期間集計の作成
+
+本人の明示記録から固定5軸（自然/本/カフェ/散歩/人との時間）を日単位判定。記録なしは不明。同日重複は1日、明示的一日否定との矛盾は不明。分母=判断可能日、分子=yes日、分母0はnull。IANA日付・半開区間。生成定義版insights-fixed-five-3。本を見つけたも本に含む。
+
+## getReflectionActivityStatistics
+
+`GET /api/v1/reflection/activity-statistics`
+
+本人の活動統計と取得元
+
+from以上to未満に開始した確定訪問・記録とGPS観測を集計。新しい場所だけ全確定訪問履歴を参照する。保存なし。GPSの欠測/単独点はnull、同位置の有効な2点は0。複数ページを全件取得し、segment/breakBeforeを越えて線を接続しない。
+
+## getMapObjects
+
+`GET /api/v1/map-objects`
+
+
+
+本人・dataMode別の手動装飾をcreatedAt,id昇順で全件返す。cursor/limitは受け付けない。成長建物を含まない。
+
+## postMapObjects
+
+`POST /api/v1/map-objects`
+
+
+
+
+
+## getMapObjectsObjectId
+
+`GET /api/v1/map-objects/{objectId}`
+
+
+
+
+
+## patchMapObjectsObjectId
+
+`PATCH /api/v1/map-objects/{objectId}`
+
+
+
+
+
+## deleteMapObjectsObjectId
+
+`DELETE /api/v1/map-objects/{objectId}`
+
+
+
+
+
+## getMapSettings
+
+`GET /api/v1/map-settings`
+
+
+
+
+
+## patchMapSettings
+
+`PATCH /api/v1/map-settings`
+
+
+
+
+
+## postMapSettingsPreviews
+
+`POST /api/v1/map-settings/previews`
+
+
+
+
+
+## getMapSettingsPreviewsPreviewId
+
+`GET /api/v1/map-settings/previews/{previewId}`
+
+
+
+
+
+## postMapSettingsPreviewsPreviewIdAdopt
+
+`POST /api/v1/map-settings/previews/{previewId}/adopt`
+
+
+
+サーバー保存previewの提案を明示採用。本文からproposalを受け取らない。設定更新とmessages採用参照を同一transactionで保存。同じ提案の再送は現在設定と既存appliedRefを返し二重適用しない。
+
+## postMapSettingsPreviewsPreviewIdCancel
+
+`POST /api/v1/map-settings/previews/{previewId}/cancel`
+
+
+
+
+
+## getPilgrimageSettings
+
+`GET /api/v1/plugins/pilgrimage/settings`
+
+
+
+
+
+## postPilgrimageSearch
+
+`POST /api/v1/plugins/pilgrimage/searches`
+
+
+
+実作品・出典検索。Idempotency-Keyは本文idと同じ値。更新検索では新しいidを使い、既存snapshotを変更しない。
+
+## getPilgrimageSearch
+
+`GET /api/v1/plugins/pilgrimage/searches/{searchId}`
+
+
+
+
+
+## postPilgrimagePreview
+
+`POST /api/v1/plugins/pilgrimage/previews`
+
+
+
+
+
+## getPilgrimagePreview
+
+`GET /api/v1/plugins/pilgrimage/previews/{previewId}`
+
+
+
+
+
+## postPilgrimagePlan
+
+`POST /api/v1/plugins/pilgrimage/plans`
+
+
+
+
+
+## getPilgrimagePlans
+
+`GET /api/v1/plugins/pilgrimage/plans`
+
+
+
+
+
+## getPilgrimagePlan
+
+`GET /api/v1/plugins/pilgrimage/plans/{planId}`
+
+
+
+
+
+## patchPilgrimagePlan
+
+`PATCH /api/v1/plugins/pilgrimage/plans/{planId}`
+
+
+
+
+
+## getPilgrimageOverlay
+
+`GET /api/v1/plugins/pilgrimage/overlay`
+
+
+
+
+
+## postPilgrimageAiProposal
+
+`POST /api/v1/plugins/pilgrimage/ai-proposals`
+
+
+
+
+
+## getPilgrimageAiProposal
+
+`GET /api/v1/plugins/pilgrimage/ai-proposals/{runId}`
+
+
+
+
+
 ## getPlaces
 
 `GET /api/v1/places`
@@ -905,6 +1129,14 @@ SelfCheckin削除
 提案の提示・選択・達成
 
 権限: 本人。保存先: suggestions。状態遷移表に従う。presented=trueで初回presentedAtのみ保存。selectedへ初遷移した時刻をselectedAtへ。completedは同じ本人・場所のconfirmed訪問を指定。それ以外はcompletedVisitId=null。routeIdは本人ルートのみ。期限後の新規選択・達成は409。
+
+## postThemesThemeIdAdoptName
+
+`POST /api/v1/themes/{themeId}/adopt-name`
+
+本人確認後のAI命名を採用
+
+生成結果取得は保存を行わない。採用時にtheme版、run版/attempt、所属とsourceRefsの現在版を照合する。名前/説明の本人編集値があればそれを採用する。上限を超えたAI結果は422で保存せず編集を促す。
 
 ## createTransferRecipe
 

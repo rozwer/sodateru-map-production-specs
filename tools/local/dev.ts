@@ -6,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const apiHost = process.env.SODATERU_HOST ?? '127.0.0.1';
 const apiPort = Number(process.env.SODATERU_PORT ?? '3001');
-const children = [spawn(process.execPath, ['--experimental-transform-types', '--env-file-if-exists=.env', 'server/app/main.ts'], { cwd: root, stdio: 'inherit', env: process.env })];
+const api = spawn(process.execPath, ['--experimental-transform-types', '--env-file-if-exists=.env', 'server/app/main.ts'], { cwd: root, stdio: 'inherit', env: process.env });
+const children = [api];
 let stopping = false;
 function stop(code: number) {
   if (stopping) return;
@@ -18,7 +19,7 @@ function watch(child: (typeof children)[number]) {
   child.on('error', error => { console.error(error.message); stop(1); });
   child.on('exit', code => stop(code ?? 1));
 }
-watch(children[0]);
+watch(api);
 function apiReady() {
   return new Promise<boolean>(resolve => {
     const socket = connect({ host: apiHost, port: apiPort });
@@ -28,9 +29,9 @@ function apiReady() {
 }
 async function startUi() {
   const deadline = Date.now() + 10_000;
-  while (!stopping && children[0].exitCode === null && Date.now() < deadline) {
+  while (!stopping && api.exitCode === null && Date.now() < deadline) {
     if (await apiReady()) {
-      if (stopping || children[0].exitCode !== null) return;
+      if (stopping || api.exitCode !== null) return;
       const ui = spawn(process.execPath, ['node_modules/vite/bin/vite.js', '--host', process.env.SODATERU_WEB_HOST ?? '127.0.0.1'], { cwd: root, stdio: 'inherit', env: process.env });
       children.push(ui); watch(ui); return;
     }

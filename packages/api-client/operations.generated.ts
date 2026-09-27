@@ -2258,6 +2258,24 @@ export const operations = {
     "requiresVersion": false,
     "requiresKey": true
   },
+  "postBikePlaceCandidates": {
+    "method": "POST",
+    "path": "/bike/place-candidates",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "postBikeRoutePreview": {
+    "method": "POST",
+    "path": "/bike/route-previews",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
   "getBookmarks": {
     "method": "GET",
     "path": "/bookmarks",
@@ -3142,6 +3160,244 @@ export const operations = {
     "requiresVersion": false,
     "requiresKey": false
   },
+  "getReflectionActivityStatistics": {
+    "method": "GET",
+    "path": "/reflection/activity-statistics",
+    "query": [
+      {
+        "name": "from",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "to",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Timestamp"
+        }
+      },
+      {
+        "name": "timeZone",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/TimeZone"
+        }
+      }
+    ],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getMapObjects": {
+    "method": "GET",
+    "path": "/map-objects",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postMapObjects": {
+    "method": "POST",
+    "path": "/map-objects",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getMapObjectsObjectId": {
+    "method": "GET",
+    "path": "/map-objects/{objectId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchMapObjectsObjectId": {
+    "method": "PATCH",
+    "path": "/map-objects/{objectId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "deleteMapObjectsObjectId": {
+    "method": "DELETE",
+    "path": "/map-objects/{objectId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "getMapSettings": {
+    "method": "GET",
+    "path": "/map-settings",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchMapSettings": {
+    "method": "PATCH",
+    "path": "/map-settings",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "postMapSettingsPreviews": {
+    "method": "POST",
+    "path": "/map-settings/previews",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getMapSettingsPreviewsPreviewId": {
+    "method": "GET",
+    "path": "/map-settings/previews/{previewId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postMapSettingsPreviewsPreviewIdAdopt": {
+    "method": "POST",
+    "path": "/map-settings/previews/{previewId}/adopt",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "postMapSettingsPreviewsPreviewIdCancel": {
+    "method": "POST",
+    "path": "/map-settings/previews/{previewId}/cancel",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
+  },
+  "getPilgrimageSettings": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/settings",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postPilgrimageSearch": {
+    "method": "POST",
+    "path": "/plugins/pilgrimage/searches",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getPilgrimageSearch": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/searches/{searchId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postPilgrimagePreview": {
+    "method": "POST",
+    "path": "/plugins/pilgrimage/previews",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getPilgrimagePreview": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/previews/{previewId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postPilgrimagePlan": {
+    "method": "POST",
+    "path": "/plugins/pilgrimage/plans",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getPilgrimagePlans": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/plans",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "getPilgrimagePlan": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/plans/{planId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "patchPilgrimagePlan": {
+    "method": "PATCH",
+    "path": "/plugins/pilgrimage/plans/{planId}",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": false
+  },
+  "getPilgrimageOverlay": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/overlay",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
+  "postPilgrimageAiProposal": {
+    "method": "POST",
+    "path": "/plugins/pilgrimage/ai-proposals",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": true
+  },
+  "getPilgrimageAiProposal": {
+    "method": "GET",
+    "path": "/plugins/pilgrimage/ai-proposals/{runId}",
+    "query": [],
+    "hasBody": false,
+    "multipart": false,
+    "requiresVersion": false,
+    "requiresKey": false
+  },
   "getPluginState": {
     "method": "GET",
     "path": "/plugin-state",
@@ -3313,7 +3569,7 @@ export const operations = {
     "query": [],
     "hasBody": true,
     "multipart": false,
-    "requiresVersion": true,
+    "requiresVersion": false,
     "requiresKey": true
   },
   "postRouteComparisons": {
@@ -3396,6 +3652,15 @@ export const operations = {
     "multipart": false,
     "requiresVersion": true,
     "requiresKey": false
+  },
+  "postThemesThemeIdAdoptName": {
+    "method": "POST",
+    "path": "/themes/{themeId}/adopt-name",
+    "query": [],
+    "hasBody": true,
+    "multipart": false,
+    "requiresVersion": true,
+    "requiresKey": true
   },
   "createTransferRecipe": {
     "method": "POST",
