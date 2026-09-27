@@ -13,7 +13,7 @@ import { createReferencePlugins, createReferencePosts, createReferenceConditions
 import { GrowPreview } from "./grow/GrowPreview";
 import { RequestApiScreen } from "../feature-requests/bindings";
 import { useDisasterData } from "../disaster/data";
-import { disasterScreens } from "../disaster/screens";
+import { disasterScreens, showDisasterDemoMap } from "../disaster/screens";
 import { disasterMapDisplay } from "../disaster/ui/map-state";
 import { useDisasterDemoState } from "../disaster/ui/demo-state";
 import { api } from "../../app/api";
@@ -429,7 +429,7 @@ function PluginFixture({
               mock: true,
             } : item.kind === "disaster" ? { map: <div className="plugin-disaster-entry"><PluginGlyph kind="disaster"/><strong>避難先・想定リスクを確認</strong></div>, mock: true } : preview(item.enabled, item.kind === "bike" && item.versionLabel === referenceVersions.bike.next, item.kind === "nature", item.id, String(data.savedFields[item.id]?.find(field => field.id === "region")?.value || "motoyama"))]),
           )}
-          onToggle={(id, enabled) => { if (id === "fixture-disaster") { if (mainMap) disasterMapDisplay(mainMap).clear(); if (mockMode) disasterDemo.update({ enabled }); else void disaster.setEnabled(enabled); } else modify(id, { enabled }); }}
+          onToggle={(id, enabled) => { if (id === "fixture-disaster") { if (mockMode) { disasterDemo.update({ enabled }); if (mainMap) { if (enabled) showDisasterDemoMap(mainMap); else disasterMapDisplay(mainMap).clear(); } } else { if (mainMap) disasterMapDisplay(mainMap).clear(); void disaster.setEnabled(enabled); } } else modify(id, { enabled }); }}
           onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
           onMap={(id) => {
             if (id !== "fixture-disaster") {

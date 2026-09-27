@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
+import type { MapBridge } from '../../app/map-bridge';
 import { useMapBridge } from '../../app/useMapBridge';
 import { useSession } from '../../app/session';
 import { api } from '../../app/api';
@@ -16,6 +17,10 @@ import './ui/disaster.css';
 const defaults: DisasterSettings = { region: regions[0]!, layerIds: ['flood-hazard', 'terrain', 'rainfall'] };
 const layerNames = { 'flood-hazard': '洪水想定', terrain: '地形', rainfall: '降水解析' };
 const clock = (at: number | null | undefined) => at ? new Date(at).toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'}) : '未取得';
+export function showDisasterDemoMap(bridge: MapBridge, preview = createDisasterDemo()) {
+  const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
+  disasterMapDisplay(bridge).set({ownerKey:'plugin:disaster-preview',images:[],overlays});
+}
 function validSettings(value: unknown): value is DisasterSettings {
   const s = value as DisasterSettings | undefined;
   return !!s?.region && typeof s.region.id === 'string' && Array.isArray(s.region.bounds) && s.region.bounds.length === 4 && s.region.bounds.every(Number.isFinite) && Array.isArray(s.layerIds) && s.layerIds.every(id => id in layerNames);
@@ -79,8 +84,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     store.clear(); setRenderError(null);
     if (data.busy) return;
     if (preview && (!installed || mockMode && enabled)) {
-      const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
-      store.set({ownerKey:'plugin:disaster-preview',images:[],overlays});
+      showDisasterDemoMap(bridge, preview);
     } else if (materials?.action === 'apply' && materials.ownerKey) {
       void buildDisasterMapDisplay(materials.view, opacity).then(display => {
         if (!cancelled) store.set(display);
