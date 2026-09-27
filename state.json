@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 523,
+  "revision": 524,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34528,14 +34528,14 @@
       "generation": 7,
       "issue_number": 143,
       "landed_main": null,
-      "note": "PR374 merged; continue place/source/media acceptance next. Issues remain open.",
+      "note": "docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md",
       "owner": "rozwer",
       "paths": [
         "src/features/knowledge/",
         "docs/evidence/CONNECT-KNOWLEDGE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "05fa3588aba1cf20b430803716dd89c2f2d86129",
       "token": "47c242a085924efc9a8a12a307f782ec"
     },
     "CONNECT-MAP": {
