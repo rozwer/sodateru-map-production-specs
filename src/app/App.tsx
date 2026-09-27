@@ -48,8 +48,8 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(80);
   const menuMode = current.route.pageId === 'navigation' ? (current.route.params.mode || 'main') as 'main' | 'self' | 'community' : null;
-  const cardMode = menuMode === 'self' || menuMode === 'community' ? menuMode : current.route.pageId === 'self-home' ? 'self' : current.route.pageId === 'community-home' ? 'community' : null;
   const screen = screens.find(item => item.id === current.route.pageId);
+  const cardMode = menuMode === 'self' || menuMode === 'community' ? menuMode : current.route.pageId === 'self-home' && !screen ? 'self' : current.route.pageId === 'community-home' ? 'community' : null;
   const fullscreen = !cardMode && !menuMode && screen?.layout?.presentation === 'fullscreen';
   const Toolbar = screen?.toolbar ?? MapToolbar;
   const isMapPage = current.route.pageId === 'map';
@@ -139,7 +139,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
         <Sheet open={!isMap && !cardMode} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} presentation={fullscreen ? 'fullscreen' : 'panel'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} mobileHeight={screen?.layout?.mobileHeight} background={screen?.layout?.background} onRect={onRect}>
           {menuMode === 'main' && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
           {!menuMode && !screen && !['self-home','community-home','map'].includes(current.route.pageId) && <Status kind="unavailable">{messages.unavailable}</Status>}
-          {[...visited.entries()].filter(([,route]) => !['self-home', 'community-home'].includes(route.pageId) && screens.some(item => item.id === route.pageId)).map(([key,route]) => {
+          {[...visited.entries()].filter(([,route]) => route.pageId !== 'community-home' && screens.some(item => item.id === route.pageId)).map(([key,route]) => {
             const Component = screens.find(item => item.id === route.pageId)!.component;
             return <div key={key} hidden={key !== current.key} inert={key !== current.key} className="sm-screen-content"><ScreenKeyContext.Provider value={routeKey(route)}><Component route={route} navigate={go} back={back} scopeKey={scopeKey} active={active && key === current.key}/></ScreenKeyContext.Provider></div>;
           })}
@@ -154,7 +154,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       }}/>}
       {captureError && <div className="sm-location-error"><Status kind="error">{captureError}</Status></div>}
       <nav ref={navRef} hidden={!showBottomNav} className="sm-bottom-nav" aria-label="画面の切替">
-        <button type="button" aria-pressed={menuMode === 'self' || current.route.pageId === 'self-home'} onClick={() => go('navigation', { mode: 'self' })}><Icon name="person" size={25}/><span>{messages.self}</span></button>
+        <button type="button" aria-pressed={menuMode === 'self' || current.route.pageId === 'self-home'} onClick={() => screens.some(item => item.id === 'self-home') ? go('self-home') : go('navigation', { mode: 'self' })}><Icon name="person" size={25}/><span>{messages.self}</span></button>
         <button type="button" className={`sm-bottom-nav__map${isMapPage ? ' sm-bottom-nav__map--camera' : ''}`} aria-label={isMapPage ? '写真を記録する' : messages.map} onClick={() => { if (isMapPage) { setCaptureError(null); setCaptureOpen(true); } else go('map'); }}><Icon name={isMapPage ? 'camera' : 'map'} size={29}/></button>
         <button type="button" aria-pressed={menuMode === 'community' || current.route.pageId === 'community-home'} onClick={() => go('navigation', { mode: 'community' })}><Icon name="people" size={27}/><span>{messages.communityMap}</span></button>
       </nav>
