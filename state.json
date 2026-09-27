@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 434,
+  "revision": 435,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35114,18 +35114,24 @@
       "token": null
     },
     "THEMES-INTEGRATION": {
-      "actor": null,
-      "base_commit": "eceba47be3fa5891561b01784085644fb6279590",
+      "actor": "rozwer",
+      "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": null,
-      "generation": 6,
+      "generation": 7,
       "issue_number": 105,
       "landed_main": null,
       "note": "第1周締切。540c5a0をrozwer/105-theme-adoptionへpush済。未レビューPR保全。次はplaceIdなしテーマの既存編集入口1本。docs/evidence/THEMES/naming-ui-20260927.md",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "server/features/themes/",
+        "server/db/migrations/themes/",
+        "docs/01_requirements/04_api/fragments/THEMES.json",
+        "docs/evidence/THEMES/",
+        "src/features/map/screens.tsx"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "d91890bfbb414faa8aa2f3d7ac39b491"
     },
     "TOOL-ISSUE-COMMENT": {
       "actor": "rozwer",
