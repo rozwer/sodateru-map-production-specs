@@ -76,6 +76,17 @@ describe('route screen request sequencing', () => {
     expect(calls[1]!.input).toMatchObject({ path: { routeId: 'saved-id' }, body: { status: 'finished' }, version: 4 });
     flow.dispose();
   });
+  it('recovers failed leg persistence by rereading without ending navigation', async()=>{
+    const multi={...saved('saved-id','navigating',4),legs:[...preview.legs,...preview.legs]};
+    const {flow,calls}=setup(async operation=>{if(operation==='patchSavedRoutesRouteId')throw new Error('network failure');return {data:multi};});
+    await flow.loadSaved('saved-id');await flow.advanceLeg(1);
+    expect(flow.getSnapshot().state).toBe('error');
+    // NavigationScreen retry now rereads this route; it never calls finish.
+    await flow.loadSaved('saved-id');
+    expect(flow.getSnapshot().saved?.status).toBe('navigating');
+    expect(calls.map(c=>c.operation)).toEqual(['getSavedRoutesRouteId','patchSavedRoutesRouteId','getSavedRoutesRouteId']);
+    expect(calls[1]!.input.body).toEqual({currentLeg:1});flow.dispose();
+  });
   it('persists a measured next leg with the same route ID and current version', async()=>{
     const multi={...saved('saved-id','navigating',4),legs:[...preview.legs,...preview.legs]};
     const {flow,calls}=setup(async operation=>({data:operation==='getSavedRoutesRouteId'?multi:{...multi,currentLeg:1,version:5}}));

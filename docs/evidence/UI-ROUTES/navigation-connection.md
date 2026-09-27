@@ -9,3 +9,5 @@
 実通常HTTPからMapbox徒歩821.855m/8stepsを取得し保存・navigating化。通常live UIで開く→地図へ戻る→同routeId再表示、終了ボタン維持。SQLiteのstatus=navigating/current_leg=0/version=2が不変。live-navigation-route.json/navigation-return.json。
 
 未達: この端末で経路上の実測位を取得して移動する確認、全参照画像・全幅の一致。最新developの共通renderer修復取込み後、390×844で実Mapbox/経路線が表示され、旧警告が消えたことを確認。#9/#138全体をcloseしない。
+
+独立レビュー修正: 区間保存の通信失敗で再試行がfinishへ向かう経路を除去。案内noticeの再試行は同routeId再取得だけにし、終了は明示終了ボタンに限定。該当失敗→再取得1試験PASS。
