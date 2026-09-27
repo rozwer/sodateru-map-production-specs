@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 527,
+  "revision": 528,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35488,26 +35488,18 @@
       "token": null
     },
     "UI-SUGGESTIONS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "claim_unit": null,
-      "generation": 3,
+      "generation": 4,
       "issue_number": 15,
       "landed_main": null,
-      "note": "User requested end-of-session release. PR66 and PR150, all source/evidence and worktree ui-suggestions-15 retained. Remaining acceptance: normal generated contract, suggestion generation and route/visit/share integration; see docs/evidence/UI-SUGGESTIONS/README.md. No completion claim.",
+      "note": "User rate-limit conservation: PR380 independent PASS, normal merge8886f2a. Normal UI save/restart, real Luna generation once, detail/bookmark/memo/route/selection verified. Full media/device/visual/visit-cancel UI acceptance remains OPEN. Evidence docs/evidence/UI-SUGGESTIONS/normal-runtime-20260927.md/json; worktree/DB retained, own servers stopped.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/suggestions/",
-        "docs/evidence/UI-SUGGESTIONS/",
-        "server/features/suggestions/generation.mjs",
-        "server/features/suggestions/generation.test.mjs",
-        "server/features/suggestions/domain.mjs",
-        "server/features/suggestions/domain.test.mjs",
-        "src/features/exploration/consent-navigation.test.tsx"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "b9b5eab0c3f0419fbca57993f35c7db0"
+      "token": null
     },
     "VISUAL-COMMUNITY": {
       "actor": null,
