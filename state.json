@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 440,
+  "revision": 441,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35241,18 +35241,21 @@
       "token": null
     },
     "UI-COMPANION": {
-      "actor": null,
-      "base_commit": "db1e338a83fb71e7dccf8111ec8303f954cc34ae",
+      "actor": "rozwer",
+      "base_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "claim_unit": null,
-      "generation": 4,
+      "generation": 5,
       "issue_number": 19,
       "landed_main": null,
       "note": "First-pass deadline: PR #350 head6768988 preserved, partial acceptance; #19 stays open. Independent review pending at release. Next minimal task: MapCompanion.tsx OFF/unselected fallback must use existing AI-only button; verify OFF-save -> map has no pet canvas and AI entry works.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/companion/",
+        "docs/evidence/UI-COMPANION/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "258462523e874e27859eeb3091eb9c37"
     },
     "UI-EXPLORE": {
       "actor": null,
