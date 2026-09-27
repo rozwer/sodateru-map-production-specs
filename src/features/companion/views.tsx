@@ -44,7 +44,7 @@ export function SettingsView({ pets, currentId, currentVisible = true, form, onC
   return <div className="companion-page companion-settings">
     <Intro title="いっしょに地図を歩く相棒">相棒と一緒に、見つけた場所や体験を集めて<br/>あなただけの地図を育てましょう。</Intro>
     <section className="companion-card companion-current" aria-label="現在の相棒">
-      <div className="companion-heading"><h3>現在の相棒</h3><span className="companion-badge">{unavailable ? '未確認' : !current ? '未選択' : currentVisible ? '表示中' : '非表示'}</span></div>
+      <div className="companion-heading"><h3>現在の相棒</h3><span className="companion-badge">{loading || unavailable ? '未確認' : !current ? '未選択' : currentVisible ? '表示中' : '非表示'}</span></div>
       {current ? <div className="companion-current-body"><AtlasPreview clip={current.clip} label={current.name} reducedMotion={form.reducedMotion}/><div><h3>{current.name}</h3>{current.description && <p>{current.description}</p>}<button type="button" className="companion-button" onClick={() => document.getElementById('companion-choices')?.focus()}>見た目を変更<Glyph name="next"/></button></div></div> : <p>{loading ? '相棒を読み込んでいます…' : unavailable ? '現在の相棒を確認できていません。' : '現在の相棒は未選択です。相棒を追加して選べます。'}</p>}
     </section>
     <fieldset className="companion-choices" id="companion-choices" tabIndex={-1} disabled={busy}><legend>相棒を選ぶ</legend>
@@ -60,7 +60,7 @@ export function SettingsView({ pets, currentId, currentVisible = true, form, onC
     <div className={`companion-actions${onCreate ? '' : ' companion-actions--single'}`}><button type="button" className="companion-button" onClick={onImport}><Glyph name="file"/>ファイルから追加</button>{onCreate && <button type="button" className="companion-button" onClick={onCreate}><Glyph name="plus"/>相棒を作る</button>}</div>
     <Message notice={notice}/>{dirty && <small role="status">未保存の変更があります。</small>}
     {extra}
-    <button type="button" className="companion-button companion-primary" onClick={onSave} disabled={busy || loading || unavailable}>{busy ? '保存しています…' : '保存'}</button>
+    <button type="button" className="companion-button companion-primary" onClick={onSave} disabled={busy || loading || unavailable}>{loading ? '読み込んでいます…' : busy ? '保存しています…' : '保存'}</button>
   </div>;
 }
 
