@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 499,
+  "revision": 500,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35302,14 +35302,14 @@
       "generation": 9,
       "issue_number": 14,
       "landed_main": null,
-      "note": "PR356 minimal existing sharing handoff merged after independent review; UI full acceptance remains incomplete. Return to CONNECT-FRIENDS sharing-save.",
+      "note": "docs/evidence/UI-FRIENDS/comparison-live-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/friends/",
         "docs/evidence/UI-FRIENDS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "931d8588cab4d35635d2a7045420941471d53271",
       "token": "9c411c1ec28648c4bf829570bf8acc5f"
     },
     "UI-HEALTH": {
