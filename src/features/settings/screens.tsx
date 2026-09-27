@@ -7,6 +7,7 @@ import { Card, Entry, Glyph, Note, Toggle } from './ui';
 import { useSettingsEditor, errorText } from './editor';
 import type { Settings } from '../../../packages/api-client/index';
 import './settings.css';
+import { ActivityStatsScreen, DataSourcesScreen } from './statistics-screens';
 
 function SettingsScreen(props: ScreenProps) { return props.route.params.section === 'ai' ? <AISettings {...props}/> : <SettingsMenu {...props}/>; }
 const onOff = (value: boolean) => value ? 'オン' : 'オフ';
@@ -60,6 +61,8 @@ const layout = { header: 'back', bottomNav: false, background: 'soft' } as const
 // The 08_23_29 reference shows these three pages without an outer map.
 const referenceLayout = { ...layout, presentation: 'fullscreen' } as const;
 export const screens: ScreenDefinition[] = [
+  { id:'activity-stats', title:'活動の統計', component:ActivityStatsScreen, layout:referenceLayout },
+  { id:'data-sources', title:'データの取得元', component:DataSourcesScreen, layout:referenceLayout },
   { id:'$location-settings', title:'位置情報', component:LocationSettings, layout },
   { id:'$media-settings', title:'写真・マイク', component:MediaSettings, layout },
   { id:'$data-settings', title:'データの管理', component:DataSettings, layout },

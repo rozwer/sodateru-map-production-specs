@@ -1,0 +1,137 @@
+{
+  "transport": "actual generated client / HTTP / isolated SQLite",
+  "calls": [
+    {
+      "method": "POST",
+      "path": "http://127.0.0.1:3195/api/v1/session",
+      "status": 201
+    },
+    {
+      "method": "GET",
+      "path": "http://127.0.0.1:3195/api/v1/me",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "http://127.0.0.1:3195/api/v1/records",
+      "status": 201
+    },
+    {
+      "method": "POST",
+      "path": "http://127.0.0.1:3195/api/v1/track-points",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "http://127.0.0.1:3195/api/v1/reflection/activity-statistics?from=1790434800000&to=1790521200000&timeZone=Asia%2FTokyo",
+      "status": 200
+    }
+  ],
+  "recordId": "settings-statistics-record",
+  "result": {
+    "data": {
+      "from": 1790434800000,
+      "to": 1790521200000,
+      "timeZone": "Asia/Tokyo",
+      "confirmedPlaces": {
+        "value": 0,
+        "unit": "places",
+        "source": "visits.confirmed",
+        "placeIds": []
+      },
+      "confirmedVisits": {
+        "value": 0,
+        "unit": "visits",
+        "source": "visits.confirmed",
+        "visitIds": []
+      },
+      "newPlaces": {
+        "value": 0,
+        "unit": "places",
+        "source": "visits.confirmed.firstStartedAt",
+        "placeIds": [],
+        "unknownPlaceIds": []
+      },
+      "undatedVisits": 0,
+      "recordCount": 1,
+      "undatedRecords": 0,
+      "activities": [
+        {
+          "name": "読書",
+          "count": 1,
+          "recordIds": [
+            "settings-statistics-record"
+          ],
+          "source": "records.activities"
+        }
+      ],
+      "daily": [
+        {
+          "date": "2026-09-27",
+          "confirmedVisits": 0,
+          "recordIds": [
+            "settings-statistics-record"
+          ]
+        }
+      ],
+      "sourceRefs": [
+        {
+          "type": "record",
+          "id": "settings-statistics-record",
+          "version": 1
+        }
+      ],
+      "sources": [
+        {
+          "id": "visits",
+          "label": "本人が確認した訪問",
+          "itemCount": 0,
+          "firstObservedAt": null,
+          "lastObservedAt": null,
+          "lastUpdatedAt": null,
+          "status": "empty",
+          "description": "期間内に開始した確定訪問を数えます。新しい場所の判定だけ全履歴を参照します。"
+        },
+        {
+          "id": "records",
+          "label": "本人の体験・日記・メモ",
+          "itemCount": 1,
+          "firstObservedAt": 1790478000000,
+          "lastObservedAt": 1790478000000,
+          "lastUpdatedAt": 1790497484976,
+          "status": "observed",
+          "description": "実効日時が期間内にある本人の記録と、記録に保存された活動です。"
+        },
+        {
+          "id": "gps",
+          "label": "保存されたGPS観測",
+          "itemCount": 2,
+          "firstObservedAt": 1790478000000,
+          "lastObservedAt": 1790478001000,
+          "lastUpdatedAt": 1790497484982,
+          "status": "observed",
+          "description": "保存されたGPS観測線の距離。測位間の移動や未取得区間は補間していません。"
+        }
+      ],
+      "lastUpdatedAt": 1790497484982,
+      "gpsDistanceMeters": {
+        "value": 0,
+        "unit": "m",
+        "source": "track_points",
+        "status": "observed",
+        "pointCount": 2,
+        "edgeCount": 1,
+        "disconnectedEdges": 0,
+        "maxAccuracyM": 5,
+        "firstObservedAt": 1790478000000,
+        "lastObservedAt": 1790478001000,
+        "lastUpdatedAt": 1790497484982,
+        "sourcePointIds": [
+          "settings-zero-source-0",
+          "settings-zero-source-1"
+        ],
+        "description": "保存されたGPS観測線の距離。測位間の移動や未取得区間は補間していません。"
+      }
+    }
+  }
+}
