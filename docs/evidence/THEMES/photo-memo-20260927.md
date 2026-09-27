@@ -27,4 +27,4 @@ IAB公式file chooserで既存合成画像 docs/evidence/INSIGHTS/generated-medi
 
 ## 完了範囲
 
-写真再表示とメモ一覧の不具合修正および今回記載の受入確認。既存AI採用/手動メモ永続化の証拠は live-naming.json / naming-ui-20260927.md / place-less-entry-20260927.md / integration-105.md。テーマ削除とメモ由来削除の画面実操作は今回未実施。Issue全体のclose判定には残項目の確認が必要。
+写真再表示とメモ一覧の不具合修正および今回記載の受入確認。既存AI採用/手動メモ永続化の証拠は live-naming.json / naming-ui-20260927.md / place-less-entry-20260927.md / integration-105.md。追加実操作: memo 9d633a20-a732-4ece-9c74-f950ea846898 の由来チェックを外して保存→reload。名前/本文「次回は木陰で休む」/散歩keyword/useForSuggestions ONを保持、由来だけ未選択。所属の削除は同名別テーマで公園を外す操作として確認済み。テーマ本体の削除は未実施。
