@@ -18,8 +18,8 @@ SQLite照合: question-v2 status=answered/version=3、answerRecordId=`answer_e5f
 
 - `mise exec -- bunx vitest run src/features/reflection/QuestionsScreen.test.tsx --environment jsdom`: 2/2 PASS。根拠changed/deletedそれぞれで保存後の古い質問・根拠を除去し、訂正入力とquestion/answerの版送信を保持する回帰。
 - `mise exec -- bunx vite build`: PASS（chunk警告あり）。`git diff --check`: PASS。
-- repository全体typecheckは前PRで既存不整合を記録済み。この限定変更で全体typecheck PASSとは主張しない。
+- CORE #338（eceba47）を含む最新developを追加統合後、`mise exec -- bun run typecheck` 全体PASS。公式 `CODEX_OWNER=rozwer mise run task:verify` PASS（submitted・取得path不変）。契約更新後に回帰2件と製品buildを再確認しPASS。担当APIのみPID74157を停止しPID5506で同じSQLiteへ再起動、同じquestionId URLをreloadして訂正回答・質問非表示・訂正v3元記録の再表示を確認。共有サーバーは変更していない。
 
 ## 残受入
 
-今回、明示合成質問を使った実HTTP/SQLiteの状態保存と回答訂正・再読込を確認した。実AI生成/質問までの通常導線、AI日記採用、比較判断、根拠変更後のAI再生成、本人切替/閲覧拒否/遅着、プロセス再起動後の画面再表示、失敗時の古い引用除去は未確認。#139はcloseしない。履歴一覧・根拠参照の再取得失敗時や画面復帰時の古い引用表示は別の具体的懸念として残る。
+今回、明示合成質問を使った実HTTP/SQLiteの状態保存と回答訂正・再読込を確認した。実AI生成/質問までの通常導線、AI日記採用、比較判断、根拠変更後のAI再生成、本人切替/閲覧拒否/遅着、失敗時の古い引用除去は未確認。#139はcloseしない。履歴一覧・根拠参照の再取得失敗時や画面復帰時の古い引用表示は別の具体的懸念として残る。
