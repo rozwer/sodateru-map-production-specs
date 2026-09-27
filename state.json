@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 426,
+  "revision": 427,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35306,21 +35306,18 @@
       "token": null
     },
     "UI-INTEGRATION": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "db1e338a83fb71e7dccf8111ec8303f954cc34ae",
       "claim_unit": null,
-      "generation": 3,
+      "generation": 4,
       "issue_number": 98,
       "landed_main": null,
-      "note": "PR130/170 and 13 UI deliveries integrated; QA 448a857 verified. Reference-matching UI and remaining CONNECT acceptance handed off; worktree preserved.",
+      "note": "First-pass deadline: PR349 head73931e5 preserves docs/13-delivery ancestry and normal entry checks. Review pending; no merge/close claimed. See docs/integration/2026-09-27/acceptance.md for two minimal next actions. Worktree ui-integration-98-entries retained; own validation runtimes stopped.",
       "owner": "rozwer",
-      "paths": [
-        "src/integration/",
-        "docs/integration/"
-      ],
-      "status": "claimed",
+      "paths": [],
+      "status": "backlog",
       "submitted_commit": null,
-      "token": "01f0184cde804776b4026e6b3edfe749"
+      "token": null
     },
     "UI-KNOWLEDGE": {
       "actor": null,
