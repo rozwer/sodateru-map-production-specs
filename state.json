@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 375,
+  "revision": 376,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34516,12 +34516,20 @@
       "token": null
     },
     "CONNECT-REFLECTION": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 1,
+      "issue_number": 139,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/reflection/",
+        "docs/evidence/CONNECT-REFLECTION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "47dc480ab8ff4d66bb8a48826000c7ed"
     },
     "CONNECT-ROUTES": {
       "actor": null,
