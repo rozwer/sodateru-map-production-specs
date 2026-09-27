@@ -78,8 +78,10 @@ it('replays the identical registration after its follow-up read fails', async ()
   await act(async () => button('再試行').click());
   const calls = request.mock.calls.filter(([operation]) => operation === 'registerCompanionImport');
   expect(calls).toHaveLength(2);
-  expect(calls[1][1]).toEqual(calls[0][1]);
-  expect(calls[1][1]).toMatchObject({body:{selectCurrent:true,settingsVersion:1}});
+  const first = calls[0], retry = calls[1];
+  if (!first || !retry) throw new Error('registration and retry calls are required');
+  expect(retry[1]).toEqual(first[1]);
+  expect(retry[1]).toMatchObject({body:{selectCurrent:true,settingsVersion:1}});
   expect(request.mock.calls.filter(([operation]) => operation === 'getCompanionSettings')).toHaveLength(1);
   expect(navigate).toHaveBeenCalledWith('companion-settings',{companionId:'registered-once'});
   await act(async () => root.unmount()); host.remove();
