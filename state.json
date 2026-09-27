@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 395,
+  "revision": 396,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35323,20 +35323,17 @@
       "token": null
     },
     "UI-KNOWLEDGE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
-      "generation": 3,
+      "generation": 4,
       "issue_number": 16,
       "landed_main": null,
-      "note": "docs/evidence/UI-KNOWLEDGE/connect-handoff.json",
+      "note": "PR334 condition fix and PR337 verified operation handoff merged. UI acceptance remains incomplete; keep #16 open. Continue CONNECT-KNOWLEDGE #143 through official claim. Worktree knowledge-16-sep27 clean, commits retained.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/knowledge/",
-        "docs/evidence/UI-KNOWLEDGE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "370e8e4491cbdbc8de5aed93aff315fbff6ad846",
-      "token": "b7c1f3bdd8974ff8b97b19eeaf56266a"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-MAP": {
       "actor": null,
