@@ -20,6 +20,7 @@ function useRecords(props: ScreenProps, query: string, filters: KnowledgeFilters
   const [pagination, setPagination] = useState<{ key: string; cursor: string } | null>(null);
   const key = JSON.stringify([props.scopeKey, query, filters, kind, props.route.params.placeId, props.route.params.recordId]);
   const cursor = pagination?.key === key ? pagination.cursor : undefined;
+  useEffect(() => { setPagination(null); }, [key]);
   useEffect(() => {
     if (props.active === false) return;
     const abort = new AbortController(); set(old => ({ ...old, items: cursor ? old.items : [], total: cursor ? old.total : 0, loading: true, error: '' }));

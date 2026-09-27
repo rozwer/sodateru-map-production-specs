@@ -8,11 +8,11 @@
 - 検索済み文字列・分類・filters・placeIdを一覧→絞込/地図→一覧のroute paramsへ渡す。新しい一覧は渡された検索済み文字列で初期化する。
 - 地図画面も受け取った検索語・期間・共有範囲・地域条件で読む。未接続分類を黙って体験へ変えない。
 - 期間なしは日時不明を含み、今週/今月指定時は含めない。画面の説明と`includeUndated`を一致させ、呼出し側のtrue上書きを除去。
-- 検索条件が変わったrenderでは旧cursorを即座に無効にする。effectで後からcursorを消す方式で発生していた、新条件＋旧cursorの余分な読取りを止める。
+- 検索条件が変わったrenderでは旧cursorを即座に無効にする。key照合で新条件＋旧cursorの余分な読取りを止め、effectで旧pagination自体を破棄する。独立レビューで見つかったA→B→Aで旧cursorが復活するケースも回帰テストで確認。
 
 ## 確認
 
-`mise exec -- bunx vitest run src/features/knowledge/screens.test.tsx`: 3件成功。実ビューの検索submit、地図/一覧遷移、条件適用、ページ送り後の検索を操作し、共通clientへ渡るqueryを照合。API応答はmockであり保存の証拠ではない。
+`mise exec -- bunx vitest run src/features/knowledge/screens.test.tsx`: 4件成功。実ビューの検索submit、地図/一覧遷移、条件適用、ページ送り後の検索とA→B→A往復を操作し、共通clientへ渡るqueryを照合。API応答はmockであり保存の証拠ではない。
 
 実shell: Vite `http://127.0.0.1:5196` → 実API `http://127.0.0.1:3196`。worktree固有の`.local/app.sqlite`、自己profile、liveモード。既存稼働DBは使っていない。
 `POST /api/v1/session` 201の後、正式`POST /api/v1/records`を4回実行、すべて201。記録は検証用と本文に明記した、当日「港」、日時不明「港」、60日前「港」、当日「公園」の4件。placeIdなし・public・媒体なし。UI応答の差替えはしていない。

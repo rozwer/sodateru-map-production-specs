@@ -69,3 +69,16 @@ it('changing search after pagination never sends the previous cursor with new co
   expect(request.mock.calls).toHaveLength(1);
   expect(request.mock.calls[0]![1].query).toMatchObject({ q: '新条件', cursor: undefined });
 });
+
+it('returning A → B → A starts from page one instead of reviving an old A cursor', async () => {
+  request.mockImplementation(async (_operation, input) => ({ items: [], totalCount: 101, nextCursor: input.query.cursor ? null : 'page-2' }));
+  await render('knowledge-list');
+  await search('A');
+  await click('.knowledge-secondary');
+  expect(request.mock.calls.at(-1)![1].query.cursor).toBe('page-2');
+  await search('B');
+  request.mockClear();
+  await search('A');
+  expect(request.mock.calls).toHaveLength(1);
+  expect(request.mock.calls[0]![1].query).toMatchObject({ q: 'A', cursor: undefined });
+});
