@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 427,
+  "revision": 428,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34522,15 +34522,15 @@
       "generation": 1,
       "issue_number": 144,
       "landed_main": null,
-      "note": null,
+      "note": "docs/evidence/CONNECT-PLUGINS/requests-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/",
         "src/features/feature-requests/",
         "docs/evidence/CONNECT-PLUGINS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "3a83df1c2915ef47182f9dff427f6b9f3d8c6729",
       "token": "8c70ad1f8a28417fad3e1ed7447a6bd8"
     },
     "CONNECT-RECORDS": {
