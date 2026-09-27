@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 513,
+  "revision": 514,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35241,25 +35241,18 @@
       "token": null
     },
     "UI-BASE": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 7,
+      "generation": 8,
       "issue_number": 4,
       "landed_main": null,
-      "note": "docs/evidence/UI-BASE/completion-entries-display.md",
+      "note": "PR377 merged7622dc4; full UI image/device conditions remain, issue open; proceed CONNECT-BASE",
       "owner": "rozwer",
-      "paths": [
-        "src/app/",
-        "src/ui/",
-        "src/messages.ts",
-        "index.html",
-        "vite.config.ts",
-        "docs/evidence/UI-BASE/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "5efe2b0d8605c4025bd05751458494ee6fc370bf",
-      "token": "0ea356985c6f4f1483cd0c34cd74673f"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-BASE-LAYOUT": {
       "actor": "mattsun",
