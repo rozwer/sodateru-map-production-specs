@@ -223,6 +223,7 @@
         "UI-BASE-LAYOUT": 300,
         "UI-COMPANION": 19,
         "UI-DEMO-ALL": 395,
+        "UI-DEMO-EXTENSIONS": 396,
         "UI-EXPLORE": 10,
         "UI-FRIENDS": 14,
         "UI-HEALTH": 146,
@@ -8012,6 +8013,20 @@
         "write_paths": [
           "src/app/",
           "docs/evidence/UI-DEMO-ALL/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "UI-DEMO-EXTENSIONS",
+        "kind": "ui",
+        "lane": "A",
+        "owner": "rozwer",
+        "priority": "P0",
+        "title": "拡張・お願い・防災の操作可能なモック",
+        "write_paths": [
+          "src/features/plugins/",
+          "src/features/disaster/"
         ]
       }
     ],
@@ -34328,9 +34343,10 @@
     "VISUAL-SETTINGS",
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP",
-    "UI-DEMO-ALL"
+    "UI-DEMO-ALL",
+    "UI-DEMO-EXTENSIONS"
   ],
-  "revision": 567,
+  "revision": 568,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35279,6 +35295,23 @@
       "status": "claimed",
       "submitted_commit": null,
       "token": "81df4a7799a14a8cae2619e0a7939250"
+    },
+    "UI-DEMO-EXTENSIONS": {
+      "actor": "rozwer",
+      "base_commit": "17e3fccf04c5438c76ee2c3fc79cf08a45e2a100",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 396,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/features/plugins/",
+        "src/features/disaster/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "2db5fe770cb7412297cf8011c35516bc"
     },
     "UI-EXPLORE": {
       "actor": null,
