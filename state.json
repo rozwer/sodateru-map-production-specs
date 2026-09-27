@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 388,
+  "revision": 389,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34472,12 +34472,20 @@
       "token": null
     },
     "CONNECT-FRIENDS": {
-      "actor": null,
-      "generation": 0,
+      "actor": "rozwer",
+      "base_commit": "3681e002433b69a30d57f5cfba59b5301913787f",
+      "generation": 1,
+      "issue_number": 142,
+      "landed_main": null,
       "note": null,
-      "paths": [],
-      "status": "backlog",
-      "token": null
+      "owner": "rozwer",
+      "paths": [
+        "src/features/friends/",
+        "docs/evidence/CONNECT-FRIENDS/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "49fb22ec0d744816aadd308b794195be"
     },
     "CONNECT-HEALTH": {
       "actor": null,
