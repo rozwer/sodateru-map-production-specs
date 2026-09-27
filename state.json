@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 454,
+  "revision": 455,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35131,7 +35131,7 @@
       "generation": 7,
       "issue_number": 105,
       "landed_main": null,
-      "note": "第1周締切。540c5a0をrozwer/105-theme-adoptionへpush済。未レビューPR保全。次はplaceIdなしテーマの既存編集入口1本。docs/evidence/THEMES/naming-ui-20260927.md",
+      "note": "docs/evidence/THEMES/place-less-entry-20260927.md",
       "owner": "rozwer",
       "paths": [
         "server/features/themes/",
@@ -35140,8 +35140,8 @@
         "docs/evidence/THEMES/",
         "src/features/map/screens.tsx"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "af59ac1eaf58aee7b0c5add4213fba7ff17ecab8",
       "token": "d91890bfbb414faa8aa2f3d7ac39b491"
     },
     "TOOL-ISSUE-COMMENT": {
