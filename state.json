@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 376,
+  "revision": 377,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35189,7 +35189,7 @@
       "generation": 3,
       "issue_number": 4,
       "landed_main": null,
-      "note": "ユーザーの終了指示により未完了のまま通常返却。PR47/81/152/162はcommit保持merge済み、最終bef7d6d。worktree /Users/roz/.codex/worktrees/ui-base-4 と既存証拠を保持。残件はCONNECT #72 comment5674158832（表示設定、GPS共有、plugin layer、統合受入、メニュー飾り画像照合）。#4はfinish/closeせず、編集6pathsを解放し組込み#98へ引継ぐ。",
+      "note": "docs/evidence/UI-BASE/self-home-entry-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/app/",
@@ -35199,8 +35199,8 @@
         "vite.config.ts",
         "docs/evidence/UI-BASE/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "9784e8e77d80c8c9dba517c0bbfa7af6c1269e02",
       "token": "1372b5ecc3f643a5a297a2241bb187b2"
     },
     "UI-BASE-LAYOUT": {
