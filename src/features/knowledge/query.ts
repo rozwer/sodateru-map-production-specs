@@ -60,7 +60,7 @@ export function sharedKnowledgeQuery({ query, filters, timeZone, topicKey, purpo
   if (filters.radiusM !== null && !filters.center) throw new Error('検索する地域を選んでください。');
   if (filters.areaText.trim() && !filters.center) throw new Error('検索結果から地域を選んでください。');
   if (filters.purpose && !purposes?.length) throw new Error('目的の検索条件を確認できません。');
-  const result: SharedKnowledgeQuery = { audience: filters.audience, includeUndated: false };
+  const result: SharedKnowledgeQuery = { audience: filters.audience, includeUndated: !filters.period };
   if (query.trim()) result.q = query.trim();
   if (filters.center && filters.radiusM !== null) {
     result.longitude = filters.center[0]; result.latitude = filters.center[1]; result.radiusM = filters.radiusM;
