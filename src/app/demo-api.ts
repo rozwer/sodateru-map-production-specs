@@ -145,7 +145,16 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
         records: { status: 'ready', data: page(selected) }, checkins: { status: 'ready', data: page(d.checkins.filter(c => c.localDate === date)) } } };
     }
     case 'getVisits': return page(visits(d, owner).filter(v => (!query.from || v.startedAt >= query.from) && (!query.to || v.startedAt < query.to)));
-    case 'getVisitsVisitId': { const visit = visits(d, owner).find(v => v.id === path.visitId); return visit ? { data: visit } : undefined; }
+    case 'getVisitsVisitId': {
+      const visit = visits(d, owner).find(v => v.id === path.visitId);
+      if (visit) return { data: visit };
+      const linked = d.records.find(r => r.visitId === path.visitId);
+      if (!linked) return undefined;
+      return { data: { id: path.visitId, version: 1, createdAt: linked.createdAt, updatedAt: linked.updatedAt,
+        personId: owner, placeId: linked.effectivePlaceId ?? linked.placeId ?? ids.cafe,
+        startedAt: linked.effectiveStartedAt ?? linked.occurredAt, endedAt: linked.effectiveEndedAt ?? linked.endedAt,
+        timePrecision: linked.effectiveTimePrecision ?? linked.timePrecision, origin: 'manual', status: 'confirmed' } };
+    }
     case 'postVisits': {
       const visit = { ...body, personId: owner, status: 'candidate', version: 1, createdAt: now(), updatedAt: now() };
       d.visits.push(visit); save(); return { data: visit };
