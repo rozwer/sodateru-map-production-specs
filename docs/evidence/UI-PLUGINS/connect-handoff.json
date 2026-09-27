@@ -15,9 +15,9 @@
       ],
       "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
       "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
-      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_commit": "ab0cf902a25213d6a33e6a7539dbc636789ba65e",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
-      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
     },
     {
       "id": "requests-drafts",
@@ -32,9 +32,9 @@
       ],
       "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
       "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
-      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_commit": "ab0cf902a25213d6a33e6a7539dbc636789ba65e",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
-      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
     },
     {
       "id": "requests-save",
@@ -50,9 +50,9 @@
       ],
       "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
       "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
-      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_commit": "ab0cf902a25213d6a33e6a7539dbc636789ba65e",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
-      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
     },
     {
       "id": "requests-delete",
@@ -67,9 +67,9 @@
       ],
       "ui_commit": "48f68cb5e2cda622bcf31fd7e0dac98323efb770",
       "ui_evidence": "docs/evidence/UI-PLUGINS/requests-handoff-20260927.md",
-      "contract_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
+      "contract_commit": "ab0cf902a25213d6a33e6a7539dbc636789ba65e",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
-      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf"
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875"
     }
   ]
 }
