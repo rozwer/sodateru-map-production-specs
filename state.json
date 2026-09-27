@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 539,
+  "revision": 540,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35587,17 +35587,23 @@
       "token": null
     },
     "VISUAL-SOCIAL": {
-      "actor": null,
-      "base_commit": "7ac7f684c4d706a4c996e2cf8ffdbd4104a079b2",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "f8608fc48fddeee08013d2b152472c9c9148e73b",
+      "claim_unit": null,
+      "generation": 3,
       "issue_number": 184,
       "landed_main": null,
       "note": "締切指示で追加作業停止。PR193/199/207通常merge済み、HEAD ed3a2f6617787d18250a112ebd6f12b9de431212をorigin/rozwer/184-visual-socialとworktree /Users/roz/.codex/worktrees/visual-social-184に保全。docs/evidence/VISUAL-COMMUNITY/screens.mdに13画面の検証境界と未完。全画面一致/API完了ではない。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/friends/",
+        "src/features/knowledge/",
+        "src/features/companion/",
+        "docs/evidence/VISUAL-COMMUNITY/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "0fbcfc8a5f254838be38fe9ab0f3d2a1"
     }
   }
 }
