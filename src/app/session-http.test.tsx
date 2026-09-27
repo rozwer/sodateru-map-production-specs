@@ -39,13 +39,18 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
   async function stop() { await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve())); databases.close(); }
   await boot();
   const cookies = new Map<string, string>();
-  const requests: { method: string; path: string; mode: string | null; status: number }[] = [];
+  const requests: { method: string; path: string; mode: string | null; status: number; key: string | null }[] = [];
+  let loseSessionResponse = true;
   let holdMe = false, heldSignal: AbortSignal | undefined, release: (() => void) | undefined;
   const fetcher: typeof fetch = async (url, init) => {
     const headers = new Headers(init?.headers);
     headers.set('Cookie', [...cookies].map(([key,value]) => `${key}=${value}`).join('; '));
     const response = await fetch(origin + String(url), {...init, headers});
-    requests.push({method: init?.method ?? 'GET', path: String(url), mode: headers.get('X-Data-Mode'), status: response.status});
+    requests.push({method: init?.method ?? 'GET', path: String(url), mode: headers.get('X-Data-Mode'), status: response.status, key: headers.get('Idempotency-Key')});
+    if (loseSessionResponse && init?.method === 'POST' && String(url) === '/api/v1/session') {
+      loseSessionResponse = false;
+      throw new TypeError('Simulated response loss after real server commit');
+    }
     for (const cookie of response.headers.getSetCookie()) { const pair = cookie.split(';')[0]!; const at = pair.indexOf('='); cookies.set(pair.slice(0,at), pair.slice(at+1)); }
     if (holdMe && String(url).endsWith('/me')) {
       holdMe = false; heldSignal = init?.signal ?? undefined;
@@ -68,7 +73,15 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     await act(async () => root.render(<Probe/>)); await until(() => !controller.busy);
     expect(controller.session).toBeNull();
     expect(requests.some(r=>r.path==='/api/v1/session' && r.status===401)).toBe(true);
-    await act(async () => { await controller.start(); });
+    await act(async () => { expect(await controller.start()).toBe(false); });
+    expect(controller.session).toBeNull();
+    expect(controller.error).toBeTruthy();
+    await act(async () => { expect(await controller.start()).toBe(true); });
+    const attempts = requests.filter(r => r.method === 'POST');
+    expect(attempts).toHaveLength(2);
+    expect(attempts[0]!.key).toBeTruthy();
+    expect(attempts[1]!.key).toBe(attempts[0]!.key);
+    expect(databases.live.prepare('SELECT count(*) AS count FROM core_sessions').get()!.count).toBe(1);
     expect(controller.session!.person.id).toBe(identity.profiles[0]!.id);
     const writes = () => requests.filter(r=>r.method!=='GET');
     const mutations = writes().length;
@@ -102,7 +115,7 @@ it('connects shell navigation and person/mode changes to real HTTP with stale re
     expect(controller.session!.person.id).toBe(identity.profiles[1]!.id);
     expect(writes()).toHaveLength(countBeforeRestart);
     expect(writes().map(r=>[r.method,r.path,r.mode,r.status])).toEqual([
-      ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','demo',201],
+      ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','live',200], ['POST','/api/v1/session','live',201], ['POST','/api/v1/session','demo',201],
     ]);
   } finally {
     release?.(); await act(async () => root.unmount()); host.remove(); await stop(); vi.unstubAllGlobals(); dom.window.close();

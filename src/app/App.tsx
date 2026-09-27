@@ -45,6 +45,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   const [visited, setVisited] = useState(() => new Map([[current.key, current.route]]));
   const lastDepth = useRef(entries.length);
   const contentRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLElement>(null);
   const navRef = useRef<HTMLElement>(null);
   const [navHeight, setNavHeight] = useState(80);
   const menuMode = current.route.pageId === 'navigation' ? (current.route.params.mode || 'main') as 'main' | 'self' | 'community' : null;
@@ -99,7 +100,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       const restored = current.focus?.isConnected ? current.focus : current.focusId ? document.getElementById(current.focusId) :
         [...(contentRef.current?.querySelectorAll<HTMLButtonElement>('button') ?? [])].find(button => !button.closest('[hidden]') && button.textContent === current.focusText);
       if (movingBack && restored) restored.focus({ preventScroll: true });
-      else contentRef.current?.querySelector<HTMLElement>('[role="dialog"]')?.focus({ preventScroll: true });
+      else (contentRef.current?.querySelector<HTMLElement>('[role="dialog"]:not([hidden])') ?? mainRef.current)?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   }, [current.key, entries.length]);
@@ -122,7 +123,7 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
   };
   const screenProps: ScreenProps = { route: current.route, navigate: go, back, scopeKey, active: active && !mapControlsCovered };
   return <MapBridgeContext.Provider value={bridge}><ScreenStateContext.Provider value={saved}>
-    <main className={`sm-app${dataMode === 'demo' ? ' sm-app--demo' : ''}${cardMode ? ' sm-app--nav-cards' : ''}`} style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
+    <main ref={mainRef} tabIndex={-1} className={`sm-app${dataMode === 'demo' ? ' sm-app--demo' : ''}${cardMode ? ' sm-app--nav-cards' : ''}`} style={{ '--bottom-nav-height': `${showBottomNav ? navHeight : 0}px` } as CSSProperties} onClickCapture={event => {
       // WebKit may leave focus on the dialog after a pointer activation. Record the real trigger.
       const button = (event.target as Element).closest<HTMLButtonElement>('button');
       if (button && !button.disabled) button.focus({ preventScroll: true });
