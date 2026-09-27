@@ -6,14 +6,16 @@ import {
   useEffect,
   useState,
   type Dispatch,
+  type ReactNode,
   type SetStateAction,
 } from "react";
 import { createReferencePlugins, createReferencePosts, createReferenceConditions, createReferenceLayers, createReferenceTrial, referencePhotos, referenceVersions } from "./reference-data";
 import { GrowPreview } from "./grow/GrowPreview";
 import { RequestApiScreen } from "../feature-requests/bindings";
 import { useDisasterData } from "../disaster/data";
-import { disasterScreens } from "../disaster/screens";
+import { disasterScreens, showDisasterDemoMap } from "../disaster/screens";
 import { disasterMapDisplay } from "../disaster/ui/map-state";
+import { useDisasterDemoState } from "../disaster/ui/demo-state";
 import { api } from "../../app/api";
 import { PluginIconView, type PluginIconChoice } from "./PluginIconView";
 import { PluginGlyph } from "./PluginGlyph";
@@ -111,16 +113,23 @@ function PluginFixture({
 }) {
   const { data, setData } = useFixture(scopeKey);
   const mainMap = useContext(MapBridgeContext);
-  const disaster = useDisasterData(scopeKey);
+  const mockMode = scopeKey.startsWith("demo:");
+  const disaster = useDisasterData(scopeKey, !mockMode);
+  const disasterDemo = useDisasterDemoState(scopeKey);
   const [disasterMutation, setDisasterMutation] = useState(false);
   const [disasterError, setDisasterError] = useState<string>();
   useEffect(() => {
     if (active && route.params.pluginId === "fixture-disaster" && ["plugin-trial", "plugin-install"].includes(route.pageId)) navigate("disaster-map", { pluginId: "fixture-disaster" });
   }, [active, route.pageId, route.params.pluginId]);
+  const demoIcon = ({
+    map: <PluginControlIcon name="map"/>, pin: <PluginControlIcon name="pin"/>,
+    motorcycle: <PluginGlyph kind="bike"/>, book: <PluginControlIcon name="document"/>,
+    star: <PluginGlyph kind="other"/>, shield: <PluginGlyph kind="disaster"/>,
+  } as Record<string, ReactNode>)[disasterDemo.value.icon];
   const displayPlugins = data.plugins.map(item => item.kind === "disaster" ? {
-    ...item, installed: Boolean(disaster.view?.settings), enabled: disaster.view?.settings?.enabled ?? false,
+    ...item, installed: mockMode ? disasterDemo.value.installed : Boolean(disaster.view?.settings), enabled: mockMode ? disasterDemo.value.enabled : disaster.view?.settings?.enabled ?? false,
     versionLabel: disaster.view?.settings ? `v${disaster.view.settings.pluginVersion}` : item.versionLabel,
-    displayIcon: disaster.view?.settings?.icon === "map" ? <PluginControlIcon name="map"/> : disaster.view?.settings?.icon === "pin" ? <PluginControlIcon name="pin"/> : item.displayIcon,
+    displayIcon: mockMode ? demoIcon : disaster.view?.settings?.icon === "map" ? <PluginControlIcon name="map"/> : disaster.view?.settings?.icon === "pin" ? <PluginControlIcon name="pin"/> : item.displayIcon,
   } : item);
   useEffect(() => {
     if (!mainMap) return;
@@ -177,12 +186,12 @@ function PluginFixture({
     }));
   const status = {
     busyLabel: disasterMutation ? "保存しています…" : "導入状態を読み込み中…",
-    busy: (plugin.kind === "disaster" || route.pageId === "plugin-manage") && (disaster.busy || disasterMutation),
+    busy: !mockMode && (plugin.kind === "disaster" || route.pageId === "plugin-manage") && (disaster.busy || disasterMutation),
     notice: data.pluginNotice,
     error:
       new URLSearchParams(location.search).has("failure") && !retried
         ? "UI fixture：通信失敗の表示確認です。入力を保持しています。"
-        : disasterError || (route.pageId === "plugin-manage" ? disaster.error || undefined : undefined),
+        : mockMode ? undefined : disasterError || (route.pageId === "plugin-manage" ? disaster.error || undefined : undefined),
     onRetry: () => { setRetried(true); setDisasterError(undefined); if (plugin.kind === "disaster" || route.pageId === "plugin-manage") void disaster.load(); },
   };
   const confirmed = (message: string) =>
@@ -211,6 +220,13 @@ function PluginFixture({
         onCancel={back}
         onRemove={async () => {
           if (plugin.kind === "disaster") {
+            if (mockMode) {
+              disasterDemo.update({ installed: false, enabled: false });
+              if (mainMap) disasterMapDisplay(mainMap).clear();
+              confirmed("防災マップを地図から外しました");
+              go("plugin-manage");
+              return;
+            }
             const version = disaster.view?.settings?.version;
             if (!version) return;
             setDisasterMutation(true); setDisasterError(undefined);
@@ -240,7 +256,7 @@ function PluginFixture({
         { id: "star", label: "星", icon: <PluginGlyph kind="other" /> },
         { id: "map", label: "地図", icon: <PluginControlIcon name="map" /> },
       ];
-      const selected = iconDraft || (plugin.kind === "disaster" ? disaster.view?.settings?.icon : data.icons[plugin.id]) || (plugin.kind === "disaster" ? "shield" : plugin.kind === "pilgrimage" ? "star" : "motorcycle");
+      const selected = iconDraft || (plugin.kind === "disaster" ? mockMode ? disasterDemo.value.icon : disaster.view?.settings?.icon : data.icons[plugin.id]) || (plugin.kind === "disaster" ? "shield" : plugin.kind === "pilgrimage" ? "star" : "motorcycle");
       return (
         <PluginIconView
           plugin={plugin}
@@ -253,6 +269,13 @@ function PluginFixture({
           }}
           onSave={async () => {
             if (plugin.kind === "disaster") {
+              if (mockMode) {
+                disasterDemo.update({ icon: selected });
+                setIconDraft(undefined);
+                confirmed("防災マップのアイコンを変更しました");
+                go("plugin-manage");
+                return;
+              }
               const version = disaster.view?.settings?.version;
               if (!version) return;
               setDisasterMutation(true); setDisasterError(undefined);
@@ -406,7 +429,7 @@ function PluginFixture({
               mock: true,
             } : item.kind === "disaster" ? { map: <div className="plugin-disaster-entry"><PluginGlyph kind="disaster"/><strong>避難先・想定リスクを確認</strong></div>, mock: true } : preview(item.enabled, item.kind === "bike" && item.versionLabel === referenceVersions.bike.next, item.kind === "nature", item.id, String(data.savedFields[item.id]?.find(field => field.id === "region")?.value || "motoyama"))]),
           )}
-          onToggle={(id, enabled) => { if (id === "fixture-disaster") { if (mainMap) disasterMapDisplay(mainMap).clear(); void disaster.setEnabled(enabled); } else modify(id, { enabled }); }}
+          onToggle={(id, enabled) => { if (id === "fixture-disaster") { if (mockMode) { disasterDemo.update({ enabled }); if (mainMap) { if (enabled) showDisasterDemoMap(mainMap); else disasterMapDisplay(mainMap).clear(); } } else { if (mainMap) disasterMapDisplay(mainMap).clear(); void disaster.setEnabled(enabled); } } else modify(id, { enabled }); }}
           onIcon={(id) => navigate("plugin-icon", { pluginId: id })}
           onMap={(id) => {
             if (id !== "fixture-disaster") {
@@ -669,7 +692,7 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map<ScreenDefi
     title,
     component: function InspectionScreen(props: ScreenProps) {
       const requestPage = id.startsWith("feature-request");
-      const requestFixture = new URLSearchParams(location.search).get("uiFixture") === "plugins";
+      const requestFixture = props.scopeKey.startsWith("demo:") || new URLSearchParams(location.search).get("uiFixture") === "plugins";
       const View = requestPage
         ? requestFixture ? RequestFixture : RequestApiScreen
         : PluginFixture;
@@ -677,7 +700,7 @@ export const screens: ScreenDefinition[] = Object.entries(titles).map<ScreenDefi
       return (
         <>
           <p className="plugin-notice plugin-inspection-notice" role="status">
-            {requestPage && !requestFixture ? "お願いはAPIに保存します。デモの投稿は実データと別に保存されます。" : "バイク・聖地・お願いの表示確認は模擬操作（未保存）。防災は専用画面で設定を保存します。"}
+            {requestPage && !requestFixture ? "お願いはAPIに保存します。デモの投稿は実データと別に保存されます。" : props.scopeKey.startsWith("demo:") ? "バイク・聖地・お願い・防災は模擬操作です。この画面の変更は保存されません。" : "バイク・聖地・お願いの表示確認は模擬操作（未保存）。防災は専用画面で設定を保存します。"}
           </p>
           <View {...props} />
         </>

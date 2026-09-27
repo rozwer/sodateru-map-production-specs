@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import type { ScreenDefinition, ScreenProps } from '../../app/contracts';
+import type { MapBridge } from '../../app/map-bridge';
 import { useMapBridge } from '../../app/useMapBridge';
 import { useSession } from '../../app/session';
 import { api } from '../../app/api';
@@ -10,11 +11,16 @@ import { useDisasterData, toDisasterMapData, createDisasterDemo } from './data';
 import type { DisasterSettings, DisasterLayerId } from './types';
 import { DisasterPanel, DisasterIcon, regions } from './ui/DisasterPanel';
 import { disasterMapDisplay, buildDisasterMapDisplay } from './ui/map-state';
+import { useDisasterDemoState } from './ui/demo-state';
 import './ui/disaster.css';
 
 const defaults: DisasterSettings = { region: regions[0]!, layerIds: ['flood-hazard', 'terrain', 'rainfall'] };
 const layerNames = { 'flood-hazard': '洪水想定', terrain: '地形', rainfall: '降水解析' };
 const clock = (at: number | null | undefined) => at ? new Date(at).toLocaleTimeString('ja-JP', {hour:'2-digit',minute:'2-digit'}) : '未取得';
+export function showDisasterDemoMap(bridge: MapBridge, preview = createDisasterDemo()) {
+  const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
+  disasterMapDisplay(bridge).set({ownerKey:'plugin:disaster-preview',images:[],overlays});
+}
 function validSettings(value: unknown): value is DisasterSettings {
   const s = value as DisasterSettings | undefined;
   return !!s?.region && typeof s.region.id === 'string' && Array.isArray(s.region.bounds) && s.region.bounds.length === 4 && s.region.bounds.every(Number.isFinite) && Array.isArray(s.layerIds) && s.layerIds.every(id => id in layerNames);
@@ -22,7 +28,9 @@ function validSettings(value: unknown): value is DisasterSettings {
 export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProps) {
   const bridge = useMapBridge();
   const session = useSession();
-  const data = useDisasterData(scopeKey);
+  const mockMode = scopeKey.startsWith('demo:');
+  const data = useDisasterData(scopeKey, !mockMode);
+  const demoState = useDisasterDemoState(scopeKey);
   const [toolbarHost, setToolbarHost] = useState<HTMLElement | null>(null);
   const previousCamera = useRef(bridge.getSnapshot().camera);
   const [settings, setSettings] = useState<DisasterSettings>(defaults);
@@ -31,6 +39,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   const [expanded, setExpanded] = useState(false);
   const [wide, setWide] = useState(false);
   const [trial, setTrial] = useState<PluginTrialResult | null>(null);
+  const [demoConfirm, setDemoConfirm] = useState(false);
   const [preview, setPreview] = useState<PluginTrialPreview | null>(null);
   const [localBusy, setLocalBusy] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -38,9 +47,9 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   const [notice, setNotice] = useState('');
   const [opacity, setOpacity] = useState(.65);
   const current = data.view?.settings;
-  const installed = !!current;
-  const enabled = current?.enabled ?? false;
-  const busy = data.busy || localBusy;
+  const installed = mockMode ? demoState.value.installed : !!current;
+  const enabled = mockMode ? demoState.value.enabled : current?.enabled ?? false;
+  const busy = mockMode ? false : data.busy || localBusy;
   const materials = useMemo(() => data.view ? toDisasterMapData(data.view) : null, [data.view]);
   const operation = useRef<AbortController | null>(null);
   const focusRegion = (value = settings) => {
@@ -60,27 +69,29 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     if (validSettings(value)) { setSettings(value); setPreview(null); }
   }, [current?.version, current?.installId]);
   useEffect(() => {
+    if (mockMode && demoState.value.settings) setSettings(demoState.value.settings);
+  }, [mockMode, demoState.value.settings]);
+  useEffect(() => {
     if (!active) { operation.current?.abort(); return; }
     if (data.busy) return;
-    if (!installed && session?.dataMode === 'demo' && !preview && !trial) setPreview(createDisasterDemo());
-  }, [active,data.busy,installed,session?.dataMode]);
+    if ((mockMode || !installed && session?.dataMode === 'demo') && !preview && !trial && !demoConfirm) setPreview(createDisasterDemo());
+  }, [active,data.busy,installed,session?.dataMode,mockMode,preview,trial,demoConfirm]);
   useEffect(() => { if (active) focusRegion(); }, [active, settings.region.id, settings.region.bounds[0], settings.region.bounds[1], settings.region.bounds[2], settings.region.bounds[3], compact, wide]);
   useEffect(() => {
     const store = disasterMapDisplay(bridge);
-    if (!active) { if (preview) store.clear(); return; }
+    if (!active) { if (preview && !(mockMode && installed && enabled)) store.clear(); return; }
     let cancelled = false;
     store.clear(); setRenderError(null);
     if (data.busy) return;
-    if (preview && !installed) {
-      const overlays = preview.features.map(feature => ({id:String(feature.id),ownerKey:'plugin:disaster-preview',geometry:feature.geometry as SceneOverlay['geometry'],label:feature.properties.label,color:preview.legends.find(legend => legend.id === feature.properties.legendId)?.color ?? '#e59745',opacity:.3}));
-      store.set({ownerKey:'plugin:disaster-preview',images:[],overlays});
+    if (preview && (!installed || mockMode && enabled)) {
+      showDisasterDemoMap(bridge, preview);
     } else if (materials?.action === 'apply' && materials.ownerKey) {
       void buildDisasterMapDisplay(materials.view, opacity).then(display => {
         if (!cancelled) store.set(display);
       }).catch(() => { if (!cancelled) { store.clear(); setRenderError('防災画像を地図に描画できませんでした。情報を更新して再試行してください。'); } });
     }
     return () => { cancelled = true; };
-  }, [active,bridge,materials,preview,installed,opacity,data.busy]);
+  }, [active,bridge,materials,preview,installed,enabled,mockMode,opacity,data.busy]);
   useEffect(() => () => { operation.current?.abort(); }, []);
   const run = async (job: (signal: AbortSignal) => Promise<void>) => {
     operation.current?.abort(); const controller = new AbortController(); operation.current = controller;
@@ -88,29 +99,40 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
     try { await job(controller.signal); } catch (error) { if (!controller.signal.aborted) setLocalError(error instanceof Error ? error.message : '操作を完了できませんでした。'); }
     finally { if (!controller.signal.aborted) setLocalBusy(false); }
   };
-  const makeTrial = (value: DisasterSettings, confirm: boolean) => run(async signal => {
+  const makeTrial = (value: DisasterSettings, confirm: boolean) => {
+    if (mockMode) { setPreview(createDisasterDemo()); if (confirm) setDemoConfirm(true); return; }
+    void run(async signal => {
     const catalog = await api.request('getPlugins', {signal});
     const plugin = catalog.items.find(item => item.id === 'disaster');
     if (!plugin) throw new Error('防災機能が登録されていません。');
     const response = await api.request('postPluginTrial', {path:{pluginId:'disaster'},body:{pluginVersion:plugin.pluginVersion,settings:value},idempotencyKey:crypto.randomUUID(),signal});
     if (signal.aborted) return;
     setPreview(response.data.preview); if (confirm) setTrial(response.data);
-  });
+    });
+  };
   const changeSettings = (value: DisasterSettings) => {
     setSettings(value); setNotice('');
+    if (mockMode) { if (installed) demoState.update({ settings: value }); setPreview(createDisasterDemo()); return; }
     if (installed) { disasterMapDisplay(bridge).clear(); void data.saveSettings(value); }
     else void makeTrial(value,false);
   };
   const toggleLayer = (id: DisasterLayerId) => changeSettings({...settings,layerIds:settings.layerIds.includes(id) ? settings.layerIds.filter(layer => layer !== id) : [...settings.layerIds,id]});
-  const install = () => run(async signal => {
+  const install = () => {
+    if (mockMode) {
+      demoState.update({ installed: true, enabled: true, settings });
+      setDemoConfirm(false); setNotice('防災マップを導入しました（UIデモ・未保存）。');
+      return;
+    }
+    void run(async signal => {
     if (!trial) return;
     if (trial.conflicts.length) throw new Error('他の拡張機能との競合を解決してから導入してください。');
     await api.request('postPluginSettings', {body:{id:'disaster',pluginVersion:trial.snapshot.pluginVersion,settings:trial.snapshot.settings,icon:trial.snapshot.icon,enabled:true,confirmed:true,stateRevision:trial.stateRevision},idempotencyKey:crypto.randomUUID(),signal});
     if (signal.aborted) return;
     setTrial(null); setPreview(null); setNotice('導入しました。「防災情報を更新」で実情報を取得できます。');
     await data.load();
-  });
-  const leave = () => { if (preview) disasterMapDisplay(bridge).clear(); bridge.clear('plugin:disaster-ui'); bridge.setCamera(previousCamera.current); navigate('map'); };
+    });
+  };
+  const leave = () => { if (preview && !(mockMode && installed && enabled)) disasterMapDisplay(bridge).clear(); bridge.clear('plugin:disaster-ui'); bridge.setCamera(previousCamera.current); navigate('map'); };
   const viewNotice = installed && !enabled ? '防災レイヤーは停止中です。保存された情報は保持されています。' : data.view?.map.reason === 'settingsChanged' ? '地域・レイヤー設定が変わりました。情報を更新してください。' : data.view?.stale ? '保存された情報は古いか、更新に失敗しています。取得時刻と状況を確認してください。' : '';
   const toolbar = <section className="disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide} aria-label="防災マップ">
       <header className="disaster-header"><div className="disaster-brand"><DisasterIcon name="shield"/><div><small>わたしの街を、備える街に</small><h2>防災マップ</h2></div></div><button className="disaster-back" onClick={leave}>街の地図へ</button></header>
@@ -124,7 +146,7 @@ export function DisasterScreen({ scopeKey, navigate, active = true }: ScreenProp
   return <div className="disaster-screen disaster-app" data-compact={compact} data-expanded={expanded} data-wide-map={wide}>
     {active && toolbarHost && createPortal(toolbar, toolbarHost)}
       <div className="disaster-panel"><div className="disaster-panel-size"><button onClick={() => {setWide(!wide);setExpanded(false);}}>{wide ? '情報を戻す ▴' : '地図を広く ▾'}</button><button onClick={() => {setExpanded(!expanded);setWide(false);}}>{expanded ? '情報をたたむ ▾' : '情報を広く ▴'}</button></div>
-        {trial ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => setTrial(null)}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。導入後に情報を取得します。</p><p className="disaster-caption">地域とレイヤーの設定を保存し、あなたの地図に追加します。</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => setTrial(null)}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} lastAttempt={data.view?.lastAttempt} savedResult={data.view?.result} busy={busy} error={localError || data.error || renderError} notice={notice || viewNotice} installed={installed} enabled={enabled} demo={!!preview} demoLabel={preview?.label} demoWarnings={preview?.warnings} onSettings={changeSettings} onRefresh={() => {setNotice(''); void (data.view ? data.refresh() : data.load());}} onEnabled={value => {disasterMapDisplay(bridge).clear();void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
+        {trial || demoConfirm ? <div className="disaster-scroll"><button className="disaster-text-button" onClick={() => {setTrial(null);setDemoConfirm(false);}}>‹ 条件に戻る</button><h3>防災マップを導入する</h3><p className="disaster-caption">{settings.region.id} / {settings.layerIds.map(id => layerNames[id]).join('・')}</p><p className="disaster-message">試用中の色は模擬表示です。{mockMode ? 'このデモ操作は保存されません。' : '導入後に情報を取得します。'}</p><p className="disaster-caption">{mockMode ? 'このデモ中だけ、選んだ地域とレイヤーを地図に表示します。' : '地域とレイヤーの設定を保存し、あなたの地図に追加します。'}</p>{localError && <p role="alert" className="disaster-error">{localError}</p>}<button className="disaster-primary" disabled={busy} onClick={install}>導入する</button><button className="disaster-secondary" disabled={busy} onClick={() => {setTrial(null);setDemoConfirm(false);}}>キャンセル</button></div> : <DisasterPanel settings={settings} layers={materials?.layers ?? []} lastAttempt={mockMode ? null : data.view?.lastAttempt} savedResult={mockMode ? null : data.view?.result} busy={busy} error={mockMode ? null : localError || data.error || renderError} notice={notice || (mockMode ? installed ? enabled ? '防災マップは模擬導入中です（未保存）。' : '防災レイヤーは模擬停止中です（未保存）。' : '' : viewNotice)} installed={installed} enabled={enabled} demo={!!preview} demoLabel={preview?.label} demoWarnings={mockMode ? ['この表示例と操作は保存されません。実情報は取得していません。'] : preview?.warnings} onSettings={changeSettings} onRefresh={() => {if (mockMode) setNotice('表示確認用の模擬データです。実情報は取得していません。'); else {setNotice(''); void (data.view ? data.refresh() : data.load());}}} onEnabled={value => {disasterMapDisplay(bridge).clear(); if (mockMode) {demoState.update({enabled:value});setNotice(`防災レイヤーを模擬${value ? '有効化' : '停止'}しました（未保存）。`);} else void data.setEnabled(value);}} onInstall={() => {void makeTrial(settings,true);}} onLayer={toggleLayer} onFocus={() => focusRegion()} tab={tab} setTab={setTab}/>}
       </div>
   </div>;
 }

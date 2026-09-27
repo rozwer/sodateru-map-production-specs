@@ -8,7 +8,7 @@ const message = (error: unknown) => error instanceof Error ? error.message : 'é˜
 interface State { scopeKey: string; view: DisasterView | null; busy: boolean; error: string | null }
 
 /** Uses the existing app client/session mode. Scope changes abort requests and discard old-person results. */
-export function useDisasterData(scopeKey: string) {
+export function useDisasterData(scopeKey: string, enabled = true) {
   const [state, setState] = useState<State>({ scopeKey, view: null, busy: true, error: null });
   const pending = useRef<AbortController | null>(null);
   const currentView = state.scopeKey === scopeKey ? state.view : null;
@@ -24,7 +24,7 @@ export function useDisasterData(scopeKey: string) {
     }
   }, [scopeKey]);
   const load = useCallback(() => run(async signal => ({ view: await adapter.read(signal) })), [run]);
-  useEffect(() => { void load(); return () => pending.current?.abort(); }, [load]);
+  useEffect(() => { if (enabled) void load(); return () => pending.current?.abort(); }, [load, enabled]);
 
   const refresh = useCallback(() => run(async signal => {
     const version = currentView?.settings?.version;
@@ -44,8 +44,8 @@ export function useDisasterData(scopeKey: string) {
     }
   }), [run, currentView]);
   return {
-    view: currentView, busy: state.scopeKey !== scopeKey || state.busy,
-    error: state.scopeKey === scopeKey ? state.error : null, load, refresh,
+    view: enabled ? currentView : null, busy: enabled && (state.scopeKey !== scopeKey || state.busy),
+    error: enabled && state.scopeKey === scopeKey ? state.error : null, load, refresh,
     saveSettings: (settings: DisasterSettings) => patch({ settings }),
     setEnabled: (enabled: boolean) => patch({ enabled }),
   };
