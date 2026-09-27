@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 505,
+  "revision": 506,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35426,22 +35426,18 @@
       "token": null
     },
     "UI-PLUGINS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "cb73c9d4d6696430a9fa07619ac87c3293644700",
       "claim_unit": null,
-      "generation": 7,
+      "generation": 8,
       "issue_number": 18,
       "landed_main": null,
-      "note": "docs/evidence/UI-PLUGINS/plugin-handoff-20260927.md",
+      "note": "PR371 独立PASS通常merge、導入0件の相棒入口と4unit handoff統合。#144実接続へ継続。画像9画面最終照合は#215で未完。WT sodateru-plugin-handoff-finish保持。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "src/features/feature-requests/",
-        "docs/evidence/UI-PLUGINS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "e369e7169a96054d5ca5bd2118fd83bf3ab7e059",
-      "token": "c993c8c101f5445b83aaa1ad46c048e7"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-RECORDS": {
       "actor": null,
