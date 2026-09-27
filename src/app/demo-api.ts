@@ -5,7 +5,7 @@ import park from '../features/feature-requests/assets/park.jpg';
 import hinata from '../features/companion/assets/hinata.webp';
 
 type Item = Record<string, any>;
-type DemoData = { places: Item[]; records: Item[]; themes: Item[]; checkins: Item[]; suggestions: Item[]; batches: Item[]; media: Record<string, Item[]>; bookmarks: Item[]; routeResults: Item[]; routes: Item[]; dialogues: Item[]; conversations: Item[]; messages: Item[]; conversationResults: Record<string, string>; comparisons: Item[]; runs: Item[]; questions: Item[]; cards: Item[]; reactions: Item[]; recipes: Item[]; planSets: Item[]; companionSettings: Item };
+type DemoData = { places: Item[]; records: Item[]; deletedRecordIds: string[]; themes: Item[]; checkins: Item[]; suggestions: Item[]; batches: Item[]; media: Record<string, Item[]>; bookmarks: Item[]; routeResults: Item[]; routes: Item[]; dialogues: Item[]; conversations: Item[]; messages: Item[]; conversationResults: Record<string, string>; comparisons: Item[]; runs: Item[]; questions: Item[]; cards: Item[]; reactions: Item[]; recipes: Item[]; planSets: Item[]; companionSettings: Item };
 const ids = {
   cafe: '0a10d000-0000-4000-8000-000000000001', park: '0a10d000-0000-4000-8000-000000000002',
   coffeeRecord: '0a10d000-0000-4000-8000-000000000011', parkRecord: '0a10d000-0000-4000-8000-000000000012',
@@ -23,7 +23,29 @@ const fileDataUrl = (file: File) => new Promise<string>((resolve, reject) => {
   reader.onload = () => resolve(String(reader.result)); reader.onerror = () => reject(reader.error);
   reader.readAsDataURL(file);
 });
-const save = () => { if (personId && data) try { localStorage.setItem(`sodateru.demo-examples:${personId}`, JSON.stringify(data)); } catch { /* demo remains usable in memory */ } };
+const mergeById = (left: Item[], right: Item[]) => {
+  const items = new Map<string, Item>();
+  for (const item of [...left, ...right]) {
+    const previous = items.get(item.id);
+    if (!previous || (item.updatedAt ?? 0) >= (previous.updatedAt ?? 0)) items.set(item.id, item);
+  }
+  return [...items.values()];
+};
+const save = () => {
+  if (!personId || !data) return;
+  const key = `sodateru.demo-examples:${personId}`;
+  try {
+    const previous = localStorage.getItem(key);
+    if (previous) {
+      const stored = JSON.parse(previous) as DemoData;
+      data.deletedRecordIds = [...new Set([...(stored.deletedRecordIds ?? []), ...data.deletedRecordIds])];
+      data.records = mergeById(stored.records ?? [], data.records).filter(record => !data!.deletedRecordIds.includes(record.id));
+      for (const [recordId, items] of Object.entries(stored.media ?? {}))
+        data.media[recordId] = mergeById(items, data.media[recordId] ?? []);
+    }
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (error) { console.warn('デモ例のブラウザ保存に失敗しました。', error); }
+};
 const missing = () => { throw new ApiError(404, 'NOT_FOUND', '表示例が見つかりません。', crypto.randomUUID()); };
 function makeData(owner: string): DemoData {
   const time = now(), hour = 3600000;
@@ -51,7 +73,7 @@ function makeData(owner: string): DemoData {
     { id: ids.theme, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '静かな寄り道', description: 'ゆっくり過ごせる場所（表示例）', recordIds: [ids.coffeeRecord], colorKey: 'teal', coverMediaId: media[ids.coffeeRecord][0].id },
     { id: ids.themePark, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '緑の中を歩く', description: '自然にふれる場所（表示例）', recordIds: [ids.parkRecord], colorKey: 'green', coverMediaId: media[ids.parkRecord][0].id },
   ];
-  return { places, records, themes, checkins: [], suggestions: [], batches: [], media, bookmarks: [], routeResults: [], routes: [], dialogues: [], conversations: [], messages: [], conversationResults: {}, comparisons: [], runs: [], questions: [], cards: [], reactions: [], recipes: [], planSets: [],
+  return { places, records, deletedRecordIds: [], themes, checkins: [], suggestions: [], batches: [], media, bookmarks: [], routeResults: [], routes: [], dialogues: [], conversations: [], messages: [], conversationResults: {}, comparisons: [], runs: [], questions: [], cards: [], reactions: [], recipes: [], planSets: [],
     companionSettings: { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 } };
 }
 export function setDemoPerson(id: string | null) {
@@ -66,6 +88,7 @@ export function setDemoPerson(id: string | null) {
   data.runs ??= []; data.questions ??= [];
   data.cards ??= []; data.reactions ??= [];
   data.recipes ??= []; data.planSets ??= [];
+  data.deletedRecordIds ??= [];
   data.companionSettings ??= { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 };
   data.records.forEach((record, index) => { if (record.kind === 'experience' && !record.visitId) record.visitId = `0a10d000-0000-4000-8000-00000000005${index + 1}`; });
 }
@@ -317,7 +340,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       Object.assign(r, body, { version: r.version + 1, updatedAt: now() });
       r.effectivePlaceId = r.placeId; r.effectiveStartedAt = r.occurredAt; save(); return { data: r };
     }
-    case 'deleteRecordsRecordId': d.records = d.records.filter(r => r.id !== path.recordId); save(); return { data: { deleted: true } };
+    case 'deleteRecordsRecordId': d.deletedRecordIds.push(path.recordId ?? ''); d.records = d.records.filter(r => r.id !== path.recordId); save(); return { data: { deleted: true } };
     case 'getThemes': return page(d.themes);
     case 'getThemesThemeId': return { data: d.themes.find(t => t.id === path.themeId) ?? missing() };
     case 'postThemes': { const t = { ...body, version: 1, personId: owner, createdAt: now(), updatedAt: now() }; d.themes.push(t); save(); return { data: t }; }
