@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 476,
+  "revision": 477,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34759,17 +34759,30 @@
       "token": null
     },
     "GROW-UI": {
-      "actor": null,
-      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
-      "generation": 4,
+      "actor": "rozwer",
+      "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "claim_unit": null,
+      "generation": 5,
       "issue_number": 215,
       "landed_main": null,
       "note": "PR #332 merged; navigation repair verified. Remaining 9-screen visual acceptance and API connection tracked in #215/#18/#144. Continue CONNECT-PLUGINS after handoff gate.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/plugins/views.tsx",
+        "src/features/plugins/screens.tsx",
+        "src/features/plugins/plugins.css",
+        "src/features/plugins/view-model.ts",
+        "src/features/plugins/messages.ts",
+        "src/features/plugins/usePreviewPhase.ts",
+        "src/features/plugins/PluginIconView.tsx",
+        "src/features/plugins/PluginGlyph.tsx",
+        "src/features/plugins/grow/",
+        "src/features/feature-requests/",
+        "docs/evidence/GROW-UI/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "931ed3c526a548f58e485750e3b12f17"
     },
     "HEALTH": {
       "actor": null,
