@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { DisasterLayer, DisasterLayerId, DisasterSettings, DisasterStatus } from '../types';
+import type { DisasterLayer, DisasterLayerId, DisasterSettings, DisasterStatus, DisasterAttempt } from '../types';
 
 const labels: Record<DisasterLayerId, string> = { 'flood-hazard': '洪水の浸水想定', terrain: '地形と起伏', rainfall: '降水の状況' };
 const statuses: Record<DisasterStatus, string> = { available: '取得済み', partial: '一部未取得', missing: 'データなし', outOfCoverage: '収録範囲外', providerError: '提供元から取得できません' };
@@ -13,8 +13,8 @@ export function DisasterIcon({ name }: { name: 'shield' | 'pin' | 'rain' | 'refr
   const paths = { shield: 'M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6Zm-4 9 3 3 5-6', pin: 'M12 3a7 7 0 0 0-7 7c0 6 7 11 7 11s7-5 7-11a7 7 0 0 0-7-7Zm0 5v4m-2-2h4', rain: 'M5 13a4 4 0 0 1-1-8 6 6 0 0 1 11-1 4 4 0 0 1 3 9M7 16l-2 4m7-4-2 4m7-4-2 4', refresh: 'M20 8a8 8 0 1 0 0 8m0-13v5h-5' };
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={paths[name]}/></svg>;
 }
-export function DisasterPanel({ settings, layers, busy, error, notice, enabled, installed, demo, demoLabel, demoWarnings, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
-  settings: DisasterSettings; layers: DisasterLayer[]; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean; demoLabel?: string; demoWarnings?: string[];
+export function DisasterPanel({ settings, layers, lastAttempt, busy, error, notice, enabled, installed, demo, demoLabel, demoWarnings, onSettings, onRefresh, onEnabled, onInstall, onLayer, onFocus, tab, setTab }: {
+  settings: DisasterSettings; layers: DisasterLayer[]; lastAttempt?: DisasterAttempt | null; busy: boolean; error: string | null; notice?: string; enabled: boolean; installed: boolean; demo: boolean; demoLabel?: string; demoWarnings?: string[];
   onSettings: (settings: DisasterSettings) => void; onRefresh: () => void; onEnabled: (value: boolean) => void; onInstall: () => void; onLayer: (layer: DisasterLayerId) => void; onFocus: () => void;
   tab: 'layers' | 'sources'; setTab: (tab: 'layers' | 'sources') => void;
 }) {
@@ -26,6 +26,12 @@ export function DisasterPanel({ settings, layers, busy, error, notice, enabled, 
       {busy && <p role="status" className="disaster-message">防災情報を更新しています…</p>}
       {error && <div role="alert" className="disaster-error">{error}<button className="disaster-secondary" disabled={busy} onClick={onRefresh}>再試行</button></div>}
       {notice && <p className="disaster-message" role="status">{notice}</p>}
+      {lastAttempt && lastAttempt.status !== 'complete' && <section className="disaster-error" aria-label="直近の取得結果">
+        <h3>{lastAttempt.status === 'failed' ? '直近の更新に失敗しました' : '直近の更新で一部の情報を取得できませんでした'}</h3>
+        <p>{lastAttempt.settings.region.id} · {date(lastAttempt.attemptedAt)} に取得を試みました。</p>
+        <p>下の保存情報とは取得時刻・地域が異なる場合があります。取得できなかった範囲を安全とは判断できません。</p>
+        {lastAttempt.layers.map(layer => <details key={layer.layerId}><summary>{labels[layer.layerId]}：{statuses[layer.status]}</summary><LayerDetails layer={layer}/></details>)}
+      </section>}
       {tab === 'layers' ? <>
         <div className="disaster-section-title"><h3>わたしの街の防災</h3><button aria-label="防災情報を更新" disabled={busy || !installed || !enabled} onClick={onRefresh}><DisasterIcon name="refresh"/></button></div>
         <label className="disaster-region">地域を選ぶ<select aria-label="防災の地域" value={settings.region.id} disabled={busy} onChange={event => { const region = regions.find(item => item.id === event.target.value); if (region) onSettings({ ...settings, region }); }}>{!regions.some(region => region.id === settings.region.id) && <option value={settings.region.id}>{settings.region.id}</option>}{regions.map(region => <option key={region.id}>{region.id}</option>)}</select></label>

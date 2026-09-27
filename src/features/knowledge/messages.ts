@@ -8,7 +8,7 @@ export const knowledgeMessages = {
   areaEmpty: '一致する地域が見つかりませんでした。別の名前で検索してください。',
   purpose: '目的', purposeHelp: 'どんな体験を探しますか？',
   meal: '食事', rest: '休憩', walk: '散歩',
-  period: '期間', periodHelp: 'いつの投稿を見ますか？', week: '今週', month: '今月',
+  period: '期間', periodHelp: 'いつの投稿を見ますか？ 期間を選ぶと日時不明の投稿は含みません。', week: '今週', month: '今月',
   audience: '表示する投稿', audienceHelp: 'どの投稿を表示しますか？',
   all: '全て', friends: 'フレンド', public: '公開',
   apply: '条件を適用', map: '地図で見る', mapArea: '地図の範囲で探す',

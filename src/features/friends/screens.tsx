@@ -179,7 +179,7 @@ function FriendsMap(props: Props) {
   const [mapWidth, setMapWidth] = useState(390);
   useEffect(() => {
     if (!mapElement.current) return;
-    const observer = new ResizeObserver(([entry]) => setMapWidth(entry.contentRect.width));
+    const observer = new ResizeObserver(([entry]) => { if (entry) setMapWidth(entry.contentRect.width); });
     observer.observe(mapElement.current);
     return () => observer.disconnect();
   }, []);
@@ -923,7 +923,10 @@ function Sharing(props: Props) {
                     type="button"
                     aria-label={`共有する友達を選ぶ · ${draft.sharedWith.length}人`}
                     onClick={() =>
-                      props.navigate("friend-picker", { recordId })
+                      props.navigate("friend-picker", {
+                        recordId,
+                        selectionSession: crypto.randomUUID(),
+                      })
                     }
                   >
                     {draft.sharedWith.length}人 ›
@@ -1038,8 +1041,11 @@ function FriendPicker(props: Props) {
         : [...form.selected, id],
     });
   }
+  const unavailableSelected = data.data
+    ? form.selected.filter((id) => !data.data!.people.some((person) => person.id === id))
+    : [];
   function done() {
-    if (!draft || !data.data) return;
+    if (!draft || !data.data || data.loading || unavailableSelected.length) return;
     update({
       ...draft,
       sharedWith: form.selected,
@@ -1112,9 +1118,15 @@ function FriendPicker(props: Props) {
       <small>
         完了ではまだ共有されません。次の画面で共有範囲を保存します。
       </small>
-      <Action primary disabled={!draft || !data.data} onClick={done}>
+      {unavailableSelected.length > 0 && (
+        <Notice error>
+          現在共有できない相手が選択されています。選択を外してから完了してください。
+        </Notice>
+      )}
+      <Action primary disabled={!draft || !data.data || data.loading || unavailableSelected.length > 0} onClick={done}>
         完了
       </Action>
+      <Action onClick={props.back}>選択を取り消して戻る</Action>
     </div>
   );
 }

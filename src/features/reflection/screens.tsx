@@ -40,7 +40,7 @@ function SelfHomeScreen({
           })
         ).data;
         const records = await api.request("getRecords", {
-          query: { from: day.from, to: day.to, kind: "experience", limit: 1 },
+          query: { from: day.from, to: day.to, timeZone, kind: "experience", limit: 1 },
           signal: c.signal,
         });
         const latest = records.items[0];

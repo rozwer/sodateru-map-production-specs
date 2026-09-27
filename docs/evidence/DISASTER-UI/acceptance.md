@@ -48,3 +48,30 @@
 worktree /Users/roz/.codex/worktrees/disaster-ui-223、branch rozwer/223-disaster-screen。
 CODEX_OWNER=rozwer。共有5173/3002は操作していない。
 担当検査はVite5187/API3017、独立.local DB。127.0.0.1を複数サーバーで共有するとCookieがportを区別しないため、後半はdisaster-ui.localhostへ分離した。個人データ/秘密値は証拠に含めない。
+
+
+## 2026-09-27 再開: 更新失敗と停止状態の修復
+
+起点 `origin/develop 30128ad`。専用worktree `disaster-223-followup`、branch `rozwer/223-disaster-screen-followup`。提出commitは本節を含むcommit（PR head）で特定する。
+
+- 生成DTO `lastAttempt` があるのに画面が無視していたため、失敗/部分取得の試行時刻・対象地域・各レイヤーの取得状態/理由を表示。保存済み結果と同じ取得として見せない。
+- 初回読込や設定保存失敗でviewがnullになった場合、「再試行」は更新APIではなく状態読込を行い、既存導入を復元する。
+- 停止/地域変更の通知をstaleより優先し、正常な停止を更新失敗と誤表示しない。
+- 地域boundsと画面幅・パネル幅が変わったときもfocusを再実行。「地図の中心」を繰り返す場合とresponsive切替に追従する。
+
+### 確認結果
+
+- `mise exec -- node node_modules/vitest/vitest.mjs run src/features/disaster/ui/DisasterPanel.test.tsx`: PASS。保存済みavailableと別地域のfailed attemptの併存、失敗理由、初回partial/保存情報なし、地域変更・停止・再試行をDOM操作で確認。失敗結果の表示は制御fixtureによる検証で、外部提供元の障害再現ではない。
+- `mise exec -- node node_modules/vite/bin/vite.js build`: PASS。
+- `mise exec -- bun run typecheck`: FAIL（担当外12診断: server/core/core.test.ts 6、exploration/flow.ts 1、friends/screens.tsx 1、reflection/DiaryScreen.tsx 1、tools/local/dev.ts 3）。今回変更した防災ファイルの診断なし。全体型検査成功とは扱わない。
+- 独立Vite5197/API3027、独立.local SQLiteで通常入口→地図→メニュー→アプリを育てる→防災詳細→防災画面→試用→導入を実操作。公開済み.env.exampleのMapbox設定を使用し、共有サーバーは未変更。
+- 「防災情報を更新」で実提供元3layerが取得済み。取得時刻2026-09-27 17:04:58 JST、降水解析17:00 JST。390×844で江戸川の地図画像、出典・凡例・解析時刻を目視。canvas 1個、document.scrollWidth=390。
+- 防災停止→1536×960へ変更→再読込で停止中と保存済み情報を復元。地図の防災画像が消えたことを目視。canvas 1個、document.scrollWidth=1536。京都へ地域切替も操作。
+- 担当APIプロセスだけを停止→レイヤー保存で「通信に失敗しました」→担当API再起動→「再試行」で停止中の既存導入設定を復元。未保存のチェック変更はサーバー状態へ戻ることを確認。
+- 「街の地図へ」で通常mapへ復帰。検証用viewport overrideは解除。
+
+### 残件・判定
+
+施設詳細/避難先、警報速報、雨雲時間軸、流域・津波は現行生成DTOにもない。既存不足表の未完条件を継続し、本Issueは閉じない。#217の独立QA・#222の共通描画検証を代行した扱いにしない。
+
+Mapbox背景地図の一部取得失敗表示がローカル実操作中に出た（背景地図そのものは表示された）。全タイル健全性と全欠測maskの見え方は今回の合格範囲外。最初の幅ではfitBounds padding警告も観測し、responsive変化時のfocus再計算を追加した。全体型検査と独立レビューが未充足のためマージしない。
