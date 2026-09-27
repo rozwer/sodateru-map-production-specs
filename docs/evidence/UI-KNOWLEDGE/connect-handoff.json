@@ -11,9 +11,9 @@
       ],
       "ui_commit": "59c5a7eff7aba3bfc8c8e47c8d6ececaaee14369",
       "ui_evidence": "docs/evidence/UI-KNOWLEDGE/2026-09-27-conditions.md",
-      "contract_commit": "59c5a7eff7aba3bfc8c8e47c8d6ececaaee14369",
+      "contract_commit": "ed225d9c5e7d15e9a4a316d354c9b67863b690e9",
       "contract_path": "docs/01_requirements/04_api/openapi.json",
-      "contract_sha256": "01365fb82285907f504dd175879afe2b0dfe65adffa11a306910a4cfa4e291cf",
+      "contract_sha256": "7bc2d570f95ff88c97d06e9feb66c7153bb61b56bd4ebb706a1be4fc3aaee875",
       "api_operation_ids": [
         "getSharedRecords"
       ]
