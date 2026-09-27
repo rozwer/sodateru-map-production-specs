@@ -2,7 +2,7 @@ import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { ScreenKeyContext, ScreenStateContext } from '../../app/useScreenState';
-import { QuestionsScreen } from './QuestionsScreen';
+import { QuestionsScreen, HistoryScreen } from './QuestionsScreen';
 
 const { request } = vi.hoisted(() => ({ request: vi.fn() }));
 vi.mock('../../app/api', () => ({ api: { request } }));
@@ -55,4 +55,63 @@ it.each(['changed', 'deleted'])('回答訂正後は%sの根拠の古い質問引
     path: { questionId: 'q1' }, version: 4,
     body: { status: 'answered', answerText: '訂正した回答', answerVersion: 1 },
   }));
+});
+
+it('再取得に失敗しても旧根拠を復活させず、未保存回答を保持して再試行できる', async () => {
+  let failed = false;
+  const question = { id: 'q1', targetRecordId: 'r1', questionText: '再表示してはいけない質問', createdAt: 1, status: 'pending', version: 1, answerText: '' };
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getReflectionQuestionsQuestionId') {
+      if (failed) throw new Error('質問の再取得に失敗');
+      return { data: question };
+    }
+    if (operation === 'getRecordsRecordId') return { data: { record: { id: 'r1', kind: 'experience', body: '古い引用本文', effectiveStartedAt: null, effectivePlaceId: null, purposes: [], impression: '' } } };
+    if (operation === 'getRecordsRecordIdMedia') return { items: [] };
+    throw new Error(operation);
+  });
+  const state = new Map<string, unknown>([['question-fixture', { answer: '未保存の本人回答', edited: true, showAi: false, fields: [] }]]);
+  const render = (active: boolean) => act(async () => root.render(
+    <ScreenStateContext.Provider value={state}><ScreenKeyContext.Provider value="question-fixture">
+      <QuestionsScreen route={{ pageId: 'reflection-question', params: { questionId: 'q1' } }} scopeKey="test:person" active={active} navigate={vi.fn()} back={vi.fn()} />
+    </ScreenKeyContext.Provider></ScreenStateContext.Provider>,
+  ));
+  await render(true);
+  expect(host.textContent).toContain('再表示してはいけない質問');
+  await render(false); failed = true; await render(true);
+  expect(host.textContent).not.toContain('再表示してはいけない質問');
+  expect(host.textContent).not.toContain('古い引用本文');
+  expect(host.querySelector('textarea')?.value).toBe('未保存の本人回答');
+  const button = (text: string) => [...host.querySelectorAll('button')].find(item => item.textContent === text)!;
+  for (const name of ['回答を保存', 'あとで', 'スキップ']) expect(button(name).disabled).toBe(true);
+  failed = false;
+  await act(async () => button('再試行').click());
+  expect(host.textContent).toContain('再表示してはいけない質問');
+  expect(host.querySelector('textarea')?.value).toBe('未保存の本人回答');
+  expect(button('回答を保存').disabled).toBe(false);
+});
+
+it('履歴の再取得失敗時は古い質問・根拠カードを表示しない', async () => {
+  let failed = false;
+  request.mockImplementation(async (operation: string) => {
+    if (operation === 'getReflectionQuestions') {
+      if (failed) throw new Error('履歴の再取得に失敗');
+      return { items: [{ id: 'q1', targetRecordId: 'r1', questionText: '履歴の古い質問', createdAt: 1, status: 'answered', answerText: '独立回答' }], nextCursor: null };
+    }
+    if (operation === 'getRecordsRecordId') return { data: { record: { id: 'r1', kind: 'experience', body: '履歴の古い根拠', effectiveStartedAt: null, effectivePlaceId: null, purposes: [], impression: '' } } };
+    if (operation === 'getRecordsRecordIdMedia') return { items: [] };
+    throw new Error(operation);
+  });
+  const state = new Map<string, unknown>([['history-fixture', { filter: 'all', expanded: ['q1'], questions: [], cards: [], cursor: null }]]);
+  const render = (active: boolean) => act(async () => root.render(
+    <ScreenStateContext.Provider value={state}><ScreenKeyContext.Provider value="history-fixture">
+      <HistoryScreen route={{ pageId: 'reflection-history', params: {} }} scopeKey="test:person" active={active} navigate={vi.fn()} back={vi.fn()} />
+    </ScreenKeyContext.Provider></ScreenStateContext.Provider>,
+  ));
+  await render(true);
+  expect(host.textContent).toContain('履歴の古い質問');
+  await render(false); failed = true; await render(true);
+  expect(host.textContent).not.toContain('履歴の古い質問');
+  expect(host.textContent).not.toContain('履歴の古い根拠');
+  expect(host.textContent).toContain('履歴の再取得に失敗');
+  expect(host.textContent).not.toContain('この状態の振り返りはまだありません。');
 });

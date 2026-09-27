@@ -88,6 +88,21 @@ export function QuestionsScreen({
     control.current = c;
     setBusy(true);
     setNotice(undefined);
+    setState((s) => ({
+      ...s,
+      question: undefined,
+      ai: undefined,
+      card: s.card ? {
+        ...s.card,
+        question: "元の質問を表示できません。",
+        record: {
+          id: s.card.record.id,
+          title: "元の記録を表示できません",
+          body: "", when: "", place: "",
+          unavailable: "元の記録を確認できるまで表示しません。",
+        },
+      } : undefined,
+    }));
     void (async () => {
       try {
         let q: ReflectionQuestion | undefined;
@@ -300,6 +315,7 @@ export function QuestionsScreen({
         }
         save={(status) => void save(status)}
         busy={busy}
+        canSave={!!state.question}
         notice={notice}
       />
       <div className="rf-screen rf-footer">
@@ -404,6 +420,7 @@ export function HistoryScreen({
   const load = async (append = false, signal?: AbortSignal) => {
     setBusy(true);
     setNotice(undefined);
+    if (!append) setState((s) => ({ ...s, cards: [], questions: [], cursor: null }));
     try {
       const status =
         state.filter === "all"
@@ -428,8 +445,10 @@ export function HistoryScreen({
         cursor: result.nextCursor,
       }));
     } catch (error) {
-      if (!signal?.aborted)
+      if (!signal?.aborted) {
+        setState((s) => ({ ...s, cards: [], questions: [], cursor: null }));
         setNotice(errorNotice(error, () => setRevision((x) => x + 1)));
+      }
     } finally {
       if (!signal?.aborted) setBusy(false);
     }
