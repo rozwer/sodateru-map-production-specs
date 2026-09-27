@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 484,
+  "revision": 485,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35167,7 +35167,8 @@
         "server/db/migrations/themes/",
         "docs/01_requirements/04_api/fragments/THEMES.json",
         "docs/evidence/THEMES/",
-        "src/features/themes/"
+        "src/features/themes/",
+        "src/features/insights/InsightViews.tsx"
       ],
       "status": "claimed",
       "submitted_commit": null,
