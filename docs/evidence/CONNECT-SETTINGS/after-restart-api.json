@@ -1,0 +1,44 @@
+{
+  "live": {
+    "person": {
+      "id": "d150a118-635e-4ea0-a375-41f941e9a76d",
+      "name": "設定確認🌸",
+      "bio": "隔離DBで保存と再起動を確認しています。",
+      "version": 2
+    },
+    "settings": {
+      "version": 3,
+      "display": {
+        "fontSize": "large",
+        "reduceMotion": true
+      },
+      "suggestions": {
+        "enabled": true,
+        "timing": "continuous",
+        "summaryDays": 90,
+        "stopped": []
+      }
+    }
+  },
+  "demo": {
+    "person": {
+      "id": "d150a118-635e-4ea0-a375-41f941e9a76d",
+      "name": "自分",
+      "bio": "",
+      "version": 1
+    },
+    "settings": {
+      "version": 1,
+      "display": {
+        "fontSize": "standard",
+        "reduceMotion": false
+      },
+      "suggestions": {
+        "enabled": true,
+        "timing": "onOpen",
+        "summaryDays": 30,
+        "stopped": []
+      }
+    }
+  }
+}
