@@ -14,7 +14,7 @@ const cookies = new Map<string, string>();
 const client = createApiClient({ baseUrl: 'http://fixture/api/v1', fetch: async (url, options) => {
   const headers = new Headers(options?.headers);
   headers.set('Cookie', [...cookies].map(([key, value]) => key + '=' + value).join('; '));
-  const response = await fetch(origin + new URL(String(url)).pathname, { ...options, headers });
+  const response = await fetch(origin + new URL(String(url)).pathname + new URL(String(url)).search, { ...options, headers });
   for (const header of response.headers.getSetCookie()) {
     const cookie = header.split(';')[0]!, separator = cookie.indexOf('=');
     cookies.set(cookie.slice(0, separator), cookie.slice(separator + 1));
@@ -60,6 +60,10 @@ try {
   const themes = await client.request('getSharedThemes', {});
   console.log(JSON.stringify({ operation: 'getSharedThemes', result: themes }));
   const now = Date.now();
+  const statistics = await client.request('getReflectionActivityStatistics', { query: { from: now - 86400000, to: now, timeZone: 'Asia/Tokyo' } });
+  console.log(JSON.stringify({ operation: 'getReflectionActivityStatistics', result: statistics }));
+  const mapSettings = await client.request('getMapSettings', {});
+  console.log(JSON.stringify({ operation: 'getMapSettings', result: mapSettings }));
   const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
   const body = { id: crypto.randomUUID(), localDate: date, timezone: 'Asia/Tokyo', validUntil: now + 3600000, answers: { state: '気分転換したい', wishes: ['散歩'], minutes: 30, note: '', timeBudget: { kind: 'exact' as const, minutes: 30 }, companion: 'solo' as const, effort: 'easy' as const, mode: 'walking' as const, stayMinutes: 15 } };
   const created = await client.request('postSelfCheckins', { body, idempotencyKey: 'catalog-probe-checkin' });

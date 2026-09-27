@@ -15,7 +15,11 @@ function ref(value) {
 function type(schema = {}) {
   if (schema === true) return 'unknown';
   if (schema === false) return 'never';
-  if (schema.$ref) return schema.$ref.split('/').at(-1);
+  if (schema.$ref) {
+    const segments = schema.$ref.split('/');
+    if (segments.length === 4 && segments[1] === 'components' && segments[2] === 'schemas') return segments[3];
+    return type(ref(schema));
+  }
   if ('const' in schema) return JSON.stringify(schema.const);
   if (schema.enum) return schema.enum.map(v => JSON.stringify(v)).join(' | ');
   if (schema.oneOf || schema.anyOf) return '(' + (schema.oneOf ?? schema.anyOf).map(type).join(' | ') + ')';
@@ -55,9 +59,10 @@ for (const [path, methods] of Object.entries(spec.paths)) for (const [method, op
   const body = ref(op.requestBody);
   const content = body?.content;
   if (content) fields.push(`body${body.required ? '' : '?'}: ${content['multipart/form-data'] ? 'FormData' : type(content['application/json']?.schema)}`);
-  if (params.some(p => p.in === 'header' && p.name.toLowerCase() === 'if-match')) fields.push('version: number');
+  const versionHeader = params.find(p => p.in === 'header' && p.name.toLowerCase() === 'if-match');
+  if (versionHeader) fields.push(`version${versionHeader.required ? '' : '?'}: number`);
   if (params.some(p => p.in === 'header' && p.name.toLowerCase() === 'idempotency-key')) fields.push('idempotencyKey: string');
-  fields.push('signal?: AbortSignal');
+  fields.push('signal?: AbortSignal', 'requestId?: string');
   const success = Object.entries(op.responses).filter(([code]) => /^2\d\d$/.test(code)).map(([, value]) => {
     const response = ref(value);
     if (!response.content) return 'undefined';

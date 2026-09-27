@@ -128,6 +128,126 @@ string。minLength=1、maxLength=200。単一bytes範囲。複数・不正・範
 
 操作 `getDiscoveryFacts` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
 
+操作 `getMapObjects` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapObjects` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapObjects` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapObjects` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapObjects` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapObjectsObjectId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapObjectsObjectId` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapObjectsObjectId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapObjectsObjectId` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapObjectsObjectId` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deleteMapObjectsObjectId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deleteMapObjectsObjectId` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `deleteMapObjectsObjectId` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapSettings` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapSettings` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapSettings` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapSettings` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchMapSettings` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviews` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviews` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviews` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapSettingsPreviewsPreviewId` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getMapSettingsPreviewsPreviewId` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdAdopt` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdAdopt` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdAdopt` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdAdopt` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdCancel` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdCancel` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdCancel` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postMapSettingsPreviewsPreviewIdCancel` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageSettings` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageSettings` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageSearch` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageSearch` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageSearch` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageSearch` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageSearch` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePreview` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePreview` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePreview` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePreview` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePreview` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePlan` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePlan` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimagePlan` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePlans` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePlans` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePlan` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimagePlan` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchPilgrimagePlan` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchPilgrimagePlan` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `patchPilgrimagePlan` の `If-Match` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageOverlay` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageOverlay` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageAiProposal` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageAiProposal` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `postPilgrimageAiProposal` の `Idempotency-Key` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageAiProposal` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
+操作 `getPilgrimageAiProposal` の `X-Data-Mode` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
+
 操作 `getPluginState` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
 
 操作 `getPluginVersions` の `X-Request-Id` は操作別定義を適用（必須: True）。[OpenAPI](../openapi.json)を参照。
