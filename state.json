@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 377,
+  "revision": 378,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34740,7 +34740,7 @@
       "generation": 3,
       "issue_number": 215,
       "landed_main": null,
-      "note": "PR226/259 merged; worktree clean at 723640e. UI repair evidence docs/evidence/GROW-UI/progress.md. Keep Issue215 open: bike/pilgrimage/requests remain unsaved fixtures; shared5173 reference/integration acceptance handed to QA217. No further implementation in this session.",
+      "note": "docs/evidence/GROW-UI/navigation-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/views.tsx",
@@ -34755,8 +34755,8 @@
         "src/features/feature-requests/",
         "docs/evidence/GROW-UI/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "e346ce6c9daf01279a7f2d779734bb38fbcceaac",
       "token": "16c7a44c94b2491fbd32258081096e5b"
     },
     "HEALTH": {
