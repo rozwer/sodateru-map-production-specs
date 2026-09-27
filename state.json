@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 446,
+  "revision": 447,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34494,18 +34494,21 @@
       "token": null
     },
     "CONNECT-KNOWLEDGE": {
-      "actor": null,
-      "base_commit": "0d87611cab71cc8c29878950dedfb715d28c2158",
+      "actor": "rozwer",
+      "base_commit": "ed631383781039d292df0d2ed032f22286cc3dc2",
       "claim_unit": "knowledge-search-list-map",
-      "generation": 2,
+      "generation": 3,
       "issue_number": 143,
       "landed_main": null,
       "note": "PR347 merged 3d5262a42b49fb3622e441e7a8165ea8325a5e17; submitted 12870a6 preserved; 9 tests/typecheck/build PASS; partial, keep #143 open. Round 1 ended, own QA servers stopped. Minimal next task 1: environment blocker, MapScene.tsx:113-114 requires VITE_MAPBOX_ACCESS_TOKEN; current QA showed missing setting. Reuse existing configured Mapbox with no product-code change; verify knowledge 103 located posts plus 5 unknown are represented, do not treat current API/bridge evidence as rendering PASS. Minimal next task 2: connection entry missing, knowledge/screens.tsx still throws for rest-tip although server/features/community/topics.ts and generated getKnowledge(category=tips) exist. Claim only knowledge paths and replace this one action with existing API; confirm rest-tip selection returns rest-topic records while experience remains separate. Before next CONNECT claim, formally refresh UI-KNOWLEDGE handoff contract commit/digest under #16 claim (CORE338 changed global digest; used APIs unchanged). Worktree /Users/roz/.codex/worktrees/knowledge-143-sep27 clean, evidence docs/evidence/CONNECT-KNOWLEDGE/2026-09-27-map-detail.md.",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/features/knowledge/",
+        "docs/evidence/CONNECT-KNOWLEDGE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "92c384238b4e428aa815b5e2b8f9ccd6"
     },
     "CONNECT-MAP": {
       "actor": null,
