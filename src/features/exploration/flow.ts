@@ -7,6 +7,7 @@ export interface ConsentDraft {
   place: PlacePresentation | null;
   origin: CommonAIOrigin | null;
   returnPage: string;
+  returnParams?: Record<string, string>;
   settings: Settings;
   recordsRequired?: boolean;
   textLimit?: number;
