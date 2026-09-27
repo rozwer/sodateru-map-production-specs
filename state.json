@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 475,
+  "revision": 476,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35040,17 +35040,23 @@
       "token": null
     },
     "ROUTES": {
-      "actor": null,
-      "base_commit": "522cf7b9ddd8cc39fb8e1e91ecb96c30653b0cc9",
-      "generation": 8,
+      "actor": "rozwer",
+      "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
+      "claim_unit": null,
+      "generation": 9,
       "issue_number": 25,
       "landed_main": null,
       "note": "コンペ終了のため残存claimを一括返却（ユーザー指示、2026-09-23）",
-      "owner": "kaiya",
-      "paths": [],
-      "status": "backlog",
+      "owner": "rozwer",
+      "paths": [
+        "server/features/routes/",
+        "server/db/migrations/routes/",
+        "docs/01_requirements/04_api/fragments/ROUTES.json",
+        "docs/evidence/ROUTES/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "8d3e25232d2f4f07960af2e174fd4924"
     },
     "ROUTES-TRANSIT-GTFS": {
       "actor": "rozwer",
