@@ -7,6 +7,7 @@ export interface StatisticsView {
   updatedLabel: string;
   confirmedPlaces: number | null;
   confirmedVisits?: number;
+  dailyVisits?: { date: string; count: number }[];
   days?: { date: string; label: string }[];
   newPlaces: number | null;
   distanceLabel: string | null;
@@ -22,6 +23,7 @@ export function ActivityStatsView({ data, period, onPeriod, onSources, onHistory
     <div className="settings-segments settings-period" aria-label="集計期間">{(['today','week','month','year'] as const).map((value, i) => <button type="button" key={value} aria-pressed={period === value} onClick={() => onPeriod(value)}>{['今日','週','月','年'][i]}</button>)}</div>
     {data && <>
       <p className="settings-centered settings-period-label">{data.fromLabel}〜{data.toLabel}</p>
+      {data.dailyVisits && <Card title="確認した訪問の推移" icon="chart"><div className="settings-chart" role="group" aria-label="日別の確認済み訪問回数">{data.dailyVisits.length ? data.dailyVisits.map(day => <button type="button" className="settings-chart-day" key={day.date} onClick={() => onHistory(day.date)} aria-label={`${day.date}：${day.count}回の訪問を見る`}><span>{day.count}回</span><span className="settings-chart-track"><span className="settings-chart-bar" style={{ height: `${day.count / Math.max(1, ...data.dailyVisits!.map(item => item.count)) * 100}%` }}/></span><span>{day.date.slice(5).replace('-', '/')}</span></button>) : <Note>この期間の確認済み訪問はありません。</Note>}</div><small>単位：回。本人が確認した訪問を日付別に表示します。</small></Card>}
       <Card title="街での活動" icon="pin"><div className="settings-stat-values"><div><small>訪問した場所</small><strong>{data.confirmedPlaces ?? '—'} <span>か所</span></strong></div><div><small>新しい場所</small><strong>{data.newPlaces ?? '—'} <span>か所</span></strong></div></div><button type="button" className="settings-detail-link" onClick={() => onHistory()}>活動の詳細を見る<span aria-hidden="true">›</span></button></Card>
       {data.confirmedVisits !== undefined && <small>確認した訪問回数：{data.confirmedVisits}回</small>}
       <Card title="移動距離" icon="map"><p className="settings-distance">{data.distanceLabel ?? '未取得'}</p><small>{data.coverageLabel}</small><Note>{data.missingLabel}</Note></Card>

@@ -26,6 +26,7 @@ export function statisticsView(data: ActivityStatistics): StatisticsView {
   return {
     fromLabel: date.format(data.from), toLabel: date.format(data.to - 1), updatedLabel: timestamp(data.lastUpdatedAt),
     confirmedPlaces: data.confirmedPlaces.value, confirmedVisits: data.confirmedVisits.value, newPlaces: data.newPlaces.value,
+    dailyVisits: data.daily.map(day => ({ date: day.date, count: day.confirmedVisits })),
     distanceLabel: gps.value === null ? null : `${new Intl.NumberFormat('ja-JP', { maximumFractionDigits: 1 }).format(gps.value)} m`,
     coverageLabel: `${data.confirmedVisits.value}回の訪問・${data.confirmedPlaces.value}か所・記録${data.recordCount}件・GPS観測${gps.pointCount}点`,
     missingLabel: `${gps.description} 日時不明の訪問${data.undatedVisits}件・記録${data.undatedRecords}件は期間内件数に含めません。初回日時不明の場所${data.newPlaces.unknownPlaceIds.length}か所は新しい場所の判定から除きます。`,
