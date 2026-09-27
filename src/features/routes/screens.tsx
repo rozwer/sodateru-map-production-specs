@@ -1,3 +1,5 @@
+import {navigationView} from './navigation';
+import {useNavigationPosition} from './useNavigationPosition';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import type { SavedRoute, RouteSearchResult } from '../../../packages/api-client/index';
 import { api } from '../../app/api';
@@ -47,7 +49,7 @@ function basicCandidate(route: SavedRoute | RouteSearchResult): RouteCandidateVi
     id: 'resultId' in route ? route.resultId : route.id,
     name: 'title' in route ? route.title : m.basicRoute,
     distanceM: route.distanceM, travelDurationSec: route.durationSec,
-    stayDurationSec: null, totalDurationSec: null, evaluations: [],
+    stayDurationSec: route.requestedConditions?.stayDurationSec ?? null, totalDurationSec: route.requestedConditions?.stayDurationSec == null ? null : route.durationSec + route.requestedConditions.stayDurationSec, evaluations: (route.conditionEvaluations??[]).map(e=>({label:e.key==='departAt'?'出発時刻':e.key==='returnBy'?'帰着期限':'高速道路回避',status:e.status==='applied'?'satisfied':e.status==='ignored'?'unsupported':'unknown',detail:e.reason})),
     adoptable: !temporary, adoptionReason: temporary ? m.temporaryRoute : undefined,
   };
 }
@@ -102,6 +104,10 @@ function NavigationScreen({ route, navigate, back, scopeKey, active = true }: Sc
   const { flow, state, bridge } = useRouteFlow(scopeKey);
   const routeId = route.params.routeId;
   const saved = routeId && state.saved?.id === routeId ? state.saved : null;
+  const position=useNavigationPosition(active && saved?.status==='navigating');
+  const progress=saved?navigationView(saved,position.fix):null;
+  useEffect(()=>{if(progress?.nextLeg!==undefined&&state.state==='idle')void flow.advanceLeg(progress.nextLeg);},[progress?.nextLeg,flow,state.state]);
+  useEffect(()=>{if(position.fix&&position.state==='available') {bridge.setView({following:true});bridge.focus('route-navigation',{center:[position.fix.longitude,position.fix.latitude],zoom:Math.max(15,bridge.getSnapshot().camera.zoom)});}},[position.fix,position.state,bridge]);
   useEffect(() => { if (active && routeId) void flow.loadSaved(routeId); }, [flow, routeId, active]);
   useEffect(() => {
     if (!active || !saved) return;
@@ -110,7 +116,7 @@ function NavigationScreen({ route, navigate, back, scopeKey, active = true }: Sc
     focusRoute(bridge, saved, 'route-navigation');
   }, [bridge, saved, active]);
   if (!saved) return <RouteNotice role={state.state === 'loading' ? 'status' : 'alert'} notice={{ message: state.message || (state.state === 'loading' ? m.searching : m.routeMissing), retry: routeId ? () => { void flow.loadSaved(routeId); } : back }}/>;
-  return <RouteNavigationPage navigation={{ routeId: saved.id, title: saved.title, status: saved.status, instruction: null, direction: null, turnDistanceM: null, remainingDistanceM: null, remainingDurationSec: null, accuracyM: null, locationStatus: 'idle', fetchedAt: saved.fetchedAt }} map={{ content: active ? <MapPreview bridge={bridge} interactive padding={{ top: 150, right: 24, bottom: 64, left: 24 }} label={m.walkingNavigation}/> : null, summary: saved.waypoints.map(p => p.name).join(' → ') }} onClose={() => { flow.leavePanel(); navigate('map'); }} onWholeRoute={() => focusRoute(bridge, saved, 'route-navigation')} onList={() => navigate('route-results', { routeId: saved.id })} onLocate={() => { bridge.setView({ following: true }); }} onStart={() => { void flow.startSaved(); }} onFinish={() => { void flow.finish().then(finished => { if (finished) { bridge.clear('route-navigation'); navigate('map'); } }); }} ending={state.state === 'saving'} notice={state.message ? { message: state.message, retry: () => { if (state.state === 'conflict') void flow.loadSaved(saved.id); else void flow.finish(); } } : { message: m.navigationPending }}/>
+  return <RouteNavigationPage navigation={{...progress!,...(position.state!=='available'?{locationStatus:position.state}:{})}} map={{ content: active ? <MapPreview bridge={bridge} interactive padding={{ top: 150, right: 24, bottom: 64, left: 24 }} label={m.walkingNavigation}/> : null, summary: saved.waypoints.map(p => p.name).join(' → ') }} onClose={() => { flow.leavePanel(); navigate('map'); }} onWholeRoute={() => focusRoute(bridge, saved, 'route-navigation')} onList={() => navigate('route-results', { routeId: saved.id })} onLocate={position.locate} onStart={() => { void flow.startSaved(); }} onFinish={() => { void flow.finish().then(finished => { if (finished) { bridge.clear('route-navigation'); navigate('map'); } }); }} ending={state.state === 'saving'} notice={state.message ? { message: state.message, retry: () => { if (state.state === 'conflict') void flow.loadSaved(saved.id); else void flow.finish(); } } : { message: position.state==='available'?'残距離・時間は保存した道順と測位による目安です。':'現在地ボタンで測位すると、保存した道順から案内します。' }}/>
 }
 
 export const screens: ScreenDefinition[] = [

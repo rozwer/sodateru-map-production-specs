@@ -76,12 +76,21 @@ describe('route screen request sequencing', () => {
     expect(calls[1]!.input).toMatchObject({ path: { routeId: 'saved-id' }, body: { status: 'finished' }, version: 4 });
     flow.dispose();
   });
-  it('does not drop unsupported additional conditions from a request', async () => {
-    const { flow, calls } = setup(async () => ({ data: preview }));
-    flow.setDraft({ ...flow.getSnapshot().draft, avoidStairs: true, departure: '10:30' });
+  it('persists a measured next leg with the same route ID and current version', async()=>{
+    const multi={...saved('saved-id','navigating',4),legs:[...preview.legs,...preview.legs]};
+    const {flow,calls}=setup(async operation=>({data:operation==='getSavedRoutesRouteId'?multi:{...multi,currentLeg:1,version:5}}));
+    await flow.loadSaved('saved-id');await flow.advanceLeg(1);
+    expect(calls[1]!.input).toMatchObject({path:{routeId:'saved-id'},body:{currentLeg:1},version:4});
+    expect(flow.getSnapshot().saved?.currentLeg).toBe(1);flow.dispose();
+  });
+  it('passes supported condition fields to the API and retains them on provider rejection', async () => {
+    const { flow, calls } = setup(async () => {throw {code:'MODE_UNSUPPORTED'};});
+    const departure='2026-09-27T10:30';
+    flow.setDraft({ ...flow.getSnapshot().draft, avoidStairs: true, departure });
     expect(await flow.search()).toBe(false);
-    expect(calls).toHaveLength(0);
-    expect(flow.getSnapshot().draft).toMatchObject({ avoidStairs: true, departure: '10:30' });
+    expect(calls).toHaveLength(1);
+    expect(calls[0]!.input.body.conditions).toMatchObject({avoidStairs:true,departAt:new Date(departure).getTime(),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone});
+    expect(flow.getSnapshot().draft).toMatchObject({ avoidStairs: true, departure });
     expect(flow.getSnapshot().state).toBe('unavailable');
     flow.dispose();
   });
