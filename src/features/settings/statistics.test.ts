@@ -20,6 +20,7 @@ describe('formal statistics presentation', () => {
     expect(view.distanceLabel).toBeNull(); expect(view.updatedLabel).toBe('未取得');
     expect(view.activities[0]?.records[0]?.id).toBe('r1');
     expect(view.days?.[0]?.date).toBe('2026-09-27');
+    expect(view.dailyVisits).toEqual([{date:'2026-09-27',count:3}]);
     expect(view.sources[0]?.status).toContain('取得できません');
     expect(view.missingLabel).toContain('日時不明の訪問1件・記録2件');
     expect(statisticsView({ ...sample, gpsDistanceMeters: { ...sample.gpsDistanceMeters, value: 0, status: 'observed', pointCount: 2, edgeCount: 1 } }).distanceLabel).toBe('0 m');
