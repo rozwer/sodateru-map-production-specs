@@ -219,9 +219,42 @@ export function QuestionsScreen({
       setBusy(false);
     }
   };
+  const startQuestion = async () => {
+    if (aiBusy || !route.params.recordId) return;
+    const c = new AbortController();
+    aiControl.current.abort();
+    aiControl.current = c;
+    setAiBusy(true);
+    setAiNotice(undefined);
+    try {
+      const record = (await api.request("getRecordsRecordId", {
+        path: { recordId: route.params.recordId }, signal: c.signal,
+      })).data.record;
+      const job = state.ai && !["complete", "failed", "cancelled"].includes(state.ai.run?.status || "")
+        ? state.ai.job
+        : extractJob(record.id, "", "", [{ type: "record", id: record.id, version: record.version }]);
+      setState((s) => ({ ...s, ai: { job, recordVersion: record.version } }));
+      const run = await runReflectionAi(job, (run) =>
+        setState((s) => ({ ...s, ai: s.ai ? { ...s.ai, run } : undefined })), c.signal);
+      if (c.signal.aborted) return;
+      if (run.task !== "extract" || !run.result?.question) {
+        setAiNotice({ text: "この記録について追加の質問はありません。" });
+        return;
+      }
+      const question = (await api.request("postReflectionQuestions", {
+        body: { assistantMessageId: job.send.assistantMessageId },
+        idempotencyKey: `question-${job.send.assistantMessageId}`, signal: c.signal,
+      })).data;
+      if (!c.signal.aborted) navigate("reflection-question", { ...route.params, questionId: question.id });
+    } catch (error) {
+      if (!c.signal.aborted) setAiNotice(errorNotice(error, () => void startQuestion()));
+    } finally {
+      if (!c.signal.aborted) setAiBusy(false);
+    }
+  };
   const generate = async () => {
     const q = state.question;
-    if (aiBusy || !q?.questionText || !q.answerText || !q.answerRef || q.answerUnavailable) return;
+    if (aiBusy || !q?.answerText || !q.answerRef || q.answerUnavailable) return;
     const c = new AbortController();
     aiControl.current.abort();
     aiControl.current = c;
@@ -234,7 +267,7 @@ export function QuestionsScreen({
           signal: c.signal,
         })
       ).data.record;
-      const job = extractJob(q.targetRecordId, q.questionText, q.answerText, [
+      const job = extractJob(q.targetRecordId, q.questionText || "", q.answerText, [
         { type: "record", id: record.id, version: record.version },
         q.answerRef,
       ]);
@@ -319,6 +352,15 @@ export function QuestionsScreen({
         notice={notice}
       />
       <div className="rf-screen rf-footer">
+        {!state.question && route.params.recordId && !busy && (
+          <section className="rf-card">
+            <Action onClick={() => void startQuestion()} disabled={aiBusy}>
+              この記録から振り返りを始める
+            </Action>
+            {aiBusy && <Action onClick={() => void cancelAi()}>生成を取り消す</Action>}
+            <Feedback busy={aiBusy} notice={aiNotice} />
+          </section>
+        )}
         {state.question?.status === "answered" && (
           <section className="rf-card">
             <Action
@@ -334,7 +376,7 @@ export function QuestionsScreen({
                 <Action
                   onClick={() => void generate()}
                   disabled={
-                    aiBusy || state.edited || !!state.question.answerUnavailable || !state.question.questionText
+                    aiBusy || state.edited || !!state.question.answerUnavailable
                   }
                 >
                   AIで整理する

@@ -44,8 +44,10 @@ export function extractJob(
       userMessageId: crypto.randomUUID(),
       assistantMessageId: crypto.randomUUID(),
       use: "extract",
-      body: "保存した回答を根拠に、用途と感想の整理を提案してください。",
-      context: { recordId, answers: [{ question, text: answer }] },
+      body: answer
+        ? "保存した回答を根拠に、用途と感想の整理を提案してください。"
+        : "この記録から用途と感想を整理し、必要な振り返りの質問を一問提案してください。",
+      context: { recordId, answers: question ? [{ question, text: answer }] : [] },
       expectedRefs: refs,
     },
   };
