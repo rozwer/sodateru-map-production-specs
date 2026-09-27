@@ -50,13 +50,16 @@
     "component": "answering--save",
     "from": "answering",
     "event": "activate",
-    "effect": "回答原文とansweredを保存して再表示する。質問状態の保存APIを追加する。",
+    "effect": "質問versionと既存answerVersionを条件に、回答原文を固定answerRecordIdのprivate memoとして保存しansweredにする。質問と元記録・媒体を再取得し、現在の閲覧条件と版で再表示する。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "question-state"
+    "api": [
+      "patchReflectionQuestionsQuestionId",
+      "getReflectionQuestionsQuestionId",
+      "getRecordsRecordId",
+      "getRecordsRecordIdMedia"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   },
   {
@@ -64,13 +67,16 @@
     "component": "answering--later",
     "from": "answering",
     "event": "activate",
-    "effect": "質問をdeferredに保存する。回答した扱いにしない。",
+    "effect": "質問versionを条件にdeferredを保存して再取得する。回答済みと区別し、既存の独立回答原文は削除しない。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "question-state"
+    "api": [
+      "patchReflectionQuestionsQuestionId",
+      "getReflectionQuestionsQuestionId",
+      "getRecordsRecordId",
+      "getRecordsRecordIdMedia"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   },
   {
@@ -78,13 +84,16 @@
     "component": "answering--skip",
     "from": "answering",
     "event": "activate",
-    "effect": "質問をskippedに保存する。未回答と区別する。",
+    "effect": "質問versionを条件にskippedを保存して再取得する。未回答と区別し、既存の独立回答原文は削除しない。",
     "destination": null,
     "carry": [],
-    "api": [],
-    "apiGaps": [
-      "question-state"
+    "api": [
+      "patchReflectionQuestionsQuestionId",
+      "getReflectionQuestionsQuestionId",
+      "getRecordsRecordId",
+      "getRecordsRecordIdMedia"
     ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   }
 ]

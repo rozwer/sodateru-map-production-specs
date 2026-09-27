@@ -1,4 +1,5 @@
-import React, { useEffect, useId, useState, type ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useId, useState, type ReactNode } from "react";
+import { api } from "../../app/api";
 import "./reflection.css";
 
 // Display models only. API DTOs are mapped at the screen boundary.
@@ -128,13 +129,37 @@ export function Mark({
     </svg>
   );
 }
+export const ReflectionPhotoActive = createContext(true);
 export function PhotoImage({ src, alt }: { src: string; alt: string }) {
+  const active = useContext(ReflectionPhotoActive);
+  const mediaId = /^\/api\/v1\/media\/([^/]+)\/content$/.exec(src)?.[1];
+  const [source, setSource] = useState(mediaId ? "" : src);
   const [failed, setFailed] = useState(false);
-  useEffect(() => setFailed(false), [src]);
+  useEffect(() => {
+    setFailed(false);
+    setSource("");
+    if (!active) return;
+    if (!mediaId) { setSource(src); return; }
+    const control = new AbortController();
+    let objectUrl: string | undefined;
+    void api.request("getMediaMediaIdContent", {
+      path: { mediaId: decodeURIComponent(mediaId) }, signal: control.signal,
+    }).then((blob) => {
+      if (control.signal.aborted) return;
+      objectUrl = URL.createObjectURL(blob);
+      setSource(objectUrl);
+    }).catch(() => { if (!control.signal.aborted) setFailed(true); });
+    return () => {
+      control.abort();
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
+    };
+  }, [src, mediaId, active]);
   return !src || failed ? (
     <span>写真を表示できません</span>
+  ) : source && active ? (
+    <img src={source} alt={alt} onError={() => setFailed(true)} />
   ) : (
-    <img src={src} alt={alt} onError={() => setFailed(true)} />
+    <span>写真を読み込んでいます…</span>
   );
 }
 export function MiniRadar({

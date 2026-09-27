@@ -7,7 +7,7 @@ import { DiaryScreen } from "./DiaryScreen";
 import { QuestionsScreen, HistoryScreen } from "./QuestionsScreen";
 import { CompareScreen } from "./CompareScreen";
 import { MemoScreen } from "./MemoScreen";
-import { SelfHomeView, type RecordCardData, type Notice } from "./views";
+import { SelfHomeView, ReflectionPhotoActive, type RecordCardData, type Notice } from "./views";
 import { deviceTimeZone, errorNotice, recordCard, today } from "./records";
 const mapModules = import.meta.glob<{
   MapPreview: ComponentType<{
@@ -106,6 +106,12 @@ const definitions: ScreenDefinition[] = [
 
 export const screens: ScreenDefinition[] = definitions.map((screen) => ({
   ...screen,
+  component: function ReflectionScreen(props: ScreenProps) {
+    const Component = screen.component;
+    return <ReflectionPhotoActive.Provider value={props.active !== false}>
+      <Component {...props} />
+    </ReflectionPhotoActive.Provider>;
+  },
   layout: {
     header: screen.id === "self-home" ? "none" : "back",
     contentPadding: "none",

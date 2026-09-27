@@ -117,8 +117,8 @@
     "component": "main--save",
     "from": "main",
     "event": "activate",
-    "effect": "kind=memoの新規作成または既存body/useForSuggestionsの更新。由来・名前・キーワードはAPI不足。",
-    "destination": "$return",
+    "effect": "kind=memoの本文・useForSuggestionsとmemo内の名前・由来参照・キーワードを新規作成または同じrecordIdの版付き更新で保存して再取得する。応答不明再送では同じID/冪等キーを使い、取得後に入力差分がある場合だけ取得版で更新する。",
+    "destination": "$stay",
     "carry": [
       "対象のIDと取得版",
       "日付/期間とtimeZone",
@@ -127,11 +127,10 @@
     ],
     "api": [
       "postRecords",
-      "patchRecordsRecordId"
+      "patchRecordsRecordId",
+      "getRecordsRecordId"
     ],
-    "apiGaps": [
-      "presentation"
-    ],
+    "apiGaps": [],
     "completion": "成功を確認してから確定表示。失敗では入力を残し再試行を表示。"
   }
 ]
