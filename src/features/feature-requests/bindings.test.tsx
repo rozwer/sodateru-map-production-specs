@@ -44,13 +44,20 @@ it("lost create response retries the same ID, body and key and re-reads before n
     }
     throw new Error(op);
   });
-  await render(); await input("new request"); await save();
+  await render(); await input("new request");
+  await act(async () => {
+    const tags = host.querySelector<HTMLInputElement>('input[name="regionTags"]')!;
+    Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")!.set!.call(tags, "本山, 東山公園");
+    tags.dispatchEvent(new Event("input", { bubbles: true }));
+  });
+  await save();
   expect(navigate).not.toHaveBeenCalled();
   expect(host.querySelector("textarea")!.disabled).toBe(true);
   await save();
   const calls = request.mock.calls.filter(([op]) => op === "postFeatureRequests");
   expect(calls).toHaveLength(2);
   expect(calls[1]![1].body).toEqual(calls[0]![1].body);
+  expect(calls[0]![1].body.regionTags).toEqual(["本山", "東山公園"]);
   expect(calls[1]![1].idempotencyKey).toBe(calls[0]![1].idempotencyKey);
   expect(navigate).toHaveBeenCalledWith("feature-requests", { tab: "drafts", saved: "1" });
 });

@@ -6,7 +6,7 @@ import { useSession } from "../../app/session";
 import { useScreenState } from "../../app/useScreenState";
 import { PluginStatus } from "../plugins/views";
 import { FeatureRequestDeleteView, FeatureRequestEditorView, FeatureRequestListView } from "./views";
-import type { FeatureRequestDraft, FeatureRequestModel } from "./view-model";
+import { parseRequestTags, type FeatureRequestDraft, type FeatureRequestModel } from "./view-model";
 
 const describe = (error: unknown) => error instanceof Error ? error.message : "通信に失敗しました。";
 export function requestModel(item: FeatureRequest, personId: string): FeatureRequestModel {
@@ -94,7 +94,9 @@ function RequestList({ route, navigate, back, scopeKey, active = true }: ScreenP
 type SaveAttempt = { body: FeatureRequestCreate; key: string; version?: number };
 type EditorState = { value: FeatureRequestDraft; id: string; base: FeatureRequest | null; initialized: boolean; pending: SaveAttempt | null };
 export function matchesAttempt(item: FeatureRequest, attempt: SaveAttempt) {
-  return item.id === attempt.body.id && item.body === attempt.body.body && item.displayName === attempt.body.displayName && item.visibility === attempt.body.visibility;
+  return item.id === attempt.body.id && item.body === attempt.body.body && item.displayName === attempt.body.displayName && item.visibility === attempt.body.visibility
+    && JSON.stringify(item.regionTags) === JSON.stringify(attempt.body.regionTags || [])
+    && JSON.stringify(item.purposeTags) === JSON.stringify(attempt.body.purposeTags || []);
 }
 function RequestEditor({ route, navigate, scopeKey, active = true }: ScreenProps) {
   const personId = useSession()?.session?.person.id || "";
@@ -117,12 +119,12 @@ function RequestEditor({ route, navigate, scopeKey, active = true }: ScreenProps
           const result = await api.request("getFeatureRequestsRequestId", { path: { requestId: route.params.requestId }, signal: abort.signal });
           if (result.data.personId !== personId) throw new Error("本人の投稿だけ編集できます。");
           if (!abort.signal.aborted) setState(previous => previous.initialized ? previous : {
-            ...previous, initialized: true, base: result.data, value: { name: result.data.displayName, body: result.data.body, visibility: result.data.visibility },
+            ...previous, initialized: true, base: result.data, value: { name: result.data.displayName, body: result.data.body, visibility: result.data.visibility, regionTags: result.data.regionTags.join(", "), purposeTags: result.data.purposeTags.join(", ") },
           });
         } else {
           const source = route.params.sourceId ? await api.request("getFeatureRequestsRequestId", { path: { requestId: route.params.sourceId }, signal: abort.signal }) : null;
           if (!abort.signal.aborted) setState(previous => previous.initialized ? previous : {
-            ...previous, initialized: true, value: { name: me.data.name, body: source?.data.body || "", visibility: "private" },
+            ...previous, initialized: true, value: { name: me.data.name, body: source?.data.body || "", visibility: "private", regionTags: source?.data.regionTags.join(", ") || "", purposeTags: source?.data.purposeTags.join(", ") || "" },
           });
         }
       } catch (problem) { if (!abort.signal.aborted) setError(describe(problem)); }
@@ -138,8 +140,11 @@ function RequestEditor({ route, navigate, scopeKey, active = true }: ScreenProps
     if (running.current || busy || !state.initialized || !controller.current) return;
     const signal = controller.current.signal;
     const attempt = state.pending || { key: crypto.randomUUID(), version: state.base?.version,
-      body: { id: state.id, displayName: state.base?.displayName || state.value.name.trim(), body: state.value.body, visibility } };
+      body: { id: state.id, displayName: state.base?.displayName || state.value.name.trim(), body: state.value.body, visibility, regionTags: parseRequestTags(state.value.regionTags), purposeTags: parseRequestTags(state.value.purposeTags) } };
     if (Array.from(attempt.body.displayName).length > 20) { setError("表示名は20文字以内で入力してください。"); return; }
+    if ([attempt.body.regionTags || [], attempt.body.purposeTags || []].some(tags => tags.length > 5 || tags.some(tag => Array.from(tag).length > 20))) {
+      setError("タグはそれぞれ5件まで、各20文字以内で入力してください。"); return;
+    }
     running.current = true; setBusy(true); setError(""); setState(previous => ({ ...previous, pending: attempt }));
     try {
       // A lost response can already have committed. Resolve it before replaying a PATCH.
@@ -151,7 +156,7 @@ function RequestEditor({ route, navigate, scopeKey, active = true }: ScreenProps
         } catch (problem) { if (!(problem instanceof ApiError && problem.status === 404)) throw problem; }
       }
       if (attempt.version) {
-        await api.request("patchFeatureRequestsRequestId", { path: { requestId: attempt.body.id }, body: { body: attempt.body.body, visibility: attempt.body.visibility }, version: attempt.version, signal });
+        await api.request("patchFeatureRequestsRequestId", { path: { requestId: attempt.body.id }, body: { body: attempt.body.body, visibility: attempt.body.visibility, regionTags: attempt.body.regionTags, purposeTags: attempt.body.purposeTags }, version: attempt.version, signal });
       } else {
         await api.request("postFeatureRequests", { body: attempt.body, idempotencyKey: attempt.key, signal });
       }
@@ -176,6 +181,6 @@ function RequestEditor({ route, navigate, scopeKey, active = true }: ScreenProps
   return <><p className="plugin-notice">{state.pending ? "送信した内容を保持しています。通信失敗時は同じ内容で再試行し、保存状況を確認します。" : "保存を確定するまで投稿は変更されません。"}</p>
     <FeatureRequestEditorView value={state.value} onChange={value => setState(previous => ({ ...previous, value }))}
       onSave={visibility => void save(visibility)} nameLocked={Boolean(state.base)} editing={Boolean(state.base)}
-      inputDisabled={Boolean(state.pending) || !state.initialized} busy={busy} error={error}
+      showTags inputDisabled={Boolean(state.pending) || !state.initialized} busy={busy} error={error}
       onRetry={() => state.pending ? void save(state.pending.body.visibility) : refresh(value => value + 1)}/></>;
 }

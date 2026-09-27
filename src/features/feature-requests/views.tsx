@@ -268,6 +268,7 @@ export function FeatureRequestEditorView({
   nameLocked,
   editing,
   inputDisabled,
+  showTags,
   fieldErrors,
   ...status
 }: PluginViewStatus & {
@@ -277,6 +278,7 @@ export function FeatureRequestEditorView({
   nameLocked?: boolean;
   editing?: boolean;
   inputDisabled?: boolean;
+  showTags?: boolean;
   fieldErrors?: { name?: string; body?: string };
 }) {
   const id = useId();
@@ -334,6 +336,15 @@ export function FeatureRequestEditorView({
             </p>
           )}
         </div>
+        {showTags && ([['regionTags', '地域タグ'], ['purposeTags', '目的タグ']] as const).map(([key, label]) => (
+          <div className="request-field" key={key}>
+            <label htmlFor={`${id}-${key}`}>{label}</label>
+            <input id={`${id}-${key}`} name={key} type="text" value={value[key] || ""}
+              disabled={status.busy || inputDisabled} onChange={event => update({ [key]: event.target.value })}
+              aria-describedby={`${id}-${key}-help`}/>
+            <p id={`${id}-${key}-help`}>任意。カンマ区切りで5件まで、各20文字以内。</p>
+          </div>
+        ))}
         <fieldset className="request-visibility-options" disabled={status.busy || inputDisabled}>
           <legend>{m.visibility}</legend>
           <div>
