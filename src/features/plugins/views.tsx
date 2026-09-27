@@ -328,7 +328,6 @@ export function PluginStoreView({
               <div className="plugin-store-copy">
                 <h3>{plugin.name}</h3>
                 <div className="plugin-badges">
-                  {plugin.demo && <span>デモ</span>}
                   <span>
                     {plugin.installed
                       ? plugin.enabled

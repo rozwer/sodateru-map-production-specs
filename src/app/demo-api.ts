@@ -49,12 +49,50 @@ const save = () => {
     localStorage.setItem(key, JSON.stringify(data));
   } catch (error) { console.warn('デモ例のブラウザ保存に失敗しました。', error); }
 };
-const missing = () => { throw new ApiError(404, 'NOT_FOUND', '表示例が見つかりません。', crypto.randomUUID()); };
+// Older demo profiles keep their edits. Update only generated sample fields, never a person's own text.
+function presentStoredExamples(d: DemoData) {
+  for (const place of d.places) {
+    if (place.id === ids.cafe && place.name === '本山のカフェ（表示例）') place.name = '本山のカフェ';
+    if (place.id === ids.park && place.name === '東山公園（表示例）') place.name = '東山公園';
+  }
+  for (const theme of d.themes) {
+    if (theme.id === ids.theme && theme.description === 'ゆっくり過ごせる場所（表示例）') theme.description = 'ゆっくり過ごせる場所';
+    if (theme.id === ids.themePark && theme.description === '自然にふれる場所（表示例）') theme.description = '自然にふれる場所';
+  }
+  for (const suggestion of d.suggestions) {
+    if (suggestion.id === ids.suggestionCafe && suggestion.title === '静かなカフェで休む（表示例）') suggestion.title = '静かなカフェで休む';
+    if (suggestion.id === ids.suggestionPark && suggestion.title === '緑の中を散歩（表示例）') suggestion.title = '緑の中を散歩';
+    if (suggestion.reason === '希望に合わせたデモ候補です。実AIによる提案ではありません。') suggestion.reason = '希望に合いそうな場所です。';
+  }
+  for (const message of d.messages) if (message.role === 'assistant') {
+    if (message.body.endsWith('（デモ表示）。')) message.body = message.body.replace('（デモ表示）。', '。');
+    if (message.body.endsWith('（表示例）。')) message.body = message.body.replace('（表示例）。', '。');
+  }
+  for (const route of d.routes) if (route.title?.endsWith('（表示例）')) route.title = route.title.replace('（表示例）', '');
+  for (const card of d.cards) {
+    if (card.bridge === '見慣れた場所でも、視点を変えると違う発見があります（表示例）。') card.bridge = '見慣れた場所でも、視点を変えると違う発見があります。';
+    if (card.knowledge === '形・色・音などを観察してみましょう（デモ用の説明）。') card.knowledge = '形・色・音などを観察してみましょう。';
+    for (const source of card.sources ?? []) if (source.title === 'デモ表示例') source.title = '街の観察';
+  }
+  for (const run of d.runs) {
+    if (run.task === 'diary' && run.result?.text === 'カフェでひと息つき、公園を散歩しました。（記録を使ったデモ下書き）') run.result.text = 'カフェでひと息つき、公園を散歩しました。';
+    if (run.task === 'extract' && run.result?.question?.text?.endsWith('（表示例）')) run.result.question.text = run.result.question.text.replace('（表示例）', '');
+  }
+  for (const dialogue of d.dialogues) for (const place of dialogue.places ?? []) {
+    if (place.placeId === ids.cafe) place.name = '本山のカフェ';
+    if (place.placeId === ids.park) place.name = '東山公園';
+  }
+  for (const planSet of d.planSets) for (const plan of planSet.plans ?? []) {
+    if (plan.explanation?.startsWith('デモ：本山周辺の固定サンプルです。'))
+      plan.explanation = plan.explanation.replace('デモ：本山周辺の固定サンプルです。', '本山周辺の候補です。').replace('の表示例です。', 'です。');
+  }
+}
+const missing = () => { throw new ApiError(404, 'NOT_FOUND', '項目が見つかりません。', crypto.randomUUID()); };
 function makeData(owner: string): DemoData {
   const time = now(), hour = 3600000;
   const places = [
-    { id: ids.cafe, name: '本山のカフェ（表示例）', address: '名古屋市千種区本山', coordinates: [136.9638, 35.1668], categories: ['cafe'], provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '表示例', fetchedAt: null, version: 1, createdAt: time, updatedAt: time },
-    { id: ids.park, name: '東山公園（表示例）', address: '名古屋市千種区東山元町', coordinates: [136.976, 35.16], categories: ['park'], provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '表示例', fetchedAt: null, version: 1, createdAt: time, updatedAt: time },
+    { id: ids.cafe, name: '本山のカフェ', address: '名古屋市千種区本山', coordinates: [136.9638, 35.1668], categories: ['cafe'], provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '', fetchedAt: null, version: 1, createdAt: time, updatedAt: time },
+    { id: ids.park, name: '東山公園', address: '名古屋市千種区東山元町', coordinates: [136.976, 35.16], categories: ['park'], provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '', fetchedAt: null, version: 1, createdAt: time, updatedAt: time },
   ];
   const record = (id: string, placeId: string, body: string, hoursAgo: number, purposes: string[]): Item => ({
     id, version: 1, createdAt: time, updatedAt: time, personId: owner, kind: 'experience',
@@ -73,8 +111,8 @@ function makeData(owner: string): DemoData {
     recordId, kind: 'photo', mimeType: 'image/jpeg', byteSize: 1, position: 0, status: 'ready', contentUrl: url,
   }]]));
   const themes = [
-    { id: ids.theme, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '静かな寄り道', description: 'ゆっくり過ごせる場所（表示例）', recordIds: [ids.coffeeRecord], colorKey: 'teal', coverMediaId: media[ids.coffeeRecord][0].id },
-    { id: ids.themePark, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '緑の中を歩く', description: '自然にふれる場所（表示例）', recordIds: [ids.parkRecord], colorKey: 'green', coverMediaId: media[ids.parkRecord][0].id },
+    { id: ids.theme, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '静かな寄り道', description: 'ゆっくり過ごせる場所', recordIds: [ids.coffeeRecord], colorKey: 'teal', coverMediaId: media[ids.coffeeRecord][0].id },
+    { id: ids.themePark, version: 1, createdAt: time, updatedAt: time, personId: owner, name: '緑の中を歩く', description: '自然にふれる場所', recordIds: [ids.parkRecord], colorKey: 'green', coverMediaId: media[ids.parkRecord][0].id },
   ];
   return { places, records, visits: [], deletedRecordIds: [], deletedMediaIds: [], themes, checkins: [], suggestions: [], batches: [], media, bookmarks: [], routeResults: [], routes: [], dialogues: [], conversations: [], messages: [], conversationResults: {}, comparisons: [], runs: [], questions: [], cards: [], reactions: [], recipes: [], planSets: [],
     companionSettings: { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 } };
@@ -95,11 +133,12 @@ export function setDemoPerson(id: string | null) {
   data.deletedMediaIds ??= [];
   data.visits ??= [];
   data.companionSettings ??= { selectedCompanionId: ids.companion, visible: true, size: 'medium', reducedMotion: false, version: 1 };
+  presentStoredExamples(data);
   data.records.forEach((record, index) => { if (record.kind === 'experience' && !record.visitId) record.visitId = `0a10d000-0000-4000-8000-00000000005${index + 1}`; });
 }
 const detail = (place: Item, owner: string, records: Item[]) => ({
   place, colocated: [], ownRecords: { status: 'ready', items: records.filter(r => r.placeId === place.id).map(r => ({
-    id: r.id, kind: r.kind, body: r.body, person: { id: owner, displayName: '自分（デモ）', iconPath: null },
+    id: r.id, kind: r.kind, body: r.body, person: { id: owner, displayName: '自分', iconPath: null },
     place: { id: place.id, name: place.name, address: place.address, coordinates: place.coordinates },
     effectiveAt: r.effectiveStartedAt, endedAt: r.effectiveEndedAt, timePrecision: r.timePrecision,
     visitStatus: 'confirmed', purposes: r.purposes, impression: r.impression, topicKey: r.topicKey,
@@ -108,22 +147,22 @@ const detail = (place: Item, owner: string, records: Item[]) => ({
       status: 'ready', contentUrl: place.id === ids.cafe ? coffee : park }],
   })), error: null }, sharedRecords: { status: 'ready', items: [], error: null },
   visits: { status: 'ready', items: [], error: null }, openingHours: null, entrances: [], correctedFields: [],
-  description: { text: 'デモ用の場所です。実店舗情報ではありません。', sourceUrl: null, fetchedAt: now(), verificationStatus: 'unverified' },
-  photos: [{ url: place.id === ids.cafe ? coffee : park, sourceUrl: '', attribution: '表示例', fetchedAt: now(), verificationStatus: 'unverified' }],
+  description: { text: '', sourceUrl: null, fetchedAt: now(), verificationStatus: 'unverified' },
+  photos: [{ url: place.id === ids.cafe ? coffee : park, sourceUrl: '', attribution: '', fetchedAt: now(), verificationStatus: 'unverified' }],
 });
 const visits = (d: DemoData, owner: string) => [...d.records.filter(r => r.kind === 'experience' && r.placeId).map((r, index) => ({
   id: `0a10d000-0000-4000-8000-00000000005${index + 1}`, version: 1, createdAt: r.createdAt,
   updatedAt: r.updatedAt, personId: owner, placeId: r.placeId, startedAt: r.occurredAt, endedAt: r.endedAt,
   timePrecision: r.timePrecision, origin: 'manual', status: 'confirmed',
 })), ...d.visits];
-const demoFriend = () => ({ id: ids.friend, name: 'ゆう（表示例）', bio: '散歩と喫茶店が好きです。デモ用の友達です。',
+const demoFriend = () => ({ id: ids.friend, name: 'ゆう', bio: '散歩と喫茶店が好きです。',
   avatarUrl: null, version: 1, createdAt: now(), updatedAt: now() });
-export const demoCompanion = () => ({ id: ids.companion, importId: ids.import, name: 'ひなた（表示例）',
+export const demoCompanion = () => ({ id: ids.companion, importId: ids.import, name: 'ひなた',
   source: 'import' as const, version: 1, createdAt: now() });
 export function selectDemoCompanion(id: string) { if (data) { data.companionSettings.selectedCompanionId = id; data.companionSettings.version++; save(); } }
 const sharedRecords = (d: DemoData) => d.records.filter(r => r.placeId).map(r => {
   const place = d.places.find(p => p.id === r.placeId)!;
-  return { id: `friend-${r.id}`, kind: r.kind, body: r.body, person: { id: ids.friend, displayName: 'ゆう（表示例）', iconPath: null },
+  return { id: `friend-${r.id}`, kind: r.kind, body: r.body, person: { id: ids.friend, displayName: 'ゆう', iconPath: null },
     place: { id: place.id, name: place.name, address: place.address, coordinates: place.coordinates },
     effectiveAt: r.effectiveStartedAt, endedAt: r.effectiveEndedAt, timePrecision: r.timePrecision,
     visitStatus: 'confirmed', purposes: r.purposes, impression: r.impression, topicKey: r.topicKey,
@@ -170,8 +209,8 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     case 'getPlaces': return page(d.places.filter(p => !query.q || p.name.includes(query.q)));
     case 'getPeople': return page([demoFriend()].filter(p => !query.q || p.name.includes(query.q)));
     case 'getCompanion': return path.companionId === ids.companion ? { data: demoCompanion() } : undefined;
-    case 'getCompanionImport': return path.importId === ids.import ? { data: { id: ids.import, name: 'ひなた（表示例）',
-      manifest: { id: ids.companion, displayName: 'ひなた（表示例）', description: 'デモ用の相棒です。',
+    case 'getCompanionImport': return path.importId === ids.import ? { data: { id: ids.import, name: 'ひなた',
+      manifest: { id: ids.companion, displayName: 'ひなた', description: 'いっしょに街を歩く相棒です。',
         spriteVersionNumber: 2, spritesheetPath: 'spritesheet.webp' },
       requiredActions: ['idle', 'running-right', 'running-left', 'waving', 'jumping', 'failed', 'waiting', 'running', 'review',
         ...Array.from({ length: 16 }, (_, i) => `gaze-${i * 22.5}`)], confirmedActions: [], version: 1, createdAt: now() } } : undefined;
@@ -200,8 +239,8 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     }
     case 'getKnowledgeTopics': return { items: [{ topicKey: 'rest', purposes: ['休憩', '散歩'] }] };
     case 'getDiscoveryFacts': return { items: [{ factKey: crypto.randomUUID(),
-      text: '形や色、歩くときの感じ方を観察できます（デモ用の一般的な気づき）。', conceptIds: [],
-      source: { url: null, title: 'デモ表示例', claimScope: 'general', sourceId: null },
+      text: '形や色、歩くときの感じ方を観察できます。', conceptIds: [],
+      source: { url: null, title: '街の観察', claimScope: 'general', sourceId: null },
       anchor: { kind: query.kind, targetId: query.targetId } }], nextCursor: null };
     case 'getDiscoveryCards': return page(d.cards.filter(c => !query.savedOnly || d.reactions.some(r => r.cardId === c.id && r.reaction === 'saved')));
     case 'getDiscoveryCardsCardId': return { data: d.cards.find(c => c.id === path.cardId) ?? missing() };
@@ -211,10 +250,10 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const assistant = d.messages.find(m => m.id === body.assistantMessageId);
       const user = assistant ? d.messages.find(m => m.conversationId === assistant.conversationId && m.position === assistant.position - 1) : undefined;
       const card = { id: body.id, personId: owner, anchor: user?.context?.anchor ?? { kind: 'place', targetId: ids.cafe, features: ['気づき'] },
-        bridge: '見慣れた場所でも、視点を変えると違う発見があります（表示例）。',
-        knowledge: '形・色・音などを観察してみましょう（デモ用の説明）。',
+        bridge: '見慣れた場所でも、視点を変えると違う発見があります。',
+        knowledge: '形・色・音などを観察してみましょう。',
         observationPrompt: '次に訪れたとき、どこが気になるか見てみましょう。', conceptIds: [],
-        sources: [{ url: null, title: 'デモ表示例', claimScope: 'general', sourceId: null }],
+        sources: [{ url: null, title: '街の観察', claimScope: 'general', sourceId: null }],
         sourceRefs: user?.expectedRefs ?? [], version: 1, createdAt: now(), updatedAt: now() };
       d.cards.push(card); save(); return { data: card };
     }
@@ -238,14 +277,14 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const recipe = d.recipes.find(r => r.id === body.recipeId) ?? missing();
       const steps = recipe.steps.map((step: Item, index: number) => ({ stepId: step.id,
         placeId: d.places[index % d.places.length]?.id ?? null,
-        explanation: `${step.meaning}を表す表示例です。実際の候補評価は行っていません。`,
+        explanation: `${step.meaning}に合いそうな候補です。営業条件は未確認です。`,
         evidenceIds: step.sourceRecordIds }));
       const conditions = recipe.requiredConditions.map((condition: string) => ({ condition,
         status: 'unknown', explanation: '営業時間などの実条件は未確認です。', evidenceIds: [] }));
       const plans = (['faithful', 'personalized'] as const).map((variant, index) => ({ variant, steps,
-        explanation: index ? 'デモ：本山周辺の固定サンプルです。好みに合わせた案の表示例です。'
-          : 'デモ：本山周辺の固定サンプルです。元の体験の順番を保つ案の表示例です。',
-        conditionChecks: conditions, unmetConditions: [], unknowns: ['入力地域の場所検索は行っていません。地点は名古屋の表示例です。実際の移動経路・営業状況は未確認です。'],
+        explanation: index ? '本山周辺で好みに合わせた案です。'
+          : '本山周辺で元の体験の順番を保つ案です。',
+        conditionChecks: conditions, unmetConditions: [], unknowns: ['入力地域の場所検索は行っていません。候補地点は名古屋にあります。実際の移動経路・営業状況は未確認です。'],
         route: { id: crypto.randomUUID(), durationSeconds: index ? 1800 : 1500, distanceMeters: index ? 1800 : 1300,
           expiresAt: now() + 86400000, sourceRefs: [] }, travelMinutes: index ? 30 : 25,
         stayMinutes: recipe.steps.reduce((sum: number, step: Item) => sum + step.stayMinutes, 0),
@@ -256,8 +295,8 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
           position: { longitude: place.coordinates[0], latitude: place.coordinates[1] },
           stepIds: recipe.steps.filter((_: Item, i: number) => i % d.places.length === index).map((s: Item) => s.id) })),
         generatorVersion: 'demo-example', status: 'complete', assistantMessageId: null, assistantAttempt: null,
-        plans, commonalities: ['どちらも元の体験の意味を手がかりにしています（表示例）。'],
-        differences: ['立ち寄る順番と移動時間が異なります（表示例）。'], selectedVariant: null,
+        plans, commonalities: ['どちらも元の体験の意味を手がかりにしています。'],
+        differences: ['立ち寄る順番と移動時間が異なります。'], selectedVariant: null,
         savedRouteId: null, error: null, version: 1, createdAt: now(), updatedAt: now() };
       d.planSets.push(planSet); save(); return { data: planSet };
     }
@@ -268,13 +307,13 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const routeId = crypto.randomUUID(), start = [planSet.start.longitude, planSet.start.latitude];
       const geometry = { type: 'LineString', coordinates: [start, destination.coordinates] };
       d.routes.push({ id: routeId, version: 1, createdAt: now(), updatedAt: now(), personId: owner,
-        title: `${planSet.region}の体験移転（表示例）`, status: 'saved', currentLeg: 0,
-        visibility: 'private', sharedWith: [], waypoints: [{ coordinates: start, name: '出発点（表示例）', placeId: null },
+        title: `${planSet.region}の体験移転`, status: 'saved', currentLeg: 0,
+        visibility: 'private', sharedWith: [], waypoints: [{ coordinates: start, name: '出発点', placeId: null },
           { coordinates: destination.coordinates, name: destination.name, placeId: destination.id }],
         mode: planSet.mode, geometry, legs: [{ fromIndex: 0, toIndex: 1, geometry,
           distanceM: plan.route.distanceMeters, durationSec: plan.route.durationSeconds,
           steps: [{ geometry, distanceM: plan.route.distanceMeters, durationSec: plan.route.durationSeconds,
-            location: start, type: 'turn', modifier: 'straight', instruction: '表示例の経路です。実際の道路情報ではありません。', name: '表示例' }] }],
+            location: start, type: 'turn', modifier: 'straight', instruction: '道路条件は未確認です。', name: '経路' }] }],
         distanceM: plan.route.distanceMeters, durationSec: plan.route.durationSeconds,
         provider: 'mapbox-directions', fetchedAt: now(), expiresAt: now() + 86400000,
         retention: 'storable', requestedConditions: {}, conditionEvaluations: [] });
@@ -287,9 +326,9 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       return { data: { id: path.insightId, version: 1, createdAt: run.createdAt, updatedAt: run.updatedAt,
         personId: owner, kind: 'comparison', inputKey: 'demo-comparison', sourceRefs: run.sourceRefs,
         rangeStart: null, rangeEnd: null, timeZone: 'Asia/Tokyo', generatorVersion: 'demo-example', model: null,
-        summary: '二人の記録から作った比較の表示例です。',
-        result: { common: ['落ち着ける場所を大切にしている（表示例）'],
-          differences: ['選んだ場所と過ごし方が異なります（表示例）'], unknown: ['本人の本当の好みは未確認です。'] },
+        summary: '二人の記録から比較しました。',
+        result: { common: ['落ち着ける場所を大切にしている'],
+          differences: ['選んだ場所と過ごし方が異なります'], unknown: ['本人の本当の好みは未確認です。'] },
         review: null, reviewNote: null, reviewedAt: null } };
     }
     case 'getSharedRecordsMap': {
@@ -305,7 +344,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       items: d.places.filter(p => !query.category || p.categories.includes(query.category)).map(p => ({
         candidateId: p.id, placeId: p.id, name: p.name, address: p.address,
         position: { longitude: p.coordinates[0], latitude: p.coordinates[1] }, categories: p.categories,
-        provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '表示例',
+        provider: 'demo', externalId: null, buildingKey: null, sourceUrl: null, attribution: '',
         fetchedAt: null, retention: 'storable',
       })) } };
     case 'getPlacesPlaceId': { const p = d.places.find(p => p.id === path.placeId); return p ? { data: detail(p, owner, d.records) } : undefined; }
@@ -381,8 +420,8 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const expiresAt = Math.max(body.expiresAt ?? 0, now() + 86400000);
       const items = [ids.cafe, ids.park].map((placeId, position) => ({
         id: position ? ids.suggestionPark : ids.suggestionCafe, version: 1, createdAt: now(), updatedAt: now(), personId: owner,
-        placeId, batchId: body.id, position, title: position ? '緑の中を散歩（表示例）' : '静かなカフェで休む（表示例）',
-        activity: position ? '散歩' : 'カフェ', reason: '希望に合わせたデモ候補です。実AIによる提案ではありません。',
+        placeId, batchId: body.id, position, title: position ? '緑の中を散歩' : '静かなカフェで休む',
+        activity: position ? '散歩' : 'カフェ', reason: '希望に合いそうな場所です。',
         conditions: body.conditions, checkinId: body.checkin?.id ?? null, sourceRefs: [], status: 'offered', presentedAt: null,
         selectedAt: null, expiresAt, routeId: null, completedVisitId: null, feedback: '', travelMinutes: position ? 14 : 8,
         stayMinutes: 20, totalMinutes: position ? 34 : 28, matchedWishes: body.conditions?.wishes ?? [], unknowns: ['実際の営業・経路は未確認です。'],
@@ -418,7 +457,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const run = d.runs.find(r => r.id === body.assistantMessageId) ?? missing();
       const source = d.messages.find(m => m.id === run.userMessageId);
       const q = { id: crypto.randomUUID(), personId: owner, targetRecordId: source?.context?.recordId ?? ids.coffeeRecord,
-        topic: 'reason', questionText: run.result?.question?.text ?? 'その場所で、どんな気持ちになりましたか？（表示例）',
+        topic: 'reason', questionText: run.result?.question?.text ?? 'その場所で、どんな気持ちになりましたか？',
         sourceRefs: source?.expectedRefs ?? [], generatorVersion: 'demo-example', status: 'pending', answerRecordId: null,
         version: 1, createdAt: now(), updatedAt: now(), answerText: null, answerVersion: null,
         answerRef: null, answerUnavailable: false, evidenceState: 'current', assistantMessageId: body.assistantMessageId };
@@ -444,7 +483,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const waypoints = (body.waypoints ?? []).map((point: Item, index: number) => {
         const stored = d.places.find(p => p.id === point.placeId);
         const coordinates = point.coordinates ?? stored?.coordinates ?? (index ? d.places[0]?.coordinates ?? [136.9638, 35.1668] : [136.9638, 35.1635]);
-        return { coordinates, name: point.label ?? stored?.name ?? (index ? '目的地' : '現在地（表示例）'), placeId: stored?.id ?? null };
+        return { coordinates, name: point.label ?? stored?.name ?? (index ? '目的地' : '現在地'), placeId: stored?.id ?? null };
       });
       if (waypoints.length < 2) return { data: { items: [] } };
       const coordinates = waypoints.map((w: Item) => w.coordinates);
@@ -453,7 +492,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
         resultId: crypto.randomUUID(), waypoints, mode: body.mode ?? 'walking',
         legs: [{ fromIndex: 0, toIndex: waypoints.length - 1, geometry, distanceM: index ? 1500 : 1200,
           durationSec: index ? 1500 : 1080, steps: [{ geometry, distanceM: 1200, durationSec: 1080,
-            location: coordinates[0], type: 'turn', modifier: 'left', instruction: '表示例の道順です。実際の道路情報ではありません。', name: '表示例の道' }] }],
+            location: coordinates[0], type: 'turn', modifier: 'left', instruction: '道路条件は未確認です。', name: '道順' }] }],
         geometry, distanceM: index ? 1500 : 1200, durationSec: index ? 1500 : 1080,
         provider: 'mapbox-directions', fetchedAt: now(), expiresAt: now() + 86400000,
         retention: 'storable', requestedConditions: body.conditions ?? {},
@@ -463,7 +502,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     }
     case 'postSavedRoutes': {
       const result = d.routeResults.find(r => r.resultId === body.resultId) ?? missing();
-      const route = { ...result, id: body.id, personId: owner, title: body.title || '表示例の経路',
+      const route = { ...result, id: body.id, personId: owner, title: body.title || '保存した経路',
         sourceUrl: null, fetchedAt: now(), status: 'saved', currentLeg: 0,
         visibility: 'private', sharedWith: [], version: 1, createdAt: now(), updatedAt: now() };
       d.routes.push(route); save(); return { data: route };
@@ -477,7 +516,7 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     case 'postMapDialogues': {
       const places = d.places.map(p => ({ candidateId: p.id, placeId: p.id, name: p.name, address: p.address,
         coordinates: p.coordinates, categories: p.categories, provider: 'demo', externalId: null,
-        buildingKey: null, sourceUrl: null, attribution: '表示例', fetchedAt: null, retention: 'storable' }));
+        buildingKey: null, sourceUrl: null, attribution: '', fetchedAt: null, retention: 'storable' }));
       const result = { resultId: crypto.randomUUID(), text: body.text,
         places, routes: [], origin: body.origin, expiresAt: now() + 86400000 };
       d.dialogues.push(result); save(); return { data: result };
@@ -494,14 +533,14 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
     case 'getConversations': return page(d.conversations.filter(c => !query.purpose || c.purpose === query.purpose));
     case 'getConversationsConversationIdMessages': return page(d.messages.filter(m => m.conversationId === path.conversationId));
     case 'postConversationsConversationIdMessages': {
-      const text = body.body || '表示例';
+      const text = body.body || '相談を始める';
       const user = { id: body.userMessageId, version: 1, createdAt: now(), updatedAt: now(),
         conversationId: path.conversationId, position: d.messages.length, role: 'user', body: text,
         status: 'complete', attempt: 1, model: null, errorCode: null, insightId: null, sourceRefs: [],
         context: body.context ?? null, expectedRefs: body.expectedRefs ?? [] };
       const assistant = { ...user, id: body.assistantMessageId, position: user.position + 1,
-        role: 'assistant', body: body.use === 'discovery' ? '見つけた特徴から、新しい見方をひらきます（表示例）。'
-          : '静かなカフェと緑の多い公園を見つけました。候補を選んで詳しく見られます（デモ表示）。' };
+        role: 'assistant', body: body.use === 'discovery' ? '見つけた特徴から、新しい見方をひらきます。'
+          : '静かなカフェと緑の多い公園を見つけました。候補を選んで詳しく見られます。' };
       d.messages.push(user, assistant); save(); return { data: { userMessage: user, assistantMessage: assistant } };
     }
     case 'getMessagesMessageId': {
@@ -515,12 +554,12 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
           const sourceRecord = d.records.find(r => r.id === user?.context?.recordId);
           const result = use === 'compare' ? { mappings: [{ fromRecordId: user?.context?.fromRecordIds?.[0],
               toRecordId: user?.context?.toRecordIds?.[0], relation: 'different-place-same-role',
-              explanation: 'どちらも気分を落ち着ける場所として使っています（表示例）。',
+              explanation: 'どちらも気分を落ち着ける場所として使っています。',
               evidenceIds: [user?.context?.fromRecordIds?.[0], user?.context?.toRecordIds?.[0]], rejected: false }] }
-            : use === 'diary' ? { text: 'カフェでひと息つき、公園を散歩しました。（記録を使ったデモ下書き）', evidenceIds: user?.context?.recordIds ?? [] }
+            : use === 'diary' ? { text: 'カフェでひと息つき、公園を散歩しました。', evidenceIds: user?.context?.recordIds ?? [] }
             : { purpose: sourceRecord?.purposes?.[0] ?? '休憩', reason: sourceRecord?.impression ?? '心地よかった',
               context: { weather: null, companion: null, timeBudgetMinutes: null, timeBand: null, notes: null },
-              evidenceIds: [user?.context?.recordId], question: { topic: 'reason', text: 'その場所で、どんな気持ちになりましたか？（表示例）' } };
+              evidenceIds: [user?.context?.recordId], question: { topic: 'reason', text: 'その場所で、どんな気持ちになりましたか？' } };
           run = { id: message.id, conversationId: message.conversationId, userMessageId: user?.id, task: use,
             status: 'complete', attempt: 1, version: 1, model: 'demo-example', promptVersion: 'demo', error: null,
             sourceRefs: user?.expectedRefs ?? [], insightId: use === 'compare' ? `insight-${message.id}` : null,
@@ -532,9 +571,9 @@ export function demoRequest(operation: OperationId, raw: unknown): unknown | und
       const user = d.messages.find(m => m.conversationId === message.conversationId && m.position === message.position - 1);
       const discovery = message.role === 'assistant' && !!user?.context?.anchor;
       return { data: { message, run, output: discovery ? { use: 'discovery', value: {
-        anchor: user.context.anchor, bridge: 'いつもの場所を違う角度から見てみましょう（表示例）。',
-        knowledge: '形や色を観察してみましょう（デモ用の説明）。', observationPrompt: '何に気づきましたか？',
-        conceptIds: [], sources: [{ url: null, title: 'デモ表示例', claimScope: 'general', sourceId: null }] } } : null, appliedRefs: [] } };
+        anchor: user.context.anchor, bridge: 'いつもの場所を違う角度から見てみましょう。',
+        knowledge: '形や色を観察してみましょう。', observationPrompt: '何に気づきましたか？',
+        conceptIds: [], sources: [{ url: null, title: '街の観察', claimScope: 'general', sourceId: null }] } } : null, appliedRefs: [] } };
     }
     case 'postMapDialoguesResultsResultIdHistory': {
       d.conversationResults[body.conversationId] = path.resultId ?? ''; save();

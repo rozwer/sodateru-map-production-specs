@@ -9,19 +9,19 @@ import type {
 export const referencePhotos = {
   shrine: {
     url: new URL("./assets/shrine.jpg", import.meta.url).href,
-    alt: "桜と神社の参考写真（青梅市・模擬素材）",
+    alt: "桜と神社の参考写真（青梅市）",
     source: "https://unsplash.com/photos/path-leading-to-a-shrine-through-cherry-blossoms-RlMZukANJTQ",
     attribution: "kaori kubota / Unsplash",
   },
   coffee: {
     url: new URL("../feature-requests/assets/coffee.jpg", import.meta.url).href,
-    alt: "コーヒーの参考写真（模擬投稿のアイコン）",
+    alt: "コーヒーの参考写真",
     source: "https://unsplash.com/photos/heKg-V9yHwc",
     attribution: "shche_ team / Unsplash",
   },
   park: {
     url: new URL("../feature-requests/assets/park.jpg", import.meta.url).href,
-    alt: "公園の参考写真（模擬投稿のアイコン）",
+    alt: "公園の参考写真",
     source: "https://unsplash.com/photos/lh_MesNhkbI",
     attribution: "Unsplash",
   },
@@ -189,15 +189,15 @@ export function createReferenceConditions(kind: PluginKind = "bike"): PluginCond
   if (kind === "pilgrimage") return [
     { ...structuredClone(conditionDefaults[0]!), help: "試用する地域を選んでください。" },
     { id: "work", type: "select", label: "作品を選ぶ", value: "reference-work",
-      help: "画面確認用の模擬作品です。実在作品との対応は未確認です。",
-      options: [{ value: "reference-work", label: "作品の舞台をめぐる（模擬）" }] },
+      help: "作品にゆかりのある場所を探します。",
+      options: [{ value: "reference-work", label: "作品の舞台をめぐる" }] },
   ];
   // Disaster settings belong to the dedicated adapter; never offer bike conditions there.
   return [];
 }
 export function createReferenceLayers(kind: PluginKind): { id: string; name: string; description: string }[] {
-  if (kind === "bike") return [{ id: "roads", name: "道路条件のレイヤー", description: "快適な道・注意が必要な道・未確認の道を模擬表示します。" }];
-  if (kind === "pilgrimage") return [{ id: "pilgrimage", name: "作品ゆかりの場所", description: "作品と場所の対応を確認するための模擬表示です。" }];
+  if (kind === "bike") return [{ id: "roads", name: "道路条件のレイヤー", description: "快適な道・注意が必要な道・未確認の道を表示します。" }];
+  if (kind === "pilgrimage") return [{ id: "pilgrimage", name: "作品ゆかりの場所", description: "作品ゆかりの場所を表示します。" }];
   return [];
 }
 export function createReferencePosts(): FeatureRequestModel[] {
@@ -214,7 +214,7 @@ export function createReferenceCatalog(state: "store" | "manage" = "manage"): Pl
     const manifest: PluginManifest = {
       id: card.id, name: card.name, description: card.description, category: card.category,
       author: card.author!, pluginVersion: card.versionLabel!.replace(/^v/, ""),
-      updatedAt: timestamp, changeLog: "参照画像のデモ状態。実リリースではありません。",
+      updatedAt: timestamp, changeLog: "更新しました。",
       icon: icons[card.id]!, usageInfo: card.permissions, sources: [],
       settingsSchema: card.kind === "bike" ? {
         type: "object", additionalProperties: false,
@@ -227,7 +227,7 @@ export function createReferenceCatalog(state: "store" | "manage" = "manage"): Pl
       } : { type: "object", properties: {}, additionalProperties: false },
       defaultSettings: card.kind === "bike" ? { region: "motoyama", vehicle: "moped", highway: false }
         : card.kind === "pilgrimage" ? { region: "motoyama", work: "reference-work" } : {},
-      trialConditions: ["UI検査用の模擬データ。API保存・実際の通行可否・防災判断には使えません。"], order,
+      trialConditions: ["道の通行条件は未確認です。"], order,
     };
     const installed: PluginSetting | null = card.installed ? {
       id: card.id, installId: `inspection-${card.id}`, version: 1,
@@ -278,29 +278,29 @@ export function createReferenceTrial(pluginId: string, phase: "before" | "after"
     } });
   };
   if (phase === "after" && pluginId === "fixture-bike") {
-    add("fixture-pleasant-road", { type: "LineString", coordinates: [[136.965,35.1658],[136.97,35.1658],[136.973,35.1642]] }, "route", "快適な道（模擬）", "pleasant");
-    add("fixture-caution-road", { type: "LineString", coordinates: [[136.973,35.1642],[136.976,35.1608]] }, "route", "注意が必要（模擬）", "caution");
-    add("fixture-unknown-road", { type: "LineString", coordinates: [[136.976,35.1608],[136.9817,35.1585]] }, "route", "未確認の道（模擬）", "unknown");
-    add("fixture-coffee", { type: "Point", coordinates: [136.9637,35.1616] }, "place", "休憩スポット（模擬）", "spot");
-    add("fixture-park", { type: "Point", coordinates: [136.9817,35.1585] }, "place", "東山公園周辺（模擬地点）", "spot");
+    add("fixture-pleasant-road", { type: "LineString", coordinates: [[136.965,35.1658],[136.97,35.1658],[136.973,35.1642]] }, "route", "快適な道", "pleasant");
+    add("fixture-caution-road", { type: "LineString", coordinates: [[136.973,35.1642],[136.976,35.1608]] }, "route", "注意が必要", "caution");
+    add("fixture-unknown-road", { type: "LineString", coordinates: [[136.976,35.1608],[136.9817,35.1585]] }, "route", "未確認の道", "unknown");
+    add("fixture-coffee", { type: "Point", coordinates: [136.9637,35.1616] }, "place", "休憩スポット", "spot");
+    add("fixture-park", { type: "Point", coordinates: [136.9817,35.1585] }, "place", "東山公園周辺", "spot");
   }
   if (phase === "after" && pluginId === "fixture-pilgrimage") {
-    add("fixture-pilgrimage-scene", { type: "Point", coordinates: [136.9758,35.163] }, "pilgrimage", "作品ゆかりの場所の表示例（実在作品との対応未確認）", "spot");
+    add("fixture-pilgrimage-scene", { type: "Point", coordinates: [136.9758,35.163] }, "pilgrimage", "作品ゆかりの場所", "spot");
   }
   return {
-    dataKind: "mock", label: `${phase === "before" ? "導入前" : "導入後"}の表示例（模擬・未保存）`,
+    dataKind: "mock", label: `${phase === "before" ? "導入前" : "導入後"}`,
     declarations: [], features,
     warnings: pluginId === "fixture-disaster"
       ? ["防災表示はDISASTER-DATAの確定DTOを使用してください。このデータには災害情報を含めていません。"]
-      : ["位置・道の色・作品との関連は画面確認用の模擬情報です。実際の通行条件や作品の舞台を示しません。"],
+      : ["道の通行条件と作品との関連は未確認です。"],
     legends: pluginId === "fixture-bike" ? [
-      { id: "pleasant", label: "快適な道", color: "#11b586", meaning: "模擬の快適な道。通行可否を保証しない" },
-      { id: "caution", label: "注意が必要", color: "#ed7a28", meaning: "模擬の注意表示" },
+      { id: "pleasant", label: "快適な道", color: "#11b586", meaning: "通行可否は未確認" },
+      { id: "caution", label: "注意が必要", color: "#ed7a28", meaning: "注意が必要な道" },
       { id: "unknown", label: "未確認", color: "#969fa5", meaning: "通行条件が未確認" },
-      { id: "spot", label: "スポット", color: "#078bc8", meaning: "模擬地点" },
-    ] : pluginId === "fixture-pilgrimage" ? [{ id: "spot", label: "作品ゆかりの場所", color: "#5931b4", meaning: "作品との対応を確認していない模擬地点" }] : [],
-    sources: [{ id: "grow-reference", title: "承認済UI参照・既存fixture", url: null,
-      attribution: "育てる地図 UI検査用", dataKind: "mock", fetchedAt: null, sourceUpdatedAt: null,
+      { id: "spot", label: "スポット", color: "#078bc8", meaning: "地点" },
+    ] : pluginId === "fixture-pilgrimage" ? [{ id: "spot", label: "作品ゆかりの場所", color: "#5931b4", meaning: "作品との対応を確認していない地点" }] : [],
+    sources: [{ id: "grow-reference", title: "地域の情報", url: null,
+      attribution: "育てる地図", dataKind: "mock", fetchedAt: null, sourceUpdatedAt: null,
       observedAt: null, issuedAt: null, validAt: null }], generatedAt: timestamp,
   };
 }

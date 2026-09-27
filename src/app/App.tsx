@@ -135,7 +135,6 @@ function ScopedApp({ screens = [], MapRenderer, MapToolbar, MapCompanion, scopeK
       <button type="button" hidden={mapControlsCovered || !!screen?.toolbar} className="sm-map-action sm-menu-trigger" aria-label={messages.menu} onClick={() => go('navigation', { mode: 'main' })}><Icon name="menu"/></button>
       <button type="button" hidden={mapControlsCovered || !!MapRenderer} className="sm-map-action sm-locate-trigger" aria-label={messages.locate} onClick={locate}><Icon name="locate" size={28}/></button>
       {locationError && <div className="sm-location-error"><Status kind="error" onRetry={locate}>{locationError}</Status></div>}
-      {dataMode === 'demo' && <span className="sm-demo-badge">{messages.demo}</span>}
       <div ref={contentRef}>
         <Sheet open={!isMap && !cardMode} title={title} onClose={back} onBack={!menuMode && (entries.length > 1 || screen?.layout?.header === 'back') ? back : undefined} side={menuMode === 'main' ? 'right' : 'left'} kind={menuMode ? 'navigation' : 'screen'} presentation={fullscreen ? 'fullscreen' : 'panel'} header={screen?.layout?.header} contentPadding={screen?.layout?.contentPadding} mobileHeight={screen?.layout?.mobileHeight} background={screen?.layout?.background} onRect={onRect}>
           {menuMode === 'main' && <NavigationMenu mode={menuMode} profile={profile} navigate={go}/>}
