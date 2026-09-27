@@ -1,0 +1,25 @@
+[
+  {
+    "kind": "first-write",
+    "version": 2
+  },
+  {
+    "kind": "concurrent-write",
+    "version": 3,
+    "visibility": "private"
+  },
+  {
+    "kind": "verification",
+    "recordId": "sharing-race-136cea64-79a2-4bb8-8283-39687d3231dc",
+    "version": 3,
+    "visibility": "private",
+    "screen": "この内容を共有します選んだ相手に、下の内容が表示されます。写真はありません共有競合の検証専用記録公開範囲を選ぶ自分だけ自分のみが見られます選んだ友達特定の友達にのみ見せます0人 ›公開だれでも見ることができます見せる内容写真と本文この記録の写真と、あなたが書いた本文✓診断結果や過去の軌跡などは含まれません。未保存の変更があります保存後に別の変更がありました。共有下書きを保持しています。現在の保存内容を確認してください。最新の保存内容を確認保存済み：自分だけ。下書きを確認してから現在の版で保存してください。この版で下書きを保存する準備共有する変更を取り消して戻る",
+    "draft": {
+      "visibility": "public",
+      "sharedWith": [],
+      "version": 2,
+      "dirty": true,
+      "selectedPeople": []
+    }
+  }
+]
