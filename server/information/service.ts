@@ -1,6 +1,7 @@
 import type { DatabaseSync, SQLInputValue } from 'node:sqlite';
 import type { RequestContext } from '../core/context.ts';
 import { CommonError } from '../core/errors.ts';
+import { recordExtensions } from '../features/records/extensions.ts';
 import { comparePosition, distanceM, invalid, normalizeQuery, normalizeText, overlaps, pageRows, queryKey, validId, type NormalQuery, type RecordQuery } from './query.ts';
 
 export type SourceRef = { type: 'record' | 'visit' | 'place' | 'checkin' | 'route'; id: string; version: number };
@@ -148,7 +149,8 @@ export function createInformationService(db: DatabaseSync) {
     const q = normalizeQuery({...query, audience: 'own'});
     const page = pageRows(matchingRows(context, q), q, queryKey(context, q));
     // GET /records has the existing editable RecordViewPage shape (no totalCount field).
-    return {items: page.items.map(editableRecordView), nextCursor: page.nextCursor};
+    return {items: page.items.map(row => Object.assign(editableRecordView(row),
+      ...[...recordExtensions].map(extension => extension.read(db, context.personId, row.id)))), nextCursor: page.nextCursor};
   }
   function ownMaterials(context: RequestContext, query: RecordQuery = {}) {
     const q = normalizeQuery({...query, audience: 'own'});

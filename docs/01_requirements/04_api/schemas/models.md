@@ -4729,6 +4729,127 @@ Valhallaは分精度、GTFSは秒精度の時刻表。予定時刻は到着保�
 
 ## RouteTransitEvidence
 
+分岐 1
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `provider` | "toei-gtfs" | 必須 | — | — |
+| `scope` | "direct_bus_only" | 必須 | — | — |
+| `tripId` | string | 必須 | — | — |
+| `routeId` | string | 必須 | — | — |
+| `routeName` | string | 必須 | — | — |
+| `serviceId` | string | 必須 | — | — |
+| `serviceDate` | string | 必須 | — | — |
+| `shapeId` | string | 必須 | — | — |
+| `stops` | 配列<object> | 必須 | — | — |
+| `departureAt` | integer | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `waitDurationSec` | integer | 必須 | minimum=0 | — |
+| `rideDurationSec` | integer | 必須 | minimum=0 | — |
+| `fare` | object | 必須 | — | — |
+| `shapeMatching` | object | 必須 | — | — |
+| `source` | object | 必須 | — | — |
+
+`stops` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `stopId` | string | 必須 | — | — |
+| `parentId` | ['string', 'null'] | 必須 | — | — |
+| `name` | string | 必須 | — | — |
+| `coordinates` | 配列<座標2値> | 必須 | minItems=2、maxItems=2 | — |
+| `stopSequence` | integer | 必須 | minimum=0 | — |
+| `shapePosition` | number | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `departureAt` | integer | 必須 | minimum=0 | — |
+
+`fare` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fareId` | string | 必須 | — | — |
+| `currency` | "JPY" | 必須 | — | — |
+| `cash` | integer | 必須 | minimum=0 | — |
+| `ic` | ['integer', 'null'] | 必須 | minimum=0 | — |
+| `payment` | cash / ic | 必須 | — | — |
+| `amount` | integer | 必須 | minimum=0 | — |
+| `passEvaluation` | "not_applied" | 必須 | — | — |
+| `rules` | 配列<object> | 必須 | — | — |
+| `transfers` | string | 必須 | — | — |
+| `transferDurationSec` | integer | 必須 | minimum=0 | — |
+
+`rules` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `fare_id` | string | 必須 | — | — |
+| `route_id` | string | 必須 | — | — |
+| `origin_id` | string | 必須 | — | — |
+| `destination_id` | string | 必須 | — | — |
+| `contains_id` | string | 必須 | — | — |
+
+`shapeMatching` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `method` | "monotonic_segment_projection_inference" | 必須 | — | — |
+| `maxSnapM` | number | 必須 | minimum=0 | — |
+
+`source` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `url` | string | 必須 | — | — |
+| `license` | string | 必須 | — | — |
+| `attribution` | string | 必須 | — | — |
+| `modification` | string | 必須 | — | — |
+| `sha256` | string | 必須 | — | — |
+| `version` | string | 必須 | — | — |
+| `validFrom` | string | 必須 | — | — |
+| `validThrough` | string | 必須 | — | — |
+| `lastModified` | ['string', 'null'] | 必須 | — | — |
+| `loadedAt` | integer | 必須 | minimum=0 | — |
+
+分岐 2
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `provider` | "toei-gtfs" | 必須 | — | — |
+| `departureAt` | integer | 必須 | minimum=0 | — |
+| `arrivalAt` | integer | 必須 | minimum=0 | — |
+| `waitDurationSec` | integer | 必須 | minimum=0 | — |
+| `rideDurationSec` | integer | 必須 | minimum=0 | — |
+| `source` | object | 必須 | — | — |
+| `scope` | "bus_transfers" | 必須 | — | — |
+| `segments` | 配列<[RouteDirectTransitEvidence](../schemas/models.md#routedirecttransitevidence)> | 必須 | minItems=1 | — |
+| `fare` | object | 必須 | — | — |
+
+`source` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `url` | string | 必須 | — | — |
+| `license` | string | 必須 | — | — |
+| `attribution` | string | 必須 | — | — |
+| `modification` | string | 必須 | — | — |
+| `sha256` | string | 必須 | — | — |
+| `version` | string | 必須 | — | — |
+| `validFrom` | string | 必須 | — | — |
+| `validThrough` | string | 必須 | — | — |
+| `lastModified` | ['string', 'null'] | 必須 | — | — |
+| `loadedAt` | integer | 必須 | minimum=0 | — |
+
+`fare` の内部：
+
+| 項目 | 型 | 必須 | 制約 | 意味 |
+|---|---|---|---|---|
+| `amount` | integer | 必須 | minimum=0 | — |
+| `currency` | "JPY" | 必須 | — | — |
+| `payment` | cash / ic | 必須 | — | — |
+| `passEvaluation` | "not_applied" | 必須 | — | — |
+
+## RouteDirectTransitEvidence
+
 | 項目 | 型 | 必須 | 制約 | 意味 |
 |---|---|---|---|---|
 | `provider` | "toei-gtfs" | 必須 | — | — |

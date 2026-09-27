@@ -1,4 +1,5 @@
-import { useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { api } from '../../app/api';
 import { insightsMessages as m } from './messages';
 import type { AxisView, EvidenceRecordView, InsightIcon, InsightView, Period, ReviewChoice, ReviewDraft, ViewStatus } from './types';
 import './insights.css';
@@ -28,7 +29,23 @@ export function InsightBackHeader({ onBack }: { onBack: () => void }) {
 
 export function InsightPhoto({ src, alt }: { src?: string | null; alt: string }) {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
-  return src && failedSrc !== src ? <img src={src} alt={alt} loading="lazy" onError={() => setFailedSrc(src)} />
+  const [loaded, setLoaded] = useState<{ src: string; url: string } | null>(null);
+  const mediaId = src?.match(/^\/api\/v1\/media\/([^/]+)\/content$/)?.[1];
+  useEffect(() => {
+    setFailedSrc(null);
+    if (!src || !mediaId) return;
+    const controller = new AbortController();
+    let url: string | undefined;
+    void api.request('getMediaMediaIdContent', { path: { mediaId: decodeURIComponent(mediaId) }, signal: controller.signal }).then(blob => {
+      if (controller.signal.aborted) return;
+      url = URL.createObjectURL(blob);
+      setLoaded({ src, url });
+    }).catch(() => { if (!controller.signal.aborted) setFailedSrc(src); });
+    return () => { controller.abort(); if (url) URL.revokeObjectURL(url); };
+  }, [src, mediaId]);
+  const source = mediaId ? (loaded?.src === src ? loaded.url : null) : src;
+  if (src && mediaId && !source && failedSrc !== src) return <span className="insight-photo-empty" role="status">{m.loading}</span>;
+  return source && failedSrc !== src ? <img src={source} alt={alt} loading="lazy" onError={() => setFailedSrc(src ?? null)} />
     : <span className="insight-photo-empty" role="img" aria-label={src ? m.imageError : m.noImage}>{src ? m.imageError : m.noImage}</span>;
 }
 
