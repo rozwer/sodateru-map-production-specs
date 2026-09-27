@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 519,
+  "revision": 520,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35487,15 +35487,15 @@
       "generation": 5,
       "issue_number": 17,
       "landed_main": null,
-      "note": "PR365 merged 86769d114fd5048650b73bef4d26d4bd4062768d; photo/scope evidence complete; #83 closed after independent review. #17 overall remains incomplete. Worktree sodateru-settings-photo-17 retained; evidence docs/evidence/UI-SETTINGS/2026-09-27-photo-scope-roundtrip.md",
+      "note": "docs/evidence/UI-SETTINGS/2026-09-27-conflict-handoff.md",
       "owner": "rozwer",
       "paths": [
         "src/features/settings/",
         "src/features/health/",
         "docs/evidence/UI-SETTINGS/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "ddca4d4518cc26671f21279675824055c455c7fb",
       "token": "c3e53dc741fe431c9ffb3e350abacc83"
     },
     "UI-SUGGESTIONS": {
