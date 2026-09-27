@@ -224,6 +224,7 @@
         "UI-COMPANION": 19,
         "UI-DEMO-ALL": 395,
         "UI-DEMO-EXTENSIONS": 396,
+        "UI-DEMO-PRESENTATION": 399,
         "UI-EXPLORE": 10,
         "UI-FRIENDS": 14,
         "UI-HEALTH": 146,
@@ -8027,6 +8028,23 @@
         "write_paths": [
           "src/features/plugins/",
           "src/features/disaster/"
+        ]
+      },
+      {
+        "connect_after": [],
+        "hard_dependencies": [],
+        "id": "UI-DEMO-PRESENTATION",
+        "kind": "ui",
+        "lane": "A",
+        "owner": "rozwer",
+        "priority": "P1",
+        "title": "デモ表示の注記を除き自然に見せる",
+        "write_paths": [
+          "src/app/",
+          "src/features/plugins/screens.tsx",
+          "src/features/disaster/screens.tsx",
+          "src/features/health/ui.tsx",
+          "docs/evidence/UI-DEMO-PRESENTATION/"
         ]
       }
     ],
@@ -34344,9 +34362,10 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP",
     "UI-DEMO-ALL",
-    "UI-DEMO-EXTENSIONS"
+    "UI-DEMO-EXTENSIONS",
+    "UI-DEMO-PRESENTATION"
   ],
-  "revision": 574,
+  "revision": 575,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35306,6 +35325,26 @@
       "status": "done",
       "submitted_commit": "7e6aa5c746a2cdf8aef19bd59c7d235da56f967e",
       "token": null
+    },
+    "UI-DEMO-PRESENTATION": {
+      "actor": "rozwer",
+      "base_commit": "b8a6bf16e978d9e22d48b5b6b453d5c4c2f1308d",
+      "claim_unit": null,
+      "generation": 1,
+      "issue_number": 399,
+      "landed_main": null,
+      "note": null,
+      "owner": "rozwer",
+      "paths": [
+        "src/app/",
+        "src/features/plugins/screens.tsx",
+        "src/features/disaster/screens.tsx",
+        "src/features/health/ui.tsx",
+        "docs/evidence/UI-DEMO-PRESENTATION/"
+      ],
+      "status": "claimed",
+      "submitted_commit": null,
+      "token": "03bcfb9a842e4386b6dcfd5d7e9c0ea7"
     },
     "UI-EXPLORE": {
       "actor": null,
