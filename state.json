@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 459,
+  "revision": 460,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34555,14 +34555,14 @@
       "generation": 3,
       "issue_number": 139,
       "landed_main": null,
-      "note": "1周目終了。PR336/345統合済み、PR348 head73101ff提出保全。未達理由と最小次タスク1件はdocs/evidence/CONNECT-REFLECTION/question-failure-2026-09-27.md。worktree/commit保持、Issue139は全受入未完でopen。",
+      "note": "docs/evidence/CONNECT-REFLECTION/question-failure-2026-09-27.md",
       "owner": "rozwer",
       "paths": [
         "src/features/reflection/",
         "docs/evidence/CONNECT-REFLECTION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "f4093ff0079269277400a9c567af204cb5fb820c",
       "token": "82ec8757b8af439a926af3884c9a97a1"
     },
     "CONNECT-ROUTES": {
