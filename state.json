@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 564,
+  "revision": 565,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35240,14 +35240,14 @@
       "generation": 9,
       "issue_number": 19,
       "landed_main": null,
-      "note": "PR370 merged after independent PASS; dc86fcb ancestor origin/develop. #147 operation handoff ready. #19 remains open for broader UI matrix. Continue via CONNECT-COMPANION; worktree companion-19-completion retained.",
+      "note": "src/features/companion/screens.test.tsx; typecheck and 3 companion tests passed",
       "owner": "rozwer",
       "paths": [
         "src/features/companion/",
         "docs/evidence/UI-COMPANION/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "4922d9f03f4bf6b4487b13a29933947b8ee50cce",
       "token": "60964fc09056441a85705dbdc1f01d76"
     },
     "UI-EXPLORE": {
