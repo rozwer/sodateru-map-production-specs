@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 550,
+  "revision": 551,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34770,7 +34770,7 @@
       "generation": 7,
       "issue_number": 215,
       "landed_main": null,
-      "note": "PR366 六glyph候補補完を独立PASS後通常merge。画像全照合/store原本不在/共通地図修復待ちは未完。WT sodateru-grow-finish保持。UI-PLUGINS handoffとCONNECT実接続へ継続のため返却。",
+      "note": "docs/evidence/GROW-UI/minimal-ui-20260927.md",
       "owner": "rozwer",
       "paths": [
         "src/features/plugins/views.tsx",
@@ -34785,8 +34785,8 @@
         "src/features/feature-requests/",
         "docs/evidence/GROW-UI/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "6fc60e5430227838e297e734fa3a81e6230b6dc6",
       "token": "ac9141e9a6444ac5b92a8a17888d37d2"
     },
     "HEALTH": {
