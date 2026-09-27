@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 535,
+  "revision": 536,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35261,21 +35261,18 @@
       "token": null
     },
     "UI-FRIENDS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 9,
+      "generation": 10,
       "issue_number": 14,
       "landed_main": null,
-      "note": "docs/evidence/UI-FRIENDS/profile-completion-20260927.md",
+      "note": "PR376/384 reviewed and merged. Evidence docs/evidence/UI-FRIENDS/profile-completion-20260927.md and comparison-live-20260927.md. Remaining: shared-route author/photo/stay/source DTO, full visual/state acceptance; #106 knowledge and #107 routes/expiry require separate evidence. User requested rate-saving wrap-up. Worktree sodateru-friends-completion preserved.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/friends/",
-        "docs/evidence/UI-FRIENDS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "ca7e461a94168a63e322820fb987a80357c8be6f",
-      "token": "9c411c1ec28648c4bf829570bf8acc5f"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-HEALTH": {
       "actor": null,
