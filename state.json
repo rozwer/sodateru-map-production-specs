@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 485,
+  "revision": 486,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -34769,30 +34769,18 @@
       "token": null
     },
     "GROW-UI": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "86769d114fd5048650b73bef4d26d4bd4062768d",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 215,
       "landed_main": null,
-      "note": "docs/evidence/GROW-UI/icons-20260927.md",
+      "note": "PR366 六glyph候補補完を独立PASS後通常merge。画像全照合/store原本不在/共通地図修復待ちは未完。WT sodateru-grow-finish保持。UI-PLUGINS handoffとCONNECT実接続へ継続のため返却。",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/views.tsx",
-        "src/features/plugins/screens.tsx",
-        "src/features/plugins/plugins.css",
-        "src/features/plugins/view-model.ts",
-        "src/features/plugins/messages.ts",
-        "src/features/plugins/usePreviewPhase.ts",
-        "src/features/plugins/PluginIconView.tsx",
-        "src/features/plugins/PluginGlyph.tsx",
-        "src/features/plugins/grow/",
-        "src/features/feature-requests/",
-        "docs/evidence/GROW-UI/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "517b0a79e04c4e008cfa5a577148ff1f6726608d",
-      "token": "931ed3c526a548f58e485750e3b12f17"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "HEALTH": {
       "actor": null,
