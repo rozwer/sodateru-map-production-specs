@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 371,
+  "revision": 372,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35176,17 +35176,24 @@
       "token": null
     },
     "UI-BASE": {
-      "actor": null,
-      "base_commit": "26a25329111af5e72ee42c3120c06993adbeae91",
-      "generation": 2,
+      "actor": "rozwer",
+      "base_commit": "30128adf3cfdfab1db7b438da2ec1eea21b5cdab",
+      "generation": 3,
       "issue_number": 4,
       "landed_main": null,
       "note": "ユーザーの終了指示により未完了のまま通常返却。PR47/81/152/162はcommit保持merge済み、最終bef7d6d。worktree /Users/roz/.codex/worktrees/ui-base-4 と既存証拠を保持。残件はCONNECT #72 comment5674158832（表示設定、GPS共有、plugin layer、統合受入、メニュー飾り画像照合）。#4はfinish/closeせず、編集6pathsを解放し組込み#98へ引継ぐ。",
       "owner": "rozwer",
-      "paths": [],
-      "status": "backlog",
+      "paths": [
+        "src/app/",
+        "src/ui/",
+        "src/messages.ts",
+        "index.html",
+        "vite.config.ts",
+        "docs/evidence/UI-BASE/"
+      ],
+      "status": "claimed",
       "submitted_commit": null,
-      "token": null
+      "token": "1372b5ecc3f643a5a297a2241bb187b2"
     },
     "UI-BASE-LAYOUT": {
       "actor": "mattsun",
