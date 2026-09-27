@@ -1,6 +1,5 @@
 /** UI-only response fixture. Never imported by the product entry point. */
 import { createRoot } from "react-dom/client";
-import { App } from "../../../src/app/App";
 import type {
   CommonInfoRecordView,
   RecordView,
@@ -565,6 +564,8 @@ details.style.cssText =
 details.innerHTML =
   '<summary>テスト通信記録</summary><pre id="fixture-network"></pre>';
 document.body.append(details);
+// Load the shared client only after installing the explicit fixture transport.
+const { App } = await import("../../../src/app/App");
 const modules = import.meta.glob<{ screens?: import("../../../src/app/contracts").ScreenDefinition[] }>("../../../src/features/**/screens.tsx");
 const screens = (await Promise.all(Object.values(modules).map(load => load()))).flatMap(module => module.screens ?? []);
 createRoot(document.getElementById("root")!).render(
