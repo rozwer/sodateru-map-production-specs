@@ -554,7 +554,7 @@ function RequestFixture({
             posts: previous.posts.filter((item) => item.id !== removed.id),
             requestNotice: "お願いを削除しました（UI fixture・未保存）",
           }));
-          navigate("feature-requests");
+          back();
         }}
       />
     );
@@ -590,7 +590,7 @@ function RequestFixture({
             requestTab: visibility === "private" ? "drafts" : "public",
             requestNotice: `${visibility === "private" ? "下書きを保存しました" : "投稿しました"}（UI fixture・未保存）`,
           }));
-          navigate("feature-requests");
+          back();
         }}
       />
     );
