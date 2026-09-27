@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 559,
+  "revision": 560,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35529,15 +35529,15 @@
       "generation": 11,
       "issue_number": 189,
       "landed_main": null,
-      "note": "PR #327 merged; #189 remains open for seven-screen acceptance and device/Mapbox checks. Evidence: docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-25-followup.md",
+      "note": "docs/evidence/VISUAL-RECORDS-CAMERA/2026-09-27-ui-scope.md",
       "owner": "rozwer",
       "paths": [
         "src/features/records/",
         "src/features/activity/",
         "docs/evidence/VISUAL-RECORDS-CAMERA/"
       ],
-      "status": "claimed",
-      "submitted_commit": null,
+      "status": "submitted",
+      "submitted_commit": "bd465c98bff16408ff3c20069e9ae1e02d945cd3",
       "token": "4b8f414b94ef47dfb166428901bc2ae2"
     },
     "VISUAL-SELF": {
