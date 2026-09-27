@@ -34314,7 +34314,7 @@
     "VISUAL-SHELL",
     "CODEX-HOOK-BOOTSTRAP"
   ],
-  "revision": 412,
+  "revision": 413,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35381,22 +35381,18 @@
       "token": null
     },
     "UI-PLUGINS": {
-      "actor": "rozwer",
+      "actor": null,
       "base_commit": "33ec83be1815aa1389d9205841e6ef7fd31998c3",
       "claim_unit": null,
-      "generation": 5,
+      "generation": 6,
       "issue_number": 18,
       "landed_main": null,
-      "note": "docs/evidence/UI-PLUGINS/connect-handoff.json",
+      "note": "PR339/344 merged after independent review. Request UI handoff only; nine-screen acceptance remains open. Continue #144 requests-save.",
       "owner": "rozwer",
-      "paths": [
-        "src/features/plugins/",
-        "src/features/feature-requests/",
-        "docs/evidence/UI-PLUGINS/"
-      ],
-      "status": "submitted",
-      "submitted_commit": "5a88ed0d8529cabae865f37c875d439377046066",
-      "token": "89c38600369747a29e0a7bcbe617efb6"
+      "paths": [],
+      "status": "backlog",
+      "submitted_commit": null,
+      "token": null
     },
     "UI-RECORDS": {
       "actor": null,
