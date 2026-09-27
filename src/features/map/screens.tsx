@@ -107,7 +107,7 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
   const detail = state.detail;
   const record = state.records.find(item => item.effectivePlaceId === state.selectedPlaceId);
   const detailedRecord = detail?.ownRecords.items.find(item => item.id === record?.id);
-  const theme = state.themes.find(item => record && item.recordIds.includes(record.id) && (!state.themeId || item.id === state.themeId));
+  const theme = state.themes.find(item => route.params.themeId ? item.id === route.params.themeId : detail && record && item.recordIds.includes(record.id));
   const photoUrl = detailedRecord?.media.find(media => media.kind === 'photo' && media.status === 'ready')?.contentUrl;
   return <div className="map-feature map-personal-panel">
     {state.growthError && <Status kind="error" onRetry={() => void session.loadGrowth(bridge)}>地図の成長を取得できませんでした。{state.growthError}</Status>}
@@ -141,8 +141,8 @@ function PersonalMapScreen({ route, navigate, scopeKey, active = true }: Props) 
             : record ? { includeUndated: 'true', timeZone } : {}),
         });
       }}><MapIcon name="book"/>{m.records}<span aria-hidden="true">›</span></button>
-      {theme && <button type="button" className="map-outline map-wide" onClick={() => navigate('theme-edit', { themeId: theme.id })}><MapIcon name="pen"/>{m.editTheme}</button>}
     </> : !state.personalLoading && !state.personalError && !state.detailError && <div className="map-personal-empty"><p className="map-muted">{state.records.length ? '地図の場所を選んで、記憶を見返しましょう。' : state.themeId ? m.personalEmpty : m.personalAllEmpty}</p><button type="button" className="map-outline" onClick={() => navigate('record-create')}>体験を記録する</button></div>}
+    {theme && <button type="button" className="map-outline map-wide" onClick={() => navigate('theme-edit', { themeId: theme.id })}><MapIcon name="pen"/>{m.editTheme}</button>}
     {state.nextRecordCursor && <button type="button" className="map-outline" onClick={() => void session.loadPersonal(bridge, state.themeId, true)}>さらに表示</button>}
   </div>;
 }
