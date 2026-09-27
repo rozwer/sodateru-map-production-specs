@@ -34365,7 +34365,7 @@
     "UI-DEMO-EXTENSIONS",
     "UI-DEMO-PRESENTATION"
   ],
-  "revision": 578,
+  "revision": 579,
   "schemaVersion": 2,
   "tasks": {
     "ACTIVITY": {
@@ -35332,22 +35332,13 @@
       "claim_unit": null,
       "generation": 1,
       "issue_number": 399,
-      "landed_main": null,
+      "landed_main": "30a9ee89efaaf1eeccef4730198d58bd165a8b81",
       "note": "docs/evidence/UI-DEMO-PRESENTATION/README.md",
       "owner": "rozwer",
-      "paths": [
-        "src/app/",
-        "src/features/plugins/screens.tsx",
-        "src/features/disaster/screens.tsx",
-        "src/features/health/ui.tsx",
-        "docs/evidence/UI-DEMO-PRESENTATION/",
-        "src/features/disaster/data/demo.ts",
-        "src/features/plugins/views.tsx",
-        "src/features/plugins/reference-data.ts"
-      ],
-      "status": "submitted",
+      "paths": [],
+      "status": "done",
       "submitted_commit": "0ad19ab39201160168c5a4c5ab3d69f750f4f84d",
-      "token": "03bcfb9a842e4386b6dcfd5d7e9c0ea7"
+      "token": null
     },
     "UI-EXPLORE": {
       "actor": null,
