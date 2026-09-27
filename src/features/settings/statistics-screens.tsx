@@ -49,7 +49,7 @@ export function ActivityStatsScreen({ route, scopeKey, navigate, active = true }
     <Feedback error={selection.error || request.error} loading={!!selection.range && !data && !request.error} retry={request.retry}/>
     <ActivityStatsView data={view} period={selection.period} onPeriod={period => {
       setSelection({ period, range: statisticsRange(period, selection.range?.timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone), error: '' });
-    }} onSources={() => { if (data) navigate('data-sources', { from: String(data.from), to: String(data.to), timeZone: data.timeZone, period: selection.period }); }}
+    }} onSources={() => { if (data) navigate('data-sources', { from: String(data.from), to: String(data.to), timeZone: data.timeZone, period: selection.period }); }} onHealth={() => navigate('health-connect')}
     onHistory={history} onRecord={recordId => {
       if (!data) return;
       const date = data.daily.find(day => day.recordIds.includes(recordId))?.date;
@@ -63,6 +63,6 @@ export function DataSourcesScreen({ route, scopeKey, navigate, active = true }: 
   const data = request.data;
   return <div className="settings-screen">
     <Feedback error={selection.error || request.error} loading={!!selection.range && !data && !request.error} retry={request.retry}/>
-    {data && <SourcesView data={statisticsView(data)} onHistory={date => navigate('daily-track', historyParams(data, date))}/>}
+    {data && <SourcesView data={statisticsView(data)} onHistory={date => navigate('daily-track', historyParams(data, date))} onHealth={() => navigate('health-connect')}/>}
   </div>;
 }

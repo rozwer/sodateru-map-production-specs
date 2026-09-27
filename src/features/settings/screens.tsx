@@ -8,6 +8,7 @@ import { useSettingsEditor, errorText } from './editor';
 import type { Settings } from '../../../packages/api-client/index';
 import './settings.css';
 import { ActivityStatsScreen, DataSourcesScreen } from './statistics-screens';
+import { healthScreens } from '../health/ui';
 
 function SettingsScreen(props: ScreenProps) { return props.route.params.section === 'ai' ? <AISettings {...props}/> : <SettingsMenu {...props}/>; }
 const onOff = (value: boolean) => value ? 'オン' : 'オフ';
@@ -20,6 +21,7 @@ function SettingsMenu({ navigate, scopeKey, active = true }: ScreenProps) {
     <Entry label="写真・マイク" description="写真の保存やマイクの利用設定" icon="camera" onClick={() => navigate('$media-settings')}/>
     <Entry label="AIの利用" description="地図づくりのサポート設定" icon="sparkles" onClick={() => navigate('settings', { section: 'ai' })}/>
     <Entry label="提案とまとめ" description="おすすめや振り返りの条件" icon="sparkles" onClick={() => navigate('suggestion-settings')}/>
+    <Entry label="健康データ" description="連携方法と利用範囲を確認" icon="shield" onClick={() => navigate('health-connect')}/>
     <Entry label="データの管理" description="保存データの確認・削除・書き出し" icon="database" onClick={() => navigate('$data-settings')}/>
     <Entry label="表示と動き" description="文字サイズやアニメーションの設定" icon="settings" onClick={() => navigate('profile-settings')}/>
   </Card>{settings && <section className="settings-summary"><Glyph name="shield"/><div><strong>現在の設定の概要</strong><p>位置情報：{onOff(settings.location.enabled)}　写真：{onOff(settings.media.photosEnabled)}<br/>マイク：{onOff(settings.media.microphoneEnabled)}　AIの利用：{onOff(settings.ai.enabled)}<br/>提案：{onOff(settings.suggestions.enabled)}　記録の保存期間：{settings.retention.recordsDays === null ? '無期限' : `${settings.retention.recordsDays}日`}</p></div></section>}<EditorFeedback editor={editor}/></div>;
@@ -67,6 +69,7 @@ const layout = { header: 'back', bottomNav: false, background: 'soft' } as const
 // The 08_23_29 reference shows these three pages without an outer map.
 const referenceLayout = { ...layout, presentation: 'fullscreen' } as const;
 export const screens: ScreenDefinition[] = [
+  ...healthScreens,
   { id:'activity-stats', title:'活動の統計', component:ActivityStatsScreen, layout:referenceLayout },
   { id:'data-sources', title:'データの取得元', component:DataSourcesScreen, layout:referenceLayout },
   { id:'$location-settings', title:'位置情報', component:LocationSettings, layout },
