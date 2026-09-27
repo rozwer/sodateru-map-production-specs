@@ -19,6 +19,7 @@ import { PluginGlyph } from "./PluginGlyph";
 import { PluginControlIcon } from "./views";
 import { MapBridge } from "../../app/map-bridge";
 import { MapBridgeContext } from "../../app/useMapBridge";
+import { useScreenState } from "../../app/useScreenState";
 import { BridgeMap } from "../../map/MapRenderer";
 import type {
   PluginCardModel,
@@ -134,13 +135,19 @@ function PluginFixture({
       if (coordinates.length) mainMap.showRoute(owner, { previewId: "grow-ui-mock-unsaved", geometry: { type: "LineString", coordinates }, waypoints: [] });
     }
   }, [mainMap, data.plugins, scopeKey]);
-  const [showPreview, setShowPreview] = useState(false);
+  // Inspection screens unmount when covered by another route. Keep navigation
+  // state in the shell's person/mode- and route-scoped store, like input drafts.
+  const [screenState, setScreenState] = useScreenState<{
+    query: string;
+    category: "all" | "safety" | "mobility" | "walking";
+    showPreview: boolean;
+  }>({ query: "", category: "all", showPreview: false });
+  const { query, category, showPreview } = screenState;
+  const setShowPreview = (showPreview: boolean) => setScreenState(previous => ({ ...previous, showPreview }));
+  const setQuery = (query: string) => setScreenState(previous => ({ ...previous, query }));
+  const setCategory = (category: typeof screenState.category) => setScreenState(previous => ({ ...previous, category }));
   const [iconDraft, setIconDraft] = useState<string>();
   const phase = usePreviewPhase(showPreview ? "fixture-trial" : null, active);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState<
-    "all" | "safety" | "mobility" | "walking"
-  >("all");
   const [selecting, setSelecting] = useState(false);
   const [selection, setSelection] = useState<string>();
   const [retried, setRetried] = useState(false);
